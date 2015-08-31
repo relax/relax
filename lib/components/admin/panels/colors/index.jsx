@@ -57,7 +57,15 @@ export default class Colors extends Component {
     }
     else {
       return (
-        <p>You don't have any color in your palette yet, you can add new colors on the right panel</p>
+        <div className='none-warning'>
+          <div className='none-icon-part'>
+            <i className='material-icons'>error_outline</i>
+          </div>
+          <div className='none-info-part'>
+            <p>No colors added yet!</p>
+            <p>You don't have any color in your palette yet, you can add new colors on the add new button above</p>
+          </div>
+        </div>
       );
     }
   }

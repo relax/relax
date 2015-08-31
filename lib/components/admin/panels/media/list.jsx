@@ -31,10 +31,28 @@ export default class MediaList extends Component {
     );
   }
 
+  renderMedia () {
+    if (this.props.media.length > 0) {
+      return this.props.media.map(this.renderItem, this);
+    } else {
+      return (
+        <div className='none-warning'>
+          <div className='none-icon-part'>
+            <i className='material-icons'>error_outline</i>
+          </div>
+          <div className='none-info-part'>
+            <p>No media items added yet!</p>
+            <p>You can add new media items on the upload media button above</p>
+          </div>
+        </div>
+      );
+    }
+  }
+
   render () {
     return (
       <div className='list'>
-        {this.props.media.map(this.renderItem, this)}
+        {this.renderMedia()}
       </div>
     );
   }
