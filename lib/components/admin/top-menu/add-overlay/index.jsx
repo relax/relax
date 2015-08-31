@@ -1,5 +1,5 @@
 import React from 'react';
-import {Component} from 'relax';
+import {Component} from 'relax-framework';
 import cx from 'classnames';
 
 import NewPage from '../../panels/pages/manage';

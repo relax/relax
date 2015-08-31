@@ -1,5 +1,5 @@
 import React from 'react';
-import {Component} from 'relax';
+import {Component} from 'relax-framework';
 import moment from 'moment';
 import cx from 'classnames';
 import A from '../../../a';

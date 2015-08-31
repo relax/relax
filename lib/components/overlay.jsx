@@ -1,5 +1,5 @@
 import React from 'react';
-import {Component} from 'relax';
+import {Component} from 'relax-framework';
 import Animate from './animate';
 
 export default class Overlay extends Component {
