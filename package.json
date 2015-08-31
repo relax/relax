@@ -9,7 +9,6 @@
   },
   "scripts": {
     "prepublish": "NODE_ENV=production grunt build:production",
-    "postinstall": "NODE_ENV=production grunt build:production",
     "dev": "grunt dev",
     "test": "grunt test",
     "start": "node index",
