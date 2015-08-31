@@ -1,3 +1,4 @@
+import {post} from 'jquery';
 import React from 'react';
 import {Component, Router} from 'relax-framework';
 import OptionsList from '../options-list';
@@ -27,10 +28,12 @@ export default class Init extends Component {
   onSubmit (event) {
     event.preventDefault();
 
-    usersActions
-      .add(this.state.user)
-      .then(() => {
+    post('/admin/init', this.state.user)
+      .done((data) => {
         Router.prototype.navigate('/admin/login', {trigger: true});
+      })
+      .fail((error) => {
+        console.error(error);
       });
   }
 
