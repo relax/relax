@@ -1,0 +1,68 @@
+.border-style {
+  @btnsSize: 25px;
+  @btnsSpacing: 3px;
+
+  >* {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    width: @btnsSize;
+    height: @btnsSize;
+    margin-right: @btnsSpacing;
+    border: 1px solid #383838;
+    cursor: pointer;
+    text-align: center;
+
+    i {
+      font-size: 14px;
+      line-height: @btnsSize;
+      color: #cccccc;
+    }
+
+    &:after {
+      content: ' ';
+      position: absolute;
+      top: @btnsSize / 2 - 1px;
+      left: 3px;
+      right: 3px;
+      height: 0px;
+      border: 0;
+    }
+
+    &.solid, &.dashed, &.dotted {
+      &:after {
+        border-bottom: 1px solid #cccccc;
+      }
+    }
+    &.dashed {
+      &:after {
+        border-style: dashed;
+      }
+    }
+    &.dotted {
+      &:after {
+        border-style: dotted;
+      }
+    }
+
+    &:hover {
+      background-color: #383838;
+      i {
+        color: #ffffff;
+      }
+      &:after {
+        border-color: #ffffff;
+      }
+    }
+
+    &.active {
+      border-color: @adminPrimary;
+      i {
+        color: @adminPrimary;
+      }
+      &:after {
+        border-color: @adminPrimary;
+      }
+    }
+  }
+}

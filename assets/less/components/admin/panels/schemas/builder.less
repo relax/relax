@@ -1,0 +1,119 @@
+.schema-props-builder {
+  position: relative;
+  margin-top: 30px;
+  background-color: #FDFDFD;
+
+  >div {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .info-label {
+    font-size: 16px;
+    color: #333333;
+    border-bottom: 1px solid #efefef;
+    padding: 12px 15px;
+  }
+
+  .create {
+    width: 70%;
+    border-left: 1px solid #efefef;
+
+    .create-holder {
+      padding: 25px 30px;
+      min-height: 225px;
+    }
+  }
+
+  .added {
+    width: 30%;
+
+    .prop-entry {
+      position: relative;
+      border-bottom: 1px solid #efefef;
+      border-radius: 2px;
+      padding: 10px 10px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(247, 247, 247, 0.31);
+      }
+
+      &.active {
+        &:before {
+          content: ' ';
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 4px;
+          background-color: @adminPrimary;
+        }
+      }
+
+      .remove-prop {
+        cursor: pointer;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        i {
+          font-size: 18px;
+          line-height: 24px;
+          color: #cccccc;
+        }
+        &:hover {
+          i {
+            color: @alert;
+          }
+        }
+      }
+      .prop-info {
+        padding-left: 10px;
+        .prop-title {
+          font-size: 15px;
+          line-height: 20px;
+          color: #333333;
+        }
+        .prop-type {
+          font-size: 11px;
+          line-height: 16px;
+          color: #555555;
+        }
+      }
+    }
+  }
+
+  .add-field-btn {
+    cursor: pointer;
+    height: 50px;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+
+    color: @adminPrimary;
+
+    span, i {
+      display: inline-block;
+      vertical-align: top;
+      line-height: 50px;
+      font-size: 10px;
+    }
+
+    i {
+      font-size: 14px;
+      position: relative;
+      margin-right: 10px;
+    }
+
+    &:hover {
+      color: @adminPrimaryDarker;
+    }
+  }
+
+  .none-warning {
+
+  }
+}

@@ -1,0 +1,215 @@
+@import './add-overlay/index.less';
+
+.top-bar {
+  position: absolute;
+  left: 0px; right: 0; top: 0;
+
+  height: @pageBuilderTopMenuHeight;
+  background-color: @pageBuilderTopMenu;
+
+  z-index: 2;
+  -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.5);
+  -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.5);
+  box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.5);
+
+  @tabsHeight: 25px;
+  @actionsHeight: 35px;
+
+  .disabled {
+    .opacity(0.2);
+    &:after {
+      content: ' ';
+      .maxedSize();
+      background-color: transparent;
+    }
+  }
+
+  .page-actions {
+    height: @actionsHeight;
+    border-bottom: 1px solid #343333;
+
+    .right-menu {
+      float: right;
+      position: relative;
+    }
+  }
+
+  .tabs {
+    height: @tabsHeight;
+    .add-btn {
+      height: @tabsHeight;
+      display: inline-block;
+      vertical-align: top;
+      text-decoration: none;
+      color: #a5a4a4;
+      padding: 0 8px;
+      i {
+        font-size: 18px;
+        line-height: @tabsHeight;
+      }
+      &:hover{
+        color: #ffffff;
+      }
+    }
+    .tab {
+      height: @tabsHeight;
+      border: 1px solid #343333;
+      border-bottom: 1px solid #343333;
+      border-top: 0;
+      display: inline-block;
+      vertical-align: top;
+      text-decoration: none;
+      color: #a5a4a4;
+      background-color: #292828;
+
+      font-size: 13px;
+      line-height: @tabsHeight;
+      min-width: 200px;
+
+      margin: 0 -1px;
+      padding: 0 12px;
+
+      i {
+        vertical-align: top;
+        font-size: 18px;
+        line-height: @tabsHeight;
+      }
+
+      &.fit {
+        i {
+          margin-right: 7px;
+        }
+      }
+
+      .close {
+        float: right;
+        width: 16px;
+        height: 16px;
+        .roundedCorners(9px);
+        text-align: center;
+        position: relative;
+        top: 5px;
+        i {
+          font-size: 12px;
+          line-height: 16px;
+          vertical-align: top;
+        }
+        &:hover {
+          background-color: #DD6050;
+        }
+      }
+
+      &.small {
+        min-width: 0;
+      }
+
+      &.selected {
+        z-index: 1;
+        background-color: #191818;
+        color: #ffffff;
+        border-bottom: 1px solid #191818;
+      }
+
+      &:hover{
+        color: #ffffff;
+      }
+    }
+  }
+
+  .center-menu {
+    @numberDisplays: 3;
+    position: absolute;
+    left: 0;
+    right: 0px;
+    height: @actionsHeight;
+    overflow: hidden;
+
+    .top-bar-button i {
+      width: 35px;
+    }
+    .top-bar-button:nth-child(2) i {
+      font-size: 15px;
+    }
+    .top-bar-button:nth-child(3) i {
+      font-size: 13px;
+    }
+
+    .center-menu-wraper {
+      position: absolute;
+      left: 50%;
+      width: @actionsHeight;
+      height: @actionsHeight;
+      overflow: hidden;
+      .transform(translateX(-(@actionsHeight / 2)));
+      .transition(0.2s);
+
+      .center-menu-slider {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: @actionsHeight * @numberDisplays;
+        .transition(0.2s);
+        .transform(translateX(0));
+      }
+
+      &:hover {
+        width: @actionsHeight * @numberDisplays * 2;
+        @translate: @actionsHeight * @numberDisplays + @actionsHeight / 2;
+        .transform(translateX(-@translate));
+        .center-menu-slider {
+          .transform(translateX(@actionsHeight * @numberDisplays));
+        }
+      }
+    }
+  }
+
+
+  a.top-bar-button {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    line-height: @actionsHeight;
+    height: @actionsHeight;
+    text-align: center;
+
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 11px;
+    color: #a5a4a4;
+
+    i {
+      width: 50px;
+      line-height: @actionsHeight;
+      font-size: 20px;
+    }
+
+    &.text-button {
+      padding: 0 20px;
+      margin: 4px 5px;
+      line-height: @actionsHeight - 9;
+      height: @actionsHeight - 9;
+    }
+
+    &.primary {
+      background-color: @adminPrimary;
+      color: #ffffff;
+      .roundedCorners(3px);
+      &:hover{
+        background-color: @adminPrimaryDarker;
+      }
+    }
+
+    &:hover, &.active {
+      color: @pageBuilderTopMenuTextActive;
+    }
+  }
+
+  .seperator {
+    position: relative;
+    display: inline-block;
+    top: 8px;
+    width: 1px;
+    height: 16px;
+    background-color: #a5a4a4;
+  }
+}

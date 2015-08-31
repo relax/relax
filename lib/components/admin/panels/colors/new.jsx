@@ -1,0 +1,96 @@
+import {Component} from 'relax-framework';
+import ColorPicker from 'react-colorpicker';
+import ColorActions from '../../../../client/actions/colors';
+import Input from '../../../input';
+import React from 'react';
+
+export default class NewColor extends Component {
+
+  getInitialState () {
+    return {
+      title: 'Add new color',
+      button: 'Add new color',
+      titleInput: '',
+      colorInput: '#000000'
+    };
+  }
+
+  onTitleChange (value) {
+    this.setState({
+      titleInput: value
+    });
+  }
+
+  onColorChange (color) {
+    this.setState({
+      colorInput: color.toHex()
+    });
+  }
+
+  addNew (event) {
+    event.preventDefault();
+
+    if(this.props.selected){
+      ColorActions.update({
+        _id: this.props.selected._id,
+        value: this.state.colorInput,
+        label: this.state.titleInput
+      });
+    }
+    else{
+      ColorActions
+        .add({
+          label: this.state.titleInput,
+          value: this.state.colorInput
+        })
+        .then(() => {
+          this.setState(this.getInitialState);
+        });
+    }
+  }
+
+  remove (event) {
+    event.preventDefault();
+
+    ColorActions.remove(this.props.selected._id);
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if(nextProps.selected) {
+      this.setState({
+        title: 'Editing '+nextProps.selected.label+' color',
+        titleInput: nextProps.selected.label,
+        colorInput: nextProps.selected.value,
+        button: 'Change'
+      });
+    }
+    else if(this.props.selected){
+      this.setState(this.getInitialState());
+    }
+  }
+
+  renderRemoveButton () {
+    if(this.props.selected){
+      return (
+        <a href='#' key='remove' className='button button-alert' onClick={this.remove.bind(this)}>Remove</a>
+      );
+    }
+  }
+
+  render () {
+    return (
+      <div >
+        <Input type='text' value={this.state.titleInput} onChange={this.onTitleChange.bind(this)} label='Color label' />
+        <div className='color-picker-wrapper'>
+          <ColorPicker color={this.state.colorInput} onChange={this.onColorChange.bind(this)} />
+        </div>
+        <a href='#' key='addnew' className='button button-primary' onClick={this.addNew.bind(this)}>{this.state.button}</a>
+        {this.renderRemoveButton()}
+      </div>
+    );
+  }
+}
+
+NewColor.propTypes = {
+  selected: React.PropTypes.any
+};

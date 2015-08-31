@@ -1,0 +1,48 @@
+.optional {
+  @size: 15px;
+  position: relative;
+  cursor: pointer;
+  padding: 0 3px;
+
+  .box, .label {
+    vertical-align: top;
+    line-height: 17px;
+    .transition();
+  }
+
+  .label {
+    margin: 0;
+    padding: 0;
+    padding-right: @size + 5px;
+  }
+
+  .box {
+    position: absolute;
+    right: 3px;
+    top: 1px;
+    display: inline-block;
+    width: @size;
+    height: @size;
+    text-align: center;
+    border: 1px solid #383838;
+    .roundedCorners(3px);
+
+    i {
+      font-size: 23px;
+      color: @adminPrimary;
+      top: -2px;
+      left: -4px;
+      position: relative;
+      line-height: 15px;
+    }
+  }
+
+  &:hover {
+    .label {
+      color: #efefef;
+    }
+    .box {
+      border-color: #777;
+    }
+  }
+}

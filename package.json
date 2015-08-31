@@ -1,0 +1,102 @@
+{
+  "name": "relax",
+  "version": "1.0.0",
+  "description": "New generation CMS on top of React and Node.js",
+  "license": "GPLv3",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/relax/relax.git"
+  },
+  "scripts": {
+    "prepublish": "NODE_ENV=production grunt build:production",
+    "postinstall": "NODE_ENV=production grunt build:production",
+    "dev": "grunt dev",
+    "test": "grunt test",
+    "start": "node index",
+    "watch": "grunt watch"
+  },
+  "dependencies": {
+    "babel": "^4.0.0",
+    "backbone": "^1.2.0",
+    "backbone-cortex": "git://github.com/bruno12mota/backbone-cortex.git",
+    "blueimp-md5": "^1.1.1",
+    "body-parser": "^1.12.2",
+    "classnames": "^2.1.3",
+    "colr": "^1.2.1",
+    "connect-mongo": "^0.8.2",
+    "dropzone": "git://github.com/bruno12mota/dropzone.git",
+    "express": "^4.12.3",
+    "express-react-engine": "^0.4.4",
+    "express-session": "^1.11.3",
+    "file-size": "^1.0.0",
+    "jquery": "^2.1.3",
+    "keymaster": "git://github.com/bruno12mota/keymaster.git",
+    "lodash.clone": "^3.0.2",
+    "lodash.clonedeep": "^3.0.1",
+    "lodash.every": "^3.2.0",
+    "lodash.foreach": "^3.0.2",
+    "lodash.map": "^3.1.0",
+    "lodash.merge": "^3.1.0",
+    "mkdirp": "^0.5.0",
+    "medium-editor": "git://github.com/bruno12mota/medium-editor.git",
+    "moment": "^2.10.2",
+    "mongoose": "^4.0.1",
+    "morgan": "^1.5.2",
+    "multer": "^0.1.8",
+    "passport": "^0.2.2",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^1.0.1",
+    "q": "^1.2.0",
+    "rc": "^1.0.1",
+    "react": "^0.13.2",
+    "react-colorpicker": "git://github.com/bruno12mota/react-colorpicker.git",
+    "react-counter": "git://github.com/bruno12mota/react-counter.git",
+    "react-draggable": "^0.4.0",
+    "react-frame-component": "^0.3.2",
+    "react-gemini-scrollbar": "^1.1.1",
+    "react-google-maps": "^1.7.0",
+    "relax-framework": "^1.0.0-alpha2",
+    "rimraf": "^2.3.2",
+    "sharp": "^0.9.3",
+    "slug": "^0.8.0",
+    "soundmanager2": "git://github.com/bruno12mota/SoundManager2.git",
+    "velocity-animate": "git://github.com/bruno12mota/velocity.git",
+    "winston": "^0.9.0"
+  },
+  "devDependencies": {
+    "babelify": "^5.0.0",
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^4.0.0",
+    "grunt-concurrent": "^1.0.0",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-less": "^1.0.0",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-nodemon": "^0.4.0",
+    "less-plugin-autoprefix": "^1.4.2",
+    "less-plugin-clean-css": "^1.5.0",
+    "nodemon": "^1.3.7"
+  },
+  "apps": [
+    {
+      "name": "relax",
+      "script": "index.js",
+      "instances": 1,
+      "exec_mode": "cluster",
+      "error_file": "../shared/logs/stderr.log",
+      "out_file": "../shared/logs/stdout.log",
+      "pid_file": "../shared/pids/pid",
+      "merge_logs": true
+    }
+  ],
+  "deploy": {
+    "test": {
+      "user": "node",
+      "host": "178.62.64.146",
+      "path": "/home/node/apps/cms",
+      "ref": "origin/master",
+      "repo": "git@178.62.67.88:cms/cms.git",
+      "post-deploy": ". /home/node/.nvm/nvm.sh && npm install && pm2 startOrGracefulReload package.json --env test"
+    }
+  }
+}

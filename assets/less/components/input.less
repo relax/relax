@@ -1,0 +1,57 @@
+.input {
+  .roundedCorners(2px);
+  max-width: 480px;
+
+  input {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    width: 100%;
+    display: block;
+    outline: none;
+    border: 1px solid #383838;
+    border-radius: 3px;
+    padding: 7px 7px;
+    font-size: 13px;
+    .transition();
+
+    &:focus {
+      border-color: @adminPrimary;
+    }
+  }
+
+  &.big {
+    input {
+      font-size: 17px;
+    }
+  }
+
+  &.white {
+    input {
+      border-color: #cccccc;
+      color: #333333;
+    }
+  }
+}
+
+input.valid {
+  border: 1px solid #00ff00;
+}
+
+input.invalid {
+  border: 1px solid #ff0000;
+}
+
+// White areas
+.white-options  {
+  .input {
+    input {
+      border-color: #cccccc;
+      color: #333333;
+
+      &:focus {
+        border-color: @adminPrimary;
+      }
+    }
+  }
+}

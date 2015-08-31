@@ -1,0 +1,19 @@
+.page-builder-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #efefef;
+  overflow-y: auto;
+  overflow-x: hidden;
+  .transform(translateX(0px)); // makes fixed positioned elements relative to the canvas
+  .body-element {
+    .drop-shadow-box-spread(0, 0, 8px, 8px, #000000, 10);
+  }
+}
+
+.preview .page-builder-canvas {
+  left: 0;
+  bottom: 0;
+}

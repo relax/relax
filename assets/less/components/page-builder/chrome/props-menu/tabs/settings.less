@@ -1,0 +1,85 @@
+.settings-tab {
+  .content-scrollable {
+    top: 100px;
+  }
+
+  .actions {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    height: 30px;
+    border-bottom: 1px solid #2f3132;
+    background-color: #12171a;
+
+    i, span {
+      display: inline-block;
+      line-height: 30px;
+      color: #616363;
+      font-size: 13px;
+    }
+    span {
+      font-size: 10px;
+    }
+
+    >span {
+      text-align: center;
+      display: block;
+    }
+
+    a {
+      display: inline-block;
+      vertical-align: top;
+      text-align: center;
+      text-decoration: none;
+      width: 50%;
+      margin: 0;
+
+      &:hover {
+        i, span {
+          color: #ffffff;
+        }
+      }
+    }
+  }
+
+  .edit-tab {
+    .element-info {
+      padding: 10px;
+      padding-top: 20px;
+    }
+    .element-options {
+      padding: 10px;
+      padding-top: 20px;
+    }
+    .none {
+      padding: 20px;
+      text-align: center;
+    }
+
+    // Visible on option
+    .visibility {
+      margin-top: 10px;
+      a {
+        text-decoration: none;
+        display: inline-block;
+        color: #ffffff;
+        border-bottom: 2px solid #5ecf86;
+        width: 37px;
+        height: 37px;
+        text-align: center;
+
+        i {
+          line-height: 37px;
+        }
+
+        &:hover {
+          background-color: #333;
+        }
+        &.selected {
+          border-bottom: 2px solid @alert;
+        }
+      }
+    }
+  }
+}

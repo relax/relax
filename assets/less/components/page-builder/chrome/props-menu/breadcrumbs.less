@@ -1,0 +1,32 @@
+.selected-breadcrumbs {
+  position: relative;
+  line-height: 23px;
+  border-bottom: 1px solid #2f3132;
+  background-color: #12171a;
+  padding: 0 7px;
+  
+  overflow: hidden;
+  white-space: nowrap;
+  direction: rtl;
+  text-align: left;
+  font-size: 12px;
+
+  a {
+    text-decoration: none;
+    font-size: 10px;
+    color: #969696;
+    text-transform: capitalize;
+    &:hover {
+      color: #ffffff;
+    }
+  }
+
+  span {
+    font-size: 10px;
+    color: #969696;
+  }
+
+  .current {
+    color: #ffffff;
+  }
+}

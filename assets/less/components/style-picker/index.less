@@ -1,0 +1,31 @@
+.style-picker {
+  @import './entry.less';
+  @import './edit.less';
+
+  .add-style-btn {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+
+    height: 40px;
+    line-height: 40px;
+    border-top: 1px solid #383838;
+    text-align: center;
+    color: #616363;
+    cursor: pointer;
+
+    i, span {
+      display: inline-block;
+      vertical-align: top;
+      color: #616363;
+      font-size: 14px;
+      line-height: 40px;
+      margin-right: 5px;
+    }
+
+    &:hover {
+      i, span {
+        color: #ffffff;
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+.schema-link {
+
+  .fields {
+    margin-top: 20px;
+  }
+
+  .schema-link-field {
+    background-color: #3F3F3F;
+    padding: 0 7px;
+    margin-bottom: 4px;
+    border: 1px solid #3F3F3F;
+
+    .roundedCorners(3px);
+
+    &:hover, &.opened {
+      border-color: @adminPrimary;
+    }
+
+    >.label {
+      text-decoration: none;
+      display: block;
+      line-height: 30px;
+      margin-bottom: 0px;
+
+      i {
+        line-height: 30px;
+        float: right;
+      }
+    }
+  }
+}

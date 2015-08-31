@@ -1,0 +1,6 @@
+{
+  "port": 8080,
+  "db": {
+    "uri": "mongodb://localhost/relax"
+  }
+}

@@ -1,0 +1,131 @@
+.combobox{
+  @comboboxHeight: 32px;
+  //min-width: 150px;
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  width: 100%;
+  font-size: 13px;
+
+  .combobox-holder{
+    height: @comboboxHeight;
+    position: relative;
+    border: solid 1px #333333;
+    overflow: hidden;
+    //background-color: #383838;
+
+    .roundedCorners (3px);
+    .transition();
+
+    .combobox-button{
+      color: #efefef;
+      text-align: center;
+      i {
+        line-height: @comboboxHeight;
+        font-size: 13px;
+      }
+    }
+
+    &.opened{
+      height: auto;
+    }
+  }
+
+  .combobox-header{
+    overflow: hidden;
+
+    .selected-text{
+      position: relative;
+      padding: 0px 6px;
+      line-height: @comboboxHeight;
+      font-size: 13px;
+      display: inline-block;
+      float: left;
+      color: #efefef;
+    }
+    .combobox-button{
+      display: inline-block;
+      float: right;
+      width: @comboboxHeight;
+      height: @comboboxHeight;
+      border-left: solid 1px #333333;
+      //background-color: #333333;
+    }
+  }
+
+  .combobox-options-holder{
+    position: relative;
+    left: 0;
+    display: block;
+
+    border-top: solid 1px #333333;
+  }
+
+  &:hover{
+    .combobox-holder {
+      border-color: @adminPrimary;
+    }
+    .combobox-header {
+      .combobox-button {
+        background-color: #333333;
+        //border-color: @adminPrimary;
+      }
+    }
+  }
+}
+
+.combobox-option{
+  color: #858585;
+  //background-color: #383838;
+  padding: 6px 38px 6px 7px;
+  display: block;
+  font-size: 12px;
+
+  .transition(0.2s);
+
+  &:hover{
+    background-color: @adminPrimary;
+    color: #ffffff;
+  }
+}
+
+// White areas
+.white-options  {
+  .combobox{
+    .combobox-holder{
+      border-color: #cccccc;
+      color: #333333;
+    }
+
+    .combobox-header {
+      .selected-text{
+        color: #333333;
+      }
+      .combobox-button{
+        color: #333333;
+      }
+    }
+
+    .combobox-header .combobox-button {
+      border-color: #cccccc;
+    }
+
+    .combobox-options-holder {
+      border-color: #cccccc;
+    }
+
+    &:hover{
+      .combobox-holder {
+        border-color: @adminPrimary;
+        .combobox-button {
+          color: #555555;
+        }
+      }
+      .combobox-header {
+        .combobox-button {
+          background-color: #efefef;
+        }
+      }
+    }
+  }
+}

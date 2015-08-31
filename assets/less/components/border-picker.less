@@ -1,0 +1,96 @@
+.border-picker {
+  @btnsSize: 25px;
+  @btnsSpacing: 3px;
+  @total: @btnsSize * 3 + @btnsSpacing * 2;
+
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  margin-top: 10px;
+
+  // Parts
+  .toggles, .inputs {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .toggles {
+    position: relative;
+    height: @total;
+    width: @total;
+  }
+
+  .inputs {
+    padding-left: 25px;
+    padding-bottom: 13px;
+
+    >* {
+      margin-bottom: 6px;
+    }
+
+    .sub-label {
+      font-size: 9px;
+      color: #616363;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+  }
+
+  // Toggle buttons
+  .toggle {
+    position: absolute;
+    width: @btnsSize;
+    height: @btnsSize;
+    border: 1px solid #383838;
+    text-align: center;
+    cursor: pointer;
+
+    i {
+      color: #cccccc;
+      font-size: 15px;
+      line-height: 23px;
+    }
+
+    @center: @total / 2 - @btnsSize / 2;
+
+    &.top {
+      left: @center;
+      top: 0;
+    }
+    &.left {
+      left: 0;
+      top: @center;
+    }
+    &.center {
+      left: @center;
+      top: @center;
+    }
+    &.right {
+      right: 0;
+      top: @center;
+    }
+    &.bottom {
+      left: @center;
+      top: 56px;
+    }
+
+    &:hover {
+      background-color: #383838;
+      i {
+        color: #ffffff;
+      }
+    }
+    &.selected {
+      border-color: @adminPrimary;
+      background-color: #383838;
+      i {
+        color: #ffffff;
+      }
+    }
+    &.active {
+      i {
+        color: @adminPrimary;
+      }
+    }
+  }
+}

@@ -1,0 +1,75 @@
+.number-input {
+  width: 90px;
+  height: 30px;
+  display: block;
+  position: relative;
+  outline: none;
+  //background-color: #12171A;
+  border: 1px solid #383838;
+  border-radius: 3px;
+  overflow: hidden;
+  .transition();
+
+  &.focused {
+    border: 1px solid @adminPrimary;
+  }
+
+  input {
+    display: inline-block;
+    vertical-align: top;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    box-shadow: none;
+    line-height: 30px;
+    padding: 0 5px;
+    width: 40px;
+    font-size: 12px;
+  }
+
+  span {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 30px;
+    width: 30px;
+    font-size: 12px;
+    text-align: center;
+    color: #858585;
+    cursor: ns-resize;
+  }
+
+  .arrows {
+    display: inline-block;
+    vertical-align: top;
+    position: absolute;
+    width: 20px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    a {
+      background-color: #383838;
+      color: #efefef;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 15px;
+      text-align: center;
+      font-size: 11px;
+
+      i {
+        line-height: 15px;
+      }
+
+      &:last-child {
+        top: auto;
+        bottom: 0;
+        border-top: 1px solid #333333;
+      }
+
+      &:hover {
+        background-color: @adminPrimary;
+      }
+    }
+  }
+}

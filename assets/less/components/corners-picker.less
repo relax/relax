@@ -1,0 +1,128 @@
+.corners-picker {
+  @btnsSize: 25px;
+  @btnsSpacing: 3px;
+  @total: @btnsSize * 3 + @btnsSpacing * 2;
+
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  margin-top: 10px;
+
+  // Parts
+  .toggles, .inputs {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .toggles {
+    position: relative;
+    height: @total;
+    width: @total;
+  }
+
+  .inputs {
+    padding-left: 25px;
+    padding-bottom: 13px;
+
+    .sub-label {
+      font-size: 9px;
+      color: #616363;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+  }
+
+  // Toggle buttons
+  .toggle {
+    position: absolute;
+    width: @btnsSize;
+    height: @btnsSize;
+    border: 1px solid #383838;
+    text-align: center;
+    cursor: pointer;
+
+    i {
+      color: #cccccc;
+      font-size: 15px;
+      line-height: 23px;
+      position: relative;
+    }
+
+    @center: @total / 2 - @btnsSize / 2;
+
+    span {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+    }
+
+    &.tl {
+      left: 0;
+      top: 0;
+      span {
+        border-left: 2px solid #cccccc;
+        border-top: 2px solid #cccccc;
+        .roundedCorners(6px, 0, 0, 0);
+      }
+    }
+    &.tr {
+      right: 0;
+      top: 0;
+      span {
+        border-right: 2px solid #cccccc;
+        border-top: 2px solid #cccccc;
+        .roundedCorners(0, 6px, 0, 0);
+      }
+    }
+    &.center {
+      left: @center;
+      top: @center;
+    }
+    &.br {
+      right: 0;
+      bottom: 0;
+      span {
+        border-right: 2px solid #cccccc;
+        border-bottom: 2px solid #cccccc;
+        .roundedCorners(0, 0, 6px, 0);
+      }
+    }
+    &.bl {
+      left: 0;
+      bottom: 0;
+      span {
+        border-left: 2px solid #cccccc;
+        border-bottom: 2px solid #cccccc;
+        .roundedCorners(0, 0, 0, 6px);
+      }
+    }
+
+    &:hover {
+      background-color: #383838;
+      i {
+        color: #ffffff;
+      }
+      span {
+        border-color: #ffffff;
+      }
+    }
+    &.selected {
+      border-color: @adminPrimary;
+      background-color: #383838;
+      i {
+        color: #ffffff;
+      }
+      span {
+        border-color: #ffffff;
+      }
+    }
+    &.active {
+      i {
+        color: @adminPrimary;
+      }
+      span {
+        border-color: @adminPrimary;
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+.checkbox{
+  position: relative;
+  display: inline-block;
+  width: 40px;
+
+  .background{
+    display: inline-block;
+    position: absolute;
+    background-color: #aaaaaa;
+    height: 10px;
+    left: 5px;
+    right: 5px;
+    margin-top: 6px;
+    .roundedCorners(8px);
+    .transition();
+  }
+
+  .circle{
+    display: inline-block;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background-color: #ECECEC;
+    .transition();
+    .roundedCorners(10px);
+    .drop-shadow-box(0, 1px, 1px, #aaaaaa, 100);
+  }
+
+  // Active state
+  &.active{
+    .circle{
+      background-color: @adminPrimary;
+      .transform(translateX(100%));
+    }
+    .background{
+      background-color: @adminPrimaryLight;
+    }
+  }
+}

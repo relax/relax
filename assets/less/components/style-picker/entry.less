@@ -1,0 +1,76 @@
+.entry {
+  position: relative;
+  cursor: pointer;
+  padding: 20px 10px;
+  border-bottom: 1px solid #2f3132;
+
+  .info-holder {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    >* {
+      display: table-cell;
+      vertical-align: top;
+    }
+  }
+  .title {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #606162;
+    letter-spacing: 1px;
+  }
+  .info {
+    font-size: 10px;
+    color: #efefef;
+    float: right;
+  }
+
+  &:hover, &.selected {
+    background-color: #12171a;
+  }
+  &.selected {
+    border-left: 3px solid #3eb0f2;
+  }
+  &.editing {
+    border-left: 3px solid #3CB133;
+  }
+
+  &.contrast {
+    background-color: rgba(255, 255, 255, 0.85);
+    &:hover, &.selected {
+      background-color: rgba(255, 255, 255, 1);
+    }
+    .title {
+      color: #888888;
+    }
+    .info {
+      color: #424242;
+    }
+  }
+
+  .options-btn {
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 25px; height: 25px;
+    visibility: hidden;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    .roundedCorners(3px, 0, 0, 0);
+
+    >i {
+      font-size: 16px;
+      line-height: 25px;
+      color: #cccccc;
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.7);
+      >i {
+        color: #ffffff;
+      }
+    }
+  }
+  &:hover .options-btn {
+    visibility: visible;
+  }
+}

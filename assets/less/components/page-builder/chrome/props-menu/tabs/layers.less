@@ -1,0 +1,152 @@
+.advanced-menu-structure {
+  padding: 10px;
+  h4 {
+    margin-top: 7px;
+    margin-bottom: 18px;
+  }
+  ul {
+    list-style-type: none;
+    padding: 0;
+    ul {
+      padding-left: 15px;
+    }
+  }
+
+  .filter-display {
+    display: inline-block;
+    vertical-align: top;
+    width: 50%;
+    p {
+      margin: 0;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    a {
+      text-decoration: none;
+      font-size: 11px;
+      color: #efefef;
+      .opacity(0.7);
+
+      &:hover, &.active {
+        .opacity(1);
+      }
+    }
+    &.right {
+      text-align: right;
+      padding-top: 6px;
+      div {
+        line-height: 12px;
+      }
+    }
+    span {
+      font-size: 11px;
+      color: #999999;
+    }
+  }
+}
+
+.structure-entry-element {
+  position: relative;
+  display: block;
+  text-align: left;
+  text-decoration: none;
+
+  color: @pageBuilderAdvancedMenuText;
+  background-color: rgba(56, 60, 61, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0);
+  font-size: 11px;
+  line-height: 25px;
+  margin-bottom: 1px;
+  padding: 0px 23px;
+  padding-right: 25px;
+
+  height: 25px;
+
+  &.sub-component {
+    .opacity(0.6);
+  }
+
+  * {
+    vertical-align: top;
+    display: inline-block;
+  }
+
+  >i {
+    width: 22px;
+    font-size: 12px;
+    line-height: 25px;
+    text-align: center;
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+  }
+
+  >span {
+    line-height: 25px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  >a, .options {
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    display: inline-block;
+    width: 25px;
+    text-align: center;
+    line-height: 23px;
+    border-left: 1px solid #282828;
+    >i {
+      color: @pageBuilderAdvancedMenuText;
+      font-size: 10px;
+      line-height: 23px;
+    }
+
+    &:hover {
+      background-color: @adminPrimary;
+      color: #fff;
+    }
+  }
+
+  .options {
+    cursor: pointer;
+    visibility: hidden;
+    right: 0px;
+    >i {
+      font-size: 11px;
+    }
+    &:hover {
+      background-color: transparent;
+      >i {
+        color: @adminPrimary;
+      }
+    }
+  }
+
+  &.hasChildren {
+    padding-right: 50px;
+    .options {
+      right: 25px;
+    }
+  }
+
+  &.overed {
+    border: 1px solid @adminPrimary;
+    .options  {
+      visibility: visible;
+    }
+  }
+
+  &.selected {
+    border: 1px solid @adminPrimary;
+    background-color: @adminPrimary;
+    color: #ffffff;
+
+    >a, .options {
+      border-left: 1px solid @adminPrimaryDarker;
+      &:hover {
+        background-color: @adminPrimaryDarker;
+      }
+    }
+  }
+}
