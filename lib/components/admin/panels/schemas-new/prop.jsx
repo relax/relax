@@ -5,7 +5,8 @@ import cx from 'classnames';
 export default class Prop extends Component {
   onRemove (event) {
     event.preventDefault();
-    this.props.onRemove(this.props.prop.id);
+    event.stopPropagation();
+    this.props.onRemove(this.props.id);
   }
 
   renderRemove () {
@@ -20,7 +21,7 @@ export default class Prop extends Component {
 
   render () {
     return (
-      <div className={cx('prop-entry', this.props.selected && 'active')}>
+      <div className={cx('prop-entry', this.props.selected && 'active', this.props.prop.locked && 'locked')} onClick={this.props.onClick}>
         <div className='prop-info'>
           <div className='prop-title'>{this.props.prop.id}</div>
           <div className='prop-type'>{this.props.prop.type}</div>

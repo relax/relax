@@ -10,9 +10,10 @@
 
   .info-label {
     font-size: 16px;
-    color: #333333;
+    color: #ffffff;
     border-bottom: 1px solid #efefef;
     padding: 12px 15px;
+    background-color: #2F2F2F;
   }
 
   .create {
@@ -35,11 +36,11 @@
       padding: 10px 10px;
       cursor: pointer;
 
-      &:hover {
+      &:not(.locked):hover {
         background-color: rgba(247, 247, 247, 0.31);
       }
 
-      &.active {
+      &:not(.locked).active {
         &:before {
           content: ' ';
           position: absolute;
@@ -51,6 +52,11 @@
         }
       }
 
+      &.locked {
+        cursor: default;
+        .opacity(0.5);
+      }
+
       .remove-prop {
         cursor: pointer;
         position: absolute;
@@ -60,7 +66,7 @@
         height: 30px;
         text-align: center;
         i {
-          font-size: 18px;
+          font-size: 16px;
           line-height: 24px;
           color: #cccccc;
         }
@@ -80,7 +86,7 @@
         .prop-type {
           font-size: 11px;
           line-height: 16px;
-          color: #555555;
+          color: #8E8E8E;
         }
       }
     }

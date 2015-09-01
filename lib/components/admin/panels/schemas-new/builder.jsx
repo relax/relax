@@ -4,7 +4,7 @@ import Combobox from '../../../combobox';
 import Checkbox from '../../../checkbox';
 import Input from '../../../input';
 import merge from 'lodash.merge';
-import {Types} from '../../../../types';
+import {Types, TypesProps} from '../../../../types';
 import Prop from './prop';
 import forEach from 'lodash.foreach';
 import clone from 'lodash.clone';
@@ -39,29 +39,32 @@ export default class SchemasBuilder extends Component {
   }
 
   onChange (id, value) {
-    this.state.values[id] = value;
-    this.setState({
-      values: this.state.values
-    });
-  }
-
-  onRemoveProp (id) {
-    forEach(this.state.fields, (field, key) => {
-      if (field.id === id) {
-        this.state.fields.splice(key, 1);
-        return false;
-      }
-    });
+    this.state.fields[this.state.selected][id] = value;
     this.setState({
       fields: this.state.fields
     });
     this.props.onChange(this.state.fields);
   }
 
+  onRemoveProp (index) {
+    this.state.fields.splice(index, 1);
+    this.setState({
+      fields: this.state.fields,
+      selected: false
+    });
+    this.props.onChange(this.state.fields);
+  }
+
+  onEntryClick (id) {
+    this.setState({
+      selected: id
+    });
+  }
+
   renderFieldEntry (field, index) {
     let selected = this.state.selected === index;
     return (
-      <Prop selected={selected} prop={field} onRemove={this.onRemoveProp.bind(this)} key={index} />
+      <Prop selected={selected} prop={field} id={index} onRemove={this.onRemoveProp.bind(this)} key={index} onClick={this.onEntryClick.bind(this, index)} />
     );
   }
 
@@ -91,34 +94,47 @@ export default class SchemasBuilder extends Component {
     );
   }
 
+  renderOptionsProps () {
+    let values = this.state.fields[this.state.selected];
+    let props = TypesProps[values.type];
+
+    if (props) {
+      return 'extra';
+    }
+  }
+
   renderOptions () {
     if (this.state.selected !== false) {
       let types = Object.keys(Types).sort();
       let values = this.state.fields[this.state.selected];
-      return (
-        <div>
-          <div className='option'>
-            <div className='label'>Option id</div>
-            <Input type='text' value={values.id} label='Option id' onChange={this.onChange.bind(this, 'id')} />
+
+      if (values) {
+        return (
+          <div>
+            <div className='option'>
+              <div className='label'>Option id</div>
+              <Input type='text' value={values.id} label='Option id' onChange={this.onChange.bind(this, 'id')} />
+            </div>
+            <div className='option'>
+              <div className='label'>Type</div>
+              <Combobox
+                labels={types}
+                values={types}
+                onChange={this.onChange.bind(this, 'type')}
+                value={values.type}
+              />
+            </div>
+            {this.renderOptionsProps()}
+            <div className='option'>
+              <div className='label'>Is required</div>
+              <Checkbox
+                value={values.required}
+                onChange={this.onChange.bind(this, 'required')}
+              />
+            </div>
           </div>
-          <div className='option'>
-            <div className='label'>Type</div>
-            <Combobox
-              labels={types}
-              values={types}
-              onChange={this.onChange.bind(this, 'type')}
-              value={this.state.values.type}
-            />
-          </div>
-          <div className='option'>
-            <div className='label'>Is required</div>
-            <Checkbox
-              value={values.required}
-              onChange={this.onChange.bind(this, 'required')}
-            />
-          </div>
-        </div>
-      );
+        );
+      }
     } else {
       return (
         <div className=''>

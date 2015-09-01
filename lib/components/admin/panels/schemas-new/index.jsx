@@ -53,7 +53,7 @@ export default class SchemasNew extends Component {
           <form className='list white-options' onSubmit={this.onAddNew.bind(this)}>
             <TitleSlug title={this.state.title} slug={this.state.slug} validateSlug={schemaActions.validateSlug} onChange={this.onChange.bind(this)} />
             <Builder onChange={this.onSchemaChange.bind(this)} />
-            <div className='button button-primary'>Save schema</div>
+            <div className='button button-primary submit-button' onClick={this.onAddNew.bind(this)}>Save schema</div>
           </form>
         </div>
       </div>
