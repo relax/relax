@@ -22,7 +22,7 @@ export default class SchemasNew extends Component {
       .add({
         title: this.state.title,
         slug: this.state.slug,
-        fields: this.state.schema
+        properties: this.state.schema
       })
       .then(() => {
         this.setState({

@@ -3,11 +3,13 @@ import {Component} from 'relax-framework';
 
 export default class NumberInput extends Component {
   limitValue (value) {
-    if (value < this.props.min){
-      value = this.props.min;
+    if (this.props.min !== false) {
+      if (value < this.props.min){
+        value = this.props.min;
+      }
     }
 
-    if (this.props.max) {
+    if (this.props.max !== false) {
       if (value > this.props.max) {
         value = this.props.max;
       }
@@ -111,6 +113,7 @@ NumberInput.propTypes = {
 
 NumberInput.defaultProps = {
   min: 0,
+  max: false,
   label: 'px',
   inactive: false
 };

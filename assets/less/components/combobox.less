@@ -1,13 +1,14 @@
-.combobox{
+.combobox {
   @comboboxHeight: 32px;
   //min-width: 150px;
   position: relative;
   display: inline-block;
   cursor: pointer;
   width: 100%;
+  max-width: 480px;
   font-size: 13px;
 
-  .combobox-holder{
+  .combobox-holder {
     height: @comboboxHeight;
     position: relative;
     border: solid 1px #333333;
@@ -17,7 +18,7 @@
     .roundedCorners (3px);
     .transition();
 
-    .combobox-button{
+    .combobox-button {
       color: #efefef;
       text-align: center;
       i {
@@ -26,15 +27,15 @@
       }
     }
 
-    &.opened{
+    &.opened {
       height: auto;
     }
   }
 
-  .combobox-header{
+  .combobox-header {
     overflow: hidden;
 
-    .selected-text{
+    .selected-text {
       position: relative;
       padding: 0px 6px;
       line-height: @comboboxHeight;
@@ -43,7 +44,7 @@
       float: left;
       color: #efefef;
     }
-    .combobox-button{
+    .combobox-button {
       display: inline-block;
       float: right;
       width: @comboboxHeight;
@@ -53,7 +54,7 @@
     }
   }
 
-  .combobox-options-holder{
+  .combobox-options-holder {
     position: relative;
     left: 0;
     display: block;
@@ -63,7 +64,7 @@
     border-top: solid 1px #333333;
   }
 
-  &:hover{
+  &:hover {
     .combobox-holder {
       border-color: @adminPrimary;
     }
@@ -76,7 +77,7 @@
   }
 }
 
-.combobox-option{
+.combobox-option {
   color: #858585;
   //background-color: #383838;
   padding: 6px 38px 6px 7px;
@@ -85,25 +86,25 @@
 
   .transition(0.2s);
 
-  &:hover{
+  &:hover {
     background-color: @adminPrimary;
     color: #ffffff;
   }
 }
 
 // White areas
-.white-options  {
-  .combobox{
-    .combobox-holder{
+.white-options {
+  .combobox {
+    .combobox-holder {
       border-color: #cccccc;
       color: #333333;
     }
 
     .combobox-header {
-      .selected-text{
+      .selected-text {
         color: #333333;
       }
-      .combobox-button{
+      .combobox-button {
         color: #333333;
       }
     }
@@ -116,7 +117,7 @@
       border-color: #cccccc;
     }
 
-    &:hover{
+    &:hover {
       .combobox-holder {
         border-color: @adminPrimary;
         .combobox-button {
