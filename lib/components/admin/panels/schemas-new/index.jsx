@@ -1,5 +1,5 @@
 import Builder from './builder';
-import {Component} from 'relax-framework';
+import {Component, Router} from 'relax-framework';
 import React from 'react';
 import TitleSlug from '../../../title-slug';
 import Breadcrumbs from '../../../breadcrumbs';
@@ -25,11 +25,7 @@ export default class SchemasNew extends Component {
         properties: this.state.schema
       })
       .then(() => {
-        this.setState({
-          title: '',
-          slug: '',
-          hasTypedSlug: false
-        });
+        Router.prototype.navigate('/admin/schemas', {trigger: true});
       });
   }
 
