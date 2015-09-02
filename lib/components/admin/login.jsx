@@ -1,6 +1,6 @@
 import React from 'react';
 import {Component} from 'relax-framework';
-import {Types} from '../../types';
+import {Types} from '../../data-types';
 
 export default class Login extends Component {
 

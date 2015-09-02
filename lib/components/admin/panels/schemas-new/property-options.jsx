@@ -1,6 +1,6 @@
 import React from 'react';
 import {Component} from 'relax-framework';
-import {Types, TypesProps} from '../../../../types';
+import {Types, TypesProps} from '../../../../data-types';
 import merge from 'lodash.merge';
 import clone from 'lodash.clone';
 
