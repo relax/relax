@@ -1,8 +1,16 @@
-import {Component} from 'relax-framework';
+import {Component, Router} from 'relax-framework';
 import merge from 'lodash.merge';
 import forEach from 'lodash.foreach';
 import clone from 'lodash.clone';
+import cloneDeep from 'lodash.cloneDeep';
 import React from 'react';
+import cx from 'classnames';
+import moment from 'moment';
+import Velocity from 'velocity-animate';
+
+import A from '../../../a';
+import Animate from '../../../animate';
+import Spinner from '../../../spinner';
 import Breadcrumbs from '../../../breadcrumbs';
 import TitleSlug from '../../../title-slug';
 import OptionsList from '../../../options-list';
@@ -15,42 +23,146 @@ export default class SchemaEntry extends Component {
   getInitialState () {
     schemaEntriesStoreFactory(this.context.schema.slug);
     this.schemaEntriesActions = schemaEntriesActionsFactory(this.context.schema.slug);
+
     return {
       schema: this.context.schema,
-      schemaEntry: this.context.schemaEntry || {},
-      new: !(this.context.schemaEntry && this.context.schemaEntry._id)
+      schemaEntry: this.context.schemaEntry || {
+        title: 'New',
+        state: 'draft'
+      },
+      new: !(this.context.schemaEntry && this.context.schemaEntry._id),
+      breadcrumbs: this.context.breadcrumbs
     };
   }
 
-  onSubmit (event) {
-    event.preventDefault();
+  componentWillUnmount () {
+    if (this.successTimeout) {
+      clearTimeout(this.successTimeout);
+    }
+  }
+
+  onSubmit (data) {
+    if (this.successTimeout) {
+      clearTimeout(this.successTimeout);
+    }
 
     if (this.state.new) {
       this.schemaEntriesActions
-        .add(this.state.schemaEntry)
-        .then(() => {
-
+        .add(data)
+        .then((schemaEntry) => {
+          this.setState({
+            saving: false,
+            schemaEntry,
+            success: true,
+            error: false,
+            new: false
+          });
+          this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
+        })
+        .catch((error) => {
+          this.setState({
+            saving: false,
+            error: true
+          });
         });
     } else {
       this.schemaEntriesActions
-        .update(this.state.schemaEntry)
-        .then(() => {
-
+        .update(data)
+        .then((schemaEntry) => {
+          this.setState({
+            saving: false,
+            schemaEntry,
+            success: true,
+            error: false
+          });
+          this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
+        })
+        .catch((error) => {
+          this.setState({
+            saving: false,
+            error: true
+          });
         });
     }
   }
 
+  successOut () {
+    clearTimeout(this.successTimeout);
+
+    var dom = React.findDOMNode(this.refs.success);
+    const transition = 'transition.slideDownOut';
+    Velocity(dom, transition, {
+      duration: 400,
+      display: null
+    }).then(() => {
+      this.setState({
+        success: false
+      });
+    });
+  }
+
+  onSaveDraft () {
+    this.setState({
+      saving: true,
+      savingLabel: 'Saving draft'
+    });
+
+    this.onSubmit(this.state.schemaEntry);
+  }
+
+  onUpdate () {
+    this.setState({
+      saving: true,
+      savingLabel: 'Updating entry'
+    });
+
+    this.onSubmit(this.state.schemaEntry);
+  }
+
+  onPublish () {
+    let clone = cloneDeep(this.state.schemaEntry);
+    clone.state = 'published';
+    clone.publishedDate = new Date();
+
+    this.setState({
+      saving: true,
+      savingLabel: 'Publishing'
+    });
+
+    this.onSubmit(clone);
+  }
+
+  onUnpublish () {
+    let clone = cloneDeep(this.state.schemaEntry);
+    clone.state = 'draft';
+
+    this.setState({
+      saving: true,
+      savingLabel: 'Saving and unpublishing'
+    });
+
+    this.onSubmit(clone);
+  }
+
   onFieldChange (id, value) {
     this.state.schemaEntry[id] = value;
+
     this.setState({
       schemaEntry: this.state.schemaEntry
     });
   }
 
   onChange (values) {
+    if (values.title) {
+      this.state.breadcrumbs[2].label = values.title;
+    }
+    if (values.slug) {
+      Router.prototype.navigate('/admin/schemas/'+this.context.schema.slug+'/'+values.slug, {trigger: false, replace: true});
+    }
     merge(this.state.schemaEntry, values);
     this.setState({
-      schemaEntry: this.state.schemaEntry
+      schemaEntry: this.state.schemaEntry,
+      breadcrumbs: this.state.breadcrumbs
     });
   }
 
@@ -91,23 +203,118 @@ export default class SchemaEntry extends Component {
     }
   }
 
-  render () {
-    return (
-      <div className='admin-schema'>
-        <div className='filter-menu'>
-          <Breadcrumbs data={this.context.breadcrumbs} />
+  renderlinks () {
+    if (!this.state.new) {
+      const buildLink = '/admin/schema/'+this.context.schema.slug+'/'+this.state.schemaEntry.slug;
+      const viewLink = '/'+this.context.schema.slug+'/'+this.state.schemaEntry.slug;
+      return (
+        <div className='links'>
+          <A className='link' href={buildLink}>
+            <i className='material-icons'>build</i>
+            <span>Build</span>
+          </A>
+          <a className='link' href={viewLink} target='_blank'>
+            <i className='material-icons'>link</i>
+            <span>View</span>
+          </a>
         </div>
-        <div className='admin-scrollable'>
-          <div className='white-options list'>
-            <TitleSlug
-              title={this.state.schemaEntry.title}
-              slug={this.state.schemaEntry.slug}
-              validateSlug={this.schemaEntriesActions.validateSlug}
-              onChange={this.onChange.bind(this)}
-            />
-            {this.renderProperties()}
-            <div className='button button-primary' onClick={this.onSubmit.bind(this)}>{this.state.new ? 'Publish new entry' : 'Save entry'}</div>
+      );
+    }
+  }
+
+  renderActions () {
+    if (this.state.schemaEntry.state === 'published') {
+      return (
+        <div className='actions'>
+          <div className={cx('button button-primary', this.state.saving && 'disabled')} onClick={this.onUpdate.bind(this)}>Update</div>
+          <div className={cx('button button-grey margined', this.state.saving && 'disabled')} onClick={this.onUnpublish.bind(this)}>Unpublish</div>
+        </div>
+      );
+    } else {
+      return (
+        <div className='actions'>
+          <div className={cx('button button-primary', this.state.saving && 'disabled')} onClick={this.onPublish.bind(this)}>Publish</div>
+          <div className={cx('button button-grey margined', this.state.saving && 'disabled')} onClick={this.onSaveDraft.bind(this)}>Save draft</div>
+        </div>
+      );
+    }
+  }
+
+  renderSaving () {
+    if (this.state.saving) {
+      return (
+        <Animate transition='slideDownIn' key='saving'>
+          <div className='saving'>
+            <Spinner />
+            <span>{this.state.savingLabel}</span>
           </div>
+        </Animate>
+      );
+    } else if (this.state.error) {
+      return (
+        <Animate transition='slideDownIn'  key='error'>
+          <div className='error' ref='success'>
+            <i className='material-icons'>error_outline</i>
+            <span>Something went bad!</span>
+          </div>
+        </Animate>
+      );
+    } else if (this.state.success) {
+      return (
+        <Animate transition='slideDownIn'  key='success'>
+          <div className='success' ref='success'>
+            <i className='material-icons'>check</i>
+            <span>All good!</span>
+          </div>
+        </Animate>
+      );
+    }
+  }
+
+  render () {
+    const published = this.state.schemaEntry.state === 'published';
+    const createdDate = this.state.new ? 'Creating' : moment(this.state.schemaEntry.date).format('MMMM Do YYYY');
+    const publishedDate = !published ? 'Unpublished' : moment(this.state.schemaEntry.publishedDate).format('MMMM Do YYYY');
+
+    return (
+      <div className='admin-schema-entry'>
+        <div className='content'>
+          <div className='filter-menu'>
+            <Breadcrumbs data={this.state.breadcrumbs} />
+          </div>
+          <div className='admin-scrollable'>
+            <div className='white-options list'>
+              <TitleSlug
+                title={this.state.schemaEntry.title}
+                slug={this.state.schemaEntry.slug}
+                validateSlug={this.schemaEntriesActions.validateSlug}
+                onChange={this.onChange.bind(this)}
+              />
+              {this.renderProperties()}
+            </div>
+          </div>
+        </div>
+        <div className='menu'>
+          <div className='infos'>
+            <div className={cx('info', !published && 'alerted')}>
+              <i className='material-icons'>{published ? 'cloud_queue' : 'cloud_off'}</i>
+              <span>State</span>
+              <div>{this.state.schemaEntry.state}</div>
+            </div>
+            <div className={cx('info', this.state.new && 'alerted')}>
+              <i className='material-icons'>today</i>
+              <span>Created at</span>
+              <div>{createdDate}</div>
+            </div>
+            <div className={cx('info', !published && 'alerted')}>
+              <i className='material-icons'>event</i>
+              <span>Published at</span>
+              <div>{publishedDate}</div>
+            </div>
+          </div>
+          {this.renderlinks()}
+          {this.renderActions()}
+          {this.renderSaving()}
         </div>
       </div>
     );
