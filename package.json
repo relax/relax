@@ -2,7 +2,7 @@
   "name": "relax",
   "version": "1.0.0",
   "description": "New generation CMS on top of React and Node.js",
-  "license": "GPLv3",
+  "license": "GPL-3.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/relax/relax.git"
