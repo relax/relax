@@ -5,7 +5,7 @@ import Entry from './entry';
 export default class List extends Component {
   renderEntry (schemaItem) {
     return (
-      <Entry key={schemaItem._id} schema={this.props.schema} schemaItem={schemaItem} />
+      <Entry key={schemaItem._id} schema={this.context.schema} schemaItem={schemaItem} />
     );
   }
 
@@ -37,6 +37,9 @@ export default class List extends Component {
 }
 
 List.propTypes = {
-  schemaEntries: React.PropTypes.array,
-  schema: React.PropTypes.object
+  schemaEntries: React.PropTypes.array
+};
+
+List.contextTypes = {
+  schema: React.PropTypes.object.isRequired
 };
