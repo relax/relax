@@ -1,23 +1,7 @@
 import React from 'react';
 import {Component} from 'relax-framework';
 import merge from 'lodash.merge';
-
-// options components
-import BorderPicker from './border-picker';
-import Checkbox from './checkbox';
-import Input from './input';
-import ImagePicker from './image-picker';
-import Combobox from './combobox';
-import NumberInput from './number-input';
-import FontPicker from './font-picker';
-import SchemaLink from './schema-link';
-import Button from './button';
-import IconPicker from './icon-picker';
-import SpacingPicker from './spacing-picker';
-import CornersPicker from './corners-picker';
-import ColorPalettePicker from './color-palette-picker';
-import ColumnsManager from './columns-manager';
-import Optional from './optional';
+import {TypesOptionsMap, TypesOptionsDefaultProps} from '../data-types/options-map';
 
 export default class OptionsList extends Component {
 
@@ -34,11 +18,11 @@ export default class OptionsList extends Component {
   }
 
   renderOption (option) {
-    if (OptionsList.optionsMap[option.type]) {
-      var Option = OptionsList.optionsMap[option.type];
+    if (TypesOptionsMap[option.type]) {
+      var Option = TypesOptionsMap[option.type];
       var value = this.props.values[option.id];
 
-      var extraProps = merge({}, OptionsList.optionsDefaultProps[option.type] || {});
+      var extraProps = merge({}, TypesOptionsDefaultProps[option.type] || {});
       merge(extraProps, option.props || {});
 
       var unlockedContent = null;
@@ -93,39 +77,4 @@ OptionsList.propTypes = {
   options: React.PropTypes.array.isRequired,
   values: React.PropTypes.object.isRequired,
   onChange: React.PropTypes.func.isRequired
-};
-
-OptionsList.optionsMap = {
-  Color: ColorPalettePicker,
-  String: Input,
-  Image: ImagePicker,
-  Select: Combobox,
-  Number: NumberInput,
-  Pixels: NumberInput,
-  Percentage: NumberInput,
-  Padding: SpacingPicker,
-  Margin: SpacingPicker,
-  Boolean: Checkbox,
-  Font: FontPicker,
-  SchemaLink,
-  Button,
-  Icon: IconPicker,
-  Corners: CornersPicker,
-  Columns: ColumnsManager,
-  Border: BorderPicker,
-  Optional
-};
-
-OptionsList.optionsDefaultProps = {
-  Percentage: {
-    min: 0,
-    max: 100,
-    label: '%'
-  },
-  Padding: {
-    type: 'padding'
-  },
-  Margin: {
-    type: 'margin'
-  }
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Component} from 'relax-framework';
 import cx from 'classnames';
-import {Types} from '../types';
+import {Types} from '../data-types';
 import Utils from '../utils';
 
 export default class ColumnsManager extends Component {

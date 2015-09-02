@@ -5,7 +5,7 @@ import OptionsList from '../../options-list';
 import Spinner from '../../spinner';
 import cx from 'classnames';
 
-import {Types} from '../../../types';
+import {Types} from '../../../data-types';
 import settingsActions from '../../../client/actions/settings';
 
 export default class Settings extends Component {

@@ -1,16 +1,14 @@
 import React from 'react';
 import {Component} from 'relax-framework';
-import Combobox from '../../../combobox';
-import Checkbox from '../../../checkbox';
-import Input from '../../../input';
-import merge from 'lodash.merge';
-import {Types, TypesProps} from '../../../../types';
-import Prop from './prop';
-import forEach from 'lodash.foreach';
 import clone from 'lodash.clone';
+import forEach from 'lodash.foreach';
+import slugify from 'slug';
+
+import Property from './property';
+import PropertyOptions from './property-options';
 
 var defaults = {
-  id: 'New prop',
+  title: 'New Property',
   type: 'String',
   required: false
 };
@@ -18,138 +16,163 @@ var defaults = {
 export default class SchemasBuilder extends Component {
   getInitialState () {
     return {
-      fields: [],
-      values: merge({}, defaults),
+      properties: [],
       selected: false
     };
   }
 
-  onAddSchemaField (event) {
+  getChildContext () {
+    return {
+      selected: this.state.selected,
+      properties: this.state.properties
+    };
+  }
+
+  findFieldById (id) {
+    var result = null;
+    forEach(this.state.properties, (property, index) => {
+      if (property.id === id) {
+        result = {
+          property,
+          index
+        };
+        return false;
+      }
+    });
+    return result;
+  }
+
+  onChange () {
+    this.props.onChange(this.state.properties);
+  }
+
+  getUniqueId (id, count = 0) {
+    if (id === '') {
+      id = 'unnamed';
+    }
+
+    id = slugify(id, {lower: true}).toLowerCase();
+
+    let currentId = count === 0 ? id : id + '-' + count;
+
+    // ensure unique
+    forEach(this.state.properties, property => {
+      if (property.id === currentId) {
+        currentId = this.getUniqueId(id, count+1);
+        return false;
+      }
+    });
+
+    return currentId;
+  }
+
+  onAddProperty (event) {
     event.preventDefault();
 
     const copy = clone(defaults);
-    this.state.fields.push(copy);
+    copy.id = this.getUniqueId(copy.title);
+
+    this.state.properties.push(copy);
 
     this.setState({
-      fields: this.state.fields,
-      selected: this.state.fields.length - 1
+      properties: this.state.properties,
+      selected: copy
     });
 
-    this.props.onChange(this.state.fields);
+    this.onChange();
   }
 
-  onChange (id, value) {
-    this.state.fields[this.state.selected][id] = value;
+  onOptionChange (id, value) {
+    this.state.selected[id] = value;
+
+    if (id === 'title') {
+      let uniqueId = this.getUniqueId(value);
+
+      // look for dependencies
+      forEach(this.state.properties, property => {
+        if (property.dependencies) {
+          forEach(property.dependencies, dependency => {
+            if (dependency.id === this.state.selected.id) {
+              dependency.id = uniqueId;
+            }
+          });
+        }
+      });
+
+      this.state.selected.id = uniqueId;
+    } else if (id === 'dependencies' && value && value.length > 0) {
+      this.state.selected.required = false;
+    }
+
     this.setState({
-      fields: this.state.fields
+      properties: this.state.properties
     });
-    this.props.onChange(this.state.fields);
+    this.onChange();
   }
 
-  onRemoveProp (index) {
-    this.state.fields.splice(index, 1);
-    this.setState({
-      fields: this.state.fields,
-      selected: false
-    });
-    this.props.onChange(this.state.fields);
+  onRemoveProperty (id) {
+    let propertyInfo = this.findFieldById(id);
+
+    if (propertyInfo) {
+      this.state.properties.splice(propertyInfo.index, 1);
+      this.setState({
+        properties: this.state.properties,
+        selected: false
+      });
+      this.onChange();
+    }
   }
 
   onEntryClick (id) {
-    this.setState({
-      selected: id
-    });
+    let propertyInfo = this.findFieldById(id);
+
+    if (propertyInfo) {
+      this.setState({
+        selected: propertyInfo.property
+      });
+    }
   }
 
-  renderFieldEntry (field, index) {
-    let selected = this.state.selected === index;
+  renderProperty (field) {
+    let selected = this.state.selected && this.state.selected.id === field.id;
     return (
-      <Prop selected={selected} prop={field} id={index} onRemove={this.onRemoveProp.bind(this)} key={index} onClick={this.onEntryClick.bind(this, index)} />
+      <Property
+        selected={selected}
+        property={field}
+        onRemove={this.onRemoveProperty.bind(this)}
+        key={field.id}
+        onClick={this.onEntryClick.bind(this, field.id)}
+      />
     );
   }
 
-  renderFields () {
+  renderProperties () {
     return (
       <div>
-        {this.renderFieldEntry({
-          id: 'Title',
+        {this.renderProperty({
+          id: 'title',
+          title: 'Title',
           type: 'String',
           required: true,
           locked: true
         })}
-        {this.renderFieldEntry({
-          id: 'Slug',
+        {this.renderProperty({
+          id: 'slug',
+          title: 'Slug',
           type: 'String',
           required: true,
           locked: true
         })}
-        {this.renderFieldEntry({
-          id: 'Date',
+        {this.renderProperty({
+          id: 'date',
+          title: 'Date',
           type: 'Date',
           required: true,
           locked: true
         })}
-        {this.state.fields.map(this.renderFieldEntry, this)}
+        {this.state.properties.map(this.renderProperty, this)}
       </div>
     );
-  }
-
-  renderOptionsProps () {
-    let values = this.state.fields[this.state.selected];
-    let props = TypesProps[values.type];
-
-    if (props) {
-      return 'extra';
-    }
-  }
-
-  renderOptions () {
-    if (this.state.selected !== false) {
-      let types = Object.keys(Types).sort();
-      let values = this.state.fields[this.state.selected];
-
-      if (values) {
-        return (
-          <div>
-            <div className='option'>
-              <div className='label'>Option id</div>
-              <Input type='text' value={values.id} label='Option id' onChange={this.onChange.bind(this, 'id')} />
-            </div>
-            <div className='option'>
-              <div className='label'>Type</div>
-              <Combobox
-                labels={types}
-                values={types}
-                onChange={this.onChange.bind(this, 'type')}
-                value={values.type}
-              />
-            </div>
-            {this.renderOptionsProps()}
-            <div className='option'>
-              <div className='label'>Is required</div>
-              <Checkbox
-                value={values.required}
-                onChange={this.onChange.bind(this, 'required')}
-              />
-            </div>
-          </div>
-        );
-      }
-    } else {
-      return (
-        <div className=''>
-          <div className='none-warning'>
-            <div className='none-icon-part'>
-              <i className='material-icons'>error_outline</i>
-            </div>
-            <div className='none-info-part'>
-              <p>Select a property on the left to edit</p>
-              <p>Or click the add new to add a new property</p>
-            </div>
-          </div>
-        </div>
-      );
-    }
   }
 
   render () {
@@ -159,8 +182,8 @@ export default class SchemasBuilder extends Component {
         <div className='schema-props-builder'>
           <div className='added'>
             <div className='info-label'>Properties</div>
-            {this.renderFields()}
-            <div className='add-field-btn' href='#' onClick={this.onAddSchemaField.bind(this)}>
+            {this.renderProperties()}
+            <div className='add-field-btn' href='#' onClick={this.onAddProperty.bind(this)}>
               <i className='material-icons'>add_circle_outline</i>
               <span>Add new property</span>
             </div>
@@ -168,7 +191,7 @@ export default class SchemasBuilder extends Component {
           <div className='create'>
             <div className='info-label'>Selected property options</div>
             <div className='create-holder'>
-              {this.renderOptions()}
+              <PropertyOptions onChange={this.onOptionChange.bind(this)} />
             </div>
           </div>
         </div>
@@ -179,4 +202,9 @@ export default class SchemasBuilder extends Component {
 
 SchemasBuilder.propTypes = {
   onChange: React.PropTypes.func.isRequired
+};
+
+SchemasBuilder.childContextTypes = {
+  selected: React.PropTypes.object.isRequired,
+  properties: React.PropTypes.array.isRequired
 };

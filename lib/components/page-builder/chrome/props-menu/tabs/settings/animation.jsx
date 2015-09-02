@@ -1,7 +1,7 @@
 import React from 'react';
 import {Component} from 'relax-framework';
 import OptionsList from '../../../../../options-list';
-import {Types} from '../../../../../../types';
+import {Types} from '../../../../../../data-types';
 import cloneDeep from 'lodash.clonedeep';
 
 export default class AnimationTab extends Component {

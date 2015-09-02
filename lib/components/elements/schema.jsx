@@ -1,6 +1,6 @@
 import React from 'react';
 import Component from '../component';
-import {Types} from '../../types';
+import {Types} from '../../data-types';
 import Element from '../element';
 import cloneDeep from 'lodash.clonedeep';
 import forEach from 'lodash.foreach';

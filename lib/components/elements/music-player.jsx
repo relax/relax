@@ -2,7 +2,7 @@ import React from 'react';
 import Component from '../component';
 import Element from '../element';
 
-import {Types} from '../../types';
+import {Types} from '../../data-types';
 import $ from 'jquery';
 import {soundManager} from 'soundmanager2';
 
