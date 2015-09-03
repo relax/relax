@@ -13,6 +13,58 @@ var defaults = {
   required: false
 };
 
+var staticProps = [
+  {
+    id: '_title',
+    title: 'Title',
+    type: 'String',
+    required: true,
+    locked: true
+  },
+  {
+    id: '_slug',
+    title: 'Slug',
+    type: 'String',
+    required: true,
+    locked: true
+  },
+  {
+    id: '_date',
+    title: 'Date',
+    type: 'Date',
+    required: true,
+    locked: true
+  },
+  {
+    id: '_date',
+    title: 'Date',
+    type: 'Date',
+    required: true,
+    locked: true
+  },
+  {
+    id: '_state',
+    title: 'State',
+    type: 'String',
+    required: true,
+    locked: true
+  },
+  {
+    id: '_publishedDate',
+    title: 'Published date',
+    type: 'Date',
+    required: true,
+    locked: true
+  },
+  {
+    id: '_data',
+    title: 'Page builder data',
+    type: 'Array',
+    required: true,
+    locked: true
+  }
+];
+
 export default class SchemasBuilder extends Component {
   getInitialState () {
     return {
@@ -149,27 +201,7 @@ export default class SchemasBuilder extends Component {
   renderProperties () {
     return (
       <div>
-        {this.renderProperty({
-          id: 'title',
-          title: 'Title',
-          type: 'String',
-          required: true,
-          locked: true
-        })}
-        {this.renderProperty({
-          id: 'slug',
-          title: 'Slug',
-          type: 'String',
-          required: true,
-          locked: true
-        })}
-        {this.renderProperty({
-          id: 'date',
-          title: 'Date',
-          type: 'Date',
-          required: true,
-          locked: true
-        })}
+        {staticProps.map(this.renderProperty, this)}
         {this.state.properties.map(this.renderProperty, this)}
       </div>
     );

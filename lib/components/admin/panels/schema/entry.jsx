@@ -38,7 +38,7 @@ export default class Entry extends Component {
 
   renderRemoving () {
     if (this.state.removing) {
-      const label = 'Are you sure you want to remove the post '+this.props.schemaItem.title+'?';
+      const label = 'Are you sure you want to remove the post '+this.props.schemaItem._title+'?';
       const label1 = 'This action cannot be reverted';
       return (
         <Lightbox className='small' header={false}>
@@ -55,11 +55,11 @@ export default class Entry extends Component {
 
   render () {
     const schemaItem = this.props.schemaItem;
-    let editLink = '/admin/schemas/'+this.props.schema.slug+'/'+schemaItem.slug;
-    let buildLink = '/admin/schema/'+this.props.schema.slug+'/'+schemaItem.slug;
-    let viewLink = '/'+this.props.schema.slug+'/'+schemaItem.slug;
-    const published = schemaItem.state === 'published';
-    let date = 'Created - ' + moment(schemaItem.date).format('MMMM Do YYYY');
+    let editLink = '/admin/schemas/'+this.props.schema.slug+'/'+schemaItem._slug;
+    let buildLink = '/admin/schema/'+this.props.schema.slug+'/'+schemaItem._slug;
+    let viewLink = '/'+this.props.schema.slug+'/'+schemaItem._slug;
+    const published = schemaItem._state === 'published';
+    let date = 'Created - ' + moment(schemaItem._date).format('MMMM Do YYYY');
 
     return (
       <div key={schemaItem._id} className='entry'>
@@ -68,14 +68,14 @@ export default class Entry extends Component {
         </div>
         <div className='info-part'>
           <div>
-            <span className='title'>{schemaItem.title}</span>
+            <span className='title'>{schemaItem._title}</span>
             <a className='sub-title' href={viewLink} target='_blank'>
               <i className='material-icons'>link</i>
               <span>{viewLink}</span>
             </a>
           </div>
           <div className='under-title'>{date}</div>
-          <div className='under-title'>{schemaItem.state}</div>
+          <div className='under-title'>{schemaItem._state}</div>
           <div className='actions'>
             <A href={editLink}>
               <i className='material-icons'>mode_edit</i>

@@ -24,7 +24,7 @@ export default class Prop extends Component {
       <div className={cx('prop-entry', this.props.selected && 'active', this.props.property.locked && 'locked')} onClick={this.props.onClick}>
         <div className='prop-info'>
           <div className='prop-title'>{this.props.property.title}</div>
-          <div className='prop-type'>{this.props.property.type}</div>
+          <div className='prop-type'>{this.props.property.id + ' - ' + this.props.property.type}</div>
         </div>
         {this.renderRemove()}
       </div>

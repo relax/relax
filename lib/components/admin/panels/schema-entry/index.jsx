@@ -27,8 +27,8 @@ export default class SchemaEntry extends Component {
     return {
       schema: this.context.schema,
       schemaEntry: this.context.schemaEntry || {
-        title: 'New',
-        state: 'draft'
+        _title: 'New',
+        _state: 'draft'
       },
       new: !(this.context.schemaEntry && this.context.schemaEntry._id),
       breadcrumbs: this.context.breadcrumbs
@@ -121,8 +121,8 @@ export default class SchemaEntry extends Component {
 
   onPublish () {
     let clone = cloneDeep(this.state.schemaEntry);
-    clone.state = 'published';
-    clone.publishedDate = new Date();
+    clone._state = 'published';
+    clone._publishedDate = new Date();
 
     this.setState({
       saving: true,
@@ -134,7 +134,7 @@ export default class SchemaEntry extends Component {
 
   onUnpublish () {
     let clone = cloneDeep(this.state.schemaEntry);
-    clone.state = 'draft';
+    clone._state = 'draft';
 
     this.setState({
       saving: true,
@@ -155,11 +155,13 @@ export default class SchemaEntry extends Component {
   onChange (values) {
     if (values.title) {
       this.state.breadcrumbs[2].label = values.title;
+      this.state.schemaEntry._title = values.title;
     }
     if (values.slug) {
       Router.prototype.navigate('/admin/schemas/'+this.context.schema.slug+'/'+values.slug, {trigger: false, replace: true});
+      this.state.schemaEntry._slug = values.slug;
     }
-    merge(this.state.schemaEntry, values);
+
     this.setState({
       schemaEntry: this.state.schemaEntry,
       breadcrumbs: this.state.breadcrumbs
@@ -205,8 +207,8 @@ export default class SchemaEntry extends Component {
 
   renderlinks () {
     if (!this.state.new) {
-      const buildLink = '/admin/schema/'+this.context.schema.slug+'/'+this.state.schemaEntry.slug;
-      const viewLink = '/'+this.context.schema.slug+'/'+this.state.schemaEntry.slug;
+      const buildLink = '/admin/schema/'+this.context.schema.slug+'/'+this.state.schemaEntry._slug;
+      const viewLink = '/'+this.context.schema.slug+'/'+this.state.schemaEntry._slug;
       return (
         <div className='links'>
           <A className='link' href={buildLink}>
@@ -223,7 +225,7 @@ export default class SchemaEntry extends Component {
   }
 
   renderActions () {
-    if (this.state.schemaEntry.state === 'published') {
+    if (this.state.schemaEntry._state === 'published') {
       return (
         <div className='actions'>
           <div className={cx('button button-primary', this.state.saving && 'disabled')} onClick={this.onUpdate.bind(this)}>Update</div>
@@ -272,9 +274,9 @@ export default class SchemaEntry extends Component {
   }
 
   render () {
-    const published = this.state.schemaEntry.state === 'published';
-    const createdDate = this.state.new ? 'Creating' : moment(this.state.schemaEntry.date).format('MMMM Do YYYY');
-    const publishedDate = !published ? 'Unpublished' : moment(this.state.schemaEntry.publishedDate).format('MMMM Do YYYY');
+    const published = this.state.schemaEntry._state === 'published';
+    const createdDate = this.state.new ? 'Creating' : moment(this.state.schemaEntry._date).format('MMMM Do YYYY');
+    const publishedDate = !published ? 'Unpublished' : moment(this.state.schemaEntry._publishedDate).format('MMMM Do YYYY');
 
     return (
       <div className='admin-schema-entry'>
@@ -285,8 +287,8 @@ export default class SchemaEntry extends Component {
           <div className='admin-scrollable'>
             <div className='white-options list'>
               <TitleSlug
-                title={this.state.schemaEntry.title}
-                slug={this.state.schemaEntry.slug}
+                title={this.state.schemaEntry._title}
+                slug={this.state.schemaEntry._slug}
                 validateSlug={this.schemaEntriesActions.validateSlug}
                 onChange={this.onChange.bind(this)}
               />
@@ -299,7 +301,7 @@ export default class SchemaEntry extends Component {
             <div className={cx('info', !published && 'alerted')}>
               <i className='material-icons'>{published ? 'cloud_queue' : 'cloud_off'}</i>
               <span>State</span>
-              <div>{this.state.schemaEntry.state}</div>
+              <div>{this.state.schemaEntry._state}</div>
             </div>
             <div className={cx('info', this.state.new && 'alerted')}>
               <i className='material-icons'>today</i>
