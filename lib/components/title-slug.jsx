@@ -48,10 +48,15 @@ export default class TitleSlug extends Component {
 
   validateSlug () {
     if (this.props.slug) {
+      this.setState({
+        slugValidating: true
+      });
+
       this.props
         .validateSlug(this.props.slug)
         .then((response) => {
           this.setState({
+            slugValidating: false,
             slugValid: !response
           });
         });
@@ -59,6 +64,8 @@ export default class TitleSlug extends Component {
   }
 
   render () {
+    let state = this.state.slugValidating ? 'loading' : (this.state.slugValid ? 'valid' : 'invalid');
+
     return (
       <div>
         <div className='option'>
@@ -67,7 +74,7 @@ export default class TitleSlug extends Component {
         </div>
         <div className='option'>
           <div className='label'>Slug</div>
-          <Input label='Slug' className={this.props.slugValid ? 'valid' : 'invalid'} type='text' onChange={this.onSlugChange.bind(this)} value={this.props.slug} />
+          <Input label='Slug' state={state} type='text' onChange={this.onSlugChange.bind(this)} value={this.props.slug} />
         </div>
       </div>
     );

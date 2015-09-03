@@ -1,6 +1,7 @@
 .input {
   .roundedCorners(2px);
   max-width: 480px;
+  position: relative;
 
   input {
     border: 0;
@@ -36,6 +37,34 @@
 
   &.disabled {
     .opacity(0.5);
+  }
+
+  .state {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 35px;
+
+    >* {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      line-height: 21px;
+      height: 21px;
+      .transform(translate(-50%, -50%));
+    }
+
+    i {
+      font-size: 16px;
+    }
+
+    &.valid i {
+      color: @success;
+    }
+    &.invalid i {
+      color: @alert;
+    }
   }
 }
 
