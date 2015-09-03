@@ -2,7 +2,7 @@ import {Component, Router} from 'relax-framework';
 import merge from 'lodash.merge';
 import forEach from 'lodash.foreach';
 import clone from 'lodash.clone';
-import cloneDeep from 'lodash.cloneDeep';
+import cloneDeep from 'lodash.clonedeep';
 import React from 'react';
 import cx from 'classnames';
 import moment from 'moment';
