@@ -7,9 +7,13 @@ import Q from 'q';
 export default class TitleSlug extends Component {
   getInitialState () {
     return {
-      slugValid: this.props.slug === '' ? false : true,
+      slugValid: this.props.slug !== '',
       hasTypedSlug: false
     };
+  }
+
+  componentDidMount () {
+    this.validateSlug();
   }
 
   componentWillUnmount () {
