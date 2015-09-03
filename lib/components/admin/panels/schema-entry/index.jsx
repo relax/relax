@@ -40,7 +40,7 @@ export default class SchemaEntry extends Component {
 
     return {
       schema: this.context.schema,
-      schemaEntry: this.context.schemaEntry || defaults,
+      schemaEntry: cloneDeep(this.context.schemaEntry) || defaults,
       new: !(this.context.schemaEntry && this.context.schemaEntry._id),
       breadcrumbs: this.context.breadcrumbs
     };
@@ -75,6 +75,7 @@ export default class SchemaEntry extends Component {
         });
         Router.prototype.navigate('/admin/schemas/'+this.context.schema.slug+'/'+schemaEntry._slug, {trigger: false, replace: true});
         this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
+        this.context.schemaEntry = cloneDeep(schemaEntry);
       })
       .catch((error) => {
         this.setState({
@@ -163,6 +164,20 @@ export default class SchemaEntry extends Component {
       schemaEntry: this.state.schemaEntry,
       breadcrumbs: this.state.breadcrumbs
     });
+  }
+
+  validateSlug (slug) {
+    if (!this.state.new) {
+      if (this.context.schemaEntry._slug === slug) {
+        return false;
+      }
+    }
+
+    if (slug === 'new') {
+      return true;
+    }
+
+    return this.schemaEntriesActions.validateSlug(slug);
   }
 
   renderProperty (property) {
@@ -286,7 +301,7 @@ export default class SchemaEntry extends Component {
               <TitleSlug
                 title={this.state.schemaEntry._title}
                 slug={this.state.schemaEntry._slug}
-                validateSlug={this.schemaEntriesActions.validateSlug}
+                validateSlug={this.validateSlug.bind(this)}
                 onChange={this.onChange.bind(this)}
               />
               {this.renderProperties()}

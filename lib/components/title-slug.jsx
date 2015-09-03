@@ -2,6 +2,7 @@ import {Component} from 'relax-framework';
 import Input from './input';
 import React from 'react';
 import slugify from 'slug';
+import Q from 'q';
 
 export default class TitleSlug extends Component {
   getInitialState () {
@@ -52,8 +53,8 @@ export default class TitleSlug extends Component {
         slugValidating: true
       });
 
-      this.props
-        .validateSlug(this.props.slug)
+      Q()
+        .then(() => this.props.validateSlug(this.props.slug))
         .then((response) => {
           this.setState({
             slugValidating: false,
