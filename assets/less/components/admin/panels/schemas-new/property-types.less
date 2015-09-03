@@ -1,0 +1,36 @@
+.property-types {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  margin-top: 20px;
+
+  >.column {
+    display: table-cell;
+    width: 33.333%;
+
+    .label {
+      font-weight: 600;
+      color: #222;
+    }
+  }
+
+  .type {
+    cursor: pointer;
+    color: #333333;
+    font-size: 12px;
+    padding: 0 10px;
+    line-height: 30px;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    .roundedCorners(3px);
+
+    &:hover {
+      background-color: #eeeeee;
+    }
+
+    &.active {
+      color: #ffffff;
+      background-color: @adminPrimary;
+    }
+  }
+}

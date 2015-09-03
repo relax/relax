@@ -134,30 +134,33 @@ export default class SchemasBuilder extends Component {
     this.onChange();
   }
 
-  onOptionChange (id, value) {
-    this.state.selected[id] = value;
+  onOptionChange (obj) {
+    forEach(obj, (value, id) => {
+      this.state.selected[id] = value;
 
-    if (id === 'title') {
-      let uniqueId = this.getUniqueId(value);
+      if (id === 'title') {
+        let uniqueId = this.getUniqueId(value);
 
-      // look for dependencies
-      forEach(this.state.properties, property => {
-        if (property.dependencies) {
-          forEach(property.dependencies, dependency => {
-            if (dependency.id === this.state.selected.id) {
-              dependency.id = uniqueId;
-            }
-          });
-        }
-      });
+        // look for dependencies
+        forEach(this.state.properties, property => {
+          if (property.dependencies) {
+            forEach(property.dependencies, dependency => {
+              if (dependency.id === this.state.selected.id) {
+                dependency.id = uniqueId;
+              }
+            });
+          }
+        });
 
-      this.state.selected.id = uniqueId;
-    } else if (id === 'dependencies' && value && value.length > 0) {
-      this.state.selected.required = false;
-    }
+        this.state.selected.id = uniqueId;
+      } else if (id === 'dependencies' && value && value.length > 0) {
+        this.state.selected.required = false;
+      }
+    });
 
     this.setState({
-      properties: this.state.properties
+      properties: this.state.properties,
+      selected: this.state.selected
     });
     this.onChange();
   }

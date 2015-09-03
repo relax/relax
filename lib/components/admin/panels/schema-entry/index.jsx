@@ -24,12 +24,23 @@ export default class SchemaEntry extends Component {
     schemaEntriesStoreFactory(this.context.schema.slug);
     this.schemaEntriesActions = schemaEntriesActionsFactory(this.context.schema.slug);
 
+    let defaults = {
+      _title: 'New',
+      _slug: 'new',
+      _state: 'draft'
+    };
+
+    if (this.context.schema && this.context.schema.properties && this.context.schema.properties.length > 0) {
+      forEach(this.context.schema.properties, (property) => {
+        if (property.default !== null) {
+          defaults[property.id] = property.default;
+        }
+      });
+    }
+
     return {
       schema: this.context.schema,
-      schemaEntry: this.context.schemaEntry || {
-        _title: 'New',
-        _state: 'draft'
-      },
+      schemaEntry: this.context.schemaEntry || defaults,
       new: !(this.context.schemaEntry && this.context.schemaEntry._id),
       breadcrumbs: this.context.breadcrumbs
     };
