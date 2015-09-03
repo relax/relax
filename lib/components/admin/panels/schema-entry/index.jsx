@@ -57,44 +57,31 @@ export default class SchemaEntry extends Component {
       clearTimeout(this.successTimeout);
     }
 
+    let action;
     if (this.state.new) {
-      this.schemaEntriesActions
-        .add(data)
-        .then((schemaEntry) => {
-          this.setState({
-            saving: false,
-            schemaEntry,
-            success: true,
-            error: false,
-            new: false
-          });
-          this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
-        })
-        .catch((error) => {
-          this.setState({
-            saving: false,
-            error: true
-          });
-        });
+      action = this.schemaEntriesActions.add;
     } else {
-      this.schemaEntriesActions
-        .update(data)
-        .then((schemaEntry) => {
-          this.setState({
-            saving: false,
-            schemaEntry,
-            success: true,
-            error: false
-          });
-          this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
-        })
-        .catch((error) => {
-          this.setState({
-            saving: false,
-            error: true
-          });
-        });
+      action = this.schemaEntriesActions.update;
     }
+
+    action(data)
+      .then((schemaEntry) => {
+        this.setState({
+          saving: false,
+          schemaEntry,
+          success: true,
+          error: false,
+          new: false
+        });
+        Router.prototype.navigate('/admin/schemas/'+this.context.schema.slug+'/'+schemaEntry._slug, {trigger: false, replace: true});
+        this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
+      })
+      .catch((error) => {
+        this.setState({
+          saving: false,
+          error: true
+        });
+      });
   }
 
   successOut () {
@@ -169,7 +156,6 @@ export default class SchemaEntry extends Component {
       this.state.schemaEntry._title = values.title;
     }
     if (values.slug) {
-      Router.prototype.navigate('/admin/schemas/'+this.context.schema.slug+'/'+values.slug, {trigger: false, replace: true});
       this.state.schemaEntry._slug = values.slug;
     }
 
