@@ -13,6 +13,16 @@
         line-height: 31px;
         color: #fff;
         font-size: 21px;
+        span.switch {
+          cursor: pointer;
+          margin-left: 20px;
+          font-size: 14px;
+          color: #cccccc;
+          text-decoration: underline;
+          &:hover {
+            color: @adminPrimary;
+          }
+        }
       }
       .button {
         float: right;
@@ -39,6 +49,9 @@
 
   .page-builder-canvas {
     background-color: transparent;
+    .body-element {
+      box-shadow: none;
+    }
   }
 
   .advanced-menu {
@@ -51,6 +64,22 @@
 
     .menu-triggers {
       display: none;
+    }
+  }
+}
+
+.switched {
+  .schema-module-builder.page-builder .schema-module-builder-wrapper {
+    >.header {
+      .title {
+        color: #333333;
+        span.switch {
+          color: #999999;
+          &:hover {
+            color: @adminPrimary;
+          }
+        }
+      }
     }
   }
 }

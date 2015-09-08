@@ -1,6 +1,7 @@
 import React from 'react';
 import {Component} from 'relax-framework';
 import Animate from './animate';
+import cx from 'classnames';
 
 export default class Overlay extends Component {
   renderClose () {
@@ -15,7 +16,7 @@ export default class Overlay extends Component {
 
   render () {
     return (
-      <div className='big-overlay'>
+      <div className={cx('big-overlay', this.props.switch && 'switched')}>
         <Animate transition='fadeIn'>
           <div className='background'></div>
         </Animate>
@@ -34,12 +35,14 @@ Overlay.contextTypes = {
   closeOverlay: React.PropTypes.func.isRequired
 };
 
-Overlay.defaultProps = {
+Overlay.propTypes = {
   transition: React.PropTypes.string,
-  closable: React.PropTypes.bool
+  closable: React.PropTypes.bool,
+  switch: React.PropTypes.bool
 };
 
 Overlay.defaultProps = {
   transition: 'slideUpIn',
-  closable: true
+  closable: true,
+  switch: false
 };

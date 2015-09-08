@@ -15,7 +15,7 @@ export default class Edit extends Component {
 
   render () {
     return (
-      <SchemaModuleBuilder data={this.props.data} onSave={this.props.onSave} onClose={this.props.onClose} />
+      <SchemaModuleBuilder data={this.props.data} onSave={this.props.onSave} onClose={this.props.onClose} onSwitch={this.props.onSwitch} />
     );
   }
 }
@@ -30,5 +30,6 @@ Edit.childContextTypes = {
 Edit.propTypes = {
   data: React.PropTypes.object.isRequired,
   onSave: React.PropTypes.func.isRequired,
-  onClose: React.PropTypes.func.isRequired
+  onClose: React.PropTypes.func.isRequired,
+  onSwitch: React.PropTypes.func.isRequired
 };

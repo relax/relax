@@ -115,9 +115,14 @@ export default class Schema extends Component {
       <Edit
         onSave={this.onSave.bind(this)}
         onClose={this.onClose.bind(this)}
+        onSwitch={this.context.switchOverlayBackground}
         data={this.props.model || {}}
       />
-    ), {transition: 'fadeIn', closable: false});
+    ), {
+      transition: 'fadeIn',
+      closable: false,
+      switch: this.props.model.switchBackground
+    });
   }
 
   renderCover () {
@@ -183,7 +188,8 @@ Schema.contextTypes = {
   editing: React.PropTypes.bool.isRequired,
   addOverlay: React.PropTypes.func,
   closeOverlay: React.PropTypes.func,
-  onPropChange: React.PropTypes.func
+  onPropChange: React.PropTypes.func,
+  switchOverlayBackground: React.PropTypes.func
 };
 Schema.propTypes = {};
 Schema.defaultProps = {};

@@ -48,6 +48,11 @@ class SchemaModuleBuilder extends Component {
     });
   }
 
+  onSwitch () {
+    this.context.page.switchBackground = this.context.page.switchBackground === true ? false : true;
+    this.props.onSwitch();
+  }
+
   renderPossibilities () {
     if (this.state.possibilities) {
       return (
@@ -98,7 +103,7 @@ class SchemaModuleBuilder extends Component {
     return (
       <div className='schema-module-builder-wrapper'>
         <div className='header'>
-          <div className='title'>Create the model to be replicated for each entry</div>
+          <div className='title'>Create the model to be replicated for each entry <span className='switch' onClick={this.onSwitch.bind(this)}>Switch background</span></div>
           <div className='button button-primary' onClick={this.onSave.bind(this)}>Save model</div>
           <div className='button button-faded-grey' onClick={this.props.onClose}>Close without saving</div>
         </div>

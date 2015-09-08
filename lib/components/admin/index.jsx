@@ -15,6 +15,7 @@ export default class Admin extends Component {
     this.previewToggleBind = this.previewToggle.bind(this);
     this.addOverlayBind = this.addOverlay.bind(this);
     this.closeOverlayBind = this.closeOverlay.bind(this);
+    this.switchOverlayBackgroundBind = this.switchOverlayBackground.bind(this);
 
     return {
       display: 'desktop',
@@ -63,7 +64,8 @@ export default class Admin extends Component {
       tabs: this.props.tabs,
       lastDashboard: this.state.lastDashboard,
       addOverlay: this.addOverlayBind,
-      closeOverlay: this.closeOverlayBind
+      closeOverlay: this.closeOverlayBind,
+      switchOverlayBackground: this.switchOverlayBackgroundBind
     };
   }
 
@@ -95,6 +97,13 @@ export default class Admin extends Component {
   closeOverlay () {
     this.setState({
       overlay: false
+    });
+  }
+
+  switchOverlayBackground () {
+    this.state.overlayProps.switch = this.state.overlayProps.switch === true ? false : true;
+    this.setState({
+      overlayProps: this.state.overlayProps
     });
   }
 
@@ -166,5 +175,6 @@ Admin.childContextTypes = {
   tabs: React.PropTypes.array,
   lastDashboard: React.PropTypes.string,
   addOverlay: React.PropTypes.func,
-  closeOverlay: React.PropTypes.func
+  closeOverlay: React.PropTypes.func,
+  switchOverlayBackground: React.PropTypes.func,
 };
