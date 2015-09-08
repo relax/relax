@@ -73,7 +73,7 @@ export default class Schema extends Component {
   }
 
   alterProps (data, schemaEntry) {
-    forEach(data, (element) => {
+    forEach(data, (element, index) => {
       element.props = element.props || {};
 
       if (this.state.elementsLinks[element.id]) {
@@ -82,14 +82,18 @@ export default class Schema extends Component {
             element.children = schemaEntry[link.propertyId];
           } else if (link.action === 'setting') {
             element.props[link.actionExtra] = schemaEntry[link.propertyId];
+          } else if (link.action === 'display' && schemaEntry[link.propertyId] === false) {
+            element.display = false;
           }
         });
       }
 
-      element.id = this.props.element.id + '.' + element.id;
+      if (element.display !== false) {
+        element.id = this.props.element.id + '.' + element.id;
 
-      if (element.children && element.children instanceof Array && element.children.length > 0) {
-        this.alterProps(element.children, schemaEntry);
+        if (element.children && element.children instanceof Array && element.children.length > 0) {
+          this.alterProps(element.children, schemaEntry);
+        }
       }
     });
   }

@@ -84,7 +84,7 @@ export default class Canvas extends Component {
   }
 
   renderElement (element) {
-    if (!element.hide || !element.hide[this.context.display]) {
+    if ((!element.hide || !element.hide[this.context.display]) && element.display !== false) {
       var FactoredElement = this.context.elements[element.tag];
       var selected = this.context.selected && this.context.selected.id === element.id;
 
@@ -116,7 +116,7 @@ export default class Canvas extends Component {
       margin: '0 auto',
       maxWidth: displays[this.context.display]
     };
-    
+
     return (
       <div>
         <div className='page-builder-canvas' onContextMenu={this.onContextMenu.bind(this)} ref='canvas'>

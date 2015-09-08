@@ -185,6 +185,7 @@ export default class SchemaEntry extends Component {
     let show = true;
     if (property.dependencies && property.dependencies.length > 0) {
       forEach(property.dependencies, dependency => {
+        dependency.value = dependency.value === 'true' ? true : dependency.value;
         if (this.state.schemaEntry[dependency.id] !== dependency.value) {
           show = false;
           return false;
