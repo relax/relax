@@ -24,6 +24,9 @@ export default class Pages extends Component {
   }
 
   onAddNew (values) {
+    this.setState({
+      state: 'loading'
+    });
     pageActions
       .add({
         title: values.title,
@@ -31,7 +34,13 @@ export default class Pages extends Component {
       })
       .then(() => {
         this.setState({
-          lightbox: false
+          lightbox: false,
+          state: false
+        });
+      })
+      .catch(() => {
+        this.setState({
+          state: 'error'
         });
       });
   }
@@ -53,7 +62,7 @@ export default class Pages extends Component {
     if (this.state.lightbox) {
       return (
         <Lightbox className='small' title='Create page' onClose={this.closeLightbox.bind(this)}>
-          <Manage onSubmit={this.onAddNew.bind(this)} />
+          <Manage onSubmit={this.onAddNew.bind(this)} state={this.state.state} />
         </Lightbox>
       );
     }

@@ -1,9 +1,11 @@
 import React from 'react';
-import {Component} from 'relax-framework';
+import {Component, Router} from 'relax-framework';
 import cx from 'classnames';
 
 import NewPage from '../../panels/pages/manage';
 import List from './list';
+
+import pageActions from '../../../../client/actions/page';
 
 export default class AddOverlay extends Component {
   getInitialState () {
@@ -19,7 +21,24 @@ export default class AddOverlay extends Component {
   }
 
   addNewPage (pageData) {
+    this.setState({
+      state: 'loading'
+    });
 
+    pageActions
+      .add({
+        title: pageData.title,
+        slug: pageData.slug
+      })
+      .then((page) => {
+        this.props.onClose();
+        Router.prototype.navigate('/admin/page/'+page.slug, {trigger: true});
+      })
+      .catch(() => {
+        this.setState({
+          state: 'error'
+        });
+      });
   }
 
   changeContent (content, event) {
@@ -31,7 +50,7 @@ export default class AddOverlay extends Component {
 
   renderContent () {
     if (this.state.content === 'new') {
-      return <NewPage onSubmit={this.addNewPage.bind(this)} />;
+      return <NewPage onSubmit={this.addNewPage.bind(this)} state={this.state.state} />;
     } else {
       return <List />;
     }
