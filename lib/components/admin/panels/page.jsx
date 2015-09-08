@@ -5,7 +5,7 @@ import PageBuilder from '../../page-builder';
 export default class Page extends Component {
   render () {
     return (
-      <PageBuilder page={this.context.page} />
+      <PageBuilder data={this.context.page || {}} />
     );
   }
 }

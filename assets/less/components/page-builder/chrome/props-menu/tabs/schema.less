@@ -1,0 +1,125 @@
+.schema-properties {
+  .table {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+
+    >* {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+
+  .property {
+    margin-top: 25px;
+    padding-left: 15px;
+  }
+
+  .link {
+    width: 30px;
+
+    span {
+      display: inline-block;
+      cursor: pointer;
+      width: 15px;
+      height: 15px;
+      border: 3px solid #ff0000;
+      border-radius: 8px;
+    }
+  }
+
+  .title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #efefef;
+  }
+  .type {
+    font-size: 11px;
+    color: #cccccc;
+  }
+
+  .linked-info {
+    margin-left: 29px;
+    margin-top: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-left: 1px dashed #333;
+  }
+  .linked-info-option {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .linked {
+    border: 1px solid #333333;
+    border-radius: 2px;
+    padding: 10px;
+    margin-bottom: 10px;
+    position: relative;
+
+    .delete {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      display: inline-block;
+      cursor: pointer;
+      i {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        font-size: 18px;
+        color: @alertDarker;
+      }
+      &:hover {
+        i {
+          color: @alert;
+        }
+      }
+    }
+
+    .element-info {
+      margin-bottom: 15px;
+      padding-left: 10px;
+      i, span {
+        display: inline-block;
+        vertical-align: top;
+        line-height: 20px;
+      }
+      i {
+        font-size: 16px;
+      }
+      span {
+        font-size: 13px;
+        padding-left: 10px;
+      }
+    }
+
+    .actions {
+      padding-left: 10px;
+      span {
+        display: inline-block;
+        vertical-align: top;
+        color: #333333;
+        font-size: 13px;
+      }
+      :not(.action) {
+        padding: 0 10px;
+      }
+      .action {
+        color: #cccccc;
+        cursor: pointer;
+
+        &:hover {
+          color: #ffffff;
+        }
+        &.active {
+          color: @adminPrimary;
+        }
+      }
+    }
+
+    .extra-option {
+      margin-top: 15px;
+    }
+  }
+}

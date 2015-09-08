@@ -109,7 +109,7 @@ export default class Element extends Component {
     if (!this.context.dragging) {
       event.stopPropagation();
       clearTimeout(this.outTimeout);
-      if (this.props.element.id !== this.context.overedElement.id && this.props.element.id !== this.context.selected.id) {
+      if (!this.isOvered() && !this.isSelected()) {
         var offset = this.getOffset();
         this.context.overElement(this.props.element.id);
         this.state.offset = offset;
@@ -118,13 +118,21 @@ export default class Element extends Component {
   }
 
   onMouseOut () {
-    if (!this.context.dragging && this.props.element.id === this.context.overedElement.id) {
+    if (!this.context.dragging && this.isOvered()) {
       this.outTimeout = setTimeout(this.selectOut.bind(this), 50);
     }
   }
 
   selectOut () {
     this.context.outElement(this.props.element.id);
+  }
+
+  isOvered () {
+    return (this.context.overedElement && this.props.element.id === this.context.overedElement.id);
+  }
+
+  isSelected () {
+    return (this.context.selected && this.props.element.id === this.context.selected.id);
   }
 
   renderContent () {
@@ -148,11 +156,12 @@ export default class Element extends Component {
       var className;
       var dropHighlight = this._reactInternalInstance._context.dropHighlight; // # TODO modify when react passes context from owner-based to parent-based (0.14?)
 
-      if (!this.context.dragging && (this.props.element.id === this.context.overedElement.id || this.props.element.id === this.context.selected.id)) {
+      const overed = this.isOvered();
+      const selected = this.isSelected();
+
+      if (!this.context.dragging && (overed || selected)) {
         var elementType = this.props.element.tag;
         var element = this.context.elements[elementType];
-
-        let selected = this.props.element.id === this.context.selected.id;
         let inside = this.state.offset.top <= 65 || (this.props.style && this.props.style.overflow === 'hidden');
         let subComponent = this.props.element.subComponent;
 
@@ -182,7 +191,10 @@ export default class Element extends Component {
     });
 
     if (this.context.editing && this.props.settings.drag) {
-      if ((!this.context.dragging && (this.props.element.id === this.context.overedElement.id || this.props.element.id === this.context.selected.id)) || this.context.dragging) {
+      const overed = this.isOvered();
+      const selected = this.isSelected();
+
+      if ((!this.context.dragging && (overed || selected)) || this.context.dragging) {
         props.style = props.style || {};
         props.style.position = props.style.position || 'relative';
       }

@@ -3,6 +3,7 @@ import {Component} from 'relax-framework';
 import TopMenu from './top-menu';
 import MenuBar from './menu-bar';
 import Backbone from 'backbone';
+import cx from 'classnames';
 
 import panels from './panels';
 import Overlay from '../overlay';
@@ -84,9 +85,10 @@ export default class Admin extends Component {
     });
   }
 
-  addOverlay (overlay) {
+  addOverlay (overlay, overlayProps = {}) {
     this.setState({
-      overlay
+      overlay,
+      overlayProps
     });
   }
 
@@ -108,7 +110,7 @@ export default class Admin extends Component {
   renderOverlay () {
     if (this.state.overlay !== false) {
       return (
-        <Overlay>
+        <Overlay {...this.state.overlayProps}>
           {React.cloneElement(this.state.overlay, {onClose: this.closeOverlayBind})}
         </Overlay>
       );
@@ -118,11 +120,13 @@ export default class Admin extends Component {
   render () {
     return (
       <div>
-        <TopMenu />
-        <div className='admin-holder'>
-          {!this.props.page && <MenuBar />}
-          <div className='admin-content'>
-            {this.renderActivePanel()}
+        <div className={cx('blurr', this.state.overlay !== false && 'blurred')}>
+          <TopMenu />
+          <div className='admin-holder'>
+            {!this.props.page && <MenuBar />}
+            <div className='admin-content'>
+              {this.renderActivePanel()}
+            </div>
           </div>
         </div>
         {this.renderOverlay()}

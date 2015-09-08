@@ -13,6 +13,17 @@ p {
   font-size: 15px;
 }
 
+.blurr {
+  -webkit-filter: blur(0px);
+  filter: blur(0px);
+}
+
+.blurred {
+  .transition(0.4s);
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
+}
+
 .admin-holder {
   position: absolute;
   top: @pageBuilderTopMenuHeight;

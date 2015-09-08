@@ -119,7 +119,6 @@ export default class SchemaLink extends Component {
   }
 }
 
-
 SchemaLink.defaultProps = {
   value: {}
 };

@@ -8,7 +8,7 @@ export default class PropsMenu extends Component {
 
   getInitialState () {
     return {
-      tab: 'style',
+      tab: this.context.useSchema ? 'schema' : 'style',
       switchSide: false,
       opened: null
     };
@@ -45,7 +45,8 @@ export default class PropsMenu extends Component {
 
   renderTabs () {
     return (
-      <div className='tabs'>
+      <div className={cx('tabs', this.context.useSchema && 'with-schema')}>
+        {this.context.useSchema && this.renderTabButton('schema')}
         {this.renderTabButton('style')}
         {this.renderTabButton('settings')}
         {this.renderTabButton('layers')}
@@ -96,5 +97,6 @@ PropsMenu.propTypes = {
 };
 
 PropsMenu.contextTypes = {
-  selected: React.PropTypes.any.isRequired
+  selected: React.PropTypes.any.isRequired,
+  useSchema: React.PropTypes.bool
 };
