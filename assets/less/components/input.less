@@ -23,6 +23,14 @@
     }
   }
 
+  &.block {
+    max-width: none;
+    display: block;
+    input {
+      max-width: none;
+    }
+  }
+
   &.big {
     input {
       font-size: 17px;
@@ -38,6 +46,12 @@
 
   &.disabled {
     .opacity(0.5);
+  }
+
+  &.with-state {
+    input {
+      padding-right: 34px;
+    }
   }
 
   .state {

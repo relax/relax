@@ -45,7 +45,7 @@ export default class Input extends Component {
 
   render () {
     return (
-      <div className={classNames('input', this.props.disabled && 'disabled', this.props.className)}>
+      <div className={classNames('input', this.props.disabled && 'disabled', this.props.className, this.props.state && 'with-state')}>
         <input type={this.props.password ? 'password' : 'text'} value={this.props.value} disabled={this.props.disabled} onChange={this.onChange.bind(this)} ref='input' placeholder={this.props.placeholder || ''} />
         {this.renderState()}
       </div>

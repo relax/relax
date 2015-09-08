@@ -3,7 +3,7 @@ import CustomFonts from './custom-fonts';
 import FontsList from './fonts-list';
 import merge from 'lodash.merge';
 import React from 'react';
-import InputValidation from '../../../input-validation';
+import Input from '../../../input';
 import Lightbox from '../../../lightbox';
 import forEach from 'lodash.foreach';
 import Q from 'q';
@@ -355,7 +355,7 @@ export default class Fonts extends Component {
       return (
         <div>
           <h2 className='option_label'>{currentTab.label}</h2>
-          <InputValidation valid={input.valid} value={input.input} onChange={this.changedInput.bind(this)} />
+          <Input state={input.valid ? 'valid' : 'invalid'} value={input.input} onChange={this.changedInput.bind(this)} className='block' />
         </div>
       );
     }
