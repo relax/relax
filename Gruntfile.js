@@ -86,6 +86,14 @@ module.exports = function (grunt) {
         }
       }
     },
+    copy: {
+      main: {
+        expand: true,
+        cwd: 'assets/images/',
+        src: '**',
+        dest: 'public/images/'
+      }
+    },
     uglify: {
       production: {
         files: {
@@ -135,16 +143,18 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-nodemon');
 
   grunt.registerTask('default', ['test', 'build']);
   grunt.registerTask('build', ['build:development']);
-  grunt.registerTask('build:production', ['build:css:production', 'build:js:production']);
-  grunt.registerTask('build:development', ['build:css:development', 'build:js:development']);
+  grunt.registerTask('build:production', ['build:css:production', 'build:js:production', 'build:copy']);
+  grunt.registerTask('build:development', ['build:css:development', 'build:js:development', 'build:copy']);
   grunt.registerTask('build:css:development', ['less:development']);
   grunt.registerTask('build:css:production', ['less:production']);
   grunt.registerTask('build:js:development', ['browserify:common', 'browserify:development']);
   grunt.registerTask('build:js:production', ['browserify:common', 'browserify:production', 'uglify']);
+  grunt.registerTask('build:copy', ['copy']);
   grunt.registerTask('dev', ['build:development', 'concurrent:dev']);
 };
