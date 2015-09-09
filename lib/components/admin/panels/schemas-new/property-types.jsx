@@ -1,32 +1,57 @@
 import React from 'react';
 import {Component} from 'relax-framework';
-import {schemaTypes} from '../../../../data-types';
+import {schemaTypesOrdered} from '../../../../data-types';
 import cx from 'classnames';
 
 export default class PropertyTypes extends Component {
+  getInitialState () {
+    return {
+      expanded: false
+    };
+  }
+
   onClick (type) {
     this.props.onChange(type);
   }
 
+  toggleMore () {
+    this.setState({
+      expanded: !this.state.expanded
+    });
+  }
+
   renderType (type, index) {
     return (
-      <div className={cx('type', this.props.value === type && 'active')} onClick={this.onClick.bind(this, type)} key={index}>{type}</div>
+      <div className={cx('type', this.props.value === type && 'active')} onClick={this.onClick.bind(this, type)} key={type}>{type}</div>
     );
   }
 
-  renderColumn (data, index) {
-    return (
-      <div className='column' key={index}>
-        <div className='label'>{data.label}</div>
-        {data.types.map(this.renderType, this)}
-      </div>
-    );
+  renderExpanded () {
+    if (this.state.expanded) {
+      return (
+        <div className='advanced-types'>
+          <div className='toggle-more' key='toggle-more' onClick={this.toggleMore.bind(this)}>
+            <span>Hide advanced options</span>
+            <i className='material-icons'>expand_more</i>
+          </div>
+          {schemaTypesOrdered.more.map(this.renderType, this)}
+        </div>
+      );
+    } else {
+      return (
+        <div className='toggle-more' onClick={this.toggleMore.bind(this)}>
+          <span>Show advanced options</span>
+          <i className='material-icons'>expand_less</i>
+        </div>
+      );
+    }
   }
 
   render () {
     return (
       <div className='property-types'>
-        {schemaTypes.map(this.renderColumn, this)}
+        {schemaTypesOrdered.common.map(this.renderType, this)}
+        {this.renderExpanded()}
       </div>
     );
   }

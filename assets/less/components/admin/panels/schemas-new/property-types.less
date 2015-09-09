@@ -3,16 +3,7 @@
   width: 100%;
   table-layout: fixed;
   margin-top: 20px;
-
-  >.column {
-    display: table-cell;
-    width: 33.333%;
-
-    .label {
-      font-weight: 600;
-      color: #222;
-    }
-  }
+  padding: 0 10px;
 
   .type {
     cursor: pointer;
@@ -21,8 +12,11 @@
     padding: 0 10px;
     line-height: 30px;
     margin-bottom: 5px;
-    margin-right: 20px;
     .roundedCorners(3px);
+
+    display: inline-block;
+    width: 30%;
+    margin-right: 3.3333%;
 
     &:hover {
       background-color: #eeeeee;
@@ -31,6 +25,34 @@
     &.active {
       color: #ffffff;
       background-color: @adminPrimary;
+    }
+  }
+
+  .toggle-more {
+    cursor: pointer;
+    padding: 8px 15px;
+    text-decoration: none;
+    font-size: 12px;
+    line-height: 15px;
+    color: #666666;
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    background-color: #F7F7F7;
+    border-radius: 3px;
+
+    i {
+      float: right;
+      line-height: 19px;
+      color: #666666;
+      font-size: 14px;
+    }
+
+    &:hover {
+      color: @adminPrimary;
+      i {
+        color: @adminPrimary;
+      }
     }
   }
 }
