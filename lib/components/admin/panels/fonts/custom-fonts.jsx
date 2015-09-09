@@ -24,14 +24,14 @@ export default class CustomFonts extends Component {
     event.preventDefault();
 
     // Validation of parameters
-    if(this.state.titleInput === ""){
+    if (this.state.titleInput === "") {
       this.setState({
         customError: "Fill in your custom font family title"
       });
       return;
     }
 
-    if(this.state.files.length === 0){
+    if (this.state.files.length === 0) {
       this.setState({
         customError: "You haven't upload any font file"
       });
@@ -43,12 +43,12 @@ export default class CustomFonts extends Component {
     var filesInfo = [];
     var files = this.state.files;
     var re = /(?:\.([^.]+))?$/;
-    for(var i = 0; i < files.length; i++){
+    for (var i = 0; i < files.length; i++) {
       const file = files[i];
-      if(file.name && file.xhr && file.xhr.response){
+      if (file.name && file.xhr && file.xhr.response) {
         const type = re.exec(file.name)[1];
 
-        if(type !== undefined){
+        if (type !== undefined) {
           types.push(type);
         }
 
@@ -62,7 +62,7 @@ export default class CustomFonts extends Component {
 
     // At least woff is needed
     var woff = types.indexOf("woff");
-    if(woff === -1){
+    if (woff === -1) {
       this.setState({
         customError: "You need to upload the .woff font file type"
       });
@@ -71,7 +71,7 @@ export default class CustomFonts extends Component {
 
     // .eot needed for ie9
     var eot = types.indexOf("eot");
-    if(eot === -1){
+    if (eot === -1) {
       this.setState({
         customError: "You need to upload the .eot font file as well to support IE9"
       });
@@ -80,7 +80,7 @@ export default class CustomFonts extends Component {
 
     // .ttf
     var ttf = types.indexOf("ttf");
-    if(ttf === -1){
+    if (ttf === -1) {
       this.setState({
         customError: "Upload the ttf format to support Safari, Android and iOS"
       });
@@ -118,21 +118,21 @@ export default class CustomFonts extends Component {
   customFontFileRemove (file) {
     var files = this.state.files;
     var index = -1;
-    for(var i = 0; i < files.length; i++){
-      if(files[i].name === file.name){
+    for (var i = 0; i < files.length; i++) {
+      if (files[i].name === file.name) {
         index = i;
         break;
       }
     }
 
-    if(index !== -1){
+    if (index !== -1) {
       this.state.files.splice(index, 1);
       this.refs.uploadedFonts.querySelector(file.previewElement).remove();
     }
   }
 
   renderList () {
-    if(this.props.customFonts && this.props.customFonts.length > 0){
+    if (this.props.customFonts && this.props.customFonts.length > 0) {
       var customFonts = [];
 
       forEach(this.props.customFonts, (customFont) => {
@@ -154,7 +154,7 @@ export default class CustomFonts extends Component {
   }
 
   renderCover () {
-    if(this.state.customLoading){
+    if (this.state.customLoading) {
       return (
         <div className='tons-list-cover'>
           <p>Loading your fonts</p>
@@ -164,7 +164,7 @@ export default class CustomFonts extends Component {
   }
 
   renderError () {
-    if(this.state.customError !== false){
+    if (this.state.customError !== false) {
       return (
         <span>{this.state.customError}</span>
       );

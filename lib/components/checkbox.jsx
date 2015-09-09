@@ -6,7 +6,7 @@ export default class Checkbox extends Component {
   toggle (event) {
     event.preventDefault();
 
-    if(!this.props.disabled && this.props.onChange){
+    if (!this.props.disabled && this.props.onChange) {
       this.props.onChange(!this.props.value);
     }
   }

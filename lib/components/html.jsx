@@ -3,7 +3,7 @@ import React from 'react';
 export default class Html extends React.Component {
   renderTag (tag) {
     tag.props = tag.props || {};
-    if(tag.content){
+    if (tag.content) {
       tag.props.dangerouslySetInnerHTML = {__html: tag.content};
     }
     return (
@@ -12,13 +12,13 @@ export default class Html extends React.Component {
   }
 
   renderHeader () {
-    if(this.props.props && this.props.props._locals && this.props.props._locals.header){
+    if (this.props.props && this.props.props._locals && this.props.props._locals.header) {
       return this.props.props._locals.header.map(this.renderTag, this);
     }
   }
 
   renderFooter () {
-    if(this.props.props && this.props.props._locals && this.props.props._locals.footer){
+    if (this.props.props && this.props.props._locals && this.props.props._locals.footer) {
       return this.props.props._locals.footer.map(this.renderTag, this);
     }
   }

@@ -56,7 +56,7 @@ export class Draggable extends Component {
 
     dragReport.dragInfo = this.props.dragInfo;
 
-    if(this.props.droppableOn){
+    if (this.props.droppableOn) {
       draggingData.droppableOn = this.props.droppableOn;
     }
 

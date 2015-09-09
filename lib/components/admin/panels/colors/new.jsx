@@ -30,14 +30,14 @@ export default class NewColor extends Component {
   addNew (event) {
     event.preventDefault();
 
-    if(this.props.selected){
+    if (this.props.selected) {
       ColorActions.update({
         _id: this.props.selected._id,
         value: this.state.colorInput,
         label: this.state.titleInput
       });
     }
-    else{
+    else {
       ColorActions
         .add({
           label: this.state.titleInput,
@@ -56,7 +56,7 @@ export default class NewColor extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if(nextProps.selected) {
+    if (nextProps.selected) {
       this.setState({
         title: 'Editing '+nextProps.selected.label+' color',
         titleInput: nextProps.selected.label,
@@ -64,13 +64,13 @@ export default class NewColor extends Component {
         button: 'Change'
       });
     }
-    else if(this.props.selected){
+    else if (this.props.selected) {
       this.setState(this.getInitialState());
     }
   }
 
   renderRemoveButton () {
-    if(this.props.selected){
+    if (this.props.selected) {
       return (
         <a href='#' key='remove' className='button button-alert' onClick={this.remove.bind(this)}>Remove</a>
       );

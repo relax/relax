@@ -25,7 +25,7 @@ export default class MediaSelector extends Component {
       selected: id
     });
 
-    if(this.props.onChange){
+    if (this.props.onChange) {
       this.props.onChange(id);
     }
   }
@@ -38,7 +38,7 @@ export default class MediaSelector extends Component {
   renderMediaItem (item) {
     var className = 'ms-item';
 
-    if(item._id === this.state.selected){
+    if (item._id === this.state.selected) {
       className += ' selected';
     }
 

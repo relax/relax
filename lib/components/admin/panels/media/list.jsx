@@ -12,7 +12,7 @@ export default class MediaList extends Component {
     var date = moment(data.date).format("Do MMMM YYYY");
     var className = 'entry';
 
-    if(this.props.selected.indexOf(data._id) !== -1){
+    if (this.props.selected.indexOf(data._id) !== -1) {
       className += ' active';
     }
 

@@ -89,7 +89,7 @@ export default class GeneralElementsMenu extends Component {
       type: label
     };
 
-    if(element.settings && element.settings.drag){
+    if (element.settings && element.settings.drag) {
       merge(props, element.settings.drag);
     }
 
@@ -118,7 +118,7 @@ export default class GeneralElementsMenu extends Component {
             element
           });
         }
-      } else if (category === 'other' && this.elementAcceptable(index, element)){
+      } else if (category === 'other' && this.elementAcceptable(index, element)) {
         elements.push({
           label: index,
           element

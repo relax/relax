@@ -3,10 +3,10 @@ import {Component} from 'relax-framework';
 
 export default class Numeric extends Component {
   limitValue (value) {
-    if(value < this.props.min){
+    if (value < this.props.min) {
       value = this.props.min;
     }
-    if(value > this.props.max){
+    if (value > this.props.max) {
       value = this.props.max;
     }
 
@@ -14,13 +14,13 @@ export default class Numeric extends Component {
   }
 
   onInputChanged (event) {
-    if(!isNaN(event.target.value)){
+    if (!isNaN(event.target.value)) {
       this.props.onChange(this.limitValue(parseFloat(event.target.value, 10)));
     }
   }
 
   onBlur () {
-    if(isNaN(this.props.value)){
+    if (isNaN(this.props.value)) {
       this.props.onChange(this.limitValue(0));
     }
   }

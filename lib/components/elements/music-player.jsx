@@ -75,7 +75,7 @@ export default class MusicPlayer extends Component {
 
     var secondsPassed = Math.round(this.sound.duration/1000);
     var minutesPassed = 0;
-    if(secondsPassed >= 60){
+    if (secondsPassed >= 60) {
       minutesPassed = Math.floor(secondsPassed/60);
       secondsPassed = secondsPassed - minutesPassed*60;
     }

@@ -48,7 +48,7 @@ export default class Colors extends Component {
   }
 
   renderColors () {
-    if(this.state.colors && this.state.colors.length > 0){
+    if (this.state.colors && this.state.colors.length > 0) {
       return (
         <div className='color-manager-list'>
           {this.state.colors.map(this.renderColor, this)}

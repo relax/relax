@@ -18,7 +18,7 @@ export default class MediaGridItem extends Component {
 
   render () {
     var className = '';
-    if (this.props.selected){
+    if (this.props.selected) {
       className += 'active';
     }
 

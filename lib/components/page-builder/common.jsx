@@ -225,7 +225,7 @@ export default class Common extends DragRoot {
   }
 
   doAction (action) {
-    if(action.type === 'new' || action.type === 'move' || action.type === 'add'){
+    if (action.type === 'new' || action.type === 'move' || action.type === 'add') {
       // Source
       var element;
       if (action.type === 'new') {
@@ -264,7 +264,7 @@ export default class Common extends DragRoot {
       // Position
       var position = action.destination.position;
       if (action.type === 'move') {
-        if(action.source.parent === action.destination.id && action.source.position < action.destination.position){
+        if (action.source.parent === action.destination.id && action.source.position < action.destination.position) {
           position -= 1;
         }
       }
@@ -313,7 +313,7 @@ export default class Common extends DragRoot {
   }
 
   revertAction () {
-    if(this.state.page.actions.length > 0){
+    if (this.state.page.actions.length > 0) {
       var revertedAction = {};
       var action = this.state.page.actions.pop();
 
@@ -496,7 +496,7 @@ export default class Common extends DragRoot {
     const dropInfo = dragReport.dropInfo;
 
     // dropped no where
-    if(!dropInfo || !dragInfo){
+    if (!dropInfo || !dragInfo) {
       return;
     }
 
@@ -533,7 +533,7 @@ export default class Common extends DragRoot {
     }
 
     // position
-    if(dropInfo.position !== undefined) {
+    if (dropInfo.position !== undefined) {
       action.destination.position = dropInfo.position;
     }
 

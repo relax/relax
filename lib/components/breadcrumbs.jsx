@@ -9,7 +9,7 @@ export default class Breadcrumbs extends Component {
     };
     var result;
 
-    if(item.link){
+    if (item.link) {
       props.href = item.link;
 
       result = (

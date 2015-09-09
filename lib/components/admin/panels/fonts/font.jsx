@@ -12,7 +12,7 @@ export default class Font extends Component {
 
     var content = '';
 
-    if(this.props.input) {
+    if (this.props.input) {
       content = <input className='font' style={style} value={this.props.text} onChange={this.props.onChange}></input>;
     }
     else {

@@ -49,7 +49,7 @@ export default class MediaManager extends Component {
   onSelect (id) {
     var index = this.state.selected.indexOf(id);
 
-    if(index === -1){
+    if (index === -1) {
       this.state.selected.push(id);
     } else {
       this.state.selected.splice(index, 1);
@@ -96,7 +96,7 @@ export default class MediaManager extends Component {
   }
 
   renderItems () {
-    if(this.state.display === 'list'){
+    if (this.state.display === 'list') {
       return (
         <List media={this.state.media} selected={this.state.selected} onSelect={this.onSelect.bind(this)} />
       );
@@ -108,7 +108,7 @@ export default class MediaManager extends Component {
   }
 
   renderSelectedMenu () {
-    if(this.state.selected.length > 0) {
+    if (this.state.selected.length > 0) {
       let str = this.state.selected.length+' items selected ';
       return (
         <AlertBox level='warning'>

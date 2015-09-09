@@ -177,7 +177,7 @@ export default class ContextMenu extends Component {
       type: name
     };
 
-    if(settings && settings.drag){
+    if (settings && settings.drag) {
       merge(props, settings.drag);
     }
 
@@ -226,7 +226,7 @@ export default class ContextMenu extends Component {
       type: elementName
     };
 
-    if(settings && settings.drag){
+    if (settings && settings.drag) {
       merge(props, settings.drag);
     }
 

@@ -167,7 +167,7 @@ export default class ElementsMenu extends Component {
             element
           });
         }
-      } else if (category === 'other' && this.elementAcceptable(index, element)){
+      } else if (category === 'other' && this.elementAcceptable(index, element)) {
         elements.push({
           label: index,
           element

@@ -4,7 +4,7 @@ import Dropzone from 'dropzone';
 
 export default class Upload extends Component {
   componentDidMount () {
-    if(typeof document !== 'undefined'){
+    if (typeof document !== 'undefined') {
       var options = {};
       for (var opt in Dropzone.prototype.defaultOptions) {
         var prop = this.props[opt];

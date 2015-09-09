@@ -4,7 +4,7 @@ import {Component} from 'relax-framework';
 export default class NumberInput extends Component {
   limitValue (value) {
     if (this.props.min !== false) {
-      if (value < this.props.min){
+      if (value < this.props.min) {
         value = this.props.min;
       }
     }
@@ -19,7 +19,7 @@ export default class NumberInput extends Component {
   }
 
   onInput (event) {
-    if(!isNaN(event.target.value)){
+    if (!isNaN(event.target.value)) {
       var val = this.limitValue(parseFloat(event.target.value, 10));
       this.props.onChange(isNaN(val) ? '' : val);
     }

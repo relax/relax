@@ -55,7 +55,7 @@ export default class ImagePicker extends Component {
   }
 
   renderLightbox () {
-    if(this.state.opened){
+    if (this.state.opened) {
       return (
         <Lightbox onClose={this.onClose.bind(this)} title='Select an image'>
           <MediaSelector onChange={this.changedSelected.bind(this)} selected={this.props.value} />

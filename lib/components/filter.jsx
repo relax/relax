@@ -23,7 +23,7 @@ export default class Filter extends Component {
 
     var query = merge({}, this.context.query || {});
 
-    if(this.state.search !== ''){
+    if (this.state.search !== '') {
       merge(query, {search: this.props.search, s: this.state.search});
     } else {
       delete query.search;
@@ -44,10 +44,10 @@ export default class Filter extends Component {
       sort: button.property,
       order: 'asc'
     };
-    if(this.context.query && this.context.query.sort && this.context.query.sort === button.property) {
+    if (this.context.query && this.context.query.sort && this.context.query.sort === button.property) {
       props.className += ' active';
 
-      if(!this.context.query.order || this.context.query.order === 'asc'){
+      if (!this.context.query.order || this.context.query.order === 'asc') {
         query.order = 'desc';
       }
     }

@@ -51,7 +51,7 @@ export default class Fonts extends Component {
   }
 
   fontActive (familyName, fvd) {
-    if(!this.newFonts[familyName]){
+    if (!this.newFonts[familyName]) {
       this.newFonts[familyName] = [];
     }
 
@@ -82,7 +82,7 @@ export default class Fonts extends Component {
     var webfontloader = this.state.data.webfontloader;
 
     // Google fonts validation
-    if(this.state.tab === 0){
+    if (this.state.tab === 0) {
       previousValid = inputData.google.valid;
       inputData.google.input = value;
       inputData.google.valid = false;
@@ -90,7 +90,7 @@ export default class Fonts extends Component {
       var paramsStr = value.split("?");
 
       // Not valid
-      if(paramsStr.length !== 2){
+      if (paramsStr.length !== 2) {
         return;
       }
 
@@ -103,32 +103,32 @@ export default class Fonts extends Component {
       }
 
       // Exists
-      if(params.family){
+      if (params.family) {
         inputData.google.valid = true;
 
-        if(!webfontloader.google){
+        if (!webfontloader.google) {
           webfontloader.google = {
             families: []
           };
         }
-        else{
+        else {
           webfontloader.google.families = [];
         }
 
         // Object {family: "Lobster|Open+Sans:400,700", subset: "latin,cyrillic-ext,cyrillic"}
         var families = params.family.split("|");
-        for(var i = 0; i < families.length; i++){
+        for (var i = 0; i < families.length; i++) {
           var googleFont = families[i];
 
           // Might not have multiple weights
-          if(families[i].indexOf(':') === -1){
+          if (families[i].indexOf(':') === -1) {
             googleFont += ":";
           }
 
-          if(params.subset){
+          if (params.subset) {
             googleFont += ":"+params.subset;
           }
-          else{
+          else {
             googleFont += ":latin";
           }
 
@@ -138,22 +138,22 @@ export default class Fonts extends Component {
         this.loadFonts();
       }
 
-      if(!inputData.google.valid && webfontloader.google){
+      if (!inputData.google.valid && webfontloader.google) {
         delete webfontloader.google;
       }
 
-      if(previousValid && !inputData.google.valid){
+      if (previousValid && !inputData.google.valid) {
         this.loadFonts();
       }
     }
 
     // Typekit validation
-    else if(this.state.tab === 1){
+    else if (this.state.tab === 1) {
       previousValid = inputData.typekit.valid;
       inputData.typekit.input = value;
       inputData.typekit.valid = false;
 
-      if(value.length === 7){
+      if (value.length === 7) {
         inputData.typekit.valid = true;
 
         webfontloader.typekit = webfontloader.typekit || {};
@@ -162,49 +162,49 @@ export default class Fonts extends Component {
         this.loadFonts();
       }
 
-      if(!inputData.typekit.valid && webfontloader.typekit){
+      if (!inputData.typekit.valid && webfontloader.typekit) {
         delete webfontloader.typekit;
       }
 
-      if(previousValid && !inputData.typekit.valid){
+      if (previousValid && !inputData.typekit.valid) {
         this.loadFonts();
       }
     }
 
     // Fonts.com (monotype) validation
-    else if(this.state.tab === 2){
+    else if (this.state.tab === 2) {
       previousValid = inputData.monotype.valid;
       inputData.monotype.input = value;
       inputData.monotype.valid = false;
 
-      if(value.length === 36){
+      if (value.length === 36) {
         var regex = new RegExp( /[0-9|a-z]{8}-[0-9|a-z]{4}-[0-9|a-z]{4}-[0-9|a-z]{4}-[0-9|a-z]{12}/g );
         inputData.monotype.valid = regex.test(value);
       }
 
       // valid
-      if(inputData.monotype.valid){
+      if (inputData.monotype.valid) {
         webfontloader.monotype = webfontloader.monotype || {};
 
         webfontloader.monotype.projectId = value;
         this.loadFonts();
       }
-      else if(webfontloader.monotype){
+      else if (webfontloader.monotype) {
         delete webfontloader.monotype;
       }
 
-      if(previousValid && !inputData.monotype.valid){
+      if (previousValid && !inputData.monotype.valid) {
         this.loadFonts();
       }
     }
 
     // Font Deck validation
-    else if(this.state.tab === 3){
+    else if (this.state.tab === 3) {
       previousValid = inputData.fontdeck.valid;
       inputData.fontdeck.input = value;
       inputData.fontdeck.valid = false;
 
-      if(value.length === 5){
+      if (value.length === 5) {
         inputData.fontdeck.valid = true;
         webfontloader.fontdeck = webfontloader.fontdeck || {};
 
@@ -212,11 +212,11 @@ export default class Fonts extends Component {
         this.loadFonts();
       }
 
-      if(!inputData.fontdeck.valid && webfontloader.fontdeck){
+      if (!inputData.fontdeck.valid && webfontloader.fontdeck) {
         delete webfontloader.fontdeck;
       }
 
-      if(previousValid && !inputData.fontdeck.valid){
+      if (previousValid && !inputData.fontdeck.valid) {
         this.loadFonts();
       }
     }
@@ -240,14 +240,14 @@ export default class Fonts extends Component {
 
   removeCustomFont (family) {
     forEach(this.state.data.customFonts, (obj, index) => {
-      if(obj.family === family){
+      if (obj.family === family) {
 
         fontsActions.remove(obj.id);
 
         this.state.data.customFonts.splice(index, 1);
 
         var ind = this.state.data.webfontloader.custom.families.indexOf(family);
-        if(ind !== -1){
+        if (ind !== -1) {
           this.state.data.webfontloader.custom.families.splice(ind, 1);
         }
 
@@ -268,7 +268,7 @@ export default class Fonts extends Component {
 
         // map types to file
         var map = {};
-        for(var a = 0; a < files.length; a++){
+        for (var a = 0; a < files.length; a++) {
           map[types[a]] = files[a].name;
         }
 
@@ -278,7 +278,7 @@ export default class Fonts extends Component {
 
         // try woff2
         var woff2 = types.indexOf("woff2");
-        if(woff2 !== -1){
+        if (woff2 !== -1) {
           rule += "url('/fonts/"+id+"/"+map.woff2+"'), ";
         }
 
@@ -290,7 +290,7 @@ export default class Fonts extends Component {
         document.getElementsByTagName('head')[0].appendChild(s);
 
         var css = "@font-face {" + rule + "}";
-        if (s.styleSheet){
+        if (s.styleSheet) {
           s.styleSheet.cssText = css;
         } else {
           s.appendChild(document.createTextNode(css));
@@ -331,7 +331,7 @@ export default class Fonts extends Component {
   renderTabButton (tabButton, a) {
     var is_valid = this.state.data.input[tabButton.lib].valid;
 
-    if(tabButton.lib === 'custom'){
+    if (tabButton.lib === 'custom') {
       is_valid = this.state.data.customFonts && this.state.data.customFonts.length > 0;
     }
 
@@ -348,7 +348,7 @@ export default class Fonts extends Component {
     var currentTab = Fonts.tabs[this.state.tab];
 
     // Font library
-    if(this.state.tab !== Fonts.tabs.length - 1){
+    if (this.state.tab !== Fonts.tabs.length - 1) {
       const lib = currentTab.lib;
       const input = this.state.data.input[lib];
 
@@ -360,7 +360,7 @@ export default class Fonts extends Component {
       );
     }
     // Custom fonts
-    else{
+    else {
       return (
         <CustomFonts
           submitCustomFont={this.onCustomSubmit.bind(this)}

@@ -98,7 +98,7 @@ export default class Canvas extends Component {
 
   renderChildren (children) {
     // group of elements (array)
-    if( children instanceof Array ){
+    if ( children instanceof Array ) {
       return children.map(this.renderElement.bind(this));
     }
     // String or other static content

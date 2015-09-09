@@ -32,7 +32,7 @@ export default class Fonts extends Component {
       }, this);
     });
 
-    if(list.length === 0){
+    if (list.length === 0) {
       return (
         <div className='none-warning'>
           <div className='none-icon-part'>
@@ -50,7 +50,7 @@ export default class Fonts extends Component {
   }
 
   renderCover () {
-    if(this.props.loading){
+    if (this.props.loading) {
       return (
         <div className='tons-list-cover'>
           <p>Loading your fonts</p>
