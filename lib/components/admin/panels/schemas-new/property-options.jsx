@@ -2,8 +2,9 @@ import React from 'react';
 import {Component} from 'relax-framework';
 import merge from 'lodash.merge';
 import clone from 'lodash.clone';
+import forEach from 'lodash.foreach';
 
-import {TypesProps} from '../../../../data-types';
+import {TypesProps, dependsOnWhitelist} from '../../../../data-types';
 import {TypesOptionsMap, TypesOptionsDefaultProps} from '../../../../data-types/options-map';
 
 import Dependencies from './dependencies';
@@ -43,6 +44,16 @@ export default class PropertyOptions extends Component {
     });
   }
 
+  getDepends () {
+    let canDependOn = [];
+    forEach(this.context.properties, property => {
+      if (property.id !== this.context.selected.id && dependsOnWhitelist.indexOf(property.type) !== -1) {
+        canDependOn.push(property);
+      }
+    });
+    return canDependOn;
+  }
+
   renderOptionsProps () {
     let selected = this.context.selected;
     let typeProps = TypesProps[selected.type];
@@ -74,6 +85,23 @@ export default class PropertyOptions extends Component {
     }
   }
 
+  renderDepends () {
+    let canDependOn = this.getDepends();
+    if (canDependOn.length > 0) {
+      let values = this.context.selected;
+      return (
+        <div className='option'>
+          <div className='label'>Depends On</div>
+          <Dependencies
+            dependencies={values.dependencies || []}
+            onChange={this.onChange.bind(this, 'dependencies')}
+            canDependOn={canDependOn}
+          />
+        </div>
+      );
+    }
+  }
+
   render () {
     if (this.context.selected) {
       let values = this.context.selected;
@@ -100,16 +128,7 @@ export default class PropertyOptions extends Component {
             </div>
             {this.renderOptionsProps()}
             {this.renderDefault()}
-            {this.context.properties.length > 1 &&
-              <div className='option'>
-                <div className='label'>Depends On</div>
-                <Dependencies
-                  dependencies={values.dependencies || []}
-                  onChange={this.onChange.bind(this, 'dependencies')}
-                />
-              </div>
-            }
-
+            {this.renderDepends()}
           </div>
         );
       }

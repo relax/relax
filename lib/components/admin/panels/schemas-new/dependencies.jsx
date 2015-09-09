@@ -37,6 +37,7 @@ export default class Dependencies extends Component {
         onChange={this.onDependencyChange.bind(this)}
         id={index}
         key={index}
+        canDependOn={this.props.canDependOn}
       />
     );
   }

@@ -18,7 +18,7 @@ export default class Dependency extends Component {
     let propertiesLabels = [];
     let propertiesValues = [];
 
-    forEach(this.context.properties, property => {
+    forEach(this.props.canDependOn, property => {
       if (this.context.selected.id !== property.id) {
         propertiesLabels.push(property.title);
         propertiesValues.push(property.id);
