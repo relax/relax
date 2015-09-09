@@ -1,9 +1,12 @@
 import React from 'react';
 import {Component} from 'relax-framework';
 import forEach from 'lodash.foreach';
+import merge from 'lodash.merge';
+import clone from 'lodash.clone';
 
+import {TypesOptionsMap, TypesOptionsDefaultProps} from '../../../../data-types/options-map';
+import OptionsList from '../../../options-list';
 import Combobox from '../../../combobox';
-import Input from '../../../input';
 
 export default class Dependency extends Component {
   onChange (key, value) {
@@ -12,6 +15,37 @@ export default class Dependency extends Component {
 
   onRemove () {
     this.props.onRemove(this.props.id);
+  }
+
+  findDependProperty (id) {
+    let dependProperty = false;
+    forEach(this.props.canDependOn, property => {
+      if (this.props.dependency.id === property.id) {
+        dependProperty = property;
+      }
+    });
+    return dependProperty;
+  }
+
+  renderOption () {
+    let dependProperty = this.findDependProperty();
+
+    if (dependProperty) {
+      let Option = TypesOptionsMap[dependProperty.type];
+
+      if (Option) {
+        let props = clone(TypesOptionsDefaultProps[dependProperty.type] || {});
+        merge(props, dependProperty.props || {});
+
+        let value = this.props.dependency.value;
+
+        return (
+          <div className='option'>
+            <Option onChange={this.onChange.bind(this, 'value')} value={value} {...props} OptionsList={OptionsList} />
+          </div>
+        );
+      }
+    }
   }
 
   render () {
@@ -37,9 +71,7 @@ export default class Dependency extends Component {
           />
         </div>
         <span>must be</span>
-        <div className='option'>
-          <Input type='text' value={this.props.dependency.value} onChange={this.onChange.bind(this, 'value')} />
-        </div>
+        {this.renderOption()}
         <div className='remove-dependency' onClick={this.onRemove.bind(this)}>
           <i className='material-icons'>delete</i>
         </div>

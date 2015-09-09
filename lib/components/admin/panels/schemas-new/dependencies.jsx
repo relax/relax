@@ -1,6 +1,5 @@
 import React from 'react';
 import {Component} from 'relax-framework';
-import cx from 'classnames';
 import clone from 'lodash.clone';
 
 import Dependency from './dependency';
