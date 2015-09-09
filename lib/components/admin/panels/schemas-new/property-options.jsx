@@ -87,10 +87,6 @@ export default class PropertyOptions extends Component {
               <Input type='text' value={values.title} onChange={this.onChange.bind(this, 'title')} />
             </div>
             <div className='option'>
-              <div className='label'>Option id</div>
-              <Input type='text' value={values.id} disabled={true} />
-            </div>
-            <div className='option'>
               <div className='label'>Is required {cannotBeRequired && <span className='sub-label'>Properties that depend on others cannot be set as required</span>}</div>
               <Checkbox
                 value={values.required}
