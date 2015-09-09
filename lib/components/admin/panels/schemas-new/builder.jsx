@@ -178,6 +178,32 @@ export default class SchemasBuilder extends Component {
     }
   }
 
+  onMoveDownProperty (id) {
+    let propertyInfo = this.findFieldById(id);
+
+    if (propertyInfo) {
+      let removed = (this.state.properties.splice(propertyInfo.index, 1))[0];
+      this.state.properties.splice(propertyInfo.index+1, 0, removed);
+      this.setState({
+        properties: this.state.properties
+      });
+      this.onChange();
+    }
+  }
+
+  onMoveUpProperty (id) {
+    let propertyInfo = this.findFieldById(id);
+
+    if (propertyInfo) {
+      let removed = (this.state.properties.splice(propertyInfo.index, 1))[0];
+      this.state.properties.splice(propertyInfo.index-1, 0, removed);
+      this.setState({
+        properties: this.state.properties
+      });
+      this.onChange();
+    }
+  }
+
   onEntryClick (id) {
     let propertyInfo = this.findFieldById(id);
 
@@ -188,13 +214,17 @@ export default class SchemasBuilder extends Component {
     }
   }
 
-  renderProperty (field) {
+  renderProperty (field, index) {
     let selected = this.state.selected && this.state.selected.id === field.id;
     return (
       <Property
         selected={selected}
         property={field}
         onRemove={this.onRemoveProperty.bind(this)}
+        onMoveDown={this.onMoveDownProperty.bind(this)}
+        onMoveUp={this.onMoveUpProperty.bind(this)}
+        first={index === 0}
+        last={index === this.state.properties.length-1}
         key={field.id}
         onClick={this.onEntryClick.bind(this, field.id)}
       />

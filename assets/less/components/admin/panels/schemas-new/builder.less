@@ -35,66 +35,93 @@
 
   .added {
     width: 30%;
+  }
 
-    .prop-entry {
-      position: relative;
-      border-bottom: 1px solid #efefef;
-      border-radius: 2px;
-      padding: 10px 10px;
-      cursor: pointer;
+  .prop-entry {
+    position: relative;
+    border-bottom: 1px solid #efefef;
+    border-radius: 2px;
+    padding: 10px 10px;
+    cursor: pointer;
 
-      &:not(.locked):hover {
-        background-color: rgba(247, 247, 247, 0.31);
+    &:not(.locked):hover {
+      background-color: rgba(247, 247, 247, 0.31);
+    }
+
+    &:not(.locked).active {
+      &:before {
+        content: ' ';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background-color: @adminPrimary;
       }
+    }
 
-      &:not(.locked).active {
-        &:before {
-          content: ' ';
-          position: absolute;
-          left: 0;
-          top: 0;
-          bottom: 0;
-          width: 4px;
-          background-color: @adminPrimary;
-        }
-      }
+    &.locked {
+      cursor: default;
+      .opacity(0.5);
+    }
 
-      &.locked {
-        cursor: default;
-        .opacity(0.5);
-      }
+    .actions {
+      position: absolute;
+      bottom: 0;
+      right: 0;
 
-      .remove-prop {
+      >div {
         cursor: pointer;
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        display: inline-block;
+        vertical-align: top;
         position: absolute;
         bottom: 0;
         right: 0;
-        width: 30px;
-        height: 30px;
-        text-align: center;
+
         i {
           font-size: 16px;
           line-height: 24px;
           color: #cccccc;
         }
+
         &:hover {
           i {
-            color: @alert;
+            color: @adminPrimary;
+          }
+        }
+
+        &.up-prop {
+          right: 25px;
+        }
+        &.down-prop {
+          right: 50px;
+        }
+
+        &.remove-prop {
+          &:hover {
+            i {
+              color: @alert;
+            }
           }
         }
       }
-      .prop-info {
-        padding-left: 10px;
-        .prop-title {
-          font-size: 15px;
-          line-height: 20px;
-          color: #333333;
-        }
-        .prop-type {
-          font-size: 11px;
-          line-height: 16px;
-          color: #8E8E8E;
-        }
+    }
+
+
+    .prop-info {
+      padding-left: 10px;
+      .prop-title {
+        font-size: 15px;
+        line-height: 20px;
+        color: #333333;
+      }
+      .prop-type {
+        font-size: 11px;
+        line-height: 16px;
+        color: #8E8E8E;
       }
     }
   }
