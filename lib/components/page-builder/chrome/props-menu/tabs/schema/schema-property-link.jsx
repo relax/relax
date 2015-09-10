@@ -2,10 +2,8 @@ import React from 'react';
 import {Component} from 'relax-framework';
 import forEach from 'lodash.foreach';
 import cloneDeep from 'lodash.clonedeep';
-import cx from 'classnames';
 import Utils from '../../../../../../utils';
-
-import Combobox from '../../../../../combobox';
+import OptionsMenu from '../../../../../options-menu';
 
 export default class SchemaPropertyLink extends Component {
   getInitialState () {
@@ -13,34 +11,44 @@ export default class SchemaPropertyLink extends Component {
 
     const ElementClass = this.context.elements[element.tag];
 
-    const canChildren = element.tag === 'TextBox';
-    const canProps = ElementClass.propsSchema && ElementClass.propsSchema.length > 0;
-    const canDisplay = this.props.property.type === 'Boolean';
+    let availableActions = [];
 
-    let actions = [];
-
-    if (canProps) {
-      actions.push({
-        title: 'Setting',
-        value: 'setting'
-      });
-    }
-    if (canChildren) {
-      actions.push({
-        title: 'Content',
+    // Content
+    if (element.tag === 'TextBox') {
+      availableActions.push({
+        label: 'Content',
         value: 'children'
       });
     }
-    if (canDisplay) {
-      actions.push({
-        title: 'Display',
-        value: 'display'
+
+    // Settings
+    if (ElementClass.propsSchema && ElementClass.propsSchema.length > 0) {
+      // Check settings that match property type
+      let propsList = Utils.getPropSchemaList(ElementClass.propsSchema);
+      forEach(propsList, propSchema => {
+        if (propSchema.id && propSchema.label && propSchema.type === this.props.property.type) {
+          availableActions.push({
+            label: propSchema.label,
+            value: propSchema.id
+          });
+        }
       });
     }
 
+    // Display
+    availableActions.push({
+      label: 'Show',
+      value: 'show'
+    });
+    availableActions.push({
+      label: 'Hide',
+      value: 'hide'
+    });
+
     return {
       ElementClass,
-      actions
+      availableActions,
+      opened: false
     };
   }
 
@@ -52,10 +60,16 @@ export default class SchemaPropertyLink extends Component {
     this.context.outElement(id);
   }
 
-  actionClicked (actionId) {
+  actionClicked (actionId, event) {
+    if (event && event.preventDefault) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
     let cloned = cloneDeep(this.context.page.schema || {});
     cloned.properties[this.props.property.id][this.props.index].action = actionId;
     this.context.setPageSchema(cloned);
+    this.closeMenu();
   }
 
   onRemove () {
@@ -64,58 +78,67 @@ export default class SchemaPropertyLink extends Component {
     this.context.setPageSchema(cloned);
   }
 
-  onExtraChange (value) {
-    let cloned = cloneDeep(this.context.page.schema || {});
-    cloned.properties[this.props.property.id][this.props.index].actionExtra = value;
-    this.context.setPageSchema(cloned);
+  openMenu () {
+    this.setState({
+      opened: true
+    });
   }
 
-  renderExtra () {
-    const link = this.props.link;
-    if (link.action === 'setting') {
-      let props = {
-        values: [],
-        labels: [],
-        value: link.actionExtra || '',
-        onChange: this.onExtraChange.bind(this)
-      };
-      let propsList = Utils.getPropSchemaList(this.state.ElementClass.propsSchema);
+  closeMenu () {
+    this.setState({
+      opened: false
+    });
+  }
 
-      forEach(propsList, (propSchema) => {
-        if (propSchema.id && propSchema.label) {
-          props.values.push(propSchema.id);
-          props.labels.push(propSchema.label);
-        }
+  getCurrentLabel () {
+    const link = this.props.link;
+    let label = '';
+    forEach(this.state.availableActions, action => {
+      if (link.action === action.value) {
+        label = action.label;
+        return false;
+      }
+    });
+    return label;
+  }
+
+  renderMenu () {
+    if (this.state.opened) {
+      let options = [];
+
+      forEach(this.state.availableActions, action => {
+        options.push({
+          label: action.label,
+          action: this.actionClicked.bind(this, action.value)
+        });
       });
 
+      return <OptionsMenu options= {options} />;
+    }
+  }
+
+  renderAction () {
+    const link = this.props.link;
+
+    if (link.action) {
       return (
-        <div className='extra-option'>
-          <div className='label'>Setting to change</div>
-          <Combobox {...props} />
+        <div className='action' onClick={this.openMenu.bind(this)} onMouseLeave={this.closeMenu.bind(this)}>
+          <span>{this.getCurrentLabel()}</span>
+          <i className='material-icons'>{this.state.opened ? 'expand_less' : 'expand_more'}</i>
+          {this.renderMenu()}
         </div>
       );
     }
   }
 
   render () {
-    const link = this.props.link;
     const ElementClass = this.state.ElementClass;
     const element = this.props.element;
 
-    let actionsComponents = [];
-    forEach(this.state.actions, (action, index) => {
-      actionsComponents.push((
-        <span
-          className={cx('action', link.action && link.action === action.value && 'active')}
-          onClick={this.actionClicked.bind(this, action.value)}
-          key={action.value}
-        >{action.title}</span>
-      ));
-
-      if (index + 1 < this.state.actions.length) {
-        actionsComponents.push(<span key={index}>/</span>);
-      }
-    });
+    let linkStyle = {
+      borderColor: this.props.color,
+      backgroundColor: this.props.color
+    };
 
     return (
       <div
@@ -123,18 +146,22 @@ export default class SchemaPropertyLink extends Component {
         onMouseEnter={this.onMouseOver.bind(this, element.id)}
         onMouseLeave={this.onMouseOut.bind(this, element.id)}
       >
-        <div className='label'>Element</div>
-        <div className='element-info'>
-          <i className={ElementClass.settings.icon.class}>{ElementClass.settings.icon.content}</i>
-          <span>{element.label || element.tag}</span>
+        <div className='link'>
+          <span style={linkStyle}></span>
         </div>
-        <div className='label'>Change</div>
+        <div>
+          <div className='element-info'>
+            <i className={ElementClass.settings.icon.class}>{ElementClass.settings.icon.content}</i>
+            <span>{element.label || element.tag}</span>
+          </div>
+        </div>
         <div className='actions'>
-          {actionsComponents}
+          {this.renderAction()}
         </div>
-        {this.renderExtra()}
-        <div className='delete' onClick={this.onRemove.bind(this)}>
-          <i className='material-icons'>close</i>
+        <div className='delete-col'>
+          <div className='delete' onClick={this.onRemove.bind(this)}>
+            <i className='material-icons'>close</i>
+          </div>
         </div>
       </div>
     );

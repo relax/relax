@@ -5,7 +5,7 @@ export default class OptionsMenu extends Component {
   renderOption (option, key) {
     return (
       <a href='#' onClick={option.action || 'return false;'} key={key}>
-        {option.icon ? <i className={option.icon}></i> : null}
+        {option.icon && <i className={option.icon}></i>}
         {option.label}
       </a>
     );

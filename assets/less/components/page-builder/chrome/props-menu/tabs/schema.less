@@ -55,19 +55,32 @@
     padding: 10px;
     margin-bottom: 10px;
     position: relative;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+
+    .link span {
+      width: 10px;
+      height: 10px;
+    }
+
+    >* {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    .delete-col {
+      width: 20px;
+    }
 
     .delete {
-      position: absolute;
-      top: 7px;
-      right: 7px;
-      display: inline-block;
       cursor: pointer;
+      width: 20px;
+      height: 20px;
+      text-align: center;
       i {
-        width: 20px;
-        height: 20px;
         line-height: 20px;
-        text-align: center;
-        font-size: 18px;
+        font-size: 14px;
         color: @alertDarker;
       }
       &:hover {
@@ -78,8 +91,6 @@
     }
 
     .element-info {
-      margin-bottom: 15px;
-      padding-left: 10px;
       i, span {
         display: inline-block;
         vertical-align: top;
@@ -95,22 +106,30 @@
     }
 
     .actions {
-      padding-left: 10px;
-      span {
-        display: inline-block;
-        vertical-align: top;
-        color: #333333;
-        font-size: 13px;
-      }
+      padding: 0 10px;
+
       :not(.action) {
         padding: 0 10px;
       }
       .action {
+        position: relative;
         color: #cccccc;
         cursor: pointer;
+        border-radius: 3px;
+        display: inline-block;
+        vertical-align: top;
+
+        >i, >span {
+          color: #cccccc;
+          line-height: 21px;
+          font-size: 11px;
+          display: inline-block;
+          vertical-align: top;
+        }
 
         &:hover {
           color: #ffffff;
+          background-color: #333333;
         }
         &.active {
           color: @adminPrimary;

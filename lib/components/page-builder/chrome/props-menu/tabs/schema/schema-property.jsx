@@ -82,6 +82,7 @@ export default class SchemaProperty extends Component {
           property={this.props.property}
           index={index}
           key={index}
+          color={this.props.color}
         />
       );
     }
@@ -108,8 +109,7 @@ export default class SchemaProperty extends Component {
     const schema = this.context.page.schema;
     let linked = schema && schema.properties && schema.properties[this.props.property.id] && schema.properties[this.props.property.id].length > 0;
     let style = {
-      borderColor: this.props.color,
-      backgroundColor: linked ? this.props.color : 'transparent'
+      borderColor: this.props.color
     };
 
     return (
