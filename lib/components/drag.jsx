@@ -534,7 +534,7 @@ export class Droppable extends Component {
       backgroundColor: this.state.overed && !this.state.order && !this.props.placeholder ? '#33CC33' : 'transparent',
       minHeight: hasChildren ? 0 : this.props.minHeight,
       minWidth: hasChildren ? 0 : this.props.minWidth,
-      position: 'relative'
+      position: this.context.dragging && 'relative'
     };
     if (this.props.style) {
       merge(style, this.props.style);
@@ -548,7 +548,7 @@ export class Droppable extends Component {
       );
 
       children.splice(this.draggerPosition, 0, marker);
-    } else if (hasChildren && this.context.selected.id === this.props.dropInfo.id && !this.context.dragging) {
+    } else if (hasChildren && (this.context.selectedParent === this.props.dropInfo.id || this.context.selected.id === this.props.dropInfo.id) && !this.context.dragging) {
       var tempChildren = [
         this.renderMark(0)
       ];
@@ -593,6 +593,7 @@ Droppable.contextTypes = {
   dragging: React.PropTypes.bool.isRequired,
   dropBlock: React.PropTypes.bool,
   selected: React.PropTypes.any,
+  selectedParent: React.PropTypes.string,
   openElementsMenu: React.PropTypes.func.isRequired,
   elementsMenuSpot: React.PropTypes.number
 };

@@ -80,6 +80,7 @@ export default class Common extends DragRoot {
       selectElement: this.selectElementBind,
       selected: this.state.selected,
       selectedPath: this.state.selectedPath,
+      selectedParent: this.state.selectedParent,
       overElement: this.overElementBind,
       outElement: this.outElementBind,
       overedElement: this.state.overedElement,
@@ -187,16 +188,24 @@ export default class Common extends DragRoot {
     if (id === 'body') {
       this.setState({
         selected: 'body',
-        selectedPath: []
+        selectedPath: [],
+        selectedParent: null
       });
     } else {
       var info = this.findElementById(this.state.page.data, id);
       var element = info.element;
 
       if (element !== false) {
+        let selectedParent = null;
+
+        if (info.parent && (!element.children || element.children.constructor !== Array || element.tag === 'Column')) {
+          selectedParent = info.parent;
+        }
+
         this.setState({
           selected: element,
-          selectedPath: info.path
+          selectedPath: info.path,
+          selectedParent
         });
       }
     }
@@ -722,6 +731,7 @@ Common.childContextTypes = {
   selectElement: React.PropTypes.func.isRequired,
   selected: React.PropTypes.any.isRequired,
   selectedPath: React.PropTypes.array.isRequired,
+  selectedParent: React.PropTypes.string,
   overElement: React.PropTypes.func.isRequired,
   outElement: React.PropTypes.func.isRequired,
   overedElement: React.PropTypes.any.isRequired,

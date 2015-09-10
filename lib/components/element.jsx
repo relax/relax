@@ -194,7 +194,7 @@ export default class Element extends Component {
       const overed = this.isOvered();
       const selected = this.isSelected();
 
-      if ((!this.context.dragging && (overed || selected)) || this.context.dragging) {
+      if ((!this.context.dragging && (overed || selected)) || this.context.dragging || this.context.selectedParent === this.props.element.id) {
         props.style = props.style || {};
         props.style.position = props.style.position || 'relative';
       }
@@ -261,5 +261,6 @@ Element.contextTypes = {
   outElement: React.PropTypes.func,
   overedElement: React.PropTypes.any,
   editing: React.PropTypes.bool.isRequired,
-  dropHighlight: React.PropTypes.string
+  dropHighlight: React.PropTypes.string,
+  selectedParent: React.PropTypes.string
 };

@@ -163,18 +163,33 @@
   height: 0;
   z-index: 3;
   text-align: left;
+  left: 0;
 
   .marker {
     position: absolute;
-    left: -35px;
+    left: -15px;
     top: -15px;
+    cursor: pointer;
 
-    width: 50px;
+    width: 30px;
     height: 30px;
 
     .opacity(0.90);
-    .transform(scale(0.6));
+    .transform(scale(0.3));
     .transition(0.3s);
+
+    &:before {
+      content: ' ';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      width: 40px;
+      height: 40px;
+    	background-color: rgba(255, 255, 255, 0.4);
+      .roundedCorners(20px);
+      .transition(0.5s);
+      .opacity(1);
+    }
   }
 
   .circle {
@@ -182,13 +197,13 @@
     height: 30px;
   	background-color: #131618;
     display: inline-block;
-    cursor: pointer;
     position: relative;
   	text-align: center;
 
     .roundedCorners(15px);
 
     >i {
+      .opacity(0);
       text-align: center;
       color: #eeeeee;
       font-size: 20px;
@@ -201,6 +216,7 @@
   	background-color: #131618;
   	text-align: left;
     cursor: pointer;
+    .opacity(0);
 
     position: absolute;
     left: 16px;
@@ -243,19 +259,29 @@
     .marker {
       .transform(scale(1));
       .opacity(1);
+
+      &:before {
+        //pointer-events: none;
+        .opacity(0);
+        .transform(scale(1.1, 1.1));
+      }
     }
     .circle, .triangle {
       background-color: @adminPrimary;
 
       >i {
         color: #ffffff;
+        .opacity(1);
       }
+    }
+    .triangle {
+      .opacity(1);
     }
   }
 
   &.inverted {
     .marker {
-      left: 14px;
+      left: 0px;
       .triangle {
       	transform: rotate(90deg) skewX(-30deg) scale(1,.866);
         left: -2px;
@@ -267,6 +293,7 @@
   &.vertical {
     width: 0;
     height: 100%;
+    left: auto;
 
     .triangle {
     	transform: rotate(-0deg) skewX(-30deg) scale(1,.866);
@@ -276,9 +303,9 @@
 
     .marker {
       left: -15px;
-      top: -25px;
+      top: -15px;
       width: 30px;
-      height: 50px;
+      height: 30px;
     }
 
     &:hover {
