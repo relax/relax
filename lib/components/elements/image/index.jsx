@@ -51,7 +51,7 @@ export default class Image extends Component {
 
     return (
       <Element tag='div' style={style} element={this.props.element} settings={this.constructor.settings}>
-        {this.state.mounted ? <MediaImage id={this.props.image} width={this.state.width} style={imageStyle} /> : null}
+        {this.state.mounted ? <MediaImage id={this.props.children} width={this.state.width} style={imageStyle} /> : null}
       </Element>
     );
   }
@@ -59,7 +59,6 @@ export default class Image extends Component {
 
 Image.propTypes = {
   color: React.PropTypes.string.isRequired,
-  image: React.PropTypes.string.isRequired,
   height: React.PropTypes.string.isRequired,
   height_px: React.PropTypes.number,
   vertical: React.PropTypes.number

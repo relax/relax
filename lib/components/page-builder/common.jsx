@@ -290,7 +290,10 @@ export default class Common extends DragRoot {
       this.findElementById(this.state.page.data, action.id, true);
     } else if (action.type === 'changeProp') {
       let info = this.findElementById(this.state.page.data, action.id);
-      info.element.props[action.prop] = action.value;
+       info.element.props[action.prop] = action.value;
+      if (action.prop === 'children') {
+        info.element.children = action.value;
+      }
     } else if (action.type === 'changeContent') {
       let info = this.findElementById(this.state.page.data, action.id);
       info.element.children = action.value;

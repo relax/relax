@@ -31,7 +31,9 @@ export default class Schema extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.model && nextProps.model.schema.schema !== this.props.model.schema.schema) {
+    const hasSchema = nextProps.model && nextProps.model.schema && nextProps.model.schema.schema;
+    const hadSchema = this.props.model && this.props.model.schema && this.props.model.schema.schema;
+    if ((hasSchema && !hadSchema) || (hasSchema && hadSchema && nextProps.model.schema.schema !== this.props.model.schema.schema)) {
       this.setModels({
         schema: schemasStore.getModel(nextProps.model.schema.schema)
       });
@@ -79,11 +81,17 @@ export default class Schema extends Component {
       if (this.state.elementsLinks[element.id]) {
         forEach(this.state.elementsLinks[element.id], link => {
           if (link.action === 'children') {
-            element.children = schemaEntry[link.propertyId];
-          } else if (link.action === 'setting') {
-            element.props[link.actionExtra] = schemaEntry[link.propertyId];
-          } else if (link.action === 'display' && schemaEntry[link.propertyId] === false) {
+            if (schemaEntry[link.propertyId] && schemaEntry[link.propertyId] !== '') {
+              element.children = schemaEntry[link.propertyId];
+            } else {
+              element.display = false;
+            }
+          } else if (link.action === 'show' && (!schemaEntry[link.propertyId] || schemaEntry[link.propertyId] === '')) {
             element.display = false;
+          } else if (link.action === 'hide' && schemaEntry[link.propertyId] && schemaEntry[link.propertyId] !== '') {
+            element.display = false;
+          } else { // setting
+            element.props[link.action] = schemaEntry[link.propertyId];
           }
         });
       }
@@ -121,7 +129,7 @@ export default class Schema extends Component {
     ), {
       transition: 'fadeIn',
       closable: false,
-      switch: this.props.model.switchBackground
+      switch: this.props.model && this.props.model.switchBackground
     });
   }
 
