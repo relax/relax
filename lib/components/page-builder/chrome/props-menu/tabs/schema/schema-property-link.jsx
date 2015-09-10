@@ -52,6 +52,12 @@ export default class SchemaPropertyLink extends Component {
     };
   }
 
+  componentDidMount () {
+    if (!this.props.link.action) {
+      this.actionClicked(this.state.availableActions[0].value);
+    }
+  }
+
   onMouseOver (id, event) {
     this.context.overElement(id);
   }
