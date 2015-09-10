@@ -11,6 +11,7 @@ import cloneDeep from 'lodash.clonedeep';
 import {DragRoot} from '../drag';
 
 var BUILDER_ID = 0;
+const ACTIONS_LIMIT = 20;
 
 export default class Common extends DragRoot {
   getInitialState () {
@@ -555,6 +556,10 @@ export default class Common extends DragRoot {
   factorAction (action) {
     this.state.redos = [];
     this.state.page.actions.push(action);
+
+    if (this.state.page.actions.length > ACTIONS_LIMIT) {
+      this.state.page.actions.shift();
+    }
 
     this.doAction(action);
   }

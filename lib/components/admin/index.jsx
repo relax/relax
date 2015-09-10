@@ -5,6 +5,7 @@ import MenuBar from './menu-bar';
 import Backbone from 'backbone';
 import cx from 'classnames';
 
+import Animate from '../animate';
 import panels from './panels';
 import Overlay from '../overlay';
 
@@ -126,10 +127,21 @@ export default class Admin extends Component {
     }
   }
 
+  renderLoading () {
+    if (this.props.loading) {
+      return (
+        <Animate transition='slideDownIn'>
+          <div className='loading-bar'></div>
+        </Animate>
+      );
+    }
+  }
+
   render () {
     return (
       <div>
         <div className={cx('blurr', this.state.overlay !== false && 'blurred')}>
+          {this.renderLoading()}
           <TopMenu />
           <div className='admin-holder'>
             {!this.props.page && <MenuBar />}
