@@ -13,7 +13,7 @@ export default class OptionsMenu extends Component {
 
   render () {
     return (
-      <div className='options-menu'>
+      <div className='options-menu' style={this.props.style}>
         {this.props.options.map(this.renderOption, this)}
       </div>
     );

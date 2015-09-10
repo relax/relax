@@ -108,16 +108,14 @@
     .actions {
       padding: 0 10px;
 
-      :not(.action) {
-        padding: 0 10px;
-      }
-      .action {
+      >.action {
         position: relative;
         color: #cccccc;
         cursor: pointer;
         border-radius: 3px;
         display: inline-block;
         vertical-align: top;
+        padding: 0 10px;
 
         >i, >span {
           color: #cccccc;
@@ -125,6 +123,9 @@
           font-size: 11px;
           display: inline-block;
           vertical-align: top;
+        }
+        i {
+          margin-left: 7px;
         }
 
         &:hover {

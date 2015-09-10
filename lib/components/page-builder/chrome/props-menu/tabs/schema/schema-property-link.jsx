@@ -36,12 +36,13 @@ export default class SchemaPropertyLink extends Component {
     }
 
     // Display
+    let extraLabel = (this.props.property.type === 'Boolean' ? 'true)' : 'not empty)');
     availableActions.push({
-      label: 'Show',
+      label: 'Visible (when '+extraLabel,
       value: 'show'
     });
     availableActions.push({
-      label: 'Hide',
+      label: 'Hidden (when '+extraLabel,
       value: 'hide'
     });
 
@@ -119,7 +120,7 @@ export default class SchemaPropertyLink extends Component {
         });
       });
 
-      return <OptionsMenu options= {options} />;
+      return <OptionsMenu options={options} style={{width: 200}} />;
     }
   }
 
