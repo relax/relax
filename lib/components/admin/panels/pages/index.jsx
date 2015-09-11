@@ -2,11 +2,9 @@ import React from 'react';
 import {Component} from 'relax-framework';
 import List from './list';
 import Filter from '../../../filter';
-import Lightbox from '../../../lightbox';
-import Manage from './manage';
+import A from '../../../a';
 
 import pagesStore from '../../../../client/stores/pages';
-import pageActions from '../../../../client/actions/page';
 
 export default class Pages extends Component {
   getInitialState () {
@@ -23,60 +21,15 @@ export default class Pages extends Component {
     };
   }
 
-  onAddNew (values) {
-    this.setState({
-      state: 'loading'
-    });
-    pageActions
-      .add({
-        title: values.title,
-        slug: values.slug
-      })
-      .then(() => {
-        this.setState({
-          lightbox: false,
-          state: false
-        });
-      })
-      .catch(() => {
-        this.setState({
-          state: 'error'
-        });
-      });
-  }
-
-  addNewClick (event) {
-    event.preventDefault();
-    this.setState({
-      lightbox: true
-    });
-  }
-
-  closeLightbox () {
-    this.setState({
-      lightbox: false
-    });
-  }
-
-  renderLightbox () {
-    if (this.state.lightbox) {
-      return (
-        <Lightbox className='small' title='Create page' onClose={this.closeLightbox.bind(this)}>
-          <Manage onSubmit={this.onAddNew.bind(this)} state={this.state.state} />
-        </Lightbox>
-      );
-    }
-  }
-
   render () {
     return (
       <div className='admin-pages'>
         <div className='filter-menu'>
           <span className='admin-title'>Pages</span>
-          <a href='#' className='button-clean' onClick={this.addNewClick.bind(this)}>
+          <A href='/admin/pages/new' className='button-clean'>
             <i className='material-icons'>library_add</i>
             <span>Add new page</span>
-          </a>
+          </A>
           <Filter
             sorts={[{label: 'Date', property: 'date'}, {label: 'Title', property: 'title'}, {label: 'Slug', property: 'slug'}]}
             url='/admin/pages'
@@ -86,7 +39,6 @@ export default class Pages extends Component {
         <div className='admin-scrollable'>
           <List data={this.state.pages} />
         </div>
-        {this.renderLightbox()}
       </div>
     );
   }

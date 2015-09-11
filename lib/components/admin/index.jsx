@@ -27,7 +27,7 @@ export default class Admin extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (!nextProps.page) {
+    if (nextProps.activePanelType !== 'pageBuild') {
       this.updateLastDashboardPage();
     }
   }
@@ -144,7 +144,7 @@ export default class Admin extends Component {
           {this.renderLoading()}
           <TopMenu />
           <div className='admin-holder'>
-            {!this.props.page && <MenuBar />}
+            {this.props.activePanelType !== 'pageBuild' && <MenuBar />}
             <div className='admin-content'>
               {this.renderActivePanel()}
             </div>

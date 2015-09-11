@@ -1,7 +1,4 @@
 import {Component, Router} from 'relax-framework';
-import merge from 'lodash.merge';
-import forEach from 'lodash.foreach';
-import clone from 'lodash.clone';
 import cloneDeep from 'lodash.clonedeep';
 import React from 'react';
 import cx from 'classnames';
@@ -13,35 +10,20 @@ import Animate from '../../../animate';
 import Spinner from '../../../spinner';
 import Breadcrumbs from '../../../breadcrumbs';
 import TitleSlug from '../../../title-slug';
-import OptionsList from '../../../options-list';
-import {TypesOptionsMap, TypesOptionsDefaultProps} from '../../../../data-types/options-map';
 
-import schemaEntriesStoreFactory from '../../../../client/stores/schema-entries';
-import schemaEntriesActionsFactory from '../../../../client/actions/schema-entries';
+import pageActions from '../../../../client/actions/page';
 
-export default class SchemaEntry extends Component {
+export default class Page extends Component {
   getInitialState () {
-    schemaEntriesStoreFactory(this.context.schema.slug);
-    this.schemaEntriesActions = schemaEntriesActionsFactory(this.context.schema.slug);
-
     let defaults = {
-      _title: 'New',
-      _slug: 'new',
-      _state: 'draft'
+      title: 'New Page',
+      slug: 'new-page',
+      state: 'draft'
     };
 
-    if (this.context.schema && this.context.schema.properties && this.context.schema.properties.length > 0) {
-      forEach(this.context.schema.properties, (property) => {
-        if (property.default !== null) {
-          defaults[property.id] = property.default;
-        }
-      });
-    }
-
     return {
-      schema: this.context.schema,
-      schemaEntry: cloneDeep(this.context.schemaEntry) || defaults,
-      new: !(this.context.schemaEntry && this.context.schemaEntry._id),
+      page: cloneDeep(this.context.page) || defaults,
+      new: !(this.context.page && this.context.page._id),
       breadcrumbs: this.context.breadcrumbs
     };
   }
@@ -59,23 +41,23 @@ export default class SchemaEntry extends Component {
 
     let action;
     if (this.state.new) {
-      action = this.schemaEntriesActions.add;
+      action = pageActions.add;
     } else {
-      action = this.schemaEntriesActions.update;
+      action = pageActions.update;
     }
 
     action(data)
-      .then((schemaEntry) => {
+      .then((page) => {
         this.setState({
           saving: false,
-          schemaEntry,
+          page,
           success: true,
           error: false,
           new: false
         });
-        Router.prototype.navigate('/admin/schemas/'+this.context.schema.slug+'/'+schemaEntry._slug, {trigger: false, replace: true});
+        Router.prototype.navigate('/admin/pages/'+page.slug, {trigger: false, replace: true});
         this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
-        this.context.schemaEntry = cloneDeep(schemaEntry);
+        this.context.page = cloneDeep(page);
       })
       .catch((error) => {
         this.setState({
@@ -106,22 +88,21 @@ export default class SchemaEntry extends Component {
       savingLabel: 'Saving draft'
     });
 
-    this.onSubmit(this.state.schemaEntry);
+    this.onSubmit(this.state.page);
   }
 
   onUpdate () {
     this.setState({
       saving: true,
-      savingLabel: 'Updating entry'
+      savingLabel: 'Updating page'
     });
 
-    this.onSubmit(this.state.schemaEntry);
+    this.onSubmit(this.state.page);
   }
 
   onPublish () {
-    let clone = cloneDeep(this.state.schemaEntry);
-    clone._state = 'published';
-    clone._publishedDate = new Date();
+    let clone = cloneDeep(this.state.page);
+    clone.state = 'published';
 
     this.setState({
       saving: true,
@@ -132,8 +113,8 @@ export default class SchemaEntry extends Component {
   }
 
   onUnpublish () {
-    let clone = cloneDeep(this.state.schemaEntry);
-    clone._state = 'draft';
+    let clone = cloneDeep(this.state.page);
+    clone.state = 'draft';
 
     this.setState({
       saving: true,
@@ -144,31 +125,31 @@ export default class SchemaEntry extends Component {
   }
 
   onFieldChange (id, value) {
-    this.state.schemaEntry[id] = value;
+    this.state.page[id] = value;
 
     this.setState({
-      schemaEntry: this.state.schemaEntry
+      page: this.state.page
     });
   }
 
   onChange (values) {
     if (values.title) {
-      this.state.breadcrumbs[2].label = values.title;
-      this.state.schemaEntry._title = values.title;
+      this.state.breadcrumbs[1].label = values.title;
+      this.state.page.title = values.title;
     }
     if (values.slug) {
-      this.state.schemaEntry._slug = values.slug;
+      this.state.page.slug = values.slug;
     }
 
     this.setState({
-      schemaEntry: this.state.schemaEntry,
+      page: this.state.page,
       breadcrumbs: this.state.breadcrumbs
     });
   }
 
   validateSlug (slug) {
     if (!this.state.new) {
-      if (this.context.schemaEntry._slug === slug) {
+      if (this.context.page.slug === slug) {
         return false;
       }
     }
@@ -177,51 +158,13 @@ export default class SchemaEntry extends Component {
       return true;
     }
 
-    return this.schemaEntriesActions.validateSlug(slug);
-  }
-
-  renderProperty (property) {
-    // check dependencies
-    let show = true;
-    if (property.dependencies && property.dependencies.length > 0) {
-      forEach(property.dependencies, dependency => {
-        dependency.value = dependency.value === 'true' ? true : dependency.value;
-        if (this.state.schemaEntry[dependency.id] !== dependency.value) {
-          show = false;
-          return false;
-        }
-      });
-    }
-
-    if (show && TypesOptionsMap[property.type]) {
-      let Option = TypesOptionsMap[property.type];
-      let props = clone(TypesOptionsDefaultProps[property.type] || {});
-      merge(props, property.props || {});
-
-      let value = this.state.schemaEntry[property.id];
-
-      return (
-        <div className='option' key={property.id}>
-          <div className='label'>
-            <span>{property.title}</span>
-            {property.required && <span className='sub-label'>*</span>}
-          </div>
-          <Option onChange={this.onFieldChange.bind(this, property.id)} value={value} {...props} OptionsList={OptionsList} />
-        </div>
-      );
-    }
-  }
-
-  renderProperties () {
-    if (this.state.schema.properties && this.state.schema.properties.length > 0) {
-      return this.state.schema.properties.map(this.renderProperty, this);
-    }
+    return pageActions.validateSlug(slug);
   }
 
   renderlinks () {
     if (!this.state.new) {
-      const buildLink = '/admin/schema/'+this.context.schema.slug+'/'+this.state.schemaEntry._slug;
-      const viewLink = '/'+this.context.schema.slug+'/'+this.state.schemaEntry._slug;
+      const buildLink = '/admin/page/'+this.state.page.slug;
+      const viewLink = '/'+this.state.page.slug;
       return (
         <div className='links'>
           <A className='link' href={buildLink}>
@@ -238,7 +181,7 @@ export default class SchemaEntry extends Component {
   }
 
   renderActions () {
-    if (this.state.schemaEntry._state === 'published') {
+    if (this.state.page.state === 'published') {
       return (
         <div className='actions'>
           <div className={cx('button button-primary', this.state.saving && 'disabled')} onClick={this.onUpdate.bind(this)}>Update</div>
@@ -287,12 +230,11 @@ export default class SchemaEntry extends Component {
   }
 
   render () {
-    const published = this.state.schemaEntry._state === 'published';
-    const createdDate = this.state.new ? 'Creating' : moment(this.state.schemaEntry._date).format('MMMM Do YYYY');
-    const publishedDate = !published ? 'Unpublished' : moment(this.state.schemaEntry._publishedDate).format('MMMM Do YYYY');
+    const published = this.state.page.state === 'published';
+    const createdDate = this.state.new ? 'Creating' : moment(this.state.page.date).format('MMMM Do YYYY');
 
     return (
-      <div className='admin-schema-entry with-admin-sidebar'>
+      <div className='admin-page with-admin-sidebar'>
         <div className='content'>
           <div className='filter-menu'>
             <Breadcrumbs data={this.state.breadcrumbs} />
@@ -300,12 +242,11 @@ export default class SchemaEntry extends Component {
           <div className='admin-scrollable'>
             <div className='white-options list'>
               <TitleSlug
-                title={this.state.schemaEntry._title}
-                slug={this.state.schemaEntry._slug}
+                title={this.state.page.title}
+                slug={this.state.page.slug}
                 validateSlug={this.validateSlug.bind(this)}
                 onChange={this.onChange.bind(this)}
               />
-              {this.renderProperties()}
             </div>
           </div>
         </div>
@@ -314,17 +255,12 @@ export default class SchemaEntry extends Component {
             <div className={cx('info', !published && 'alerted')}>
               <i className='material-icons'>{published ? 'cloud_queue' : 'cloud_off'}</i>
               <span>State</span>
-              <div>{this.state.schemaEntry._state}</div>
+              <div>{this.state.page.state}</div>
             </div>
             <div className={cx('info', this.state.new && 'alerted')}>
               <i className='material-icons'>today</i>
               <span>Created at</span>
               <div>{createdDate}</div>
-            </div>
-            <div className={cx('info', !published && 'alerted')}>
-              <i className='material-icons'>event</i>
-              <span>Published at</span>
-              <div>{publishedDate}</div>
             </div>
           </div>
           {this.renderlinks()}
@@ -336,8 +272,7 @@ export default class SchemaEntry extends Component {
   }
 }
 
-SchemaEntry.contextTypes = {
-  schema: React.PropTypes.object.isRequired,
-  schemaEntry: React.PropTypes.object.isRequired,
+Page.contextTypes = {
+  page: React.PropTypes.object.isRequired,
   breadcrumbs: React.PropTypes.array.isRequired
 };

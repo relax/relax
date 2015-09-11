@@ -74,7 +74,7 @@ export default class TopMenu extends Component {
   renderTab (tab) {
     const slug = tab.pageId.slug;
     const title = tab.pageId.title;
-    const active = this.context.page && this.context.page.slug === slug;
+    const active = this.context.activePanelType === 'pageBuild' && this.context.page && this.context.page.slug === slug;
     const link = '/admin/page/'+slug;
 
     return (
@@ -164,5 +164,6 @@ TopMenu.contextTypes = {
   previewToggle: React.PropTypes.func.isRequired,
   editing: React.PropTypes.bool.isRequired,
   lastDashboard: React.PropTypes.string.isRequired,
-  addOverlay: React.PropTypes.func.isRequired
+  addOverlay: React.PropTypes.func.isRequired,
+  activePanelType: React.PropTypes.string
 };

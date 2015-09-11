@@ -90,7 +90,8 @@ export default class Entry extends Component {
   render () {
     const page = this.props.page;
 
-    let editLink = '/admin/page/'+page.slug;
+    let editLink = '/admin/pages/'+page.slug;
+    let buildLink = '/admin/page/'+page.slug;
     let viewLink = '/'+page.slug;
     const published = page.state === 'published';
     let date = 'Created - ' + moment(page.date).format('MMMM Do YYYY');
@@ -108,6 +109,10 @@ export default class Entry extends Component {
           <div className='under-title'>{page.state}</div>
           <div className='actions'>
             <A href={editLink}>
+              <i className='material-icons'>mode_edit</i>
+              <span>Edit</span>
+            </A>
+            <A href={buildLink}>
               <i className='material-icons'>build</i>
               <span>Build</span>
             </A>
