@@ -21,7 +21,7 @@ export default class Schema extends Component {
   }
 
   render () {
-    const newLink = '/admin/schemas/'+this.context.schema.slug+'/new';
+    const newLink = '/admin/schema/'+this.context.schema.slug+'/new';
     return (
       <div className='admin-schema'>
         <div className='filter-menu'>
@@ -31,9 +31,9 @@ export default class Schema extends Component {
             <span>Add new entry</span>
           </A>
           <Filter
-            sorts={[{label: 'Date', property: 'date'}, {label: 'Title', property: 'title'}, {label: 'Slug', property: 'slug'}]}
-            url={'/admin/schemas/'+this.context.schema.slug}
-            search='title'
+            sorts={[{label: 'Date', property: '_date'}, {label: 'Title', property: '_title'}, {label: 'Slug', property: '_slug'}]}
+            url={'/admin/schema/'+this.context.schema.slug}
+            search='_title'
           />
         </div>
         <div className='admin-scrollable'>

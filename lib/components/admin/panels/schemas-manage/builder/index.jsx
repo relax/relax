@@ -68,7 +68,7 @@ var staticProps = [
 export default class SchemasBuilder extends Component {
   getInitialState () {
     return {
-      properties: [],
+      properties: this.props.value,
       selected: false
     };
   }

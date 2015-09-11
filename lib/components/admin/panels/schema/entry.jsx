@@ -55,7 +55,7 @@ export default class Entry extends Component {
 
   render () {
     const schemaItem = this.props.schemaItem;
-    let editLink = '/admin/schemas/'+this.props.schema.slug+'/'+schemaItem._slug;
+    let editLink = '/admin/schema/'+this.props.schema.slug+'/'+schemaItem._slug;
     let buildLink = '/admin/schema/'+this.props.schema.slug+'/'+schemaItem._slug;
     let viewLink = '/'+this.props.schema.slug+'/'+schemaItem._slug;
     const published = schemaItem._state === 'published';

@@ -4,8 +4,6 @@ import {Component, Router} from 'relax-framework';
 import OptionsList from '../options-list';
 import {Types} from '../../data-types';
 
-import usersActions from '../../client/actions/user';
-
 export default class Init extends Component {
   getInitialState () {
     return {

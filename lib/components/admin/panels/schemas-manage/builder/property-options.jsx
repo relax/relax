@@ -4,14 +4,14 @@ import merge from 'lodash.merge';
 import clone from 'lodash.clone';
 import forEach from 'lodash.foreach';
 
-import {TypesProps, dependsOnWhitelist} from '../../../../data-types';
-import {TypesOptionsMap, TypesOptionsDefaultProps} from '../../../../data-types/options-map';
+import {TypesProps, dependsOnWhitelist} from '../../../../../data-types';
+import {TypesOptionsMap, TypesOptionsDefaultProps} from '../../../../../data-types/options-map';
 
 import Dependencies from './dependencies';
 import PropertyTypes from './property-types';
-import OptionsList from '../../../options-list';
-import Checkbox from '../../../checkbox';
-import Input from '../../../input';
+import OptionsList from '../../../../options-list';
+import Checkbox from '../../../../checkbox';
+import Input from '../../../../input';
 
 export default class PropertyOptions extends Component {
   onChange (id, value) {

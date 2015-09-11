@@ -4,9 +4,9 @@ import forEach from 'lodash.foreach';
 import merge from 'lodash.merge';
 import clone from 'lodash.clone';
 
-import {TypesOptionsMap, TypesOptionsDefaultProps} from '../../../../data-types/options-map';
-import OptionsList from '../../../options-list';
-import Combobox from '../../../combobox';
+import {TypesOptionsMap, TypesOptionsDefaultProps} from '../../../../../data-types/options-map';
+import OptionsList from '../../../../options-list';
+import Combobox from '../../../../combobox';
 
 export default class Dependency extends Component {
   onChange (key, value) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Component} from 'relax-framework';
-import {schemaTypesOrdered} from '../../../../data-types';
+import {schemaTypesOrdered} from '../../../../../data-types';
 import cx from 'classnames';
 
 export default class PropertyTypes extends Component {

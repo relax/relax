@@ -53,26 +53,31 @@ export default class Entry extends Component {
 
   render () {
     const schema = this.props.schema;
-    let viewLink = '/admin/schemas/'+schema.slug;
+    let viewLink = '/admin/schema/'+schema.slug;
+    let editLink = '/admin/schemas/'+schema.slug;
 
     return (
       <div key={schema._id} className='entry'>
         <div className='icon-part'>
-          <i className='material-icons'>archive</i>
+          <i className='material-icons'>library_books</i>
         </div>
         <div className='info-part'>
           <div>
             <span className='title'>{schema.title}</span>
             <A className='sub-title' href={viewLink}>
-              <i className='material-icons'>inbox</i>
+              <i className='material-icons'>list</i>
               <span>Entries</span>
             </A>
           </div>
           <div className='under-title'>{schema.slug}</div>
           <div className='actions'>
             <A href={viewLink}>
-              <i className='material-icons'>inbox</i>
+              <i className='material-icons'>list</i>
               <span>Entries</span>
+            </A>
+            <A href={editLink}>
+              <i className='material-icons'>mode_edit</i>
+              <span>Edit</span>
             </A>
             <a href='#' onClick={this.onRemove.bind(this)}>
               <i className='material-icons'>remove_circle_outline</i>

@@ -73,7 +73,7 @@ export default class SchemaEntry extends Component {
           error: false,
           new: false
         });
-        Router.prototype.navigate('/admin/schemas/'+this.context.schema.slug+'/'+schemaEntry._slug, {trigger: false, replace: true});
+        Router.prototype.navigate('/admin/schema/'+this.context.schema.slug+'/'+schemaEntry._slug, {trigger: false, replace: true});
         this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
         this.context.schemaEntry = cloneDeep(schemaEntry);
       })
