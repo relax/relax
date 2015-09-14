@@ -54,7 +54,7 @@
     "react-frame-component": "^0.3.4",
     "react-gemini-scrollbar": "^1.1.1",
     "react-google-maps": "^2.0.3",
-    "relax-framework": "^1.0.0-alpha4",
+    "relax-framework": "^1.0.0-alpha8",
     "rimraf": "^2.4.3",
     "sharp": "^0.11.2",
     "slug": "^0.9.1",

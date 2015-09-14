@@ -4,6 +4,7 @@ import React from 'react';
 import cx from 'classnames';
 import moment from 'moment';
 import Velocity from 'velocity-animate';
+import Utils from '../../../../utils';
 
 import A from '../../../a';
 import Animate from '../../../animate';
@@ -41,10 +42,13 @@ export default class Page extends Component {
 
     let action;
     if (this.state.new) {
+      data.createdBy = this.context.user._id;
       action = pageActions.add;
     } else {
       action = pageActions.update;
     }
+
+    data.updatedBy = this.context.user._id;
 
     action(data)
       .then((page) => {
@@ -233,6 +237,9 @@ export default class Page extends Component {
     const published = this.state.page.state === 'published';
     const createdDate = this.state.new ? 'Creating' : moment(this.state.page.date).format('MMMM Do YYYY');
 
+    const createdUser = this.state.new ? this.context.user : this.state.page.createdBy;
+    const updatedUser = this.state.new ? this.context.user : this.state.page.updatedBy;
+
     return (
       <div className='admin-page with-admin-sidebar'>
         <div className='content'>
@@ -262,6 +269,16 @@ export default class Page extends Component {
               <span>Created at</span>
               <div>{createdDate}</div>
             </div>
+            <div className='info'>
+              <span className='thumbnail'><img src={Utils.getGravatarImage(createdUser.email, 40)} /></span>
+              <span>Created by</span>
+              <div>{createdUser.name}</div>
+            </div>
+            <div className='info'>
+              <span className='thumbnail'><img src={Utils.getGravatarImage(updatedUser.email, 40)} /></span>
+              <span>Last update by</span>
+              <div>{updatedUser.name}</div>
+            </div>
           </div>
           {this.renderlinks()}
           {this.renderActions()}
@@ -274,5 +291,6 @@ export default class Page extends Component {
 
 Page.contextTypes = {
   page: React.PropTypes.object.isRequired,
-  breadcrumbs: React.PropTypes.array.isRequired
+  breadcrumbs: React.PropTypes.array.isRequired,
+  user: React.PropTypes.object.isRequired
 };
