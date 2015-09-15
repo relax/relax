@@ -2,7 +2,7 @@ import React from 'react';
 import {Component} from 'relax-framework';
 import moment from 'moment';
 import cx from 'classnames';
-import A from '../../../a';
+import A from '../../a';
 
 export default class Entry extends Component {
   render () {

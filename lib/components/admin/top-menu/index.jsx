@@ -4,7 +4,7 @@ import cx from 'classnames';
 import forEach from 'lodash.foreach';
 
 import A from '../../a';
-import AddOverlay from './add-overlay';
+import AddOverlay from '../add-overlay';
 
 import pageActions from '../../../client/actions/page';
 import tabsStore from '../../../client/stores/tabs';

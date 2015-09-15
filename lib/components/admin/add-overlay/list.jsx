@@ -1,10 +1,9 @@
 import React from 'react';
 import {Component} from 'relax-framework';
-import cx from 'classnames';
 
 import Entry from './entry';
 
-import pagesStore from '../../../../client/stores/pages';
+import pagesStore from '../../../client/stores/pages';
 
 export default class List extends Component {
   getInitialState () {

@@ -11,6 +11,7 @@ import Animate from '../../../animate';
 import Spinner from '../../../spinner';
 import Breadcrumbs from '../../../breadcrumbs';
 import TitleSlug from '../../../title-slug';
+import RevisionsOverlay from '../../revisions-overlay';
 
 import pageActions from '../../../../client/actions/page';
 
@@ -165,10 +166,64 @@ export default class Page extends Component {
     return pageActions.validateSlug(slug);
   }
 
+  onRestore (_version) {
+    this.context.closeOverlay();
+
+    this.setState({
+      saving: true,
+      savingLabel: 'Restoring revision'
+    });
+
+    pageActions
+      .restore({
+        _id: this.state.page._id,
+        _version
+      })
+      .then((page) => {
+        this.state.breadcrumbs[1].label = page.title;
+        this.setState({
+          saving: false,
+          page,
+          success: true,
+          error: false,
+          new: false,
+          breadcrumbs: this.state.breadcrumbs
+        });
+        Router.prototype.navigate('/admin/pages/'+page.slug, {trigger: false, replace: true});
+        this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
+        this.context.page = cloneDeep(page);
+      })
+      .catch(() => {
+        this.setState({
+          success: false
+        });
+      });
+  }
+
+  onRevisions (event) {
+    event.preventDefault();
+
+    const page = this.context.page;
+    let current = {
+      _id: {
+        _id: page._id,
+        _version: page._version
+      },
+      date: page.updatedDate,
+      user: page.updatedBy,
+      title: page.title
+    };
+
+    this.context.addOverlay(
+      <RevisionsOverlay current={current} onRestore={this.onRestore.bind(this)} />
+    );
+  }
+
   renderlinks () {
     if (!this.state.new) {
       const buildLink = '/admin/page/'+this.state.page.slug;
       const viewLink = '/'+this.state.page.slug;
+      const revisions = this.state.page._version-1;
       return (
         <div className='links'>
           <A className='link' href={buildLink}>
@@ -179,6 +234,12 @@ export default class Page extends Component {
             <i className='material-icons'>link</i>
             <span>View</span>
           </a>
+          {revisions > 0 &&
+            <a href='#' className='link' onClick={this.onRevisions.bind(this)}>
+              <i className='material-icons'>history</i>
+              <span>{'Revisions ('+revisions+')'}</span>
+            </a>
+          }
         </div>
       );
     }
@@ -292,5 +353,7 @@ export default class Page extends Component {
 Page.contextTypes = {
   page: React.PropTypes.object.isRequired,
   breadcrumbs: React.PropTypes.array.isRequired,
-  user: React.PropTypes.object.isRequired
+  user: React.PropTypes.object.isRequired,
+  addOverlay: React.PropTypes.func.isRequired,
+  closeOverlay: React.PropTypes.func.isRequired
 };

@@ -2,10 +2,10 @@ import React from 'react';
 import {Component, Router} from 'relax-framework';
 import cx from 'classnames';
 
-import NewPage from '../../panels/pages/manage';
+import NewPage from '../panels/pages/manage';
 import List from './list';
 
-import pageActions from '../../../../client/actions/page';
+import pageActions from '../../../client/actions/page';
 
 export default class AddOverlay extends Component {
   getInitialState () {
