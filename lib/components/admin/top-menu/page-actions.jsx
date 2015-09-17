@@ -140,6 +140,8 @@ export default class PageActions extends Component {
     });
 
     this.context.page.data = this.state.draft.data;
+    this.context.page.updatedBy = this.context.user._id;
+
     pageActions
       .update(this.context.page)
       .then((page) => {
@@ -176,9 +178,15 @@ export default class PageActions extends Component {
 
     this.context.page.state = 'published';
     this.context.page.data = this.state.draft.data;
+    this.context.page.updatedBy = this.context.user._id;
+
     pageActions
       .update(this.context.page)
-      .then(() => {
+      .then((page) => {
+        this.state.draft._version = page._version;
+        this.state.draft.actions = [];
+        this.state.draft.data = page.data;
+
         this.setState({
           state: 'success',
           stateMessage: 'Page published successfully'
@@ -369,6 +377,7 @@ export default class PageActions extends Component {
 PageActions.contextTypes = {
   draft: React.PropTypes.object,
   page: React.PropTypes.object,
+  user: React.PropTypes.object.isRequired,
   lastDashboard: React.PropTypes.string.isRequired,
   display: React.PropTypes.string.isRequired,
   changeDisplay: React.PropTypes.func.isRequired,
