@@ -2,6 +2,7 @@ import React from 'react';
 import {Component} from 'relax-framework';
 import PageBuilder from '../../page-builder';
 
+import draftActions from '../../../client/actions/draft';
 import draftsStore from '../../../client/stores/drafts';
 
 export default class Page extends Component {
@@ -25,8 +26,7 @@ export default class Page extends Component {
   }
 
   onChange (attributes) {
-    const model = draftsStore.getModel(this.context.draft.id, {update: false});
-    model.trigger('change', model);
+    draftActions.updateModel(this.currentDraftId, attributes);
   }
 
   render () {

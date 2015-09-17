@@ -33,6 +33,7 @@ export default class PageActions extends Component {
   }
 
   componentDidMount () {
+    super.componentDidMount();
     this.launchAutosave();
   }
 
@@ -89,7 +90,7 @@ export default class PageActions extends Component {
         .then(() => {
           this.setState({
             state: 'success',
-            stateMessage: 'Autosave successfull'
+            stateMessage: 'Autosave successful'
           });
           this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
         })
