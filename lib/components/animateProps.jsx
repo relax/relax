@@ -4,6 +4,7 @@ import Velocity from 'velocity-animate';
 
 export default class AnimateProps extends Component {
   componentDidMount () {
+    super.componentDidMount();
     var dom = React.findDOMNode(this);
     Velocity(dom, this.props.props, this.props.options);
   }

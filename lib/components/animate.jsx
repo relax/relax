@@ -4,6 +4,7 @@ import Velocity from 'velocity-animate';
 
 export default class Animate extends Component {
   componentDidMount () {
+    super.componentDidMount();
     var dom = React.findDOMNode(this);
     const transition = 'transition.'+this.props.transition;
     Velocity(dom, transition, {

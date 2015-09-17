@@ -3,6 +3,7 @@ import {Component} from 'relax-framework';
 
 export default class Autocomplete extends Component {
   componentDidMount () {
+    super.componentDidMount();
     const autoFocus = this.props.autoFocus;
 
     if (autoFocus) {
