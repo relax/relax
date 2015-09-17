@@ -2,14 +2,40 @@ import React from 'react';
 import {Component} from 'relax-framework';
 import PageBuilder from '../../page-builder';
 
+import draftsStore from '../../../client/stores/drafts';
+
 export default class Page extends Component {
+  getInitialState () {
+    return {
+      draft: this.context.draft
+    };
+  }
+
+  getInitialModels () {
+    this.currentDraftId = this.context.draft.id;
+    return {
+      draft: draftsStore.getModel(this.context.draft.id, {update: false})
+    };
+  }
+
+  componentDidUpdate () {
+    if (this.context.draft.id !== this.currentDraftId) {
+      this.setModels(this.getInitialModels());
+    }
+  }
+
+  onChange (attributes) {
+    const model = draftsStore.getModel(this.context.draft.id, {update: false});
+    model.trigger('change', model);
+  }
+
   render () {
     return (
-      <PageBuilder data={this.context.page || {}} />
+      <PageBuilder value={this.state.draft} onChange={this.onChange.bind(this)} />
     );
   }
 }
 
 Page.contextTypes = {
-  page: React.PropTypes.object.isRequired
+  draft: React.PropTypes.object.isRequired
 };

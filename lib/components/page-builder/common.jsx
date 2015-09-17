@@ -36,10 +36,7 @@ export default class Common extends DragRoot {
     this.openElementsMenuBind = this.openElementsMenu.bind(this);
     this.setPageSchemaBind = this.setPageSchema.bind(this);
 
-    var page = this.props.data;
-    page.data = page.data || [];
-    page.actions = page.actions || [];
-    this.idCounter = this.checkLatestId(page.data) + 1;
+    this.idCounter = this.checkLatestId(this.props.value.data) + 1;
 
     this.scope = 'keyscope'+(BUILDER_ID++);
     this.previousScope = key.getScope();
@@ -52,21 +49,20 @@ export default class Common extends DragRoot {
       selected: false,
       selectedPath: [],
       overedElement: false,
-      page: page,
       redos: []
     };
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.data._id !== this.state.page._id) {
-      nextProps.data.data = nextProps.data.data || [];
-      nextProps.data.actions = nextProps.data.actions || [];
-      this.idCounter = this.checkLatestId(nextProps.data.data) + 1;
-
-      this.setState({
-        page: nextProps.data
-      });
-    }
+    // if (nextProps.data._id !== this.props.value._id) {
+    //   nextProps.data.data = nextProps.data.data || [];
+    //   nextProps.data.actions = nextProps.data.actions || [];
+    //   this.idCounter = this.checkLatestId(nextProps.data.data) + 1;
+    //
+    //   this.setState({
+    //     page: nextProps.data
+    //   });
+    // }
   }
 
   colorUpdated () {
@@ -77,7 +73,7 @@ export default class Common extends DragRoot {
   getChildContext () {
     return {
       elements: this.context.elements,
-      page: this.state.page,
+      page: this.props.value,
       selectElement: this.selectElementBind,
       selected: this.state.selected,
       selectedPath: this.state.selectedPath,
@@ -135,7 +131,7 @@ export default class Common extends DragRoot {
 
   updatePage () {
     this.setState({
-      page: this.state.page
+      page: this.props.value
     });
   }
 
@@ -162,7 +158,7 @@ export default class Common extends DragRoot {
   }
 
   registerAction (action) {
-    this.state.page.actions.push(action);
+    this.props.value.actions.push(action);
   }
 
   undoAction (event) {
@@ -180,7 +176,7 @@ export default class Common extends DragRoot {
 
     if (this.state.redos.length > 0) {
       var action = this.state.redos.pop();
-      this.state.page.actions.push(action);
+      this.props.value.actions.push(action);
       this.doAction(action);
     }
   }
@@ -193,7 +189,7 @@ export default class Common extends DragRoot {
         selectedParent: null
       });
     } else {
-      var info = this.findElementById(this.state.page.data, id);
+      var info = this.findElementById(this.props.value.data, id);
       var element = info.element;
 
       if (element !== false) {
@@ -214,7 +210,7 @@ export default class Common extends DragRoot {
 
   overElement (id) {
     if (id !== 'body' && (!this.overedElement || this.overedElement.id !== id)) {
-      var info = this.findElementById(this.state.page.data, id);
+      var info = this.findElementById(this.props.value.data, id);
       var element = info.element;
 
       if (element !== false) {
@@ -258,15 +254,15 @@ export default class Common extends DragRoot {
       } else if (action.type === 'add') {
         element = action.element;
       } else {
-        element = this.findElementById(this.state.page.data, action.source.id, true).element;
+        element = this.findElementById(this.props.value.data, action.source.id, true).element;
       }
 
       // Destination
       let destination;
       if (action.destination.id === 'body') {
-        destination = this.state.page.data;
+        destination = this.props.value.data;
       } else {
-        destination = this.findElementById(this.state.page.data, action.destination.id).element;
+        destination = this.findElementById(this.props.value.data, action.destination.id).element;
         destination.children = destination.children || [];
         destination = destination.children;
       }
@@ -289,7 +285,7 @@ export default class Common extends DragRoot {
         this.selectElement('body');
       } else {
         // check if child is selected
-        let info = this.findElementById(this.state.page.data, this.state.selected.id);
+        let info = this.findElementById(this.props.value.data, this.state.selected.id);
         forEach(info.path, (element) => {
           if (element.id === action.id) {
             this.selectElement('body');
@@ -297,38 +293,36 @@ export default class Common extends DragRoot {
           }
         });
       }
-      this.findElementById(this.state.page.data, action.id, true);
+      this.findElementById(this.props.value.data, action.id, true);
     } else if (action.type === 'changeProp') {
-      let info = this.findElementById(this.state.page.data, action.id);
+      let info = this.findElementById(this.props.value.data, action.id);
        info.element.props[action.prop] = action.value;
       if (action.prop === 'children') {
         info.element.children = action.value;
       }
     } else if (action.type === 'changeContent') {
-      let info = this.findElementById(this.state.page.data, action.id);
+      let info = this.findElementById(this.props.value.data, action.id);
       info.element.children = action.value;
     } else if (action.type === 'changeAnimation') {
-      let info = this.findElementById(this.state.page.data, action.id);
+      let info = this.findElementById(this.props.value.data, action.id);
       info.element.animation = action.value;
     } else if (action.type === 'changeLabel') {
-      let info = this.findElementById(this.state.page.data, action.id);
+      let info = this.findElementById(this.props.value.data, action.id);
       info.element.label = action.value;
     } else if (action.type === 'changeDisplay') {
-      let info = this.findElementById(this.state.page.data, action.id);
+      let info = this.findElementById(this.props.value.data, action.id);
       info.element.hide[action.display] = info.element.hide[action.display] ? false : true;
     } else if (action.type === 'changeSchema') {
-      this.state.page.schema = action.value;
+      this.props.value.schema = action.value;
     }
 
-    this.setState({
-      page: this.state.page
-    });
+    this.props.onChange(this.props.value);
   }
 
   revertAction () {
-    if (this.state.page.actions.length > 0) {
+    if (this.props.value.actions.length > 0) {
       var revertedAction = {};
-      var action = this.state.page.actions.pop();
+      var action = this.props.value.actions.pop();
 
       // New
       if (action.type === 'new') {
@@ -473,7 +467,7 @@ export default class Common extends DragRoot {
   }
 
   duplicateElement (id) {
-    var info = this.findElementById(this.state.page.data, id, false);
+    var info = this.findElementById(this.props.value.data, id, false);
     var element = cloneDeep(info.element);
     this.updateElementIds(element);
     var action = {
@@ -488,7 +482,7 @@ export default class Common extends DragRoot {
   }
 
   removeElement (id) {
-    let info = this.findElementById(this.state.page.data, id);
+    let info = this.findElementById(this.props.value.data, id);
     this.factorAction({
       type: 'remove',
       id,
@@ -524,7 +518,7 @@ export default class Common extends DragRoot {
         id: this.idCounter++
       };
     } else if (dragInfo.type === 'move') {
-      let info = this.findElementById(this.state.page.data, dragInfo.id);
+      let info = this.findElementById(this.props.value.data, dragInfo.id);
       action.source = {
         id: dragInfo.id,
         parent: info.parent,
@@ -555,17 +549,17 @@ export default class Common extends DragRoot {
 
   factorAction (action) {
     this.state.redos = [];
-    this.state.page.actions.push(action);
+    this.props.value.actions.push(action);
 
-    if (this.state.page.actions.length > ACTIONS_LIMIT) {
-      this.state.page.actions.shift();
+    if (this.props.value.actions.length > ACTIONS_LIMIT) {
+      this.props.value.actions.shift();
     }
 
     this.doAction(action);
   }
 
   findPageElementById (id) {
-    return this.findElementById (this.state.page.data, id).element;
+    return this.findElementById (this.props.value.data, id).element;
   }
 
   findElementById (elements, id, remove = false, parent = {tag: 'body', id: 'body'}, path = []) {
@@ -611,20 +605,20 @@ export default class Common extends DragRoot {
   }
 
   toggleExpandElement (elementId) {
-    var info = this.findElementById(this.state.page.data, elementId);
+    var info = this.findElementById(this.props.value.data, elementId);
     info.element.expanded = !info.element.expanded;
     this.updatePage();
   }
 
   expandAll () {
-    this.forEachElement(this.state.page.data, (element) => {
+    this.forEachElement(this.props.value.data, (element) => {
       element.expanded = true;
     });
     this.updatePage();
   }
 
   collapseAll () {
-    this.forEachElement(this.state.page.data, (element) => {
+    this.forEachElement(this.props.value.data, (element) => {
       element.expanded = false;
     });
     this.updatePage();
@@ -668,7 +662,7 @@ export default class Common extends DragRoot {
   }
 
   displayToggleElement (elementId, display) {
-    var info = this.findElementById(this.state.page.data, elementId);
+    var info = this.findElementById(this.props.value.data, elementId);
     info.element.hide = info.element.hide || {};
 
     this.factorAction({
@@ -691,7 +685,7 @@ export default class Common extends DragRoot {
     this.factorAction({
       type: 'changeSchema',
       value: schema,
-      oldValue: this.state.page.schema
+      oldValue: this.props.value.schema
     });
   }
 

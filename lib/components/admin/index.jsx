@@ -45,6 +45,7 @@ export default class Admin extends Component {
       breadcrumbs: this.props.breadcrumbs,
       pages: this.props.pages,
       page: this.props.page,
+      draft: this.props.draft,
       elements: this.props.elements,
       media: this.props.media,
       settings: this.props.settings,
@@ -68,6 +69,10 @@ export default class Admin extends Component {
       closeOverlay: this.closeOverlayBind,
       switchOverlayBackground: this.switchOverlayBackgroundBind
     };
+  }
+
+  onDraftChange () {
+    this.forceUpdate();
   }
 
   updateLastDashboardPage () {
@@ -167,6 +172,7 @@ Admin.childContextTypes = {
   breadcrumbs: React.PropTypes.array,
   pages: React.PropTypes.array,
   page: React.PropTypes.object,
+  draft: React.PropTypes.object,
   elements: React.PropTypes.object,
   media: React.PropTypes.array,
   settings: React.PropTypes.array,
@@ -188,5 +194,5 @@ Admin.childContextTypes = {
   lastDashboard: React.PropTypes.string,
   addOverlay: React.PropTypes.func,
   closeOverlay: React.PropTypes.func,
-  switchOverlayBackground: React.PropTypes.func,
+  switchOverlayBackground: React.PropTypes.func
 };

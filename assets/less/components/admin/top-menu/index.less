@@ -23,6 +23,53 @@
     }
   }
 
+  .statuses {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    height: 35px;
+    padding: 0 15px;
+
+    .status {
+      font-size: 11px;
+      line-height: 35px;
+      display: block;
+      color: #a5a4a4;
+
+      i, span, a {
+        display: inline-block;
+        vertical-align: top;
+        line-height: 35px;
+      }
+      a {
+        color: #a5a4a4;
+        padding-left: 4px;
+        &:hover {
+          color: @adminPrimary;
+        }
+      }
+      &.behind {
+        color: @alert;
+      }
+    }
+
+    .form-state {
+      margin: 0;
+      padding: 0;
+      i, span {
+        line-height: 35px;
+      }
+      .spinner {
+        top: 10px;
+      }
+      .spinner, .spinner:after {
+        border-radius: 50%;
+        width: 13px;
+        height: 13px;
+      }
+    }
+  }
+
   .page-actions {
     height: @actionsHeight;
     border-bottom: 1px solid #343333;
@@ -203,9 +250,61 @@
     }
   }
 
+  .save-button {
+    position: relative;
+  }
+  .save-menu {
+    position: absolute;
+    top: 130%;
+    right: 10px;
+    width: 150px;
+    background-color: rgba(19, 22, 24, 0.95);
+    padding: 10px 0;
+    border-radius: 3px;
+
+    &:before {
+      content: ' ';
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 5px 7px 5px;
+      border-color: transparent transparent rgba(19, 22, 24, 0.95) transparent;
+      position: absolute;
+      right: 25px;
+      top: -7px;
+    }
+
+    .save-action {
+      padding: 0 10px;
+      text-align: left;
+      i, span {
+        display: inline-block;
+        vertical-align: top;
+        color: #efefef;
+        font-size: 14px;
+        line-height: 30px;
+      }
+      span {
+        font-size: 10px;
+      }
+      i {
+        width: auto;
+        padding-right: 10px;
+      }
+
+      &:hover {
+        background-color: @adminPrimary;
+        i, span {
+          color: #ffffff;
+        }
+      }
+    }
+  }
+
   .seperator {
     position: relative;
     display: inline-block;
+    vertical-align: top;
     top: 8px;
     width: 1px;
     height: 16px;

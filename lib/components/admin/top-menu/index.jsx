@@ -5,8 +5,8 @@ import forEach from 'lodash.foreach';
 
 import A from '../../a';
 import AddOverlay from '../add-overlay';
+import PageActions from './page-actions';
 
-import pageActions from '../../../client/actions/page';
 import tabsStore from '../../../client/stores/tabs';
 import tabActions from '../../../client/actions/tab';
 
@@ -23,23 +23,6 @@ export default class TopMenu extends Component {
         user: this.context.user._id
       })
     };
-  }
-
-  publishPage (event) {
-    event.preventDefault();
-
-    this.context.page.state = 'published';
-    pageActions.update(this.context.page);
-  }
-
-  previewToggle (event) {
-    event.preventDefault();
-    this.context.previewToggle();
-  }
-
-  changeDisplay (display, event) {
-    event.preventDefault();
-    this.context.changeDisplay(display);
   }
 
   onCloseTab (id, active, event) {
@@ -96,55 +79,10 @@ export default class TopMenu extends Component {
     );
   }
 
-  renderDisplayMenu () {
-    var positions = {
-      desktop: 0,
-      tablet: -35,
-      mobile: -70
-    };
-    var centerMenuStyle = {
-      left: positions[this.context.display]
-    };
-
-    return (
-      <div className={cx('center-menu', !this.context.page && 'disabled')}>
-        <div className='center-menu-wraper'>
-          <div className='center-menu-slider' style={centerMenuStyle}>
-            <a href='#' className={this.context.display === 'desktop' ? 'top-bar-button' : 'top-bar-button unfocus'} onClick={this.changeDisplay.bind(this, 'desktop')}>
-              <i className='material-icons'>desktop_mac</i>
-            </a>
-            <a href='#' className={this.context.display === 'tablet' ? 'top-bar-button' : 'top-bar-button unfocus'} onClick={this.changeDisplay.bind(this, 'tablet')}>
-              <i className='material-icons'>tablet_mac</i>
-            </a>
-            <a href='#' className={this.context.display === 'mobile' ? 'top-bar-button' : 'top-bar-button unfocus'} onClick={this.changeDisplay.bind(this, 'mobile')}>
-              <i className='material-icons'>phone_iphone</i>
-            </a>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  renderPageActions () {
-    // TODO check if editing a page (might be on the options page)
-    return (
-      <div className='page-actions'>
-        {this.renderDisplayMenu()}
-        <A href={this.context.lastDashboard} className={cx('top-bar-button', !this.context.page && 'active')}><i className='material-icons'>dashboard</i></A>
-        <div className='seperator'></div>
-        <div className={cx('right-menu', !this.context.page && 'disabled')}>
-          <a href='#' className='top-bar-button'><i className='material-icons'>settings</i></a>
-          <a href='#' className='top-bar-button text-button' onClick={this.previewToggle.bind(this)}>Preview</a>
-          <a href='#' className='top-bar-button text-button primary' onClick={this.publishPage.bind(this)}>Publish</a>
-        </div>
-      </div>
-    );
-  }
-
   render () {
     return (
       <div className='top-bar'>
-        {this.renderPageActions()}
+        <PageActions />
         {this.renderTabs()}
       </div>
     );
@@ -159,11 +97,8 @@ TopMenu.contextTypes = {
   tabs: React.PropTypes.array.isRequired,
   user: React.PropTypes.object.isRequired,
   page: React.PropTypes.object,
-  display: React.PropTypes.string.isRequired,
-  changeDisplay: React.PropTypes.func.isRequired,
-  previewToggle: React.PropTypes.func.isRequired,
+  draft: React.PropTypes.object,
   editing: React.PropTypes.bool.isRequired,
-  lastDashboard: React.PropTypes.string.isRequired,
   addOverlay: React.PropTypes.func.isRequired,
   activePanelType: React.PropTypes.string
 };
