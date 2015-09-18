@@ -48,10 +48,8 @@ export default class PageActions extends Component {
 
   launchAutosave () {
     if (this.context.draft && this.context.page) {
-      if (!this.autosaveIntervalId || this.autosaveIntervalId !== this.context.page._id) {
-        clearInterval(this.autosaveInterval);
-        this.autosaveInterval = setInterval(this.autosave.bind(this), 30000);
-      }
+      clearInterval(this.autosaveInterval);
+      this.autosaveInterval = setInterval(this.autosave.bind(this), 30000);
     } else {
       clearInterval(this.autosaveInterval);
     }

@@ -47,22 +47,16 @@ export default class Common extends DragRoot {
     return {
       dragging: false,
       selected: false,
-      selectedPath: [],
       overedElement: false,
       redos: []
     };
   }
 
   componentWillReceiveProps (nextProps) {
-    // if (nextProps.data._id !== this.props.value._id) {
-    //   nextProps.data.data = nextProps.data.data || [];
-    //   nextProps.data.actions = nextProps.data.actions || [];
-    //   this.idCounter = this.checkLatestId(nextProps.data.data) + 1;
-    //
-    //   this.setState({
-    //     page: nextProps.data
-    //   });
-    // }
+    if (nextProps.value.id !== this.props.value.id) {
+      this.idCounter = this.checkLatestId(nextProps.value.data) + 1;
+      this.selectElement('body');
+    }
   }
 
   colorUpdated () {
@@ -71,13 +65,14 @@ export default class Common extends DragRoot {
   }
 
   getChildContext () {
+    const selected = this.getSelectedElement();
     return {
       elements: this.context.elements,
       page: this.props.value,
       selectElement: this.selectElementBind,
-      selected: this.state.selected,
-      selectedPath: this.state.selectedPath,
-      selectedParent: this.state.selectedParent,
+      selected: selected.element,
+      selectedPath: selected.path,
+      selectedParent: selected.parent,
       overElement: this.overElementBind,
       outElement: this.outElementBind,
       overedElement: this.state.overedElement,
@@ -184,30 +179,36 @@ export default class Common extends DragRoot {
   }
 
   selectElement (id) {
-    if (id === 'body') {
-      this.setState({
-        selected: 'body',
-        selectedPath: [],
-        selectedParent: null
-      });
-    } else {
-      var info = this.findElementById(this.props.value.data, id);
-      var element = info.element;
+    this.setState({
+      selected: id
+    });
+  }
 
-      if (element !== false) {
+  getSelectedElement () {
+    let selected = {
+      element: 'body',
+      path: [],
+      parent: null
+    };
+
+    if (this.state.selected && this.state.selected !== 'body') {
+      let info = this.findElementById(this.props.value.data, this.state.selected);
+      let element = info.element;
+
+      if (element) {
         let selectedParent = null;
 
         if (info.parent && (!element.children || element.children.constructor !== Array || element.tag === 'Column')) {
           selectedParent = info.parent;
         }
 
-        this.setState({
-          selected: element,
-          selectedPath: info.path,
-          selectedParent
-        });
+        selected.element = element;
+        selected.path = info.path;
+        selected.parent = selectedParent;
       }
     }
+
+    return selected;
   }
 
   overElement (id) {
@@ -283,11 +284,11 @@ export default class Common extends DragRoot {
         this.selectElement(element.id);
       }
     } else if (action.type === 'remove') {
-      if (this.state.selected.id === action.id) {
+      if (this.state.selected === action.id) {
         this.selectElement('body');
       } else {
         // check if child is selected
-        let info = this.findElementById(this.props.value.data, this.state.selected.id);
+        let info = this.findElementById(this.props.value.data, this.state.selected);
         forEach(info.path, (element) => {
           if (element.id === action.id) {
             this.selectElement('body');
@@ -423,10 +424,11 @@ export default class Common extends DragRoot {
   }
 
   addElementAtSelected (element) {
-    var position = 0;
+    let position = 0;
+    const elementSelected = (this.getSelectedElement()).element;
 
-    if (this.state.selected.children && this.state.selected.children.constructor === Array) {
-      position = this.state.selected.children.length;
+    if (elementSelected.children && elementSelected.children.constructor === Array) {
+      position = elementSelected.children.length;
     }
 
     var action = {
@@ -436,7 +438,7 @@ export default class Common extends DragRoot {
         id: this.idCounter++
       },
       destination: {
-        id: this.state.selected !== false ? this.state.selected.id : 'body',
+        id: this.state.selected,
         position
       }
     };
@@ -496,7 +498,7 @@ export default class Common extends DragRoot {
 
   removeSelectedElement () {
     if (this.state.selected !== 'body') {
-      this.removeElement (this.state.selected.id);
+      this.removeElement (this.state.selected);
     }
   }
 
@@ -627,17 +629,20 @@ export default class Common extends DragRoot {
   }
 
   onPropChange (id, value) {
-    this.state.selected.props = this.state.selected.props || {};
+    const selectedElement = this.getSelectedElement().element;
+    selectedElement.props = selectedElement.props || {};
     this.factorAction({
       type: 'changeProp',
-      id: this.state.selected.id,
+      id: this.state.selected,
       prop: id,
       value,
-      oldValue: this.state.selected.props[id]
+      oldValue: selectedElement.props[id]
     });
   }
 
   elementContentChange (value) {
+    const selectedElement = this.getSelectedElement().element;
+
     if (value && value.constructor === Array) {
       forEach(value, (childElement) => {
         if (!childElement.id) {
@@ -648,18 +653,20 @@ export default class Common extends DragRoot {
 
     this.factorAction({
       type: 'changeContent',
-      id: this.state.selected.id,
+      id: this.state.selected,
       value,
-      oldValue: this.state.selected.children
+      oldValue: selectedElement.children
     });
   }
 
   onLabelChange (value) {
+    const selectedElement = this.getSelectedElement().element;
+
     this.factorAction({
       type: 'changeLabel',
-      id: this.state.selected.id,
+      id: this.state.selected,
       value,
-      oldValue: this.state.selected.label
+      oldValue: selectedElement.label
     });
   }
 
@@ -669,17 +676,18 @@ export default class Common extends DragRoot {
 
     this.factorAction({
       type: 'changeDisplay',
-      id: this.state.selected.id,
+      id: this.state.selected,
       display
     });
   }
 
   setElementAnimation (animation) {
+    const selectedElement = this.getSelectedElement().element;
     this.factorAction({
       type: 'changeAnimation',
-      id: this.state.selected.id,
+      id: this.state.selected,
       value: animation,
-      oldValue: this.state.selected.animation
+      oldValue: selectedElement.animation
     });
   }
 

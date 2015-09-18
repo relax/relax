@@ -46,6 +46,9 @@ export default class Admin extends Component {
     }
     if (!nextProps.page) {
       this.unsetModels(['page']);
+      this.setState({
+        page: undefined
+      });
     } else if (nextProps.page) {
       this.setModels({
         page: pagesStore.getModel(nextProps.page._id, {update: false})
