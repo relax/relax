@@ -8,7 +8,8 @@
     "url": "https://github.com/relax/relax.git"
   },
   "scripts": {
-    "prepublish": "NODE_ENV=production grunt build:production",
+    "prepublish": "npm run build",
+    "build": "NODE_ENV=production grunt build:production",
     "dev": "grunt dev",
     "test": "grunt test",
     "start": "node index",
