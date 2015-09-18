@@ -561,7 +561,7 @@ export default class Common extends DragRoot {
   }
 
   findPageElementById (id) {
-    return this.findElementById (this.props.value.data, id).element;
+    return this.findElementById(this.props.value.data, id).element;
   }
 
   findElementById (elements, id, remove = false, parent = {tag: 'body', id: 'body'}, path = []) {

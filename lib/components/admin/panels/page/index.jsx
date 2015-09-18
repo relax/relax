@@ -63,7 +63,6 @@ export default class Page extends Component {
         });
         Router.prototype.navigate('/admin/pages/'+page.slug, {trigger: false, replace: true});
         this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
-        this.context.page = cloneDeep(page);
       })
       .catch((error) => {
         this.setState({
@@ -192,7 +191,6 @@ export default class Page extends Component {
         });
         Router.prototype.navigate('/admin/pages/'+page.slug, {trigger: false, replace: true});
         this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
-        this.context.page = cloneDeep(page);
       })
       .catch(() => {
         this.setState({

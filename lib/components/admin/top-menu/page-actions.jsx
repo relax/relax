@@ -142,17 +142,20 @@ export default class PageActions extends Component {
       stateMessage: 'Saving page'
     });
 
-    this.context.page.data = this.state.draft.data;
-    this.context.page.updatedBy = this.context.user._id;
+    let pageClone = cloneDeep(this.context.page);
+    pageClone.data = this.state.draft.data;
+    pageClone.updatedBy = this.context.user._id;
 
     pageActions
-      .update(this.context.page)
+      .update(pageClone)
       .then((page) => {
-        this.state.draft._version = page._version;
-        this.state.draft.actions = [];
-        this.state.draft.data = page.data;
+        let draftClone = cloneDeep(this.state.draft);
 
-        return draftActions.update(this.state.draft);
+        draftClone._version = page._version;
+        draftClone.actions = [];
+        draftClone.data = page.data;
+
+        return draftActions.update(draftClone);
       })
       .then(() => {
         this.setState({
@@ -179,12 +182,13 @@ export default class PageActions extends Component {
       stateMessage: 'Publishing page'
     });
 
-    this.context.page.state = 'published';
-    this.context.page.data = this.state.draft.data;
-    this.context.page.updatedBy = this.context.user._id;
+    let pageClone = cloneDeep(this.context.page);
+    pageClone.state = 'published';
+    pageClone.data = this.state.draft.data;
+    pageClone.updatedBy = this.context.user._id;
 
     pageActions
-      .update(this.context.page)
+      .update(pageClone)
       .then((page) => {
         let draftClone = cloneDeep(this.state.draft);
 
@@ -288,7 +292,6 @@ export default class PageActions extends Component {
           stateMessage: 'Revision restored successfully'
         });
         this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
-        this.context.page = page;
         Router.prototype.navigate('/admin/page/'+page.slug, {trigger: false, replace: true});
       })
       .catch(() => {

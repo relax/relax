@@ -9,6 +9,8 @@ import Animate from '../animate';
 import panels from './panels';
 import Overlay from '../overlay';
 
+import pagesStore from '../../client/stores/pages';
+
 export default class Admin extends Component {
 
   getInitialState () {
@@ -22,13 +24,32 @@ export default class Admin extends Component {
       display: 'desktop',
       editing: true,
       lastDashboard: '/admin',
-      overlay: false
+      overlay: false,
+      page: this.props.page
     };
+  }
+
+  getInitialModels () {
+    var models = {};
+
+    if (this.props.page) {
+      this.currentPageId = this.props.page.id;
+      models.page = pagesStore.getModel(this.props.page._id, {update: false});
+    }
+
+    return models;
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.activePanelType !== 'pageBuild') {
       this.updateLastDashboardPage();
+    }
+    if (!nextProps.page) {
+      this.unsetModels(['page']);
+    } else if (nextProps.page) {
+      this.setModels({
+        page: pagesStore.getModel(nextProps.page._id, {update: false})
+      });
     }
   }
 
@@ -44,7 +65,7 @@ export default class Admin extends Component {
     return {
       breadcrumbs: this.props.breadcrumbs,
       pages: this.props.pages,
-      page: this.props.page,
+      page: this.state.page,
       draft: this.props.draft,
       elements: this.props.elements,
       media: this.props.media,
