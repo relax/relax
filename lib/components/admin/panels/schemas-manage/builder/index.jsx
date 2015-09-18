@@ -2,7 +2,7 @@ import React from 'react';
 import {Component} from 'relax-framework';
 import clone from 'lodash.clone';
 import forEach from 'lodash.foreach';
-import cloneDeep from 'lodash.cloneDeep';
+import cloneDeep from 'lodash.clonedeep';
 import slugify from 'slug';
 
 import Property from './property';
