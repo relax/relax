@@ -2,7 +2,7 @@ import React from 'react';
 import {Component, Router} from 'relax-framework';
 import cx from 'classnames';
 import Q from 'q';
-import cloneDeep from 'lodash.cloneDeep';
+import cloneDeep from 'lodash.clonedeep';
 
 import A from '../../a';
 import Animate from '../../animate';
