@@ -1,6 +1,8 @@
 import React from 'react';
-import {Component} from 'relax-framework';
+import {Component, Router} from 'relax-framework';
 import cx from 'classnames';
+import Q from 'q';
+import cloneDeep from 'lodash.cloneDeep';
 
 import A from '../../a';
 import Animate from '../../animate';
@@ -184,10 +186,15 @@ export default class PageActions extends Component {
     pageActions
       .update(this.context.page)
       .then((page) => {
-        this.state.draft._version = page._version;
-        this.state.draft.actions = [];
-        this.state.draft.data = page.data;
+        let draftClone = cloneDeep(this.state.draft);
 
+        draftClone.actions = [];
+        draftClone.data = page.data;
+        draftClone._version = page._version;
+
+        return Q.all([page, draftActions.update(draftClone)]);
+      })
+      .then((page, draft) => {
         this.setState({
           state: 'success',
           stateMessage: 'Page published successfully'
@@ -213,12 +220,13 @@ export default class PageActions extends Component {
       stateMessage: 'Dropping draft changes'
     });
 
-    this.state.draft._version = this.context.page._version;
-    this.state.draft.data = this.context.page.data;
-    this.state.draft.actions = [];
+    let draftClone = cloneDeep(this.state.draft);
+    draftClone._version = this.context.page._version;
+    draftClone.data = this.context.page.data;
+    draftClone.actions = [];
 
     draftActions
-      .update(this.state.draft)
+      .update(draftClone)
       .then(() => {
         this.setState({
           state: 'success',
@@ -252,8 +260,43 @@ export default class PageActions extends Component {
     this.context.changeDisplay(display);
   }
 
-  onRestore () {
+  onRestore (_version) {
+    this.context.closeOverlay();
 
+    this.setState({
+      saving: true,
+      savingLabel: 'Restoring revision'
+    });
+
+    pageActions
+      .restore({
+        _id: this.context.page._id,
+        _version
+      })
+      .then((page) => {
+        let draftClone = cloneDeep(this.state.draft);
+
+        draftClone.actions = [];
+        draftClone.data = page.data;
+        draftClone._version = page._version;
+
+        return Q.all([page, draftActions.update(draftClone)]);
+      })
+      .spread((page, draft) => {
+        this.setState({
+          state: 'success',
+          stateMessage: 'Revision restored successfully'
+        });
+        this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
+        this.context.page = page;
+        Router.prototype.navigate('/admin/page/'+page.slug, {trigger: false, replace: true});
+      })
+      .catch(() => {
+        this.setState({
+          success: false,
+          stateMessage: 'Error restoring revision'
+        });
+      });
   }
 
   onRevisionsClick (event) {
@@ -384,5 +427,6 @@ PageActions.contextTypes = {
   changeDisplay: React.PropTypes.func.isRequired,
   previewToggle: React.PropTypes.func.isRequired,
   addOverlay: React.PropTypes.func.isRequired,
+  closeOverlay: React.PropTypes.func.isRequired,
   activePanelType: React.PropTypes.string
 };
