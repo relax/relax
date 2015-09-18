@@ -2,7 +2,6 @@ import {Component} from 'relax-framework';
 import React from 'react';
 import clone from 'lodash.clone';
 import cloneDeep from 'lodash.clonedeep';
-import Input from '../input';
 import Entry from './entry';
 import Edit from './edit';
 import styles from '../../styles';
@@ -26,6 +25,7 @@ export default class StylePicker extends Component {
   }
 
   componentDidMount () {
+    super.componentDidMount();
     this.updatedStylesBind = this.updatedStyles.bind(this);
     styles.on('update', this.updatedStylesBind);
   }

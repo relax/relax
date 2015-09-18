@@ -47,6 +47,7 @@ export default class SchemaEntry extends Component {
   }
 
   componentWillUnmount () {
+    super.componentWillUnmount();
     if (this.successTimeout) {
       clearTimeout(this.successTimeout);
     }

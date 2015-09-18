@@ -125,10 +125,12 @@ class Marker extends Component {
   }
 
   componentDidMount () {
+    super.componentDidMount();
     this.animateInterval = setTimeout(this.animateIn.bind(this), 50);
   }
 
   componentWillUnmount () {
+    super.componentWillUnmount();
     clearTimeout(this.animateInterval);
   }
 
@@ -250,6 +252,7 @@ export class Droppable extends Component {
   }
 
   componentDidMount () {
+    super.componentDidMount();
     const containerRect = React.findDOMNode(this).getBoundingClientRect();
 
     if (containerRect.left < 40) {

@@ -13,6 +13,7 @@ export default class TitleSlug extends Component {
   }
 
   componentDidMount () {
+    super.componentDidMount();
     this.validateSlug();
   }
 

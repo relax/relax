@@ -15,6 +15,7 @@ export default class Video extends Component {
   }
 
   componentDidMount () {
+    super.componentDidMount();
     window.addEventListener('resize', this.onResizeBind);
     this.onResize();
   }
@@ -32,6 +33,7 @@ export default class Video extends Component {
   }
 
   componentWillUnmount () {
+    super.componentWillUnmount();
     window.removeEventListener('resize', this.onResizeBind);
   }
 

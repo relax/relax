@@ -17,6 +17,7 @@ export default class ContextMenu extends Component {
   }
 
   componentDidMount () {
+    super.componentDidMount();
     this.keyDownBind = this.focusSearch.bind(this);
     document.addEventListener('keydown', this.keyDownBind);
 
@@ -152,6 +153,7 @@ export default class ContextMenu extends Component {
   }
 
   componentWillUnmount () {
+    super.componentWillUnmount();
     document.removeEventListener('keydown', this.keyDownBind);
     key.unbind('escape', 'context-menu');
     this.unbindSearchEvents();

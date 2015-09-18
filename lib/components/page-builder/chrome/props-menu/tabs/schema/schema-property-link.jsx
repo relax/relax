@@ -54,6 +54,7 @@ export default class SchemaPropertyLink extends Component {
   }
 
   componentDidMount () {
+    super.componentDidMount();
     if (!this.props.link.action) {
       this.actionClicked(this.state.availableActions[0].value);
     }

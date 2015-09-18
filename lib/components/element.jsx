@@ -31,6 +31,7 @@ export default class Element extends Component {
   }
 
   componentDidMount () {
+    super.componentDidMount();
     this.state.offset = this.getOffset();
 
     if ((!this.context.editing && this.state.animation) || this.props.onEnterScreen) {
@@ -41,6 +42,7 @@ export default class Element extends Component {
   }
 
   componentWillUnmount () {
+    super.componentWillUnmount();
     if (this.onScrollBind) {
       window.removeEventListener('scroll', this.onScrollBind);
     }

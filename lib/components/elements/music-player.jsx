@@ -32,6 +32,7 @@ export default class MusicPlayer extends Component {
   }
 
   componentWillUnmount () {
+    super.componentWillUnmount();
     if (this.sound) {
       this.sound.destruct();
     }

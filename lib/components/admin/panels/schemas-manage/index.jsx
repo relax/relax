@@ -29,6 +29,7 @@ export default class SchemasManage extends Component {
   }
 
   componentWillUnmount () {
+    super.componentWillUnmount();
     if (this.successTimeout) {
       clearTimeout(this.successTimeout);
     }

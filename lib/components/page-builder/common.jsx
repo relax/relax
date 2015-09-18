@@ -105,6 +105,7 @@ export default class Common extends DragRoot {
   }
 
   componentDidMount () {
+    super.componentDidMount();
     if (window !== undefined) {
       key('⌘+z, ctrl+z', this.scope, this.undoAction.bind(this));
       key('⌘+y, ctrl+y', this.scope, this.redoAction.bind(this));
@@ -116,6 +117,7 @@ export default class Common extends DragRoot {
   }
 
   componentWillUnmount () {
+    super.componentWillUnmount();
     key.unbind('⌘+z, ctrl+z');
     key.unbind('⌘+y, ctrl+y');
     key.unbind('delete');

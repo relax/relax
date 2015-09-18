@@ -17,6 +17,7 @@ export default class Section extends Component {
   }
 
   componentDidMount () {
+    super.componentDidMount();
     this.resize();
   }
 

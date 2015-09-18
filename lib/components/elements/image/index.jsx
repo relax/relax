@@ -16,6 +16,7 @@ export default class Image extends Component {
   }
 
   componentDidMount () {
+    super.componentDidMount();
     var dom = React.findDOMNode(this);
     var rect = dom.getBoundingClientRect();
 

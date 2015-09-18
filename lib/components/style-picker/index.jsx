@@ -26,6 +26,7 @@ export default class StylePicker extends Component {
   }
 
   componentDidMount () {
+    super.componentDidMount();
     this.listenTo(styles, 'update', this.updatedStyles.bind(this));
   }
 

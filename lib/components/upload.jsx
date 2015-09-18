@@ -4,6 +4,7 @@ import Dropzone from 'dropzone';
 
 export default class Upload extends Component {
   componentDidMount () {
+    super.componentDidMount();
     if (typeof document !== 'undefined') {
       var options = {};
       for (var opt in Dropzone.prototype.defaultOptions) {
@@ -20,6 +21,7 @@ export default class Upload extends Component {
   }
 
   componentWillUnmount () {
+    super.componentWillUnmount();
     this.dropzone.destroy();
     this.dropzone = null;
   }

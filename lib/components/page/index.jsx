@@ -13,6 +13,7 @@ export default class Page extends Component {
   }
 
   componentDidMount () {
+    super.componentDidMount();
     window.addEventListener('resize', this.onResizeBind);
     this.onResize();
   }

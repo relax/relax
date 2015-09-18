@@ -54,6 +54,7 @@ export default class ElementsMenu extends Component {
   }
 
   componentDidMount () {
+    super.componentDidMount();
     this.onCloseBind = this.onClose.bind(this);
     this.updatePositionBind = this.updatePosition.bind(this);
     this.stopPropagationBind = this.stopPropagation.bind(this);
@@ -66,6 +67,7 @@ export default class ElementsMenu extends Component {
   }
 
   componentWillUnmount () {
+    super.componentWillUnmount();
     document.removeEventListener('click', this.onCloseBind);
     React.findDOMNode(this).removeEventListener('click', this.stopPropagationBind);
     window.removeEventListener('scroll', this.updatePositionBind);

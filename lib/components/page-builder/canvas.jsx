@@ -16,6 +16,7 @@ export default class Canvas extends Component {
   }
 
   componentDidMount () {
+    super.componentDidMount();
     this.openContextBind();
 
     React.findDOMNode(this.refs.canvas).addEventListener('scroll', this.onScroll.bind(this));

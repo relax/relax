@@ -11,6 +11,7 @@ export default class MediumEditorElement extends Component {
   }
 
   componentDidMount () {
+    super.componentDidMount();
     this.medium = new MediumEditor(React.findDOMNode(this), this.props.options);
     this.medium.subscribe('editableInput', this.onChange.bind(this));
   }
@@ -25,6 +26,7 @@ export default class MediumEditorElement extends Component {
   }
 
   componentWillUnmount () {
+    super.componentWillUnmount();
     this.medium.destroy();
   }
 
