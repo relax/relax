@@ -10,6 +10,8 @@ import panels from './panels';
 import Overlay from '../overlay';
 
 import pagesStore from '../../client/stores/pages';
+import schemasStore from '../../client/stores/schemas';
+import schemaEntriesStoreFactory from '../../client/stores/schema-entries';
 
 export default class Admin extends Component {
 
@@ -25,16 +27,29 @@ export default class Admin extends Component {
       editing: true,
       lastDashboard: '/admin',
       overlay: false,
-      page: this.props.page
+      page: this.props.page,
+      schema: this.props.schema,
+      schemaEntry: this.props.schemaEntry
     };
   }
 
-  getInitialModels () {
+  getInitialModels (props) {
+    if (typeof props === 'undefined') {
+      props = this.props;
+    }
     var models = {};
 
-    if (this.props.page) {
-      this.currentPageId = this.props.page.id;
-      models.page = pagesStore.getModel(this.props.page._id, {update: false});
+    if (props.page) {
+      this.currentPageId = props.page.id;
+      models.page = pagesStore.getModel(props.page._id, {update: false});
+    }
+
+    if (props.schema) {
+      models.schema = schemasStore.getModel(props.schema._id, {update: false});
+      if (props.schemaEntry) {
+        let entryStore = schemaEntriesStoreFactory(props.schema.slug);
+        models.schemaEntry = entryStore.getModel(props.schemaEntry._id, {update: false});
+      }
     }
 
     return models;
@@ -44,16 +59,15 @@ export default class Admin extends Component {
     if (nextProps.activePanelType !== 'pageBuild') {
       this.updateLastDashboardPage();
     }
-    if (!nextProps.page) {
-      this.unsetModels(['page']);
-      this.setState({
-        page: undefined
-      });
-    } else if (nextProps.page) {
-      this.setModels({
-        page: pagesStore.getModel(nextProps.page._id, {update: false})
-      });
-    }
+
+    this.setState({
+      page: nextProps.page,
+      schema: nextProps.schema,
+      schemaEntry: nextProps.schemaEntry
+    });
+
+    this.unsetModels(['page', 'schema', 'schemaEntry']);
+    this.setModels(this.getInitialModels(nextProps));
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -75,9 +89,9 @@ export default class Admin extends Component {
       settings: this.props.settings,
       colors: this.props.colors,
       schemas: this.props.schemas,
-      schema: this.props.schema,
+      schema: this.state.schema,
       schemaEntries: this.props.schemaEntries,
-      schemaEntry: this.props.schemaEntry,
+      schemaEntry: this.state.schemaEntry,
       query: this.props.query,
       activePanelType: this.props.activePanelType,
       display: this.state.display,

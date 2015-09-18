@@ -42,12 +42,14 @@ export default class Page extends Component {
       clearTimeout(this.successTimeout);
     }
 
-    let action;
+    let action, routerOptions;
     if (this.state.new) {
       data.createdBy = this.context.user._id;
       action = pageActions.add;
+      routerOptions = {trigger: true};
     } else {
       action = pageActions.update;
+      routerOptions = {trigger: false, replace: true};
     }
 
     data.updatedBy = this.context.user._id;
@@ -61,7 +63,7 @@ export default class Page extends Component {
           error: false,
           new: false
         });
-        Router.prototype.navigate('/admin/pages/'+page.slug, {trigger: false, replace: true});
+        Router.prototype.navigate('/admin/pages/'+page.slug, routerOptions);
         this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
       })
       .catch((error) => {

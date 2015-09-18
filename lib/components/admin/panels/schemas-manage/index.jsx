@@ -40,11 +40,13 @@ export default class SchemasManage extends Component {
       clearTimeout(this.successTimeout);
     }
 
-    let action;
+    let action, routerOptions;
     if (this.state.new) {
       action = schemaActions.add;
+      routerOptions = {trigger: true};
     } else {
       action = schemaActions.update;
+      routerOptions = {trigger: false, replace: true};
     }
 
     action(data)
@@ -56,9 +58,8 @@ export default class SchemasManage extends Component {
           error: false,
           new: false
         });
-        Router.prototype.navigate('/admin/schemas/'+schema.slug, {trigger: false, replace: true});
+        Router.prototype.navigate('/admin/schemas/'+schema.slug, routerOptions);
         this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
-        this.context.schema = cloneDeep(schema);
       })
       .catch((error) => {
         this.setState({

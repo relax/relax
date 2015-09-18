@@ -7,6 +7,7 @@ import React from 'react';
 import cx from 'classnames';
 import moment from 'moment';
 import Velocity from 'velocity-animate';
+import Utils from '../../../../utils';
 
 import A from '../../../a';
 import Animate from '../../../animate';
@@ -15,6 +16,7 @@ import Breadcrumbs from '../../../breadcrumbs';
 import TitleSlug from '../../../title-slug';
 import OptionsList from '../../../options-list';
 import {TypesOptionsMap, TypesOptionsDefaultProps} from '../../../../data-types/options-map';
+import RevisionsOverlay from '../../revisions-overlay';
 
 import schemaEntriesStoreFactory from '../../../../client/stores/schema-entries';
 import schemaEntriesActionsFactory from '../../../../client/actions/schema-entries';
@@ -58,12 +60,17 @@ export default class SchemaEntry extends Component {
       clearTimeout(this.successTimeout);
     }
 
-    let action;
+    let action, routerOptions;
     if (this.state.new) {
+      data._createdBy = this.context.user._id;
       action = this.schemaEntriesActions.add;
+      routerOptions = {trigger: true};
     } else {
       action = this.schemaEntriesActions.update;
+      routerOptions = {trigger: false, replace: true};
     }
+
+    data._updatedBy = this.context.user._id;
 
     action(data)
       .then((schemaEntry) => {
@@ -74,9 +81,8 @@ export default class SchemaEntry extends Component {
           error: false,
           new: false
         });
-        Router.prototype.navigate('/admin/schema/'+this.context.schema.slug+'/'+schemaEntry._slug, {trigger: false, replace: true});
+        Router.prototype.navigate('/admin/schema/'+this.context.schema.slug+'/'+schemaEntry._slug, routerOptions);
         this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
-        this.context.schemaEntry = cloneDeep(schemaEntry);
       })
       .catch((error) => {
         this.setState({
@@ -181,6 +187,58 @@ export default class SchemaEntry extends Component {
     return this.schemaEntriesActions.validateSlug(slug);
   }
 
+  onRestore (_version) {
+    this.context.closeOverlay();
+
+    this.setState({
+      saving: true,
+      savingLabel: 'Restoring revision'
+    });
+
+    this.schemaEntriesActions
+      .restore({
+        _id: this.state.schemaEntry._id,
+        _version
+      })
+      .then((schemaEntry) => {
+        this.state.breadcrumbs[2].label = schemaEntry._title;
+        this.setState({
+          saving: false,
+          schemaEntry,
+          success: true,
+          error: false,
+          new: false,
+          breadcrumbs: this.state.breadcrumbs
+        });
+        Router.prototype.navigate('/admin/schema/'+this.context.schema.slug+'/'+schemaEntry._slug, {trigger: false, replace: true});
+        this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
+      })
+      .catch(() => {
+        this.setState({
+          success: false
+        });
+      });
+  }
+
+  onRevisions (event) {
+    event.preventDefault();
+
+    const schemaEntry = this.context.schemaEntry;
+    let current = {
+      _id: {
+        _id: schemaEntry._id,
+        _version: schemaEntry._version
+      },
+      date: schemaEntry._updatedDate,
+      user: schemaEntry._updatedBy,
+      title: schemaEntry._title
+    };
+
+    this.context.addOverlay(
+      <RevisionsOverlay current={current} onRestore={this.onRestore.bind(this)} />
+    );
+  }
+
   renderProperty (property) {
     // check dependencies
     let show = true;
@@ -223,6 +281,7 @@ export default class SchemaEntry extends Component {
     if (!this.state.new) {
       const buildLink = '/admin/schema/'+this.context.schema.slug+'/'+this.state.schemaEntry._slug;
       const viewLink = '/'+this.context.schema.slug+'/'+this.state.schemaEntry._slug;
+      const revisions = this.state.schemaEntry._version-1;
       return (
         <div className='links'>
           <A className='link' href={buildLink}>
@@ -233,6 +292,12 @@ export default class SchemaEntry extends Component {
             <i className='material-icons'>link</i>
             <span>View</span>
           </a>
+          {revisions > 0 &&
+            <a href='#' className='link' onClick={this.onRevisions.bind(this)}>
+              <i className='material-icons'>history</i>
+              <span>{'Revisions ('+revisions+')'}</span>
+            </a>
+          }
         </div>
       );
     }
@@ -292,6 +357,9 @@ export default class SchemaEntry extends Component {
     const createdDate = this.state.new ? 'Creating' : moment(this.state.schemaEntry._date).format('MMMM Do YYYY');
     const publishedDate = !published ? 'Unpublished' : moment(this.state.schemaEntry._publishedDate).format('MMMM Do YYYY');
 
+    const createdUser = this.state.new ? this.context.user : this.state.schemaEntry._createdBy;
+    const updatedUser = this.state.new ? this.context.user : this.state.schemaEntry._updatedBy;
+
     return (
       <div className='admin-schema-entry with-admin-sidebar'>
         <div className='content'>
@@ -327,6 +395,16 @@ export default class SchemaEntry extends Component {
               <span>Published at</span>
               <div>{publishedDate}</div>
             </div>
+            <div className='info'>
+              <span className='thumbnail'><img src={Utils.getGravatarImage(createdUser.email, 40)} /></span>
+              <span>Created by</span>
+              <div>{createdUser.name}</div>
+            </div>
+            <div className='info'>
+              <span className='thumbnail'><img src={Utils.getGravatarImage(updatedUser.email, 40)} /></span>
+              <span>Last update by</span>
+              <div>{updatedUser.name}</div>
+            </div>
           </div>
           {this.renderlinks()}
           {this.renderActions()}
@@ -340,5 +418,8 @@ export default class SchemaEntry extends Component {
 SchemaEntry.contextTypes = {
   schema: React.PropTypes.object.isRequired,
   schemaEntry: React.PropTypes.object.isRequired,
-  breadcrumbs: React.PropTypes.array.isRequired
+  breadcrumbs: React.PropTypes.array.isRequired,
+  user: React.PropTypes.object.isRequired,
+  addOverlay: React.PropTypes.func.isRequired,
+  closeOverlay: React.PropTypes.func.isRequired
 };
