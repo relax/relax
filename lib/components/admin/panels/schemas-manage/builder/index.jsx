@@ -2,6 +2,7 @@ import React from 'react';
 import {Component} from 'relax-framework';
 import clone from 'lodash.clone';
 import forEach from 'lodash.foreach';
+import cloneDeep from 'lodash.cloneDeep';
 import slugify from 'slug';
 
 import Property from './property';
@@ -68,21 +69,23 @@ var staticProps = [
 export default class SchemasBuilder extends Component {
   getInitialState () {
     return {
-      properties: this.props.value,
       selected: false
     };
   }
 
   getChildContext () {
     return {
-      selected: this.state.selected,
-      properties: this.state.properties
+      selected: this.findFieldById(this.state.selected).property,
+      properties: this.props.value
     };
   }
 
-  findFieldById (id) {
-    var result = null;
-    forEach(this.state.properties, (property, index) => {
+  findFieldById (id, value) {
+    if (typeof value === 'undefined') {
+      value = this.props.value;
+    }
+    var result = false;
+    forEach(value, (property, index) => {
       if (property.id === id) {
         result = {
           property,
@@ -94,8 +97,8 @@ export default class SchemasBuilder extends Component {
     return result;
   }
 
-  onChange () {
-    this.props.onChange(this.state.properties);
+  onChange (value) {
+    this.props.onChange(value);
   }
 
   getUniqueId (id, count = 0) {
@@ -108,7 +111,7 @@ export default class SchemasBuilder extends Component {
     let currentId = count === 0 ? id : id + '-' + count;
 
     // ensure unique
-    forEach(this.state.properties, property => {
+    forEach(this.props.value, property => {
       if (property.id === currentId) {
         currentId = this.getUniqueId(id, count+1);
         return false;
@@ -124,57 +127,62 @@ export default class SchemasBuilder extends Component {
     const copy = clone(defaults);
     copy.id = this.getUniqueId(copy.title);
 
-    this.state.properties.push(copy);
+    let valuesClone = cloneDeep(this.props.value);
+    valuesClone.push(copy);
 
     this.setState({
-      properties: this.state.properties,
       selected: copy
     });
 
-    this.onChange();
+    this.onChange(valuesClone);
   }
 
   onOptionChange (obj) {
-    forEach(obj, (value, id) => {
-      this.state.selected[id] = value;
+    let valuesClone = cloneDeep(this.props.value);
+    let selected = this.findFieldById(this.state.selected, valuesClone);
+    let selectedProperty = selected.property;
 
-      if (id === 'title') {
-        let uniqueId = this.getUniqueId(value);
+    if (selectedProperty) {
+      forEach(obj, (value, id) => {
+        selectedProperty[id] = value;
 
-        // look for dependencies
-        forEach(this.state.properties, property => {
-          if (property.dependencies) {
-            forEach(property.dependencies, dependency => {
-              if (dependency.id === this.state.selected.id) {
-                dependency.id = uniqueId;
-              }
-            });
-          }
-        });
+        if (id === 'title') {
+          let uniqueId = this.getUniqueId(value);
 
-        this.state.selected.id = uniqueId;
-      } else if (id === 'dependencies' && value && value.length > 0) {
-        this.state.selected.required = false;
-      }
-    });
+          // look for dependencies
+          forEach(valuesClone, property => {
+            if (property.dependencies) {
+              forEach(property.dependencies, dependency => {
+                if (dependency.id === this.state.selected) {
+                  dependency.id = uniqueId;
+                }
+              });
+            }
+          });
 
-    this.setState({
-      properties: this.state.properties,
-      selected: this.state.selected
-    });
-    this.onChange();
+          this.state.selected = uniqueId;
+        } else if (id === 'dependencies' && value && value.length > 0) {
+          selected.required = false;
+        }
+      });
+
+      this.setState({
+        selected: this.state.selected
+      });
+      this.onChange(valuesClone);
+    }
   }
 
   onRemoveProperty (id) {
     let propertyInfo = this.findFieldById(id);
 
     if (propertyInfo) {
-      this.state.properties.splice(propertyInfo.index, 1);
+      let valuesClone = cloneDeep(this.props.value);
+      valuesClone.splice(propertyInfo.index, 1);
       this.setState({
-        properties: this.state.properties,
         selected: false
       });
-      this.onChange();
+      this.onChange(valuesClone);
     }
   }
 
@@ -182,12 +190,10 @@ export default class SchemasBuilder extends Component {
     let propertyInfo = this.findFieldById(id);
 
     if (propertyInfo) {
-      let removed = (this.state.properties.splice(propertyInfo.index, 1))[0];
-      this.state.properties.splice(propertyInfo.index+1, 0, removed);
-      this.setState({
-        properties: this.state.properties
-      });
-      this.onChange();
+      let valuesClone = cloneDeep(this.props.value);
+      let removed = (valuesClone.splice(propertyInfo.index, 1))[0];
+      valuesClone.splice(propertyInfo.index+1, 0, removed);
+      this.onChange(valuesClone);
     }
   }
 
@@ -195,27 +201,21 @@ export default class SchemasBuilder extends Component {
     let propertyInfo = this.findFieldById(id);
 
     if (propertyInfo) {
-      let removed = (this.state.properties.splice(propertyInfo.index, 1))[0];
-      this.state.properties.splice(propertyInfo.index-1, 0, removed);
-      this.setState({
-        properties: this.state.properties
-      });
-      this.onChange();
+      let valuesClone = cloneDeep(this.props.value);
+      let removed = (valuesClone.splice(propertyInfo.index, 1))[0];
+      valuesClone.splice(propertyInfo.index-1, 0, removed);
+      this.onChange(valuesClone);
     }
   }
 
   onEntryClick (id) {
-    let propertyInfo = this.findFieldById(id);
-
-    if (propertyInfo) {
-      this.setState({
-        selected: propertyInfo.property
-      });
-    }
+    this.setState({
+      selected: id
+    });
   }
 
   renderProperty (field, index) {
-    let selected = this.state.selected && this.state.selected.id === field.id;
+    let selected = this.state.selected === field.id;
     return (
       <Property
         selected={selected}
@@ -224,7 +224,7 @@ export default class SchemasBuilder extends Component {
         onMoveDown={this.onMoveDownProperty.bind(this)}
         onMoveUp={this.onMoveUpProperty.bind(this)}
         first={index === 0}
-        last={index === this.state.properties.length-1}
+        last={index === this.props.value.length-1}
         key={field.id}
         onClick={this.onEntryClick.bind(this, field.id)}
       />
@@ -235,7 +235,7 @@ export default class SchemasBuilder extends Component {
     return (
       <div>
         {staticProps.map(this.renderProperty, this)}
-        {this.state.properties.map(this.renderProperty, this)}
+        {this.props.value.map(this.renderProperty, this)}
       </div>
     );
   }

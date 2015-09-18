@@ -53,8 +53,9 @@ export default class Entry extends Component {
 
   render () {
     const schema = this.props.schema;
-    let viewLink = '/admin/schema/'+schema.slug;
-    let editLink = '/admin/schemas/'+schema.slug;
+    const viewLink = '/admin/schema/'+schema.slug;
+    const editLink = '/admin/schemas/'+schema.slug;
+    const buildTemplateLink = '/admin/schemas/'+schema.slug+'/template';
 
     return (
       <div key={schema._id} className='entry'>
@@ -74,6 +75,10 @@ export default class Entry extends Component {
             <A href={viewLink}>
               <i className='material-icons'>list</i>
               <span>Entries</span>
+            </A>
+            <A href={buildTemplateLink}>
+              <i className='material-icons'>build</i>
+              <span>Build Template</span>
             </A>
             <A href={editLink}>
               <i className='material-icons'>mode_edit</i>

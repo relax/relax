@@ -3,6 +3,8 @@ import cloneDeep from 'lodash.clonedeep';
 import React from 'react';
 import Velocity from 'velocity-animate';
 import cx from 'classnames';
+import moment from 'moment';
+import Utils from '../../../../utils';
 
 import A from '../../../a';
 import Animate from '../../../animate';
@@ -10,6 +12,7 @@ import Spinner from '../../../spinner';
 import Builder from './builder';
 import TitleSlug from '../../../title-slug';
 import Breadcrumbs from '../../../breadcrumbs';
+import RevisionsOverlay from '../../revisions-overlay';
 
 import schemaActions from '../../../../client/actions/schema';
 
@@ -42,12 +45,15 @@ export default class SchemasManage extends Component {
 
     let action, routerOptions;
     if (this.state.new) {
+      data.createdBy = this.context.user._id;
       action = schemaActions.add;
       routerOptions = {trigger: true};
     } else {
       action = schemaActions.update;
       routerOptions = {trigger: false, replace: true};
     }
+
+    data.updatedBy = this.context.user._id;
 
     action(data)
       .then((schema) => {
@@ -138,6 +144,58 @@ export default class SchemasManage extends Component {
     return schemaActions.validateSlug(slug);
   }
 
+  onRestore (_version) {
+    this.context.closeOverlay();
+
+    this.setState({
+      saving: true,
+      savingLabel: 'Restoring revision'
+    });
+
+    schemaActions
+      .restore({
+        _id: this.state.schema._id,
+        _version
+      })
+      .then((schema) => {
+        this.state.breadcrumbs[1].label = schema.title;
+        this.setState({
+          saving: false,
+          schema,
+          success: true,
+          error: false,
+          new: false,
+          breadcrumbs: this.state.breadcrumbs
+        });
+        Router.prototype.navigate('/admin/schemas/'+schema.slug, {trigger: false, replace: true});
+        this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
+      })
+      .catch(() => {
+        this.setState({
+          success: false
+        });
+      });
+  }
+
+  onRevisions (event) {
+    event.preventDefault();
+
+    const schema = this.context.schema;
+    let current = {
+      _id: {
+        _id: schema._id,
+        _version: schema._version
+      },
+      date: schema.updatedDate,
+      user: schema.updatedBy,
+      title: schema.title
+    };
+
+    this.context.addOverlay(
+      <RevisionsOverlay current={current} onRestore={this.onRestore.bind(this)} />
+    );
+  }
+
   renderSaving () {
     if (this.state.saving) {
       return (
@@ -173,6 +231,7 @@ export default class SchemasManage extends Component {
     if (!this.state.new) {
       const buildTemplateLink = '/admin/schemas/'+this.state.schema.slug+'/template';
       const entriesLink = '/admin/schema/'+this.state.schema.slug;
+      const revisions = this.state.schema._version-1;
       return (
         <div className='links'>
           <A className='link' href={buildTemplateLink}>
@@ -183,6 +242,12 @@ export default class SchemasManage extends Component {
             <i className='material-icons'>list</i>
             <span>Entries</span>
           </A>
+          {revisions > 0 &&
+            <a href='#' className='link' onClick={this.onRevisions.bind(this)}>
+              <i className='material-icons'>history</i>
+              <span>{'Revisions ('+revisions+')'}</span>
+            </a>
+          }
         </div>
       );
     }
@@ -205,6 +270,12 @@ export default class SchemasManage extends Component {
   }
 
   render () {
+    const createdDate = this.state.new ? 'Creating' : moment(this.state.schema.date).format('MMMM Do YYYY');
+    const updatedDate = this.state.new ? 'Creating' : moment(this.state.schema.updatedDate).format('MMMM Do YYYY');
+
+    const createdUser = this.state.new ? this.context.user : this.state.schema.createdBy;
+    const updatedUser = this.state.new ? this.context.user : this.state.schema.updatedBy;
+
     return (
       <div className='admin-schemas-new with-admin-sidebar'>
         <div className='content'>
@@ -225,6 +296,26 @@ export default class SchemasManage extends Component {
               <span>Status</span>
               <div>{this.state.new ? 'creating' : 'editing'}</div>
             </div>
+            <div className={cx('info', this.state.new && 'alerted')}>
+              <i className='material-icons'>today</i>
+              <span>Created at</span>
+              <div>{createdDate}</div>
+            </div>
+            <div className={cx('info', this.state.new && 'alerted')}>
+              <i className='material-icons'>event</i>
+              <span>Updated at</span>
+              <div>{updatedDate}</div>
+            </div>
+            <div className='info'>
+              <span className='thumbnail'><img src={Utils.getGravatarImage(createdUser.email, 40)} /></span>
+              <span>Created by</span>
+              <div>{createdUser.name}</div>
+            </div>
+            <div className='info'>
+              <span className='thumbnail'><img src={Utils.getGravatarImage(updatedUser.email, 40)} /></span>
+              <span>Last update by</span>
+              <div>{updatedUser.name}</div>
+            </div>
           </div>
           {this.renderlinks()}
           {this.renderActions()}
@@ -237,5 +328,8 @@ export default class SchemasManage extends Component {
 
 SchemasManage.contextTypes = {
   breadcrumbs: React.PropTypes.array.isRequired,
-  schema: React.PropTypes.object
+  schema: React.PropTypes.object,
+  user: React.PropTypes.object.isRequired,
+  addOverlay: React.PropTypes.func.isRequired,
+  closeOverlay: React.PropTypes.func.isRequired
 };
