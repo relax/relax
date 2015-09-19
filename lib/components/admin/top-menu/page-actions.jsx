@@ -47,7 +47,7 @@ export default class PageActions extends Component {
   }
 
   launchAutosave () {
-    if (this.context.draft && this.context.page) {
+    if (this.context.draft && this.context.activePanelType === 'pageBuild') {
       clearInterval(this.autosaveInterval);
       this.autosaveInterval = setInterval(this.autosave.bind(this), 30000);
     } else {
@@ -330,7 +330,7 @@ export default class PageActions extends Component {
     };
 
     return (
-      <div className={cx('center-menu', !this.context.page && 'disabled')}>
+      <div className={cx('center-menu', this.context.activePanelType !== 'pageBuild' && 'disabled')}>
         <div className='center-menu-wraper'>
           <div className='center-menu-slider' style={centerMenuStyle}>
             <a href='#' className={this.context.display === 'desktop' ? 'top-bar-button' : 'top-bar-button unfocus'} onClick={this.changeDisplay.bind(this, 'desktop')}>
@@ -349,7 +349,7 @@ export default class PageActions extends Component {
   }
 
   renderRevisions () {
-    if (this.context.page && this.context.page._version > 1) {
+    if (this.context.activePanelType === 'pageBuild' && this.context.page && this.context.page._version > 1) {
       return (
         <a href='#' className='top-bar-button' onClick={this.onRevisionsClick.bind(this)}><i className='material-icons'>history</i></a>
       );
@@ -400,7 +400,7 @@ export default class PageActions extends Component {
     return (
       <div className='page-actions'>
         {this.renderDisplayMenu()}
-        <A href={this.context.lastDashboard} className={cx('top-bar-button', !this.context.page && 'active')}><i className='material-icons'>dashboard</i></A>
+        <A href={this.context.lastDashboard} className={cx('top-bar-button', this.context.activePanelType !== 'pageBuild' && 'active')}><i className='material-icons'>dashboard</i></A>
         <div className='seperator'></div>
         <div className='statuses'>
           {this.renderStatus()}
