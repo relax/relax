@@ -1,5 +1,6 @@
 ![Relax CMS](https://raw.githubusercontent.com/relax/relax/gh-pages/assets/images/logo_small.png "Relax logo")
 ====================================
+[![Slack Status](http://slack-relax.herokuapp.com/badge.svg)](http://slack-relax.herokuapp.com/)
 
 Relax is a powerful new generation CMS on top of
 [React](https://facebook.github.io/react/) and [Node.js](https://nodejs.org/en/)
