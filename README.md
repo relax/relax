@@ -8,6 +8,8 @@ which aims for a better way of building websites.
 It features a live page builder based on components and a smart and easy way of
 binding dynamic data to them.
 
+We're currently working on releasing the beta version which should come up early October. If you want to collaborate in the meantime or just say anything join us at [Relax Slack](http://slack-relax.herokuapp.com/)
+
 ![Relax Screenshot](https://raw.githubusercontent.com/relax/relax/gh-pages/assets/images/screenshot.jpg "Relax screenshot")
 
 
