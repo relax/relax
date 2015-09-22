@@ -10,6 +10,7 @@ import Status from './status';
 import RevisionsOverlay from '../revisions-overlay';
 
 import pageActions from '../../../client/actions/page';
+import schemaActions from '../../../client/actions/schema';
 import draftActions from '../../../client/actions/draft';
 import draftsStore from '../../../client/stores/drafts';
 
@@ -135,37 +136,56 @@ export default class PageActions extends Component {
     event.stopPropagation();
     clearTimeout(this.successTimeout);
 
-    this.setState({
-      state: 'loading',
-      stateMessage: 'Saving page'
-    });
+    let actions, clone, label;
+    if (this.context.page) {
+      actions = pageActions;
+      clone = cloneDeep(this.context.page);
+      label = 'Page';
+      this.setState({
+        state: 'loading',
+        stateMessage: 'Saving page'
+      });
+    } else if (this.context.schema) {
+      actions = schemaActions;
+      clone = cloneDeep(this.context.schema);
+      label = 'Schema template';
+      this.setState({
+        state: 'loading',
+        stateMessage: 'Saving schema template'
+      });
+    } else {
+      this.setState({
+        state: 'error',
+        stateMessage: 'Something went wrong'
+      });
+      return;
+    }
 
-    let pageClone = cloneDeep(this.context.page);
-    pageClone.data = this.state.draft.data;
-    pageClone.updatedBy = this.context.user._id;
+    clone.data = this.state.draft.data;
+    clone.updatedBy = this.context.user._id;
 
-    pageActions
-      .update(pageClone)
-      .then((page) => {
+    actions
+      .update(clone)
+      .then((result) => {
         let draftClone = cloneDeep(this.state.draft);
 
-        draftClone._version = page._version;
+        draftClone._version = result._version;
         draftClone.actions = [];
-        draftClone.data = page.data;
+        draftClone.data = result.data;
 
         return draftActions.update(draftClone);
       })
       .then(() => {
         this.setState({
           state: 'success',
-          stateMessage: 'Page saved successfully'
+          stateMessage: label+' saved successfully'
         });
         this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
       })
       .catch(() => {
         this.setState({
           state: 'error',
-          stateMessage: 'Error saving page'
+          stateMessage: 'Error occurred while saving'
         });
       });
   }
@@ -174,6 +194,11 @@ export default class PageActions extends Component {
     event.preventDefault();
     event.stopPropagation();
     clearTimeout(this.successTimeout);
+
+    // Publish only for pages
+    if (!this.context.page) {
+      return;
+    }
 
     this.setState({
       state: 'loading',
@@ -222,9 +247,22 @@ export default class PageActions extends Component {
       stateMessage: 'Dropping draft changes'
     });
 
+    let current;
+    if (this.context.page) {
+      current = this.context.page;
+    } else if (this.context.schema) {
+      current = this.context.schema;
+    } else {
+      this.setState({
+        state: 'error',
+        stateMessage: 'Something went wrong'
+      });
+      return;
+    }
+
     let draftClone = cloneDeep(this.state.draft);
-    draftClone._version = this.context.page._version;
-    draftClone.data = this.context.page.data;
+    draftClone._version = current._version;
+    draftClone.data = current.data;
     draftClone.actions = [];
 
     draftActions
@@ -270,27 +308,47 @@ export default class PageActions extends Component {
       savingLabel: 'Restoring revision'
     });
 
-    pageActions
+    let actions, current;
+    if (this.context.page) {
+      actions = pageActions;
+      current = this.context.page;
+    } else if (this.context.schema) {
+      actions = schemaActions;
+      current = this.context.schema;
+    } else {
+      this.setState({
+        state: 'error',
+        stateMessage: 'Something went wrong'
+      });
+      return;
+    }
+
+    actions
       .restore({
-        _id: this.context.page._id,
+        _id: current._id,
         _version
       })
-      .then((page) => {
+      .then((result) => {
         let draftClone = cloneDeep(this.state.draft);
 
         draftClone.actions = [];
-        draftClone.data = page.data;
-        draftClone._version = page._version;
+        draftClone.data = result.data;
+        draftClone._version = result._version;
 
-        return Q.all([page, draftActions.update(draftClone)]);
+        return Q.all([result, draftActions.update(draftClone)]);
       })
-      .spread((page, draft) => {
+      .spread((result, draft) => {
         this.setState({
           state: 'success',
           stateMessage: 'Revision restored successfully'
         });
         this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
-        Router.prototype.navigate('/admin/page/'+page.slug, {trigger: false, replace: true});
+
+        if (this.context.page) {
+          Router.prototype.navigate('/admin/page/'+result.slug, {trigger: false, replace: true});
+        } else if (this.context.schema) {
+          Router.prototype.navigate('/admin/schemas/'+result.slug+'/template', {trigger: false, replace: true});
+        }
       })
       .catch(() => {
         this.setState({
@@ -303,7 +361,19 @@ export default class PageActions extends Component {
   onRevisionsClick (event) {
     event.preventDefault();
 
-    const page = this.context.page;
+    let page;
+    if (this.context.page) {
+      page = this.context.page;
+    } else if (this.context.schema) {
+      page = this.context.schema;
+    } else {
+      this.setState({
+        state: 'error',
+        stateMessage: 'Something went wrong'
+      });
+      return;
+    }
+
     let current = {
       _id: {
         _id: page._id,
@@ -349,7 +419,9 @@ export default class PageActions extends Component {
   }
 
   renderRevisions () {
-    if (this.context.activePanelType === 'pageBuild' && this.context.page && this.context.page._version > 1) {
+    let hasRevisions = (this.context.page && this.context.page._version > 1) || (this.context.schema && this.context.schema._version > 1);
+
+    if (this.context.activePanelType === 'pageBuild' && hasRevisions) {
       return (
         <a href='#' className='top-bar-button' onClick={this.onRevisionsClick.bind(this)}><i className='material-icons'>history</i></a>
       );
@@ -357,7 +429,7 @@ export default class PageActions extends Component {
   }
 
   renderSave () {
-    if (this.context.activePanelType === 'pageBuild' && this.context.page && this.state.save) {
+    if (this.context.activePanelType === 'pageBuild' && (this.context.page || this.context.schema) && this.state.save) {
       return (
         <Animate transition='slideDownIn'>
           <div className='save-menu'>
@@ -365,7 +437,7 @@ export default class PageActions extends Component {
               <i className='material-icons'>mode_edit</i>
               <span>Save my draft</span>
             </div>
-            {this.context.page.state === 'published' ?
+            {this.context.schema || (this.context.page && this.context.page.state === 'published') ?
               <div className='save-action' onClick={this.savePage.bind(this)}>
                 <i className='material-icons'>public</i>
                 <span>Update</span>
@@ -422,6 +494,7 @@ export default class PageActions extends Component {
 PageActions.contextTypes = {
   draft: React.PropTypes.object,
   page: React.PropTypes.object,
+  schema: React.PropTypes.object,
   user: React.PropTypes.object.isRequired,
   lastDashboard: React.PropTypes.string.isRequired,
   display: React.PropTypes.string.isRequired,

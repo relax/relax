@@ -25,26 +25,36 @@ export default class TopMenu extends Component {
     };
   }
 
-  onCloseTab (id, active, event) {
+  onCloseTab (_id, active, event) {
     event.preventDefault();
     event.stopPropagation();
 
-    if (active) {
-      var to = '/admin/pages';
-      forEach(this.state.tabs, (tab, ind) => {
-        if (tab._id === id) {
-          if (ind < this.state.tabs.length - 1) {
-            to = '/admin/page/'+this.state.tabs[ind+1].pageId.slug;
-          } else if (ind !== 0) {
-            to = '/admin/page/'+this.state.tabs[ind-1].pageId.slug;
-          }
-          return false;
+    tabActions
+      .remove(_id)
+      .then(() => {
+        if (active) {
+          var to = '/admin/pages';
+          forEach(this.state.tabs, (tab, ind) => {
+            if (tab._id._id === _id._id) {
+              let toTab = false;
+              if (ind < this.state.tabs.length - 1) {
+                toTab = this.state.tabs[ind+1];
+              } else if (ind !== 0) {
+                toTab = this.state.tabs[ind-1];
+              }
+              if (toTab !== false) {
+                if (toTab.page) {
+                  to = '/admin/page/'+toTab.page.slug;
+                } else if (toTab.userSchema) {
+                  to = '/admin/schemas/'+toTab.userSchema.slug+'/template';
+                }
+              }
+              return false;
+            }
+          });
+          Router.prototype.navigate(to, {trigger: true});
         }
       });
-      Router.prototype.navigate(to, {trigger: true});
-    }
-
-    tabActions.remove(id);
   }
 
   onAddTabClick (event) {
@@ -55,13 +65,24 @@ export default class TopMenu extends Component {
   }
 
   renderTab (tab) {
-    const slug = tab.pageId.slug;
-    const title = tab.pageId.title;
-    const active = this.context.activePanelType === 'pageBuild' && this.context.page && this.context.page.slug === slug;
-    const link = '/admin/page/'+slug;
+    let slug, title, link, active = this.context.activePanelType === 'pageBuild';
+
+    if (tab.page) {
+      slug = tab.page.slug;
+      title = tab.page.title;
+      active = active && this.context.page && this.context.page.slug === slug;
+      link = '/admin/page/'+slug;
+    } else if(tab.userSchema) {
+      slug = tab.userSchema.slug;
+      title = tab.userSchema.title+' (template)';
+      active = active && this.context.schema && this.context.schema.slug === slug;
+      link = '/admin/schemas/'+slug+'/template';
+    } else {
+      return;
+    }
 
     return (
-      <A href={link} className={cx('tab', active && 'selected')} key={tab._id}>
+      <A href={link} className={cx('tab', active && 'selected')} key={tab._id._id}>
         <span>{title}</span>
         <span className='close' onClick={this.onCloseTab.bind(this, tab._id, active)}><i className='material-icons'>close</i></span>
       </A>
@@ -97,6 +118,7 @@ TopMenu.contextTypes = {
   tabs: React.PropTypes.array.isRequired,
   user: React.PropTypes.object.isRequired,
   page: React.PropTypes.object,
+  schema: React.PropTypes.object,
   draft: React.PropTypes.object,
   editing: React.PropTypes.bool.isRequired,
   addOverlay: React.PropTypes.func.isRequired,

@@ -1,7 +1,6 @@
 import React from 'react';
 import {Component} from 'relax-framework';
 import Utils from '../../../../../../utils';
-import cloneDeep from 'lodash.clonedeep';
 import SchemaPropertyLink from './schema-property-link';
 
 var LEFT_BUTTON = 0;
@@ -60,18 +59,10 @@ export default class SchemaProperty extends Component {
 
   onPossibleClick (element) {
     this.context.undrawDraggingLine();
-    let cloned = cloneDeep(this.context.page.schema || {});
-    cloned.properties = cloned.properties || {};
-    cloned.properties[this.props.property.id] = cloned.properties[this.props.property.id] || [];
-
-    cloned.properties[this.props.property.id].push({
-      elementId: element.id
-    });
-
-    this.context.setPageSchema(cloned);
+    this.context.addSchemaLink(this.props.property.id, element.id);
   }
 
-  renderLinkedTo (link, index) {
+  renderLink (link) {
     let element = this.context.findPageElementById(link.elementId);
 
     if (element) {
@@ -80,24 +71,26 @@ export default class SchemaProperty extends Component {
           link={link}
           element={element}
           property={this.props.property}
-          index={index}
-          key={index}
+          key={link.id}
           color={this.props.color}
         />
       );
+    } else {
+      this.context.removeSchemaLink(this.props.property.id, link.id);
     }
   }
 
-  renderLinks (linked) {
+  renderLinks () {
+    const schemaLinks = this.context.page.schemaLinks;
+    let linked = schemaLinks && schemaLinks[this.props.property.id] && schemaLinks[this.props.property.id].length > 0;
     if (linked) {
-      let links = this.context.page.schema.properties[this.props.property.id];
-
+      let links = schemaLinks[this.props.property.id];
       return (
         <div className='linked-info'>
           <div className='linked-info-option'>
             <div className='label'>Linked to</div>
             <div className='links'>
-              {links.map(this.renderLinkedTo, this)}
+              {links.map(this.renderLink, this)}
             </div>
           </div>
         </div>
@@ -106,8 +99,6 @@ export default class SchemaProperty extends Component {
   }
 
   render () {
-    const schema = this.context.page.schema;
-    let linked = schema && schema.properties && schema.properties[this.props.property.id] && schema.properties[this.props.property.id].length > 0;
     let style = {
       borderColor: this.props.color
     };
@@ -123,7 +114,7 @@ export default class SchemaProperty extends Component {
             <div className='type'>{this.props.property.type}</div>
           </div>
         </div>
-        {this.renderLinks(linked)}
+        {this.renderLinks()}
       </div>
     );
   }
@@ -135,10 +126,12 @@ SchemaProperty.contextTypes = {
   drawDraggingLine: React.PropTypes.func.isRequired,
   undrawDraggingLine: React.PropTypes.func.isRequired,
   linkingPossibilities: React.PropTypes.func.isRequired,
-  overedElement: React.PropTypes.any.isRequired,
-  overedPath: React.PropTypes.array.isRequired,
+  overedElement: React.PropTypes.any,
+  overedPath: React.PropTypes.array,
   findPageElementById: React.PropTypes.func.isRequired,
   overElement: React.PropTypes.func.isRequired,
   outElement: React.PropTypes.func.isRequired,
-  elements: React.PropTypes.object.isRequired
+  elements: React.PropTypes.object.isRequired,
+  addSchemaLink: React.PropTypes.func.isRequired,
+  removeSchemaLink: React.PropTypes.func.isRequired
 };

@@ -26,7 +26,7 @@ export default class Page extends Component {
   }
 
   onChange (attributes) {
-    draftActions.updateModel(this.currentDraftId, attributes);
+    draftActions.updateModel(attributes);
   }
 
   render () {

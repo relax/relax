@@ -35,8 +35,12 @@ export default class Common extends DragRoot {
     this.addElementAtIdBind = this.addElementAtId.bind(this);
     this.openElementsMenuBind = this.openElementsMenu.bind(this);
     this.setPageSchemaBind = this.setPageSchema.bind(this);
+    this.addSchemaLinkBind = this.addSchemaLink.bind(this);
+    this.removeSchemaLinkBind = this.removeSchemaLink.bind(this);
+    this.changeSchemaLinkActionBind = this.changeSchemaLinkAction.bind(this);
 
     this.idCounter = this.checkLatestId(this.props.value.data) + 1;
+    this.schemaLinksId = this.getSchemaLinksIndex() + 1;
 
     this.scope = 'keyscope'+(BUILDER_ID++);
     this.previousScope = key.getScope();
@@ -95,7 +99,10 @@ export default class Common extends DragRoot {
       findPageElementById: this.findPageElementByIdBind,
       openElementsMenu: this.openElementsMenuBind,
       elementsMenuSpot: this.state.elementsMenu ? this.state.elementsMenuProps.targetPosition : -1,
-      setPageSchema: this.setPageSchemaBind
+      setPageSchema: this.setPageSchemaBind,
+      addSchemaLink: this.addSchemaLinkBind,
+      removeSchemaLink: this.removeSchemaLinkBind,
+      changeSchemaLinkAction: this.changeSchemaLinkActionBind
     };
   }
 
@@ -317,6 +324,25 @@ export default class Common extends DragRoot {
       info.element.hide[action.display] = info.element.hide[action.display] ? false : true;
     } else if (action.type === 'changeSchema') {
       this.props.value.schema = action.value;
+    } else if (action.type === 'addSchemaLink') {
+      this.props.value.schemaLinks = this.props.value.schemaLinks || {};
+      this.props.value.schemaLinks[action.property] = this.props.value.schemaLinks[action.property] || [];
+      this.props.value.schemaLinks[action.property].push(action.link);
+    } else if (action.type === 'removeSchemaLink') {
+      let linkResult = this.getSchemaLink(action.property, action.link.id);
+
+      if (linkResult !== false) {
+        this.props.value.schemaLinks[action.property].splice(linkResult.index, 1);
+        if (this.props.value.schemaLinks[action.property].length === 0) {
+          delete this.props.value.schemaLinks[action.property];
+        }
+      }
+    } else if (action.type === 'changeSchemaLinkAction') {
+      let linkResult = this.getSchemaLink(action.property, action.linkId);
+
+      if (linkResult !== false) {
+        linkResult.link.action = action.value;
+      }
     }
 
     this.props.onChange(this.props.value);
@@ -418,9 +444,73 @@ export default class Common extends DragRoot {
         };
       }
 
+      // Add schema link
+      else if (action.type === 'addSchemaLink') {
+        revertedAction = {
+          type: 'removeSchemaLink',
+          property: action.property,
+          link: action.link
+        };
+      }
+
+      // Remove schema link
+      else if (action.type === 'removeSchemaLink') {
+        revertedAction = {
+          type: 'addSchemaLink',
+          property: action.property,
+          link: action.link
+        };
+      }
+
+      // Change schema link action
+      else if (action.type === 'changeSchemaLinkAction') {
+        revertedAction = {
+          type: 'changeSchemaLinkAction',
+          property: action.property,
+          linkId: action.linkId,
+          value: action.oldValue,
+          oldValue: action.value
+        };
+      }
+
       this.state.redos.push(action);
       this.doAction(revertedAction);
     }
+  }
+
+  getSchemaLink (property, id) {
+    let result = false;
+
+    if (this.props.value.schemaLinks && this.props.value.schemaLinks[property]) {
+      let propertyLinks = this.props.value.schemaLinks[property];
+      forEach(propertyLinks, (link, index) => {
+        if (link.id === id) {
+          result = {
+            index,
+            link
+          };
+          return false;
+        }
+      });
+    }
+
+    return result;
+
+  }
+
+  getSchemaLinksIndex () {
+    if (!this.props.value.schemaLinks) {
+      return 0;
+    }
+    let id = 0;
+    forEach(this.props.value.schemaLinks, (property) => {
+      forEach(property, (link) => {
+        if (link.id > id) {
+          id = link.id;
+        }
+      });
+    });
+    return id;
   }
 
   addElementAtSelected (element) {
@@ -699,6 +789,43 @@ export default class Common extends DragRoot {
     });
   }
 
+  addSchemaLink (property, elementId) {
+    this.factorAction({
+      type: 'addSchemaLink',
+      property,
+      link: {
+        id: this.schemaLinksId++,
+        elementId
+      }
+    });
+  }
+
+  removeSchemaLink (property, linkId) {
+    let linkResult = this.getSchemaLink(property, linkId);
+
+    if (linkResult !== false) {
+      this.factorAction({
+        type: 'removeSchemaLink',
+        property,
+        link: linkResult.link
+      });
+    }
+  }
+
+  changeSchemaLinkAction (property, linkId, action) {
+    let linkResult = this.getSchemaLink(property, linkId);
+
+    if (linkResult !== false) {
+      this.factorAction({
+        type: 'changeSchemaLinkAction',
+        property,
+        linkId,
+        value: action,
+        oldValue: linkResult.link.action
+      });
+    }
+  }
+
   openElementsMenu (options) {
     this.setState({
       elementsMenu: true,
@@ -763,5 +890,8 @@ Common.childContextTypes = {
   findPageElementById: React.PropTypes.func.isRequired,
   openElementsMenu: React.PropTypes.func.isRequired,
   elementsMenuSpot: React.PropTypes.number.isRequired,
-  setPageSchema: React.PropTypes.func.isRequired
+  setPageSchema: React.PropTypes.func.isRequired,
+  addSchemaLink: React.PropTypes.func.isRequired,
+  removeSchemaLink: React.PropTypes.func.isRequired,
+  changeSchemaLinkAction: React.PropTypes.func.isRequired
 };

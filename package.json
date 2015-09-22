@@ -40,7 +40,7 @@
     "medium-editor": "git://github.com/relax/medium-editor.git",
     "mkdirp": "^0.5.1",
     "moment": "^2.10.6",
-    "mongoose": "^4.1.5",
+    "mongoose": "^4.1.8",
     "morgan": "^1.6.1",
     "multer": "^1.0.3",
     "passport": "^0.3.0",

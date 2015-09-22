@@ -59,6 +59,9 @@
     table-layout: fixed;
     width: 100%;
 
+    .link {
+      width: 25px;
+    }
     .link span {
       width: 10px;
       height: 10px;
@@ -106,7 +109,8 @@
     }
 
     .actions {
-      padding: 0 10px;
+      padding: 0;
+      margin-top: 0;
 
       >.action {
         position: relative;
@@ -115,7 +119,7 @@
         border-radius: 3px;
         display: inline-block;
         vertical-align: top;
-        padding: 0 10px;
+        padding: 0 2px;
 
         >i, >span {
           color: #cccccc;
@@ -136,6 +140,11 @@
           color: @adminPrimary;
         }
       }
+    }
+
+    .options-menu {
+      top: 21px;
+      right: -61px;
     }
 
     .extra-option {

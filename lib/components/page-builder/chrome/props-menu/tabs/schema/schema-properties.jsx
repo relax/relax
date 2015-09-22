@@ -20,17 +20,17 @@ export default class SchemaProperties extends Component {
   getInitialModels () {
     var models = {};
 
-    if (this.props.value.schema && this.props.value.schema !== '')  {
-      models.schema = schemasStore.getModel(this.props.value.schema);
+    if (this.props.schemaSlug)  {
+      models.schema = schemasStore.getModel(this.props.schemaSlug);
     }
 
     return models;
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.value.schema && nextProps.value.schema !== this.props.value.schema) {
+    if (nextProps.schemaSlug && nextProps.schemaSlug !== this.props.schemaSlug) {
       this.setModels({
-        schema: schemasStore.getModel(nextProps.value.schema)
+        schema: schemasStore.getModel(nextProps.schemaSlug)
       });
     }
   }
@@ -48,7 +48,9 @@ export default class SchemaProperties extends Component {
   }
 
   renderProperties () {
-    if (this.state.schema && this.state.schema.properties) {
+    let schemaProperties = (this.state.schema && this.state.schema.properties) || (this.context.schema && this.context.schema.properties);
+
+    if (schemaProperties) {
       let properties = [
         {
           id: '_title',
@@ -61,7 +63,7 @@ export default class SchemaProperties extends Component {
           type: 'Date'
         }
       ];
-      properties = properties.concat(this.state.schema.properties);
+      properties = properties.concat(schemaProperties);
 
       return (
         <div className='schema-properties'>
@@ -82,5 +84,5 @@ export default class SchemaProperties extends Component {
 }
 
 SchemaProperties.contextTypes = {
-  setPageSchema: React.PropTypes.func.isRequired
+  schema: React.PropTypes.object
 };

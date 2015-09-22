@@ -11,9 +11,13 @@ import schemasStore from '../../../../../../client/stores/schemas';
 
 export default class Schema extends Component {
   getInitialCollections () {
-    return {
-      schemas: schemasStore.getCollection()
-    };
+    let collections = {};
+
+    if (!this.context.schema) {
+      collections.schemas = schemasStore.getCollection();
+    }
+
+    return collections;
   }
 
   onSchemaChange (value) {
@@ -45,11 +49,9 @@ export default class Schema extends Component {
   }
 
   renderProperties () {
-    if (this.context.page.schema && this.context.page.schema.schema) {
+    if (this.context.schema || (this.context.page.schema && this.context.page.schema.schema)) {
       return (
-        <SchemaProperties
-          value={this.context.page.schema}
-        />
+        <SchemaProperties value={this.context.schema.schemaLinks || this.context.page.schemaLinks} schemaSlug={this.context.page && this.context.page.schema} />
       );
     }
   }
@@ -69,6 +71,7 @@ export default class Schema extends Component {
 }
 
 Schema.contextTypes = {
-  page: React.PropTypes.object.isRequired,
-  setPageSchema: React.PropTypes.func.isRequired
+  page: React.PropTypes.object,
+  schema: React.PropTypes.object,
+  setPageSchema: React.PropTypes.func
 };

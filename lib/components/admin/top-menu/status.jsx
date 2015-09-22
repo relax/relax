@@ -5,10 +5,18 @@ import Animate from '../../animate';
 
 export default class Status extends Component {
   render () {
+    let currentVersion;
+
+    if (this.context.page) {
+      currentVersion = this.context.page._version;
+    } else if (this.context.schema) {
+      currentVersion = this.context.schema._version;
+    }
+
     if (this.props.state) {
       return <FormState state={this.props.state} message={this.props.stateMessage} />;
     } else {
-      if (this.props.draft._version < this.context.page._version) {
+      if (this.props.draft._version < currentVersion) {
         return (
           <Animate transition='slideDownIn' key='behind'>
             <span className='status behind'>
@@ -38,7 +46,8 @@ export default class Status extends Component {
 }
 
 Status.contextTypes = {
-  page: React.PropTypes.object.isRequired
+  page: React.PropTypes.object,
+  schema: React.PropTypes.object
 };
 
 Status.propTypes = {

@@ -1,7 +1,6 @@
 import React from 'react';
 import {Component} from 'relax-framework';
 import forEach from 'lodash.foreach';
-import cloneDeep from 'lodash.clonedeep';
 import Utils from '../../../../../../utils';
 import OptionsMenu from '../../../../../options-menu';
 
@@ -73,17 +72,12 @@ export default class SchemaPropertyLink extends Component {
       event.preventDefault();
       event.stopPropagation();
     }
-
-    let cloned = cloneDeep(this.context.page.schema || {});
-    cloned.properties[this.props.property.id][this.props.index].action = actionId;
-    this.context.setPageSchema(cloned);
+    this.context.changeSchemaLinkAction(this.props.property.id, this.props.link.id, actionId);
     this.closeMenu();
   }
 
   onRemove () {
-    let cloned = cloneDeep(this.context.page.schema || {});
-    cloned.properties[this.props.property.id].splice(this.props.index, 1);
-    this.context.setPageSchema(cloned);
+    this.context.removeSchemaLink(this.props.property.id, this.props.link.id);
   }
 
   openMenu () {
@@ -162,9 +156,9 @@ export default class SchemaPropertyLink extends Component {
             <i className={ElementClass.settings.icon.class}>{ElementClass.settings.icon.content}</i>
             <span>{element.label || element.tag}</span>
           </div>
-        </div>
-        <div className='actions'>
-          {this.renderAction()}
+          <div className='actions'>
+            {this.renderAction()}
+          </div>
         </div>
         <div className='delete-col'>
           <div className='delete' onClick={this.onRemove.bind(this)}>
@@ -182,5 +176,7 @@ SchemaPropertyLink.contextTypes = {
   findPageElementById: React.PropTypes.func.isRequired,
   overElement: React.PropTypes.func.isRequired,
   outElement: React.PropTypes.func.isRequired,
-  elements: React.PropTypes.object.isRequired
+  elements: React.PropTypes.object.isRequired,
+  removeSchemaLink: React.PropTypes.func.isRequired,
+  changeSchemaLinkAction: React.PropTypes.func.isRequired
 };
