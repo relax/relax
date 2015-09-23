@@ -2,7 +2,7 @@ import React from 'react';
 import {Droppable} from '../drag';
 import {Component} from 'relax-framework';
 import displays from '../../displays';
-import forEach from 'lodash.foreach';
+import utils from '../../utils';
 
 export default class Canvas extends Component {
   componentDidMount () {
@@ -28,18 +28,10 @@ export default class Canvas extends Component {
     this.context.selectElement(id);
   }
 
-  getElementsModelLinks () {
+  getElementsSchemaLinks () {
     let elementsLinks = {};
     if (this.context.schemaEntry && this.context.page.schemaLinks) {
-      forEach(this.context.page.schemaLinks, (links, propertyId) => {
-        forEach(links, link => {
-          elementsLinks[link.elementId] = elementsLinks[link.elementId] || [];
-          elementsLinks[link.elementId].push({
-            propertyId,
-            action: link.action
-          });
-        });
-      });
+      elementsLinks = utils.getElementsSchemaLinks(this.context.page.schemaLinks);
     }
     return elementsLinks;
   }
@@ -48,22 +40,7 @@ export default class Canvas extends Component {
     if ((!element.hide || !element.hide[this.context.display]) && element.display !== false) {
 
       if (this.context.schemaEntry && elementsLinks[element.id]) {
-        let schemaEntry = this.context.schemaEntry;
-        forEach(elementsLinks[element.id], (link) => {
-          if (link.action === 'children') {
-            if (schemaEntry[link.propertyId] && schemaEntry[link.propertyId] !== '') {
-              element.children = schemaEntry[link.propertyId];
-            } else {
-              element.display = false;
-            }
-          } else if (link.action === 'show' && (!schemaEntry[link.propertyId] || schemaEntry[link.propertyId] === '')) {
-            element.display = false;
-          } else if (link.action === 'hide' && schemaEntry[link.propertyId] && schemaEntry[link.propertyId] !== '') {
-            element.display = false;
-          } else if (link.action) { // setting
-            element.props[link.action] = schemaEntry[link.propertyId];
-          }
-        });
+        utils.alterSchemaElementProps(elementsLinks[element.id], element, this.context.schemaEntry);
       }
 
       if (element.display !== false) {
@@ -101,7 +78,7 @@ export default class Canvas extends Component {
     };
 
     // Process schema links if any
-    const elementsLinks = this.getElementsModelLinks();
+    const elementsLinks = this.getElementsSchemaLinks();
 
     return (
       <div>
