@@ -56,7 +56,6 @@ export default class Entry extends Component {
   render () {
     const schemaItem = this.props.schemaItem;
     let editLink = '/admin/schema/'+this.props.schema.slug+'/'+schemaItem._slug;
-    let buildLink = '/admin/schema/'+this.props.schema.slug+'/'+schemaItem._slug;
     let viewLink = '/'+this.props.schema.slug+'/'+schemaItem._slug;
     const published = schemaItem._state === 'published';
     let date = 'Created - ' + moment(schemaItem._date).format('MMMM Do YYYY');
@@ -80,10 +79,6 @@ export default class Entry extends Component {
             <A href={editLink}>
               <i className='material-icons'>mode_edit</i>
               <span>Edit</span>
-            </A>
-            <A href={buildLink}>
-              <i className='material-icons'>build</i>
-              <span>Build</span>
             </A>
             <a href={viewLink} target='_blank'>
               <i className='material-icons'>link</i>

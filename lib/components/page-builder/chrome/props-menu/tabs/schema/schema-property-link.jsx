@@ -25,7 +25,7 @@ export default class SchemaPropertyLink extends Component {
       // Check settings that match property type
       let propsList = Utils.getPropSchemaList(ElementClass.propsSchema);
       forEach(propsList, propSchema => {
-        if (propSchema.id && propSchema.label && propSchema.type === this.props.property.type) {
+        if (propSchema.id && propSchema.type === this.props.property.type) {
           availableActions.push({
             label: propSchema.label,
             value: propSchema.id

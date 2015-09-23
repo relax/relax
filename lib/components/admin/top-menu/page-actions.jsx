@@ -11,6 +11,7 @@ import RevisionsOverlay from '../revisions-overlay';
 
 import pageActions from '../../../client/actions/page';
 import schemaActions from '../../../client/actions/schema';
+import schemaEntriesActionsFactory from '../../../client/actions/schema-entries';
 import draftActions from '../../../client/actions/draft';
 import draftsStore from '../../../client/stores/drafts';
 
@@ -140,14 +141,30 @@ export default class PageActions extends Component {
     if (this.context.page) {
       actions = pageActions;
       clone = cloneDeep(this.context.page);
+      clone.data = this.state.draft.data;
+      clone.updatedBy = this.context.user._id;
       label = 'Page';
       this.setState({
         state: 'loading',
         stateMessage: 'Saving page'
       });
+    } else if (this.context.schemaEntry) {
+      actions = schemaEntriesActionsFactory(this.context.schema.slug);
+      clone = cloneDeep(this.context.schemaEntry);
+      label = this.context.schemaEntry._title;
+      clone._data = this.state.draft.data;
+      clone._schemaLinks = this.state.draft.schemaLinks;
+      clone._updatedBy = this.context.user._id;
+      this.setState({
+        state: 'loading',
+        stateMessage: 'Saving '+this.context.schemaEntry._title
+      });
     } else if (this.context.schema) {
       actions = schemaActions;
       clone = cloneDeep(this.context.schema);
+      clone.data = this.state.draft.data;
+      clone.schemaLinks = this.state.draft.schemaLinks;
+      clone.updatedBy = this.context.user._id;
       label = 'Schema template';
       this.setState({
         state: 'loading',
@@ -161,9 +178,6 @@ export default class PageActions extends Component {
       return;
     }
 
-    clone.data = this.state.draft.data;
-    clone.updatedBy = this.context.user._id;
-
     actions
       .update(clone)
       .then((result) => {
@@ -171,7 +185,7 @@ export default class PageActions extends Component {
 
         draftClone._version = result._version;
         draftClone.actions = [];
-        draftClone.data = result.data;
+        draftClone.data = result._data || result.data;
 
         return draftActions.update(draftClone);
       })
@@ -195,43 +209,59 @@ export default class PageActions extends Component {
     event.stopPropagation();
     clearTimeout(this.successTimeout);
 
-    // Publish only for pages
-    if (!this.context.page) {
+    // Publish only for pages and schema entries
+    if (!this.context.page && !this.context.schemaEntry) {
       return;
     }
 
-    this.setState({
-      state: 'loading',
-      stateMessage: 'Publishing page'
-    });
+    let clone, actions;
 
-    let pageClone = cloneDeep(this.context.page);
-    pageClone.state = 'published';
-    pageClone.data = this.state.draft.data;
-    pageClone.updatedBy = this.context.user._id;
+    if (this.context.page) {
+      this.setState({
+        state: 'loading',
+        stateMessage: 'Publishing page'
+      });
+      actions = pageActions;
+      clone = cloneDeep(this.context.page);
+      clone.state = 'published';
+      clone.data = this.state.draft.data;
+      clone.updatedBy = this.context.user._id;
+    } else if (this.context.schemaEntry) {
+      this.setState({
+        state: 'loading',
+        stateMessage: 'Publishing '+this.context.schemaEntry._title
+      });
+      actions = schemaEntriesActionsFactory(this.context.schema.slug);
+      clone = cloneDeep(this.context.schemaEntry);
+      clone._state = 'published';
+      clone._data = this.state.draft.data;
+      clone._schemaLinks = this.state.draft.schemaLinks;
+      clone._updatedBy = this.context.user._id;
+    }
 
-    pageActions
-      .update(pageClone)
-      .then((page) => {
+
+    actions
+      .update(clone)
+      .then((result) => {
         let draftClone = cloneDeep(this.state.draft);
 
         draftClone.actions = [];
-        draftClone.data = page.data;
-        draftClone._version = page._version;
+        draftClone.data = result._data || result.data;
+        draftClone._version = result._version;
 
-        return Q.all([page, draftActions.update(draftClone)]);
+        return draftActions.update(draftClone);
       })
-      .then((page, draft) => {
+      .then((draft) => {
         this.setState({
           state: 'success',
-          stateMessage: 'Page published successfully'
+          stateMessage: 'Published successfully'
         });
         this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
       })
       .catch(() => {
         this.setState({
           state: 'error',
-          stateMessage: 'Error publishing page'
+          stateMessage: 'Error publishing'
         });
       });
   }
@@ -250,6 +280,8 @@ export default class PageActions extends Component {
     let current;
     if (this.context.page) {
       current = this.context.page;
+    } else if (this.context.schemaEntry) {
+      current = this.context.schemaEntry;
     } else if (this.context.schema) {
       current = this.context.schema;
     } else {
@@ -262,8 +294,12 @@ export default class PageActions extends Component {
 
     let draftClone = cloneDeep(this.state.draft);
     draftClone._version = current._version;
-    draftClone.data = current.data;
+    draftClone.data = current._data || current.data;
     draftClone.actions = [];
+
+    if (current.schemaLinks || current._schemaLinks) {
+      draftClone.schemaLinks = current._schemaLinks || current.schemaLinks;
+    }
 
     draftActions
       .update(draftClone)
@@ -312,6 +348,9 @@ export default class PageActions extends Component {
     if (this.context.page) {
       actions = pageActions;
       current = this.context.page;
+    } else if (this.context.schemaEntry) {
+      actions = schemaEntriesActionsFactory(this.context.schema.slug);
+      current = this.context.schemaEntry;
     } else if (this.context.schema) {
       actions = schemaActions;
       current = this.context.schema;
@@ -332,8 +371,12 @@ export default class PageActions extends Component {
         let draftClone = cloneDeep(this.state.draft);
 
         draftClone.actions = [];
-        draftClone.data = result.data;
+        draftClone.data = result._data || result.data;
         draftClone._version = result._version;
+
+        if (result.schemaLinks || result._schemaLinks) {
+          draftClone.schemaLinks = result._schemaLinks || result.schemaLinks;
+        }
 
         return Q.all([result, draftActions.update(draftClone)]);
       })
@@ -346,6 +389,8 @@ export default class PageActions extends Component {
 
         if (this.context.page) {
           Router.prototype.navigate('/admin/page/'+result.slug, {trigger: false, replace: true});
+        } else if (this.context.schemaEntry) {
+          Router.prototype.navigate('/admin/schema/'+this.context.schema.slug+'/'+result._slug+'/single', {trigger: false, replace: true});
         } else if (this.context.schema) {
           Router.prototype.navigate('/admin/schemas/'+result.slug+'/template', {trigger: false, replace: true});
         }
@@ -428,6 +473,32 @@ export default class PageActions extends Component {
     }
   }
 
+  renderSaveMethods () {
+    if ((this.context.schema && !this.context.schemaEntry) ||
+        (this.context.page && this.context.page.state === 'published') ||
+        (this.context.schemaEntry && this.context.schemaEntry._state === 'published')) {
+      return (
+        <div className='save-action' onClick={this.savePage.bind(this)}>
+          <i className='material-icons'>public</i>
+          <span>Update</span>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <div className='save-action' onClick={this.savePage.bind(this)}>
+            <i className='material-icons'>save</i>
+            <span>Save</span>
+          </div>
+          <div className='save-action'  onClick={this.publishPage.bind(this)}>
+            <i className='material-icons'>public</i>
+            <span>Save and publish</span>
+          </div>
+        </div>
+      );
+    }
+  }
+
   renderSave () {
     if (this.context.activePanelType === 'pageBuild' && (this.context.page || this.context.schema) && this.state.save) {
       return (
@@ -437,25 +508,7 @@ export default class PageActions extends Component {
               <i className='material-icons'>mode_edit</i>
               <span>Save my draft</span>
             </div>
-            {this.context.schema || (this.context.page && this.context.page.state === 'published') ?
-              <div className='save-action' onClick={this.savePage.bind(this)}>
-                <i className='material-icons'>public</i>
-                <span>Update</span>
-              </div>
-              :
-              (
-                <div>
-                  <div className='save-action' onClick={this.savePage.bind(this)}>
-                    <i className='material-icons'>save</i>
-                    <span>Save</span>
-                  </div>
-                  <div className='save-action'  onClick={this.publishPage.bind(this)}>
-                    <i className='material-icons'>public</i>
-                    <span>Save and publish</span>
-                  </div>
-                </div>
-              )
-            }
+            {this.renderSaveMethods()}
           </div>
         </Animate>
       );
@@ -495,6 +548,7 @@ PageActions.contextTypes = {
   draft: React.PropTypes.object,
   page: React.PropTypes.object,
   schema: React.PropTypes.object,
+  schemaEntry: React.PropTypes.object,
   user: React.PropTypes.object.isRequired,
   lastDashboard: React.PropTypes.string.isRequired,
   display: React.PropTypes.string.isRequired,

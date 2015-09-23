@@ -90,7 +90,7 @@ export default class Schema extends Component {
             element.display = false;
           } else if (link.action === 'hide' && schemaEntry[link.propertyId] && schemaEntry[link.propertyId] !== '') {
             element.display = false;
-          } else { // setting
+          } else if (link.action) { // setting
             element.props[link.action] = schemaEntry[link.propertyId];
           }
         });
@@ -143,9 +143,7 @@ export default class Schema extends Component {
 
   renderEntry (entry) {
     var schemaModuleClone = cloneDeep(this.props.model.data);
-
     this.alterProps(schemaModuleClone, entry);
-
     return schemaModuleClone.map(this.context.renderElement);
   }
 

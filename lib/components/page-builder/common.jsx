@@ -39,7 +39,6 @@ export default class Common extends DragRoot {
     this.removeSchemaLinkBind = this.removeSchemaLink.bind(this);
     this.changeSchemaLinkActionBind = this.changeSchemaLinkAction.bind(this);
 
-    this.idCounter = this.checkLatestId(this.props.value.data) + 1;
     this.schemaLinksId = this.getSchemaLinksIndex() + 1;
 
     this.scope = 'keyscope'+(BUILDER_ID++);
@@ -54,13 +53,6 @@ export default class Common extends DragRoot {
       overedElement: false,
       redos: []
     };
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.value.id !== this.props.value.id) {
-      this.idCounter = this.checkLatestId(nextProps.value.data) + 1;
-      this.selectElement('body');
-    }
   }
 
   colorUpdated () {
@@ -245,8 +237,9 @@ export default class Common extends DragRoot {
       // Source
       var element;
       if (action.type === 'new') {
+        let idCounter = this.checkLatestId(this.props.value.data) + 1;
         element = action.element;
-        element.id = element.id || this.idCounter++;
+        element.id = element.id || idCounter++;
 
         if (!element.children && this.context.elements[element.tag].defaultChildren) {
           const defaultChildren = this.context.elements[element.tag].defaultChildren;
@@ -254,7 +247,7 @@ export default class Common extends DragRoot {
           if (defaultChildren.constructor === Array) {
             let defaultChildrenClone = cloneDeep(defaultChildren);
             forEach(defaultChildrenClone, (childElement) => {
-              childElement.id = this.idCounter++;
+              childElement.id = idCounter++;
             });
             element.children = defaultChildrenClone;
           } else {
@@ -525,7 +518,7 @@ export default class Common extends DragRoot {
       type: 'new',
       element: {
         tag: element,
-        id: this.idCounter++
+        id: this.checkLatestId(this.props.value.data) + 1
       },
       destination: {
         id: this.state.selected,
@@ -540,7 +533,7 @@ export default class Common extends DragRoot {
       type: 'new',
       element: {
         tag,
-        id: this.idCounter++
+        id: this.checkLatestId(this.props.value.data) + 1
       },
       destination: {
         id: toId,
@@ -551,7 +544,7 @@ export default class Common extends DragRoot {
   }
 
   updateElementIds (element) {
-    element.id = this.idCounter++;
+    element.id = this.checkLatestId(this.props.value.data) + 1;
 
     if (element.children && element.children.constructor === Array) {
       forEach(element.children, (element) => {
@@ -609,7 +602,7 @@ export default class Common extends DragRoot {
     if (dragInfo.type === 'new') {
       action.element = {
         tag: dragInfo.element,
-        id: this.idCounter++
+        id: this.checkLatestId(this.props.value.data) + 1
       };
     } else if (dragInfo.type === 'move') {
       let info = this.findElementById(this.props.value.data, dragInfo.id);
@@ -736,7 +729,7 @@ export default class Common extends DragRoot {
     if (value && value.constructor === Array) {
       forEach(value, (childElement) => {
         if (!childElement.id) {
-          childElement.id = this.idCounter++;
+          childElement.id = this.checkLatestId(this.props.value.data) + 1;
         }
       });
     }

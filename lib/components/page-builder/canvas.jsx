@@ -1,30 +1,18 @@
 import React from 'react';
 import {Droppable} from '../drag';
 import {Component} from 'relax-framework';
-import ContextMenu from './context-menu';
-import key from 'keymaster';
 import displays from '../../displays';
+import forEach from 'lodash.foreach';
 
 export default class Canvas extends Component {
-
-  getInitialState () {
-    this.keyDownBind = this.onContextMenu.bind(this);
-
-    return {
-      contextMenu: false
-    };
-  }
-
   componentDidMount () {
     super.componentDidMount();
-    this.openContextBind();
-
     React.findDOMNode(this.refs.canvas).addEventListener('scroll', this.onScroll.bind(this));
   }
 
   getChildContext () {
     return {
-      renderElement: this.renderElement.bind(this),
+      renderElement: this.renderElement.bind(this, {}),
       dropHighlight: this.context.dragging ? 'vertical' : 'none'
     };
   }
@@ -40,67 +28,61 @@ export default class Canvas extends Component {
     this.context.selectElement(id);
   }
 
-  onContextMenu (event) {
-    return; // XXX temp for debug
-    if (this.context.editing) {
-      if (!event.keyCode) {
-        event.preventDefault();
-      } else if (key.command || key.ctrl || key.control || key.alt) {
-        return;
-      }
-
-      document.removeEventListener('keydown', this.keyDownBind);
-
-      this.setState({
-        contextMenu: true,
-        contextMenuSearch: event.keyCode ? true : false,
-        contextMenuX: event.clientX,
-        contextMenuY: event.clientY
+  getElementsModelLinks () {
+    let elementsLinks = {};
+    if (this.context.schemaEntry && this.context.page.schemaLinks) {
+      forEach(this.context.page.schemaLinks, (links, propertyId) => {
+        forEach(links, link => {
+          elementsLinks[link.elementId] = elementsLinks[link.elementId] || [];
+          elementsLinks[link.elementId].push({
+            propertyId,
+            action: link.action
+          });
+        });
       });
     }
+    return elementsLinks;
   }
 
-  openContextBind () {
-    //document.addEventListener('keydown', this.keyDownBind);
-  }
-
-  contextMenuClose () {
-    this.openContextBind();
-    this.setState({
-      contextMenu: false
-    });
-  }
-
-  renderContextMenu () {
-    if (this.state.contextMenu) {
-      return (
-        <ContextMenu
-          x={this.state.contextMenuX}
-          y={this.state.contextMenuY}
-          onClose={this.contextMenuClose.bind(this)}
-          search={this.state.contextMenuSearch}
-        />
-      );
-    }
-  }
-
-  renderElement (element) {
+  renderElement (elementsLinks, element) {
     if ((!element.hide || !element.hide[this.context.display]) && element.display !== false) {
-      var FactoredElement = this.context.elements[element.tag];
-      var selected = this.context.selected && this.context.selected.id === element.id;
 
-      return (
-        <FactoredElement {...element.props} key={element.id} selected={selected} element={element}>
-          {this.renderChildren(element.children || '')}
-        </FactoredElement>
-      );
+      if (this.context.schemaEntry && elementsLinks[element.id]) {
+        let schemaEntry = this.context.schemaEntry;
+        forEach(elementsLinks[element.id], (link) => {
+          if (link.action === 'children') {
+            if (schemaEntry[link.propertyId] && schemaEntry[link.propertyId] !== '') {
+              element.children = schemaEntry[link.propertyId];
+            } else {
+              element.display = false;
+            }
+          } else if (link.action === 'show' && (!schemaEntry[link.propertyId] || schemaEntry[link.propertyId] === '')) {
+            element.display = false;
+          } else if (link.action === 'hide' && schemaEntry[link.propertyId] && schemaEntry[link.propertyId] !== '') {
+            element.display = false;
+          } else if (link.action) { // setting
+            element.props[link.action] = schemaEntry[link.propertyId];
+          }
+        });
+      }
+
+      if (element.display !== false) {
+        var FactoredElement = this.context.elements[element.tag];
+        var selected = this.context.selected && this.context.selected.id === element.id;
+
+        return (
+          <FactoredElement {...element.props} key={element.id} selected={selected} element={element}>
+            {this.renderChildren(element.children || '', elementsLinks)}
+          </FactoredElement>
+        );
+      }
     }
   }
 
-  renderChildren (children) {
+  renderChildren (children, elementsLinks) {
     // group of elements (array)
     if ( children instanceof Array ) {
-      return children.map(this.renderElement.bind(this));
+      return children.map(this.renderElement.bind(this, elementsLinks));
     }
     // String or other static content
     else {
@@ -118,16 +100,18 @@ export default class Canvas extends Component {
       maxWidth: displays[this.context.display]
     };
 
+    // Process schema links if any
+    const elementsLinks = this.getElementsModelLinks();
+
     return (
       <div>
-        <div className='page-builder-canvas' onContextMenu={this.onContextMenu.bind(this)} ref='canvas'>
-          <div className='body-element' onClick={this.contextMenuClose.bind(this)} style={bodyStyle} ref='body'>
+        <div className='page-builder-canvas' ref='canvas'>
+          <div className='body-element' style={bodyStyle} ref='body'>
             <Droppable type='body' dropInfo={dropInfo} accepts='Section' placeholder={true}>
-              {this.renderChildren(this.context.page.data)}
+              {this.renderChildren(this.context.page.data, elementsLinks)}
             </Droppable>
           </div>
         </div>
-        {this.renderContextMenu()}
       </div>
     );
   }
@@ -139,6 +123,7 @@ Canvas.childContextTypes = {
 };
 
 Canvas.contextTypes = {
+  schemaEntry: React.PropTypes.object,
   dragging: React.PropTypes.bool,
   selected: React.PropTypes.any.isRequired,
   elements: React.PropTypes.object.isRequired,

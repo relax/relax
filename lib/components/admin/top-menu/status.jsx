@@ -9,6 +9,8 @@ export default class Status extends Component {
 
     if (this.context.page) {
       currentVersion = this.context.page._version;
+    } else if (this.context.schemaEntry) {
+      currentVersion = this.context.schemaEntry._version;
     } else if (this.context.schema) {
       currentVersion = this.context.schema._version;
     }
@@ -47,7 +49,8 @@ export default class Status extends Component {
 
 Status.contextTypes = {
   page: React.PropTypes.object,
-  schema: React.PropTypes.object
+  schema: React.PropTypes.object,
+  schemaEntry: React.PropTypes.object
 };
 
 Status.propTypes = {

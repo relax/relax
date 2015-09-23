@@ -150,6 +150,31 @@ export default class SchemaEntry extends Component {
     this.onSubmit(clone);
   }
 
+  onOverlap () {
+    let clone = cloneDeep(this.state.schemaEntry);
+    clone._overlap = true;
+
+    this.setState({
+      saving: true,
+      savingLabel: 'Overlaping schema template'
+    });
+
+    this.onSubmit(clone);
+  }
+
+  onRevertTemplate () {
+    let clone = cloneDeep(this.state.schemaEntry);
+    clone._overlap = false;
+    clone._data = [];
+
+    this.setState({
+      saving: true,
+      savingLabel: 'Reverting to schema template'
+    });
+
+    this.onSubmit(clone);
+  }
+
   onFieldChange (id, value) {
     this.state.schemaEntry[id] = value;
 
@@ -277,17 +302,38 @@ export default class SchemaEntry extends Component {
     }
   }
 
+  renderBuildLinks () {
+    if (this.state.schemaEntry._overlap) {
+      const buildLink = '/admin/schema/'+this.context.schema.slug+'/'+this.state.schemaEntry._slug+'/single';
+      return (
+        <div>
+          <A className='link' href={buildLink}>
+            <i className='material-icons'>build</i>
+            <span>Build page</span>
+          </A>
+          <a href='#' className='link' onClick={this.onRevertTemplate.bind(this)}>
+            <i className='material-icons'>backspace</i>
+            <span>Revert to template</span>
+          </a>
+        </div>
+      );
+    } else {
+      return (
+        <a href='#' className='link' onClick={this.onOverlap.bind(this)}>
+          <i className='material-icons'>merge_type</i>
+          <span>Overlap template</span>
+        </a>
+      );
+    }
+  }
+
   renderlinks () {
     if (!this.state.new) {
-      const buildLink = '/admin/schema/'+this.context.schema.slug+'/'+this.state.schemaEntry._slug;
       const viewLink = '/'+this.context.schema.slug+'/'+this.state.schemaEntry._slug;
       const revisions = this.state.schemaEntry._version-1;
       return (
         <div className='links'>
-          <A className='link' href={buildLink}>
-            <i className='material-icons'>build</i>
-            <span>Build</span>
-          </A>
+          {this.renderBuildLinks()}
           <a className='link' href={viewLink} target='_blank'>
             <i className='material-icons'>link</i>
             <span>View</span>

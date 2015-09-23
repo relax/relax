@@ -47,6 +47,8 @@ export default class TopMenu extends Component {
                   to = '/admin/page/'+toTab.page.slug;
                 } else if (toTab.userSchema) {
                   to = '/admin/schemas/'+toTab.userSchema.slug+'/template';
+                } else if (toTab.schemaEntry) {
+                  to = '/admin/schema/'+toTab.schemaEntry.schemaSlug+'/'+toTab.schemaEntry.slug+'/single';
                 }
               }
               return false;
@@ -72,11 +74,16 @@ export default class TopMenu extends Component {
       title = tab.page.title;
       active = active && this.context.page && this.context.page.slug === slug;
       link = '/admin/page/'+slug;
-    } else if(tab.userSchema) {
+    } else if (tab.userSchema) {
       slug = tab.userSchema.slug;
       title = tab.userSchema.title+' (template)';
-      active = active && this.context.schema && this.context.schema.slug === slug;
+      active = active && this.context.schema && this.context.schema.slug === slug && !this.context.schemaEntry;
       link = '/admin/schemas/'+slug+'/template';
+    } else if (tab.schemaEntry) {
+      slug = tab.schemaEntry.slug;
+      title = tab.schemaEntry.title;
+      active = active && this.context.schemaEntry && this.context.schema && this.context.schemaEntry._slug === slug && this.context.schema.slug === tab.schemaEntry.schemaSlug;
+      link = '/admin/schema/'+tab.schemaEntry.schemaSlug+'/'+slug+'/single';
     } else {
       return;
     }
@@ -119,6 +126,7 @@ TopMenu.contextTypes = {
   user: React.PropTypes.object.isRequired,
   page: React.PropTypes.object,
   schema: React.PropTypes.object,
+  schemaEntry: React.PropTypes.object,
   draft: React.PropTypes.object,
   editing: React.PropTypes.bool.isRequired,
   addOverlay: React.PropTypes.func.isRequired,
