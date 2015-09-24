@@ -168,7 +168,7 @@ export default class Page extends Component {
     return pageActions.validateSlug(slug);
   }
 
-  onRestore (_version) {
+  onRestore (__v) {
     this.context.closeOverlay();
 
     this.setState({
@@ -179,7 +179,7 @@ export default class Page extends Component {
     pageActions
       .restore({
         _id: this.state.page._id,
-        _version
+        __v
       })
       .then((page) => {
         this.state.breadcrumbs[1].label = page.title;
@@ -208,7 +208,7 @@ export default class Page extends Component {
     let current = {
       _id: {
         _id: page._id,
-        _version: page._version
+        __v: page.__v
       },
       date: page.updatedDate,
       user: page.updatedBy,
@@ -224,7 +224,7 @@ export default class Page extends Component {
     if (!this.state.new) {
       const buildLink = '/admin/page/'+this.state.page.slug;
       const viewLink = '/'+this.state.page.slug;
-      const revisions = this.state.page._version-1;
+      const revisions = this.state.page.__v;
       return (
         <div className='links'>
           <A className='link' href={buildLink}>

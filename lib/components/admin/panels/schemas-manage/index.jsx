@@ -144,7 +144,7 @@ export default class SchemasManage extends Component {
     return schemaActions.validateSlug(slug);
   }
 
-  onRestore (_version) {
+  onRestore (__v) {
     this.context.closeOverlay();
 
     this.setState({
@@ -155,7 +155,7 @@ export default class SchemasManage extends Component {
     schemaActions
       .restore({
         _id: this.state.schema._id,
-        _version
+        __v
       })
       .then((schema) => {
         this.state.breadcrumbs[1].label = schema.title;
@@ -184,7 +184,7 @@ export default class SchemasManage extends Component {
     let current = {
       _id: {
         _id: schema._id,
-        _version: schema._version
+        __v: schema.__v
       },
       date: schema.updatedDate,
       user: schema.updatedBy,
@@ -231,7 +231,7 @@ export default class SchemasManage extends Component {
     if (!this.state.new) {
       const buildTemplateLink = '/admin/schemas/'+this.state.schema.slug+'/template';
       const entriesLink = '/admin/schema/'+this.state.schema.slug;
-      const revisions = this.state.schema._version-1;
+      const revisions = this.state.schema.__v;
       return (
         <div className='links'>
           <A className='link' href={buildTemplateLink}>

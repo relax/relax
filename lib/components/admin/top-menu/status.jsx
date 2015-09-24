@@ -8,17 +8,17 @@ export default class Status extends Component {
     let currentVersion;
 
     if (this.context.page) {
-      currentVersion = this.context.page._version;
+      currentVersion = this.context.page.__v;
     } else if (this.context.schemaEntry) {
-      currentVersion = this.context.schemaEntry._version;
+      currentVersion = this.context.schemaEntry.__v;
     } else if (this.context.schema) {
-      currentVersion = this.context.schema._version;
+      currentVersion = this.context.schema.__v;
     }
 
     if (this.props.state) {
       return <FormState state={this.props.state} message={this.props.stateMessage} />;
     } else {
-      if (this.props.draft._version < currentVersion) {
+      if (this.props.draft.__v < currentVersion) {
         return (
           <Animate transition='slideDownIn' key='behind'>
             <span className='status behind'>

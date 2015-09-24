@@ -212,7 +212,7 @@ export default class SchemaEntry extends Component {
     return this.schemaEntriesActions.validateSlug(slug);
   }
 
-  onRestore (_version) {
+  onRestore (__v) {
     this.context.closeOverlay();
 
     this.setState({
@@ -223,7 +223,7 @@ export default class SchemaEntry extends Component {
     this.schemaEntriesActions
       .restore({
         _id: this.state.schemaEntry._id,
-        _version
+        __v
       })
       .then((schemaEntry) => {
         this.state.breadcrumbs[2].label = schemaEntry._title;
@@ -252,7 +252,7 @@ export default class SchemaEntry extends Component {
     let current = {
       _id: {
         _id: schemaEntry._id,
-        _version: schemaEntry._version
+        __v: schemaEntry.__v
       },
       date: schemaEntry._updatedDate,
       user: schemaEntry._updatedBy,
@@ -330,7 +330,7 @@ export default class SchemaEntry extends Component {
   renderlinks () {
     if (!this.state.new) {
       const viewLink = '/'+this.context.schema.slug+'/'+this.state.schemaEntry._slug;
-      const revisions = this.state.schemaEntry._version-1;
+      const revisions = this.state.schemaEntry.__v;
       return (
         <div className='links'>
           {this.renderBuildLinks()}

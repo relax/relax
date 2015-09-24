@@ -183,7 +183,7 @@ export default class PageActions extends Component {
       .then((result) => {
         let draftClone = cloneDeep(this.state.draft);
 
-        draftClone._version = result._version;
+        draftClone.__v = result.__v;
         draftClone.actions = [];
         draftClone.data = result._data || result.data;
 
@@ -247,7 +247,7 @@ export default class PageActions extends Component {
 
         draftClone.actions = [];
         draftClone.data = result._data || result.data;
-        draftClone._version = result._version;
+        draftClone.__v = result.__v;
 
         return draftActions.update(draftClone);
       })
@@ -293,7 +293,7 @@ export default class PageActions extends Component {
     }
 
     let draftClone = cloneDeep(this.state.draft);
-    draftClone._version = current._version;
+    draftClone.__v = current.__v;
     draftClone.data = current._data || current.data;
     draftClone.actions = [];
 
@@ -336,7 +336,7 @@ export default class PageActions extends Component {
     this.context.changeDisplay(display);
   }
 
-  onRestore (_version) {
+  onRestore (__v) {
     this.context.closeOverlay();
 
     this.setState({
@@ -365,14 +365,14 @@ export default class PageActions extends Component {
     actions
       .restore({
         _id: current._id,
-        _version
+        __v
       })
       .then((result) => {
         let draftClone = cloneDeep(this.state.draft);
 
         draftClone.actions = [];
         draftClone.data = result._data || result.data;
-        draftClone._version = result._version;
+        draftClone.__v = result.__v;
 
         if (result.schemaLinks || result._schemaLinks) {
           draftClone.schemaLinks = result._schemaLinks || result.schemaLinks;
@@ -422,7 +422,7 @@ export default class PageActions extends Component {
     let current = {
       _id: {
         _id: page._id,
-        _version: page._version
+        __v: page.__v
       },
       date: page.updatedDate,
       user: page.updatedBy,
@@ -464,7 +464,7 @@ export default class PageActions extends Component {
   }
 
   renderRevisions () {
-    let hasRevisions = (this.context.page && this.context.page._version > 1) || (this.context.schema && this.context.schema._version > 1);
+    let hasRevisions = (this.context.page && this.context.page.__v > 0) || (this.context.schema && this.context.schema.__v > 0);
 
     if (this.context.activePanelType === 'pageBuild' && hasRevisions) {
       return (

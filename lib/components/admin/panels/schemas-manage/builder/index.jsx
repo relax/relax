@@ -131,7 +131,7 @@ export default class SchemasBuilder extends Component {
     valuesClone.push(copy);
 
     this.setState({
-      selected: copy
+      selected: copy.id
     });
 
     this.onChange(valuesClone);
@@ -148,9 +148,10 @@ export default class SchemasBuilder extends Component {
 
         if (id === 'title') {
           let uniqueId = this.getUniqueId(value);
+          selectedProperty.id = uniqueId;
 
           // look for dependencies
-          forEach(valuesClone, property => {
+          forEach(valuesClone, (property) => {
             if (property.dependencies) {
               forEach(property.dependencies, dependency => {
                 if (dependency.id === this.state.selected) {

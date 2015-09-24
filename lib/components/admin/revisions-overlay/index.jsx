@@ -46,7 +46,7 @@ export default class RevisionsOverlay extends Component {
           </div>
           {index > -1 ?
             <div className='under-title'>
-              <div className='action' onClick={this.onRestore.bind(this, revision._id._version)}>
+              <div className='action' onClick={this.onRestore.bind(this, revision._id.__v)}>
                 <i className='material-icons'>settings_backup_restore</i>
                 <span>Restore</span>
               </div>
