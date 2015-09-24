@@ -864,7 +864,7 @@ Common.childContextTypes = {
   overElement: React.PropTypes.func.isRequired,
   outElement: React.PropTypes.func.isRequired,
   overedElement: React.PropTypes.any.isRequired,
-  overedPath: React.PropTypes.array.isRequired,
+  overedPath: React.PropTypes.array,
   onStartDrag: React.PropTypes.func.isRequired,
   onPropChange: React.PropTypes.func.isRequired,
   dragging: React.PropTypes.bool.isRequired,
