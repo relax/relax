@@ -30,6 +30,13 @@ export default class Page extends Component {
     };
   }
 
+  componentDidUpdate () {
+    if ((!this.state.new && !this.context.page) ||
+        (this.state.new && this.context.page)) {
+      this.setState(this.getInitialState());
+    }
+  }
+
   componentWillUnmount () {
     super.componentWillUnmount();
     if (this.successTimeout) {
@@ -307,6 +314,11 @@ export default class Page extends Component {
         <div className='content'>
           <div className='filter-menu'>
             <Breadcrumbs data={this.state.breadcrumbs} />
+            {!this.state.new &&
+            <A href='/admin/pages/new' className='button-clean'>
+              <i className='material-icons'>library_add</i>
+              <span>Add new page</span>
+            </A>}
           </div>
           <div className='admin-scrollable'>
             <div className='white-options list'>
