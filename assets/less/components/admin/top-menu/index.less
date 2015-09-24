@@ -110,10 +110,16 @@
 
       font-size: 13px;
       line-height: @tabsHeight;
-      min-width: 200px;
+      width: 200px;
 
       margin: 0 -1px;
       padding: 0 12px;
+      padding-right: 30px;
+
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      position: relative;
 
       i {
         vertical-align: top;
@@ -128,13 +134,13 @@
       }
 
       .close {
-        float: right;
+        position: absolute;
         width: 16px;
         height: 16px;
         .roundedCorners(9px);
         text-align: center;
-        position: relative;
         top: 5px;
+        right: 10px;
         i {
           font-size: 12px;
           line-height: 16px;

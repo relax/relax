@@ -91,8 +91,15 @@ export default class TopMenu extends Component {
       return;
     }
 
+    const deduct = 35 / this.state.tabs.length;
+    let style = {
+      maxWidth: 'calc('+(100 / this.state.tabs.length) +'% - '+deduct+'px)'
+    };
+
+
+
     return (
-      <A href={link} className={cx('tab', active && 'selected')} key={tab._id._id}>
+      <A href={link} className={cx('tab', active && 'selected')} key={tab._id._id} style={style}>
         <span>{title}</span>
         <span className='close' onClick={this.onCloseTab.bind(this, tab._id, active)}><i className='material-icons'>close</i></span>
       </A>
