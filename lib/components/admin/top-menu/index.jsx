@@ -20,7 +20,10 @@ export default class TopMenu extends Component {
   getInitialCollections () {
     return {
       tabs: tabsStore.getCollection({
-        user: this.context.user._id
+        fetch: false,
+        options: {
+          user: this.context.user._id
+        }
       })
     };
   }
