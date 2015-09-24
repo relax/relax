@@ -4,6 +4,7 @@ import {Router} from 'relax-framework';
 import A from './a';
 import Utils from '../utils';
 import merge from 'lodash.merge';
+import cx from 'classnames';
 
 export default class Filter extends Component {
   getInitialState () {
@@ -36,26 +37,29 @@ export default class Filter extends Component {
   }
 
   renderSortButton (button, key) {
-    var props = {
-      className: 'button-filter'
-    };
+    let active = false, icon = 'arrow_drop_down';
 
     var query = {
       sort: button.property,
       order: 'asc'
     };
     if (this.context.query && this.context.query.sort && this.context.query.sort === button.property) {
-      props.className += ' active';
+      active = true;
 
       if (!this.context.query.order || this.context.query.order === 'asc') {
+        icon = 'arrow_drop_up';
         query.order = 'desc';
       }
     }
 
-    props.href = Utils.parseQueryUrl(this.props.url, query);
-
     return (
-      <A {...props} key={key}>{button.label}</A>
+      <A
+        className={cx('button-filter', active && 'active')}
+        href={Utils.parseQueryUrl(this.props.url, query)}
+        key={key}>
+        <span>{button.label}</span>
+        {active && <i className='material-icons'>{icon}</i>}
+      </A>
     );
   }
 

@@ -30,7 +30,7 @@ export default class Schemas extends Component {
             <span>Add new schema</span>
           </A>
           <Filter
-            sorts={[{label: 'Title', property: 'title'}, {label: 'Slug', property: 'slug'}]}
+            sorts={[{label: 'Date', property: '_id'}, {label: 'Title', property: 'title'}, {label: 'Slug', property: 'slug'}]}
             url='/admin/schemas'
             search='title'
           />

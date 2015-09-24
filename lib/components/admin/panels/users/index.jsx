@@ -66,7 +66,7 @@ export default class Users extends Component {
             <span>Add new user</span>
           </a>
           <Filter
-            sorts={[{label: 'Date', property: 'date'}, {label: 'Username', property: 'username'}, {label: 'Email', property: 'email'}]}
+            sorts={[{label: 'Date', property: '_id'}, {label: 'Username', property: 'username'}, {label: 'Email', property: 'email'}]}
             url='/admin/users'
             search='username'
           />

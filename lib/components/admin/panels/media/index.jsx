@@ -162,7 +162,7 @@ export default class MediaManager extends Component {
             <span>Upload media</span>
           </a>
           <Filter
-            sorts={[{label: 'Date', property: 'date'}, {label: 'Size', property: 'filesize'}, {label: 'Dimensions', property: 'dimension'}]}
+            sorts={[{label: 'Date', property: '_id'}, {label: 'Size', property: 'filesize'}, {label: 'Dimensions', property: 'dimension'}]}
             url='/admin/media'
             search='name'
           />

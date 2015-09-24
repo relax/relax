@@ -26,9 +26,28 @@
     margin-right: 14px;
     text-decoration: none;
     .transition();
+    padding: 0 7px;
+    .roundedCorners(2px);
+
+    span, i {
+      font-size: 11px;
+      display: inline-block;
+      vertical-align: top;
+    }
+    i {
+      font-size: 17px;
+      line-height: 25px;
+      padding-left: 6px;
+    }
 
     &:hover, &.active {
       .opacity(1);
+    }
+    &.active {
+      background-color: @adminPrimary;
+      i, span {
+        color: #ffffff;
+      }
     }
   }
 
@@ -61,7 +80,7 @@
 
     a {
       margin-right: 0;
-      margin-left: 20px;
+      margin-left: 10px;
     }
   }
 

@@ -31,7 +31,7 @@ export default class Schema extends Component {
             <span>Add new entry</span>
           </A>
           <Filter
-            sorts={[{label: 'Date', property: '_date'}, {label: 'Title', property: '_title'}, {label: 'Slug', property: '_slug'}]}
+            sorts={[{label: 'Date', property: '_id'}, {label: 'Title', property: '_title'}, {label: 'Slug', property: '_slug'}]}
             url={'/admin/schema/'+this.context.schema.slug}
             search='_title'
           />

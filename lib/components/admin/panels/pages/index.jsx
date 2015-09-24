@@ -31,7 +31,7 @@ export default class Pages extends Component {
             <span>Add new page</span>
           </A>
           <Filter
-            sorts={[{label: 'Date', property: 'date'}, {label: 'Title', property: 'title'}, {label: 'Slug', property: 'slug'}]}
+            sorts={[{label: 'Date', property: '_id'}, {label: 'Title', property: 'title'}, {label: 'Slug', property: 'slug'}]}
             url='/admin/pages'
             search='title'
           />
