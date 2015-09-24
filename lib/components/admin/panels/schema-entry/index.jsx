@@ -48,6 +48,13 @@ export default class SchemaEntry extends Component {
     };
   }
 
+  componentDidUpdate () {
+    if ((!this.state.new && !this.context.schemaEntry) ||
+        (this.state.new && this.context.schemaEntry)) {
+      this.setState(this.getInitialState());
+    }
+  }
+
   componentWillUnmount () {
     super.componentWillUnmount();
     if (this.successTimeout) {
@@ -411,6 +418,12 @@ export default class SchemaEntry extends Component {
         <div className='content'>
           <div className='filter-menu'>
             <Breadcrumbs data={this.state.breadcrumbs} />
+            {!this.state.new &&
+              <A href={'/admin/schema/'+this.context.schema.slug+'/new'} className='button-clean'>
+                <i className='material-icons'>library_add</i>
+                <span>Add new entry</span>
+              </A>
+            }
           </div>
           <div className='admin-scrollable'>
             <div className='white-options list'>
