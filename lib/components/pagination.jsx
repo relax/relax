@@ -1,8 +1,7 @@
 import React from 'react';
-import {Component, Router} from 'relax-framework';
+import {Component} from 'relax-framework';
 import clone from 'lodash.clone';
 import A from './a';
-import cx from 'classnames';
 import Utils from '../utils';
 
 export default class Pagination extends Component {
@@ -80,7 +79,7 @@ export default class Pagination extends Component {
   }
 
   renderButtons () {
-    const numPages = Math.round(this.context.count / this.context.query.limit);
+    const numPages = Math.ceil(this.context.count / this.context.query.limit);
 
     let buttons = [];
 

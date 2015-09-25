@@ -2,6 +2,7 @@ import React from 'react';
 import {Component} from 'relax-framework';
 import List from './list';
 import Filter from '../../../filter';
+import Pagination from '../../../pagination';
 import A from '../../../a';
 
 import pagesStore from '../../../../client/stores/pages';
@@ -38,6 +39,7 @@ export default class Pages extends Component {
         </div>
         <div className='admin-scrollable'>
           <List data={this.state.pages} />
+          <Pagination url='/admin/pages' />
         </div>
       </div>
     );
