@@ -30,7 +30,7 @@ Since we are yet to tag our first release, git clone this repository and run
 `npm install` followed by `npm start`.
 
 By default the application runs at port `8080`. Go ahead and visit
-`http://localhost:8080/admin`.
+`http://localhost:8080/admin/init`, here you can setup the first user and you're ready to relax.
 
 
 Configuration
