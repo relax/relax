@@ -3,6 +3,7 @@ import {Component} from 'relax-framework';
 import List from './list';
 import A from '../../../a';
 import Filter from '../../../filter';
+import Pagination from '../../../pagination';
 import Breadcrumbs from '../../../breadcrumbs';
 
 import schemaEntriesStoreFactory from '../../../../client/stores/schema-entries';
@@ -38,6 +39,7 @@ export default class Schema extends Component {
         </div>
         <div className='admin-scrollable'>
           <List schemaEntries={this.state.schemaEntries} />
+          <Pagination url={'/admin/schema/'+this.context.schema.slug}/>
         </div>
       </div>
     );
