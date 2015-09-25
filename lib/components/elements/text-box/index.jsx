@@ -77,13 +77,13 @@ export default class TextBox extends Component {
 
 TextBox.contextTypes = {
   editing: React.PropTypes.bool.isRequired,
-  elementContentChange: React.PropTypes.func.isRequired
+  elementContentChange: React.PropTypes.func
 };
 
 TextBox.propTypes = {
-  selected: React.PropTypes.bool.isRequired,
-  padding: React.PropTypes.string.isRequired,
-  textAlign: React.PropTypes.string.isRequired
+  selected: React.PropTypes.bool,
+  padding: React.PropTypes.string,
+  textAlign: React.PropTypes.string
 };
 
 TextBox.defaultProps = {

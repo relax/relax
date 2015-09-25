@@ -81,6 +81,7 @@ export default class Admin extends Component {
   getChildContext () {
     return {
       breadcrumbs: this.props.breadcrumbs,
+      styles: this.props.styles,
       pages: this.props.pages,
       page: this.state.page,
       draft: this.props.draft,
@@ -208,6 +209,7 @@ Admin.propTypes = {
 
 Admin.childContextTypes = {
   breadcrumbs: React.PropTypes.array,
+  styles: React.PropTypes.array,
   pages: React.PropTypes.array,
   page: React.PropTypes.object,
   draft: React.PropTypes.object,

@@ -9,6 +9,8 @@ import forEach from 'lodash.foreach';
 
 export default class Page extends Component {
   getInitialState () {
+    Colors.init(this.props.colors || []);
+    Styles.init(this.props.styles || []);
     this.onResizeBind = this.onResize.bind(this);
     return {
       mounted: false,

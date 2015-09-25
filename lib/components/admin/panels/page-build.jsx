@@ -1,12 +1,16 @@
 import React from 'react';
 import {Component} from 'relax-framework';
 import PageBuilder from '../../page-builder';
+import Styles from '../../../styles';
+import Colors from '../../../colors';
 
 import draftActions from '../../../client/actions/draft';
 import draftsStore from '../../../client/stores/drafts';
 
 export default class Page extends Component {
   getInitialState () {
+    Colors.init(this.context.colors || []);
+    Styles.init(this.context.styles || []);
     return {
       draft: this.context.draft
     };
@@ -37,5 +41,7 @@ export default class Page extends Component {
 }
 
 Page.contextTypes = {
-  draft: React.PropTypes.object.isRequired
+  draft: React.PropTypes.object.isRequired,
+  styles: React.PropTypes.array,
+  colors: React.PropTypes.array
 };
