@@ -4,6 +4,7 @@ import Grid from './grid';
 import React from 'react';
 import Upload from '../../../upload';
 import Filter from '../../../filter';
+import Pagination from '../../../pagination';
 import AlertBox from '../../../alert-box';
 import Lightbox from '../../../lightbox';
 import cx from 'classnames';
@@ -170,6 +171,7 @@ export default class MediaManager extends Component {
         <div className='admin-scrollable'>
           {this.renderSelectedMenu()}
           {this.renderItems()}
+          <Pagination url='/admin/media'/>
         </div>
         {this.renderLightbox()}
         {this.renderRemoving()}
