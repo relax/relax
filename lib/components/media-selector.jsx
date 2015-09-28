@@ -3,6 +3,7 @@ import React from 'react';
 import mediaStore from '../client/stores/media';
 import mediaActions from '../client/actions/media';
 import Upload from './upload';
+import MediaItem from './media-item'
 
 export default class MediaSelector extends Component {
   getInitialState () {
@@ -44,7 +45,7 @@ export default class MediaSelector extends Component {
 
     return (
       <a href='#' className={className} key={item._id} onClick={this.imageClicked.bind(this, item._id)}>
-        <img src={item.thumbnail} width='100' height='100' />
+        <MediaItem item={item} width='100' height='100' />
       </a>
     );
   }
