@@ -19,8 +19,7 @@ Installation
 
 ### Dependencies
 
-You'll need `graphicsmagick` available on your system. Install it using `brew`
-on Mac or from most of the package managers in Linux.
+Relax uses [sharp](https://github.com/lovell/sharp) to resize images so you'll need to install its dependencies. Fortunately they have great documentation on how to install them for each platform, you can check them [here](http://sharp.dimens.io/en/stable/install/).
 
 You'll also need [MongoDB](https://www.mongodb.org/).
 
