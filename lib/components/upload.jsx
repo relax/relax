@@ -16,6 +16,8 @@ export default class Upload extends Component {
         options[opt] = Dropzone.prototype.defaultOptions[opt];
       }
 
+      options.acceptedFiles = 'image/*,video/*,audio/*';
+
       this.dropzone = new Dropzone(React.findDOMNode(this), options);
     }
   }

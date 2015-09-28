@@ -20,7 +20,7 @@ export default class MediaItem extends Component {
       }
     } else if (type === 'favicon') {
       result = (
-        <img src={this.props.item.url} />
+        <img src={this.props.item.url} style={{top: '50%', left: '50%', position: 'absolute', transform: 'translate(-50%, -50%)'}} />
       );
     } else if (type === 'video') {
       result = (

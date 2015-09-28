@@ -16,7 +16,12 @@
       }
 
       .image-part {
+        background-color: #efefef;
         width: 100px;
+        height: 100px;
+        text-align: center;
+        overflow: hidden;
+        position: relative;
         i {
           color: @adminPrimary;
           font-size: 35px;
@@ -117,6 +122,8 @@
   margin-top: 20px;
   a {
     display: inline-block;
+    position: relative;
+    text-align: center;
     width: 24%;
     height: 190px;
     margin-right: 1%;
@@ -125,6 +132,7 @@
     background-position: 50% 50%;
     background-size: cover;
     border: 0px solid #10AE96;
+    background-color: #efefef;
     .transition(0.1s);
 
     &.active {
