@@ -1,8 +1,7 @@
-import Animate from '../../animate';
 import React from 'react';
 import {Component} from 'relax-framework';
 import OptionsList from '../../options-list';
-import Spinner from '../../spinner';
+import FormState from '../../form-state';
 import cx from 'classnames';
 
 import {Types} from '../../../data-types';
@@ -12,7 +11,7 @@ export default class Settings extends Component {
   getInitialState () {
     return {
       settings: this.parseSettings(this.context.settings),
-      saving: false
+      state: false
     };
   }
 
@@ -26,7 +25,7 @@ export default class Settings extends Component {
 
   outSuccess () {
     this.setState({
-      success: false
+      state: false
     });
   }
 
@@ -35,38 +34,41 @@ export default class Settings extends Component {
 
     clearTimeout(this.successTimeout);
     this.setState({
-      saving: true
+      state: 'loading'
     });
 
     settingsActions
       .saveSettings(this.state.settings)
       .then(() => {
         this.setState({
-          saving: false,
-          success: true
+          state: 'success'
         });
         this.successTimeout = setTimeout(this.outSuccess.bind(this), 3000);
+      })
+      .catch(() => {
+        this.setState({
+          state: 'error'
+        });
       });
   }
 
   renderSaving () {
-    if (this.state.saving) {
+    let message = false;
+
+    if (this.state.state === 'loading') {
+      message = 'Saving changes';
+    } else if (this.state.state === 'error') {
+      message = 'Error saving changes';
+    } else if (this.state.state === 'success') {
+      message = 'Changes saved';
+    }
+
+    if (message !== false) {
       return (
-        <Animate>
-          <div className='saving-info'>
-            <Spinner />
-            <span>Saving changes</span>
-          </div>
-        </Animate>
-      );
-    } else if (this.state.success) {
-      return (
-        <Animate>
-          <div className='saving-info'>
-            <i className='material-icons'>check</i>
-            <span>Saved successfuly</span>
-          </div>
-        </Animate>
+        <FormState
+          state={this.state.state}
+          message={message}
+        />
       );
     }
   }
