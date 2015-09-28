@@ -241,6 +241,10 @@ export default class Common extends DragRoot {
         element = action.element;
         element.id = element.id || idCounter++;
 
+        if (element.id === idCounter) {
+          idCounter++;
+        }
+
         if (!element.children && this.context.elements[element.tag].defaultChildren) {
           const defaultChildren = this.context.elements[element.tag].defaultChildren;
 

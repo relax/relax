@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import Component from '../../component';
 import Element from '../../element';
 import MediaImage from '../../image';
@@ -6,6 +7,7 @@ import Utils from '../../../utils';
 import Colors from '../../../colors';
 
 import settings from './settings';
+import classes from './classes';
 import propsSchema from './props-schema';
 
 export default class Image extends Component {
@@ -26,6 +28,17 @@ export default class Image extends Component {
       mounted: true,
       width
     });
+  }
+
+  renderImage (imageStyle) {
+    if (this.state.mounted) {
+      return (
+        <div>
+          <MediaImage className='normal-image' id={this.props.children} width={this.state.width} style={imageStyle} height={this.props.height === 'strict' && this.props.height_px} />
+          {this.props.useOver && <MediaImage className='over-image' id={this.props.imageOver} width={this.state.width} style={imageStyle} />}
+        </div>
+      );
+    }
   }
 
   render () {
@@ -51,8 +64,8 @@ export default class Image extends Component {
     }
 
     return (
-      <Element tag='div' style={style} element={this.props.element} settings={this.constructor.settings}>
-        {this.state.mounted ? <MediaImage id={this.props.children} width={this.state.width} style={imageStyle} /> : null}
+      <Element tag='div' className={cx(this.props.useOver && classes.overable)} style={style} element={this.props.element} settings={this.constructor.settings}>
+        {this.renderImage(imageStyle)}
       </Element>
     );
   }
@@ -60,6 +73,7 @@ export default class Image extends Component {
 
 Image.propTypes = {
   color: React.PropTypes.string.isRequired,
+  useOver: React.PropTypes.bool.isRequired,
   height: React.PropTypes.string.isRequired,
   height_px: React.PropTypes.number,
   vertical: React.PropTypes.number
@@ -70,6 +84,7 @@ Image.defaultProps = {
     value: '#ffffff',
     opacity: 0
   },
+  useOver: false,
   height: 'auto',
   height_px: 200,
   vertical: 50,

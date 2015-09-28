@@ -52,8 +52,14 @@ export default class Image extends Component {
         <img src={url} {...extraProps} />
       );
     } else if (this.context.editing) {
+      let style = {};
+
+      if (this.props.height) {
+        style.height = this.props.height;
+      }
+
       return (
-        <div className='dummy-placeholder'>
+        <div className='dummy-placeholder' style={style}>
           <i className='fa fa-image'></i>
         </div>
       );
@@ -69,5 +75,6 @@ Image.contextTypes = {
 
 Image.propTypes = {
   id: React.PropTypes.string.isRequired,
-  width: React.PropTypes.number.isRequired
+  width: React.PropTypes.number.isRequired,
+  height: React.PropTypes.number
 };
