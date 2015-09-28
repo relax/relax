@@ -12,6 +12,7 @@ export default class Page extends Component {
     Colors.init(this.props.colors || []);
     Styles.init(this.props.styles || []);
     this.onResizeBind = this.onResize.bind(this);
+    this.renderElementBind = this.renderElement.bind(this);
     return {
       mounted: false,
       display: 'desktop',
@@ -84,7 +85,8 @@ export default class Page extends Component {
 
   getChildContext () {
     return {
-      editing: false
+      editing: false,
+      renderElement: this.renderElementBind
     };
   }
 
@@ -134,5 +136,6 @@ Page.propTypes = {
 };
 
 Page.childContextTypes = {
-  editing: React.PropTypes.bool.isRequired
+  editing: React.PropTypes.bool.isRequired,
+  renderElement: React.PropTypes.func.isRequired
 };

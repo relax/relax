@@ -21,15 +21,13 @@ export default class Schema extends Component {
   }
 
   onSchemaChange (value) {
-    var cloned = cloneDeep(this.context.page.schema || {});
-    cloned.schema = value;
-    this.context.setPageSchema(cloned);
+    this.context.setPageSchema(value);
   }
 
   renderCombobox () {
     if (this.state.schemas) {
       var props = {
-        value: this.context.page.schema && this.context.page.schema.schema || '',
+        value: this.context.page.schema || '',
         values: [],
         labels: [],
         onChange: this.onSchemaChange.bind(this)
@@ -49,9 +47,9 @@ export default class Schema extends Component {
   }
 
   renderProperties () {
-    if (this.context.schema || (this.context.page.schema && this.context.page.schema.schema)) {
+    if (this.context.schema || this.context.page.schema) {
       return (
-        <SchemaProperties value={this.context.schema.schemaLinks || this.context.page.schemaLinks} schemaSlug={this.context.page && this.context.page.schema} />
+        <SchemaProperties value={this.context.schema && this.context.schema.schemaLinks || this.context.page.schemaLinks || {}} schemaSlug={this.context.page && this.context.page.schema} />
       );
     }
   }

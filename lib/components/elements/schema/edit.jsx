@@ -4,6 +4,12 @@ import {Component} from 'relax-framework';
 import SchemaModuleBuilder from '../../page-builder/schema-module-builder';
 
 export default class Edit extends Component {
+  getInitialState () {
+    return {
+      value: this.props.data
+    };
+  }
+
   getChildContext () {
     return {
       editing: true,
@@ -13,9 +19,15 @@ export default class Edit extends Component {
     };
   }
 
+  onChange (data) {
+    this.setState({
+      value: data
+    });
+  }
+
   render () {
     return (
-      <SchemaModuleBuilder data={this.props.data} onSave={this.props.onSave} onClose={this.props.onClose} onSwitch={this.props.onSwitch} />
+      <SchemaModuleBuilder value={this.state.value} onSave={this.props.onSave} onChange={this.onChange.bind(this)} onClose={this.props.onClose} onSwitch={this.props.onSwitch} />
     );
   }
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import cloneDeep from 'lodash.clonedeep';
 import forEach from 'lodash.foreach';
 import cx from 'classnames';
+import utils from '../../../utils';
 
 import settings from './settings';
 import propsSchema from './props-schema';
@@ -23,19 +24,19 @@ export default class Schema extends Component {
   getInitialModels () {
     var models = {};
 
-    if (this.props.model && this.props.model.schema && this.props.model.schema.schema) {
-      models.schema = schemasStore.getModel(this.props.model.schema.schema);
+    if (this.props.model && this.props.model.schema) {
+      models.schema = schemasStore.getModel(this.props.model.schema);
     }
 
     return models;
   }
 
   componentWillReceiveProps (nextProps) {
-    const hasSchema = nextProps.model && nextProps.model.schema && nextProps.model.schema.schema;
-    const hadSchema = this.props.model && this.props.model.schema && this.props.model.schema.schema;
-    if ((hasSchema && !hadSchema) || (hasSchema && hadSchema && nextProps.model.schema.schema !== this.props.model.schema.schema)) {
+    const hasSchema = nextProps.model && nextProps.model.schema;
+    const hadSchema = this.props.model && this.props.model.schema;
+    if ((hasSchema && !hadSchema) || (hasSchema && hadSchema && nextProps.model.schema !== this.props.model.schema)) {
       this.setModels({
-        schema: schemasStore.getModel(nextProps.model.schema.schema)
+        schema: schemasStore.getModel(nextProps.model.schema)
       });
     }
     this.setState({
@@ -56,22 +57,7 @@ export default class Schema extends Component {
   }
 
   getElementsModelLinks () {
-    const model = this.props.model;
-    let elementsLinks = {};
-    if (model && model.schema && model.schema.properties) {
-      let properties = model.schema.properties;
-      forEach(properties, (links, propertyId) => {
-        forEach(links, link => {
-          elementsLinks[link.elementId] = elementsLinks[link.elementId] || [];
-          elementsLinks[link.elementId].push({
-            propertyId,
-            action: link.action,
-            actionExtra: link.actionExtra
-          });
-        });
-      });
-    }
-    return elementsLinks;
+    return utils.getElementsSchemaLinks(this.props.model && this.props.model.schemaLinks);
   }
 
   alterProps (data, schemaEntry) {
@@ -79,21 +65,7 @@ export default class Schema extends Component {
       element.props = element.props || {};
 
       if (this.state.elementsLinks[element.id]) {
-        forEach(this.state.elementsLinks[element.id], link => {
-          if (link.action === 'children') {
-            if (schemaEntry[link.propertyId] && schemaEntry[link.propertyId] !== '') {
-              element.children = schemaEntry[link.propertyId];
-            } else {
-              element.display = false;
-            }
-          } else if (link.action === 'show' && (!schemaEntry[link.propertyId] || schemaEntry[link.propertyId] === '')) {
-            element.display = false;
-          } else if (link.action === 'hide' && schemaEntry[link.propertyId] && schemaEntry[link.propertyId] !== '') {
-            element.display = false;
-          } else if (link.action) { // setting
-            element.props[link.action] = schemaEntry[link.propertyId];
-          }
-        });
+        utils.alterSchemaElementProps(this.state.elementsLinks[element.id], element, schemaEntry);
       }
 
       if (element.display !== false) {
@@ -124,7 +96,7 @@ export default class Schema extends Component {
         onSave={this.onSave.bind(this)}
         onClose={this.onClose.bind(this)}
         onSwitch={this.context.switchOverlayBackground}
-        data={this.props.model || {}}
+        data={cloneDeep(this.props.model || {data: [], actions: []})}
       />
     ), {
       transition: 'fadeIn',
@@ -161,7 +133,7 @@ export default class Schema extends Component {
           {this.state.entries.map(this.renderEntry, this)}
         </div>
       );
-    } else {
+    } else if (this.context.editing) {
       return (
         <div>Double click to edit</div>
       );
