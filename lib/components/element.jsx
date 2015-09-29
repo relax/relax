@@ -264,5 +264,5 @@ Element.contextTypes = {
   overedElement: React.PropTypes.any,
   editing: React.PropTypes.bool.isRequired,
   dropHighlight: React.PropTypes.string,
-  selectedParent: React.PropTypes.string
+  selectedParent: React.PropTypes.number
 };

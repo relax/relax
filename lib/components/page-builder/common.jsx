@@ -251,7 +251,7 @@ export default class Common extends DragRoot {
           if (defaultChildren.constructor === Array) {
             let defaultChildrenClone = cloneDeep(defaultChildren);
             forEach(defaultChildrenClone, (childElement) => {
-              childElement.id = idCounter++;
+              idCounter = this.updateElementIds(childElement, idCounter);
             });
             element.children = defaultChildrenClone;
           } else {
@@ -547,14 +547,21 @@ export default class Common extends DragRoot {
     this.factorAction(action);
   }
 
-  updateElementIds (element) {
-    element.id = this.checkLatestId(this.props.value.data) + 1;
+  updateElementIds (element, idCounter = false) {
+    if (idCounter === false) {
+      element.id = this.checkLatestId(this.props.value.data) + 1;
+    } else {
+      element.id = idCounter++;
+    }
+
 
     if (element.children && element.children.constructor === Array) {
       forEach(element.children, (element) => {
-        this.updateElementIds(element);
+        idCounter = this.updateElementIds(element, idCounter);
       });
     }
+
+    return idCounter;
   }
 
   duplicateElement (id) {
@@ -574,13 +581,16 @@ export default class Common extends DragRoot {
 
   removeElement (id) {
     let info = this.findElementById(this.props.value.data, id);
-    this.factorAction({
-      type: 'remove',
-      id,
-      parent: info.parent,
-      position: info.position,
-      element: info.element
-    });
+
+    if (!info.element.subComponent) {
+      this.factorAction({
+        type: 'remove',
+        id,
+        parent: info.parent,
+        position: info.position,
+        element: info.element
+      });
+    }
   }
 
   removeSelectedElement () {
@@ -679,7 +689,7 @@ export default class Common extends DragRoot {
         return false;
       }
 
-      if (element.children && element.children.length > 0) {
+      if (element.children && element.children.constructor === Array && element.children.length > 0) {
         result = this.findElementById(element.children, id, remove, element, path);
 
         if (result !== false) {
@@ -864,7 +874,7 @@ Common.childContextTypes = {
   selectElement: React.PropTypes.func.isRequired,
   selected: React.PropTypes.any.isRequired,
   selectedPath: React.PropTypes.array.isRequired,
-  selectedParent: React.PropTypes.string,
+  selectedParent: React.PropTypes.number,
   overElement: React.PropTypes.func.isRequired,
   outElement: React.PropTypes.func.isRequired,
   overedElement: React.PropTypes.any.isRequired,

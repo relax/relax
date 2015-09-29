@@ -596,7 +596,7 @@ Droppable.contextTypes = {
   dragging: React.PropTypes.bool.isRequired,
   dropBlock: React.PropTypes.bool,
   selected: React.PropTypes.any,
-  selectedParent: React.PropTypes.string,
+  selectedParent: React.PropTypes.number,
   openElementsMenu: React.PropTypes.func.isRequired,
   elementsMenuSpot: React.PropTypes.number
 };
