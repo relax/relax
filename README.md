@@ -2,6 +2,10 @@
 ====================================
 [![Slack Status](http://slack-relax.herokuapp.com/badge.svg)](http://slack-relax.herokuapp.com/)
 
+**Demo credentials**:
+ - user: demo
+ - pass: demo
+
 Relax is a powerful new generation CMS on top of
 [React](https://facebook.github.io/react/) and [Node.js](https://nodejs.org/en/)
 which aims for a better way of building websites.
