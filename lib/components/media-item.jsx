@@ -26,7 +26,7 @@ export default class MediaItem extends Component {
       result = (
         <i className='material-icons'>videocam</i>
       );
-    } else if (type === 'sound') {
+    } else if (type === 'audio') {
       result = (
         <i className='material-icons'>music_note</i>
       );
