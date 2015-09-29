@@ -36,6 +36,11 @@ export default class OptionsList extends Component {
             );
           }
           extraProps.label = option.label;
+        } else if (option.type === 'Section') {
+          if (value) {
+            unlockedContent = <div className='section-options'>{this.renderOptions(option.unlocks)}</div>;
+          }
+          extraProps.label = option.label;
         } else if (option.unlocks.constructor === Array) {
           unlockedContent = this.renderOptions(option.unlocks);
         } else if (option.unlocks[value]) {
@@ -43,13 +48,22 @@ export default class OptionsList extends Component {
         }
       }
 
-      return (
-        <div className='option' key={option.id}>
-          {this.renderLabel(option.type !== 'Optional' && option.label)}
-          <Option onChange={this.onChange.bind(this, option.id)} value={value} {...extraProps} OptionsList={OptionsList} />
-          {unlockedContent}
-        </div>
-      );
+      if (option.type === 'Section') {
+        return (
+          <div key={option.id}>
+            <Option onChange={this.onChange.bind(this, option.id)} value={value} {...extraProps} OptionsList={OptionsList} />
+            {unlockedContent}
+          </div>
+        );
+      } else {
+        return (
+          <div className='option' key={option.id}>
+            {this.renderLabel(option.type !== 'Optional' && option.label)}
+            <Option onChange={this.onChange.bind(this, option.id)} value={value} {...extraProps} OptionsList={OptionsList} />
+            {unlockedContent}
+          </div>
+        );
+      }
     }
     else {
       console.log('Element option type not valid');
