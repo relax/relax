@@ -55,7 +55,7 @@
     "react-draggable": "^0.8.1",
     "react-frame-component": "^0.3.4",
     "react-gemini-scrollbar": "^1.1.1",
-    "react-google-maps": "git://github.com/relax/react-google-maps.git",
+    "react-google-maps": "^2.0.3",
     "relax-framework": "^0.0.6",
     "rimraf": "^2.4.3",
     "sharp": "^0.11.2",

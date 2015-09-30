@@ -90,11 +90,13 @@ export default class GoogleMapsElem extends Component {
             }
           }}
           googleMapsApi={window.google.maps}
+          options={{
+            scrollwheel: this.props.scrollwheel,
+            zoomControl: this.props.zoomControls,
+            streetViewControl: this.props.streetViewControl,
+            mapTypeControl: this.props.mapTypeControl
+          }}
           zoom={this.props.zoom}
-          scrollwheel={this.props.scrollwheel}
-          zoomControl={this.props.zoomControls}
-          streetViewControl={this.props.streetViewControl}
-          mapTypeControl={this.props.mapTypeControl}
           center={{lat: parseFloat(this.props.lat, 10), lng: parseFloat(this.props.lng, 10)}}
           key={key}
         >{this.renderMarker()}</GoogleMap>
