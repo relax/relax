@@ -278,14 +278,16 @@ export default class MusicPlayer extends Component {
     let displayVolume = this.context.display !== 'mobile' && this.context.display !== 'tablet';
 
     return (
-      <Element tag='div' className={cx(classes.musicPlayer, classMap.player)} element={this.props.element} settings={this.constructor.settings}>
-        {this.renderBackground()}
-        <div className={classes.wrapper}>
-          {this.renderControls(classMap)}
-          {this.renderDivider(classMap)}
-          {this.renderPlayback(classMap)}
-          {displayVolume && this.renderDivider(classMap)}
-          {displayVolume && this.renderVolume(classMap)}
+      <Element tag='div' element={this.props.element} settings={this.constructor.settings}>
+        <div className={cx(classes.musicPlayer, classMap.player)}>
+          {this.renderBackground()}
+          <div className={classes.wrapper}>
+            {this.renderControls(classMap)}
+            {this.renderDivider(classMap)}
+            {this.renderPlayback(classMap)}
+            {displayVolume && this.renderDivider(classMap)}
+            {displayVolume && this.renderVolume(classMap)}
+          </div>
         </div>
       </Element>
     );
