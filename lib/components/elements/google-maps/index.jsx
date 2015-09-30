@@ -1,7 +1,7 @@
 import React from 'react';
 import Component from '../../component';
 import Element from '../../element';
-import {GoogleMaps, Marker} from 'react-google-maps';
+import {GoogleMap, Marker} from 'react-google-maps';
 import Utils from '../../../utils';
 
 import settings from './settings';
@@ -81,7 +81,7 @@ export default class GoogleMapsElem extends Component {
   renderMap () {
     if (this.state.ready) {
       var gmap = (
-        <GoogleMaps
+        <GoogleMap
           ref="map"
           containerProps={{
             style: {
@@ -96,7 +96,7 @@ export default class GoogleMapsElem extends Component {
           mapTypeControl={this.props.mapTypeControl}
           panControl={this.props.panControl}
           center={{lat: parseFloat(this.props.lat, 10), lng: parseFloat(this.props.lng, 10)}}
-        >{this.renderMarker()}</GoogleMaps>
+        >{this.renderMarker()}</GoogleMap>
       );
 
       if (this.context.editing) {
