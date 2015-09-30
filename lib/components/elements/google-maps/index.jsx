@@ -73,13 +73,14 @@ export default class GoogleMapsElem extends Component {
         lng: parseFloat(this.props.lng, 10)
       };
       return (
-        <Marker position={position} />
+        <Marker position={position} key={this.props.lat+this.props.lng} />
       );
     }
   }
 
   renderMap () {
     if (this.state.ready) {
+      let key = this.props.zoom + this.props.scrollwheel + this.props.zoomControls + this.props.streetViewControl + this.props.mapTypeControl + this.props.lat + this.props.lng;
       var gmap = (
         <GoogleMap
           ref="map"
@@ -94,8 +95,8 @@ export default class GoogleMapsElem extends Component {
           zoomControl={this.props.zoomControls}
           streetViewControl={this.props.streetViewControl}
           mapTypeControl={this.props.mapTypeControl}
-          panControl={this.props.panControl}
           center={{lat: parseFloat(this.props.lat, 10), lng: parseFloat(this.props.lng, 10)}}
+          key={key}
         >{this.renderMarker()}</GoogleMap>
       );
 
@@ -131,7 +132,6 @@ GoogleMapsElem.propTypes = {
   lng: React.PropTypes.string.isRequired,
   height: React.PropTypes.number.isRequired,
   scrollwheel: React.PropTypes.bool.isRequired,
-  panControl: React.PropTypes.bool.isRequired,
   zoomControls: React.PropTypes.bool.isRequired,
   mapTypeControl: React.PropTypes.bool.isRequired,
   streetViewControl: React.PropTypes.bool.isRequired,
@@ -144,7 +144,6 @@ GoogleMapsElem.defaultProps = {
   lng: '-8.601692',
   height: 250,
   scrollwheel: false,
-  panControl: false,
   zoomControls: true,
   mapTypeControl: false,
   streetViewControl: true,
