@@ -153,7 +153,10 @@ Settings.options = [
   {
     label: 'Mail user password',
     type: Types.String,
-    id: 'mailPass'
+    id: 'mailPass',
+    props: {
+      password: true
+    }
   },
   {
     label: 'Send emails to',
