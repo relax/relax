@@ -25,11 +25,15 @@ export default class AddOverlay extends Component {
       state: 'loading'
     });
 
+    let data = {
+      title: pageData.title,
+      slug: pageData.slug
+    };
+    data.createdBy = this.props.user._id;
+    data.updatedBy = this.props.user._id;
+
     pageActions
-      .add({
-        title: pageData.title,
-        slug: pageData.slug
-      })
+      .add(data)
       .then((page) => {
         this.props.onClose();
         Router.prototype.navigate('/admin/page/'+page.slug, {trigger: true});

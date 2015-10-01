@@ -166,7 +166,7 @@ export default class Admin extends Component {
     if (this.state.overlay !== false) {
       return (
         <Overlay {...this.state.overlayProps}>
-          {React.cloneElement(this.state.overlay, {onClose: this.closeOverlayBind})}
+          {React.cloneElement(this.state.overlay, {onClose: this.closeOverlayBind, user: this.props.user})}
         </Overlay>
       );
     }
