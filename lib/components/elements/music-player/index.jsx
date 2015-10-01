@@ -4,6 +4,7 @@ import Element from '../../element';
 import styles from '../../../styles';
 import cx from 'classnames';
 import utils from '../../../utils';
+import mediaStore from '../../../client/stores/media';
 
 import BackgroundImage from '../../background-image';
 
@@ -19,18 +20,16 @@ import {soundManager} from 'soundmanager2';
 const consumer_key = '6c786345f5161898f1e1380802ce9226';
 
 export default class MusicPlayer extends Component {
-
   getInitialState () {
     if (!this.context.editing && this.isClient()) {
       if (this.props.type === 'soundcloud') {
         this.loadSoundcloud();
-      } else {
-
       }
     }
 
     return {
       playing: false,
+      muted: false,
       loadedPercentage: 0,
       loadedLabel: '00:00',
       playedPercentage: 0,
@@ -43,6 +42,23 @@ export default class MusicPlayer extends Component {
     super.componentWillUnmount();
     if (this.sound) {
       this.sound.destruct();
+    }
+  }
+
+  getInitialModels () {
+    let models = {};
+
+    if (!this.context.editing && this.props.type === 'local' && this.props.sound && this.props.sound !== '') {
+      models.sound = mediaStore.getModel(this.props.sound);
+    }
+
+    return models;
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (!this.context.editing && !prevState.sound && this.state.sound) {
+      this.url = this.state.sound.url;
+      soundManager.onready(this.createSound.bind(this));
     }
   }
 
@@ -146,7 +162,8 @@ export default class MusicPlayer extends Component {
     }
 
     this.setState({
-      volume: this.sound.muted ? 0 : this.sound.volume
+      volume: this.sound.muted ? 0 : this.sound.volume,
+      muted: this.sound.muted || this.sound.volume === 0
     });
   }
 
@@ -174,7 +191,8 @@ export default class MusicPlayer extends Component {
     }
 
     this.setState({
-      volume: this.sound.muted ? 0 : this.sound.volume
+      volume: this.sound.muted ? 0 : this.sound.volume,
+      muted: this.sound.muted || this.sound.volume === 0
     });
   }
 
@@ -182,7 +200,7 @@ export default class MusicPlayer extends Component {
     return (
       <div className={cx(classes.part, classes.fit, classMap.controls)}>
         <a href='#' onClick={this.togglePlay.bind(this)}>
-          {this.props.children[0]}
+          {this.state.playing ? this.props.children[1] : this.props.children[0]}
         </a>
       </div>
     );
@@ -207,17 +225,17 @@ export default class MusicPlayer extends Component {
     // this.state.playedLabel loadedLabel
     return (
       <div className={cx(classes.part, classMap.playback)}>
-        {this.props.children[1]}
         {this.props.children[2]}
+        {this.props.children[3]}
         <div className={cx(classes.table)}>
           <span className={cx(classes.part, classes.fit)}>
-            {React.cloneElement(this.props.children[3], {}, this.state.playedLabel)}
+            {React.cloneElement(this.props.children[4], {}, this.state.playedLabel)}
           </span>
           <div className={cx(classes.part)}>
             {this.renderProgressBar(classMap)}
           </div>
           <span className={cx(classes.part, classes.fit)}>
-            {React.cloneElement(this.props.children[4], {}, this.state.loadedLabel)}
+            {React.cloneElement(this.props.children[5], {}, this.state.loadedLabel)}
           </span>
         </div>
       </div>
@@ -242,7 +260,7 @@ export default class MusicPlayer extends Component {
         <div className={cx(classes.table)}>
           <div className={cx(classes.part, classes.fit)}>
             <a href='#' onClick={this.toggleMute.bind(this)}>
-              {this.props.children[5]}
+              {this.state.muted ? this.props.children[7] : this.props.children[6]}
             </a>
           </div>
           <div className={cx(classes.part, classes.volumeBars)}>
@@ -296,7 +314,8 @@ export default class MusicPlayer extends Component {
 
 MusicPlayer.propTypes = {
   type: React.PropTypes.oneOf(['local', 'soundcloud']).isRequired,
-  soundcloud: React.PropTypes.string
+  soundcloud: React.PropTypes.string,
+  sound: React.PropTypes.string
 };
 
 MusicPlayer.defaultProps = {

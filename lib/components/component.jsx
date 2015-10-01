@@ -36,6 +36,17 @@ export default class ElementComponent extends Component {
         }
       }
     }
+    if (nextProps.selected) {
+      this.onStateChangeBind = this.onStateChange.bind(this);
+      document.addEventListener('setState', this.onStateChangeBind, false);
+    } else if (this.onStateChangeBind) {
+      this.onStateChangeBind = false;
+      document.removeEventListener('setState', this.onStateChangeBind);
+    }
+  }
+
+  onStateChange (event) {
+    this.setState(event.detail);
   }
 
   renderContent (customProps) {
