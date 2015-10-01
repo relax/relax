@@ -14,7 +14,8 @@ export default class ElementsMenu extends Component {
     var categories = [
       'structure',
       'content',
-      'media'
+      'media',
+      'form'
     ];
 
     forEach(this.context.elements, (element) => {

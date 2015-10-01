@@ -106,6 +106,59 @@ Settings.options = [
       width: 50,
       height: 50
     }
+  },
+  {
+    label: 'Mail service',
+    type: Types.Select,
+    id: 'mailService',
+    props: {
+      values: [
+        '1und1',
+        'AOL',
+        'DebugMail.io',
+        'DynectEmail',
+        'FastMail',
+        'GandiMail',
+        'Gmail',
+        'Godaddy',
+        'GodaddyAsia',
+        'GodaddyEurope',
+        'hot.ee',
+        'Hotmail',
+        'iCloud',
+        'mail.ee',
+        'Mail.ru',
+        'Mailgun',
+        'Mailjet',
+        'Mandrill',
+        'Naver',
+        'Postmark',
+        'QQ',
+        'QQex',
+        'SendCloud',
+        'SendGrid',
+        'SES',
+        'Sparkpost',
+        'Yahoo',
+        'Yandex',
+        'Zoho'
+      ]
+    }
+  },
+  {
+    label: 'Mail user/email',
+    type: Types.String,
+    id: 'mailUser'
+  },
+  {
+    label: 'Mail user password',
+    type: Types.String,
+    id: 'mailPass'
+  },
+  {
+    label: 'Send emails to',
+    type: Types.String,
+    id: 'mailTo'
   }
 ];
 
