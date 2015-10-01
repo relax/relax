@@ -44,7 +44,7 @@ export default class Combobox extends Component {
     var label = '';
     forEach(this.props.values, (value, key) => {
       if (this.props.value === value) {
-        label = this.props.labels[key];
+        label = this.props.labels && this.props.labels[key] || value;
       }
     });
 
@@ -58,7 +58,7 @@ export default class Combobox extends Component {
             </div>
           </div>
           <div className='combobox-options-holder'>
-            {this.props.labels.map(this.renderOption, this)}
+            {(this.props.labels || this.props.values).map(this.renderOption, this)}
           </div>
         </div>
       </div>
@@ -67,7 +67,7 @@ export default class Combobox extends Component {
 }
 
 Combobox.propTypes = {
-  labels: React.PropTypes.array.isRequired,
+  labels: React.PropTypes.array,
   values: React.PropTypes.array.isRequired,
   value: React.PropTypes.string.isRequired,
   onChange: React.PropTypes.func.isRequired
