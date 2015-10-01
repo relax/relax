@@ -114,7 +114,7 @@ Button.propTypes = {
 
 Button.contextTypes = {
   editing: React.PropTypes.bool.isRequired,
-  elementContentChange: React.PropTypes.func.isRequired,
+  elementContentChange: React.PropTypes.func,
   selected: React.PropTypes.any
 };
 

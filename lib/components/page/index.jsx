@@ -86,7 +86,8 @@ export default class Page extends Component {
   getChildContext () {
     return {
       editing: false,
-      renderElement: this.renderElementBind
+      renderElement: this.renderElementBind,
+      display: this.state.display
     };
   }
 
@@ -137,5 +138,6 @@ Page.propTypes = {
 
 Page.childContextTypes = {
   editing: React.PropTypes.bool.isRequired,
-  renderElement: React.PropTypes.func.isRequired
+  renderElement: React.PropTypes.func.isRequired,
+  display: React.PropTypes.string.isRequired
 };
