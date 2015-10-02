@@ -1,5 +1,4 @@
 import {Component} from 'relax-framework';
-import Lightbox from './lightbox';
 import MediaSelector from './media-selector';
 import React from 'react';
 import MediaItem from './media-item';
@@ -58,16 +57,9 @@ export default class ImagePicker extends Component {
 
   onClick (event) {
     event.preventDefault();
-
-    this.setState({
-      opened: true
-    });
-  }
-
-  onClose () {
-    this.setState({
-      opened: false
-    });
+    this.context.addLightbox((
+      <MediaSelector onChange={this.changedSelected.bind(this)} selected={this.props.value} />
+    ), {title: 'Select an image'});
   }
 
   changedSelected (id) {
@@ -81,16 +73,6 @@ export default class ImagePicker extends Component {
       this.state.mounted !== nextState.mounted ||
       this.state.image !== nextState.image
     );
-  }
-
-  renderLightbox () {
-    if (this.state.opened) {
-      return (
-        <Lightbox onClose={this.onClose.bind(this)} title='Select an image'>
-          <MediaSelector onChange={this.changedSelected.bind(this)} selected={this.props.value} />
-        </Lightbox>
-      );
-    }
   }
 
   renderSelected () {
@@ -109,7 +91,6 @@ export default class ImagePicker extends Component {
           </div>
         </div>
         {this.props.value && this.props.value !== '' && <div className='button button-faded-grey full vmargined' style={{width: this.state.width || this.props.width}} onClick={this.changedSelected.bind(this, '')}>Unselect Image</div>}
-        {this.renderLightbox()}
       </div>
     );
   }
@@ -120,6 +101,10 @@ ImagePicker.propTypes = {
   height: React.PropTypes.number,
   onChange: React.PropTypes.func.isRequired,
   value: React.PropTypes.string.isRequired
+};
+
+ImagePicker.contextTypes = {
+  addLightbox: React.PropTypes.func.isRequired
 };
 
 ImagePicker.defaultProps = {

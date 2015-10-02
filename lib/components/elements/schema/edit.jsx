@@ -14,6 +14,7 @@ export default class Edit extends Component {
     return {
       editing: true,
       elements: this._reactInternalInstance._context && this._reactInternalInstance._context.elements,
+      addLightbox: this._reactInternalInstance._context && this._reactInternalInstance._context.addLightbox,
       useSchema: true,
       display: 'desktop'
     };
@@ -36,7 +37,8 @@ Edit.childContextTypes = {
   editing: React.PropTypes.bool.isRequired,
   elements: React.PropTypes.object.isRequired,
   useSchema: React.PropTypes.bool.isRequired,
-  display: React.PropTypes.string.isRequired
+  display: React.PropTypes.string.isRequired,
+  addLightbox: React.PropTypes.func.isRequired
 };
 
 Edit.propTypes = {

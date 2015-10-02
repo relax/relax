@@ -3,7 +3,7 @@ import React from 'react';
 import mediaStore from '../client/stores/media';
 import mediaActions from '../client/actions/media';
 import Upload from './upload';
-import MediaItem from './media-item'
+import MediaItem from './media-item';
 
 export default class MediaSelector extends Component {
   getInitialState () {

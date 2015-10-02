@@ -8,6 +8,7 @@ import cx from 'classnames';
 import Animate from '../animate';
 import panels from './panels';
 import Overlay from '../overlay';
+import Lightbox from '../lightbox';
 
 import pagesStore from '../../client/stores/pages';
 import schemasStore from '../../client/stores/schemas';
@@ -21,12 +22,14 @@ export default class Admin extends Component {
     this.addOverlayBind = this.addOverlay.bind(this);
     this.closeOverlayBind = this.closeOverlay.bind(this);
     this.switchOverlayBackgroundBind = this.switchOverlayBackground.bind(this);
+    this.addLightboxBind = this.addLightbox.bind(this);
 
     return {
       display: 'desktop',
       editing: true,
       lastDashboard: '/admin',
       overlay: false,
+      lightbox: false,
       page: this.props.page,
       schema: this.props.schema,
       schemaEntry: this.props.schemaEntry
@@ -107,7 +110,8 @@ export default class Admin extends Component {
       lastDashboard: this.state.lastDashboard,
       addOverlay: this.addOverlayBind,
       closeOverlay: this.closeOverlayBind,
-      switchOverlayBackground: this.switchOverlayBackgroundBind
+      switchOverlayBackground: this.switchOverlayBackgroundBind,
+      addLightbox: this.addLightboxBind
     };
   }
 
@@ -153,6 +157,19 @@ export default class Admin extends Component {
     });
   }
 
+  addLightbox (lightbox, lightboxProps = {}) {
+    this.setState({
+      lightbox,
+      lightboxProps
+    });
+  }
+
+  closeLightbox () {
+    this.setState({
+      lightbox: false
+    });
+  }
+
   renderActivePanel () {
     if (this.props.activePanelType && panels[this.props.activePanelType]) {
       let Panel = panels[this.props.activePanelType];
@@ -168,6 +185,16 @@ export default class Admin extends Component {
         <Overlay {...this.state.overlayProps}>
           {React.cloneElement(this.state.overlay, {onClose: this.closeOverlayBind, user: this.props.user})}
         </Overlay>
+      );
+    }
+  }
+
+  renderLightbox () {
+    if (this.state.lightbox !== false) {
+      return (
+        <Lightbox {...this.state.lightboxProps} onClose={this.closeLightbox.bind(this)}>
+          {this.state.lightbox}
+        </Lightbox>
       );
     }
   }
@@ -196,6 +223,7 @@ export default class Admin extends Component {
           </div>
         </div>
         {this.renderOverlay()}
+        {this.renderLightbox()}
       </div>
     );
   }
@@ -236,5 +264,6 @@ Admin.childContextTypes = {
   lastDashboard: React.PropTypes.string,
   addOverlay: React.PropTypes.func,
   closeOverlay: React.PropTypes.func,
-  switchOverlayBackground: React.PropTypes.func
+  switchOverlayBackground: React.PropTypes.func,
+  addLightbox: React.PropTypes.func
 };
