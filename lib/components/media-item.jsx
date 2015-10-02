@@ -24,15 +24,21 @@ export default class MediaItem extends Component {
       );
     } else if (type === 'video') {
       result = (
-        <i className='material-icons'>videocam</i>
+        <div className='not-image'>
+          <i className='material-icons'>videocam</i>
+          <span>{this.props.item.name}</span>
+        </div>
       );
     } else if (type === 'audio') {
       result = (
-        <i className='material-icons'>music_note</i>
+        <div className='not-image'>
+          <i className='material-icons'>music_note</i>
+          <span>{this.props.item.name}</span>
+        </div>
       );
     }
 
-    return result;
+    return <div className='media-item'>{result}</div>;
   }
 }
 
