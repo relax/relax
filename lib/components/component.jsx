@@ -40,7 +40,13 @@ export default class ElementComponent extends Component {
       this.onStateChangeBind = this.onStateChange.bind(this);
       document.addEventListener('setState', this.onStateChangeBind, false);
     } else if (this.onStateChangeBind) {
+      document.removeEventListener('setState', this.onStateChangeBind);
       this.onStateChangeBind = false;
+    }
+  }
+
+  componentWillUnmount () {
+    if (this.onStateChangeBind) {
       document.removeEventListener('setState', this.onStateChangeBind);
     }
   }
