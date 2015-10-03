@@ -39,8 +39,8 @@ export default class RevisionsOverlay extends Component {
         </div>
         <div className='info-part'>
           <div className='title'>
-            <span className='thumbnail'><img src={Utils.getGravatarImage(revision.user.email, 40)} /></span>
-            <span>{revision.user.name}</span>
+            <span className='thumbnail'><img src={Utils.getGravatarImage(revision.user && revision.user.email || 'default', 40)} /></span>
+            <span>{revision.user && revision.user.name || 'removed user'}</span>
             <span> updated </span>
             <span>{date}</span>
           </div>

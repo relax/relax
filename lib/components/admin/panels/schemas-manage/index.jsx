@@ -307,14 +307,14 @@ export default class SchemasManage extends Component {
               <div>{updatedDate}</div>
             </div>
             <div className='info'>
-              <span className='thumbnail'><img src={Utils.getGravatarImage(createdUser.email, 40)} /></span>
+              <span className='thumbnail'><img src={Utils.getGravatarImage(createdUser && createdUser.email || 'default' , 40)} /></span>
               <span>Created by</span>
-              <div>{createdUser.name}</div>
+              <div>{createdUser && createdUser.name || 'removed user'}</div>
             </div>
             <div className='info'>
-              <span className='thumbnail'><img src={Utils.getGravatarImage(updatedUser.email, 40)} /></span>
+              <span className='thumbnail'><img src={Utils.getGravatarImage(updatedUser && updatedUser.email || 'default', 40)} /></span>
               <span>Last update by</span>
-              <div>{updatedUser.name}</div>
+              <div>{updatedUser && updatedUser.name || 'removed user'}</div>
             </div>
           </div>
           {this.renderlinks()}
