@@ -108,6 +108,14 @@ Settings.options = [
     }
   },
   {
+    label: 'Google analytics tracking ID',
+    type: Types.String,
+    id: 'googleAnalytics',
+    props: {
+      placeholder: 'UA-XXXXX-Y'
+    }
+  },
+  {
     label: 'Mail service',
     type: Types.Select,
     id: 'mailService',
