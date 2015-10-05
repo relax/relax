@@ -210,7 +210,7 @@ export class Dragger extends Component {
 
   render () {
     var style = {
-      position: 'absolute',
+      position: 'fixed',
       width: draggingData.elementWidth+'px',
       top: this.state.top+'px',
       left: this.state.left+'px',
@@ -477,6 +477,7 @@ export class Droppable extends Component {
   }
 
   renderPlaceholderContent () {
+    let result;
     if (this.state.overed) {
       let props = {
         scaleX: '150%',
@@ -486,21 +487,27 @@ export class Droppable extends Component {
         duration: 600,
         loop: true
       };
-      return (
+      result = (
         <AnimateProps props={props} options={options}>
           <i className='material-icons'>add_circle</i>
         </AnimateProps>
       );
     } else {
-      return (
-        <div>
-          <span>Drop elements here or </span>
-          <span className='link' onClick={this.addSpotClick.bind(this, 0)} ref='spot0'>
-            <span>click to add</span>
-          </span>
-        </div>
-      );
+      if (this.props.placeholderContent) {
+        result = <div>{this.props.placeholderContent}</div>;
+      } else {
+        result = (
+          <div>
+            <span>Drop elements here or </span>
+            <span className='link' onClick={this.addSpotClick.bind(this, 0)} ref='spot0'>
+              <span>click to add</span>
+            </span>
+          </div>
+        );
+      }
     }
+
+    return result;
   }
 
   renderPlaceholder () {
@@ -551,7 +558,7 @@ export class Droppable extends Component {
       );
 
       children.splice(this.draggerPosition, 0, marker);
-    } else if (hasChildren && (this.context.selectedParent === this.props.dropInfo.id || this.context.selected.id === this.props.dropInfo.id) && !this.context.dragging) {
+    } else if (hasChildren && (this.context.selectedParent === this.props.dropInfo.id || (this.context.selected && this.context.selected.id === this.props.dropInfo.id)) && !this.context.dragging) {
       var tempChildren = [
         this.renderMark(0)
       ];
@@ -581,7 +588,8 @@ Droppable.propTypes = {
   accepts: React.PropTypes.any,
   rejects: React.PropTypes.any,
   type: React.PropTypes.string,
-  placeholder: React.PropTypes.bool
+  placeholder: React.PropTypes.bool,
+  placeholderContent: React.PropTypes.string
 };
 
 Droppable.defaultProps = {
@@ -597,7 +605,7 @@ Droppable.contextTypes = {
   dropBlock: React.PropTypes.bool,
   selected: React.PropTypes.any,
   selectedParent: React.PropTypes.number,
-  openElementsMenu: React.PropTypes.func.isRequired,
+  openElementsMenu: React.PropTypes.func,
   elementsMenuSpot: React.PropTypes.number
 };
 
@@ -634,7 +642,7 @@ export class DragRoot extends Component {
   renderDragger (offset = {}) {
     if (this.state && this.state.dragging) {
       return (
-        <Dragger offset={offset} onStopDrag={this.onStopDragEvent.bind(this)} />
+        <Dragger onStopDrag={this.onStopDragEvent.bind(this)} />
       );
     }
   }

@@ -76,6 +76,16 @@ export default class MenuBar extends Component {
         label: 'Pages'
       },
       {
+        type: 'schemas',
+        link: '/admin/schemas',
+        label: 'Schemas'
+      },
+      {
+        type: 'menus',
+        link: '/admin/menus',
+        label: 'Menus'
+      },
+      {
         type: 'media',
         link: '/admin/media',
         label: 'Media'
@@ -89,11 +99,6 @@ export default class MenuBar extends Component {
         type: 'colors',
         link: '/admin/colors',
         label: 'Colors'
-      },
-      {
-        type: 'schemas',
-        link: '/admin/schemas',
-        label: 'Schemas'
       },
       {
         type: 'users',

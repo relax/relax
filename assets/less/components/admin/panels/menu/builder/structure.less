@@ -1,0 +1,30 @@
+.menu-structure-entry {
+  //padding-bottom: 7px;
+  >.sub {
+    .transition(0.3s);
+    padding-left: 30px;
+  }
+}
+
+.dragging .menu-structure-entry {
+  border-top: 1px solid rgba(51, 204, 51, 0.39);
+
+  >.sub {
+    padding-bottom: 15px;
+  }
+
+  &:last-child {
+    border-bottom: 1px solid rgba(51, 204, 51, 0.39);
+  }
+
+  .drop-placeholder {
+    padding: 0px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 11px;
+    i {
+      font-size: 14px;
+      line-height: 30px;
+    }
+  }
+}

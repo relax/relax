@@ -42,9 +42,9 @@ export default class Filter extends Component {
       sort: button.property,
       order: 'asc'
     };
+
     if (this.context.query && this.context.query.sort && this.context.query.sort === button.property) {
       active = true;
-
       if (!this.context.query.order || this.context.query.order === 'asc') {
         icon = 'arrow_drop_up';
         query.order = 'desc';
