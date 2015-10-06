@@ -21,7 +21,7 @@ export default class CollectionCombobox extends Component {
 
     forEach(this.state.entries, (entry) => {
       labels.push(entry.title);
-      values.push(entry.slug);
+      values.push(entry[this.props.property]);
     });
 
     return (
@@ -35,8 +35,13 @@ export default class CollectionCombobox extends Component {
   }
 }
 
+CollectionCombobox.defaultProps = {
+  property: 'slug'
+};
+
 CollectionCombobox.propTypes = {
   store: React.PropTypes.any.isRequired,
-  value: React.PropTypes.string.isRequired,
-  onChange: React.PropTypes.func.isRequired
+  value: React.PropTypes.string,
+  onChange: React.PropTypes.func.isRequired,
+  property: React.PropTypes.string.isRequired
 };
