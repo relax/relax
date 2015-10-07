@@ -4,7 +4,10 @@
 
 Support our work and help us make this the best open source cms, be our [patreon](http://patreon.com/relax)!
 
-**Demo credentials**:
+
+**You can check the demo [here](http://demo.getrelax.io/admin)**
+
+Demo credentials:
  - user: demo
  - pass: demo
 
