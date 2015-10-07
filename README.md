@@ -2,7 +2,7 @@
 ====================================
 [![Slack Status](http://slack-relax.herokuapp.com/badge.svg)](http://slack-relax.herokuapp.com/)
 
-<iframe src="https://carlo.github.io/patreon-buttons/patreon-btn.html?creator=relax&amp;show=patrons" allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
+Support our work and help us make this the best open source cms, be our [patreon](http://patreon.com/relax)!
 
 **Demo credentials**:
  - user: demo
