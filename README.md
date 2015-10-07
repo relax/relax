@@ -2,6 +2,8 @@
 ====================================
 [![Slack Status](http://slack-relax.herokuapp.com/badge.svg)](http://slack-relax.herokuapp.com/)
 
+<iframe src="https://carlo.github.io/patreon-buttons/patreon-btn.html?creator=relax&amp;show=patrons" allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
+
 **Demo credentials**:
  - user: demo
  - pass: demo
