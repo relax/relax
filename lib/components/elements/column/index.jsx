@@ -1,7 +1,9 @@
 import React from 'react';
 import Component from '../../component';
 import Element from '../../element';
-import {Types} from '../../../data-types';
+
+import settings from './settings';
+import propsSchema from './props-schema';
 
 export default class Column extends Component {
   render () {
@@ -39,20 +41,6 @@ export default class Column extends Component {
   }
 }
 
-Column.settings = {
-  icon: {
-    class: 'material-icons',
-    content: 'view_carousel'
-  },
-  category: 'structure',
-  drop: {
-    rejects: 'Section',
-    customDropArea: true
-  },
-  drag: {
-    droppableOn: 'Columns'
-  }
-};
 
 Column.propTypes = {
   padding: React.PropTypes.string.isRequired,
@@ -65,19 +53,5 @@ Column.defaultProps = {
   vertical: 'top'
 };
 
-Column.propsSchema = [
-  {
-    label: 'Padding',
-    type: Types.String,
-    id: 'padding'
-  },
-  {
-    label: 'Content vertical align',
-    type: Types.Select,
-    id: 'vertical',
-    props: {
-      labels: ['Top', 'Center', 'Bottom'],
-      values: ['top', 'middle', 'bottom']
-    }
-  }
-];
+Column.settings = settings;
+Column.propsSchema = propsSchema;
