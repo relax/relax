@@ -522,7 +522,7 @@ export class Droppable extends Component {
 
   renderMark (position) {
     let vertical = this.props.orientation && this.props.orientation === 'horizontal';
-    let active = this.context.elementsMenuSpot === position;
+    let active = this.context.elementsMenuSpot === position && this.context.selected && this.context.selected.id === this.props.dropInfo.id;
 
     return (
       <div className={cx('add-marker', vertical && 'vertical', !vertical && this.state.closeToMargin && 'inverted', active && 'active')} onClick={this.addSpotClick.bind(this, position)}>
