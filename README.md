@@ -2,14 +2,7 @@
 ====================================
 [![Slack Status](http://slack-relax.herokuapp.com/badge.svg)](http://slack-relax.herokuapp.com/)
 
-Support our work and help us make this the best open source cms, be our [patreon](http://patreon.com/relax)!
-
-
-**You can check the demo [here](http://demo.getrelax.io/admin)**
-
-Demo credentials:
- - user: demo
- - pass: demo
+Support our work and help us make this the best open source CMS, be our [patreon](http://patreon.com/relax)!
 
 Relax is a powerful new generation CMS on top of
 [React](https://facebook.github.io/react/) and [Node.js](https://nodejs.org/en/)
@@ -22,6 +15,11 @@ We're currently working on releasing the beta version which should come up early
 
 ![Relax Screenshot](https://raw.githubusercontent.com/relax/relax/gh-pages/assets/images/screenshot.jpg "Relax screenshot")
 
+**You can check the demo [here](http://demo.getrelax.io/admin)**
+
+Demo credentials:
+ - user: demo
+ - pass: demo
 
 Installation
 ------------
