@@ -16,6 +16,8 @@
     "watch": "grunt watch"
   },
   "dependencies": {
+    "@risingstack/graffiti": "^1.0.2",
+    "@risingstack/graffiti-mongoose": "^2.0.0",
     "babel": "^5.8.23",
     "backbone": "^1.2.2",
     "backbone-cortex": "git://github.com/relax/backbone-cortex.git",
@@ -29,6 +31,7 @@
     "express-react-engine": "^0.4.4",
     "express-session": "^1.11.3",
     "file-size": "^1.0.0",
+    "graphql": "^0.4.7",
     "jquery": "^2.1.4",
     "keymaster": "git://github.com/relax/keymaster.git",
     "lodash.clone": "^3.0.3",
