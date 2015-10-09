@@ -68,6 +68,7 @@
     "redux-thunk": "^1.0.0",
     "relax-framework": "^0.0.1",
     "rimraf": "^2.4.3",
+    "semver": "^5.0.3",
     "sharp": "^0.11.2",
     "slug": "^0.9.1",
     "soundmanager2": "git://github.com/relax/SoundManager2.git",
