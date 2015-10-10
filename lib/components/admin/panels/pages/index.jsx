@@ -1,24 +1,16 @@
 import React from 'react';
+import Relay from 'react-relay';
 import {Component} from 'relax-framework';
 import List from './list';
 import Filter from '../../../filter';
 import Pagination from '../../../pagination';
 import A from '../../../a';
 
-import pagesStore from '../../../../client/stores/pages';
-
-export default class Pages extends Component {
+class Pages extends Component {
   getInitialState () {
     return {
-      pages: this.context.pages,
       search: (this.context.query && this.context.query.s) || '',
       lightbox: false
-    };
-  }
-
-  getInitialCollections () {
-    return {
-      pages: pagesStore.getCollection()
     };
   }
 
@@ -47,6 +39,24 @@ export default class Pages extends Component {
 }
 
 Pages.contextTypes = {
-  pages: React.PropTypes.array.isRequired,
   query: React.PropTypes.object
 };
+
+export default Relay.createContainer(Pages, {
+  // Specify the initial value of the `$size` variable.
+  initialVariables: {
+    size: 32
+  },
+  // For each of the props that depend on server data, we define a corresponding
+  // key in `fragments`. Here, the component expects server data to populate the
+  // `user` prop, so we'll specify the fragment from above as `fragments.user`.
+  fragments: {
+    user: () => Relay.QL`
+      fragment on User {
+        profilePhoto(size: $size) {
+          uri,
+        },
+      }
+    `,
+  },
+});

@@ -1,18 +1,14 @@
 import React from 'react';
+import Relay from 'react-relay';
 import {Component} from 'relax-framework';
 import TopMenu from './top-menu';
 import MenuBar from './menu-bar';
 import Backbone from 'backbone';
 import cx from 'classnames';
 
-import Animate from '../animate';
 import panels from './panels';
 import Overlay from '../overlay';
 import Lightbox from '../lightbox';
-
-import pagesStore from '../../client/stores/pages';
-import schemasStore from '../../client/stores/schemas';
-import schemaEntriesStoreFactory from '../../client/stores/schema-entries';
 
 export default class Admin extends Component {
 
@@ -36,41 +32,10 @@ export default class Admin extends Component {
     };
   }
 
-  getInitialModels (props) {
-    if (typeof props === 'undefined') {
-      props = this.props;
-    }
-    var models = {};
-
-    if (props.page) {
-      this.currentPageId = props.page.id;
-      models.page = pagesStore.getModel(props.page._id, {update: false});
-    }
-
-    if (props.schema) {
-      models.schema = schemasStore.getModel(props.schema._id, {update: false});
-      if (props.schemaEntry) {
-        let entryStore = schemaEntriesStoreFactory(props.schema.slug);
-        models.schemaEntry = entryStore.getModel(props.schemaEntry._id, {update: false});
-      }
-    }
-
-    return models;
-  }
-
   componentWillReceiveProps (nextProps) {
     if (nextProps.activePanelType !== 'pageBuild') {
       this.updateLastDashboardPage();
     }
-
-    this.setState({
-      page: nextProps.page,
-      schema: nextProps.schema,
-      schemaEntry: nextProps.schemaEntry
-    });
-
-    this.unsetModels(['page', 'schema', 'schemaEntry']);
-    this.setModels(this.getInitialModels(nextProps));
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -201,16 +166,6 @@ export default class Admin extends Component {
     }
   }
 
-  renderLoading () {
-    if (this.props.loading) {
-      return (
-        <Animate transition='slideDownIn'>
-          <div className='loading-bar'></div>
-        </Animate>
-      );
-    }
-  }
-
   render () {
     return (
       <div>
@@ -220,7 +175,10 @@ export default class Admin extends Component {
           <div className='admin-holder'>
             {this.props.activePanelType !== 'pageBuild' && <MenuBar />}
             <div className='admin-content'>
-              {this.renderActivePanel()}
+              <Relay.RootContainer
+                Component={panels[this.props.activePanelType]}
+                route={adminRoute}
+              />
             </div>
           </div>
         </div>

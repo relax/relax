@@ -60,6 +60,7 @@
     "react-draggable": "^0.8.1",
     "react-gemini-scrollbar": "^1.1.1",
     "react-google-maps": "^4.0.0",
+    "react-relay": "^0.3.2",
     "relax-framework": "^0.1.0",
     "rimraf": "^2.4.3",
     "sharp": "^0.11.2",

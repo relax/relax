@@ -1,90 +1,15 @@
 import React from 'react';
+import Relay from 'react-relay';
 import {Component} from 'relax-framework';
 import moment from 'moment';
 import cx from 'classnames';
 import A from '../../../a';
-import cloneDeep from 'lodash.clonedeep';
-import Q from 'q';
-import Lightbox from '../../../lightbox';
-
-import pageActions from '../../../../client/actions/page';
 
 export default class Entry extends Component {
   getInitialState () {
     return {
       removing: false
     };
-  }
-
-  removePage (event) {
-    event.preventDefault();
-    this.setState({
-      removing: true
-    });
-  }
-
-  cancelRemove (event) {
-    event.preventDefault();
-    this.setState({
-      removing: false
-    });
-  }
-
-  confirmRemove (event) {
-    event.preventDefault();
-    pageActions.remove(this.props.page._id);
-    this.setState({
-      removing: false
-    });
-  }
-
-  resolveSlug (slug, it) {
-    var resultSlug = slug + (it > 0 ? '-'+it : '');
-
-    return Q()
-      .then(() => pageActions.validateSlug(resultSlug))
-      .then((response) => {
-        var slugValid = !response;
-
-        if (slugValid) {
-          return resultSlug;
-        } else {
-          return this.resolveSlug(slug, it+1);
-        }
-      });
-  }
-
-  duplicatePage (event) {
-    event.preventDefault();
-    var clonePage = cloneDeep(this.props.page);
-    delete clonePage._id;
-    delete clonePage.date;
-    delete clonePage.actions;
-    clonePage.title += ' (copy)';
-    clonePage.slug += '-copy';
-    clonePage.state = 'draft';
-
-    this.resolveSlug(clonePage.slug, 0).then((slug) => {
-      clonePage.slug = slug;
-      pageActions.add(clonePage);
-    });
-  }
-
-  renderRemoving () {
-    if (this.state.removing) {
-      const label = 'Are you sure you want to remove '+this.props.page.title+' page?';
-      const label1 = 'You\'ll loose this page\'s data forever!';
-      return (
-        <Lightbox className='small' header={false}>
-          <div className='big centered'>{label}</div>
-          <div className='medium centered'>{label1}</div>
-          <div className='centered space-above'>
-            <a className='button button-grey margined' href='#' onClick={this.cancelRemove.bind(this)}>No, abort!</a>
-            <a className='button button-alert margined' href='#' onClick={this.confirmRemove.bind(this)}>Yes, delete it!</a>
-          </div>
-        </Lightbox>
-      );
-    }
   }
 
   render () {
@@ -139,3 +64,17 @@ export default class Entry extends Component {
 Entry.propTypes = {
   page: React.PropTypes.object.isRequired
 };
+
+export default Relay.createContainer(Entry, {
+  fragments: {
+    page: () => Relay.QL`
+      fragment on Page {
+        _id
+        title
+        slug
+        state
+        date
+      }
+    `
+  }
+});
