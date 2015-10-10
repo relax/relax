@@ -170,7 +170,7 @@ export default class MusicPlayer extends Component {
   onProgressClick (event) {
     event.preventDefault();
 
-    let bounds = utils.getOffsetRect(React.findDOMNode(this.refs.bars));
+    let bounds = utils.getOffsetRect(this.refs.bars);
     let percStream = (event.pageX - bounds.left) / bounds.width;
 
     this.sound.setPosition(percStream * this.sound.duration);
@@ -179,7 +179,7 @@ export default class MusicPlayer extends Component {
   onVolumeClick (event) {
     event.preventDefault();
 
-    let bounds = utils.getOffsetRect(React.findDOMNode(this.refs.volume));
+    let bounds = utils.getOffsetRect(this.refs.volume);
     let percVolume = Math.round(((event.pageX - bounds.left) / bounds.width) * 100);
 
     this.sound.setVolume(percVolume);

@@ -17,7 +17,7 @@ export default class SchemaProperty extends Component {
       event.preventDefault();
       event.stopPropagation();
 
-      let anchorOffset = Utils.getOffsetRect(React.findDOMNode(this.refs.anchor));
+      let anchorOffset = Utils.getOffsetRect(this.refs.anchor);
       this.from = {
         top: anchorOffset.top + anchorOffset.height / 2,
         left: anchorOffset.left + anchorOffset.width / 2

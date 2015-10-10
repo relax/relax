@@ -7,7 +7,7 @@ import utils from '../../utils';
 export default class Canvas extends Component {
   componentDidMount () {
     super.componentDidMount();
-    React.findDOMNode(this.refs.canvas).addEventListener('scroll', this.onScroll.bind(this));
+    this.refs.canvas.addEventListener('scroll', this.onScroll.bind(this));
   }
 
   getChildContext () {

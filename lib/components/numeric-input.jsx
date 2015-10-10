@@ -26,7 +26,7 @@ export default class Numeric extends Component {
   }
 
   onBackgroundClick (event) {
-    let element = React.findDOMNode(this.refs.background);
+    let element = this.refs.background;
 
     let elementOffset = element.getBoundingClientRect();
     let width = elementOffset.right - elementOffset.left;
@@ -40,7 +40,7 @@ export default class Numeric extends Component {
   onMouseDown (event) {
     event.preventDefault();
 
-    let element = React.findDOMNode(this.refs.background);
+    let element = this.refs.background;
 
     this.backgroundOffset = element.getBoundingClientRect();
     this.backgroundWidth = this.backgroundOffset.right - this.backgroundOffset.left;

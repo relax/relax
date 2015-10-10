@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {Component} from 'relax-framework';
 import forEach from 'lodash.foreach';
 import merge from 'lodash.merge';
@@ -34,7 +35,7 @@ export class Draggable extends Component {
 
     this.onMouseUp();
 
-    var element = React.findDOMNode(this);
+    var element = ReactDOM.findDOMNode(this);
 
     var elementOffset = Utils.getOffsetRect(element);
     var width = elementOffset.width;
@@ -121,7 +122,7 @@ class Marker extends Component {
       animateObj.width = '7px';
     }
 
-    Velocity(React.findDOMNode(this), animateObj, { duration: 400, easing: "easeOutExpo" });
+    Velocity(ReactDOM.findDOMNode(this), animateObj, { duration: 400, easing: "easeOutExpo" });
   }
 
   componentDidMount () {
@@ -167,13 +168,13 @@ export class Dragger extends Component {
     this.onMouseUpListener = this.onMouseUp.bind(this);
     this.onMouseMoveListener = this.onMouseMove.bind(this);
 
-    let node = React.findDOMNode(this);
+    let node = ReactDOM.findDOMNode(this);
 
     let relativeX = draggingData.mouseX - draggingData.elementOffset.left;
     let relativeY = draggingData.mouseY - draggingData.elementOffset.top;
     node.style.transformOrigin = relativeX+'px '+relativeY+'px';
 
-    Velocity(React.findDOMNode(this), {
+    Velocity(ReactDOM.findDOMNode(this), {
       scaleX: '0.5',
       scaleY: '0.5',
       opacity: '0.7'
@@ -253,7 +254,7 @@ export class Droppable extends Component {
 
   componentDidMount () {
     super.componentDidMount();
-    const containerRect = React.findDOMNode(this).getBoundingClientRect();
+    const containerRect = ReactDOM.findDOMNode(this).getBoundingClientRect();
 
     if (containerRect.left < 40) {
       if (!this.state.closeToMargin) {
@@ -296,7 +297,7 @@ export class Droppable extends Component {
     // Ordering
     var order = false;
     if (this.props.children && (this.props.children instanceof Array && this.props.children.length > 0)) {
-      var elements = React.findDOMNode(this).children;
+      var elements = ReactDOM.findDOMNode(this).children;
 
       if (elements.length > 0) {
 
@@ -470,7 +471,7 @@ export class Droppable extends Component {
       targetId: this.props.dropInfo.id || 'body',
       targetType: this.props.type,
       targetPosition: position,
-      container: React.findDOMNode(this.refs['spot'+position]),
+      container: this.refs['spot'+position],
       accepts: this.props.accepts,
       rejects: this.props.rejects
     });

@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {Component} from 'relax-framework';
 import forEach from 'lodash.foreach';
 import GeminiScrollbar from 'react-gemini-scrollbar';
@@ -61,7 +62,7 @@ export default class ElementsMenu extends Component {
     this.stopPropagationBind = this.stopPropagation.bind(this);
 
     document.addEventListener('click', this.onCloseBind);
-    React.findDOMNode(this).addEventListener('click', this.stopPropagationBind);
+    ReactDOM.findDOMNode(this).addEventListener('click', this.stopPropagationBind);
     window.addEventListener('scroll', this.updatePositionBind);
     window.addEventListener('resize', this.updatePositionBind);
     this.updatePosition();
@@ -70,7 +71,7 @@ export default class ElementsMenu extends Component {
   componentWillUnmount () {
     super.componentWillUnmount();
     document.removeEventListener('click', this.onCloseBind);
-    React.findDOMNode(this).removeEventListener('click', this.stopPropagationBind);
+    ReactDOM.findDOMNode(this).removeEventListener('click', this.stopPropagationBind);
     window.removeEventListener('scroll', this.updatePositionBind);
     window.removeEventListener('resize', this.updatePositionBind);
   }

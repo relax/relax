@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {Component} from 'relax-framework';
 import Dropzone from 'dropzone';
 
@@ -18,7 +19,7 @@ export default class Upload extends Component {
 
       options.acceptedFiles = 'image/*,video/*,audio/*';
 
-      this.dropzone = new Dropzone(React.findDOMNode(this), options);
+      this.dropzone = new Dropzone(ReactDOM.findDOMNode(this), options);
     }
   }
 

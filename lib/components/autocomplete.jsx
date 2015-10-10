@@ -12,7 +12,7 @@ export default class Autocomplete extends Component {
   }
 
   onInput (e) {
-    var str = React.findDOMNode(this.refs.editable).innerText;
+    var str = this.refs.editable.innerText;
 
     if (this.props.onChange) {
       this.props.onChange(str);
@@ -20,7 +20,7 @@ export default class Autocomplete extends Component {
   }
 
   focus () {
-    var el = React.findDOMNode(this.refs.editable);
+    var el = this.refs.editable;
     el.focus();
     if (typeof window.getSelection !== "undefined" && typeof document.createRange !== "undefined") {
       var range = document.createRange();

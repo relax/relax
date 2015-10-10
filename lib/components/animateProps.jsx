@@ -1,11 +1,12 @@
 import {Component} from 'relax-framework';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Velocity from 'velocity-animate';
 
 export default class AnimateProps extends Component {
   componentDidMount () {
     super.componentDidMount();
-    var dom = React.findDOMNode(this);
+    var dom = ReactDOM.findDOMNode(this);
     Velocity(dom, this.props.props, this.props.options);
   }
 

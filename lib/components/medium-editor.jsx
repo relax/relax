@@ -1,5 +1,6 @@
 import {Component} from 'relax-framework';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import MediumEditor from 'medium-editor';
 
 export default class MediumEditorElement extends Component {
@@ -12,7 +13,7 @@ export default class MediumEditorElement extends Component {
 
   componentDidMount () {
     super.componentDidMount();
-    this.medium = new MediumEditor(React.findDOMNode(this), this.props.options);
+    this.medium = new MediumEditor(ReactDOM.findDOMNode(this), this.props.options);
     this.medium.subscribe('editableInput', this.onChange.bind(this));
   }
 
@@ -31,7 +32,7 @@ export default class MediumEditorElement extends Component {
   }
 
   onChange () {
-    let value = React.findDOMNode(this).innerHTML;
+    let value = ReactDOM.findDOMNode(this).innerHTML;
     this.currentValue = value;
     this.props.onChange(value);
   }

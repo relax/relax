@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import Component from '../../component';
 import Element from '../../element';
@@ -19,7 +20,7 @@ export default class Image extends Component {
 
   componentDidMount () {
     super.componentDidMount();
-    var dom = React.findDOMNode(this);
+    var dom = ReactDOM.findDOMNode(this);
     var rect = dom.getBoundingClientRect();
 
     var width = Math.round(rect.right-rect.left);

@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {Component} from 'relax-framework';
 import forEach from 'lodash.foreach';
 import merge from 'lodash.merge';
@@ -55,7 +56,7 @@ export default class Element extends Component {
   }
 
   animate () {
-    var dom = React.findDOMNode(this);
+    var dom = ReactDOM.findDOMNode(this);
     var animation = this.props.element.animation;
     this.state.animated = true;
     this.state.animatedEditing = false;
@@ -83,7 +84,7 @@ export default class Element extends Component {
   }
 
   onScroll () {
-    var dom = React.findDOMNode(this);
+    var dom = ReactDOM.findDOMNode(this);
     var rect = dom.getBoundingClientRect();
 
     if ( (rect.top <= 0 && rect.bottom >= 0) || (rect.top > 0 && rect.top < window.outerHeight) ) {
@@ -103,7 +104,7 @@ export default class Element extends Component {
   }
 
   getOffset () {
-    var dom = React.findDOMNode(this);
+    var dom = ReactDOM.findDOMNode(this);
     return Utils.getOffsetRect(dom);
   }
 

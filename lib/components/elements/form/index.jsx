@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import forEach from 'lodash.foreach';
 import slugify from 'slug';
 import $ from 'jquery';
@@ -53,7 +54,7 @@ export default class Form extends Component {
 
   onSubmit (event) {
     event.preventDefault();
-    const formElement = React.findDOMNode(this);
+    const formElement = ReactDOM.findDOMNode(this);
     let formData = {};
 
     forEach(formElement.elements, (element) => {

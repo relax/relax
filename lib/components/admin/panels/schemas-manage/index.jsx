@@ -78,7 +78,7 @@ export default class SchemasManage extends Component {
   successOut () {
     clearTimeout(this.successTimeout);
 
-    var dom = React.findDOMNode(this.refs.success);
+    var dom = this.refs.success;
     const transition = 'transition.slideDownOut';
     Velocity(dom, transition, {
       duration: 400,

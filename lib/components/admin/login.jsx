@@ -6,7 +6,7 @@ export default class Login extends Component {
 
   onSubmit (event) {
     event.preventDefault();
-    React.findDOMNode(this.refs.form).submit();
+    this.refs.form.submit();
   }
 
   render () {

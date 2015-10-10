@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {Component} from 'relax-framework';
 import MediaImage from './image';
 import Utils from '../utils';
@@ -20,7 +21,7 @@ export default class BackgroundImage extends Component {
   }
 
   resize () {
-    var dom = React.findDOMNode(this);
+    var dom = ReactDOM.findDOMNode(this);
     var rect = dom.getBoundingClientRect();
 
     var width = Math.round(rect.right-rect.left);

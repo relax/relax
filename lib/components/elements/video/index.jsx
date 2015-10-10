@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Component from '../../component';
 import Element from '../../element';
 import Utils from '../../../utils';
@@ -21,7 +22,7 @@ export default class Video extends Component {
   }
 
   onResize () {
-    var dom = React.findDOMNode(this);
+    var dom = ReactDOM.findDOMNode(this);
     var rect = dom.getBoundingClientRect();
 
     var width = Math.round(rect.right-rect.left);
