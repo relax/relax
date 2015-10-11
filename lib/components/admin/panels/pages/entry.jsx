@@ -5,6 +5,16 @@ import cx from 'classnames';
 import A from '../../../a';
 
 export default class Entry extends Component {
+  static fragments = {
+    page: {
+      _id: 1,
+      title: 1,
+      slug: 1,
+      state: 1,
+      date: 1
+    }
+  }
+
   getInitialState () {
     return {
       removing: false

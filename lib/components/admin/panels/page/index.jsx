@@ -22,6 +22,27 @@ import * as pageActions from '../../../../actions/page';
   (dispatch) => bindActionCreators(pageActions, dispatch)
 )
 export default class Page extends Component {
+  static fragments = {
+    page: {
+      _id: 1,
+      title: 1,
+      slug: 1,
+      state: 1,
+      date: 1,
+      updatedDate: 1,
+      createdBy: {
+        _id: 1,
+        email: 1,
+        name: 1
+      },
+      updatedBy: {
+        _id: 1,
+        email: 1,
+        name: 1
+      }
+    }
+  }
+
   getInitialState () {
     const defaults = {
       title: 'New Page',
@@ -37,7 +58,7 @@ export default class Page extends Component {
   }
 
   componentWillMount () {
-    this.props.getPage(this.state.page.slug);
+    this.props.getPage(this.constructor.fragments, this.state.page.slug);
   }
 
   componentDidUpdate () {
@@ -72,7 +93,7 @@ export default class Page extends Component {
     //data.updatedBy = this.context.user._id;
     this
       .props
-      .updatePage(pick(data, 'title', 'slug', 'state', '_id'))
+      .updatePage(this.constructor.fragments, pick(data, 'title', 'slug', 'state', '_id'))
       .then(() => {
         // FIXME When the logic of `componentDidUpdate` gets better we can
         // remove this

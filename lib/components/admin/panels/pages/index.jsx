@@ -13,8 +13,10 @@ import * as pageActions from '../../../../actions/page';
   (dispatch) => bindActionCreators(pageActions, dispatch)
 )
 export default class Pages extends Component {
+  static fragments = List.fragments
+
   componentWillMount () {
-    this.props.getPages();
+    this.props.getPages(this.constructor.fragments);
   }
 
   render () {
