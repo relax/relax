@@ -33,9 +33,6 @@ export default class Html extends React.Component {
         <body>
           <div id='view' dangerouslySetInnerHTML={{__html: this.props.body}} />
           <script type='application/json' dangerouslySetInnerHTML={{__html: JSON.stringify(this.props.props)}} />
-          <script>
-            self.fetch = null;
-          </script>
           {this.renderFooter()}
         </body>
       </html>

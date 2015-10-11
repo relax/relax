@@ -1,9 +1,20 @@
 import React from 'react';
-import Relay from 'react-relay';
 import {Component} from 'relax-framework';
 import Entry from './entry';
 
-class List extends Component {
+export default class List extends Component {
+  static propTypes = {
+    pages: React.PropTypes.array.isRequired
+  }
+
+  render () {
+    return (
+      <div className='list'>
+        {this.renderEntries()}
+      </div>
+    );
+  }
+
   renderEntry (page) {
     return (
       <Entry key={page._id} page={page} />
@@ -11,10 +22,12 @@ class List extends Component {
   }
 
   renderEntries () {
-    if (this.props.pages && this.props.pages.data.length > 0) {
-      return this.props.pages.data.map(this.renderEntry, this);
+    var result;
+
+    if (this.props.pages && this.props.pages.length > 0) {
+      result = this.props.pages.map(this.renderEntry, this);
     } else {
-      return (
+      result = (
         <div className='none-warning'>
           <div className='none-icon-part'>
             <i className='material-icons'>error_outline</i>
@@ -26,33 +39,7 @@ class List extends Component {
         </div>
       );
     }
-  }
 
-  render () {
-    return (
-      <div className='list'>
-        {this.renderEntries()}
-      </div>
-    );
+    return result;
   }
 }
-
-List.defaultProps = {
-  pages: []
-};
-
-List.propTypes = {
-  pages: React.PropTypes.array.isRequired
-};
-
-export default Relay.createContainer(List, {
-  fragments: {
-    pages: () => Relay.QL`
-      fragment on Pages {
-        data {
-          ${Entry.getFragment('page')}
-        }
-      }
-    `
-  }
-});

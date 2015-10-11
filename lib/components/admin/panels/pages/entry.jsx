@@ -1,11 +1,10 @@
 import React from 'react';
-import Relay from 'react-relay';
 import {Component} from 'relax-framework';
 import moment from 'moment';
 import cx from 'classnames';
 import A from '../../../a';
 
-class Entry extends Component {
+export default class Entry extends Component {
   getInitialState () {
     return {
       removing: false
@@ -63,17 +62,3 @@ class Entry extends Component {
 Entry.propTypes = {
   page: React.PropTypes.object.isRequired
 };
-
-export default Relay.createContainer(Entry, {
-  fragments: {
-    page: () => Relay.QL`
-      fragment on Page {
-        _id,
-        title,
-        slug,
-        state,
-        date
-      }
-    `
-  }
-});

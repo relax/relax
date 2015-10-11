@@ -1,7 +1,8 @@
 import {Component, Router} from 'relax-framework';
 import cloneDeep from 'lodash.clonedeep';
 import React from 'react';
-import Relay from 'react-relay';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import cx from 'classnames';
 import moment from 'moment';
 import pick from 'lodash.pick';
@@ -14,11 +15,15 @@ import Spinner from '../../../spinner';
 //import Breadcrumbs from '../../../breadcrumbs';
 //import TitleSlug from '../../../title-slug';
 //import RevisionsOverlay from '../../revisions-overlay';
-import UpdatePageMutation from '../../../../relay/mutations/page/update';
+import * as pageActions from '../../../../actions/page';
 
+@connect(
+  (state) => ({page: state.page.data.page}),
+  (dispatch) => bindActionCreators(pageActions, dispatch)
+)
 export default class Page extends Component {
   getInitialState () {
-    let defaults = {
+    const defaults = {
       title: 'New Page',
       slug: 'new-page',
       state: 'draft'
@@ -31,7 +36,12 @@ export default class Page extends Component {
     };
   }
 
+  componentWillMount () {
+    this.props.getPage(this.state.page.slug);
+  }
+
   componentDidUpdate () {
+    // FIXME This logic is not very good
     if ((!this.state.new && !this.props.page) ||
         (this.state.new && this.props.page)) {
       this.setState(this.getInitialState());
@@ -39,7 +49,6 @@ export default class Page extends Component {
   }
 
   componentWillUnmount () {
-    super.componentWillUnmount();
     if (this.successTimeout) {
       clearTimeout(this.successTimeout);
     }
@@ -61,11 +70,19 @@ export default class Page extends Component {
     }
 
     //data.updatedBy = this.context.user._id;
-    console.log(data);
-    Relay.Store.update(new UpdatePageMutation({
-      page: this.props.page,
-      data: pick(data, 'title', 'slug', 'state', '_id')
-    }));
+    this
+      .props
+      .updatePage(pick(data, 'title', 'slug', 'state', '_id'))
+      .then(() => {
+        // FIXME When the logic of `componentDidUpdate` gets better we can
+        // remove this
+        this.setState(this.getInitialState());
+      })
+      .done();
+    // Relay.Store.update(new UpdatePageMutation({
+    //   page: this.props.page,
+    //   data: pick(data, 'title', 'slug', 'state', '_id')
+    // }));
 
     // action(data)
     //   .then((page) => {
@@ -368,29 +385,3 @@ Page.contextTypes = {
   addOverlay: React.PropTypes.func.isRequired,
   closeOverlay: React.PropTypes.func.isRequired
 };
-
-export default Relay.createContainer(Page, {
-  fragments: {
-    page: () => Relay.QL`
-      fragment on Page {
-        _id,
-        title,
-        slug,
-        state,
-        date,
-        updatedDate,
-        createdBy {
-          _id,
-          email,
-          name
-        },
-        updatedBy {
-          _id,
-          email,
-          name
-        }
-        ${UpdatePageMutation.getFragment('page')}
-      }
-    `
-  }
-});
