@@ -4,19 +4,13 @@ import Entry from './entry';
 import Edit from './edit';
 import cloneDeep from 'lodash.clonedeep';
 
-import colorsStore from '../../client/stores/colors';
+// import colorsStore from '../../client/stores/colors';
 
 export default class List extends Component {
   getInitialState () {
     return {
       colors: [],
       editing: false
-    };
-  }
-
-  getInitialCollections () {
-    return {
-      colors: colorsStore.getCollection()
     };
   }
 

@@ -5,7 +5,7 @@ import moment from 'moment';
 import cx from 'classnames';
 import A from '../../../a';
 
-export default class Entry extends Component {
+class Entry extends Component {
   getInitialState () {
     return {
       removing: false
@@ -45,17 +45,16 @@ export default class Entry extends Component {
               <i className='material-icons'>link</i>
               <span>View</span>
             </a>
-            <a href='#' onClick={this.duplicatePage.bind(this)}>
+            <a href='#' onClick>
               <i className='material-icons'>content_copy</i>
               <span>Duplicate</span>
             </a>
-            <a href='#' onClick={this.removePage.bind(this)}>
+            <a href='#' onClick>
               <i className='material-icons'>remove_circle_outline</i>
               <span>Remove</span>
             </a>
           </div>
         </div>
-        {this.renderRemoving()}
       </div>
     );
   }
@@ -69,10 +68,10 @@ export default Relay.createContainer(Entry, {
   fragments: {
     page: () => Relay.QL`
       fragment on Page {
-        _id
-        title
-        slug
-        state
+        _id,
+        title,
+        slug,
+        state,
         date
       }
     `

@@ -1,13 +1,14 @@
 import React from 'react';
 import Relay from 'react-relay';
 import {Component} from 'relax-framework';
-import TopMenu from './top-menu';
+// import TopMenu from './top-menu';
 import MenuBar from './menu-bar';
 import Backbone from 'backbone';
 import cx from 'classnames';
 
+import AdminQuery from '../../queries/admin';
 import panels from './panels';
-import Overlay from '../overlay';
+// import Overlay from '../overlay';
 import Lightbox from '../lightbox';
 
 export default class Admin extends Component {
@@ -167,23 +168,22 @@ export default class Admin extends Component {
   }
 
   render () {
+    console.log(this.props);
     return (
       <div>
         <div className={cx('blurr', this.state.overlay !== false && 'blurred')}>
-          {this.renderLoading()}
-          <TopMenu />
           <div className='admin-holder'>
             {this.props.activePanelType !== 'pageBuild' && <MenuBar />}
             <div className='admin-content'>
               <Relay.RootContainer
                 Component={panels[this.props.activePanelType]}
-                route={adminRoute}
+                route={new AdminQuery({
+                  slug: this.props.slug
+                })}
               />
             </div>
           </div>
         </div>
-        {this.renderOverlay()}
-        {this.renderLightbox()}
       </div>
     );
   }
@@ -193,7 +193,8 @@ Admin.propTypes = {
   activePanelType: React.PropTypes.string,
   breadcrumbs: React.PropTypes.array,
   user: React.PropTypes.object,
-  users: React.PropTypes.array
+  users: React.PropTypes.array,
+  slug: React.PropTypes.string
 };
 
 Admin.childContextTypes = {

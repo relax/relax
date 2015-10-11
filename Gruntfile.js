@@ -2,7 +2,12 @@ module.exports = function (grunt) {
   'use strict';
 
   var browserifyExternalOptions, browserifyExternalRequire;
-
+  // `babel-relay-plugin` returns a function for creating plugin instances
+  var getBabelRelayPlugin = require('babel-relay-plugin');
+  // load previously saved schema data (see "Schema JSON" below)
+  var schemaData = require('./data/schema.json');
+  // create a plugin instance
+  var plugin = getBabelRelayPlugin(schemaData.data)
   browserifyExternalOptions = browserifyExternalRequire = [
     'backbone',
     'backbone-cortex',
@@ -15,7 +20,7 @@ module.exports = function (grunt) {
   var browserifyProductionOptions = {
     ignore: ['./lib/server/**/*'],
     transform: [
-      'babelify'
+      ['babelify', {plugins: [plugin]}]
     ],
     browserifyOptions: {
       extensions: ['.jsx', '.js']
@@ -28,7 +33,7 @@ module.exports = function (grunt) {
       options: {
         ignore: ['./lib/server/**/*'],
         transform: [
-          'babelify'
+          ['babelify', {plugins: [plugin]}]
         ],
         browserifyOptions: {
           extensions: ['.jsx', '.js'],
@@ -41,7 +46,7 @@ module.exports = function (grunt) {
         options: {
           ignore: ['./lib/server/**/*'],
           transform: [
-            'babelify'
+            ['babelify', {plugins: [plugin]}]
           ],
           browserifyOptions: {
             extensions: ['.jsx', '.js'],

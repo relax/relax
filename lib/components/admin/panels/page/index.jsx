@@ -1,19 +1,20 @@
 import {Component, Router} from 'relax-framework';
 import cloneDeep from 'lodash.clonedeep';
 import React from 'react';
+import Relay from 'react-relay';
 import cx from 'classnames';
 import moment from 'moment';
+import pick from 'lodash.pick';
 import Velocity from 'velocity-animate';
 import Utils from '../../../../utils';
 
 import A from '../../../a';
 import Animate from '../../../animate';
 import Spinner from '../../../spinner';
-import Breadcrumbs from '../../../breadcrumbs';
-import TitleSlug from '../../../title-slug';
-import RevisionsOverlay from '../../revisions-overlay';
-
-import pageActions from '../../../../client/actions/page';
+//import Breadcrumbs from '../../../breadcrumbs';
+//import TitleSlug from '../../../title-slug';
+//import RevisionsOverlay from '../../revisions-overlay';
+import UpdatePageMutation from '../../../../relay/mutations/page/update';
 
 export default class Page extends Component {
   getInitialState () {
@@ -24,15 +25,15 @@ export default class Page extends Component {
     };
 
     return {
-      page: cloneDeep(this.context.page) || defaults,
-      new: !(this.context.page && this.context.page._id),
+      page: cloneDeep(this.props.page) || defaults,
+      new: !(this.props.page && this.props.page._id),
       breadcrumbs: this.context.breadcrumbs
     };
   }
 
   componentDidUpdate () {
-    if ((!this.state.new && !this.context.page) ||
-        (this.state.new && this.context.page)) {
+    if ((!this.state.new && !this.props.page) ||
+        (this.state.new && this.props.page)) {
       this.setState(this.getInitialState());
     }
   }
@@ -52,33 +53,38 @@ export default class Page extends Component {
     let action, routerOptions;
     if (this.state.new) {
       data.createdBy = this.context.user._id;
-      action = pageActions.add;
+      action = 'new';
       routerOptions = {trigger: true};
     } else {
-      action = pageActions.update;
+      action = 'edit';
       routerOptions = {trigger: false, replace: true};
     }
 
-    data.updatedBy = this.context.user._id;
+    //data.updatedBy = this.context.user._id;
+    console.log(data);
+    Relay.Store.update(new UpdatePageMutation({
+      page: this.props.page,
+      data: pick(data, 'title', 'slug', 'state', '_id')
+    }));
 
-    action(data)
-      .then((page) => {
-        this.setState({
-          saving: false,
-          page,
-          success: true,
-          error: false,
-          new: false
-        });
-        Router.prototype.navigate('/admin/pages/'+page.slug, routerOptions);
-        this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
-      })
-      .catch((error) => {
-        this.setState({
-          saving: false,
-          error: true
-        });
-      });
+    // action(data)
+    //   .then((page) => {
+    //     this.setState({
+    //       saving: false,
+    //       page,
+    //       success: true,
+    //       error: false,
+    //       new: false
+    //     });
+    //     Router.prototype.navigate('/admin/pages/'+page.slug, routerOptions);
+    //     this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
+    //   })
+    //   .catch((error) => {
+    //     this.setState({
+    //       saving: false,
+    //       error: true
+    //     });
+    //   });
   }
 
   successOut () {
@@ -163,7 +169,7 @@ export default class Page extends Component {
 
   validateSlug (slug) {
     if (!this.state.new) {
-      if (this.context.page.slug === slug) {
+      if (this.props.page.slug === slug) {
         return false;
       }
     }
@@ -172,7 +178,7 @@ export default class Page extends Component {
       return true;
     }
 
-    return pageActions.validateSlug(slug);
+    // return pageActions.validateSlug(slug);
   }
 
   onRestore (__v) {
@@ -183,35 +189,35 @@ export default class Page extends Component {
       savingLabel: 'Restoring revision'
     });
 
-    pageActions
-      .restore({
-        _id: this.state.page._id,
-        __v
-      })
-      .then((page) => {
-        this.state.breadcrumbs[1].label = page.title;
-        this.setState({
-          saving: false,
-          page,
-          success: true,
-          error: false,
-          new: false,
-          breadcrumbs: this.state.breadcrumbs
-        });
-        Router.prototype.navigate('/admin/pages/'+page.slug, {trigger: false, replace: true});
-        this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
-      })
-      .catch(() => {
-        this.setState({
-          success: false
-        });
-      });
+    // pageActions
+    //   .restore({
+    //     _id: this.state.page._id,
+    //     __v
+    //   })
+    //   .then((page) => {
+    //     this.state.breadcrumbs[1].label = page.title;
+    //     this.setState({
+    //       saving: false,
+    //       page,
+    //       success: true,
+    //       error: false,
+    //       new: false,
+    //       breadcrumbs: this.state.breadcrumbs
+    //     });
+    //     Router.prototype.navigate('/admin/pages/'+page.slug, {trigger: false, replace: true});
+    //     this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
+    //   })
+    //   .catch(() => {
+    //     this.setState({
+    //       success: false
+    //     });
+    //   });
   }
 
   onRevisions (event) {
     event.preventDefault();
 
-    const page = this.context.page;
+    const page = this.props.page;
     let current = {
       _id: {
         _id: page._id,
@@ -222,9 +228,9 @@ export default class Page extends Component {
       title: page.title
     };
 
-    this.context.addOverlay(
-      <RevisionsOverlay current={current} onRestore={this.onRestore.bind(this)} />
-    );
+    // this.context.addOverlay(
+    //   <RevisionsOverlay current={current} onRestore={this.onRestore.bind(this)} />
+    // );
   }
 
   renderlinks () {
@@ -272,34 +278,34 @@ export default class Page extends Component {
   }
 
   renderSaving () {
-    if (this.state.saving) {
-      return (
-        <Animate transition='slideDownIn' key='saving'>
-          <div className='saving'>
-            <Spinner />
-            <span>{this.state.savingLabel}</span>
-          </div>
-        </Animate>
-      );
-    } else if (this.state.error) {
-      return (
-        <Animate transition='slideDownIn'  key='error'>
-          <div className='error' ref='success'>
-            <i className='material-icons'>error_outline</i>
-            <span>Something went bad!</span>
-          </div>
-        </Animate>
-      );
-    } else if (this.state.success) {
-      return (
-        <Animate transition='slideDownIn'  key='success'>
-          <div className='success' ref='success'>
-            <i className='material-icons'>check</i>
-            <span>All good!</span>
-          </div>
-        </Animate>
-      );
-    }
+    // if (this.state.saving) {
+    //   return (
+    //     <Animate transition='slideDownIn' key='saving'>
+    //       <div className='saving'>
+    //         <Spinner />
+    //         <span>{this.state.savingLabel}</span>
+    //       </div>
+    //     </Animate>
+    //   );
+    // } else if (this.state.error) {
+    //   return (
+    //     <Animate transition='slideDownIn'  key='error'>
+    //       <div className='error' ref='success'>
+    //         <i className='material-icons'>error_outline</i>
+    //         <span>Something went bad!</span>
+    //       </div>
+    //     </Animate>
+    //   );
+    // } else if (this.state.success) {
+    //   return (
+    //     <Animate transition='slideDownIn'  key='success'>
+    //       <div className='success' ref='success'>
+    //         <i className='material-icons'>check</i>
+    //         <span>All good!</span>
+    //       </div>
+    //     </Animate>
+    //   );
+    // }
   }
 
   render () {
@@ -313,7 +319,6 @@ export default class Page extends Component {
       <div className='admin-page with-admin-sidebar'>
         <div className='content'>
           <div className='filter-menu'>
-            <Breadcrumbs data={this.state.breadcrumbs} />
             {!this.state.new &&
             <A href='/admin/pages/new' className='button-clean'>
               <i className='material-icons'>library_add</i>
@@ -322,12 +327,6 @@ export default class Page extends Component {
           </div>
           <div className='admin-scrollable'>
             <div className='white-options list'>
-              <TitleSlug
-                title={this.state.page.title}
-                slug={this.state.page.slug}
-                validateSlug={this.validateSlug.bind(this)}
-                onChange={this.onChange.bind(this)}
-              />
             </div>
           </div>
         </div>
@@ -364,9 +363,34 @@ export default class Page extends Component {
 }
 
 Page.contextTypes = {
-  page: React.PropTypes.object.isRequired,
   breadcrumbs: React.PropTypes.array.isRequired,
   user: React.PropTypes.object.isRequired,
   addOverlay: React.PropTypes.func.isRequired,
   closeOverlay: React.PropTypes.func.isRequired
 };
+
+export default Relay.createContainer(Page, {
+  fragments: {
+    page: () => Relay.QL`
+      fragment on Page {
+        _id,
+        title,
+        slug,
+        state,
+        date,
+        updatedDate,
+        createdBy {
+          _id,
+          email,
+          name
+        },
+        updatedBy {
+          _id,
+          email,
+          name
+        }
+        ${UpdatePageMutation.getFragment('page')}
+      }
+    `
+  }
+});

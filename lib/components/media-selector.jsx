@@ -1,7 +1,7 @@
 import {Component} from 'relax-framework';
 import React from 'react';
-import mediaStore from '../client/stores/media';
-import mediaActions from '../client/actions/media';
+// import mediaStore from '../client/stores/media';
+// import mediaActions from '../client/actions/media';
 import Upload from './upload';
 import MediaItem from './media-item';
 
@@ -10,12 +10,6 @@ export default class MediaSelector extends Component {
     return {
       selected: this.props.selected,
       media: []
-    };
-  }
-
-  getInitialCollections () {
-    return {
-      media: mediaStore.getCollection()
     };
   }
 
@@ -32,7 +26,7 @@ export default class MediaSelector extends Component {
   }
 
   onSuccess (file, mediaItem, progressFinal) {
-    mediaActions.add(mediaItem);
+    // mediaActions.add(mediaItem);
     file.previewElement.style.display = "none";
   }
 

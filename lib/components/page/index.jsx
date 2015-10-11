@@ -1,16 +1,12 @@
 import React from 'react';
 import {Component} from 'relax-framework';
 import JSSReact from '../../react-jss/jss-react';
-import Colors from '../../colors';
-import Styles from '../../styles';
 import displays from '../../displays';
 import utils from '../../utils';
 import forEach from 'lodash.foreach';
 
 export default class Page extends Component {
   getInitialState () {
-    Colors.init(this.props.colors || []);
-    Styles.init(this.props.styles || []);
     this.onResizeBind = this.onResize.bind(this);
     this.renderElementBind = this.renderElement.bind(this);
     return {
@@ -20,16 +16,16 @@ export default class Page extends Component {
     };
   }
 
-  componentWillReceiveProps (nextProps) {
-    this.setState({
-      page: this.getPage(nextProps)
-    });
-  }
-
   componentDidMount () {
     super.componentDidMount();
     window.addEventListener('resize', this.onResizeBind);
     this.onResize();
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      page: this.getPage(nextProps)
+    });
   }
 
   getElementsSchemaLinks () {
@@ -45,13 +41,13 @@ export default class Page extends Component {
 
     if (props.page) {
       page = props.page;
-    } else if (props.schemaEntry){
+    } else if (props.schemaEntry) {
       if (props.schemaEntry._overlap) {
         page = {
           data: props.schemaEntry._data,
           elementsLinks: utils.getElementsSchemaLinks(props.schemaEntry._schemaLinks)
         };
-      } else if (props.schema){
+      } else if (props.schema) {
         page = {
           data: props.schema.data,
           elementsLinks: utils.getElementsSchemaLinks(props.schema.schemaLinks)

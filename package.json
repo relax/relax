@@ -16,8 +16,6 @@
     "watch": "grunt watch"
   },
   "dependencies": {
-    "@risingstack/graffiti": "^1.0.2",
-    "@risingstack/graffiti-mongoose": "^3.0.0",
     "babel": "^5.8.23",
     "backbone": "^1.2.2",
     "backbone-cortex": "git://github.com/relax/backbone-cortex.git",
@@ -28,10 +26,12 @@
     "connect-mongo": "^0.8.2",
     "dropzone": "git://github.com/relax/dropzone.git",
     "express": "^4.13.3",
+    "express-graphql": "^0.4.0",
     "express-react-engine": "git://github.com/relax/express-react-engine.git#relay",
     "express-session": "^1.11.3",
     "file-size": "^1.0.0",
     "graphql": "^0.4.7",
+    "graphql-relay": "^0.3.2",
     "jquery": "^2.1.4",
     "keymaster": "git://github.com/relax/keymaster.git",
     "lodash.clone": "^3.0.3",
@@ -41,6 +41,8 @@
     "lodash.foreach": "^3.0.3",
     "lodash.map": "^3.1.4",
     "lodash.merge": "^3.3.2",
+    "lodash.omit": "^3.1.0",
+    "lodash.pick": "^3.1.0",
     "medium-editor": "git://github.com/relax/medium-editor.git",
     "mkdirp": "^0.5.1",
     "moment": "^2.10.6",
@@ -71,6 +73,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^4.1.3",
+    "babel-relay-plugin": "^0.2.6",
     "babelify": "^6.3.0",
     "eslint": "^1.6.0",
     "eslint-config-relax": "^1.0.0",

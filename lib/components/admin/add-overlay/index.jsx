@@ -2,10 +2,8 @@ import React from 'react';
 import {Component, Router} from 'relax-framework';
 import cx from 'classnames';
 
-import NewPage from '../panels/pages/manage';
+// import NewPage from '../panels/pages/manage';
 import List from './list';
-
-import pageActions from '../../../client/actions/page';
 
 export default class AddOverlay extends Component {
   getInitialState () {
@@ -54,7 +52,7 @@ export default class AddOverlay extends Component {
 
   renderContent () {
     if (this.state.content === 'new') {
-      return <NewPage onSubmit={this.addNewPage.bind(this)} state={this.state.state} />;
+      // return <NewPage onSubmit={this.addNewPage.bind(this)} state={this.state.state} />;
     } else {
       return <List />;
     }

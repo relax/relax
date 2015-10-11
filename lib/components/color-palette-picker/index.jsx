@@ -3,7 +3,7 @@ import React from 'react';
 import NumberInput from '../number-input';
 import List from './list';
 import HexEdit from './hex-edit';
-import Colors from '../../colors';
+// import Colors from '../../colors';
 import clone from 'lodash.clone';
 import cx from 'classnames';
 

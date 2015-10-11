@@ -3,7 +3,7 @@ import MediaSelector from './media-selector';
 import React from 'react';
 import MediaItem from './media-item';
 
-import mediaStore from '../client/stores/media';
+// import mediaStore from '../client/stores/media';
 
 export default class ImagePicker extends Component {
   getInitialState () {
@@ -17,27 +17,17 @@ export default class ImagePicker extends Component {
     };
   }
 
-  getInitialModels () {
-    var models = {};
-
-    if (this.props.value && this.props.value !== '') {
-      models.image = mediaStore.getModel(this.props.value);
-    }
-
-    return models;
-  }
-
   componentWillReceiveProps (nextProps) {
     if (this.props.value !== nextProps.value) {
       if (nextProps.value && nextProps.value !== '' && typeof nextProps.value !== 'undefined') {
-        this.setModels({
-          image: mediaStore.getModel(nextProps.value)
-        });
+        // this.setModels({
+        //   image: mediaStore.getModel(nextProps.value)
+        // });
       } else {
-        this.unsetModels(['image']);
-        this.setState({
-          image: null
-        });
+        // this.unsetModels(['image']);
+        // this.setState({
+        //   image: null
+        // });
       }
     }
   }

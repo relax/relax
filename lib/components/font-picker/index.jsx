@@ -6,19 +6,13 @@ import Dropdown from './dropdown';
 import clone from 'lodash.clone';
 import forEach from 'lodash.foreach';
 
-import settingsStore from '../../client/stores/settings';
+// import settingsStore from '../../client/stores/settings';
 
 export default class FontPicker extends Component {
 
   getInitialState () {
     return {
       data: {}
-    };
-  }
-
-  getInitialModels () {
-    return {
-      data: settingsStore.getModel('fonts')
     };
   }
 

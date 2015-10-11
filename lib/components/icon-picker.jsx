@@ -2,8 +2,8 @@ import React from 'react';
 import {Component} from 'relax-framework';
 import IconManager from './icon-manager';
 
-import settingsStore from '../client/stores/settings';
-import settingsActions from '../client/actions/settings';
+// import settingsStore from '../client/stores/settings';
+// import settingsActions from '../client/actions/settings';
 
 export default class IconPicker extends Component {
   getInitialState () {
@@ -11,12 +11,6 @@ export default class IconPicker extends Component {
       opened: false,
       manager: false,
       icons: []
-    };
-  }
-
-  getInitialModels () {
-    return {
-      icons: settingsStore.getModel('icons')
     };
   }
 
@@ -78,9 +72,9 @@ export default class IconPicker extends Component {
       }
     });
 
-    settingsActions.saveSettings({
-      icons
-    });
+  //   settingsActions.saveSettings({
+  //     icons
+  //   });
   }
 
   renderSelected () {
