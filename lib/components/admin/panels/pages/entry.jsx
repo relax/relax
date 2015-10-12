@@ -29,7 +29,7 @@ export default class Entry extends Component {
     let viewLink = '/'+page.slug;
     const published = page.state === 'published';
     let date = 'Created - ' + moment(page.date).format('MMMM Do YYYY');
-
+    throw new Error('lol');
     return (
       <div key={page._id} className='entry'>
         <div className={cx('icon-part', !published && 'unpublished')}>
