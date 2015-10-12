@@ -20,6 +20,7 @@ export default class Pages extends Component {
   }
 
   render () {
+    console.log(this.props);
     return (
         <div className='admin-pages'>
           <div className='filter-menu'>

@@ -5,61 +5,37 @@ import forEach from 'lodash.foreach';
 
 import A from '../../a';
 import AddOverlay from '../add-overlay';
-import PageActions from './page-actions';
-
-import tabsStore from '../../../client/stores/tabs';
-import tabActions from '../../../client/actions/tab';
+// import PageActions from './page-actions';
 
 export default class TopMenu extends Component {
+  static fragments = {
+    _id: {
+      _id: 1
+    },
+    page: {
+      title: 1,
+      slug: 1
+    },
+    userSchema: {
+      title: 1,
+      slug: 1
+    },
+    schemaEntry: {
+      schemaSlug: 1,
+      title: 1,
+      slug: 1
+    }
+  }
+
   getInitialState () {
     return {
       tabs: this.context.tabs
     };
   }
 
-  getInitialCollections () {
-    return {
-      tabs: tabsStore.getCollection({
-        fetch: false,
-        options: {
-          user: this.context.user._id
-        }
-      })
-    };
-  }
-
   onCloseTab (_id, active, event) {
     event.preventDefault();
     event.stopPropagation();
-
-    tabActions
-      .remove(_id)
-      .then(() => {
-        if (active) {
-          var to = '/admin/pages';
-          forEach(this.state.tabs, (tab, ind) => {
-            if (tab._id._id === _id._id) {
-              let toTab = false;
-              if (ind < this.state.tabs.length - 1) {
-                toTab = this.state.tabs[ind+1];
-              } else if (ind !== 0) {
-                toTab = this.state.tabs[ind-1];
-              }
-              if (toTab !== false) {
-                if (toTab.page) {
-                  to = '/admin/page/'+toTab.page.slug;
-                } else if (toTab.userSchema) {
-                  to = '/admin/schemas/'+toTab.userSchema.slug+'/template';
-                } else if (toTab.schemaEntry) {
-                  to = '/admin/schema/'+toTab.schemaEntry.schemaSlug+'/'+toTab.schemaEntry.slug+'/single';
-                }
-              }
-              return false;
-            }
-          });
-          Router.prototype.navigate(to, {trigger: true});
-        }
-      });
   }
 
   onAddTabClick (event) {
@@ -96,8 +72,6 @@ export default class TopMenu extends Component {
       maxWidth: 'calc('+(100 / this.state.tabs.length) +'% - '+deduct+'px)'
     };
 
-
-
     return (
       <A href={link} className={cx('tab', active && 'selected')} key={tab._id._id} style={style}>
         <span>{title}</span>
@@ -120,7 +94,6 @@ export default class TopMenu extends Component {
   render () {
     return (
       <div className='top-bar'>
-        <PageActions />
         {this.renderTabs()}
       </div>
     );

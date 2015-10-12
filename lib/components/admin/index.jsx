@@ -1,14 +1,25 @@
 import React from 'react';
+
 import {Component} from 'relax-framework';
-// import TopMenu from './top-menu';
 import MenuBar from './menu-bar';
-// import Backbone from 'backbone';
 import cx from 'classnames';
 import panels from './panels';
+// import TopMenu from './top-menu';
 // import Overlay from '../overlay';
 // import Lightbox from '../lightbox';
 
+
 export default class Admin extends Component {
+  static fragments = {}
+
+  static propTypes = {
+    activePanelType: React.PropTypes.string,
+    breadcrumbs: React.PropTypes.array,
+    user: React.PropTypes.object,
+    slug: React.PropTypes.string,
+    getAdmin: React.PropTypes.func
+  }
+
   getInitialState () {
     // this.changeDisplayBind = this.changeDisplay.bind(this);
     // this.previewToggleBind = this.previewToggle.bind(this);
@@ -22,12 +33,14 @@ export default class Admin extends Component {
       editing: true,
       lastDashboard: '/admin',
       overlay: false,
-      lightbox: false,
-      page: this.props.page,
-      schema: this.props.schema,
-      schemaEntry: this.props.schemaEntry
+      lightbox: false
     };
   }
+
+  componentWillMount () {
+    // this.props.getAdmin(this.constructor.fragments);
+  }
+
   //
   // componentWillReceiveProps (nextProps) {
   //   if (nextProps.activePanelType !== 'pageBuild') {
@@ -136,9 +149,9 @@ export default class Admin extends Component {
 
   renderActivePanel () {
     if (this.props.activePanelType && panels[this.props.activePanelType]) {
-      let Panel = panels[this.props.activePanelType];
+      const Panel = panels[this.props.activePanelType];
       return (
-        <Panel {...this.state} store={this.props.store} />
+        <Panel store={this.props.store} />
       );
     }
   }
@@ -178,14 +191,6 @@ export default class Admin extends Component {
     );
   }
 }
-
-Admin.propTypes = {
-  activePanelType: React.PropTypes.string,
-  breadcrumbs: React.PropTypes.array,
-  user: React.PropTypes.object,
-  users: React.PropTypes.array,
-  slug: React.PropTypes.string
-};
 
 Admin.childContextTypes = {
   breadcrumbs: React.PropTypes.array,
