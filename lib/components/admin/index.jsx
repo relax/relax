@@ -1,16 +1,29 @@
 import React from 'react';
 
-import {Component} from 'relax-framework';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {Component, mergeFragments} from 'relax-framework';
 import MenuBar from './menu-bar';
 import cx from 'classnames';
 import panels from './panels';
 // import TopMenu from './top-menu';
 // import Overlay from '../overlay';
 // import Lightbox from '../lightbox';
+import * as adminActions from '../../actions/admin';
 
-
+@connect(
+  (state) => ({}),
+  (dispatch) => bindActionCreators(adminActions, dispatch)
+)
 export default class Admin extends Component {
-  static fragments = {}
+  static fragments = {
+    session: {
+      _id: 1,
+      username: 1,
+      name: 1,
+      email: 1
+    }
+  }
 
   static propTypes = {
     activePanelType: React.PropTypes.string,
@@ -38,7 +51,33 @@ export default class Admin extends Component {
   }
 
   componentWillMount () {
-    // this.props.getAdmin(this.constructor.fragments);
+    this.fetchData(this.props);
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.activePanelType !== this.props.activePanelType) {
+      this.fetchData(nextProps);
+    }
+  }
+
+  fetchData (props) {
+    const panelFragments = panels[props.activePanelType].fragments;
+
+    const variables = {};
+    const variablesTypes = {};
+    switch (props.activePanelType) {
+      case 'page':
+        variables.page = {
+          slug: this.props.slug
+        };
+        variablesTypes.page = {
+          slug: 'String!'
+        };
+        break;
+      default:
+    }
+
+    this.props.getAdmin(mergeFragments(panelFragments, this.constructor.fragments), variables, variablesTypes);
   }
 
   //
@@ -181,7 +220,7 @@ export default class Admin extends Component {
       <div>
         <div className={cx('blurr', this.state.overlay !== false && 'blurred')}>
           <div className='admin-holder'>
-            {this.props.activePanelType !== 'pageBuild' && <MenuBar />}
+            {this.props.activePanelType !== 'pageBuild' && <MenuBar user={this.props.user} />}
             <div className='admin-content'>
               {this.renderActivePanel()}
             </div>

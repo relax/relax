@@ -5,6 +5,10 @@ import cx from 'classnames';
 import Utils from '../../utils';
 
 export default class MenuBar extends Component {
+  static propTypes = {
+    user: React.PropTypes.object
+  }
+
   getInitialState () {
     return {
       userOpened: false
@@ -29,7 +33,7 @@ export default class MenuBar extends Component {
 
   renderOpenedUser () {
     if (this.state.userOpened) {
-      const editLink = '/admin/users/' + this.context.user.username;
+      const editLink = '/admin/users/' + this.props.user.username;
       return (
         <div className='toggle-menu'>
           <a href='/admin/logout'>
@@ -46,14 +50,14 @@ export default class MenuBar extends Component {
   }
 
   renderUser () {
-    if (this.context.user) {
-      var url = Utils.getGravatarImage(this.context.user.email, 25);
+    if (this.props.user) {
+      var url = Utils.getGravatarImage(this.props.user.email, 25);
       return (
         <div className='user-menu'>
           <div className='thumbnail'>
             <img src={url} />
           </div>
-          <span>{this.context.user.name}</span>
+          <span>{this.props.user.name}</span>
           <div className={cx('toggle-btn', this.state.userOpened && 'active')} onClick={this.toggleUser.bind(this)}>
             <i className='material-icons'>{this.state.userOpened ? 'arrow_drop_down' : 'arrow_drop_up'}</i>
             {this.renderOpenedUser()}
@@ -124,11 +128,7 @@ export default class MenuBar extends Component {
   }
 }
 
-MenuBar.propTypes = {
-};
-
 MenuBar.contextTypes = {
   activePanelType: React.PropTypes.string,
-  breadcrumbs: React.PropTypes.any,
-  user: React.PropTypes.object
+  breadcrumbs: React.PropTypes.any
 };
