@@ -4,7 +4,6 @@ import cloneDeep from 'lodash.clonedeep';
 import React from 'react';
 import cx from 'classnames';
 import moment from 'moment';
-import pick from 'lodash.pick';
 import merge from 'lodash.merge';
 import Velocity from 'velocity-animate';
 import Utils from '../../../../utils';
