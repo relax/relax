@@ -6,9 +6,27 @@ import Animate from './animate';
 import Spinner from './spinner';
 
 export default class Input extends Component {
+  static propTypes = {
+    value: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    className: React.PropTypes.string,
+    placeholder: React.PropTypes.string,
+    password: React.PropTypes.bool,
+    state: React.PropTypes.string,
+    disabled: React.PropTypes.bool
+  }
 
   onChange (event) {
     this.props.onChange(event.target.value);
+  }
+
+  render () {
+    return (
+      <div className={classNames('input', this.props.disabled && 'disabled', this.props.className, this.props.state && 'with-state')}>
+        <input type={this.props.password ? 'password' : 'text'} value={this.props.value} disabled={this.props.disabled} onChange={this.onChange.bind(this)} ref='input' placeholder={this.props.placeholder || ''} />
+        {this.renderState()}
+      </div>
+    );
   }
 
   renderState () {
@@ -42,22 +60,4 @@ export default class Input extends Component {
       }
     }
   }
-
-  render () {
-    return (
-      <div className={classNames('input', this.props.disabled && 'disabled', this.props.className, this.props.state && 'with-state')}>
-        <input type={this.props.password ? 'password' : 'text'} value={this.props.value} disabled={this.props.disabled} onChange={this.onChange.bind(this)} ref='input' placeholder={this.props.placeholder || ''} />
-        {this.renderState()}
-      </div>
-    );
-  }
 }
-
-Input.propTypes = {
-  value: React.PropTypes.string.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  className: React.PropTypes.string,
-  placeholder: React.PropTypes.string,
-  password: React.PropTypes.bool,
-  state: React.PropTypes.string
-};

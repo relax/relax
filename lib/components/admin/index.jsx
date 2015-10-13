@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Component, mergeFragments, buildQueryAndVariables} from 'relax-framework';
-import forEach from 'lodash.foreach';
 import MenuBar from './menu-bar';
 import cx from 'classnames';
 import panels from './panels';
@@ -13,10 +12,8 @@ import * as adminActions from '../../actions/admin';
 
 @connect(
   (state) => ({
-    page: state.admin.data.page,
-    pages: state.admin.data.pages,
-    pagesCount: state.admin.data.pagesCount,
-    user: state.admin.data.session
+    page: state.page.data,
+    user: state.session.data
   }),
   (dispatch) => bindActionCreators(adminActions, dispatch)
 )
@@ -41,12 +38,12 @@ export default class Admin extends Component {
   }
 
   static defaultProps = {
-    query: {}
+    query: {},
+    breadcrumbs: []
   }
 
   constructor (props, children) {
     super(props, children);
-    this.updatePage = ::this.updatePage;
   }
 
   getInitialState () {
@@ -58,11 +55,7 @@ export default class Admin extends Component {
     // this.addLightboxBind = this.addLightbox.bind(this);
 
     return {
-      display: 'desktop',
-      editing: true,
-      lastDashboard: '/admin',
-      overlay: false,
-      lightbox: false
+      loading: true
     };
   }
 
@@ -71,35 +64,18 @@ export default class Admin extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.activePanelType !== this.props.activePanelType || this.queryChanged(nextProps.query)) {
+    if (nextProps.activePanelType !== this.props.activePanelType || this.props.slug !== nextProps.slug) {
+      this.setState({
+        loading: true
+      });
       this.fetchData(nextProps);
     }
-  }
-
-  queryChanged (newQuery) {
-    const currentQuery = this.props.query;
-    let changed = !newQuery && currentQuery || newQuery && !currentQuery;
-
-    if (!changed && newQuery) {
-      forEach(newQuery, (value, key) => {
-        if (!currentQuery[key] || currentQuery[key] !== value) {
-          changed = true;
-        }
-      });
-    }
-    if (!changed && currentQuery) {
-      forEach(currentQuery, (value, key) => {
-        if (!newQuery[key] || newQuery[key] !== value) {
-          changed = true;
-        }
-      });
-    }
-    return changed;
   }
 
   fetchData (props) {
     const panel = panels[props.activePanelType];
     const vars = {};
+    let panelFragments = {};
 
     // This probably could be encapsulated somehow
     switch (props.activePanelType) {
@@ -107,29 +83,33 @@ export default class Admin extends Component {
         vars.pages = {
           sort: {
             value: props.query.sort,
-            type: 'String!'
-          },
-          limit: {
-            value: props.query.limit,
-            type: 'String!'
+            type: 'String'
           },
           order: {
             value: props.query.order,
-            type: 'String!'
+            type: 'String'
+          },
+          limit: {
+            value: props.query.limit,
+            type: 'Int'
           },
           page: {
             value: props.query.page,
-            type: 'String!'
+            type: 'Int'
           }
         };
+        panelFragments = panel.fragments;
         break;
       case 'page':
-        vars.page = {
-          slug: {
-            value: props.slug,
-            type: 'String!'
-          }
-        };
+        if (props.slug !== 'new') {
+          panelFragments = panel.fragments;
+          vars.page = {
+            slug: {
+              value: props.slug,
+              type: 'String!'
+            }
+          };
+        }
         break;
       default:
     }
@@ -138,11 +118,15 @@ export default class Admin extends Component {
       .getAdmin(buildQueryAndVariables(
         mergeFragments(
           this.constructor.fragments,
-          panel.fragments
+          panelFragments
         ),
         vars
       ))
-      .done();
+      .done(() => {
+        this.setState({
+          loading: false
+        });
+      });
   }
 
   updatePage (data) {
@@ -283,11 +267,11 @@ export default class Admin extends Component {
   render () {
     return (
       <div>
-        <div className={cx('blurr', this.state.overlay !== false && 'blurred')}>
+        <div className={cx('blurr', this.state.overlay && 'blurred')}>
           <div className='admin-holder'>
             {this.props.activePanelType !== 'pageBuild' && <MenuBar user={this.props.user} activePanelType={this.props.activePanelType} breadcrumbs={this.props.breadcrumbs} />}
             <div className='admin-content'>
-              {this.renderActivePanel()}
+              {!this.state.loading && this.renderActivePanel()}
             </div>
           </div>
         </div>
@@ -304,37 +288,3 @@ export default class Admin extends Component {
     }
   }
 }
-
-// Admin.childContextTypes = {
-//   breadcrumbs: React.PropTypes.array,
-//   styles: React.PropTypes.array,
-//   pages: React.PropTypes.array,
-//   page: React.PropTypes.object,
-//   menus: React.PropTypes.array,
-//   menu: React.PropTypes.object,
-//   draft: React.PropTypes.object,
-//   elements: React.PropTypes.object,
-//   media: React.PropTypes.array,
-//   settings: React.PropTypes.array,
-//   colors: React.PropTypes.array,
-//   schemas: React.PropTypes.array,
-//   schema: React.PropTypes.object,
-//   schemaEntries: React.PropTypes.array,
-//   schemaEntry: React.PropTypes.object,
-//   query: React.PropTypes.object,
-//   count: React.PropTypes.number,
-//   activePanelType: React.PropTypes.string,
-//   display: React.PropTypes.string.isRequired,
-//   changeDisplay: React.PropTypes.func.isRequired,
-//   editing: React.PropTypes.bool.isRequired,
-//   previewToggle: React.PropTypes.func.isRequired,
-//   user: React.PropTypes.object.isRequired,
-//   users: React.PropTypes.array,
-//   editUser: React.PropTypes.object,
-//   tabs: React.PropTypes.array,
-//   lastDashboard: React.PropTypes.string,
-//   addOverlay: React.PropTypes.func,
-//   closeOverlay: React.PropTypes.func,
-//   switchOverlayBackground: React.PropTypes.func,
-//   addLightbox: React.PropTypes.func
-// };

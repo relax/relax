@@ -28,7 +28,7 @@ export default class Filter extends Component {
   searchSubmit (event) {
     event.preventDefault();
 
-    var query = merge({}, this.props.query || {});
+    const query = Object.assign({}, this.props.query || {});
 
     if (this.state.search !== '') {
       merge(query, {search: this.props.search, s: this.state.search});
@@ -37,7 +37,7 @@ export default class Filter extends Component {
       delete query.s;
     }
 
-    var url = Utils.parseQueryUrl(this.props.url, query);
+    const url = Utils.parseQueryUrl(this.props.url, query);
 
     Router.prototype.navigate(url, {trigger: true});
   }
@@ -58,10 +58,10 @@ export default class Filter extends Component {
     let active = false;
     let icon = 'arrow_drop_down';
 
-    var query = {
+    var query = Object.assign({}, this.props.query || {}, {
       sort: button.property,
       order: 'asc'
-    };
+    });
 
     if (this.props.query && this.props.query.sort && this.props.query.sort === button.property) {
       active = true;

@@ -1,19 +1,33 @@
 import {Component} from 'relax-framework';
+import {Router} from 'backbone';
 import cloneDeep from 'lodash.clonedeep';
 import React from 'react';
 import cx from 'classnames';
 import moment from 'moment';
 import pick from 'lodash.pick';
+import merge from 'lodash.merge';
 import Velocity from 'velocity-animate';
 import Utils from '../../../../utils';
 
 import A from '../../../a';
-// import Animate from '../../../animate';
-// import Spinner from '../../../spinner';
-// import Breadcrumbs from '../../../breadcrumbs';
-// import TitleSlug from '../../../title-slug';
+import Animate from '../../../animate';
+import Spinner from '../../../spinner';
+import Breadcrumbs from '../../../breadcrumbs';
+import TitleSlug from '../../../title-slug';
 // import RevisionsOverlay from '../../revisions-overlay';
+import NotFound from './not-found';
 
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as pageActions from '../../../../actions/page';
+
+@connect(
+  (state) => ({
+    page: state.page.data,
+    errors: state.page.errors
+  }),
+  (dispatch) => bindActionCreators(pageActions, dispatch)
+)
 export default class Page extends Component {
   static fragments = {
     page: {
@@ -36,29 +50,18 @@ export default class Page extends Component {
     }
   }
 
-  getInitialState () {
-    const defaults = {
-      title: 'New Page',
-      slug: 'new-page',
-      state: 'draft'
-    };
-
-    return {
-      page: cloneDeep(this.props.page) || defaults,
-      new: !(this.props.page && this.props.page._id),
-      breadcrumbs: this.context.breadcrumbs
-    };
+  static propTypes = {
+    page: React.PropTypes.object,
+    user: React.PropTypes.object,
+    breadcrumbs: React.PropTypes.array,
+    slug: React.PropTypes.string,
+    changePageFields: React.PropTypes.func,
+    changePageToDefault: React.PropTypes.func
   }
 
   componentWillReceiveProps (nextProps) {
-    const {page} = nextProps;
-    this.setState({page});
-  }
-
-  componentDidUpdate () {
-    if ((!this.state.new && !this.props.page) ||
-        (this.state.new && this.props.page)) {
-      this.setState(this.getInitialState());
+    if (this.props.slug !== 'new' && nextProps.slug === 'new') {
+      this.props.changePageToDefault();
     }
   }
 
@@ -68,53 +71,44 @@ export default class Page extends Component {
     }
   }
 
-  onSubmit (data) {
+  onSubmit (pageProps) {
     if (this.successTimeout) {
       clearTimeout(this.successTimeout);
     }
 
-    let action, routerOptions;
-    if (this.state.new) {
-      data.createdBy = this.context.user._id;
-      action = 'new';
-      routerOptions = {trigger: true};
+    const submitPage = cloneDeep(pageProps);
+
+    let action;
+    if (this.isNew()) {
+      submitPage.createdBy = this.props.user._id;
+      action = this.props.addPage;
     } else {
-      action = 'edit';
-      routerOptions = {trigger: false, replace: true};
+      action = this.props.updatePage;
     }
 
-    this
-      .props
-      .updatePage(pick(data, 'title', 'slug', 'state', '_id'))
-      .then(() => {
-        this.setState({new: false});
-      })
-      .done();
+    submitPage.updatedBy = this.props.user._id;
 
-    // action(data)
-    //   .then((page) => {
-    //     this.setState({
-    //       saving: false,
-    //       page,
-    //       success: true,
-    //       error: false,
-    //       new: false
-    //     });
-    //     Router.prototype.navigate('/admin/pages/'+page.slug, routerOptions);
-    //     this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
-    //   })
-    //   .catch((error) => {
-    //     this.setState({
-    //       saving: false,
-    //       error: true
-    //     });
-    //   });
+    action(this.constructor.fragments, submitPage)
+      .then(() => {
+        this.setState({
+          saving: false,
+          success: true,
+          error: false
+        });
+        Router.prototype.navigate('/admin/pages/' + pageProps.slug, {trigger: false, replace: true});
+        this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
+      })
+      .catch((error) => {
+        this.setState({
+          saving: false,
+          error: true
+        });
+      });
   }
 
   successOut () {
     clearTimeout(this.successTimeout);
-
-    var dom = this.refs.success;
+    const dom = React.findDOMNode(this.refs.success);
     const transition = 'transition.slideDownOut';
     Velocity(dom, transition, {
       duration: 400,
@@ -132,7 +126,7 @@ export default class Page extends Component {
       savingLabel: 'Saving draft'
     });
 
-    this.onSubmit(this.state.page);
+    this.onSubmit(this.props.page);
   }
 
   onUpdate () {
@@ -141,11 +135,11 @@ export default class Page extends Component {
       savingLabel: 'Updating page'
     });
 
-    this.onSubmit(this.state.page);
+    this.onSubmit(this.props.page);
   }
 
   onPublish () {
-    let clone = cloneDeep(this.state.page);
+    const clone = cloneDeep(this.props.page);
     clone.state = 'published';
 
     this.setState({
@@ -157,7 +151,7 @@ export default class Page extends Component {
   }
 
   onUnpublish () {
-    let clone = cloneDeep(this.state.page);
+    const clone = cloneDeep(this.props.page);
     clone.state = 'draft';
 
     this.setState({
@@ -168,32 +162,17 @@ export default class Page extends Component {
     this.onSubmit(clone);
   }
 
-  onFieldChange (id, value) {
-    this.state.page[id] = value;
-
-    this.setState({
-      page: this.state.page
-    });
+  onChange (values) {
+    this.props.changePageFields(merge({}, this.props.page, values));
   }
 
-  onChange (values) {
-    if (values.title) {
-      this.state.breadcrumbs[1].label = values.title;
-      this.state.page.title = values.title;
-    }
-    if (values.slug) {
-      this.state.page.slug = values.slug;
-    }
-
-    this.setState({
-      page: this.state.page,
-      breadcrumbs: this.state.breadcrumbs
-    });
+  isNew () {
+    return this.props.slug === 'new';
   }
 
   validateSlug (slug) {
-    if (!this.state.new) {
-      if (this.props.page.slug === slug) {
+    if (!this.isNew()) {
+      if (this.props.slug === slug) {
         return false;
       }
     }
@@ -215,7 +194,7 @@ export default class Page extends Component {
 
     // pageActions
     //   .restore({
-    //     _id: this.state.page._id,
+    //     _id: this.props.page._id,
     //     __v
     //   })
     //   .then((page) => {
@@ -257,11 +236,85 @@ export default class Page extends Component {
     // );
   }
 
+  render () {
+    const isNew = this.isNew();
+    let result;
+
+    if (!isNew && this.props.errors) {
+      result = <NotFound />;
+    } else {
+      const published = this.props.page.state === 'published';
+      const createdDate = isNew ? 'Creating' : moment(this.props.page.date).format('MMMM Do YYYY');
+
+      const createdUser = isNew ? this.props.user : this.props.page.createdBy;
+      const updatedUser = isNew ? this.props.user : this.props.page.updatedBy;
+
+      const breadcrumbs = this.props.breadcrumbs.slice();
+      breadcrumbs.push({
+        label: this.props.page.title
+      });
+
+      result = (
+        <div className='admin-page with-admin-sidebar'>
+          <div className='content'>
+            <div className='filter-menu'>
+              <Breadcrumbs data={breadcrumbs} />
+              {!this.isNew() &&
+              <A href='/admin/pages/new' className='button-clean'>
+                <i className='material-icons'>library_add</i>
+                <span>Add new page</span>
+              </A>}
+            </div>
+            <div className='admin-scrollable'>
+              <div className='white-options list'>
+                <TitleSlug
+                  title={this.props.page.title}
+                  slug={this.props.page.slug}
+                  validateSlug={this.validateSlug.bind(this)}
+                  onChange={this.onChange.bind(this)}
+                />
+              </div>
+            </div>
+          </div>
+          <div className='menu'>
+            <div className='infos'>
+              <div className={cx('info', !published && 'alerted')}>
+                <i className='material-icons'>{published ? 'cloud_queue' : 'cloud_off'}</i>
+                <span>State</span>
+                <div>{this.props.page.state}</div>
+              </div>
+              <div className={cx('info', isNew && 'alerted')}>
+                <i className='material-icons'>today</i>
+                <span>Created at</span>
+                <div>{createdDate}</div>
+              </div>
+              <div className='info'>
+                <span className='thumbnail'><img src={Utils.getGravatarImage(createdUser && createdUser.email || 'default', 40)} /></span>
+                <span>Created by</span>
+                <div>{createdUser && createdUser.name || 'removed user'}</div>
+              </div>
+              <div className='info'>
+                <span className='thumbnail'><img src={Utils.getGravatarImage(updatedUser && updatedUser.email || 'default', 40)} /></span>
+                <span>Last update by</span>
+                <div>{updatedUser && updatedUser.name || 'removed user'}</div>
+              </div>
+            </div>
+            {this.renderlinks()}
+            {this.renderActions()}
+            {this.renderSaving()}
+          </div>
+        </div>
+      );
+    }
+
+    return result;
+  }
+
   renderlinks () {
-    if (!this.state.new) {
-      const buildLink = '/admin/page/'+this.state.page.slug;
-      const viewLink = '/'+this.state.page.slug;
-      const revisions = this.state.page.__v;
+    if (!this.isNew()) {
+      const buildLink = '/admin/page/' + this.props.page.slug;
+      const viewLink = '/' + this.props.page.slug;
+      const revisions = this.props.page.__v;
       return (
         <div className='links'>
           <A className='link' href={buildLink}>
@@ -275,7 +328,7 @@ export default class Page extends Component {
           {revisions > 0 &&
             <a href='#' className='link' onClick={this.onRevisions.bind(this)}>
               <i className='material-icons'>history</i>
-              <span>{'Revisions ('+revisions+')'}</span>
+              <span>{'Revisions (' + revisions + ')'}</span>
             </a>
           }
         </div>
@@ -284,111 +337,54 @@ export default class Page extends Component {
   }
 
   renderActions () {
-    if (this.state.page.state === 'published') {
-      return (
+    let result;
+    if (this.props.page.state === 'published') {
+      result = (
         <div className='actions'>
           <div className={cx('button button-primary', this.state.saving && 'disabled')} onClick={this.onUpdate.bind(this)}>Update</div>
           <div className={cx('button button-grey margined', this.state.saving && 'disabled')} onClick={this.onUnpublish.bind(this)}>Unpublish</div>
         </div>
       );
     } else {
-      return (
+      result = (
         <div className='actions'>
           <div className={cx('button button-primary', this.state.saving && 'disabled')} onClick={this.onPublish.bind(this)}>Publish</div>
           <div className={cx('button button-grey margined', this.state.saving && 'disabled')} onClick={this.onSaveDraft.bind(this)}>Save draft</div>
         </div>
       );
     }
+
+    return result;
   }
 
   renderSaving () {
-    // if (this.state.saving) {
-    //   return (
-    //     <Animate transition='slideDownIn' key='saving'>
-    //       <div className='saving'>
-    //         <Spinner />
-    //         <span>{this.state.savingLabel}</span>
-    //       </div>
-    //     </Animate>
-    //   );
-    // } else if (this.state.error) {
-    //   return (
-    //     <Animate transition='slideDownIn'  key='error'>
-    //       <div className='error' ref='success'>
-    //         <i className='material-icons'>error_outline</i>
-    //         <span>Something went bad!</span>
-    //       </div>
-    //     </Animate>
-    //   );
-    // } else if (this.state.success) {
-    //   return (
-    //     <Animate transition='slideDownIn'  key='success'>
-    //       <div className='success' ref='success'>
-    //         <i className='material-icons'>check</i>
-    //         <span>All good!</span>
-    //       </div>
-    //     </Animate>
-    //   );
-    // }
-  }
-
-  render () {
-    const published = this.state.page.state === 'published';
-    const createdDate = this.state.new ? 'Creating' : moment(this.state.page.date).format('MMMM Do YYYY');
-
-    const createdUser = this.state.new ? this.context.user : this.state.page.createdBy;
-    const updatedUser = this.state.new ? this.context.user : this.state.page.updatedBy;
-
-    return (
-      <div className='admin-page with-admin-sidebar'>
-        <div className='content'>
-          <div className='filter-menu'>
-            {!this.state.new &&
-            <A href='/admin/pages/new' className='button-clean'>
-              <i className='material-icons'>library_add</i>
-              <span>Add new page</span>
-            </A>}
+    if (this.state.saving) {
+      return (
+        <Animate transition='slideDownIn' key='saving'>
+          <div className='saving'>
+            <Spinner />
+            <span>{this.state.savingLabel}</span>
           </div>
-          <div className='admin-scrollable'>
-            <div className='white-options list'>
-            </div>
+        </Animate>
+      );
+    } else if (this.state.error) {
+      return (
+        <Animate transition='slideDownIn' key='error'>
+          <div className='error' ref='success'>
+            <i className='material-icons'>error_outline</i>
+            <span>Something went bad!</span>
           </div>
-        </div>
-        <div className='menu'>
-          <div className='infos'>
-            <div className={cx('info', !published && 'alerted')}>
-              <i className='material-icons'>{published ? 'cloud_queue' : 'cloud_off'}</i>
-              <span>State</span>
-              <div>{this.state.page.state}</div>
-            </div>
-            <div className={cx('info', this.state.new && 'alerted')}>
-              <i className='material-icons'>today</i>
-              <span>Created at</span>
-              <div>{createdDate}</div>
-            </div>
-            <div className='info'>
-              <span className='thumbnail'><img src={Utils.getGravatarImage(createdUser && createdUser.email || 'default', 40)} /></span>
-              <span>Created by</span>
-              <div>{createdUser && createdUser.name || 'removed user'}</div>
-            </div>
-            <div className='info'>
-              <span className='thumbnail'><img src={Utils.getGravatarImage(updatedUser && updatedUser.email || 'default', 40)} /></span>
-              <span>Last update by</span>
-              <div>{updatedUser && updatedUser.name || 'removed user'}</div>
-            </div>
+        </Animate>
+      );
+    } else if (this.state.success) {
+      return (
+        <Animate transition='slideDownIn' key='success'>
+          <div className='success' ref='success'>
+            <i className='material-icons'>check</i>
+            <span>All good!</span>
           </div>
-          {this.renderlinks()}
-          {this.renderActions()}
-          {this.renderSaving()}
-        </div>
-      </div>
-    );
+        </Animate>
+      );
+    }
   }
 }
-
-// Page.contextTypes = {
-//   breadcrumbs: React.PropTypes.array.isRequired,
-//   user: React.PropTypes.object.isRequired,
-//   addOverlay: React.PropTypes.func.isRequired,
-//   closeOverlay: React.PropTypes.func.isRequired
-// };

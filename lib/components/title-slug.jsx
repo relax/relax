@@ -5,6 +5,13 @@ import slugify from 'slug';
 import Q from 'q';
 
 export default class TitleSlug extends Component {
+  static propTypes = {
+    validateSlug: React.PropTypes.func.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    title: React.PropTypes.string.isRequired,
+    slug: React.PropTypes.string.isRequired
+  }
+
   getInitialState () {
     return {
       slugValid: this.props.slug !== '',
@@ -13,12 +20,10 @@ export default class TitleSlug extends Component {
   }
 
   componentDidMount () {
-    super.componentDidMount();
     this.validateSlug();
   }
 
   componentWillUnmount () {
-    super.componentWillUnmount();
     clearTimeout(this.slugTimeout);
   }
 
@@ -86,10 +91,3 @@ export default class TitleSlug extends Component {
     );
   }
 }
-
-TitleSlug.propTypes = {
-  validateSlug: React.PropTypes.func.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  title: React.PropTypes.string.isRequired,
-  slug: React.PropTypes.string.isRequired
-};
