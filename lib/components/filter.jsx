@@ -6,9 +6,16 @@ import merge from 'lodash.merge';
 import cx from 'classnames';
 
 export default class Filter extends Component {
+  static propTypes = {
+    sorts: React.PropTypes.array.isRequired,
+    url: React.PropTypes.string.isRequired,
+    search: React.PropTypes.string.isRequired,
+    query: React.PropTypes.object
+  }
+
   getInitialState () {
     return {
-      search: (this.context.query && this.context.query.s) || '',
+      search: (this.props.query && this.props.query.s) || ''
     };
   }
 
@@ -21,7 +28,7 @@ export default class Filter extends Component {
   searchSubmit (event) {
     event.preventDefault();
 
-    var query = merge({}, this.context.query || {});
+    var query = merge({}, this.props.query || {});
 
     if (this.state.search !== '') {
       merge(query, {search: this.props.search, s: this.state.search});
@@ -35,33 +42,6 @@ export default class Filter extends Component {
     Router.prototype.navigate(url, {trigger: true});
   }
 
-  renderSortButton (button, key) {
-    let active = false, icon = 'arrow_drop_down';
-
-    var query = {
-      sort: button.property,
-      order: 'asc'
-    };
-
-    if (this.context.query && this.context.query.sort && this.context.query.sort === button.property) {
-      active = true;
-      if (!this.context.query.order || this.context.query.order === 'asc') {
-        icon = 'arrow_drop_up';
-        query.order = 'desc';
-      }
-    }
-
-    return (
-      <A
-        className={cx('button-filter', active && 'active')}
-        href={Utils.parseQueryUrl(this.props.url, query)}
-        key={key}>
-        <span>{button.label}</span>
-        {active && <i className='material-icons'>{icon}</i>}
-      </A>
-    );
-  }
-
   render () {
     return (
       <div className='filter-right'>
@@ -73,14 +53,33 @@ export default class Filter extends Component {
       </div>
     );
   }
+
+  renderSortButton (button, key) {
+    let active = false;
+    let icon = 'arrow_drop_down';
+
+    var query = {
+      sort: button.property,
+      order: 'asc'
+    };
+
+    if (this.props.query && this.props.query.sort && this.props.query.sort === button.property) {
+      active = true;
+      if (!this.props.query.order || this.props.query.order === 'asc') {
+        icon = 'arrow_drop_up';
+        query.order = 'desc';
+      }
+    }
+
+    return (
+      <A
+        className={cx('button-filter', active && 'active')}
+        href={Utils.parseQueryUrl(this.props.url, query)}
+        key={key}
+      >
+        <span>{button.label}</span>
+        {active && <i className='material-icons'>{icon}</i>}
+      </A>
+    );
+  }
 }
-
-Filter.propTypes = {
-  sorts: React.PropTypes.array.isRequired,
-  url: React.PropTypes.string.isRequired,
-  search: React.PropTypes.string.isRequired
-};
-
-Filter.contextTypes = {
-  query: React.PropTypes.object
-};

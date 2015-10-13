@@ -57,7 +57,6 @@
     "react": "^0.13.0",
     "react-colorpicker": "git://github.com/relax/react-colorpicker.git",
     "react-counter": "git://github.com/relax/react-counter.git",
-    "react-dom": "^0.14.0",
     "react-draggable": "^0.8.1",
     "react-gemini-scrollbar": "^1.1.1",
     "react-google-maps": "^3.0.0",

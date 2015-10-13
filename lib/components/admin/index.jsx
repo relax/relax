@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
-
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Component, mergeFragments, buildQueryAndVariables} from 'relax-framework';
+import forEach from 'lodash.foreach';
 import MenuBar from './menu-bar';
 import cx from 'classnames';
 import panels from './panels';
@@ -15,6 +15,7 @@ import * as adminActions from '../../actions/admin';
   (state) => ({
     page: state.admin.data.page,
     pages: state.admin.data.pages,
+    pagesCount: state.admin.data.pagesCount,
     user: state.admin.data.session
   }),
   (dispatch) => bindActionCreators(adminActions, dispatch)
@@ -33,9 +34,14 @@ export default class Admin extends Component {
     activePanelType: PropTypes.string,
     breadcrumbs: PropTypes.array,
     user: PropTypes.object,
+    query: PropTypes.object,
     slug: PropTypes.string,
     getAdmin: PropTypes.func.isRequired,
     updatePage: PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    query: {}
   }
 
   constructor (props, children) {
@@ -65,9 +71,30 @@ export default class Admin extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.activePanelType !== this.props.activePanelType) {
+    if (nextProps.activePanelType !== this.props.activePanelType || this.queryChanged(nextProps.query)) {
       this.fetchData(nextProps);
     }
+  }
+
+  queryChanged (newQuery) {
+    const currentQuery = this.props.query;
+    let changed = !newQuery && currentQuery || newQuery && !currentQuery;
+
+    if (!changed && newQuery) {
+      forEach(newQuery, (value, key) => {
+        if (!currentQuery[key] || currentQuery[key] !== value) {
+          changed = true;
+        }
+      });
+    }
+    if (!changed && currentQuery) {
+      forEach(currentQuery, (value, key) => {
+        if (!newQuery[key] || newQuery[key] !== value) {
+          changed = true;
+        }
+      });
+    }
+    return changed;
   }
 
   fetchData (props) {
@@ -76,6 +103,26 @@ export default class Admin extends Component {
 
     // This probably could be encapsulated somehow
     switch (props.activePanelType) {
+      case 'pages':
+        vars.pages = {
+          sort: {
+            value: props.query.sort,
+            type: 'String!'
+          },
+          limit: {
+            value: props.query.limit,
+            type: 'String!'
+          },
+          order: {
+            value: props.query.order,
+            type: 'String!'
+          },
+          page: {
+            value: props.query.page,
+            type: 'String!'
+          }
+        };
+        break;
       case 'page':
         vars.page = {
           slug: {
@@ -238,7 +285,7 @@ export default class Admin extends Component {
       <div>
         <div className={cx('blurr', this.state.overlay !== false && 'blurred')}>
           <div className='admin-holder'>
-            {this.props.activePanelType !== 'pageBuild' && <MenuBar user={this.props.user} />}
+            {this.props.activePanelType !== 'pageBuild' && <MenuBar user={this.props.user} activePanelType={this.props.activePanelType} breadcrumbs={this.props.breadcrumbs} />}
             <div className='admin-content'>
               {this.renderActivePanel()}
             </div>

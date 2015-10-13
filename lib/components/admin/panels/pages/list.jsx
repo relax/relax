@@ -1,12 +1,12 @@
 import React from 'react';
-import {Component, mergeFragments} from 'relax-framework';
+import {Component} from 'relax-framework';
 import Entry from './entry';
 
 export default class List extends Component {
-  static fragments = mergeFragments(Entry.fragments, Entry.fragments)
+  static fragments = Entry.fragments
 
   static propTypes = {
-    pages: React.PropTypes.array.isRequired
+    pages: React.PropTypes.array
   }
 
   render () {
