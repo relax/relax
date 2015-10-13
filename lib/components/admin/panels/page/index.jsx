@@ -31,6 +31,7 @@ export default class Page extends Component {
   static fragments = {
     page: {
       _id: 1,
+      __v: 1,
       title: 1,
       slug: 1,
       state: 1,
@@ -78,11 +79,15 @@ export default class Page extends Component {
     const submitPage = cloneDeep(pageProps);
 
     let action;
+    let routerOptions;
     if (this.isNew()) {
       submitPage.createdBy = this.props.user._id;
       action = this.props.addPage;
+      routerOptions = {trigger: true};
     } else {
+      submitPage.createdBy = submitPage.createdBy._id;
       action = this.props.updatePage;
+      routerOptions = {trigger: false, replace: true};
     }
 
     submitPage.updatedBy = this.props.user._id;
@@ -94,7 +99,7 @@ export default class Page extends Component {
           success: true,
           error: false
         });
-        Router.prototype.navigate('/admin/pages/' + pageProps.slug, {trigger: false, replace: true});
+        Router.prototype.navigate('/admin/pages/' + pageProps.slug, routerOptions);
         this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
       })
       .catch((error) => {
@@ -108,15 +113,18 @@ export default class Page extends Component {
   successOut () {
     clearTimeout(this.successTimeout);
     const dom = React.findDOMNode(this.refs.success);
-    const transition = 'transition.slideDownOut';
-    Velocity(dom, transition, {
-      duration: 400,
-      display: null
-    }).then(() => {
-      this.setState({
-        success: false
+
+    if (dom) {
+      const transition = 'transition.slideDownOut';
+      Velocity(dom, transition, {
+        duration: 400,
+        display: null
+      }).then(() => {
+        this.setState({
+          success: false
+        });
       });
-    });
+    }
   }
 
   onSaveDraft () {
@@ -166,7 +174,7 @@ export default class Page extends Component {
   }
 
   isNew () {
-    return this.props.slug === 'new';
+    return !this.props.page._id && this.props.slug === 'new';
   }
 
   validateSlug (slug) {

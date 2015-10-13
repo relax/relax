@@ -30,7 +30,7 @@ export default class Pages extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.queryChanged(nextProps.query)) {
+    if (this.hasQueryChanged(nextProps.query)) {
       const vars = {
         pages: {
           sort: {
@@ -62,7 +62,7 @@ export default class Pages extends Component {
     }
   }
 
-  queryChanged (newQuery) {
+  hasQueryChanged (newQuery) {
     const currentQuery = this.props.query;
     let changed = !newQuery && currentQuery || newQuery && !currentQuery;
 

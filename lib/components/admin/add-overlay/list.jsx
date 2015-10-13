@@ -3,18 +3,12 @@ import {Component} from 'relax-framework';
 
 import Entry from './entry';
 
-import pagesStore from '../../../client/stores/pages';
+// import pagesStore from '../../../client/stores/pages';
 
 export default class List extends Component {
   getInitialState () {
     return {
       pages: []
-    };
-  }
-
-  getInitialCollections () {
-    return {
-      pages: pagesStore.getCollection()
     };
   }
 

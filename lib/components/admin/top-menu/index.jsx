@@ -4,27 +4,23 @@ import cx from 'classnames';
 import forEach from 'lodash.foreach';
 
 import A from '../../a';
-import AddOverlay from '../add-overlay';
-// import PageActions from './page-actions';
+// import AddOverlay from '../add-overlay';
+import Tab from './tab';
+import PageActions from './page-actions';
 
 export default class TopMenu extends Component {
   static fragments = {
-    _id: {
-      _id: 1
-    },
-    page: {
-      title: 1,
-      slug: 1
-    },
-    userSchema: {
-      title: 1,
-      slug: 1
-    },
-    schemaEntry: {
-      schemaSlug: 1,
-      title: 1,
-      slug: 1
-    }
+    tabs: Tab.fragments.tab
+  }
+
+  static propTypes = {
+    tabs: React.PropTypes.array.isRequired,
+    user: React.PropTypes.object.isRequired,
+    editing: React.PropTypes.bool.isRequired,
+    activePanelType: React.PropTypes.string,
+    page: React.PropTypes.object,
+    schema: React.PropTypes.object,
+    schemaEntry: React.PropTypes.object
   }
 
   getInitialState () {
@@ -33,50 +29,19 @@ export default class TopMenu extends Component {
     };
   }
 
-  onCloseTab (_id, active, event) {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
   onAddTabClick (event) {
     event.preventDefault();
-    this.context.addOverlay(
-      <AddOverlay />
-    );
+    // this.context.addOverlay(
+    //   <AddOverlay />
+    // );
   }
 
-  renderTab (tab) {
-    let slug, title, link, active = this.context.activePanelType === 'pageBuild';
-
-    if (tab.page) {
-      slug = tab.page.slug;
-      title = tab.page.title;
-      active = active && this.context.page && this.context.page.slug === slug;
-      link = '/admin/page/'+slug;
-    } else if (tab.userSchema) {
-      slug = tab.userSchema.slug;
-      title = tab.userSchema.title+' (template)';
-      active = active && this.context.schema && this.context.schema.slug === slug && !this.context.schemaEntry;
-      link = '/admin/schemas/'+slug+'/template';
-    } else if (tab.schemaEntry) {
-      slug = tab.schemaEntry.slug;
-      title = tab.schemaEntry.title;
-      active = active && this.context.schemaEntry && this.context.schema && this.context.schemaEntry._slug === slug && this.context.schema.slug === tab.schemaEntry.schemaSlug;
-      link = '/admin/schema/'+tab.schemaEntry.schemaSlug+'/'+slug+'/single';
-    } else {
-      return;
-    }
-
-    const deduct = 35 / this.state.tabs.length;
-    let style = {
-      maxWidth: 'calc('+(100 / this.state.tabs.length) +'% - '+deduct+'px)'
-    };
-
+  render () {
     return (
-      <A href={link} className={cx('tab', active && 'selected')} key={tab._id._id} style={style}>
-        <span>{title}</span>
-        <span className='close' onClick={this.onCloseTab.bind(this, tab._id, active)}><i className='material-icons'>close</i></span>
-      </A>
+      <div className='top-bar'>
+        <PageActions {...this.props} />
+        {this.renderTabs()}
+      </div>
     );
   }
 
@@ -91,27 +56,13 @@ export default class TopMenu extends Component {
     );
   }
 
-  render () {
+  renderTab (tab) {
     return (
-      <div className='top-bar'>
-        {this.renderTabs()}
-      </div>
+      <Tab
+        tab={tab}
+        activePanelType={this.props.activePanelType}
+        tabsCount={this.props.tabs.length}
+      />
     );
   }
 }
-
-TopMenu.propTypes = {
-
-};
-
-TopMenu.contextTypes = {
-  tabs: React.PropTypes.array.isRequired,
-  user: React.PropTypes.object.isRequired,
-  page: React.PropTypes.object,
-  schema: React.PropTypes.object,
-  schemaEntry: React.PropTypes.object,
-  draft: React.PropTypes.object,
-  editing: React.PropTypes.bool.isRequired,
-  addOverlay: React.PropTypes.func.isRequired,
-  activePanelType: React.PropTypes.string
-};

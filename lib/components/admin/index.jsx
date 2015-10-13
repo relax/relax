@@ -5,15 +5,15 @@ import {Component, mergeFragments, buildQueryAndVariables} from 'relax-framework
 import MenuBar from './menu-bar';
 import cx from 'classnames';
 import panels from './panels';
-// import TopMenu from './top-menu';
+import TopMenu from './top-menu';
 // import Overlay from '../overlay';
 // import Lightbox from '../lightbox';
 import * as adminActions from '../../actions/admin';
 
 @connect(
   (state) => ({
-    page: state.page.data,
-    user: state.session.data
+    user: state.session.data,
+    display: state.display
   }),
   (dispatch) => bindActionCreators(adminActions, dispatch)
 )
@@ -34,7 +34,8 @@ export default class Admin extends Component {
     query: PropTypes.object,
     slug: PropTypes.string,
     getAdmin: PropTypes.func.isRequired,
-    updatePage: PropTypes.func.isRequired
+    updatePage: PropTypes.func.isRequired,
+    display: PropTypes.string.isRequired
   }
 
   static defaultProps = {
@@ -268,6 +269,12 @@ export default class Admin extends Component {
     return (
       <div>
         <div className={cx('blurr', this.state.overlay && 'blurred')}>
+          <TopMenu
+            activePanelType={this.props.activePanelType}
+            user={this.props.user}
+            tabs={[]}
+            display={this.props.display}
+          />
           <div className='admin-holder'>
             {this.props.activePanelType !== 'pageBuild' && <MenuBar user={this.props.user} activePanelType={this.props.activePanelType} breadcrumbs={this.props.breadcrumbs} />}
             <div className='admin-content'>
