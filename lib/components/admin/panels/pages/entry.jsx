@@ -6,7 +6,7 @@ import A from '../../../a';
 
 export default class Entry extends Component {
   static fragments = {
-    page: {
+    pages: {
       _id: 1,
       title: 1,
       slug: 1,
@@ -54,11 +54,11 @@ export default class Entry extends Component {
               <i className='material-icons'>link</i>
               <span>View</span>
             </a>
-            <a href='#' onClick>
+            <a href='#'>
               <i className='material-icons'>content_copy</i>
               <span>Duplicate</span>
             </a>
-            <a href='#' onClick>
+            <a href='#'>
               <i className='material-icons'>remove_circle_outline</i>
               <span>Remove</span>
             </a>

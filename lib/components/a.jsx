@@ -1,5 +1,6 @@
 import React from 'react';
-import {Component, Router} from 'relax-framework';
+import {Router} from 'backbone';
+import {Component} from 'relax-framework';
 
 export default class A extends Component {
   onClick (event) {

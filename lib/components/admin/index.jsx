@@ -2,7 +2,7 @@ import React from 'react';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {Component, mergeFragments} from 'relax-framework';
+import {Component, mergeFragments, buildQueryAndVariables} from 'relax-framework';
 import MenuBar from './menu-bar';
 import cx from 'classnames';
 import panels from './panels';
@@ -12,7 +12,11 @@ import panels from './panels';
 import * as adminActions from '../../actions/admin';
 
 @connect(
-  (state) => ({}),
+  (state) => ({
+    page: state.admin.data.page,
+    pages: state.admin.data.pages,
+    user: state.admin.data.session
+  }),
   (dispatch) => bindActionCreators(adminActions, dispatch)
 )
 export default class Admin extends Component {
@@ -61,23 +65,31 @@ export default class Admin extends Component {
   }
 
   fetchData (props) {
-    const panelFragments = panels[props.activePanelType].fragments;
+    const panel = panels[props.activePanelType];
+    const vars = {};
 
-    const variables = {};
-    const variablesTypes = {};
+    // This probably could be encapsulated somehow
     switch (props.activePanelType) {
       case 'page':
-        variables.page = {
-          slug: this.props.slug
-        };
-        variablesTypes.page = {
-          slug: 'String!'
+        vars.page = {
+          slug: {
+            value: props.slug,
+            type: 'String!'
+          }
         };
         break;
       default:
     }
 
-    this.props.getAdmin(mergeFragments(panelFragments, this.constructor.fragments), variables, variablesTypes);
+    props
+      .getAdmin(buildQueryAndVariables(
+        mergeFragments(
+          this.constructor.fragments,
+          panel.fragments
+        ),
+        vars
+      ))
+      .done();
   }
 
   //
@@ -185,16 +197,7 @@ export default class Admin extends Component {
   //     lightbox: false
   //   });
   // }
-
-  renderActivePanel () {
-    if (this.props.activePanelType && panels[this.props.activePanelType]) {
-      const Panel = panels[this.props.activePanelType];
-      return (
-        <Panel store={this.props.store} />
-      );
-    }
-  }
-
+  //
   // renderOverlay () {
   //   if (this.state.overlay !== false) {
   //     return (
@@ -229,38 +232,47 @@ export default class Admin extends Component {
       </div>
     );
   }
+
+  renderActivePanel () {
+    if (this.props.activePanelType && panels[this.props.activePanelType]) {
+      const Panel = panels[this.props.activePanelType];
+      return (
+        <Panel {...this.props} />
+      );
+    }
+  }
 }
 
-Admin.childContextTypes = {
-  breadcrumbs: React.PropTypes.array,
-  styles: React.PropTypes.array,
-  pages: React.PropTypes.array,
-  page: React.PropTypes.object,
-  menus: React.PropTypes.array,
-  menu: React.PropTypes.object,
-  draft: React.PropTypes.object,
-  elements: React.PropTypes.object,
-  media: React.PropTypes.array,
-  settings: React.PropTypes.array,
-  colors: React.PropTypes.array,
-  schemas: React.PropTypes.array,
-  schema: React.PropTypes.object,
-  schemaEntries: React.PropTypes.array,
-  schemaEntry: React.PropTypes.object,
-  query: React.PropTypes.object,
-  count: React.PropTypes.number,
-  activePanelType: React.PropTypes.string,
-  display: React.PropTypes.string.isRequired,
-  changeDisplay: React.PropTypes.func.isRequired,
-  editing: React.PropTypes.bool.isRequired,
-  previewToggle: React.PropTypes.func.isRequired,
-  user: React.PropTypes.object.isRequired,
-  users: React.PropTypes.array,
-  editUser: React.PropTypes.object,
-  tabs: React.PropTypes.array,
-  lastDashboard: React.PropTypes.string,
-  addOverlay: React.PropTypes.func,
-  closeOverlay: React.PropTypes.func,
-  switchOverlayBackground: React.PropTypes.func,
-  addLightbox: React.PropTypes.func
-};
+// Admin.childContextTypes = {
+//   breadcrumbs: React.PropTypes.array,
+//   styles: React.PropTypes.array,
+//   pages: React.PropTypes.array,
+//   page: React.PropTypes.object,
+//   menus: React.PropTypes.array,
+//   menu: React.PropTypes.object,
+//   draft: React.PropTypes.object,
+//   elements: React.PropTypes.object,
+//   media: React.PropTypes.array,
+//   settings: React.PropTypes.array,
+//   colors: React.PropTypes.array,
+//   schemas: React.PropTypes.array,
+//   schema: React.PropTypes.object,
+//   schemaEntries: React.PropTypes.array,
+//   schemaEntry: React.PropTypes.object,
+//   query: React.PropTypes.object,
+//   count: React.PropTypes.number,
+//   activePanelType: React.PropTypes.string,
+//   display: React.PropTypes.string.isRequired,
+//   changeDisplay: React.PropTypes.func.isRequired,
+//   editing: React.PropTypes.bool.isRequired,
+//   previewToggle: React.PropTypes.func.isRequired,
+//   user: React.PropTypes.object.isRequired,
+//   users: React.PropTypes.array,
+//   editUser: React.PropTypes.object,
+//   tabs: React.PropTypes.array,
+//   lastDashboard: React.PropTypes.string,
+//   addOverlay: React.PropTypes.func,
+//   closeOverlay: React.PropTypes.func,
+//   switchOverlayBackground: React.PropTypes.func,
+//   addLightbox: React.PropTypes.func
+// };

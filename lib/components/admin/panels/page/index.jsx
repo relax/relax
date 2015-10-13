@@ -1,8 +1,6 @@
-import {Component, Router} from 'relax-framework';
+import {Component} from 'relax-framework';
 import cloneDeep from 'lodash.clonedeep';
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import cx from 'classnames';
 import moment from 'moment';
 import pick from 'lodash.pick';
@@ -10,17 +8,12 @@ import Velocity from 'velocity-animate';
 import Utils from '../../../../utils';
 
 import A from '../../../a';
-import Animate from '../../../animate';
-import Spinner from '../../../spinner';
-//import Breadcrumbs from '../../../breadcrumbs';
-//import TitleSlug from '../../../title-slug';
-//import RevisionsOverlay from '../../revisions-overlay';
-import * as pageActions from '../../../../actions/page';
+// import Animate from '../../../animate';
+// import Spinner from '../../../spinner';
+// import Breadcrumbs from '../../../breadcrumbs';
+// import TitleSlug from '../../../title-slug';
+// import RevisionsOverlay from '../../revisions-overlay';
 
-@connect(
-  (state) => ({page: state.page.data.page}),
-  (dispatch) => bindActionCreators(pageActions, dispatch)
-)
 export default class Page extends Component {
   static fragments = {
     page: {
@@ -57,12 +50,12 @@ export default class Page extends Component {
     };
   }
 
-  componentWillMount () {
-    this.props.getPage(this.constructor.fragments, this.state.page.slug);
+  componentWillReceiveProps (nextProps) {
+    const {page} = nextProps;
+    this.setState({page});
   }
 
   componentDidUpdate () {
-    // FIXME This logic is not very good
     if ((!this.state.new && !this.props.page) ||
         (this.state.new && this.props.page)) {
       this.setState(this.getInitialState());
@@ -90,20 +83,13 @@ export default class Page extends Component {
       routerOptions = {trigger: false, replace: true};
     }
 
-    //data.updatedBy = this.context.user._id;
     this
       .props
       .updatePage(this.constructor.fragments, pick(data, 'title', 'slug', 'state', '_id'))
       .then(() => {
-        // FIXME When the logic of `componentDidUpdate` gets better we can
-        // remove this
-        this.setState(this.getInitialState());
+        this.setState({new: false});
       })
       .done();
-    // Relay.Store.update(new UpdatePageMutation({
-    //   page: this.props.page,
-    //   data: pick(data, 'title', 'slug', 'state', '_id')
-    // }));
 
     // action(data)
     //   .then((page) => {
@@ -400,9 +386,9 @@ export default class Page extends Component {
   }
 }
 
-Page.contextTypes = {
-  breadcrumbs: React.PropTypes.array.isRequired,
-  user: React.PropTypes.object.isRequired,
-  addOverlay: React.PropTypes.func.isRequired,
-  closeOverlay: React.PropTypes.func.isRequired
-};
+// Page.contextTypes = {
+//   breadcrumbs: React.PropTypes.array.isRequired,
+//   user: React.PropTypes.object.isRequired,
+//   addOverlay: React.PropTypes.func.isRequired,
+//   closeOverlay: React.PropTypes.func.isRequired
+// };
