@@ -85,7 +85,7 @@ export default class Page extends Component {
 
     this
       .props
-      .updatePage(this.constructor.fragments, pick(data, 'title', 'slug', 'state', '_id'))
+      .updatePage(pick(data, 'title', 'slug', 'state', '_id'))
       .then(() => {
         this.setState({new: false});
       })

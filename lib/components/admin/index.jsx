@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -30,11 +30,17 @@ export default class Admin extends Component {
   }
 
   static propTypes = {
-    activePanelType: React.PropTypes.string,
-    breadcrumbs: React.PropTypes.array,
-    user: React.PropTypes.object,
-    slug: React.PropTypes.string,
-    getAdmin: React.PropTypes.func
+    activePanelType: PropTypes.string,
+    breadcrumbs: PropTypes.array,
+    user: PropTypes.object,
+    slug: PropTypes.string,
+    getAdmin: PropTypes.func.isRequired,
+    updatePage: PropTypes.func.isRequired
+  }
+
+  constructor (props, children) {
+    super(props, children);
+    this.updatePage = ::this.updatePage;
   }
 
   getInitialState () {
@@ -90,6 +96,15 @@ export default class Admin extends Component {
         vars
       ))
       .done();
+  }
+
+  updatePage (data) {
+    const panel = panels[this.props.activePanelType];
+    const pageFragments = mergeFragments(
+      this.constructor.fragments,
+      panel.fragments
+    );
+    return this.props.updatePage(pageFragments, data);
   }
 
   //
@@ -237,7 +252,7 @@ export default class Admin extends Component {
     if (this.props.activePanelType && panels[this.props.activePanelType]) {
       const Panel = panels[this.props.activePanelType];
       return (
-        <Panel {...this.props} />
+        <Panel {...this.props} updatePage={this.updatePage} />
       );
     }
   }
