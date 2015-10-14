@@ -23,7 +23,12 @@ export default class List extends Component {
 
   renderEntry (page) {
     return (
-      <Entry key={page._id} page={page} removePage={this.props.removePage} duplicatePage={this.props.duplicatePage} />
+      <Entry
+        key={page._id}
+        page={page}
+        removePage={this.props.removePage}
+        duplicatePage={this.props.duplicatePage}
+      />
     );
   }
 

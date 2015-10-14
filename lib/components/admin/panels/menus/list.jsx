@@ -3,17 +3,30 @@ import {Component} from 'relax-framework';
 import Entry from './entry';
 
 export default class List extends Component {
-  renderEntry (menu) {
+  static fragments = {
+    menus: Entry.fragments.menu
+  }
+
+  static propTypes = {
+    menus: React.PropTypes.array,
+    removeMenu: React.PropTypes.func,
+    duplicateMenu: React.PropTypes.func
+  }
+
+  render () {
     return (
-      <Entry key={menu._id} menu={menu} />
+      <div className='list'>
+        {this.renderEntries()}
+      </div>
     );
   }
 
   renderEntries () {
-    if (this.props.data.length > 0) {
-      return this.props.data.map(this.renderEntry, this);
+    let result;
+    if (this.props.menus.length > 0) {
+      result = this.props.menus.map(this.renderEntry, this);
     } else {
-      return (
+      result = (
         <div className='none-warning'>
           <div className='none-icon-part'>
             <i className='material-icons'>error_outline</i>
@@ -25,17 +38,17 @@ export default class List extends Component {
         </div>
       );
     }
+    return result;
   }
 
-  render () {
+  renderEntry (menu) {
     return (
-      <div className='list'>
-        {this.renderEntries()}
-      </div>
+      <Entry
+        key={menu._id}
+        menu={menu}
+        removeMenu={this.props.removeMenu}
+        duplicateMenu={this.props.duplicateMenu}
+      />
     );
   }
 }
-
-List.propTypes = {
-  data: React.PropTypes.array.isRequired
-};

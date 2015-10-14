@@ -76,7 +76,11 @@ export default class Pages extends Component {
           />
         </div>
         <div className='admin-scrollable'>
-          <List pages={this.props.pages} removePage={this.props.removePage} duplicatePage={this.props.duplicatePage} />
+          <List
+            pages={this.props.pages}
+            removePage={this.props.removePage}
+            duplicatePage={this.props.duplicatePage}
+          />
           <Pagination
             url='/admin/pages'
             query={this.props.query}

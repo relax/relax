@@ -1,5 +1,7 @@
-import {Component, Router} from 'relax-framework';
+import {Component, mergeFragments} from 'relax-framework';
+import {Router} from 'backbone';
 import cloneDeep from 'lodash.clonedeep';
+import merge from 'lodash.merge';
 import React from 'react';
 import cx from 'classnames';
 import moment from 'moment';
@@ -11,57 +13,89 @@ import Animate from '../../../animate';
 import Spinner from '../../../spinner';
 import Breadcrumbs from '../../../breadcrumbs';
 import TitleSlug from '../../../title-slug';
+import NotFound from '../not-found';
 import Builder from './builder';
 
-import menuActions from '../../../../client/actions/menu';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as menuActions from '../../../../actions/menu';
 
+@connect(
+  (state) => ({
+    pages: state.pages.data.items,
+    menu: state.menu.data,
+    errors: state.menu.errors
+  }),
+  (dispatch) => bindActionCreators(menuActions, dispatch)
+)
 export default class Menu extends Component {
-  getInitialState () {
-    let defaults = {
-      title: 'New Menu',
-      slug: 'new-menu',
-      state: 'draft'
-    };
+  static fragments = mergeFragments({
+    menu: {
+      _id: 1,
+      title: 1,
+      slug: 1,
+      date: 1,
+      updatedDate: 1,
+      createdBy: {
+        _id: 1,
+        email: 1,
+        name: 1
+      },
+      updatedBy: {
+        _id: 1,
+        email: 1,
+        name: 1
+      },
+      data: 1
+    }
+  }, Builder.fragments)
 
-    return {
-      menu: cloneDeep(this.context.menu) || defaults,
-      new: !(this.context.menu && this.context.menu._id),
-      breadcrumbs: this.context.breadcrumbs
-    };
+  static propTypes = {
+    menu: React.PropTypes.object,
+    user: React.PropTypes.object,
+    errors: React.PropTypes.any,
+    breadcrumbs: React.PropTypes.array,
+    slug: React.PropTypes.string,
+    changeMenuToDefault: React.PropTypes.func,
+    addMenu: React.PropTypes.func,
+    updateMenu: React.PropTypes.func,
+    changeMenuFields: React.PropTypes.func
   }
 
-  componentDidUpdate () {
-    if ((!this.state.new && !this.context.menu) ||
-        (this.state.new && this.context.menu)) {
-      this.setState(this.getInitialState());
+  componentWillReceiveProps (nextProps) {
+    if (this.props.slug !== 'new' && nextProps.slug === 'new') {
+      this.props.changeMenuToDefault();
     }
   }
 
   componentWillUnmount () {
-    super.componentWillUnmount();
     if (this.successTimeout) {
       clearTimeout(this.successTimeout);
     }
   }
 
-  onSubmit (data) {
+  onSubmit (menuProps) {
     if (this.successTimeout) {
       clearTimeout(this.successTimeout);
     }
 
-    let action, routerOptions;
-    if (this.state.new) {
-      data.createdBy = this.context.user._id;
-      action = menuActions.add;
+    const submitMenu = cloneDeep(menuProps);
+
+    let action;
+    let routerOptions;
+    if (this.isNew()) {
+      submitMenu.createdBy = this.props.user._id;
+      action = this.props.addMenu;
       routerOptions = {trigger: true};
     } else {
       action = menuActions.update;
+      action = this.props.updateMenu;
       routerOptions = {trigger: false, replace: true};
     }
 
-    data.updatedBy = this.context.user._id;
+    submitMenu.updatedBy = this.props.user._id;
 
-    action(data)
+    action(this.constructor.fragments, submitMenu)
       .then((menu) => {
         this.setState({
           saving: false,
@@ -70,7 +104,7 @@ export default class Menu extends Component {
           error: false,
           new: false
         });
-        Router.prototype.navigate('/admin/menus/'+menu.slug, routerOptions);
+        Router.prototype.navigate('/admin/menus/' + submitMenu.slug, routerOptions);
         this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
       })
       .catch((error) => {
@@ -85,15 +119,18 @@ export default class Menu extends Component {
     clearTimeout(this.successTimeout);
 
     var dom = this.refs.success;
-    const transition = 'transition.slideDownOut';
-    Velocity(dom, transition, {
-      duration: 400,
-      display: null
-    }).then(() => {
-      this.setState({
-        success: false
+
+    if (dom) {
+      const transition = 'transition.slideDownOut';
+      Velocity(dom, transition, {
+        duration: 400,
+        display: null
+      }).then(() => {
+        this.setState({
+          success: false
+        });
       });
-    });
+    }
   }
 
   onUpdate () {
@@ -102,7 +139,7 @@ export default class Menu extends Component {
       savingLabel: 'Updating menu'
     });
 
-    this.onSubmit(cloneDeep(this.state.menu));
+    this.onSubmit(this.props.menu);
   }
 
   onCreate () {
@@ -111,42 +148,20 @@ export default class Menu extends Component {
       savingLabel: 'Creating menu'
     });
 
-    this.onSubmit(cloneDeep(this.state.menu));
-  }
-
-  onFieldChange (id, value) {
-    this.state.menu[id] = value;
-
-    this.setState({
-      menu: this.state.menu
-    });
+    this.onSubmit(cloneDeep(this.props.menu));
   }
 
   onChange (values) {
-    if (values.title) {
-      this.state.breadcrumbs[1].label = values.title;
-      this.state.menu.title = values.title;
-    }
-    if (values.slug) {
-      this.state.menu.slug = values.slug;
-    }
-
-    this.setState({
-      menu: this.state.menu,
-      breadcrumbs: this.state.breadcrumbs
-    });
+    this.props.changeMenuFields(merge({}, this.props.menu, values));
   }
 
   onDataChange (value) {
-    this.state.menu.data = value;
-    this.setState({
-      menu: this.state.menu
-    });
+    this.props.changeMenuFields(merge({}, this.props.menu, {data: value}));
   }
 
   validateSlug (slug) {
-    if (!this.state.new) {
-      if (this.context.menu.slug === slug) {
+    if (!this.isNew()) {
+      if (this.props.menu.slug === slug) {
         return false;
       }
     }
@@ -155,28 +170,109 @@ export default class Menu extends Component {
       return true;
     }
 
-    return menuActions.validateSlug(slug);
+    // return menuActions.validateSlug(slug);
+  }
+
+  isNew () {
+    return !this.props.menu._id && this.props.slug === 'new';
+  }
+
+  render () {
+    const isNew = this.isNew();
+    let result;
+
+    if (!isNew && this.props.errors) {
+      result = <NotFound />;
+    } else {
+      const createdDate = isNew ? 'Creating' : moment(this.props.menu.date).format('MMMM Do YYYY');
+      const createdUser = isNew ? this.props.user : this.props.menu.createdBy;
+      const updatedUser = isNew ? this.props.user : this.props.menu.updatedBy;
+
+      const breadcrumbs = this.props.breadcrumbs.slice();
+      breadcrumbs.push({
+        label: this.props.menu.title
+      });
+
+      result = (
+        <div className='admin-menu with-admin-sidebar'>
+          <div className='content'>
+            <div className='filter-menu'>
+              <Breadcrumbs data={breadcrumbs} />
+              {!isNew &&
+              <A href='/admin/menus/new' className='button-clean'>
+                <i className='material-icons'>library_add</i>
+                <span>Add new menu</span>
+              </A>}
+            </div>
+            <div className='admin-scrollable'>
+              <div className='white-options list'>
+                <TitleSlug
+                  title={this.props.menu.title}
+                  slug={this.props.menu.slug}
+                  validateSlug={this.validateSlug.bind(this)}
+                  onChange={this.onChange.bind(this)}
+                />
+                <Builder
+                  data={this.props.menu.data}
+                  pages={this.props.pages}
+                  onChange={this.onDataChange.bind(this)}
+                />
+              </div>
+            </div>
+          </div>
+          <div className='menu'>
+            <div className='infos'>
+              <div className={cx('info')}>
+                <i className='material-icons'>menu</i>
+                <span>Menu</span>
+              </div>
+              <div className={cx('info', isNew && 'alerted')}>
+                <i className='material-icons'>today</i>
+                <span>Created at</span>
+                <div>{createdDate}</div>
+              </div>
+              <div className='info'>
+                <span className='thumbnail'><img src={Utils.getGravatarImage(createdUser && createdUser.email || 'default', 40)} /></span>
+                <span>Created by</span>
+                <div>{createdUser && createdUser.name || 'removed user'}</div>
+              </div>
+              <div className='info'>
+                <span className='thumbnail'><img src={Utils.getGravatarImage(updatedUser && updatedUser.email || 'default', 40)} /></span>
+                <span>Last update by</span>
+                <div>{updatedUser && updatedUser.name || 'removed user'}</div>
+              </div>
+            </div>
+            {this.renderActions()}
+            {this.renderSaving()}
+          </div>
+        </div>
+      );
+    }
+    return result;
   }
 
   renderActions () {
-    if (!this.state.new) {
-      return (
+    let result;
+    if (!this.isNew()) {
+      result = (
         <div className='actions'>
           <div className={cx('button button-primary', this.state.saving && 'disabled')} onClick={this.onUpdate.bind(this)}>Update</div>
         </div>
       );
     } else {
-      return (
+      result = (
         <div className='actions'>
           <div className={cx('button button-primary', this.state.saving && 'disabled')} onClick={this.onCreate.bind(this)}>Create</div>
         </div>
       );
     }
+    return result;
   }
 
   renderSaving () {
+    let result;
     if (this.state.saving) {
-      return (
+      result = (
         <Animate transition='slideDownIn' key='saving'>
           <div className='saving'>
             <Spinner />
@@ -185,8 +281,8 @@ export default class Menu extends Component {
         </Animate>
       );
     } else if (this.state.error) {
-      return (
-        <Animate transition='slideDownIn'  key='error'>
+      result = (
+        <Animate transition='slideDownIn' key='error'>
           <div className='error' ref='success'>
             <i className='material-icons'>error_outline</i>
             <span>Something went bad!</span>
@@ -194,8 +290,8 @@ export default class Menu extends Component {
         </Animate>
       );
     } else if (this.state.success) {
-      return (
-        <Animate transition='slideDownIn'  key='success'>
+      result = (
+        <Animate transition='slideDownIn' key='success'>
           <div className='success' ref='success'>
             <i className='material-icons'>check</i>
             <span>All good!</span>
@@ -203,73 +299,6 @@ export default class Menu extends Component {
         </Animate>
       );
     }
-  }
-
-  render () {
-    const createdDate = this.state.new ? 'Creating' : moment(this.state.menu.date).format('MMMM Do YYYY');
-    const createdUser = this.state.new ? this.context.user : this.state.menu.createdBy;
-    const updatedUser = this.state.new ? this.context.user : this.state.menu.updatedBy;
-
-    return (
-      <div className='admin-menu with-admin-sidebar'>
-        <div className='content'>
-          <div className='filter-menu'>
-            <Breadcrumbs data={this.state.breadcrumbs} />
-            {!this.state.new &&
-            <A href='/admin/menus/new' className='button-clean'>
-              <i className='material-icons'>library_add</i>
-              <span>Add new menu</span>
-            </A>}
-          </div>
-          <div className='admin-scrollable'>
-            <div className='white-options list'>
-              <TitleSlug
-                title={this.state.menu.title}
-                slug={this.state.menu.slug}
-                validateSlug={this.validateSlug.bind(this)}
-                onChange={this.onChange.bind(this)}
-              />
-              <Builder
-                data={this.state.menu.data || []}
-                onChange={this.onDataChange.bind(this)}
-              />
-            </div>
-          </div>
-        </div>
-        <div className='menu'>
-          <div className='infos'>
-            <div className={cx('info')}>
-              <i className='material-icons'>menu</i>
-              <span>Menu</span>
-            </div>
-            <div className={cx('info', this.state.new && 'alerted')}>
-              <i className='material-icons'>today</i>
-              <span>Created at</span>
-              <div>{createdDate}</div>
-            </div>
-            <div className='info'>
-              <span className='thumbnail'><img src={Utils.getGravatarImage(createdUser && createdUser.email || 'default', 40)} /></span>
-              <span>Created by</span>
-              <div>{createdUser && createdUser.name || 'removed user'}</div>
-            </div>
-            <div className='info'>
-              <span className='thumbnail'><img src={Utils.getGravatarImage(updatedUser && updatedUser.email || 'default', 40)} /></span>
-              <span>Last update by</span>
-              <div>{updatedUser && updatedUser.name || 'removed user'}</div>
-            </div>
-          </div>
-          {this.renderActions()}
-          {this.renderSaving()}
-        </div>
-      </div>
-    );
+    return result;
   }
 }
-
-Menu.contextTypes = {
-  menu: React.PropTypes.object.isRequired,
-  breadcrumbs: React.PropTypes.array.isRequired,
-  user: React.PropTypes.object.isRequired,
-  addOverlay: React.PropTypes.func.isRequired,
-  closeOverlay: React.PropTypes.func.isRequired
-};

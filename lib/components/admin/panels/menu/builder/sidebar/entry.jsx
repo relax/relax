@@ -5,13 +5,22 @@ import cloneDeep from 'lodash.clonedeep';
 import {Draggable} from '../../../../../drag';
 
 export default class Entry extends Component {
+  static fragments = {
+    page: {
+      _id: 1,
+      title: 1,
+      slug: 1
+    }
+  }
+
   render () {
     const dragInfo = {
       type: 'new',
       entry: cloneDeep(this.props.entry)
     };
 
-    let label, icon;
+    let label;
+    let icon;
     if (this.props.entry.type === 'page') {
       label = this.props.entry.page.title;
       icon = 'insert_drive_file';

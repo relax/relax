@@ -1,23 +1,22 @@
 import {Component} from 'relax-framework';
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import Category from './category';
 import Custom from './custom';
 import Entry from './entry';
 
-import pagesStore from '../../../../../../client/stores/pages';
-
 export default class Sidebar extends Component {
-  getInitialState () {
-    return {
-      pages: this.context.pages || [],
-      search: ''
-    };
+  static fragments = {
+    pages: Entry.fragments.page
   }
 
-  getInitialCollections () {
+  static propTypes = {
+    pages: PropTypes.array
+  }
+
+  getInitialState () {
     return {
-      pages: pagesStore.getCollection()
+      search: ''
     };
   }
 
@@ -25,6 +24,19 @@ export default class Sidebar extends Component {
     this.setState({
       search: event.target.value
     });
+  }
+
+  render () {
+    return (
+      <div className='menu-builder-sidebar'>
+        <Category title='Pages' icon='insert_drive_file'>
+          {this.props.pages.map(this.renderPageEntry, this)}
+        </Category>
+        <Category title='Custom' icon='link'>
+          <Custom />
+        </Category>
+      </div>
+    );
   }
 
   renderPageEntry (entry, key) {
@@ -36,21 +48,4 @@ export default class Sidebar extends Component {
       <Entry entry={menuEntry} key={entry._id} />
     );
   }
-
-  render () {
-    return (
-      <div className='menu-builder-sidebar'>
-        <Category title='Pages' icon='insert_drive_file'>
-          {this.state.pages.map(this.renderPageEntry, this)}
-        </Category>
-        <Category title='Custom' icon='link'>
-          <Custom />
-        </Category>
-      </div>
-    );
-  }
 }
-
-Sidebar.contextTypes = {
-  pages: React.PropTypes.array
-};

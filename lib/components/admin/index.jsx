@@ -74,7 +74,7 @@ export default class Admin extends Component {
   fetchData (props) {
     const panel = panels[props.activePanelType];
     const vars = {};
-    let panelFragments = panel.fragments || {};
+    const panelFragments = Object.assign({}, panel.fragments);
 
     // This probably could be encapsulated somehow
     switch (props.activePanelType) {
@@ -84,15 +84,16 @@ export default class Admin extends Component {
         };
         break;
       case 'page':
+      case 'menu':
         if (props.slug !== 'new') {
-          vars.page = {
+          vars[props.activePanelType] = {
             slug: {
               value: props.slug,
               type: 'String!'
             }
           };
         } else {
-          panelFragments = {};
+          panelFragments[props.activePanelType] && delete panelFragments[props.activePanelType];
         }
         break;
       default:

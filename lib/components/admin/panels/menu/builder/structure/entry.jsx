@@ -4,6 +4,15 @@ import React from 'react';
 import {Droppable, Draggable} from '../../../../../drag';
 
 export default class Entry extends Component {
+  propTypes = {
+    entry: React.PropTypes.object.isRequired
+  }
+
+  contextTypes = {
+    dragging: React.PropTypes.bool.isRequired,
+    onEntryRemove: React.PropTypes.func.isRequired
+  }
+
   onRemove (event) {
     event.preventDefault();
     this.context.onEntryRemove(this.props.entry.id);
@@ -15,7 +24,8 @@ export default class Entry extends Component {
       id: this.props.entry.id
     };
 
-    let label, icon;
+    let label;
+    let icon;
     if (this.props.entry.type === 'page') {
       label = this.props.entry.page.title;
       icon = 'insert_drive_file';
@@ -48,12 +58,3 @@ export default class Entry extends Component {
     );
   }
 }
-
-Entry.propTypes = {
-  entry: React.PropTypes.object.isRequired
-};
-
-Entry.contextTypes = {
-  dragging: React.PropTypes.bool.isRequired,
-  onEntryRemove: React.PropTypes.func.isRequired
-};

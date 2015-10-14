@@ -14,7 +14,7 @@ import Spinner from '../../../spinner';
 import Breadcrumbs from '../../../breadcrumbs';
 import TitleSlug from '../../../title-slug';
 // import RevisionsOverlay from '../../revisions-overlay';
-import NotFound from './not-found';
+import NotFound from '../not-found';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -99,7 +99,7 @@ export default class Page extends Component {
           success: true,
           error: false
         });
-        Router.prototype.navigate('/admin/pages/' + pageProps.slug, routerOptions);
+        Router.prototype.navigate('/admin/pages/' + submitPage.slug, routerOptions);
         this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
       })
       .catch((error) => {
@@ -360,13 +360,13 @@ export default class Page extends Component {
         </div>
       );
     }
-
     return result;
   }
 
   renderSaving () {
+    let result;
     if (this.state.saving) {
-      return (
+      result = (
         <Animate transition='slideDownIn' key='saving'>
           <div className='saving'>
             <Spinner />
@@ -375,7 +375,7 @@ export default class Page extends Component {
         </Animate>
       );
     } else if (this.state.error) {
-      return (
+      result = (
         <Animate transition='slideDownIn' key='error'>
           <div className='error' ref='success'>
             <i className='material-icons'>error_outline</i>
@@ -384,7 +384,7 @@ export default class Page extends Component {
         </Animate>
       );
     } else if (this.state.success) {
-      return (
+      result = (
         <Animate transition='slideDownIn' key='success'>
           <div className='success' ref='success'>
             <i className='material-icons'>check</i>
@@ -393,5 +393,6 @@ export default class Page extends Component {
         </Animate>
       );
     }
+    return result;
   }
 }

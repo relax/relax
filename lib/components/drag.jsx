@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Component} from 'relax-framework';
 import forEach from 'lodash.foreach';
 import merge from 'lodash.merge';
@@ -35,7 +34,7 @@ export class Draggable extends Component {
 
     this.onMouseUp();
 
-    var element = ReactDOM.findDOMNode(this);
+    var element = React.findDOMNode(this);
 
     var elementOffset = Utils.getOffsetRect(element);
     var width = elementOffset.width;
@@ -113,6 +112,14 @@ Draggable.propTypes = {
 };
 
 class Marker extends Component {
+  componentDidMount () {
+    this.animateInterval = setTimeout(this.animateIn.bind(this), 50);
+  }
+
+  componentWillUnmount () {
+    clearTimeout(this.animateInterval);
+  }
+
   animateIn () {
     var animateObj = {};
 
@@ -122,17 +129,7 @@ class Marker extends Component {
       animateObj.width = '7px';
     }
 
-    Velocity(ReactDOM.findDOMNode(this), animateObj, { duration: 400, easing: "easeOutExpo" });
-  }
-
-  componentDidMount () {
-    super.componentDidMount();
-    this.animateInterval = setTimeout(this.animateIn.bind(this), 50);
-  }
-
-  componentWillUnmount () {
-    super.componentWillUnmount();
-    clearTimeout(this.animateInterval);
+    Velocity(React.findDOMNode(this), animateObj, { duration: 400, easing: "easeOutExpo" });
   }
 
   render () {
@@ -163,22 +160,20 @@ export class Dragger extends Component {
   }
 
   componentDidMount () {
-    super.componentDidMount();
-
     this.onMouseUpListener = this.onMouseUp.bind(this);
     this.onMouseMoveListener = this.onMouseMove.bind(this);
 
-    let node = ReactDOM.findDOMNode(this);
+    const node = React.findDOMNode(this);
 
-    let relativeX = draggingData.mouseX - draggingData.elementOffset.left;
-    let relativeY = draggingData.mouseY - draggingData.elementOffset.top;
-    node.style.transformOrigin = relativeX+'px '+relativeY+'px';
+    const relativeX = draggingData.mouseX - draggingData.elementOffset.left;
+    const relativeY = draggingData.mouseY - draggingData.elementOffset.top;
+    node.style.transformOrigin = relativeX + 'px ' + relativeY + 'px';
 
-    Velocity(ReactDOM.findDOMNode(this), {
+    Velocity(React.findDOMNode(this), {
       scaleX: '0.5',
       scaleY: '0.5',
       opacity: '0.7'
-    }, { duration: 500, easing: "easeOutExpo" });
+    }, { duration: 500, easing: 'easeOutExpo' });
 
     document.addEventListener('mouseup', this.onMouseUpListener);
     document.addEventListener('mousemove', this.onMouseMoveListener);
@@ -253,8 +248,7 @@ export class Droppable extends Component {
   }
 
   componentDidMount () {
-    super.componentDidMount();
-    const containerRect = ReactDOM.findDOMNode(this).getBoundingClientRect();
+    const containerRect = React.findDOMNode(this).getBoundingClientRect();
 
     if (containerRect.left < 40) {
       if (!this.state.closeToMargin) {
@@ -297,7 +291,7 @@ export class Droppable extends Component {
     // Ordering
     var order = false;
     if (this.props.children && (this.props.children instanceof Array && this.props.children.length > 0)) {
-      var elements = ReactDOM.findDOMNode(this).children;
+      var elements = React.findDOMNode(this).children;
 
       if (elements.length > 0) {
 
@@ -471,7 +465,7 @@ export class Droppable extends Component {
       targetId: this.props.dropInfo.id || 'body',
       targetType: this.props.type,
       targetPosition: position,
-      container: this.refs['spot'+position],
+      container: React.findDOMNode(this.refs['spot'+position]),
       accepts: this.props.accepts,
       rejects: this.props.rejects
     });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import cloneDeep from 'lodash.clonedeep';
 import forEach from 'lodash.foreach';
 
@@ -7,6 +7,20 @@ import Sidebar from './sidebar';
 import Structure from './structure';
 
 export default class Builder extends DragRoot {
+  static fragments = Sidebar.fragments
+
+  static propTypes = {
+    onChange: PropTypes.func.isRequired,
+    data: PropTypes.array.isRequired,
+    pages: PropTypes.array.isRequired
+  }
+
+  static childContextTypes = {
+    onEntryRemove: React.PropTypes.func.isRequired,
+    onStartDrag: React.PropTypes.func.isRequired,
+    dragging: React.PropTypes.bool.isRequired
+  }
+
   getInitialState () {
     this.onStartDragBind = this.onStartDrag.bind(this);
     this.onEntryRemoveBind = this.onEntryRemove.bind(this);
@@ -76,7 +90,7 @@ export default class Builder extends DragRoot {
   }
 
   draggedComponent (dragReport) {
-    let dataDuplicate = cloneDeep(this.props.data);
+    const dataDuplicate = cloneDeep(this.props.data);
 
     const dragInfo = dragReport.dragInfo;
     const dropInfo = dragReport.dropInfo;
@@ -86,14 +100,15 @@ export default class Builder extends DragRoot {
       return;
     }
 
-    let entry, position = typeof dropInfo.position !== 'undefined' ? dropInfo.position : 0;
+    let entry;
+    let position = typeof dropInfo.position !== 'undefined' ? dropInfo.position : 0;
 
     // dragging element
     if (dragInfo.type === 'new') {
       entry = cloneDeep(dragInfo.entry);
       entry.id = this.checkLatestId(dataDuplicate) + 1;
     } else if (dragInfo.type === 'move') {
-      let info = this.findById(dataDuplicate, dragInfo.id, true);
+      const info = this.findById(dataDuplicate, dragInfo.id, true);
       entry = info.entry;
 
       if (info.parentId === dropInfo.id && position > info.position) {
@@ -105,7 +120,7 @@ export default class Builder extends DragRoot {
     if (dropInfo.id === 'base') {
       dataDuplicate.splice(position, 0, entry);
     } else {
-      let destination = this.findById(dataDuplicate, dropInfo.id).entry;
+      const destination = this.findById(dataDuplicate, dropInfo.id).entry;
       destination.children = destination.children || [];
       destination.children.splice(position, 0, entry);
     }
@@ -114,7 +129,7 @@ export default class Builder extends DragRoot {
   }
 
   onEntryRemove (id) {
-    let dataDuplicate = cloneDeep(this.props.data);
+    const dataDuplicate = cloneDeep(this.props.data);
     this.findById(dataDuplicate, id, true);
     this.props.onChange(dataDuplicate);
   }
@@ -123,7 +138,7 @@ export default class Builder extends DragRoot {
     return (
       <div className={this.state.dragging && 'dragging'}>
         <div className='menu-builder'>
-          <Sidebar />
+          <Sidebar pages={this.props.pages} />
           <Structure data={this.props.data} />
         </div>
         {this.renderDragger()}
@@ -131,9 +146,3 @@ export default class Builder extends DragRoot {
     );
   }
 }
-
-Builder.childContextTypes = {
-  onEntryRemove: React.PropTypes.func.isRequired,
-  onStartDrag: React.PropTypes.func.isRequired,
-  dragging: React.PropTypes.bool.isRequired
-};
