@@ -67,7 +67,7 @@ export default class Pages extends Component {
             url='/admin/pages'
             search='title'
             query={this.props.query}
-            />
+          />
         </div>
         <div className='admin-scrollable'>
           <List pages={this.props.pages} />

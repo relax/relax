@@ -37,6 +37,16 @@ export default function wrapWithQueryProps (WrappedComponent) {
             type: 'Int'
           };
         }
+        if (props.query.search && props.query.s) {
+          queryVariables.search = {
+            value: props.query.search,
+            type: 'String'
+          };
+          queryVariables.s = {
+            value: props.query.s,
+            type: 'String'
+          };
+        }
       }
 
       return {

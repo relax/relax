@@ -1,5 +1,6 @@
 import React from 'react';
-import {Component, Router} from 'relax-framework';
+import {Router} from 'backbone';
+import {Component} from 'relax-framework';
 import A from './a';
 import Utils from '../utils';
 import merge from 'lodash.merge';
