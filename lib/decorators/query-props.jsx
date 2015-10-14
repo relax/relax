@@ -10,25 +10,37 @@ export default function wrapWithQueryProps (WrappedComponent) {
     }
 
     getInitialState (props = this.props) {
-      return {
-        queryVariables: {
-          sort: {
+      const queryVariables = {};
+
+      if (props.query) {
+        if (props.query.sort) {
+          queryVariables.sort = {
             value: props.query.sort,
             type: 'String'
-          },
-          order: {
+          };
+        }
+        if (props.query.order) {
+          queryVariables.order = {
             value: props.query.order,
             type: 'String'
-          },
-          limit: {
+          };
+        }
+        if (props.query.limit) {
+          queryVariables.limit = {
             value: props.query.limit,
             type: 'Int'
-          },
-          page: {
+          };
+        }
+        if (props.query.page) {
+          queryVariables.page = {
             value: props.query.page,
             type: 'Int'
-          }
+          };
         }
+      }
+
+      return {
+        queryVariables
       };
     }
 

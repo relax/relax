@@ -3,9 +3,22 @@ import React from 'react';
 import cloneDeep from 'lodash.clonedeep';
 import Lightbox from '../../../lightbox';
 
-import colorActions from '../../../../client/actions/colors';
-
 export default class Color extends Component {
+  static fragments = {
+    color: {
+      _id: 1,
+      label: 1,
+      value: 1
+    }
+  }
+
+  static propTypes = {
+    color: React.PropTypes.object.isRequired,
+    onEdit: React.PropTypes.func.isRequired,
+    removeColor: React.PropTypes.func.isRequired,
+    addColor: React.PropTypes.func.isRequired
+  }
+
   getInitialState () {
     return {
       removing: false
@@ -33,7 +46,7 @@ export default class Color extends Component {
 
   confirmRemove (event) {
     event.preventDefault();
-    colorActions.remove(this.props.color._id);
+    this.props.removeColor(this.constructor.fragments, this.props.color).done();
     this.setState({
       removing: false
     });
@@ -43,24 +56,7 @@ export default class Color extends Component {
     event.preventDefault();
     var cloneColor = cloneDeep(this.props.color);
     delete cloneColor._id;
-    colorActions.add(cloneColor);
-  }
-
-  renderRemoving () {
-    if (this.state.removing) {
-      const label = 'Are you sure you want to remove the color '+this.props.color.label+' from your colors palette?';
-      const label1 = 'Every component in your pages using this color will loose the link to it! Notice you can change its value and label to customize and not lose the link.';
-      return (
-        <Lightbox className='small' header={false}>
-          <div className='big centered'>{label}</div>
-          <div className='medium centered'>{label1}</div>
-          <div className='centered space-above'>
-            <a className='button button-grey margined' href='#' onClick={this.cancelRemove.bind(this)}>No, abort!</a>
-            <a className='button button-alert margined' href='#' onClick={this.confirmRemove.bind(this)}>Yes, delete it!</a>
-          </div>
-        </Lightbox>
-      );
-    }
+    this.props.addColor(this.constructor.fragments, cloneColor).done();
   }
 
   render () {
@@ -94,9 +90,20 @@ export default class Color extends Component {
     );
   }
 
+  renderRemoving () {
+    if (this.state.removing) {
+      const label = 'Are you sure you want to remove the color ' + this.props.color.label + ' from your colors palette?';
+      const label1 = 'Every component in your pages using this color will loose the link to it! Notice you can change its value and label to customize and not lose the link.';
+      return (
+        <Lightbox className='small' header={false}>
+          <div className='big centered'>{label}</div>
+          <div className='medium centered'>{label1}</div>
+          <div className='centered space-above'>
+            <a className='button button-grey margined' href='#' onClick={this.cancelRemove.bind(this)}>No, abort!</a>
+            <a className='button button-alert margined' href='#' onClick={this.confirmRemove.bind(this)}>Yes, delete it!</a>
+          </div>
+        </Lightbox>
+      );
+    }
+  }
 }
-
-Color.propTypes = {
-  color: React.PropTypes.object.isRequired,
-  onEdit: React.PropTypes.func.isRequired
-};

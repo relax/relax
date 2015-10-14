@@ -4,9 +4,15 @@ import Input from '../../../input';
 import React from 'react';
 import Lightbox from '../../../lightbox';
 
-import colorsActions from '../../../../client/actions/colors';
-
 export default class EditColor extends Component {
+  static propTypes = {
+    value: React.PropTypes.any,
+    onClose: React.PropTypes.func.isRequired,
+    addColor: React.PropTypes.func.isRequired,
+    updateColor: React.PropTypes.func.isRequired,
+    fragment: React.PropTypes.object.isRequired
+  }
+
   getInitialState () {
     return {
       value: this.props.value || {
@@ -36,15 +42,15 @@ export default class EditColor extends Component {
 
   submit () {
     if (this.state.value._id) {
-      colorsActions.update(this.state.value).then(() => this.closeEdit());
+      this.props.updateColor(this.props.fragment, this.state.value).then(() => this.closeEdit());
     } else {
-      colorsActions.add(this.state.value).then(() => this.closeEdit());
+      this.props.addColor(this.props.fragment, this.state.value).then(() => this.closeEdit());
     }
   }
 
   render () {
     var isNew = this.props.value ? false : true;
-    var title = isNew ? 'Adding new color to palette' : 'Editing '+this.state.value.label;
+    var title = isNew ? 'Adding new color to palette' : 'Editing ' + this.state.value.label;
     var btn = isNew ? 'Add color to palette' : 'Change color';
 
     return (
@@ -58,8 +64,3 @@ export default class EditColor extends Component {
     );
   }
 }
-
-EditColor.propTypes = {
-  value: React.PropTypes.any,
-  onClose: React.PropTypes.func.isRequired
-};

@@ -9,6 +9,7 @@ import TopMenu from './top-menu';
 // import Overlay from '../overlay';
 // import Lightbox from '../lightbox';
 import * as adminActions from '../../actions/admin';
+import queryProps from '../../decorators/query-props';
 
 @connect(
   (state) => ({
@@ -17,6 +18,7 @@ import * as adminActions from '../../actions/admin';
   }),
   (dispatch) => bindActionCreators(adminActions, dispatch)
 )
+@queryProps
 export default class Admin extends Component {
   static fragments = {
     session: {
@@ -76,34 +78,17 @@ export default class Admin extends Component {
   fetchData (props) {
     const panel = panels[props.activePanelType];
     const vars = {};
-    let panelFragments = {};
+    const panelFragments = panel.fragments || {};
 
     // This probably could be encapsulated somehow
     switch (props.activePanelType) {
       case 'pages':
-        vars.pages = {
-          sort: {
-            value: props.query.sort,
-            type: 'String'
-          },
-          order: {
-            value: props.query.order,
-            type: 'String'
-          },
-          limit: {
-            value: props.query.limit,
-            type: 'Int'
-          },
-          page: {
-            value: props.query.page,
-            type: 'Int'
-          }
+        vars[props.activePanelType] = {
+          ...props.queryVariables
         };
-        panelFragments = panel.fragments;
         break;
       case 'page':
         if (props.slug !== 'new') {
-          panelFragments = panel.fragments;
           vars.page = {
             slug: {
               value: props.slug,

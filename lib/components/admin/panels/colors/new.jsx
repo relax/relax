@@ -1,10 +1,12 @@
 import {Component} from 'relax-framework';
 import ColorPicker from 'react-colorpicker';
-import ColorActions from '../../../../client/actions/colors';
 import Input from '../../../input';
 import React from 'react';
 
 export default class NewColor extends Component {
+  static propTypes = {
+    selected: React.PropTypes.any
+  }
 
   getInitialState () {
     return {
@@ -13,6 +15,19 @@ export default class NewColor extends Component {
       titleInput: '',
       colorInput: '#000000'
     };
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.selected) {
+      this.setState({
+        title: 'Editing ' + nextProps.selected.label + ' color',
+        titleInput: nextProps.selected.label,
+        colorInput: nextProps.selected.value,
+        button: 'Change'
+      });
+    } else if (this.props.selected) {
+      this.setState(this.getInitialState());
+    }
   }
 
   onTitleChange (value) {
@@ -31,50 +46,26 @@ export default class NewColor extends Component {
     event.preventDefault();
 
     if (this.props.selected) {
-      ColorActions.update({
-        _id: this.props.selected._id,
-        value: this.state.colorInput,
-        label: this.state.titleInput
-      });
-    }
-    else {
-      ColorActions
-        .add({
-          label: this.state.titleInput,
-          value: this.state.colorInput
-        })
-        .then(() => {
-          this.setState(this.getInitialState);
-        });
+      // ColorActions.update({
+      //   _id: this.props.selected._id,
+      //   value: this.state.colorInput,
+      //   label: this.state.titleInput
+      // });
+    } else {
+      // ColorActions
+      //   .add({
+      //     label: this.state.titleInput,
+      //     value: this.state.colorInput
+      //   })
+      //   .then(() => {
+      //     this.setState(this.getInitialState);
+      //   });
     }
   }
 
   remove (event) {
     event.preventDefault();
-
-    ColorActions.remove(this.props.selected._id);
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.selected) {
-      this.setState({
-        title: 'Editing '+nextProps.selected.label+' color',
-        titleInput: nextProps.selected.label,
-        colorInput: nextProps.selected.value,
-        button: 'Change'
-      });
-    }
-    else if (this.props.selected) {
-      this.setState(this.getInitialState());
-    }
-  }
-
-  renderRemoveButton () {
-    if (this.props.selected) {
-      return (
-        <a href='#' key='remove' className='button button-alert' onClick={this.remove.bind(this)}>Remove</a>
-      );
-    }
+    // ColorActions.remove(this.props.selected._id);
   }
 
   render () {
@@ -89,8 +80,12 @@ export default class NewColor extends Component {
       </div>
     );
   }
-}
 
-NewColor.propTypes = {
-  selected: React.PropTypes.any
-};
+  renderRemoveButton () {
+    if (this.props.selected) {
+      return (
+        <a href='#' key='remove' className='button button-alert' onClick={this.remove.bind(this)}>Remove</a>
+      );
+    }
+  }
+}

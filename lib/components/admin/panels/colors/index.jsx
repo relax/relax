@@ -1,21 +1,34 @@
+import React from 'react';
 import {Component} from 'relax-framework';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import Color from './color';
 import Edit from './edit';
-import React from 'react';
 
-import colorsStore from '../../../../client/stores/colors';
+import * as colorsActions from '../../../../actions/colors';
 
+@connect(
+  (state) => ({
+    colors: state.colors.data
+  }),
+  (dispatch) => bindActionCreators(colorsActions, dispatch)
+)
 export default class Colors extends Component {
+  static fragments = {
+    colors: Color.fragments.color
+  }
+
+  static propTypes = {
+    colors: React.PropTypes.array,
+    addColor: React.PropTypes.func,
+    updateColor: React.PropTypes.func,
+    removeColor: React.PropTypes.func
+  }
+
   getInitialState () {
     return {
       edit: false,
       colors: this.context.colors
-    };
-  }
-
-  getInitialCollections () {
-    return {
-      colors: colorsStore.getCollection()
     };
   }
 
@@ -41,43 +54,6 @@ export default class Colors extends Component {
     });
   }
 
-  renderColor (color) {
-    return (
-      <Color color={color} key={color._id} onEdit={this.onEdit.bind(this)} />
-    );
-  }
-
-  renderColors () {
-    if (this.state.colors && this.state.colors.length > 0) {
-      return (
-        <div className='color-manager-list'>
-          {this.state.colors.map(this.renderColor, this)}
-        </div>
-      );
-    }
-    else {
-      return (
-        <div className='none-warning'>
-          <div className='none-icon-part'>
-            <i className='material-icons'>error_outline</i>
-          </div>
-          <div className='none-info-part'>
-            <p>No colors added yet!</p>
-            <p>You don't have any color in your palette yet, you can add new colors on the add new button above</p>
-          </div>
-        </div>
-      );
-    }
-  }
-
-  renderEdit () {
-    if (this.state.edit) {
-      return (
-        <Edit value={this.state.editingColor} onClose={this.closeEdit.bind(this)} />
-      );
-    }
-  }
-
   render () {
     return (
       <div className='color-manager'>
@@ -95,8 +71,42 @@ export default class Colors extends Component {
       </div>
     );
   }
-}
 
-Colors.contextTypes = {
-  colors: React.PropTypes.array.isRequired
-};
+  renderColors () {
+    let result;
+    if (this.props.colors && this.props.colors.length > 0) {
+      result = (
+        <div className='color-manager-list'>
+          {this.props.colors.map(this.renderColor, this)}
+        </div>
+      );
+    } else {
+      result = (
+        <div className='none-warning'>
+          <div className='none-icon-part'>
+            <i className='material-icons'>error_outline</i>
+          </div>
+          <div className='none-info-part'>
+            <p>No colors added yet!</p>
+            <p>You don't have any color in your palette yet, you can add new colors on the add new button above</p>
+          </div>
+        </div>
+      );
+    }
+    return result;
+  }
+
+  renderColor (color) {
+    return (
+      <Color color={color} key={color._id} onEdit={this.onEdit.bind(this)} removeColor={this.props.removeColor} addColor={this.props.addColor} />
+    );
+  }
+
+  renderEdit () {
+    if (this.state.edit) {
+      return (
+        <Edit value={this.state.editingColor} onClose={this.closeEdit.bind(this)} addColor={this.props.addColor} updateColor={this.props.updateColor} fragment={Color.fragments} />
+      );
+    }
+  }
+}
