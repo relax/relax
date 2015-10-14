@@ -8,6 +8,7 @@ import List from './list';
 import Filter from '../../../filter';
 import Pagination from '../../../pagination';
 import A from '../../../a';
+import queryProps from '../../../../decorators/query-props';
 
 import * as menusActions from '../../../../actions/menus';
 
@@ -18,6 +19,7 @@ import * as menusActions from '../../../../actions/menus';
   }),
   (dispatch) => bindActionCreators(menusActions, dispatch)
 )
+@queryProps
 export default class Menus extends Component {
   static fragments = mergeFragments({
     menusCount: {
