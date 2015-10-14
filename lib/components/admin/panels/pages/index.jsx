@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Component, mergeFragments, buildQueryAndVariables} from 'relax-framework';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import A from '../../../a';
 import Breadcrumbs from '../../../breadcrumbs';
@@ -9,11 +10,14 @@ import Filter from '../../../filter';
 import Pagination from '../../../pagination';
 import queryProps from '../../../../decorators/query-props';
 
+import * as pagesActions from '../../../../actions/pages';
+
 @connect(
   (state) => ({
-    pages: state.pages.data.items || [],
-    count: state.pages.data.count || 1
-  })
+    pages: state.pages.data.items,
+    count: state.pages.data.count
+  }),
+  (dispatch) => bindActionCreators(pagesActions, dispatch)
 )
 @queryProps
 export default class Pages extends Component {
@@ -25,11 +29,12 @@ export default class Pages extends Component {
 
   static propTypes = {
     breadcrumbs: PropTypes.array.isRequired,
-    pages: PropTypes.object,
+    pages: PropTypes.array,
     query: PropTypes.object,
-    count: PropTypes.object,
+    count: PropTypes.number,
     hasQueryChanged: PropTypes.bool.isRequired,
-    queryVariables: PropTypes.object.isRequired
+    queryVariables: PropTypes.object.isRequired,
+    removePage: PropTypes.func
   }
 
   componentWillReceiveProps (nextProps) {
@@ -70,7 +75,7 @@ export default class Pages extends Component {
           />
         </div>
         <div className='admin-scrollable'>
-          <List pages={this.props.pages} />
+          <List pages={this.props.pages} removePage={this.props.removePage} />
           <Pagination
             url='/admin/pages'
             query={this.props.query}

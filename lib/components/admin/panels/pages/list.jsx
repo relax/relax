@@ -3,10 +3,13 @@ import {Component} from 'relax-framework';
 import Entry from './entry';
 
 export default class List extends Component {
-  static fragments = Entry.fragments
+  static fragments = {
+    pages: Entry.fragments.page
+  }
 
   static propTypes = {
-    pages: React.PropTypes.array
+    pages: React.PropTypes.array,
+    removePage: React.PropTypes.func
   }
 
   render () {
@@ -19,7 +22,7 @@ export default class List extends Component {
 
   renderEntry (page) {
     return (
-      <Entry key={page._id} page={page} />
+      <Entry key={page._id} page={page} removePage={this.props.removePage} />
     );
   }
 

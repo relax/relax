@@ -3,10 +3,11 @@ import {Component} from 'relax-framework';
 import moment from 'moment';
 import cx from 'classnames';
 import A from '../../../a';
+import Lightbox from '../../../lightbox';
 
 export default class Entry extends Component {
   static fragments = {
-    pages: {
+    page: {
       _id: 1,
       title: 1,
       slug: 1,
@@ -15,20 +16,47 @@ export default class Entry extends Component {
     }
   }
 
+  static propTypes = {
+    removePage: React.PropTypes.func.isRequired,
+    page: React.PropTypes.object.isRequired
+  }
+
   getInitialState () {
     return {
       removing: false
     };
   }
 
+  removePage (event) {
+    event.preventDefault();
+    this.setState({
+      removing: true
+    });
+  }
+
+  cancelRemove (event) {
+    event.preventDefault();
+    this.setState({
+      removing: false
+    });
+  }
+
+  confirmRemove (event) {
+    event.preventDefault();
+    this.props.removePage(this.constructor.fragments, this.props.page);
+    this.setState({
+      removing: false
+    });
+  }
+
   render () {
     const page = this.props.page;
 
-    let editLink = '/admin/pages/'+page.slug;
-    let buildLink = '/admin/page/'+page.slug;
-    let viewLink = '/'+page.slug;
+    const editLink = '/admin/pages/' + page.slug;
+    const buildLink = '/admin/page/' + page.slug;
+    const viewLink = '/' + page.slug;
     const published = page.state === 'published';
-    let date = 'Created - ' + moment(page.date).format('MMMM Do YYYY');
+    const date = 'Created - ' + moment(page.date).format('MMMM Do YYYY');
 
     return (
       <div key={page._id} className='entry'>
@@ -58,17 +86,31 @@ export default class Entry extends Component {
               <i className='material-icons'>content_copy</i>
               <span>Duplicate</span>
             </a>
-            <a href='#'>
+            <a href='#' onClick={this.removePage.bind(this)}>
               <i className='material-icons'>remove_circle_outline</i>
               <span>Remove</span>
             </a>
           </div>
         </div>
+        {this.renderRemoving()}
       </div>
     );
   }
-}
 
-Entry.propTypes = {
-  page: React.PropTypes.object.isRequired
-};
+  renderRemoving () {
+    if (this.state.removing) {
+      const label = 'Are you sure you want to remove ' + this.props.page.title + ' page?';
+      const label1 = 'You\'ll loose this page\'s data forever!';
+      return (
+        <Lightbox className='small' header={false}>
+          <div className='big centered'>{label}</div>
+          <div className='medium centered'>{label1}</div>
+          <div className='centered space-above'>
+            <a className='button button-grey margined' href='#' onClick={this.cancelRemove.bind(this)}>No, abort!</a>
+            <a className='button button-alert margined' href='#' onClick={this.confirmRemove.bind(this)}>Yes, delete it!</a>
+          </div>
+        </Lightbox>
+      );
+    }
+  }
+}
