@@ -18,6 +18,7 @@ export default class Entry extends Component {
 
   static propTypes = {
     removePage: React.PropTypes.func.isRequired,
+    duplicatePage: React.PropTypes.func.isRequired,
     page: React.PropTypes.object.isRequired
   }
 
@@ -43,10 +44,15 @@ export default class Entry extends Component {
 
   confirmRemove (event) {
     event.preventDefault();
-    this.props.removePage(this.constructor.fragments, this.props.page);
+    this.props.removePage(this.constructor.fragments, this.props.page).done();
     this.setState({
       removing: false
     });
+  }
+
+  duplicatePage (event) {
+    event.preventDefault();
+    this.props.duplicatePage(this.constructor.fragments, this.props.page._id).done();
   }
 
   render () {
@@ -82,7 +88,7 @@ export default class Entry extends Component {
               <i className='material-icons'>link</i>
               <span>View</span>
             </a>
-            <a href='#'>
+            <a href='#' onClick={this.duplicatePage.bind(this)}>
               <i className='material-icons'>content_copy</i>
               <span>Duplicate</span>
             </a>

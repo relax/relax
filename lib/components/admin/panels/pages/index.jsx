@@ -34,7 +34,8 @@ export default class Pages extends Component {
     count: PropTypes.number,
     hasQueryChanged: PropTypes.bool.isRequired,
     queryVariables: PropTypes.object.isRequired,
-    removePage: PropTypes.func
+    removePage: PropTypes.func,
+    duplicatePage: PropTypes.func
   }
 
   componentWillReceiveProps (nextProps) {
@@ -75,7 +76,7 @@ export default class Pages extends Component {
           />
         </div>
         <div className='admin-scrollable'>
-          <List pages={this.props.pages} removePage={this.props.removePage} />
+          <List pages={this.props.pages} removePage={this.props.removePage} duplicatePage={this.props.duplicatePage} />
           <Pagination
             url='/admin/pages'
             query={this.props.query}

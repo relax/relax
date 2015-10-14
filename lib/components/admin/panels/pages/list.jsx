@@ -9,7 +9,8 @@ export default class List extends Component {
 
   static propTypes = {
     pages: React.PropTypes.array,
-    removePage: React.PropTypes.func
+    removePage: React.PropTypes.func,
+    duplicatePage: React.PropTypes.func
   }
 
   render () {
@@ -22,7 +23,7 @@ export default class List extends Component {
 
   renderEntry (page) {
     return (
-      <Entry key={page._id} page={page} removePage={this.props.removePage} />
+      <Entry key={page._id} page={page} removePage={this.props.removePage} duplicatePage={this.props.duplicatePage} />
     );
   }
 
