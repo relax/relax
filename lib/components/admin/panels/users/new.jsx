@@ -4,6 +4,40 @@ import OptionsList from '../../../options-list';
 import {Types} from '../../../../data-types';
 
 export default class New extends Component {
+  static propTypes = {
+    onSubmit: React.PropTypes.func.isRequired
+  }
+
+  static options = [
+    {
+      label: 'Username',
+      type: Types.String,
+      id: 'username',
+      default: ''
+    },
+    {
+      label: 'Password',
+      type: Types.String,
+      id: 'password',
+      default: '',
+      props: {
+        password: true
+      }
+    },
+    {
+      label: 'Name',
+      type: Types.String,
+      id: 'name',
+      default: ''
+    },
+    {
+      label: 'Email',
+      type: Types.String,
+      id: 'email',
+      default: ''
+    }
+  ]
+
   getInitialState () {
     return {
       username: '',
@@ -34,37 +68,3 @@ export default class New extends Component {
     );
   }
 }
-
-New.options = [
-  {
-    label: 'Username',
-    type: Types.String,
-    id: 'username',
-    default: ''
-  },
-  {
-    label: 'Password',
-    type: Types.String,
-    id: 'password',
-    default: '',
-    props: {
-      password: true
-    }
-  },
-  {
-    label: 'Name',
-    type: Types.String,
-    id: 'name',
-    default: ''
-  },
-  {
-    label: 'Email',
-    type: Types.String,
-    id: 'email',
-    default: ''
-  }
-];
-
-New.propTypes = {
-  onSubmit: React.PropTypes.func.isRequired
-};
