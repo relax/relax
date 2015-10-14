@@ -20,6 +20,25 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as menuActions from '../../../../actions/menu';
 
+const menuDataFragment = {
+  id: 1,
+  type: 1,
+  page: {
+    _id: 1,
+    title: 1
+  },
+  link: {
+    label: 1,
+    url: 1
+  }
+};
+
+const menuUserFragment = {
+  _id: 1,
+  email: 1,
+  name: 1
+};
+
 @connect(
   (state) => ({
     pages: state.pages.data.items,
@@ -37,16 +56,20 @@ export default class Menu extends Component {
       date: 1,
       updatedDate: 1,
       createdBy: {
-        _id: 1,
-        email: 1,
-        name: 1
+        ...menuUserFragment
       },
       updatedBy: {
-        _id: 1,
-        email: 1,
-        name: 1
+        ...menuUserFragment
       },
-      data: 1
+      data: {
+        ...menuDataFragment,
+        children: {
+          ...menuDataFragment,
+          children: {
+            ...menuDataFragment
+          }
+        }
+      }
     }
   }, Builder.fragments)
 
