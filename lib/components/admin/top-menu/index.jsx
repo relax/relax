@@ -1,9 +1,6 @@
 import React from 'react';
-import {Component, Router} from 'relax-framework';
-import cx from 'classnames';
-import forEach from 'lodash.foreach';
+import {Component} from 'relax-framework';
 
-import A from '../../a';
 // import AddOverlay from '../add-overlay';
 import Tab from './tab';
 import PageActions from './page-actions';
@@ -23,11 +20,6 @@ export default class TopMenu extends Component {
     schemaEntry: React.PropTypes.object
   }
 
-  getInitialState () {
-    return {
-      tabs: this.context.tabs
-    };
-  }
 
   onAddTabClick (event) {
     event.preventDefault();
@@ -48,7 +40,7 @@ export default class TopMenu extends Component {
   renderTabs () {
     return (
       <div className='tabs'>
-        {this.state.tabs && this.state.tabs.map(this.renderTab, this)}
+        {this.props.tabs && this.props.tabs.map(this.renderTab, this)}
         <a href='#' className='add-btn' onClick={this.onAddTabClick.bind(this)}>
           <i className='material-icons'>add</i>
         </a>

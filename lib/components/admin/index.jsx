@@ -45,10 +45,6 @@ export default class Admin extends Component {
     breadcrumbs: []
   }
 
-  constructor (props, children) {
-    super(props, children);
-  }
-
   getInitialState () {
     // this.changeDisplayBind = this.changeDisplay.bind(this);
     // this.previewToggleBind = this.previewToggle.bind(this);
@@ -78,7 +74,7 @@ export default class Admin extends Component {
   fetchData (props) {
     const panel = panels[props.activePanelType];
     const vars = {};
-    const panelFragments = panel.fragments || {};
+    let panelFragments = panel.fragments || {};
 
     // This probably could be encapsulated somehow
     switch (props.activePanelType) {
@@ -95,6 +91,8 @@ export default class Admin extends Component {
               type: 'String!'
             }
           };
+        } else {
+          panelFragments = {};
         }
         break;
       default:

@@ -1,8 +1,6 @@
 import React from 'react';
-import {Component, Router} from 'relax-framework';
+import {Component} from 'relax-framework';
 import cx from 'classnames';
-import Q from 'q';
-import cloneDeep from 'lodash.clonedeep';
 
 import A from '../../a';
 import Animate from '../../animate';
@@ -35,7 +33,6 @@ export default class PageActions extends Component {
   }
 
   componentDidMount () {
-    super.componentDidMount();
     this.launchAutosave();
   }
 
@@ -270,50 +267,50 @@ export default class PageActions extends Component {
     }
     clearTimeout(this.successTimeout);
 
-    this.setState({
-      state: 'loading',
-      stateMessage: 'Dropping draft changes'
-    });
-
-    let current;
-    if (this.props.page) {
-      current = this.props.page;
-    } else if (this.props.schemaEntry) {
-      current = this.props.schemaEntry;
-    } else if (this.props.schema) {
-      current = this.props.schema;
-    } else {
-      this.setState({
-        state: 'error',
-        stateMessage: 'Something went wrong'
-      });
-      return;
-    }
-
-    let draftClone = cloneDeep(this.state.draft);
-    draftClone.__v = current.__v;
-    draftClone.data = current._data || current.data;
-    draftClone.actions = [];
-
-    if (current.schemaLinks || current._schemaLinks) {
-      draftClone.schemaLinks = current._schemaLinks || current.schemaLinks;
-    }
-
-    draftActions
-      .update(draftClone)
-      .then(() => {
-        this.setState({
-          state: 'success',
-          stateMessage: 'Draft dropped successfully'
-        });
-        this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
-      })
-      .catch(() => {
-        this.setState({
-          state: 'error',
-          stateMessage: 'Error dropping draft'
-        });
-      });
+    // this.setState({
+    //   state: 'loading',
+    //   stateMessage: 'Dropping draft changes'
+    // });
+    //
+    // let current;
+    // if (this.props.page) {
+    //   current = this.props.page;
+    // } else if (this.props.schemaEntry) {
+    //   current = this.props.schemaEntry;
+    // } else if (this.props.schema) {
+    //   current = this.props.schema;
+    // } else {
+    //   this.setState({
+    //     state: 'error',
+    //     stateMessage: 'Something went wrong'
+    //   });
+    //   return;
+    // }
+    //
+    // let draftClone = cloneDeep(this.state.draft);
+    // draftClone.__v = current.__v;
+    // draftClone.data = current._data || current.data;
+    // draftClone.actions = [];
+    //
+    // if (current.schemaLinks || current._schemaLinks) {
+    //   draftClone.schemaLinks = current._schemaLinks || current.schemaLinks;
+    // }
+    //
+    // draftActions
+    //   .update(draftClone)
+    //   .then(() => {
+    //     this.setState({
+    //       state: 'success',
+    //       stateMessage: 'Draft dropped successfully'
+    //     });
+    //     this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
+    //   })
+    //   .catch(() => {
+    //     this.setState({
+    //       state: 'error',
+    //       stateMessage: 'Error dropping draft'
+    //     });
+    //   });
   }
 
   outSuccess () {
@@ -455,7 +452,7 @@ export default class PageActions extends Component {
   }
 
   renderStatus () {
-    if (this.props.draft && this.state.draft) {
+    if (this.props.draft) {
       return <Status fetchCurrent={this.fetchCurrent.bind(this)} state={this.state.state} stateMessage={this.state.stateMessage} draft={this.state.draft} />;
     }
   }
