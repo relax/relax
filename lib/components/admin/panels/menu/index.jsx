@@ -2,7 +2,7 @@ import {Component, mergeFragments} from 'relax-framework';
 import {Router} from 'backbone';
 import cloneDeep from 'lodash.clonedeep';
 import merge from 'lodash.merge';
-import React from 'react';
+import React, {findDOMNode} from 'react';
 import cx from 'classnames';
 import moment from 'moment';
 import Velocity from 'velocity-animate';
@@ -111,6 +111,7 @@ export default class Menu extends Component {
       action = this.props.addMenu;
       routerOptions = {trigger: true};
     } else {
+      submitMenu.createdBy = submitMenu.createdBy && submitMenu.createdBy._id;
       action = menuActions.update;
       action = this.props.updateMenu;
       routerOptions = {trigger: false, replace: true};
@@ -141,7 +142,7 @@ export default class Menu extends Component {
   successOut () {
     clearTimeout(this.successTimeout);
 
-    var dom = this.refs.success;
+    var dom = findDOMNode(this.refs.success);
 
     if (dom) {
       const transition = 'transition.slideDownOut';
