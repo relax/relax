@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {Component, buildQueryAndVariables} from 'relax-framework';
+import {Component, buildQueryAndVariables, mergeFragments} from 'relax-framework';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
@@ -22,7 +22,11 @@ import * as usersActions from '../../../../actions/users';
 )
 @queryProps
 export default class Users extends Component {
-  static fragments = List.fragments
+  static fragments = mergeFragments({
+    usersCount: {
+      count: 1
+    }
+  }, List.fragments)
 
   static propTypes = {
     breadcrumbs: PropTypes.array.isRequired,
@@ -31,7 +35,8 @@ export default class Users extends Component {
     count: PropTypes.number,
     hasQueryChanged: PropTypes.bool.isRequired,
     queryVariables: PropTypes.object.isRequired,
-    removeUser: PropTypes.func.isRequired
+    removeUser: PropTypes.func.isRequired,
+    addUser: PropTypes.func.isRequired
   }
 
   getInitialState () {
@@ -58,7 +63,11 @@ export default class Users extends Component {
   }
 
   onAddNew (newUser) {
-
+    this.props
+      .addUser({user: List.fragments.users}, newUser)
+      .then(() => {
+        this.closeLightbox();
+      });
   }
 
   addNewClick (event) {

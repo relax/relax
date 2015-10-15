@@ -3,6 +3,13 @@ import {Component} from 'relax-framework';
 import forEach from 'lodash.foreach';
 
 export default class Combobox extends Component {
+  static propTypes = {
+    labels: React.PropTypes.array,
+    values: React.PropTypes.array.isRequired,
+    value: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func.isRequired
+  }
+
   getInitialState () {
     return {
       opened: false
@@ -25,17 +32,6 @@ export default class Combobox extends Component {
     this.setState({
       opened: false
     });
-  }
-
-  renderOption (option, i) {
-    return (
-      <div
-        key={i}
-        className='combobox-option'
-        onClick={this.optionClicked.bind(this, this.props.values[i])}>
-        {option}
-      </div>
-    );
   }
 
   render () {
@@ -64,11 +60,15 @@ export default class Combobox extends Component {
       </div>
     );
   }
-}
 
-Combobox.propTypes = {
-  labels: React.PropTypes.array,
-  values: React.PropTypes.array.isRequired,
-  value: React.PropTypes.string.isRequired,
-  onChange: React.PropTypes.func.isRequired
-};
+  renderOption (option, i) {
+    return (
+      <div
+        key={i}
+        className='combobox-option'
+        onClick={this.optionClicked.bind(this, this.props.values[i])}>
+        {option}
+      </div>
+    );
+  }
+}

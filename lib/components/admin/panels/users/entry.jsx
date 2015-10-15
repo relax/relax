@@ -43,7 +43,7 @@ export default class Entry extends Component {
 
   confirmRemove (event) {
     event.preventDefault();
-    this.props.removeUser(this.constructor.fragments, this.props.user._id);
+    this.props.removeUser(this.constructor.fragments, this.props.user._id).done();
     this.setState({
       removing: false
     });

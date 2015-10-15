@@ -3,6 +3,12 @@ import {Component} from 'relax-framework';
 import cx from 'classnames';
 
 export default class Checkbox extends Component {
+  static propTypes = {
+    value: React.PropTypes.bool.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    disabled: React.PropTypes.bool
+  }
+
   toggle (event) {
     event.preventDefault();
 
@@ -20,9 +26,3 @@ export default class Checkbox extends Component {
     );
   }
 }
-
-Checkbox.propTypes = {
-  value: React.PropTypes.bool.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  disabled: React.PropTypes.bool
-};
