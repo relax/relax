@@ -92,7 +92,7 @@ export default class Page extends Component {
   }
 
   renderElement (element) {
-    if ((!element.hide || !element.hide[this.context.display]) && element.display !== false) {
+    if ((!element.hide || !element.hide[this.state.display]) && element.display !== false) {
       if (this.props.schemaEntry && this.state.page.elementsLinks && this.state.page.elementsLinks[element.id]) {
         utils.alterSchemaElementProps(this.state.page.elementsLinks[element.id], element, this.props.schemaEntry);
       }
