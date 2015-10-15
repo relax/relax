@@ -96,6 +96,14 @@ export default class Admin extends Component {
           panelFragments[props.activePanelType] && delete panelFragments[props.activePanelType];
         }
         break;
+      case 'userEdit':
+        vars.user = {
+          username: {
+            value: props.username,
+            type: 'String!'
+          }
+        };
+        break;
       default:
     }
 
