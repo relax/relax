@@ -83,6 +83,14 @@ export default class Admin extends Component {
           ...props.queryVariables
         };
         break;
+      case 'settings':
+        vars.settings = {
+          ids: {
+            value: panel.settings,
+            type: '[String]!'
+          }
+        };
+        break;
       case 'page':
       case 'menu':
         if (props.slug !== 'new') {
