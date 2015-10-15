@@ -15,7 +15,9 @@ module.exports = function (grunt) {
   var browserifyProductionOptions = {
     ignore: ['./lib/server/**/*'],
     transform: [
-      ['babelify']
+      ['babelify', {
+        optional: ['runtime']
+      }]
     ],
     browserifyOptions: {
       extensions: ['.jsx', '.js']
@@ -28,7 +30,9 @@ module.exports = function (grunt) {
       options: {
         ignore: ['./lib/server/**/*'],
         transform: [
-          ['babelify']
+          ['babelify', {
+            optional: ['runtime']
+          }]
         ],
         browserifyOptions: {
           extensions: ['.jsx', '.js'],
@@ -41,10 +45,12 @@ module.exports = function (grunt) {
         options: {
           ignore: ['./lib/server/**/*'],
           transform: [
-            ['babelify']
+            ['babelify', {
+              optional: ['runtime']
+            }]
           ],
           browserifyOptions: {
-            extensions: ['.jsx', '.js'],
+            extensions: ['.jsx', '.js']
           },
           require: browserifyExternalRequire,
           external: null
