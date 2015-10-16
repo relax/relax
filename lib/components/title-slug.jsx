@@ -1,7 +1,6 @@
 import {Component} from 'relax-framework';
 import React from 'react';
 import slugify from 'slug';
-import Q from 'q';
 
 import Input from './input';
 
