@@ -23,6 +23,7 @@ import * as pageActions from '../../../../actions/page';
 @connect(
   (state) => ({
     page: state.page.data,
+    isSlugValid: state.page.isSlugValid,
     errors: state.page.errors
   }),
   (dispatch) => bindActionCreators(pageActions, dispatch)
@@ -177,18 +178,9 @@ export default class Page extends Component {
     return !this.props.page._id && this.props.slug === 'new';
   }
 
-  validateSlug (slug) {
-    if (!this.isNew()) {
-      if (this.props.slug === slug) {
-        return false;
-      }
-    }
-
-    if (slug === 'new') {
-      return true;
-    }
-
-    // return pageActions.validateSlug(slug);
+  async validateSlug (slug) {
+    const pageId = this.props.page._id;
+    return await this.props.validateSlug({slug, pageId});
   }
 
   onRestore (__v) {
@@ -227,16 +219,16 @@ export default class Page extends Component {
   onRevisions (event) {
     event.preventDefault();
 
-    const page = this.props.page;
-    let current = {
-      _id: {
-        _id: page._id,
-        __v: page.__v
-      },
-      date: page.updatedDate,
-      user: page.updatedBy,
-      title: page.title
-    };
+    // const page = this.props.page;
+    // const current = {
+    //   _id: {
+    //     _id: page._id,
+    //     __v: page.__v
+    //   },
+    //   date: page.updatedDate,
+    //   user: page.updatedBy,
+    //   title: page.title
+    // };
 
     // this.context.addOverlay(
     //   <RevisionsOverlay current={current} onRestore={this.onRestore.bind(this)} />
@@ -277,8 +269,9 @@ export default class Page extends Component {
                 <TitleSlug
                   title={this.props.page.title}
                   slug={this.props.page.slug}
-                  validateSlug={this.validateSlug.bind(this)}
-                  onChange={this.onChange.bind(this)}
+                  isSlugValid={this.props.isSlugValid}
+                  validateSlug={::this.validateSlug}
+                  onChange={::this.onChange}
                 />
               </div>
             </div>
