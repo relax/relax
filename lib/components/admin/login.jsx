@@ -3,6 +3,20 @@ import {Component} from 'relax-framework';
 import {Types} from '../../data-types';
 
 export default class Login extends Component {
+  static options = [
+    {
+      label: 'Username',
+      type: Types.String,
+      id: 'username',
+      default: ''
+    },
+    {
+      label: 'Password',
+      type: Types.String,
+      id: 'password',
+      default: ''
+    }
+  ]
 
   onSubmit (event) {
     event.preventDefault();
@@ -33,18 +47,3 @@ export default class Login extends Component {
     );
   }
 }
-
-Login.options = [
-  {
-    label: 'Username',
-    type: Types.String,
-    id: 'username',
-    default: ''
-  },
-  {
-    label: 'Password',
-    type: Types.String,
-    id: 'password',
-    default: ''
-  }
-];
