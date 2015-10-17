@@ -1,13 +1,9 @@
 import React, {PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {Component, mergeFragments, buildQueryAndVariables} from 'relax-framework';
+import {Component} from 'relax-framework';
 import MenuBar from './menu-bar';
 import cx from 'classnames';
 import panels from './panels';
 import TopMenu from './top-menu';
-// import Overlay from '../overlay';
-// import Lightbox from '../lightbox';
 
 export default class Admin extends Component {
   static fragments = {
@@ -26,7 +22,8 @@ export default class Admin extends Component {
     slug: PropTypes.string,
     getAdmin: PropTypes.func.isRequired,
     updatePage: PropTypes.func.isRequired,
-    display: PropTypes.string.isRequired
+    display: PropTypes.string.isRequired,
+    loading: PropTypes.boolean
   }
 
   static defaultProps = {
