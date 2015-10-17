@@ -1,25 +1,12 @@
 import React, {PropTypes} from 'react';
-import {Component, mergeFragments, buildQueryAndVariables} from 'relax-framework';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {Component, mergeFragments} from 'relax-framework';
 
+import List from './list';
 import A from '../../../a';
 import Breadcrumbs from '../../../breadcrumbs';
-import List from './list';
 import Filter from '../../../filter';
 import Pagination from '../../../pagination';
-import queryProps from '../../../../decorators/query-props';
 
-import * as pagesActions from '../../../../actions/pages';
-
-@connect(
-  (state) => ({
-    pages: state.pages.data.items,
-    count: state.pages.data.count
-  }),
-  (dispatch) => bindActionCreators(pagesActions, dispatch)
-)
-@queryProps
 export default class Pages extends Component {
   static fragments = mergeFragments({
     pagesCount: {
@@ -32,27 +19,8 @@ export default class Pages extends Component {
     pages: PropTypes.array,
     query: PropTypes.object,
     count: PropTypes.number,
-    hasQueryChanged: PropTypes.bool.isRequired,
-    queryVariables: PropTypes.object.isRequired,
     removePage: PropTypes.func,
     duplicatePage: PropTypes.func
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.hasQueryChanged) {
-      const vars = {
-        pages: {
-          ...nextProps.queryVariables
-        }
-      };
-
-      nextProps
-        .getAdmin(buildQueryAndVariables(
-          this.constructor.fragments,
-          vars
-        ))
-        .done();
-    }
   }
 
   render () {
