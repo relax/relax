@@ -3,10 +3,10 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Component, mergeFragments, buildQueryAndVariables} from 'relax-framework';
 
-import * as adminActions from '../actions/admin';
-import queryProps from '../decorators/query-props';
-import Admin from '../components/admin';
-import panels from '../components/admin/panels';
+import * as adminActions from '../../actions/admin';
+import queryProps from '../../decorators/query-props';
+import Admin from '../../components/admin';
+import panels from '../../components/admin/panels';
 
 @connect(
   (state) => ({
