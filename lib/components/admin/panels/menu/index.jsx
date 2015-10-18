@@ -97,6 +97,17 @@ export default class Menu extends Component {
     }
   }
 
+  static panelSettings = {
+    activePanelType: 'menu',
+    breadcrumbs: [
+      {
+        label: 'Menus',
+        type: 'menus',
+        link: '/admin/menus'
+      }
+    ]
+  }
+
   onSubmit (menuProps) {
     if (this.successTimeout) {
       clearTimeout(this.successTimeout);

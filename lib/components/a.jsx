@@ -1,3 +1,4 @@
+import qs from 'query-string';
 import React from 'react';
 import {Link} from 'react-router';
 import {Component} from 'relax-framework';
@@ -14,8 +15,18 @@ export default class A extends Component {
   }
 
   render () {
+    const urlAndQuery = this.props.href && this.props.href.split('?');
+
+    var url;
+    var query;
+
+    if (urlAndQuery) {
+      url = urlAndQuery[0];
+      query = qs.parse(urlAndQuery[1]);
+    }
+
     return (
-      <Link to={this.props.href} {...this.props} onClick={::this.onClick}>
+      <Link to={url} query={query} {...this.props} onClick={::this.onClick}>
         {this.props.children}
       </Link>
     );

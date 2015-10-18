@@ -20,7 +20,10 @@ import * as usersActions from '../../../../actions/users';
   }),
   (dispatch) => bindActionCreators(usersActions, dispatch)
 )
-@queryProps
+@queryProps({
+  page: 1,
+  limit: 10
+})
 export default class Users extends Component {
   static fragments = mergeFragments({
     usersCount: {
@@ -60,6 +63,15 @@ export default class Users extends Component {
         ))
         .done();
     }
+  }
+
+  static panelSettings = {
+    activePanelType: 'users',
+    breadcrumbs: [
+      {
+        label: 'Users'
+      }
+    ]
   }
 
   onAddNew (newUser) {

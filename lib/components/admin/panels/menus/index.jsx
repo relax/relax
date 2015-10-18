@@ -17,12 +17,10 @@ export default class Menus extends Component {
   static propTypes = {
     breadcrumbs: PropTypes.array.isRequired,
     menus: PropTypes.array,
-    query: PropTypes.object,
-    count: PropTypes.number,
-    hasQueryChanged: PropTypes.bool.isRequired,
-    queryVariables: PropTypes.object.isRequired,
-    removeMenu: PropTypes.func,
-    duplicateMenu: PropTypes.func
+    query: PropTypes.object.isRequired,
+    count: PropTypes.number.isRequired,
+    removeMenu: PropTypes.func.isRequired,
+    duplicateMenu: PropTypes.func.isRequired
   }
 
   render () {

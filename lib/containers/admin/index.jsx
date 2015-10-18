@@ -1,4 +1,3 @@
-import findWhere from 'lodash.findwhere';
 import React, {cloneElement, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -8,7 +7,6 @@ import * as adminActions from '../../actions/admin';
 import queryProps from '../../decorators/query-props';
 import Admin from '../../components/admin';
 import panels from '../../components/admin/panels';
-import adminRoutes from '../../routers/admin';
 
 @connect(
   (state) => ({
@@ -17,7 +15,7 @@ import adminRoutes from '../../routers/admin';
   }),
   (dispatch) => bindActionCreators(adminActions, dispatch)
 )
-@queryProps
+@queryProps()
 export default class AdminContainer extends Component {
   static fragments = Admin.fragments
 
@@ -40,16 +38,12 @@ export default class AdminContainer extends Component {
   getInitialState (props = this.props) {
     return {
       loading: true,
-      ...this.constructor.getParams(props)
+      ...props.children.type.panelSettings
     };
   }
 
-  componentWillMount () {
-    this.fetchData(this.props);
-  }
-
   componentWillReceiveProps (nextProps) {
-    const params = this.constructor.getParams(nextProps);
+    const params = nextProps.children.type.panelSettings;
 
     if (params.activePanelType !== this.state.activePanelType ||
         params.slug !== this.state.slug) {
@@ -60,20 +54,6 @@ export default class AdminContainer extends Component {
         this.fetchData(nextProps);
       });
     }
-  }
-
-  static getParams (props) {
-    var location = [];
-
-    props.routes.forEach((route) => {
-      route.path && location.push(route.path);
-    });
-
-    const routeInfo = findWhere(adminRoutes, {
-      path: location.join('/').substring(1)
-    });
-
-    return routeInfo && routeInfo.params;
   }
 
   static getQueryAndVariables (props, state) {
@@ -110,6 +90,11 @@ export default class AdminContainer extends Component {
         } else {
           panelFragments[activePanelType] && delete panelFragments[activePanelType];
         }
+        break;
+      case 'menus':
+        vars[activePanelType] = {
+          ...props.queryVariables
+        };
         break;
       case 'userEdit':
         vars.user = {

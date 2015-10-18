@@ -14,7 +14,10 @@ import * as pagesActions from '../../actions/pages';
   }),
   (dispatch) => bindActionCreators(pagesActions, dispatch)
 )
-@queryProps
+@queryProps({
+  page: 1,
+  limit: 10
+})
 export default class PagesContainer extends Component {
   static fragments = Pages.fragments
 
@@ -38,6 +41,15 @@ export default class PagesContainer extends Component {
         ))
         .done();
     }
+  }
+
+  static panelSettings = {
+    activePanelType: 'pages',
+    breadcrumbs: [
+      {
+        label: 'Pages'
+      }
+    ]
   }
 
   render () {

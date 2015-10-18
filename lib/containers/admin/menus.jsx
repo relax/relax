@@ -14,25 +14,28 @@ import Menus from '../../components/admin/panels/menus';
   }),
   (dispatch) => bindActionCreators(menusActions, dispatch)
 )
-@queryProps
+@queryProps({
+  page: 1,
+  limit: 3
+})
 export default class MenusContainer extends Component {
   static fragments = Menus.fragments
 
   static propTypes = {
     breadcrumbs: PropTypes.array.isRequired,
     menus: PropTypes.array,
-    query: PropTypes.object,
-    count: PropTypes.number,
+    query: PropTypes.object.isRequired,
+    count: PropTypes.number.isRequired,
     hasQueryChanged: PropTypes.bool.isRequired,
     queryVariables: PropTypes.object.isRequired,
-    removeMenu: PropTypes.func,
-    duplicateMenu: PropTypes.func
+    removeMenu: PropTypes.func.isRequired,
+    duplicateMenu: PropTypes.func.isRequired
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.hasQueryChanged) {
       const vars = {
-        pages: {
+        menus: {
           ...nextProps.queryVariables
         }
       };

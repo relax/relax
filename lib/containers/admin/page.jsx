@@ -44,6 +44,17 @@ export default class PageContainer extends Component {
     }
   }
 
+  static panelSettings = {
+    activePanelType: 'page',
+    breadcrumbs: [
+      {
+        label: 'Pages',
+        type: 'pages',
+        link: '/admin/pages'
+      }
+    ]
+  }
+
   onSubmit (pageProps) {
     if (this.successTimeout) {
       clearTimeout(this.successTimeout);

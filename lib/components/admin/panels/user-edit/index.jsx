@@ -27,6 +27,17 @@ export default class UserEdit extends Component {
     breadcrumbs: React.PropTypes.array.isRequired
   }
 
+  static panelSettings = {
+    activePanelType: 'userEdit',
+    breadcrumbs: [
+      {
+        label: 'Users',
+        type: 'users',
+        link: '/admin/users'
+      }
+    ]
+  }
+
   render () {
     const user = this.props.user;
     const url = utils.getGravatarImage(user.email, 70);
