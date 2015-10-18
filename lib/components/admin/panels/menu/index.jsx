@@ -1,24 +1,17 @@
 import {Component, mergeFragments} from 'relax-framework';
-import {Router} from 'backbone';
-import cloneDeep from 'lodash.clonedeep';
-import merge from 'lodash.merge';
 import React, {findDOMNode} from 'react';
 import cx from 'classnames';
 import moment from 'moment';
 import Velocity from 'velocity-animate';
-import Utils from '../../../../utils';
 
+import Builder from './builder';
+import NotFound from '../not-found';
 import A from '../../../a';
 import Animate from '../../../animate';
 import Spinner from '../../../spinner';
 import Breadcrumbs from '../../../breadcrumbs';
 import TitleSlug from '../../../title-slug';
-import NotFound from '../not-found';
-import Builder from './builder';
-
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import * as menuActions from '../../../../actions/menu';
+import {getGravatarImage} from '../../../../utils';
 
 const menuDataFragment = {
   id: 1,
@@ -39,14 +32,6 @@ const menuUserFragment = {
   name: 1
 };
 
-@connect(
-  (state) => ({
-    pages: state.pages.data.items,
-    menu: state.menu.data,
-    errors: state.menu.errors
-  }),
-  (dispatch) => bindActionCreators(menuActions, dispatch)
-)
 export default class Menu extends Component {
   static fragments = mergeFragments({
     menu: {
@@ -78,82 +63,13 @@ export default class Menu extends Component {
     user: React.PropTypes.object,
     errors: React.PropTypes.any,
     breadcrumbs: React.PropTypes.array,
-    slug: React.PropTypes.string,
-    changeMenuToDefault: React.PropTypes.func,
-    addMenu: React.PropTypes.func,
-    updateMenu: React.PropTypes.func,
-    changeMenuFields: React.PropTypes.func
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (this.props.slug !== 'new' && nextProps.slug === 'new') {
-      this.props.changeMenuToDefault();
-    }
-  }
-
-  componentWillUnmount () {
-    if (this.successTimeout) {
-      clearTimeout(this.successTimeout);
-    }
-  }
-
-  static panelSettings = {
-    activePanelType: 'menu',
-    breadcrumbs: [
-      {
-        label: 'Menus',
-        type: 'menus',
-        link: '/admin/menus'
-      }
-    ]
-  }
-
-  onSubmit (menuProps) {
-    if (this.successTimeout) {
-      clearTimeout(this.successTimeout);
-    }
-
-    const submitMenu = cloneDeep(menuProps);
-
-    let action;
-    let routerOptions;
-    if (this.isNew()) {
-      submitMenu.createdBy = this.props.user._id;
-      action = this.props.addMenu;
-      routerOptions = {trigger: true};
-    } else {
-      submitMenu.createdBy = submitMenu.createdBy && submitMenu.createdBy._id;
-      action = menuActions.update;
-      action = this.props.updateMenu;
-      routerOptions = {trigger: false, replace: true};
-    }
-
-    submitMenu.updatedBy = this.props.user._id;
-
-    action(this.constructor.fragments, submitMenu)
-      .then((menu) => {
-        this.setState({
-          saving: false,
-          menu,
-          success: true,
-          error: false,
-          new: false
-        });
-        Router.prototype.navigate('/admin/menus/' + submitMenu.slug, routerOptions);
-        this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
-      })
-      .catch((error) => {
-        this.setState({
-          saving: false,
-          error: true
-        });
-      });
+    slug: React.PropTypes.string
   }
 
   successOut () {
     clearTimeout(this.successTimeout);
-
     var dom = findDOMNode(this.refs.success);
+    this.props.onSuccessOut()
 
     if (dom) {
       const transition = 'transition.slideDownOut';
@@ -166,46 +82,6 @@ export default class Menu extends Component {
         });
       });
     }
-  }
-
-  onUpdate () {
-    this.setState({
-      saving: true,
-      savingLabel: 'Updating menu'
-    });
-
-    this.onSubmit(this.props.menu);
-  }
-
-  onCreate () {
-    this.setState({
-      saving: true,
-      savingLabel: 'Creating menu'
-    });
-
-    this.onSubmit(cloneDeep(this.props.menu));
-  }
-
-  onChange (values) {
-    this.props.changeMenuFields(merge({}, this.props.menu, values));
-  }
-
-  onDataChange (value) {
-    this.props.changeMenuFields(merge({}, this.props.menu, {data: value}));
-  }
-
-  validateSlug (slug) {
-    if (!this.isNew()) {
-      if (this.props.menu.slug === slug) {
-        return false;
-      }
-    }
-
-    if (slug === 'new') {
-      return true;
-    }
-
-    // return menuActions.validateSlug(slug);
   }
 
   isNew () {
@@ -244,13 +120,13 @@ export default class Menu extends Component {
                 <TitleSlug
                   title={this.props.menu.title}
                   slug={this.props.menu.slug}
-                  validateSlug={this.validateSlug.bind(this)}
-                  onChange={this.onChange.bind(this)}
+                  validateSlug={this.props.validateSlug}
+                  onChange={this.props.onChange}
                 />
                 <Builder
                   data={this.props.menu.data}
                   pages={this.props.pages}
-                  onChange={this.onDataChange.bind(this)}
+                  onChange={this.props.onDataChange}
                 />
               </div>
             </div>
@@ -267,12 +143,12 @@ export default class Menu extends Component {
                 <div>{createdDate}</div>
               </div>
               <div className='info'>
-                <span className='thumbnail'><img src={Utils.getGravatarImage(createdUser && createdUser.email || 'default', 40)} /></span>
+                <span className='thumbnail'><img src={getGravatarImage(createdUser && createdUser.email || 'default', 40)} /></span>
                 <span>Created by</span>
                 <div>{createdUser && createdUser.name || 'removed user'}</div>
               </div>
               <div className='info'>
-                <span className='thumbnail'><img src={Utils.getGravatarImage(updatedUser && updatedUser.email || 'default', 40)} /></span>
+                <span className='thumbnail'><img src={getGravatarImage(updatedUser && updatedUser.email || 'default', 40)} /></span>
                 <span>Last update by</span>
                 <div>{updatedUser && updatedUser.name || 'removed user'}</div>
               </div>
@@ -291,13 +167,13 @@ export default class Menu extends Component {
     if (!this.isNew()) {
       result = (
         <div className='actions'>
-          <div className={cx('button button-primary', this.state.saving && 'disabled')} onClick={this.onUpdate.bind(this)}>Update</div>
+          <div className={cx('button button-primary', this.props.saving && 'disabled')} onClick={this.props.onUpdate}>Update</div>
         </div>
       );
     } else {
       result = (
         <div className='actions'>
-          <div className={cx('button button-primary', this.state.saving && 'disabled')} onClick={this.onCreate.bind(this)}>Create</div>
+          <div className={cx('button button-primary', this.props.saving && 'disabled')} onClick={this.props.onCreate}>Create</div>
         </div>
       );
     }
@@ -306,16 +182,16 @@ export default class Menu extends Component {
 
   renderSaving () {
     let result;
-    if (this.state.saving) {
+    if (this.props.saving) {
       result = (
         <Animate transition='slideDownIn' key='saving'>
           <div className='saving'>
             <Spinner />
-            <span>{this.state.savingLabel}</span>
+            <span>{this.props.savingLabel}</span>
           </div>
         </Animate>
       );
-    } else if (this.state.error) {
+    } else if (this.props.error) {
       result = (
         <Animate transition='slideDownIn' key='error'>
           <div className='error' ref='success'>
@@ -324,7 +200,7 @@ export default class Menu extends Component {
           </div>
         </Animate>
       );
-    } else if (this.state.success) {
+    } else if (this.props.success) {
       result = (
         <Animate transition='slideDownIn' key='success'>
           <div className='success' ref='success'>

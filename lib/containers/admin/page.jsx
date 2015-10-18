@@ -210,7 +210,7 @@ export default class PageContainer extends Component {
   }
 
   isNew () {
-    return !this.props.page._id && this.props.slug === 'new';
+    return !this.props.page._id;
   }
 
   async validateSlug (slug) {
