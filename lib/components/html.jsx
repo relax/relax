@@ -12,14 +12,14 @@ export default class Html extends React.Component {
   }
 
   renderHeader () {
-    if (this.props.props && this.props.props._locals && this.props.props._locals.header) {
-      return this.props.props._locals.header.map(this.renderTag, this);
+    if (this.props.locals && this.props.locals.header) {
+      return this.props.locals.header.map(this.renderTag, this);
     }
   }
 
   renderFooter () {
-    if (this.props.props && this.props.props._locals && this.props.props._locals.footer) {
-      return this.props.props._locals.footer.map(this.renderTag, this);
+    if (this.props.locals && this.props.locals.footer) {
+      return this.props.locals.footer.map(this.renderTag, this);
     }
   }
 
@@ -32,7 +32,7 @@ export default class Html extends React.Component {
         </head>
         <body>
           <div id='view' dangerouslySetInnerHTML={{__html: this.props.body}} />
-          <script type='application/json' dangerouslySetInnerHTML={{__html: JSON.stringify(this.props.props)}} />
+          <script dangerouslySetInnerHTML={{__html: `window.__initialState = ${this.props.props};`}} />
           {this.renderFooter()}
         </body>
       </html>

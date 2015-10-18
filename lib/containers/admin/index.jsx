@@ -40,7 +40,7 @@ export default class AdminContainer extends Component {
   getInitialState (props = this.props) {
     return {
       loading: true,
-      ...this.getParams(props)
+      ...this.constructor.getParams(props)
     };
   }
 
@@ -49,7 +49,7 @@ export default class AdminContainer extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const params = this.getParams(nextProps);
+    const params = this.constructor.getParams(nextProps);
 
     if (params.activePanelType !== this.state.activePanelType ||
         params.slug !== this.state.slug) {
@@ -62,7 +62,7 @@ export default class AdminContainer extends Component {
     }
   }
 
-  getParams (props) {
+  static getParams (props) {
     var location = [];
 
     props.routes.forEach((route) => {
@@ -76,8 +76,8 @@ export default class AdminContainer extends Component {
     return routeInfo && routeInfo.params;
   }
 
-  fetchData (props) {
-    const {activePanelType} = this.state;
+  static getQueryAndVariables (props, state) {
+    const {activePanelType} = state;
     const panel = panels[activePanelType];
     const vars = {};
 
@@ -122,14 +122,18 @@ export default class AdminContainer extends Component {
       default:
     }
 
+    return buildQueryAndVariables(
+      mergeFragments(
+        this.fragments,
+        panelFragments
+      ),
+      vars
+    );
+  }
+
+  fetchData (props) {
     props
-      .getAdmin(buildQueryAndVariables(
-        mergeFragments(
-          this.constructor.fragments,
-          panelFragments
-        ),
-        vars
-      ))
+      .getAdmin(this.constructor.getQueryAndVariables(props, this.state))
       .done(() => {
         this.setState({
           loading: false
