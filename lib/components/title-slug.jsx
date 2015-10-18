@@ -13,12 +13,8 @@ export default class TitleSlug extends Component {
     isSlugValid: React.PropTypes.string
   }
 
-  static defaultProps = {
-    isSlugValid: false
-  }
-
-  constructor (props, context) {
-    super(props, context);
+  constructor (props) {
+    super(props);
 
     this.onTitleChange = ::this.onTitleChange;
     this.onSlugChange = ::this.onSlugChange;
@@ -30,12 +26,21 @@ export default class TitleSlug extends Component {
     return {
       slugValid: slug !== '',
       hasTypedSlug: false,
+      isSlugValidating: true,
       slug
     };
   }
 
   componentDidMount () {
     this.validateSlug();
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.slug !== nextProps.slug) {
+      this.setState({slug: nextProps.slug}, () => {
+        this.validateSlug();
+      });
+    }
   }
 
   componentWillUnmount () {
@@ -73,10 +78,10 @@ export default class TitleSlug extends Component {
   }
 
   async validateSlug () {
-    const {slug} = this.state;
+    const {slug, isSlugValidating} = this.state;
 
     if (slug) {
-      this.setState({isSlugValidating: true});
+      !isSlugValidating && this.setState({isSlugValidating: true});
       await this.props.validateSlug(slug);
       this.setState({isSlugValidating: false});
     }

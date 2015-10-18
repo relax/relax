@@ -213,8 +213,7 @@ export default class PageContainer extends Component {
     return !this.props.page._id;
   }
 
-  async validateSlug (slug) {
-    const pageId = this.props.page._id;
+  async validateSlug (slug, pageId = this.props.page._id) {
     return await this.props.validatePageSlug({slug, pageId});
   }
 
