@@ -1,8 +1,7 @@
 import {Component, mergeFragments} from 'relax-framework';
-import React, {findDOMNode} from 'react';
+import React from 'react';
 import cx from 'classnames';
 import moment from 'moment';
-import Velocity from 'velocity-animate';
 
 import Builder from './builder';
 import NotFound from '../not-found';
@@ -66,24 +65,6 @@ export default class Menu extends Component {
     slug: React.PropTypes.string
   }
 
-  successOut () {
-    clearTimeout(this.successTimeout);
-    var dom = findDOMNode(this.refs.success);
-    this.props.onSuccessOut()
-
-    if (dom) {
-      const transition = 'transition.slideDownOut';
-      Velocity(dom, transition, {
-        duration: 400,
-        display: null
-      }).then(() => {
-        this.setState({
-          success: false
-        });
-      });
-    }
-  }
-
   isNew () {
     return !this.props.menu._id && this.props.slug === 'new';
   }
@@ -120,6 +101,7 @@ export default class Menu extends Component {
                 <TitleSlug
                   title={this.props.menu.title}
                   slug={this.props.menu.slug}
+                  isSlugValid={this.props.isSlugValid}
                   validateSlug={this.props.validateSlug}
                   onChange={this.props.onChange}
                 />

@@ -1,7 +1,7 @@
 import {Component} from 'relax-framework';
 import cloneDeep from 'lodash.clonedeep';
 import merge from 'lodash.merge';
-import React, {findDOMNode} from 'react';
+import React, {findDOMNode, PropTypes} from 'react';
 import Velocity from 'velocity-animate';
 
 import {connect} from 'react-redux';
@@ -13,6 +13,7 @@ import Menu from '../../components/admin/panels/menu';
   (state) => ({
     pages: state.pages.data.items,
     menu: state.menu.data,
+    isSlugValid: state.menu.isSlugValid,
     errors: state.menu.errors
   }),
   (dispatch) => bindActionCreators(menuActions, dispatch)
@@ -21,15 +22,16 @@ export default class MenuContainer extends Component {
   static fragments = Menu.fragments
 
   static propTypes = {
-    menu: React.PropTypes.object,
-    user: React.PropTypes.object,
-    errors: React.PropTypes.any,
-    breadcrumbs: React.PropTypes.array,
-    slug: React.PropTypes.string,
-    changeMenuToDefault: React.PropTypes.func,
-    addMenu: React.PropTypes.func,
-    updateMenu: React.PropTypes.func,
-    changeMenuFields: React.PropTypes.func
+    menu: PropTypes.object,
+    user: PropTypes.object,
+    errors: PropTypes.any,
+    breadcrumbs: PropTypes.array,
+    slug: PropTypes.string,
+    changeMenuToDefault: PropTypes.func,
+    addMenu: PropTypes.func,
+    updateMenu: PropTypes.func,
+    changeMenuFields: PropTypes.func,
+    validateMenuSlug: PropTypes.func.isRequired
   }
 
   componentWillReceiveProps (nextProps) {
@@ -63,17 +65,14 @@ export default class MenuContainer extends Component {
     const submitMenu = cloneDeep(menuProps);
 
     let action;
-    let routerOptions;
 
     if (this.isNew()) {
       submitMenu.createdBy = this.props.user._id;
       action = ::this.props.addMenu;
-      routerOptions = {trigger: true};
     } else {
       submitMenu.createdBy = submitMenu.createdBy && submitMenu.createdBy._id;
       action = menuActions.update;
       action = ::this.props.updateMenu;
-      routerOptions = {trigger: false, replace: true};
     }
 
     submitMenu.updatedBy = this.props.user._id;
@@ -147,18 +146,9 @@ export default class MenuContainer extends Component {
     this.props.changeMenuFields(merge({}, this.props.menu, {data: value}));
   }
 
-  validateSlug (slug) {
-    if (!this.isNew()) {
-      if (this.props.menu.slug === slug) {
-        return false;
-      }
-    }
-
-    if (slug === 'new') {
-      return true;
-    }
-
-    // return menuActions.validateSlug(slug);
+  async validateSlug (slug) {
+    const menuId = this.props.menu._id;
+    return await this.props.validateMenuSlug({slug, menuId});
   }
 
   isNew () {
