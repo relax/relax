@@ -29,6 +29,15 @@ export default class ColorsContainer extends Component {
     };
   }
 
+  static panelSettings = {
+    activePanelType: 'colors',
+    breadcrumbs: [
+      {
+        label: 'Colors'
+      }
+    ]
+  }
+
   onAddNew (event) {
     event.preventDefault();
 
