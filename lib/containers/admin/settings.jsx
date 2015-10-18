@@ -3,7 +3,7 @@ import {Component} from 'relax-framework';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import * as settingsActions from '../../actions/settings';
+import * as settingsActions from '../../client/actions/settings';
 import Settings from '../../components/admin/panels/settings';
 
 @connect(

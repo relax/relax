@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 import queryProps from '../../decorators/query-props';
 import Users from '../../components/admin/panels/users';
 
-import * as usersActions from '../../actions/users';
+import * as usersActions from '../../client/actions/users';
 
 @connect(
   (state) => ({

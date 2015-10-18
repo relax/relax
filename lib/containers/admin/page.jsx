@@ -7,7 +7,7 @@ import Velocity from 'velocity-animate';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import * as pageActions from '../../actions/page';
+import * as pageActions from '../../client/actions/page';
 import Page from '../../components/admin/panels/page';
 
 @connect(

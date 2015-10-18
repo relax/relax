@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import queryProps from '../../decorators/query-props';
-import * as menusActions from '../../actions/menus';
+import * as menusActions from '../../client/actions/menus';
 import Menus from '../../components/admin/panels/menus';
 
 @connect(

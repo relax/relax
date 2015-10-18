@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 
 import Pages from '../../components/admin/panels/pages';
 import queryProps from '../../decorators/query-props';
-import * as pagesActions from '../../actions/pages';
+import * as pagesActions from '../../client/actions/pages';
 
 @connect(
   (state) => ({

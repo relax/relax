@@ -6,7 +6,7 @@ import Velocity from 'velocity-animate';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as menuActions from '../../actions/menu';
+import * as menuActions from '../../client/actions/menu';
 import Menu from '../../components/admin/panels/menu';
 
 @connect(

@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import Colors from '../../components/admin/panels/colors';
-import * as colorsActions from '../../actions/colors';
+import * as colorsActions from '../../client/actions/colors';
 
 @connect(
   (state) => ({
