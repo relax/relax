@@ -28,7 +28,7 @@ export default class PageContainer extends Component {
     changePageFields: PropTypes.func,
     changePageToDefault: PropTypes.func,
     addPage: PropTypes.func.isRequired,
-    validateSlug: PropTypes.func.isRequired,
+    validatePageSlug: PropTypes.func.isRequired,
     updatePage: PropTypes.func.isRequired
   }
 
@@ -215,7 +215,7 @@ export default class PageContainer extends Component {
 
   async validateSlug (slug) {
     const pageId = this.props.page._id;
-    return await this.props.validateSlug({slug, pageId});
+    return await this.props.validatePageSlug({slug, pageId});
   }
 
   render () {
