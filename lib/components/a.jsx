@@ -1,15 +1,9 @@
 import React from 'react';
-import {Router} from 'backbone';
+import {Link} from 'react-router';
 import {Component} from 'relax-framework';
 
 export default class A extends Component {
   onClick (event) {
-    var url = this.props.href;
-    if (url && url.charAt(0) === '/') {
-      event.preventDefault();
-      Router.prototype.navigate(url, {trigger: true});
-    }
-
     if (this.props.afterClick) {
       this.props.afterClick();
     }
@@ -17,9 +11,9 @@ export default class A extends Component {
 
   render () {
     return (
-      <a {...this.props} onClick={this.onClick.bind(this)}>
+      <Link to={this.props.href} {...this.props} onClick={this.onClick.bind(this)}>
         {this.props.children}
-      </a>
+      </Link>
     );
   }
 }

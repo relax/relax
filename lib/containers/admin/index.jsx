@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import findWhere from 'lodash.findwhere';
+import React, {cloneElement, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Component, mergeFragments, buildQueryAndVariables} from 'relax-framework';
@@ -7,6 +8,7 @@ import * as adminActions from '../../actions/admin';
 import queryProps from '../../decorators/query-props';
 import Admin from '../../components/admin';
 import panels from '../../components/admin/panels';
+import adminRoutes from '../../routers/admin';
 
 @connect(
   (state) => ({
@@ -21,6 +23,9 @@ export default class AdminContainer extends Component {
 
   static propTypes = {
     activePanelType: PropTypes.string,
+    children: PropTypes.any,
+    location: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
     query: PropTypes.object,
     slug: PropTypes.string,
     getAdmin: PropTypes.func.isRequired,
@@ -32,9 +37,10 @@ export default class AdminContainer extends Component {
     query: {}
   }
 
-  getInitialState () {
+  getInitialState (props = this.props) {
     return {
-      loading: true
+      loading: true,
+      ...this.getParams(props)
     };
   }
 
@@ -43,23 +49,44 @@ export default class AdminContainer extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.activePanelType !== this.props.activePanelType || this.props.slug !== nextProps.slug) {
+    const params = this.getParams(nextProps);
+
+    if (params.activePanelType !== this.state.activePanelType ||
+        params.slug !== this.state.slug) {
       this.setState({
-        loading: true
+        loading: true,
+        ...params
+      }, () => {
+        this.fetchData(nextProps);
       });
-      this.fetchData(nextProps);
     }
   }
 
+  getParams (props) {
+    var location = [];
+
+    props.routes.forEach((route) => {
+      route.path && location.push(route.path);
+    });
+
+    const routeInfo = findWhere(adminRoutes, {
+      path: location.join('/').substring(1)
+    });
+
+    return routeInfo && routeInfo.params;
+  }
+
   fetchData (props) {
-    const panel = panels[props.activePanelType];
+    const {activePanelType} = this.state;
+    const panel = panels[activePanelType];
     const vars = {};
+
     const panelFragments = Object.assign({}, panel.fragments);
 
     // This probably could be encapsulated somehow
-    switch (props.activePanelType) {
+    switch (activePanelType) {
       case 'pages':
-        vars[props.activePanelType] = {
+        vars[activePanelType] = {
           ...props.queryVariables
         };
         break;
@@ -73,21 +100,21 @@ export default class AdminContainer extends Component {
         break;
       case 'page':
       case 'menu':
-        if (props.slug !== 'new') {
-          vars[props.activePanelType] = {
+        if (props.params && props.params.slug !== 'new') {
+          vars[activePanelType] = {
             slug: {
-              value: props.slug,
+              value: props.params && props.params.slug,
               type: 'String!'
             }
           };
         } else {
-          panelFragments[props.activePanelType] && delete panelFragments[props.activePanelType];
+          panelFragments[activePanelType] && delete panelFragments[activePanelType];
         }
         break;
       case 'userEdit':
         vars.user = {
           username: {
-            value: props.username,
+            value: props.params && props.params.username,
             type: 'String!'
           }
         };
@@ -111,7 +138,7 @@ export default class AdminContainer extends Component {
   }
 
   updatePage (data) {
-    const panel = panels[this.props.activePanelType];
+    const panel = panels[this.state.activePanelType];
     const pageFragments = mergeFragments(
       this.constructor.fragments,
       panel.fragments
@@ -121,7 +148,13 @@ export default class AdminContainer extends Component {
 
   render () {
     return (
-      <Admin {...this.props} {...this.state} />
+      <Admin {...this.props} {...this.props.params} {...this.state}>
+        {cloneElement(this.props.children, {
+          ...this.props,
+          ...this.props.params,
+          ...this.state
+        })}
+      </Admin>
     );
   }
 }

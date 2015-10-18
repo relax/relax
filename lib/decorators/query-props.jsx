@@ -6,7 +6,16 @@ import React, {PropTypes} from 'react';
 export default function wrapWithQueryProps (WrappedComponent) {
   class QueryProps extends Component {
     static propTypes = {
-      query: PropTypes.object
+      query: PropTypes.object,
+      location: PropTypes.object
+    }
+
+    constructor (props) {
+      super(props);
+
+      Object.assign(this.props, {
+        query: this.props.location.query
+      });
     }
 
     getInitialState (props = this.props) {
@@ -27,13 +36,13 @@ export default function wrapWithQueryProps (WrappedComponent) {
         }
         if (props.query.limit) {
           queryVariables.limit = {
-            value: props.query.limit,
+            value: parseInt(props.query.limit, 10),
             type: 'Int'
           };
         }
         if (props.query.page) {
           queryVariables.page = {
-            value: props.query.page,
+            value: parseInt(props.query.page, 10),
             type: 'Int'
           };
         }
