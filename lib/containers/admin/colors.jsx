@@ -13,7 +13,7 @@ import * as colorsActions from '../../actions/colors';
   (dispatch) => bindActionCreators(colorsActions, dispatch)
 )
 export default class ColorsContainer extends Component {
-  static fragments = Colors.fragments.color
+  static fragments = Colors.fragments
 
   static propTypes = {
     colors: React.PropTypes.array,
