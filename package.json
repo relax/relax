@@ -17,8 +17,6 @@
   },
   "dependencies": {
     "babel": "^5.8.23",
-    "backbone": "^1.2.2",
-    "backbone-cortex": "git://github.com/relax/backbone-cortex.git",
     "blueimp-md5": "^1.1.1",
     "body-parser": "^1.13.3",
     "classnames": "^2.1.3",

@@ -1,5 +1,4 @@
 import React from 'react';
-import {Router} from 'backbone';
 import {Component} from 'relax-framework';
 import A from './a';
 import Utils from '../utils';
@@ -40,7 +39,7 @@ export default class Filter extends Component {
 
     const url = Utils.parseQueryUrl(this.props.url, query);
 
-    Router.prototype.navigate(url, {trigger: true});
+    history.pushState({}, '', url);
   }
 
   render () {

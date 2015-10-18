@@ -3,7 +3,8 @@ import React from 'react';
 import styles from '../../styles';
 import Entry from './entry';
 import Edit from './edit';
-import {Events} from 'backbone';
+// TODO Use EventEmitter from Node or something
+// import {Events} from 'backbone';
 import merge from 'lodash.merge';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 

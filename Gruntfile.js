@@ -4,8 +4,6 @@ module.exports = function (grunt) {
   var browserifyExternalOptions, browserifyExternalRequire;
 
   browserifyExternalOptions = browserifyExternalRequire = [
-    'backbone',
-    'backbone-cortex',
     'jquery',
     'q',
     'react',

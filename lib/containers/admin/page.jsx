@@ -1,5 +1,4 @@
 import {Component} from 'relax-framework';
-import {Router} from 'backbone';
 import cloneDeep from 'lodash.clonedeep';
 import React, {PropTypes} from 'react';
 import merge from 'lodash.merge';
@@ -63,15 +62,13 @@ export default class PageContainer extends Component {
     const submitPage = cloneDeep(pageProps);
 
     let action;
-    let routerOptions;
+
     if (this.isNew()) {
       submitPage.createdBy = this.props.user._id;
       action = this.props.addPage;
-      routerOptions = {trigger: true};
     } else {
       submitPage.createdBy = submitPage.createdBy._id;
       action = this.props.updatePage;
-      routerOptions = {trigger: false, replace: true};
     }
 
     submitPage.updatedBy = this.props.user._id;
@@ -83,8 +80,8 @@ export default class PageContainer extends Component {
           success: true,
           error: false
         });
-        Router.prototype.navigate('/admin/pages/' + submitPage.slug, routerOptions);
-        this.successTimeout = setTimeout(::this.successOut, 3000);
+        history.pushState({}, '', `/admin/pages/${submitPage.slug}`);
+        this.successTimeout = setTimeout(::this.onSuccessOut, 3000);
       })
       .catch((error) => {
         this.setState({
@@ -94,7 +91,7 @@ export default class PageContainer extends Component {
       });
   }
 
-  successOut () {
+  onSuccessOut () {
     clearTimeout(this.successTimeout);
     const dom = React.findDOMNode(this.refs.success);
 
