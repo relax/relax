@@ -1,17 +1,10 @@
 import React from 'react';
 import {Component} from 'relax-framework';
-import {connect} from 'react-redux';
 import moment from 'moment';
 
 import Breadcrumbs from '../../../breadcrumbs';
-import utils from '../../../../utils';
+import {getGravatarImage} from '../../../../utils';
 
-@connect(
-  (state) => ({
-    user: state.user.data,
-    errors: state.user.errors
-  })
-)
 export default class UserEdit extends Component {
   static fragments = {
     user: {
@@ -27,20 +20,9 @@ export default class UserEdit extends Component {
     breadcrumbs: React.PropTypes.array.isRequired
   }
 
-  static panelSettings = {
-    activePanelType: 'userEdit',
-    breadcrumbs: [
-      {
-        label: 'Users',
-        type: 'users',
-        link: '/admin/users'
-      }
-    ]
-  }
-
   render () {
     const user = this.props.user;
-    const url = utils.getGravatarImage(user.email, 70);
+    const url = getGravatarImage(user.email, 70);
     const createdDate = moment(user.date).format('MMMM Do YYYY');
 
     const breadcrumbs = this.props.breadcrumbs.slice();
