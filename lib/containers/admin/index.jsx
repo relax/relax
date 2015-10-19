@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {Component, mergeFragments, buildQueryAndVariables} from 'relax-framework';
 
 import * as adminActions from '../../client/actions/admin';
-import queryProps from '../../decorators/query-props';
+import {getQueryVariables} from '../../decorators/query-props';
 import Admin from '../../components/admin';
 import panels from '../../components/admin/panels';
 
@@ -15,7 +15,6 @@ import panels from '../../components/admin/panels';
   }),
   (dispatch) => bindActionCreators(adminActions, dispatch)
 )
-@queryProps()
 export default class AdminContainer extends Component {
   static fragments = Admin.fragments
 
@@ -24,15 +23,10 @@ export default class AdminContainer extends Component {
     children: PropTypes.any,
     location: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-    query: PropTypes.object,
     slug: PropTypes.string,
     getAdmin: PropTypes.func.isRequired,
     updatePage: PropTypes.func.isRequired,
     display: PropTypes.string.isRequired
-  }
-
-  static defaultProps = {
-    query: {}
   }
 
   getInitialState (props = this.props) {
@@ -67,7 +61,7 @@ export default class AdminContainer extends Component {
     switch (activePanelType) {
       case 'pages':
         vars[activePanelType] = {
-          ...props.queryVariables
+          ...props.queryVariables || getQueryVariables(panels.pages.defaultQuery)
         };
         break;
       case 'settings':
@@ -93,7 +87,7 @@ export default class AdminContainer extends Component {
         break;
       case 'menus':
         vars[activePanelType] = {
-          ...props.queryVariables
+          ...props.queryVariables || getQueryVariables(panels.menus.defaultQuery)
         };
         break;
       case 'userEdit':
@@ -141,7 +135,8 @@ export default class AdminContainer extends Component {
         {cloneElement(this.props.children, {
           ...this.props,
           ...this.props.params,
-          ...this.state
+          ...this.state,
+          ref: 'panel'
         })}
       </Admin>
     );

@@ -68,14 +68,6 @@ export default function queryProps (defaultQuery = _defaultQuery) {
         location: PropTypes.object
       }
 
-      constructor (props) {
-        super(props);
-
-        Object.assign(this.props, {
-          query: this.props.location.query
-        });
-      }
-
       getInitialState (props = this.props) {
         if (!props.location.query) {
           props.location.query = qs.parse(props.location.search);
