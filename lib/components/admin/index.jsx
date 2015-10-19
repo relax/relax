@@ -1,24 +1,9 @@
 import React, {PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {Component, mergeFragments, buildQueryAndVariables} from 'relax-framework';
+import {Component} from 'relax-framework';
 import MenuBar from './menu-bar';
 import cx from 'classnames';
-import panels from './panels';
 import TopMenu from './top-menu';
-// import Overlay from '../overlay';
-// import Lightbox from '../lightbox';
-import * as adminActions from '../../actions/admin';
-import queryProps from '../../decorators/query-props';
 
-@connect(
-  (state) => ({
-    user: state.session.data,
-    display: state.display
-  }),
-  (dispatch) => bindActionCreators(adminActions, dispatch)
-)
-@queryProps
 export default class Admin extends Component {
   static fragments = {
     session: {
@@ -32,111 +17,17 @@ export default class Admin extends Component {
   static propTypes = {
     activePanelType: PropTypes.string,
     breadcrumbs: PropTypes.array,
+    children: PropTypes.element.isRequired,
     user: PropTypes.object,
-    query: PropTypes.object,
     slug: PropTypes.string,
     getAdmin: PropTypes.func.isRequired,
     updatePage: PropTypes.func.isRequired,
-    display: PropTypes.string.isRequired
+    display: PropTypes.string.isRequired,
+    loading: PropTypes.boolean
   }
 
   static defaultProps = {
-    query: {},
     breadcrumbs: []
-  }
-
-  getInitialState () {
-    // this.changeDisplayBind = this.changeDisplay.bind(this);
-    // this.previewToggleBind = this.previewToggle.bind(this);
-    // this.addOverlayBind = this.addOverlay.bind(this);
-    // this.closeOverlayBind = this.closeOverlay.bind(this);
-    // this.switchOverlayBackgroundBind = this.switchOverlayBackground.bind(this);
-    // this.addLightboxBind = this.addLightbox.bind(this);
-
-    return {
-      loading: true
-    };
-  }
-
-  componentWillMount () {
-    this.fetchData(this.props);
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.activePanelType !== this.props.activePanelType || this.props.slug !== nextProps.slug) {
-      this.setState({
-        loading: true
-      });
-      this.fetchData(nextProps);
-    }
-  }
-
-  fetchData (props) {
-    const panel = panels[props.activePanelType];
-    const vars = {};
-    const panelFragments = Object.assign({}, panel.fragments);
-
-    // This probably could be encapsulated somehow
-    switch (props.activePanelType) {
-      case 'pages':
-        vars[props.activePanelType] = {
-          ...props.queryVariables
-        };
-        break;
-      case 'settings':
-        vars.settings = {
-          ids: {
-            value: panel.settings,
-            type: '[String]!'
-          }
-        };
-        break;
-      case 'page':
-      case 'menu':
-        if (props.slug !== 'new') {
-          vars[props.activePanelType] = {
-            slug: {
-              value: props.slug,
-              type: 'String!'
-            }
-          };
-        } else {
-          panelFragments[props.activePanelType] && delete panelFragments[props.activePanelType];
-        }
-        break;
-      case 'userEdit':
-        vars.user = {
-          username: {
-            value: props.username,
-            type: 'String!'
-          }
-        };
-        break;
-      default:
-    }
-
-    props
-      .getAdmin(buildQueryAndVariables(
-        mergeFragments(
-          this.constructor.fragments,
-          panelFragments
-        ),
-        vars
-      ))
-      .done(() => {
-        this.setState({
-          loading: false
-        });
-      });
-  }
-
-  updatePage (data) {
-    const panel = panels[this.props.activePanelType];
-    const pageFragments = mergeFragments(
-      this.constructor.fragments,
-      panel.fragments
-    );
-    return this.props.updatePage(pageFragments, data);
   }
 
   //
@@ -278,20 +169,11 @@ export default class Admin extends Component {
           <div className='admin-holder'>
             {this.props.activePanelType !== 'pageBuild' && <MenuBar user={this.props.user} activePanelType={this.props.activePanelType} breadcrumbs={this.props.breadcrumbs} />}
             <div className='admin-content'>
-              {!this.state.loading && this.renderActivePanel()}
+              {this.props.children}
             </div>
           </div>
         </div>
       </div>
     );
-  }
-
-  renderActivePanel () {
-    if (this.props.activePanelType && panels[this.props.activePanelType]) {
-      const Panel = panels[this.props.activePanelType];
-      return (
-        <Panel {...this.props} updatePage={this.updatePage} />
-      );
-    }
   }
 }

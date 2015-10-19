@@ -1,32 +1,16 @@
 import {Component} from 'relax-framework';
-import {Router} from 'backbone';
-import cloneDeep from 'lodash.clonedeep';
 import React from 'react';
 import cx from 'classnames';
 import moment from 'moment';
-import merge from 'lodash.merge';
-import Velocity from 'velocity-animate';
-import Utils from '../../../../utils';
 
+import NotFound from '../not-found';
 import A from '../../../a';
 import Animate from '../../../animate';
 import Spinner from '../../../spinner';
 import Breadcrumbs from '../../../breadcrumbs';
 import TitleSlug from '../../../title-slug';
-// import RevisionsOverlay from '../../revisions-overlay';
-import NotFound from '../not-found';
+import Utils from '../../../../utils';
 
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import * as pageActions from '../../../../actions/page';
-
-@connect(
-  (state) => ({
-    page: state.page.data,
-    errors: state.page.errors
-  }),
-  (dispatch) => bindActionCreators(pageActions, dispatch)
-)
 export default class Page extends Component {
   static fragments = {
     page: {
@@ -53,198 +37,11 @@ export default class Page extends Component {
   static propTypes = {
     page: React.PropTypes.object,
     user: React.PropTypes.object,
-    breadcrumbs: React.PropTypes.array,
-    slug: React.PropTypes.string,
-    changePageFields: React.PropTypes.func,
-    changePageToDefault: React.PropTypes.func
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (this.props.slug !== 'new' && nextProps.slug === 'new') {
-      this.props.changePageToDefault();
-    }
-  }
-
-  componentWillUnmount () {
-    if (this.successTimeout) {
-      clearTimeout(this.successTimeout);
-    }
-  }
-
-  onSubmit (pageProps) {
-    if (this.successTimeout) {
-      clearTimeout(this.successTimeout);
-    }
-
-    const submitPage = cloneDeep(pageProps);
-
-    let action;
-    let routerOptions;
-    if (this.isNew()) {
-      submitPage.createdBy = this.props.user._id;
-      action = this.props.addPage;
-      routerOptions = {trigger: true};
-    } else {
-      submitPage.createdBy = submitPage.createdBy._id;
-      action = this.props.updatePage;
-      routerOptions = {trigger: false, replace: true};
-    }
-
-    submitPage.updatedBy = this.props.user._id;
-
-    action(this.constructor.fragments, submitPage)
-      .then(() => {
-        this.setState({
-          saving: false,
-          success: true,
-          error: false
-        });
-        Router.prototype.navigate('/admin/pages/' + submitPage.slug, routerOptions);
-        this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
-      })
-      .catch((error) => {
-        this.setState({
-          saving: false,
-          error: true
-        });
-      });
-  }
-
-  successOut () {
-    clearTimeout(this.successTimeout);
-    const dom = React.findDOMNode(this.refs.success);
-
-    if (dom) {
-      const transition = 'transition.slideDownOut';
-      Velocity(dom, transition, {
-        duration: 400,
-        display: null
-      }).then(() => {
-        this.setState({
-          success: false
-        });
-      });
-    }
-  }
-
-  onSaveDraft () {
-    this.setState({
-      saving: true,
-      savingLabel: 'Saving draft'
-    });
-
-    this.onSubmit(this.props.page);
-  }
-
-  onUpdate () {
-    this.setState({
-      saving: true,
-      savingLabel: 'Updating page'
-    });
-
-    this.onSubmit(this.props.page);
-  }
-
-  onPublish () {
-    const clone = cloneDeep(this.props.page);
-    clone.state = 'published';
-
-    this.setState({
-      saving: true,
-      savingLabel: 'Publishing'
-    });
-
-    this.onSubmit(clone);
-  }
-
-  onUnpublish () {
-    const clone = cloneDeep(this.props.page);
-    clone.state = 'draft';
-
-    this.setState({
-      saving: true,
-      savingLabel: 'Saving and unpublishing'
-    });
-
-    this.onSubmit(clone);
-  }
-
-  onChange (values) {
-    this.props.changePageFields(merge({}, this.props.page, values));
-  }
-
-  isNew () {
-    return !this.props.page._id && this.props.slug === 'new';
-  }
-
-  validateSlug (slug) {
-    if (!this.isNew()) {
-      if (this.props.slug === slug) {
-        return false;
-      }
-    }
-
-    if (slug === 'new') {
-      return true;
-    }
-
-    // return pageActions.validateSlug(slug);
-  }
-
-  onRestore (__v) {
-    this.context.closeOverlay();
-
-    this.setState({
-      saving: true,
-      savingLabel: 'Restoring revision'
-    });
-
-    // pageActions
-    //   .restore({
-    //     _id: this.props.page._id,
-    //     __v
-    //   })
-    //   .then((page) => {
-    //     this.state.breadcrumbs[1].label = page.title;
-    //     this.setState({
-    //       saving: false,
-    //       page,
-    //       success: true,
-    //       error: false,
-    //       new: false,
-    //       breadcrumbs: this.state.breadcrumbs
-    //     });
-    //     Router.prototype.navigate('/admin/pages/'+page.slug, {trigger: false, replace: true});
-    //     this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
-    //   })
-    //   .catch(() => {
-    //     this.setState({
-    //       success: false
-    //     });
-    //   });
-  }
-
-  onRevisions (event) {
-    event.preventDefault();
-
-    const page = this.props.page;
-    let current = {
-      _id: {
-        _id: page._id,
-        __v: page.__v
-      },
-      date: page.updatedDate,
-      user: page.updatedBy,
-      title: page.title
-    };
-
-    // this.context.addOverlay(
-    //   <RevisionsOverlay current={current} onRestore={this.onRestore.bind(this)} />
-    // );
+    breadcrumbs: React.PropTypes.array
   }
 
   render () {
-    const isNew = this.isNew();
+    const {isNew} = this.props;
     let result;
 
     if (!isNew && this.props.errors) {
@@ -266,7 +63,7 @@ export default class Page extends Component {
           <div className='content'>
             <div className='filter-menu'>
               <Breadcrumbs data={breadcrumbs} />
-              {!this.isNew() &&
+              {!isNew &&
               <A href='/admin/pages/new' className='button-clean'>
                 <i className='material-icons'>library_add</i>
                 <span>Add new page</span>
@@ -277,8 +74,9 @@ export default class Page extends Component {
                 <TitleSlug
                   title={this.props.page.title}
                   slug={this.props.page.slug}
-                  validateSlug={this.validateSlug.bind(this)}
-                  onChange={this.onChange.bind(this)}
+                  isSlugValid={this.props.isSlugValid}
+                  validateSlug={this.props.validateSlug}
+                  onChange={this.props.onChange}
                 />
               </div>
             </div>
@@ -318,7 +116,7 @@ export default class Page extends Component {
   }
 
   renderlinks () {
-    if (!this.isNew()) {
+    if (!this.props.isNew) {
       const buildLink = '/admin/page/' + this.props.page.slug;
       const viewLink = '/' + this.props.page.slug;
       const revisions = this.props.page.__v;
@@ -333,7 +131,7 @@ export default class Page extends Component {
             <span>View</span>
           </a>
           {revisions > 0 &&
-            <a href='#' className='link' onClick={this.onRevisions.bind(this)}>
+            <a href='#' className='link' onClick={this.props.onRevisions}>
               <i className='material-icons'>history</i>
               <span>{'Revisions (' + revisions + ')'}</span>
             </a>
@@ -348,15 +146,15 @@ export default class Page extends Component {
     if (this.props.page.state === 'published') {
       result = (
         <div className='actions'>
-          <div className={cx('button button-primary', this.state.saving && 'disabled')} onClick={this.onUpdate.bind(this)}>Update</div>
-          <div className={cx('button button-grey margined', this.state.saving && 'disabled')} onClick={this.onUnpublish.bind(this)}>Unpublish</div>
+          <div className={cx('button button-primary', this.props.saving && 'disabled')} onClick={this.props.onUpdate}>Update</div>
+          <div className={cx('button button-grey margined', this.props.saving && 'disabled')} onClick={this.props.onUnpublish}>Unpublish</div>
         </div>
       );
     } else {
       result = (
         <div className='actions'>
-          <div className={cx('button button-primary', this.state.saving && 'disabled')} onClick={this.onPublish.bind(this)}>Publish</div>
-          <div className={cx('button button-grey margined', this.state.saving && 'disabled')} onClick={this.onSaveDraft.bind(this)}>Save draft</div>
+          <div className={cx('button button-primary', this.props.saving && 'disabled')} onClick={this.props.onPublish}>Publish</div>
+          <div className={cx('button button-grey margined', this.props.saving && 'disabled')} onClick={this.props.onSaveDraft}>Save draft</div>
         </div>
       );
     }
@@ -365,16 +163,16 @@ export default class Page extends Component {
 
   renderSaving () {
     let result;
-    if (this.state.saving) {
+    if (this.props.saving) {
       result = (
         <Animate transition='slideDownIn' key='saving'>
           <div className='saving'>
             <Spinner />
-            <span>{this.state.savingLabel}</span>
+            <span>{this.props.savingLabel}</span>
           </div>
         </Animate>
       );
-    } else if (this.state.error) {
+    } else if (this.props.error) {
       result = (
         <Animate transition='slideDownIn' key='error'>
           <div className='error' ref='success'>
@@ -383,7 +181,7 @@ export default class Page extends Component {
           </div>
         </Animate>
       );
-    } else if (this.state.success) {
+    } else if (this.props.success) {
       result = (
         <Animate transition='slideDownIn' key='success'>
           <div className='success' ref='success'>

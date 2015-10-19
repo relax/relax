@@ -49,7 +49,7 @@ export default class Pagination extends Component {
       const url = Utils.parseQueryUrl(this.props.url, query);
 
       result = (
-        <A className='pagination-button to' href={url} key={number}>
+        <A className='pagination-button to' query={query} href={url} key={number}>
           {number}
         </A>
       );

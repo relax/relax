@@ -1,74 +1,50 @@
-import {post} from 'jquery';
-import React from 'react';
-import {Component, Router} from 'relax-framework';
+import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
+
 import OptionsList from '../options-list';
 import {Types} from '../../data-types';
 
 export default class Init extends Component {
-  getInitialState () {
-    return {
-      user: {
-        username: '',
-        name: '',
-        password: '',
-        email: ''
-      }
-    };
+  static propTypes = {
+    onChange: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    user: PropTypes.object
   }
 
-  onChange (id, value) {
-    this.state.user[id] = value;
-    this.setState({
-      user: this.state.user
-    });
-  }
-
-  onSubmit (event) {
-    event.preventDefault();
-
-    post('/admin/init', this.state.user)
-      .done((data) => {
-        Router.prototype.navigate('/admin/login', {trigger: true});
-      })
-      .fail((error) => {
-        console.error(error);
-      });
-  }
+  static options = [
+    {
+      label: 'Username',
+      type: Types.String,
+      id: 'username',
+      default: ''
+    },
+    {
+      label: 'Password',
+      type: Types.String,
+      id: 'password',
+      default: ''
+    },
+    {
+      label: 'Name',
+      type: Types.String,
+      id: 'name',
+      default: ''
+    },
+    {
+      label: 'Email',
+      type: Types.String,
+      id: 'email',
+      default: ''
+    }
+  ]
 
   render () {
     return (
       <div className='page-init white-options'>
         <h1>Welcome <br/>to Relax</h1>
-        <OptionsList options={this.constructor.options} values={this.state.user} onChange={this.onChange.bind(this)} />
-        <a className='button button-primary full' href='#' onClick={this.onSubmit.bind(this)}>All done!</a>
+        <OptionsList options={this.constructor.options} values={this.props.user} onChange={this.props.onChange} />
+        <a className='button button-primary full' href='#' onClick={this.props.onSubmit}>All done!</a>
       </div>
     );
   }
 }
-
-Init.options = [
-  {
-    label: 'Username',
-    type: Types.String,
-    id: 'username',
-    default: ''
-  },
-  {
-    label: 'Password',
-    type: Types.String,
-    id: 'password',
-    default: ''
-  },
-  {
-    label: 'Name',
-    type: Types.String,
-    id: 'name',
-    default: ''
-  },
-  {
-    label: 'Email',
-    type: Types.String,
-    id: 'email',
-    default: ''
-  }
-];

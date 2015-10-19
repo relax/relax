@@ -4,7 +4,8 @@ import {Component} from 'relax-framework';
 import forEach from 'lodash.foreach';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import Animate from '../animate';
-import {Events} from 'backbone';
+// TODO Use EventEmitter from Node or something
+// import {Events} from 'backbone';
 import merge from 'lodash.merge';
 import cx from 'classnames';
 

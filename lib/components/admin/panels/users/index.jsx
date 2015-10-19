@@ -1,7 +1,5 @@
 import React, {PropTypes} from 'react';
-import {Component, buildQueryAndVariables, mergeFragments} from 'relax-framework';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {Component, mergeFragments} from 'relax-framework';
 
 import Breadcrumbs from '../../../breadcrumbs';
 import List from './list';
@@ -9,18 +7,7 @@ import Filter from '../../../filter';
 import Pagination from '../../../pagination';
 import Lightbox from '../../../lightbox';
 import New from './new';
-import queryProps from '../../../../decorators/query-props';
 
-import * as usersActions from '../../../../actions/users';
-
-@connect(
-  (state) => ({
-    users: state.users.data.items,
-    count: state.users.data.count
-  }),
-  (dispatch) => bindActionCreators(usersActions, dispatch)
-)
-@queryProps
 export default class Users extends Component {
   static fragments = mergeFragments({
     usersCount: {
@@ -33,54 +20,11 @@ export default class Users extends Component {
     users: PropTypes.array,
     query: PropTypes.object,
     count: PropTypes.number,
-    hasQueryChanged: PropTypes.bool.isRequired,
-    queryVariables: PropTypes.object.isRequired,
+    lightbox: PropTypes.boolean,
     removeUser: PropTypes.func.isRequired,
-    addUser: PropTypes.func.isRequired
-  }
-
-  getInitialState () {
-    return {
-      lightbox: false
-    };
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.hasQueryChanged) {
-      const vars = {
-        users: {
-          ...nextProps.queryVariables
-        }
-      };
-
-      nextProps
-        .getAdmin(buildQueryAndVariables(
-          this.constructor.fragments,
-          vars
-        ))
-        .done();
-    }
-  }
-
-  onAddNew (newUser) {
-    this.props
-      .addUser({user: List.fragments.users}, newUser)
-      .then(() => {
-        this.closeLightbox();
-      });
-  }
-
-  addNewClick (event) {
-    event.preventDefault();
-    this.setState({
-      lightbox: true
-    });
-  }
-
-  closeLightbox () {
-    this.setState({
-      lightbox: false
-    });
+    onAddNew: PropTypes.func.isRequired,
+    onAddNewClick: PropTypes.func.isRequired,
+    onCloseLightbox: PropTypes.func.isRequired
   }
 
   render () {
@@ -88,7 +32,7 @@ export default class Users extends Component {
       <div className='admin-users'>
         <div className='filter-menu'>
           <Breadcrumbs data={this.props.breadcrumbs} />
-          <a href='#' className='button-clean' onClick={this.addNewClick.bind(this)}>
+          <a href='#' className='button-clean' onClick={this.props.onAddNewClick}>
             <i className='material-icons'>person_add</i>
             <span>Add new user</span>
           </a>
@@ -120,10 +64,10 @@ export default class Users extends Component {
   }
 
   renderLightbox () {
-    if (this.state.lightbox) {
+    if (this.props.lightbox) {
       return (
-        <Lightbox className='small' title='Add user' onClose={this.closeLightbox.bind(this)}>
-          <New onSubmit={this.onAddNew.bind(this)} />
+        <Lightbox className='small' title='Add user' onClose={this.props.onCloseLightbox}>
+          <New onSubmit={this.props.onAddNew} />
         </Lightbox>
       );
     }

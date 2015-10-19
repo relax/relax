@@ -1,25 +1,34 @@
+import qs from 'query-string';
 import React from 'react';
-import {Router} from 'backbone';
+import {Link} from 'react-router';
 import {Component} from 'relax-framework';
 
 export default class A extends Component {
   onClick (event) {
-    var url = this.props.href;
-    if (url && url.charAt(0) === '/') {
-      event.preventDefault();
-      Router.prototype.navigate(url, {trigger: true});
+    if (this.props.onClick) {
+      this.props.onClick(event);
     }
 
     if (this.props.afterClick) {
-      this.props.afterClick();
+      this.props.afterClick(event);
     }
   }
 
   render () {
+    const urlAndQuery = this.props.href && this.props.href.split('?');
+
+    var url;
+    var query;
+
+    if (urlAndQuery) {
+      url = urlAndQuery[0];
+      query = qs.parse(urlAndQuery[1]);
+    }
+
     return (
-      <a {...this.props} onClick={this.onClick.bind(this)}>
+      <Link to={url} query={query} {...this.props} onClick={::this.onClick}>
         {this.props.children}
-      </a>
+      </Link>
     );
   }
 }

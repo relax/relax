@@ -1,26 +1,46 @@
 import {Component} from 'relax-framework';
-import Input from './input';
 import React from 'react';
 import slugify from 'slug';
-import Q from 'q';
+
+import Input from './input';
 
 export default class TitleSlug extends Component {
   static propTypes = {
     validateSlug: React.PropTypes.func.isRequired,
     onChange: React.PropTypes.func.isRequired,
     title: React.PropTypes.string.isRequired,
-    slug: React.PropTypes.string.isRequired
+    slug: React.PropTypes.string.isRequired,
+    isSlugValid: React.PropTypes.string
+  }
+
+  constructor (props) {
+    super(props);
+
+    this.onTitleChange = ::this.onTitleChange;
+    this.onSlugChange = ::this.onSlugChange;
   }
 
   getInitialState () {
+    const {slug} = this.props;
+
     return {
-      slugValid: this.props.slug !== '',
-      hasTypedSlug: false
+      slugValid: slug !== '',
+      hasTypedSlug: false,
+      isSlugValidating: true,
+      slug
     };
   }
 
   componentDidMount () {
     this.validateSlug();
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.slug !== nextProps.slug) {
+      this.setState({slug: nextProps.slug}, () => {
+        this.validateSlug();
+      });
+    }
   }
 
   componentWillUnmount () {
@@ -57,35 +77,39 @@ export default class TitleSlug extends Component {
     this.slugTimeout = setTimeout(this.validateSlug.bind(this), 500);
   }
 
-  validateSlug () {
-    if (this.props.slug) {
-      this.setState({
-        slugValidating: true
-      });
+  async validateSlug () {
+    const {slug, isSlugValidating} = this.state;
 
-      Q()
-        .then(() => this.props.validateSlug(this.props.slug))
-        .then((response) => {
-          this.setState({
-            slugValidating: false,
-            slugValid: !response
-          });
-        });
+    if (slug) {
+      !isSlugValidating && this.setState({isSlugValidating: true});
+      await this.props.validateSlug(slug);
+      this.setState({isSlugValidating: false});
     }
   }
 
   render () {
-    let state = this.state.slugValidating ? 'loading' : (this.state.slugValid ? 'valid' : 'invalid');
+    const {isSlugValid, title, slug} = this.props;
+    const {isSlugValidating} = this.state;
+
+    var state;
+
+    if (isSlugValidating) {
+      state = 'loading';
+    } else if (isSlugValid) {
+      state = 'valid';
+    } else {
+      state = 'invalid';
+    }
 
     return (
       <div>
         <div className='option'>
           <div className='label'>Title</div>
-          <Input label='Title' type='text' onChange={this.onTitleChange.bind(this)} value={this.props.title} />
+          <Input label='Title' type='text' onChange={this.onTitleChange} value={title} />
         </div>
         <div className='option'>
           <div className='label'>Slug</div>
-          <Input label='Slug' state={state} type='text' onChange={this.onSlugChange.bind(this)} value={this.props.slug} />
+          <Input label='Slug' state={state} type='text' onChange={this.onSlugChange} value={slug} />
         </div>
       </div>
     );

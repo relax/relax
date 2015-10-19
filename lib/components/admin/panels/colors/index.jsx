@@ -1,57 +1,24 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+
 import Color from './color';
 import Edit from './edit';
 
-import * as colorsActions from '../../../../actions/colors';
-
-@connect(
-  (state) => ({
-    colors: state.colors.data
-  }),
-  (dispatch) => bindActionCreators(colorsActions, dispatch)
-)
 export default class Colors extends Component {
   static fragments = {
     colors: Color.fragments.color
   }
 
   static propTypes = {
-    colors: React.PropTypes.array,
-    addColor: React.PropTypes.func,
-    updateColor: React.PropTypes.func,
-    removeColor: React.PropTypes.func
-  }
-
-  getInitialState () {
-    return {
-      edit: false,
-      colors: this.context.colors
-    };
-  }
-
-  onAddNew (event) {
-    event.preventDefault();
-    this.setState({
-      edit: true,
-      editingColor: false
-    });
-  }
-
-  onEdit (color) {
-    this.setState({
-      edit: true,
-      editingColor: color
-    });
-  }
-
-  closeEdit () {
-    this.setState({
-      edit: false,
-      editingColor: false
-    });
+    edit: PropTypes.boolean,
+    editingColor: PropTypes.boolean,
+    colors: PropTypes.array,
+    addColor: PropTypes.func,
+    updateColor: PropTypes.func,
+    removeColor: PropTypes.func,
+    onAddNew: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired
   }
 
   render () {
@@ -59,7 +26,7 @@ export default class Colors extends Component {
       <div className='color-manager'>
         <div className='filter-menu'>
           <span className='admin-title'>Colors</span>
-          <a href='#' className='button-clean' onClick={this.onAddNew.bind(this)}>
+          <a href='#' className='button-clean' onClick={this.props.onAddNew}>
             <i className='material-icons'>invert_colors</i>
             <span>Add color to palette</span>
           </a>
@@ -73,7 +40,8 @@ export default class Colors extends Component {
   }
 
   renderColors () {
-    let result;
+    var result;
+
     if (this.props.colors && this.props.colors.length > 0) {
       result = (
         <div className='color-manager-list'>
@@ -93,19 +61,20 @@ export default class Colors extends Component {
         </div>
       );
     }
+
     return result;
   }
 
   renderColor (color) {
     return (
-      <Color color={color} key={color._id} onEdit={this.onEdit.bind(this)} removeColor={this.props.removeColor} addColor={this.props.addColor} />
+      <Color color={color} key={color._id} onEdit={this.props.onEdit} removeColor={this.props.removeColor} addColor={this.props.addColor} />
     );
   }
 
   renderEdit () {
-    if (this.state.edit) {
+    if (this.props.edit) {
       return (
-        <Edit value={this.state.editingColor} onClose={this.closeEdit.bind(this)} addColor={this.props.addColor} updateColor={this.props.updateColor} fragment={Color.fragments} />
+        <Edit value={this.props.editingColor} onClose={this.props.onClose} addColor={this.props.addColor} updateColor={this.props.updateColor} fragment={Color.fragments} />
       );
     }
   }

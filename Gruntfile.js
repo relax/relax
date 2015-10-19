@@ -4,18 +4,22 @@ module.exports = function (grunt) {
   var browserifyExternalOptions, browserifyExternalRequire;
 
   browserifyExternalOptions = browserifyExternalRequire = [
-    'backbone',
-    'backbone-cortex',
     'jquery',
     'q',
     'react',
+    'react-redux',
+    'react-router',
+    'redux',
+    'redux-router',
     'relax-framework'
   ];
 
   var browserifyProductionOptions = {
     ignore: ['./lib/server/**/*'],
     transform: [
-      ['babelify']
+      ['babelify', {
+        optional: ['runtime']
+      }]
     ],
     browserifyOptions: {
       extensions: ['.jsx', '.js']
@@ -28,7 +32,9 @@ module.exports = function (grunt) {
       options: {
         ignore: ['./lib/server/**/*'],
         transform: [
-          ['babelify']
+          ['babelify', {
+            optional: ['runtime']
+          }]
         ],
         browserifyOptions: {
           extensions: ['.jsx', '.js'],
@@ -41,10 +47,12 @@ module.exports = function (grunt) {
         options: {
           ignore: ['./lib/server/**/*'],
           transform: [
-            ['babelify']
+            ['babelify', {
+              optional: ['runtime']
+            }]
           ],
           browserifyOptions: {
-            extensions: ['.jsx', '.js'],
+            extensions: ['.jsx', '.js']
           },
           require: browserifyExternalRequire,
           external: null
