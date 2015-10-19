@@ -1,11 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Component} from 'relax-framework';
 import Dropzone from 'dropzone';
 
 export default class Upload extends Component {
+  static propTypes = {
+    action: React.PropTypes.string.isRequired,
+    acceptedFiles: React.PropTypes.string,
+    success: React.PropTypes.func,
+    children: React.PropTypes.node
+  }
+
+  static defaultProps = {
+    acceptedFiles: 'image/*,video/*,audio/*'
+  }
+
   componentDidMount () {
-    super.componentDidMount();
     if (typeof document !== 'undefined') {
       var options = {};
       for (var opt in Dropzone.prototype.defaultOptions) {
@@ -17,14 +26,11 @@ export default class Upload extends Component {
         options[opt] = Dropzone.prototype.defaultOptions[opt];
       }
 
-      options.acceptedFiles = 'image/*,video/*,audio/*';
-
-      this.dropzone = new Dropzone(ReactDOM.findDOMNode(this), options);
+      this.dropzone = new Dropzone(React.findDOMNode(this), options);
     }
   }
 
   componentWillUnmount () {
-    super.componentWillUnmount();
     this.dropzone.destroy();
     this.dropzone = null;
   }
@@ -37,9 +43,3 @@ export default class Upload extends Component {
     );
   }
 }
-
-Upload.propTypes = {
-  action: React.PropTypes.string.isRequired,
-  acceptedFiles: React.PropTypes.string,
-  success: React.PropTypes.func
-};
