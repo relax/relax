@@ -66,6 +66,7 @@
     "react-redux": "^3.1.0",
     "react-router": "^1.0.0-rc1",
     "redux": "^3.0.2",
+    "redux-combine-actions": "^0.1.1",
     "redux-logger": "^2.0.3",
     "redux-router": "^1.0.0-beta3",
     "redux-thunk": "^1.0.0",

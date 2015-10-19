@@ -20,7 +20,7 @@ export default class Settings extends Component {
     saveSettings: PropTypes.func.isRequired,
     saving: PropTypes.boolean,
     state: PropTypes.string.isRequired,
-    onSubmit: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired
   }
 
   static settings = [

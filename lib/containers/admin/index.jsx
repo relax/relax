@@ -64,6 +64,7 @@ export default class AdminContainer extends Component {
           ...props.queryVariables || getQueryVariables(panels.pages.defaultQuery)
         };
         break;
+      case 'fonts':
       case 'settings':
         vars.settings = {
           ids: {
