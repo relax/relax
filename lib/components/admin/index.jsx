@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 import MenuBar from './menu-bar';
 import cx from 'classnames';
-import panels from './panels';
 import TopMenu from './top-menu';
 
 export default class Admin extends Component {
@@ -18,6 +17,7 @@ export default class Admin extends Component {
   static propTypes = {
     activePanelType: PropTypes.string,
     breadcrumbs: PropTypes.array,
+    children: PropTypes.element.isRequired,
     user: PropTypes.object,
     slug: PropTypes.string,
     getAdmin: PropTypes.func.isRequired,
@@ -175,14 +175,5 @@ export default class Admin extends Component {
         </div>
       </div>
     );
-  }
-
-  renderActivePanel () {
-    if (this.props.activePanelType && panels[this.props.activePanelType]) {
-      const Panel = panels[this.props.activePanelType];
-      return (
-        <Panel {...this.props} updatePage={this.updatePage} />
-      );
-    }
   }
 }
