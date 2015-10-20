@@ -40,7 +40,6 @@
     "lodash.find": "^3.2.1",
     "lodash.findwhere": "^3.1.0",
     "lodash.foreach": "^3.0.3",
-    "lodash.keys": "^3.1.2",
     "lodash.map": "^3.1.4",
     "lodash.merge": "^3.3.2",
     "lodash.omit": "^3.1.0",
