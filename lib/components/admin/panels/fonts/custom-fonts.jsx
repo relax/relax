@@ -22,9 +22,9 @@ export default class CustomFonts extends Component {
     };
   }
 
-  removeCustomFont (family, event) {
+  removeCustomFont (id, event) {
     event.preventDefault();
-    this.props.removeCustomFont(family);
+    this.props.removeCustomFont(id);
   }
 
   submitCustomFont (event) {
@@ -40,18 +40,19 @@ export default class CustomFonts extends Component {
 
     if (this.state.files.length === 0) {
       this.setState({
-        customError: 'You haven\'t upload any font file'
+        customError: 'You haven\'t upload any font files'
       });
       return;
     }
 
     // Get each font file type
-    var types = [];
-    var filesInfo = [];
-    var files = this.state.files;
-    var re = /(?:\.([^.]+))?$/;
-    for (var i = 0; i < files.length; i++) {
+    const types = [];
+    const filesInfo = [];
+    const files = this.state.files;
+    const re = /(?:\.([^.]+))?$/;
+    for (let i = 0; i < files.length; i++) {
       const file = files[i];
+
       if (file.name && file.xhr && file.xhr.response) {
         const type = re.exec(file.name)[1];
 
@@ -60,10 +61,7 @@ export default class CustomFonts extends Component {
         }
 
         // server response
-        filesInfo.push({
-          name: file.name,
-          info: JSON.parse(file.xhr.response)
-        });
+        filesInfo.push((JSON.parse(file.xhr.response)).data.uploadFont);
       }
     }
 
@@ -94,8 +92,10 @@ export default class CustomFonts extends Component {
       return;
     }
 
-    this.props.submitCustomFont( this.state.titleInput, filesInfo, types)
+    this.props
+      .submitCustomFont(this.state.titleInput, filesInfo, types)
       .then(() => {
+        console.log('here');
         forEach(this.state.files, (file) => {
           file.previewElement.parentNode.removeChild(file.previewElement);
         });
@@ -123,8 +123,8 @@ export default class CustomFonts extends Component {
   }
 
   customFontFileRemove (file) {
-    var files = this.state.files;
-    var index = -1;
+    const files = this.state.files;
+    let index = -1;
     for (var i = 0; i < files.length; i++) {
       if (files[i].name === file.name) {
         index = i;
@@ -144,7 +144,6 @@ export default class CustomFonts extends Component {
         <div className='fonts-manager-custom-list'>
           {this.renderList()}
         </div>
-
         <div className='fonts-manager-custom-new-header'>
           Add new custom font
         </div>
@@ -155,7 +154,7 @@ export default class CustomFonts extends Component {
           </div>
           <div className='fonts-manager-custom-new-right' ref='uploadedFonts'>
             <Upload
-              action='/api/fonts/upload'
+              action='/graphql'
               success={this.customFontFileSuccess.bind(this)}
               removedfile={this.customFontFileRemove.bind(this)}
               acceptedFiles='.eot,.svg,.ttf,.woff,.woff2'
@@ -163,7 +162,22 @@ export default class CustomFonts extends Component {
               dictRemoveFile=' '
               dictCancelUpload=' '
               dictCancelUploadConfirmation=' '
-              dictDefaultMessage='Drop your font files here' />
+              dictDefaultMessage='Drop your font files here'
+              query={
+                `
+                  mutation uploadFont {
+                    uploadFont {
+                      originalname,
+                      mimetype,
+                      destination,
+                      filename,
+                      path,
+                      size
+                    }
+                  }
+                `
+              }
+            />
           </div>
 
           <div className='fonts-manager-custom-new-footer'>
@@ -178,7 +192,7 @@ export default class CustomFonts extends Component {
 
   renderList () {
     if (this.props.customFonts && this.props.customFonts.length > 0) {
-      var customFonts = [];
+      const customFonts = [];
 
       forEach(this.props.customFonts, (customFont) => {
         const family = customFont.family;
@@ -189,7 +203,9 @@ export default class CustomFonts extends Component {
               <p className='list-font-family'>{Utils.filterFontFamily(family)}</p>
               <p className='list-font-variation'>Custom font</p>
             </div>
-            <a href='#' className='list-font-remove' onClick={this.removeCustomFont.bind(this, family)}></a>
+            <a href='#' className='list-font-remove' onClick={this.removeCustomFont.bind(this, customFont.id)}>
+              <i className='material-icons'>close</i>
+            </a>
           </div>
         );
       });

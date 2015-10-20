@@ -40,7 +40,9 @@ const tabs = [
 export default class Manager extends Component {
   static propTypes = {
     fonts: PropTypes.object.isRequired,
-    changeFontInputAndUpdate: PropTypes.func.isRequired
+    changeFontInputAndUpdate: PropTypes.func.isRequired,
+    submitCustomFont: PropTypes.func.isRequired,
+    removeCustomFont: PropTypes.func.isRequired
   }
 
   getInitialState () {
@@ -86,10 +88,10 @@ export default class Manager extends Component {
       // Custom fonts
       result = (
         <CustomFonts
-          submitCustomFont={this.onCustomSubmit.bind(this)}
           customFonts={this.props.fonts.customFonts}
           previewText={this.props.fonts.previewText}
-          removeCustomFont={this.removeCustomFont.bind(this)}
+          submitCustomFont={this.props.submitCustomFont}
+          removeCustomFont={this.props.removeCustomFont}
         />
       );
     }

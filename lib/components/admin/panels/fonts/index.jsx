@@ -23,7 +23,9 @@ export default class Fonts extends Component {
     fonts: PropTypes.object,
     changeFontsPreviewText: PropTypes.func.isRequired,
     changeFontsPreviewLayout: PropTypes.func.isRequired,
-    changeFontInputAndUpdate: PropTypes.func.isRequired
+    changeFontInputAndUpdate: PropTypes.func.isRequired,
+    submitCustomFont: PropTypes.func.isRequired,
+    removeCustomFont: PropTypes.func.isRequired
   }
 
   getInitialState () {
@@ -165,7 +167,7 @@ export default class Fonts extends Component {
     if (this.state.manager) {
       return (
         <Lightbox title='Manage fonts' onClose={this.closeManager.bind(this)}>
-          <Mananger fonts={this.props.fonts} changeFontInputAndUpdate={this.props.changeFontInputAndUpdate} />
+          <Mananger fonts={this.props.fonts} changeFontInputAndUpdate={this.props.changeFontInputAndUpdate} submitCustomFont={this.props.submitCustomFont} removeCustomFont={this.props.removeCustomFont} />
         </Lightbox>
       );
     }

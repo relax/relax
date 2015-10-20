@@ -7,7 +7,8 @@ export default class Upload extends Component {
     action: React.PropTypes.string.isRequired,
     acceptedFiles: React.PropTypes.string,
     success: React.PropTypes.func,
-    children: React.PropTypes.node
+    children: React.PropTypes.node,
+    query: React.PropTypes.string
   }
 
   static defaultProps = {
@@ -27,6 +28,12 @@ export default class Upload extends Component {
       }
 
       this.dropzone = new Dropzone(React.findDOMNode(this), options);
+
+      if (this.props.query) {
+        this.dropzone.on('sending', (file, xhr, formData) => {
+          formData.append('query', this.props.query);
+        });
+      }
     }
   }
 
