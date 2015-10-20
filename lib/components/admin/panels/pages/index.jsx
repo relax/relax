@@ -1,10 +1,10 @@
 import React, {PropTypes} from 'react';
 import {Component, mergeFragments} from 'relax-framework';
 
-import List from './list';
 import A from '../../../a';
 import Breadcrumbs from '../../../breadcrumbs';
 import Filter from '../../../filter';
+import List from './list';
 import Pagination from '../../../pagination';
 
 export default class Pages extends Component {

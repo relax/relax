@@ -3,17 +3,29 @@ import {Component} from 'relax-framework';
 import Entry from './entry';
 
 export default class Schemas extends Component {
-  renderEntry (schema) {
+  static fragments = {
+    schemas: Entry.fragments.schema
+  }
+
+  static propTypes = {
+    schemas: React.PropTypes.array,
+    removeSchema: React.PropTypes.func
+  }
+
+  render () {
     return (
-      <Entry key={schema._id} schema={schema} />
+      <div className='list'>
+        {this.renderEntries()}
+      </div>
     );
   }
 
   renderEntries () {
-    if (this.props.data && this.props.data.length > 0) {
-      return this.props.data.map(this.renderEntry, this);
+    let result;
+    if (this.props.schemas && this.props.schemas.length > 0) {
+      result = this.props.schemas.map(this.renderEntry, this);
     } else {
-      return (
+      result = (
         <div className='none-warning'>
           <div className='none-icon-part'>
             <i className='material-icons'>error_outline</i>
@@ -25,13 +37,16 @@ export default class Schemas extends Component {
         </div>
       );
     }
+    return result;
   }
 
-  render () {
+  renderEntry (schema) {
     return (
-      <div className='list'>
-        {this.renderEntries()}
-      </div>
+      <Entry
+        key={schema._id}
+        schema={schema}
+        removeSchema={this.props.removeSchema}
+      />
     );
   }
 }

@@ -33,7 +33,7 @@ export default class List extends Component {
   }
 
   renderEntries () {
-    var result;
+    let result;
 
     if (this.props.pages && this.props.pages.length > 0) {
       result = this.props.pages.map(this.renderEntry, this);

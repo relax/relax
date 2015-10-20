@@ -59,9 +59,11 @@ export default class AdminContainer extends Component {
 
     // This probably could be encapsulated somehow
     switch (activePanelType) {
+      case 'menus':
       case 'pages':
+      case 'schemas':
         vars[activePanelType] = {
-          ...props.queryVariables || getQueryVariables(panels.pages.defaultQuery)
+          ...props.queryVariables || getQueryVariables(panel.defaultQuery)
         };
         break;
       case 'fonts':
@@ -85,11 +87,6 @@ export default class AdminContainer extends Component {
         } else {
           panelFragments[activePanelType] && delete panelFragments[activePanelType];
         }
-        break;
-      case 'menus':
-        vars[activePanelType] = {
-          ...props.queryVariables || getQueryVariables(panels.menus.defaultQuery)
-        };
         break;
       case 'userEdit':
         vars.user = {
