@@ -4,6 +4,13 @@ import {Link} from 'react-router';
 import {Component} from 'relax-framework';
 
 export default class A extends Component {
+  static propTypes = {
+    href: React.PropTypes.string.isRequired,
+    children: React.PropTypes.node,
+    onClick: React.PropTypes.func,
+    afterClick: React.PropTypes.func
+  }
+
   onClick (event) {
     if (this.props.onClick) {
       this.props.onClick(event);

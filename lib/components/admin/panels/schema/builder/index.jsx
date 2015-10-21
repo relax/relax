@@ -8,13 +8,13 @@ import slugify from 'slug';
 import Property from './property';
 import PropertyOptions from './property-options';
 
-var defaults = {
+const defaults = {
   title: 'New Property',
   type: 'String',
   required: false
 };
 
-var staticProps = [
+const staticProps = [
   {
     id: '_title',
     title: 'Title',
@@ -37,8 +37,8 @@ var staticProps = [
     locked: true
   },
   {
-    id: '_date',
-    title: 'Date',
+    id: '_updatedDate',
+    title: 'Updated Date',
     type: 'Date',
     required: true,
     locked: true

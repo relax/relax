@@ -1,13 +1,13 @@
-import {Component} from 'relax-framework';
-import React from 'react';
 import cx from 'classnames';
 import moment from 'moment';
+import React from 'react';
+import {Component} from 'relax-framework';
 
-import NotFound from '../not-found';
 import A from '../../../a';
 import Animate from '../../../animate';
-import Spinner from '../../../spinner';
 import Breadcrumbs from '../../../breadcrumbs';
+import NotFound from '../not-found';
+import Spinner from '../../../spinner';
 import TitleSlug from '../../../title-slug';
 import Utils from '../../../../utils';
 
@@ -37,7 +37,21 @@ export default class Page extends Component {
   static propTypes = {
     page: React.PropTypes.object,
     user: React.PropTypes.object,
-    breadcrumbs: React.PropTypes.array
+    breadcrumbs: React.PropTypes.array,
+    isNew: React.PropTypes.bool,
+    errors: React.PropTypes.any,
+    isSlugValid: React.PropTypes.bool,
+    validateSlug: React.PropTypes.func,
+    onChange: React.PropTypes.func,
+    saving: React.PropTypes.bool,
+    onUpdate: React.PropTypes.func,
+    onPublish: React.PropTypes.func,
+    onUnpublish: React.PropTypes.func,
+    onSaveDraft: React.PropTypes.func,
+    onRevisions: React.PropTypes.func,
+    savingLabel: React.PropTypes.string,
+    error: React.PropTypes.bool,
+    success: React.PropTypes.bool
   }
 
   render () {
