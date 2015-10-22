@@ -1,4 +1,3 @@
-import merge from 'lodash.merge';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 

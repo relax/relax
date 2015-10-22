@@ -1,12 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {Component} from 'relax-framework';
+import cx from 'classnames';
 import forEach from 'lodash.foreach';
 import merge from 'lodash.merge';
-import {Droppable, Draggable} from './drag';
-import Utils from '../utils';
+import React from 'react';
 import Velocity from 'velocity-animate';
-import cx from 'classnames';
+import {Component} from 'relax-framework';
+
+import Utils from '../utils';
+import {Droppable, Draggable} from './drag';
 
 export default class Element extends Component {
   getInitialState () {
@@ -23,14 +23,6 @@ export default class Element extends Component {
     };
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (this.context.editing && this.state.animation !== (this.props.element.animation && this.props.element.animation.use)) {
-      this.setState({
-        animation: this.props.element.animation && this.props.element.animation.use
-      });
-    }
-  }
-
   componentDidMount () {
     super.componentDidMount();
     this.state.offset = this.getOffset();
@@ -39,6 +31,14 @@ export default class Element extends Component {
       this.onScrollBind = this.onScroll.bind(this);
       window.addEventListener('scroll', this.onScrollBind);
       this.onScroll();
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.context.editing && this.state.animation !== (this.props.element.animation && this.props.element.animation.use)) {
+      this.setState({
+        animation: this.props.element.animation && this.props.element.animation.use
+      });
     }
   }
 
@@ -56,13 +56,13 @@ export default class Element extends Component {
   }
 
   animate () {
-    var dom = ReactDOM.findDOMNode(this);
-    var animation = this.props.element.animation;
+    const dom = React.findDOMNode(this);
+    const animation = this.props.element.animation;
     this.state.animated = true;
     this.state.animatedEditing = false;
     Velocity(dom, animation.effect, {
-       duration: animation.duration,
-       display: null
+      duration: animation.duration,
+      display: null
     });
   }
 
@@ -84,10 +84,10 @@ export default class Element extends Component {
   }
 
   onScroll () {
-    var dom = ReactDOM.findDOMNode(this);
-    var rect = dom.getBoundingClientRect();
+    const dom = React.findDOMNode(this);
+    const rect = dom.getBoundingClientRect();
 
-    if ( (rect.top <= 0 && rect.bottom >= 0) || (rect.top > 0 && rect.top < window.outerHeight) ) {
+    if ((rect.top <= 0 && rect.bottom >= 0) || (rect.top > 0 && rect.top < window.outerHeight)) {
       if (this.state.animation) {
         this.animationInit();
       }
@@ -104,7 +104,7 @@ export default class Element extends Component {
   }
 
   getOffset () {
-    var dom = ReactDOM.findDOMNode(this);
+    const dom = React.findDOMNode(this);
     return Utils.getOffsetRect(dom);
   }
 
@@ -136,53 +136,6 @@ export default class Element extends Component {
 
   isSelected () {
     return (this.context.selected && this.props.element.id === this.context.selected.id);
-  }
-
-  renderContent () {
-    if (this.props.settings.drop && !this.props.settings.drop.customDropArea && this.context.editing) {
-      var dropInfo = {
-        id: this.props.element.id
-      };
-
-      return (
-        <Droppable type={this.props.element.tag} dropInfo={dropInfo} {...this.props.settings.drop} placeholder={true}>
-          {this.props.children}
-        </Droppable>
-      );
-    } else {
-      return this.props.children;
-    }
-  }
-
-  renderHighlight () {
-    if (typeof this.props.element.id !== 'string') {
-      var className;
-      var dropHighlight = this._reactInternalInstance._context.dropHighlight; // # TODO modify when react passes context from owner-based to parent-based (0.14?)
-
-      const overed = this.isOvered();
-      const selected = this.isSelected();
-
-      if (!this.context.dragging && (overed || selected)) {
-        var elementType = this.props.element.tag;
-        var element = this.context.elements[elementType];
-        let inside = this.state.offset.top <= 65 || (this.props.style && this.props.style.overflow === 'hidden');
-        let subComponent = this.props.element.subComponent;
-
-        return (
-          <div className={cx('element-highlight', selected && 'selected', inside && 'inside', subComponent && 'sub-component')}>
-            <div className='element-identifier'>
-              <i className={element.settings.icon.class}>{element.settings.icon.content}</i>
-              <span>{this.props.element.label || elementType}</span>
-            </div>
-          </div>
-        );
-      } else if (dropHighlight !== 'none') {
-        className = 'element-drop-highlight '+dropHighlight;
-        return (
-          <div className={className}></div>
-        );
-      }
-    }
   }
 
   render () {
@@ -244,6 +197,53 @@ export default class Element extends Component {
           {this.renderContent()}
         </this.props.tag>
       );
+    }
+  }
+
+  renderContent () {
+    if (this.props.settings.drop && !this.props.settings.drop.customDropArea && this.context.editing) {
+      var dropInfo = {
+        id: this.props.element.id
+      };
+
+      return (
+        <Droppable type={this.props.element.tag} dropInfo={dropInfo} {...this.props.settings.drop} placeholder={true}>
+          {this.props.children}
+        </Droppable>
+      );
+    } else {
+      return this.props.children;
+    }
+  }
+
+  renderHighlight () {
+    if (typeof this.props.element.id !== 'string') {
+      var className;
+      var dropHighlight = this._reactInternalInstance._context.dropHighlight; // # TODO modify when react passes context from owner-based to parent-based (0.14?)
+
+      const overed = this.isOvered();
+      const selected = this.isSelected();
+
+      if (!this.context.dragging && (overed || selected)) {
+        const elementType = this.props.element.tag;
+        const element = this.context.elements[elementType];
+        const inside = this.state.offset.top <= 65 || (this.props.style && this.props.style.overflow === 'hidden');
+        const subComponent = this.props.element.subComponent;
+
+        return (
+          <div className={cx('element-highlight', selected && 'selected', inside && 'inside', subComponent && 'sub-component')}>
+            <div className='element-identifier'>
+              <i className={element.settings.icon.class}>{element.settings.icon.content}</i>
+              <span>{this.props.element.label || elementType}</span>
+            </div>
+          </div>
+        );
+      } else if (dropHighlight !== 'none') {
+        className = 'element-drop-highlight '+dropHighlight;
+        return (
+          <div className={className}></div>
+        );
+      }
     }
   }
 }

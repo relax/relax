@@ -30,10 +30,6 @@ export default class PropsMenu extends Component {
     setMenuSide(!menuSwitchSide);
   }
 
-  isOpened () {
-    return this.props.pageBuilder.menuOpened;
-  }
-
   render () {
     const {menuOpened, menuSwitchSide} = this.props.pageBuilder;
     return (
@@ -61,7 +57,7 @@ export default class PropsMenu extends Component {
     const {menuTab} = this.props.pageBuilder;
     if (Tabs[menuTab]) {
       var Tab = Tabs[menuTab];
-      return <Tab />;
+      return <Tab {...this.props} />;
     }
   }
 

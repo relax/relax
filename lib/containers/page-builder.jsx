@@ -6,12 +6,13 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Component} from 'relax-framework';
 
+import elements from '../components/elements';
 import PageBuilder from '../components/page-builder';
 
 @connect(
   (state) => ({
     draft: state.draft.data,
-    pageBuilder: state.pageBuilder
+    pageBuilder: {...state.pageBuilder, elements}
   }),
   (dispatch) => ({
     pageBuilderActions: bindActionCreators(pageBuilderActions, dispatch),

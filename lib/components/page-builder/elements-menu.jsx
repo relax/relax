@@ -1,17 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {Component} from 'relax-framework';
-import forEach from 'lodash.foreach';
-import GeminiScrollbar from 'react-gemini-scrollbar';
-import Animate from '../animate';
-// TODO Use EventEmitter from Node or something
-// import {Events} from 'backbone';
-import merge from 'lodash.merge';
 import cx from 'classnames';
+import forEach from 'lodash.foreach';
+import merge from 'lodash.merge';
+import GeminiScrollbar from 'react-gemini-scrollbar';
+import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
+
+import Animate from '../animate';
 
 var collapsed = false;
 
 export default class ElementsMenu extends Component {
+  static propTypes = {
+    pageBuilder: PropTypes.object.isRequired,
+    pageBuilderActions: PropTypes.object.isRequired,
+    container: React.PropTypes.any.isRequired,
+    targetId: React.PropTypes.number.isRequired,
+    onClose: React.PropTypes.func.isRequired
+  }
+
   getInitialState () {
     var categories = [
       'structure',
@@ -36,11 +42,9 @@ export default class ElementsMenu extends Component {
     }
 
     return {
-      categories,
       top: 0,
       left: 0,
-      contentTop: 0,
-      side: 'right'
+      contentTop: 0
     };
   }
 
@@ -223,19 +227,3 @@ export default class ElementsMenu extends Component {
     );
   }
 }
-merge(ElementsMenu.prototype, Events);
-
-ElementsMenu.contextTypes = {
-  elements: React.PropTypes.object.isRequired,
-  addElementAtId: React.PropTypes.func.isRequired
-};
-
-ElementsMenu.propTypes = {
-  container: React.PropTypes.any.isRequired,
-  targetId: React.PropTypes.number.isRequired,
-  onClose: React.PropTypes.func.isRequired
-};
-
-ElementsMenu.defaultProps = {
-
-};

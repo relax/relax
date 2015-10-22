@@ -1,38 +1,48 @@
-import React from 'react';
+import cx from 'classnames';
+import React, {PropTypes} from 'react';
+
+import propsSchema from './props-schema';
+import settings from './settings';
+import BackgroundImage from '../../background-image';
 import Component from '../../component';
 import Element from '../../element';
-import BackgroundImage from '../../background-image';
-import styles from '../../../styles';
 
-import settings from './settings';
-import style from './style';
-import propsSchema from './props-schema';
+// import style from './style';
+// import styles from '../../../styles';
 
 export default class Section extends Component {
-  renderBackground () {
-    if (this.props.useBackgroundImage) {
-      return (
-        <BackgroundImage
-          backgroundImage={this.props.backgroundImage}
-          repeat={this.props.repeat}
-          vertical={this.props.vertical}
-          horizontal={this.props.horizontal}
-        />
-      );
-    }
+  static propTypes = {
+    element: PropTypes.object.isRequired,
+    useBackgroundImage: PropTypes.bool,
+    backgroundImage: PropTypes.string,
+    repeat: PropTypes.string,
+    vertical: PropTypes.number,
+    horizontal: PropTypes.number,
+    navigation: PropTypes.string
   }
 
-  render () {
-    let classMap = this.props.style && styles.getClassesMap(this.props.style);
-    let className = classMap && classMap.section || '';
-    let classNameContent = classMap && classMap.content || '';
+  static defaultProps = {
+    backgroundImage: '',
+    repeat: 'no-repeat',
+    vertical: 50,
+    horizontal: 50,
+    navigation: ''
+  }
 
-    let props = {
+  static propsSchema = propsSchema
+
+  static settings = settings
+
+  render () {
+    const classMap = {}; // this.props.style && styles.getClassesMap(this.props.style);
+    const classNameContent = classMap && classMap.content || '';
+
+    const props = {
       tag: 'div',
       style: {
         position: 'relative'
       },
-      className,
+      className: cx(classMap && classMap.section),
       settings: this.constructor.settings,
       element: this.props.element
     };
@@ -50,24 +60,17 @@ export default class Section extends Component {
       </Element>
     );
   }
+
+  renderBackground () {
+    if (this.props.useBackgroundImage) {
+      return (
+        <BackgroundImage
+          backgroundImage={this.props.backgroundImage}
+          repeat={this.props.repeat}
+          vertical={this.props.vertical}
+          horizontal={this.props.horizontal}
+        />
+      );
+    }
+  }
 }
-
-Section.propTypes = {
-  backgroundImage: React.PropTypes.string.isRequired,
-  repeat: React.PropTypes.string.isRequired,
-  vertical: React.PropTypes.number,
-  horizontal: React.PropTypes.number,
-  navigation: React.PropTypes.string
-};
-
-Section.defaultProps = {
-  backgroundImage: '',
-  repeat: 'no-repeat',
-  vertical: 50,
-  horizontal: 50,
-  navigation: ''
-};
-
-styles.registerStyle(style);
-Section.propsSchema = propsSchema;
-Section.settings = settings;
