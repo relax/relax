@@ -1,7 +1,8 @@
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
+
 import MenuBar from './menu-bar';
-import cx from 'classnames';
 import TopMenu from './top-menu';
 
 export default class Admin extends Component {
@@ -23,7 +24,7 @@ export default class Admin extends Component {
     getAdmin: PropTypes.func.isRequired,
     updatePage: PropTypes.func.isRequired,
     display: PropTypes.string.isRequired,
-    loading: PropTypes.boolean
+    loading: PropTypes.bool
   }
 
   static defaultProps = {

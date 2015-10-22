@@ -1,25 +1,43 @@
-import React from 'react';
-import SchemaLinking from './schema-linking';
+import cx from 'classnames';
+import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
 
 import Canvas from './canvas';
-import Chrome from './chrome';
-import GeneralElementsMenu from './general-elements-menu';
 import JSSReact from '../../react-jss/jss-react';
-import factory from './factory';
+import Menu from './menu';
 
-class PageBuilder extends SchemaLinking {
+// import GeneralElementsMenu from './general-elements-menu';
+
+export default class PageBuilder extends Component {
+  static propTypes = {
+    data: PropTypes.object.isRequired,
+    actions: PropTypes.array.isRequired,
+    elements: PropTypes.object.isRequired,
+    pageBuilder: PropTypes.object.isRequired,
+    pageBuilderActions: PropTypes.object.isRequired,
+    draftActions: PropTypes.object.isRequired
+  }
+
   render () {
     return (
-      <div>
+      <div className={cx('page-builder', !this.props.pageBuilder.editing && 'preview')}>
         <JSSReact />
-        <Canvas />
-        <Chrome />
-        <GeneralElementsMenu />
-        {this.renderDraggingLine()}
-        {this.renderPossibilities()}
+        <Canvas
+          pageBuilder={this.props.pageBuilder}
+          pageBuilderActions={this.props.pageBuilderActions}
+          elements={this.props.elements}
+          data={this.props.data}
+        />
+        <Menu
+          pageBuilder={this.props.pageBuilder}
+          pageBuilderActions={this.props.pageBuilderActions}
+        />
       </div>
     );
   }
 }
 
-export default factory(PageBuilder);
+
+// <GeneralElementsMenu />
+// {this.renderElementsMenu()}
+// {this.renderDragger({top: -60})}

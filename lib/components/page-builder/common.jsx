@@ -1,13 +1,11 @@
+import cloneDeep from 'lodash.clonedeep';
+import forEach from 'lodash.foreach';
+import key from 'keymaster';
 import React from 'react';
 
 import Colors from '../../colors';
-import Styles from '../../styles';
 import ElementsMenu from './elements-menu';
-
-import forEach from 'lodash.foreach';
-import key from 'keymaster';
-import cloneDeep from 'lodash.clonedeep';
-
+import Styles from '../../styles';
 import {DragRoot} from '../drag';
 
 var BUILDER_ID = 0;
@@ -41,7 +39,7 @@ export default class Common extends DragRoot {
 
     this.schemaLinksId = this.getSchemaLinksIndex() + 1;
 
-    this.scope = 'keyscope'+(BUILDER_ID++);
+    this.scope = 'keyscope' + (BUILDER_ID++);
     this.previousScope = key.getScope();
     key.setScope(this.scope);
 
@@ -159,7 +157,7 @@ export default class Common extends DragRoot {
 
   undoAction (event) {
     if (event && event.preventDefault) {
-       event.preventDefault();
+      event.preventDefault();
     }
 
     this.revertAction();
@@ -167,7 +165,7 @@ export default class Common extends DragRoot {
 
   redoAction (event) {
     if (event && event.preventDefault) {
-       event.preventDefault();
+      event.preventDefault();
     }
 
     if (this.state.redos.length > 0) {
@@ -184,15 +182,15 @@ export default class Common extends DragRoot {
   }
 
   getSelectedElement () {
-    let selected = {
+    const selected = {
       element: 'body',
       path: [],
       parent: null
     };
 
     if (this.state.selected && this.state.selected !== 'body') {
-      let info = this.findElementById(this.props.value.data, this.state.selected);
-      let element = info.element;
+      const info = this.findElementById(this.props.value.data, this.state.selected);
+      const element = info.element;
 
       if (element) {
         let selectedParent = null;
@@ -249,7 +247,7 @@ export default class Common extends DragRoot {
           const defaultChildren = this.context.elements[element.tag].defaultChildren;
 
           if (defaultChildren.constructor === Array) {
-            let defaultChildrenClone = cloneDeep(defaultChildren);
+            const defaultChildrenClone = cloneDeep(defaultChildren);
             forEach(defaultChildrenClone, (childElement) => {
               idCounter = this.updateElementIds(childElement, idCounter);
             });
@@ -292,7 +290,7 @@ export default class Common extends DragRoot {
         this.selectElement('body');
       } else {
         // check if child is selected
-        let info = this.findElementById(this.props.value.data, this.state.selected);
+        const info = this.findElementById(this.props.value.data, this.state.selected);
         forEach(info.path, (element) => {
           if (element.id === action.id) {
             this.selectElement('body');
@@ -302,22 +300,22 @@ export default class Common extends DragRoot {
       }
       this.findElementById(this.props.value.data, action.id, true);
     } else if (action.type === 'changeProp') {
-      let info = this.findElementById(this.props.value.data, action.id);
-       info.element.props[action.prop] = action.value;
+      const info = this.findElementById(this.props.value.data, action.id);
+      info.element.props[action.prop] = action.value;
       if (action.prop === 'children') {
         info.element.children = action.value;
       }
     } else if (action.type === 'changeContent') {
-      let info = this.findElementById(this.props.value.data, action.id);
+      const info = this.findElementById(this.props.value.data, action.id);
       info.element.children = action.value;
     } else if (action.type === 'changeAnimation') {
-      let info = this.findElementById(this.props.value.data, action.id);
+      const info = this.findElementById(this.props.value.data, action.id);
       info.element.animation = action.value;
     } else if (action.type === 'changeLabel') {
-      let info = this.findElementById(this.props.value.data, action.id);
+      const info = this.findElementById(this.props.value.data, action.id);
       info.element.label = action.value;
     } else if (action.type === 'changeDisplay') {
-      let info = this.findElementById(this.props.value.data, action.id);
+      const info = this.findElementById(this.props.value.data, action.id);
       info.element.hide[action.display] = info.element.hide[action.display] ? false : true;
     } else if (action.type === 'changeSchema') {
       this.props.value.schema = action.value;
@@ -326,7 +324,7 @@ export default class Common extends DragRoot {
       this.props.value.schemaLinks[action.property] = this.props.value.schemaLinks[action.property] || [];
       this.props.value.schemaLinks[action.property].push(action.link);
     } else if (action.type === 'removeSchemaLink') {
-      let linkResult = this.getSchemaLink(action.property, action.link.id);
+      const linkResult = this.getSchemaLink(action.property, action.link.id);
 
       if (linkResult !== false) {
         this.props.value.schemaLinks[action.property].splice(linkResult.index, 1);
@@ -335,7 +333,7 @@ export default class Common extends DragRoot {
         }
       }
     } else if (action.type === 'changeSchemaLinkAction') {
-      let linkResult = this.getSchemaLink(action.property, action.linkId);
+      const linkResult = this.getSchemaLink(action.property, action.linkId);
 
       if (linkResult !== false) {
         linkResult.link.action = action.value;

@@ -1,5 +1,6 @@
 import React from 'react';
 import {Component} from 'relax-framework';
+
 import DepthSelectMenu from './depth-select-menu';
 
 class SchemaLinking extends Component {
@@ -50,7 +51,7 @@ class SchemaLinking extends Component {
 
   renderDraggingLine () {
     if (this.state.draggingLine) {
-      let style = {
+      const style = {
         zIndex: 10,
         width: '100%',
         height: '100%',

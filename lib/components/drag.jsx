@@ -1,11 +1,12 @@
-import React from 'react';
-import {Component} from 'relax-framework';
+import cx from 'classnames';
 import forEach from 'lodash.foreach';
 import merge from 'lodash.merge';
-import Utils from '../utils';
-import AnimateProps from './animateProps';
 import Velocity from 'velocity-animate';
-import cx from 'classnames';
+import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
+
+import AnimateProps from './animateProps';
+import Utils from '../utils';
 
 var LEFT_BUTTON = 0;
 var draggingData = {};
@@ -15,6 +16,16 @@ var dragReport = {
 var droppableOrientation = 'vertical';
 
 export class Draggable extends Component {
+  static propTypes = {
+    type: PropTypes.string.isRequired,
+    dragInfo: PropTypes.object.isRequired,
+    onStartDrag: PropTypes.func.isRequired,
+    droppableOn: PropTypes.string,
+    onClick: PropTypes.func,
+    disabled: PropTypes.bool,
+    children: PropTypes.node
+  }
+
   getInitialState () {
     this.onMouseUpListener = this.onMouseUp.bind(this);
     this.onMouseMoveListener = this.onMouseMove.bind(this);
@@ -34,10 +45,10 @@ export class Draggable extends Component {
 
     this.onMouseUp();
 
-    var element = React.findDOMNode(this);
+    const element = React.findDOMNode(this);
 
-    var elementOffset = Utils.getOffsetRect(element);
-    var width = elementOffset.width;
+    const elementOffset = Utils.getOffsetRect(element);
+    const width = elementOffset.width;
 
     // Change state
     this.setState({
@@ -61,19 +72,12 @@ export class Draggable extends Component {
     }
 
     // Parent events
-    if (this.props && this.props.onStartDrag) {
-      this.props.onStartDrag();
-    } else if (this.context && this.context.onStartDrag) {
-      this.context.onStartDrag();
-    } else {
-      console.log("onStartDrag callback was no set on draggable object");
-    }
-
+    this.props.onStartDrag();
   }
 
   onMouseDown (event) {
     if (event.button === LEFT_BUTTON) {
-      let draggable = !(this.props.dragSelected === false && this.context.selected.id === this.props.dragInfo.id);
+      const draggable = !this.props.disabled;
       event.stopPropagation();
 
       if (draggable) {
@@ -85,7 +89,7 @@ export class Draggable extends Component {
 
   render () {
     var props = {
-      className: (this.props.children.props.className || '')+' draggable',
+      className: (this.props.children.props.className || '') + ' draggable',
       draggable: 'false',
       onMouseDown: this.onMouseDown.bind(this)
     };
@@ -98,18 +102,6 @@ export class Draggable extends Component {
   }
 }
 
-Draggable.contextTypes = {
-  selected: React.PropTypes.any,
-  onStartDrag: React.PropTypes.func
-};
-
-Draggable.propTypes = {
-  type: React.PropTypes.string.isRequired,
-  dragInfo: React.PropTypes.object.isRequired,
-  droppableOn: React.PropTypes.string,
-  onStartDrag: React.PropTypes.func,
-  onClick: React.PropTypes.func
-};
 
 class Marker extends Component {
   componentDidMount () {
@@ -129,7 +121,7 @@ class Marker extends Component {
       animateObj.width = '7px';
     }
 
-    Velocity(React.findDOMNode(this), animateObj, { duration: 400, easing: "easeOutExpo" });
+    Velocity(React.findDOMNode(this), animateObj, { duration: 400, easing: 'easeOutExpo' });
   }
 
   render () {
@@ -152,6 +144,11 @@ class Marker extends Component {
 
 
 export class Dragger extends Component {
+  static propTypes = {
+    onStopDrag: PropTypes.func.isRequired,
+    offset: PropTypes.object
+  }
+
   getInitialState () {
     return {
       top: draggingData.elementOffset.top + (this.props.offset && this.props.offset.top ? this.props.offset.top : 0),
@@ -184,19 +181,14 @@ export class Dragger extends Component {
     document.removeEventListener('mousemove', this.onMouseMoveListener);
 
     // Parent events
-    if (this.props.onStopDrag) {
-      this.props.onStopDrag();
-    }
-    else {
-      console.log("onStopDrag callback was no set on dragger object");
-    }
+    this.props.onStopDrag();
   }
 
   onMouseMove (event) {
     event.preventDefault();
 
-    var deltaX = event.pageX - draggingData.mouseX + draggingData.elementOffset.left;
-    var deltaY = event.pageY - draggingData.mouseY + draggingData.elementOffset.top;
+    const deltaX = event.pageX - draggingData.mouseX + draggingData.elementOffset.left;
+    const deltaY = event.pageY - draggingData.mouseY + draggingData.elementOffset.top;
 
     this.setState({
       top: deltaY + (this.props.offset && this.props.offset.top ? this.props.offset.top : 0),
@@ -205,11 +197,11 @@ export class Dragger extends Component {
   }
 
   render () {
-    var style = {
+    const style = {
       position: 'fixed',
-      width: draggingData.elementWidth+'px',
-      top: this.state.top+'px',
-      left: this.state.left+'px',
+      width: draggingData.elementWidth + 'px',
+      top: this.state.top + 'px',
+      left: this.state.left + 'px',
       pointerEvents: 'none',
       boxShadow: '0px 0px 20px 0px rgba(0, 0, 0, 0.5)',
       zIndex: 20
@@ -236,17 +228,6 @@ export class Droppable extends Component {
     };
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (!nextProps.dragging) {
-      this.removeOrderingEvents();
-
-      this.setState({
-        entered: false,
-        overed: false
-      });
-    }
-  }
-
   componentDidMount () {
     const containerRect = React.findDOMNode(this).getBoundingClientRect();
 
@@ -259,6 +240,17 @@ export class Droppable extends Component {
     } else if (this.state.closeToMargin) {
       this.setState({
         closeToMargin: false
+      });
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (!nextProps.dragging) {
+      this.removeOrderingEvents();
+
+      this.setState({
+        entered: false,
+        overed: false
       });
     }
   }

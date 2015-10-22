@@ -1,13 +1,11 @@
+import forEach from 'lodash.foreach';
+import GeminiScrollbar from 'react-gemini-scrollbar';
 import React from 'react';
 import {Component} from 'relax-framework';
-import GeminiScrollbar from 'react-gemini-scrollbar';
-import forEach from 'lodash.foreach';
-import cloneDeep from 'lodash.clonedeep';
 
+import schemasStore from '../../../../../client/stores/schemas';
+import Combobox from '../../../../combobox';
 import SchemaProperties from './schema-properties';
-import Combobox from '../../../../../combobox';
-
-import schemasStore from '../../../../../../client/stores/schemas';
 
 export default class Schema extends Component {
   getInitialCollections () {

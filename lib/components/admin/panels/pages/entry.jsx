@@ -60,7 +60,7 @@ export default class Entry extends Component {
     const page = this.props.page;
 
     const editLink = '/admin/pages/' + page.slug;
-    const buildLink = '/admin/page/' + page.slug;
+    const buildLink = '/admin/page/' + page._id;
     const viewLink = '/' + page.slug;
     const published = page.state === 'published';
     const date = 'Created - ' + moment(page.date).format('MMMM Do YYYY');

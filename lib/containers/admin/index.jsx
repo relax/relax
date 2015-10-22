@@ -1,12 +1,13 @@
+import * as adminActions from '../../client/actions/admin';
+
 import React, {cloneElement, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Component, mergeFragments, buildQueryAndVariables} from 'relax-framework';
 
-import * as adminActions from '../../client/actions/admin';
-import {getQueryVariables} from '../../decorators/query-props';
-import Admin from '../../components/admin';
 import panels from '../../components/admin/panels';
+import Admin from '../../components/admin';
+import {getQueryVariables} from '../../decorators/query-props';
 
 @connect(
   (state) => ({
@@ -23,7 +24,6 @@ export default class AdminContainer extends Component {
     children: PropTypes.any,
     location: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-    slug: PropTypes.string,
     getAdmin: PropTypes.func.isRequired,
     updatePage: PropTypes.func.isRequired,
     display: PropTypes.string.isRequired
@@ -64,6 +64,24 @@ export default class AdminContainer extends Component {
       case 'schemas':
         vars[activePanelType] = {
           ...props.queryVariables || getQueryVariables(panel.defaultQuery)
+        };
+        break;
+      case 'pageBuild':
+        vars.page = {
+          _id: {
+            value: props.params && props.params.id,
+            type: 'String!'
+          }
+        };
+        vars.draft = {
+          id: {
+            value: props.params && props.params.id,
+            type: 'String!'
+          },
+          user: {
+            value: props.session && props.session._id,
+            type: 'String!'
+          }
         };
         break;
       case 'fonts':

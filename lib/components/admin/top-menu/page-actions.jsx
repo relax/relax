@@ -433,8 +433,10 @@ export default class PageActions extends Component {
     return (
       <div className='page-actions'>
         {this.renderDisplayMenu()}
-        <A href={this.props.lastDashboard} className={cx('top-bar-button', this.props.activePanelType !== 'pageBuild' && 'active')}><i className='material-icons'>dashboard</i></A>
-        <div className='seperator'></div>
+        <A href={this.props.lastDashboard} className={cx('dashboard-button', this.props.activePanelType !== 'pageBuild' && 'active')}>
+          <img src='/images/admin/logo@2x.png' className='logo' />
+          <img src='/images/admin/relax@2x.png' className='lettering' />
+        </A>
         <div className='statuses'>
           {this.renderStatus()}
         </div>
@@ -488,7 +490,7 @@ export default class PageActions extends Component {
         <div className='center-menu-wraper'>
           <div className='center-menu-slider' style={centerMenuStyle}>
             <a href='#' className={this.props.display === 'desktop' ? 'top-bar-button' : 'top-bar-button unfocus'} onClick={this.changeDisplay.bind(this, 'desktop')}>
-              <i className='material-icons'>desktop_mac</i>
+              <i className='material-icons'>computer</i>
             </a>
             <a href='#' className={this.props.display === 'tablet' ? 'top-bar-button' : 'top-bar-button unfocus'} onClick={this.changeDisplay.bind(this, 'tablet')}>
               <i className='material-icons'>tablet_mac</i>

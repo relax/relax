@@ -1,8 +1,9 @@
+import cx from 'classnames';
 import React from 'react';
 import {Component} from 'relax-framework';
-import {Draggable} from '../../../../../drag';
-import OptionsMenu from '../../../../../options-menu';
-import cx from 'classnames';
+
+import OptionsMenu from '../../../../options-menu';
+import {Draggable} from '../../../../drag';
 
 export default class Entry extends Component {
   getInitialState () {
