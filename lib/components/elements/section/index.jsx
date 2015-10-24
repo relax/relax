@@ -38,13 +38,13 @@ export default class Section extends Component {
     const classNameContent = classMap && classMap.content || '';
 
     const props = {
+      ...this.props,
       tag: 'div',
       style: {
         position: 'relative'
       },
       className: cx(classMap && classMap.section),
-      settings: this.constructor.settings,
-      element: this.props.element
+      settings: this.constructor.settings
     };
 
     if (this.props.navigation && this.props.navigation !== '') {

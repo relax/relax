@@ -5,9 +5,12 @@ import {Droppable} from './dnd';
 
 export default class ElementComponent extends Component {
   static propTypes = {
-    editing: PropTypes.bool.isRequired,
+    pageBuilder: PropTypes.object.isRequired,
     element: PropTypes.object.isRequired,
-    children: PropTypes.node
+    elementId: PropTypes.string.isRequired,
+    children: PropTypes.node,
+    dnd: PropTypes.object.isRequired,
+    dndActions: PropTypes.object.isRequired
   }
 
   componentWillReceiveProps (nextProps) {
@@ -32,13 +35,22 @@ export default class ElementComponent extends Component {
 
   renderContent (customProps) {
     let result;
-    if (this.context.editing) {
-      var dropInfo = {
-        id: this.props.element.id
+    const {editing} = this.props.pageBuilder;
+    if (editing) {
+      const dropInfo = {
+        id: this.props.elementId
       };
 
       result = (
-        <Droppable type={this.props.element.tag} dropInfo={dropInfo} {...this.constructor.settings.drop} {...customProps} placeholder>
+        <Droppable
+          type={this.props.element.tag}
+          dropInfo={dropInfo}
+          {...this.constructor.settings.drop}
+          {...customProps}
+          placeholder
+          pageBuilder={this.props.pageBuilder}
+          dnd={this.props.dnd}
+          dndActions={this.props.dndActions}>
           {this.props.children}
         </Droppable>
       );

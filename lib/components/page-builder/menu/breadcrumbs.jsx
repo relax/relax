@@ -13,11 +13,11 @@ export default class Breadcrumbs extends Component {
   }
 
   render () {
-    const {selectedPath, selected} = this.props.pageBuilder;
+    const {selectedPath, selectedElement} = this.props.pageBuilder;
     return (
       <div className='selected-breadcrumbs'>
         {selectedPath.map(this.renderPathEntry, this)}
-        <span className='current' key='current'>{(selected && (selected.label || selected.tag)) || 'body'}</span>
+        <span className='current' key='current'>{(selectedElement && (selectedElement.label || selectedElement.tag)) || 'body'}</span>
       </div>
     );
   }

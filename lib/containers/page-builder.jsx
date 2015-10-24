@@ -1,5 +1,4 @@
 import * as dndActions from '../client/actions/dnd';
-import * as draftActions from '../client/actions/draft';
 import * as pageBuilderActions from '../client/actions/page-builder';
 
 import React, {PropTypes} from 'react';
@@ -10,16 +9,43 @@ import {Component} from 'relax-framework';
 import elements from '../components/elements';
 import PageBuilder from '../components/page-builder';
 
+function getElementPath (selectedElement, data) {
+  const result = [];
+  let current = selectedElement;
+
+  while (current.parent) {
+    current = data[current.parent];
+    result.unshift(current);
+  }
+
+  return result;
+}
+
+function getPageBuilder (pageBuilder, data) {
+  const result = {
+    ...pageBuilder,
+    data,
+    elements,
+    selectedPath: []
+  };
+
+  if (pageBuilder.selectedId && data[pageBuilder.selectedId]) {
+    const selectedElement = data[pageBuilder.selectedId];
+    result.selectedElement = selectedElement;
+    result.selectedParent = selectedElement.parent;
+    result.selectedPath = getElementPath(selectedElement, data);
+  }
+
+  return result;
+}
+
 @connect(
   (state) => ({
-    data: state.draft.data.data,
-    actions: state.draft.data.actions,
-    pageBuilder: {...state.pageBuilder, elements},
+    pageBuilder: getPageBuilder(state.pageBuilder, state.draft.data.data),
     dnd: state.dnd
   }),
   (dispatch) => ({
     pageBuilderActions: bindActionCreators(pageBuilderActions, dispatch),
-    draftActions: bindActionCreators(draftActions, dispatch),
     dndActions: bindActionCreators(dndActions, dispatch)
   })
 )
@@ -33,11 +59,8 @@ export default class PageBuilderContainer extends Component {
   }
 
   static propTypes = {
-    data: PropTypes.object,
-    actions: PropTypes.object,
     pageBuilder: PropTypes.object.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
-    draftActions: PropTypes.object.isRequired,
     dnd: PropTypes.object.isRequired,
     dndActions: PropTypes.object.isRequired
   }

@@ -56,11 +56,12 @@ export default class Droppable extends Component {
   }
 
   getChildContext () {
-    var childContext = {
+    const {dragging} = this.props.dnd;
+    const childContext = {
       dropHighlight: 'none'
     };
 
-    if (this.context.dragging) {
+    if (dragging) {
       if (this.droppableHere()) {
         if (this.props.orientation && this.props.orientation === 'horizontal') {
           childContext.dropHighlight = 'horizontal';
@@ -282,7 +283,8 @@ export default class Droppable extends Component {
   }
 
   showMarks () {
-    return (this.context.selectedParent === this.props.dropInfo.id || (this.context.selected && this.context.selected.id === this.props.dropInfo.id));
+    const {selectedParent, selectedId} = this.props.pageBuilder;
+    return (selectedParent === this.props.dropInfo.id || (selectedId === this.props.dropInfo.id));
   }
 
   isActive () {
@@ -335,9 +337,9 @@ export default class Droppable extends Component {
   }
 
   renderMark (position) {
-    const {elementsMenuSpot, selected} = this.props.pageBuilder;
+    const {elementsMenuSpot, selectedId} = this.props.pageBuilder;
     const vertical = this.props.orientation && this.props.orientation === 'horizontal';
-    const active = elementsMenuSpot === position && selected && selected.id === this.props.dropInfo.id;
+    const active = elementsMenuSpot === position && selectedId === this.props.dropInfo.id;
 
     return (
       <div className={cx('add-marker', vertical && 'vertical', !vertical && this.state.closeToMargin && 'inverted', active && 'active')} onClick={this.addSpotClick.bind(this, position)}>

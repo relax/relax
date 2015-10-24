@@ -94,7 +94,7 @@ export default class Entry extends Component {
     var element = this.context.elements[this.props.elementInfo.tag];
 
     let selected = this.context.selected && this.context.selected.id === this.props.id;
-    let overed = this.context.overedElement && this.context.overedElement.id === this.props.id;
+    let overed = this.context.overedElement && this.context.overedElement === this.props.id;
     let hasChildren = this.props.hasChildren;
     let subComponent = this.props.elementInfo.subComponent;
 

@@ -13,11 +13,8 @@ export default class PageBuilder extends Component {
   static propTypes = {
     dnd: PropTypes.object.isRequired,
     dndActions: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
-    actions: PropTypes.array.isRequired,
     pageBuilder: PropTypes.object.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired,
-    draftActions: PropTypes.object.isRequired
+    pageBuilderActions: PropTypes.object.isRequired
   }
 
   draggedComponent () {
@@ -32,25 +29,9 @@ export default class PageBuilder extends Component {
     return (
       <div className={cx('page-builder', !this.props.pageBuilder.editing && 'preview')}>
         <JSSReact />
-        <Canvas
-          pageBuilder={this.props.pageBuilder}
-          pageBuilderActions={this.props.pageBuilderActions}
-          data={this.props.data}
-          dnd={this.props.dnd}
-          dndActions={this.props.dndActions}
-        />
-        <Menu
-          pageBuilder={this.props.pageBuilder}
-          pageBuilderActions={this.props.pageBuilderActions}
-          dnd={this.props.dnd}
-          dndActions={this.props.dndActions}
-        />
-        <GeneralElementsMenu
-          pageBuilder={this.props.pageBuilder}
-          pageBuilderActions={this.props.pageBuilderActions}
-          dnd={this.props.dnd}
-          dndActions={this.props.dndActions}
-        />
+        <Canvas {...this.props} />
+        <Menu {...this.props} />
+        <GeneralElementsMenu {...this.props} />
         {this.renderElementsMenu()}
         {this.renderDragger()}
       </div>
@@ -61,12 +42,7 @@ export default class PageBuilder extends Component {
     const {elementsMenuOpened} = this.props.pageBuilder;
     if (elementsMenuOpened) {
       return (
-        <ElementsMenu
-          pageBuilder={this.props.pageBuilder}
-          pageBuilderActions={this.props.pageBuilderActions}
-          dnd={this.props.dnd}
-          dndActions={this.props.dndActions}
-        />
+        <ElementsMenu {...this.props} />
       );
     }
   }

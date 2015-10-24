@@ -1,14 +1,26 @@
 import cx from 'classnames';
-import forEach from 'lodash.foreach';
-import merge from 'lodash.merge';
-import React from 'react';
 import Velocity from 'velocity-animate';
+import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import Utils from '../utils';
 import {Droppable, Draggable} from './dnd';
 
 export default class Element extends Component {
+  static propTypes = {
+    children: PropTypes.node,
+    style: PropTypes.object,
+    dnd: PropTypes.object,
+    dndActions: PropTypes.object,
+    tag: React.PropTypes.string.isRequired,
+    element: React.PropTypes.object.isRequired,
+    elementId: React.PropTypes.string.isRequired,
+    settings: React.PropTypes.object.isRequired,
+    onEnterScreen: React.PropTypes.func,
+    pageBuilder: React.PropTypes.object,
+    pageBuilderActions: React.PropTypes.object
+  }
+
   getInitialState () {
     if (this.context.editing && this.isClient()) {
       this.animationEditingBind = this.animationEditing.bind(this);
@@ -24,9 +36,10 @@ export default class Element extends Component {
   }
 
   componentDidMount () {
+    const {editing} = this.props.pageBuilder;
     this.state.offset = this.getOffset();
 
-    if ((!this.context.editing && this.state.animation) || this.props.onEnterScreen) {
+    if ((!editing && this.state.animation) || this.props.onEnterScreen) {
       this.onScrollBind = this.onScroll.bind(this);
       window.addEventListener('scroll', this.onScrollBind);
       this.onScroll();
@@ -34,7 +47,8 @@ export default class Element extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.context.editing && this.state.animation !== (this.props.element.animation && this.props.element.animation.use)) {
+    const {editing} = nextProps.pageBuilder;
+    if (editing && this.state.animation !== (this.props.element.animation && this.props.element.animation.use)) {
       this.setState({
         animation: this.props.element.animation && this.props.element.animation.use
       });
@@ -66,7 +80,7 @@ export default class Element extends Component {
 
   animationInit () {
     if (this.state.animation) {
-      var animation = this.props.element.animation;
+      const animation = this.props.element.animation;
       this.animationTimeout = setTimeout(this.animate.bind(this), animation.delay);
     }
   }
@@ -97,8 +111,9 @@ export default class Element extends Component {
   }
 
   onElementClick (event) {
+    const {selectElement} = this.props.pageBuilderActions;
     event.stopPropagation();
-    this.context.selectElement(this.props.element.id);
+    selectElement(this.props.elementId);
   }
 
   getOffset () {
@@ -107,48 +122,52 @@ export default class Element extends Component {
   }
 
   onMouseOver (event) {
-    if (!this.context.dragging) {
+    const {dragging} = this.props.dnd;
+    const {overElement} = this.props.pageBuilderActions;
+    if (!dragging) {
       event.stopPropagation();
       clearTimeout(this.outTimeout);
       if (!this.isOvered() && !this.isSelected()) {
-        var offset = this.getOffset();
-        this.context.overElement(this.props.element.id);
+        const offset = this.getOffset();
+        overElement(this.props.elementId);
         this.state.offset = offset;
       }
     }
   }
 
   onMouseOut () {
-    if (!this.context.dragging && this.isOvered()) {
+    const {dragging} = this.props.dnd;
+    if (!dragging && this.isOvered()) {
       this.outTimeout = setTimeout(this.selectOut.bind(this), 50);
     }
   }
 
   selectOut () {
-    this.context.outElement(this.props.element.id);
+    const {outElement} = this.props.pageBuilderActions;
+    outElement(this.props.elementId);
   }
 
   isOvered () {
-    return (this.context.overedElement && this.props.element.id === this.context.overedElement.id);
+    const {overedId} = this.props.pageBuilder;
+    return (overedId && this.props.elementId === overedId);
   }
 
   isSelected () {
-    return (this.context.selected && this.props.element.id === this.context.selected.id);
+    const {selectedId} = this.props.pageBuilder;
+    return (selectedId && this.props.elementId === selectedId);
   }
 
   render () {
-    var props = {};
-    forEach(this.props, (prop, key) => {
-      if (key !== 'tag' && key !== 'children' && key !== 'settings' && key !== 'element' && key !== 'onEnterScreen') {
-        props[key] = prop;
-      }
-    });
+    let result;
+    const {children, settings, element, elementId, onEnterScreen, ...props} = this.props;
+    const {editing, selectedParent} = this.props.pageBuilder;
 
-    if (this.context.editing && this.props.settings.drag) {
+    if (editing && this.props.settings.drag) {
       const overed = this.isOvered();
       const selected = this.isSelected();
+      const {dragging} = this.props.dnd;
 
-      if ((!this.context.dragging && (overed || selected)) || this.context.dragging || this.context.selectedParent === this.props.element.id) {
+      if ((!dragging && (overed || selected)) || dragging || selectedParent === elementId) {
         props.style = props.style || {};
         props.style.position = props.style.position || 'relative';
       }
@@ -158,29 +177,29 @@ export default class Element extends Component {
         props.style.opacity = 0;
       }
 
-      if (this.props.element.subComponent) {
-        return (
-          <this.props.tag {...props} onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)} onClick={this.onElementClick.bind(this)}>
+      if (element.subComponent) {
+        result = (
+          <element.tag {...props} onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)} onClick={this.onElementClick.bind(this)}>
             {this.renderContent()}
             {this.renderHighlight()}
-          </this.props.tag>
+          </element.tag>
         );
       } else {
-        var draggableProps = merge({
+        const draggableProps = Object.assign({
           dragInfo: {
             type: 'move',
-            id: this.props.element.id
+            id: this.props.elementId
           },
           onClick: this.onElementClick.bind(this),
           type: this.props.element.tag
         }, this.props.settings.drag);
 
-        return (
-          <Draggable {...draggableProps}>
-            <this.props.tag {...props} onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)}>
+        result = (
+          <Draggable {...draggableProps} dnd={this.props.dnd} dndActions={this.props.dndActions}>
+            <element.tag {...props} onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)}>
               {this.renderContent()}
               {this.renderHighlight()}
-            </this.props.tag>
+            </element.tag>
           </Draggable>
         );
       }
@@ -190,41 +209,53 @@ export default class Element extends Component {
         props.style.opacity = 0;
       }
 
-      return (
-        <this.props.tag {...props}>
+      result = (
+        <element.tag {...props}>
           {this.renderContent()}
-        </this.props.tag>
+        </element.tag>
       );
     }
+    return result;
   }
 
   renderContent () {
-    if (this.props.settings.drop && !this.props.settings.drop.customDropArea && this.context.editing) {
-      var dropInfo = {
-        id: this.props.element.id
+    const {editing} = this.props.pageBuilder;
+    let result;
+    if (this.props.settings.drop && !this.props.settings.drop.customDropArea && editing) {
+      const dropInfo = {
+        id: this.props.elementId
       };
 
-      return (
-        <Droppable type={this.props.element.tag} dropInfo={dropInfo} {...this.props.settings.drop} placeholder={true}>
+      result = (
+        <Droppable
+          type={this.props.element.tag}
+          dropInfo={dropInfo}
+          {...this.props.settings.drop}
+          placeholder
+          dnd={this.props.dnd}
+          dndActions={this.props.dndActions}>
           {this.props.children}
         </Droppable>
       );
     } else {
-      return this.props.children;
+      result = this.props.children;
     }
+    return result;
   }
 
   renderHighlight () {
-    if (typeof this.props.element.id !== 'string') {
-      var className;
-      var dropHighlight = this._reactInternalInstance._context.dropHighlight; // # TODO modify when react passes context from owner-based to parent-based (0.14?)
+    if (this.props.elementId) {
+      const {elements} = this.props.pageBuilder;
+      const {dragging} = this.props.dnd;
+      const dropHighlight = this._reactInternalInstance._context.dropHighlight; // # TODO modify when react passes context from owner-based to parent-based (0.14?)
+      let className;
 
       const overed = this.isOvered();
       const selected = this.isSelected();
 
-      if (!this.context.dragging && (overed || selected)) {
+      if (!dragging && (overed || selected)) {
         const elementType = this.props.element.tag;
-        const element = this.context.elements[elementType];
+        const element = elements[elementType];
         const inside = this.state.offset.top <= 65 || (this.props.style && this.props.style.overflow === 'hidden');
         const subComponent = this.props.element.subComponent;
 
@@ -237,7 +268,7 @@ export default class Element extends Component {
           </div>
         );
       } else if (dropHighlight !== 'none') {
-        className = 'element-drop-highlight '+dropHighlight;
+        className = 'element-drop-highlight ' + dropHighlight;
         return (
           <div className={className}></div>
         );
@@ -245,23 +276,3 @@ export default class Element extends Component {
     }
   }
 }
-
-Element.propTypes = {
-  tag: React.PropTypes.string.isRequired,
-  element: React.PropTypes.object.isRequired,
-  settings: React.PropTypes.object.isRequired,
-  onEnterScreen: React.PropTypes.func
-};
-
-Element.contextTypes = {
-  selected: React.PropTypes.any,
-  selectElement: React.PropTypes.func,
-  dragging: React.PropTypes.bool,
-  elements: React.PropTypes.object,
-  overElement: React.PropTypes.func,
-  outElement: React.PropTypes.func,
-  overedElement: React.PropTypes.any,
-  editing: React.PropTypes.bool.isRequired,
-  dropHighlight: React.PropTypes.string,
-  selectedParent: React.PropTypes.number
-};

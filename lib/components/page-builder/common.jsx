@@ -209,7 +209,7 @@ export default class Common extends DragRoot {
   }
 
   overElement (id) {
-    if (id !== 'body' && (!this.overedElement || this.overedElement.id !== id)) {
+    if (id !== 'body' && (!this.overedElement || this.overedElement !== id)) {
       var info = this.findElementById(this.props.value.data, id);
       var element = info.element;
 
@@ -223,7 +223,7 @@ export default class Common extends DragRoot {
   }
 
   outElement (id) {
-    if (this.state.overedElement && this.state.overedElement.id === id) {
+    if (this.state.overedElement && this.state.overedElement === id) {
       this.setState({
         overedElement: false
       });

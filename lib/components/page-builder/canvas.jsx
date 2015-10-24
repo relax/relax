@@ -11,9 +11,7 @@ export default class Canvas extends Component {
     dnd: PropTypes.object.isRequired,
     dndActions: PropTypes.object.isRequired,
     pageBuilder: PropTypes.object.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired,
-    elements: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired
+    pageBuilderActions: PropTypes.object.isRequired
   }
 
   static childContextTypes = {
@@ -42,6 +40,7 @@ export default class Canvas extends Component {
   }
 
   render () {
+    const {data} = this.props.pageBuilder;
     const dropInfo = {
       id: 'body',
       type: 'body'
@@ -58,7 +57,7 @@ export default class Canvas extends Component {
       <div className='page-builder-canvas' ref='canvas'>
         <div className='body-element' style={bodyStyle} ref='body'>
           <Droppable type='body' dropInfo={dropInfo} accepts='Section' placeholder dnd={this.props.dnd} dndActions={this.props.dndActions} pageBuilder={this.props.pageBuilder}>
-            {this.props.data && this.props.data.body && this.renderChildren(this.props.data.body.children, elementsLinks)}
+            {data && data.body && this.renderChildren(data.body.children, elementsLinks)}
           </Droppable>
         </div>
       </div>
@@ -76,7 +75,8 @@ export default class Canvas extends Component {
   }
 
   renderElement (elementsLinks, elementId) {
-    const element = this.props.data[elementId];
+    const {data} = this.props.pageBuilder;
+    const element = data[elementId];
 
     if ((!element.hide || !element.hide[this.props.pageBuilder.display]) && element.display !== false) {
       if (element.display !== false) {
@@ -86,13 +86,11 @@ export default class Canvas extends Component {
         return (
           <FactoredElement
             {...element.props}
-            key={element.id}
+            {...this.props}
+            key={elementId}
             selected={selected}
             element={element}
-            dnd={this.props.dnd}
-            dndActions={this.props.dndActions}
-            pageBuilder={this.props.pageBuilder}
-            pageBuilderActions={this.props.pageBuilderActions}>
+            elementId={elementId}>
             {element.children && this.renderChildren(element.children, elementsLinks)}
           </FactoredElement>
         );
