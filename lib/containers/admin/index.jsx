@@ -59,6 +59,7 @@ export default class AdminContainer extends Component {
 
     // This probably could be encapsulated somehow
     switch (activePanelType) {
+      case 'media':
       case 'menus':
       case 'pages':
       case 'schemas':

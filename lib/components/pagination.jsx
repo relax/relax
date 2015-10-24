@@ -1,6 +1,7 @@
+import clone from 'lodash.clone';
 import React from 'react';
 import {Component} from 'relax-framework';
-import clone from 'lodash.clone';
+
 import A from './a';
 import Utils from '../utils';
 

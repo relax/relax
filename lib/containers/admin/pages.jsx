@@ -1,11 +1,12 @@
+import * as pagesActions from '../../client/actions/pages';
+
 import React, {PropTypes} from 'react';
-import {Component, buildQueryAndVariables} from 'relax-framework';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {Component, buildQueryAndVariables} from 'relax-framework';
 
-import Pages from '../../components/admin/panels/pages';
 import queryProps from '../../decorators/query-props';
-import * as pagesActions from '../../client/actions/pages';
+import Pages from '../../components/admin/panels/pages';
 
 @connect(
   (state) => ({
@@ -20,6 +21,15 @@ import * as pagesActions from '../../client/actions/pages';
 })
 export default class PagesContainer extends Component {
   static fragments = Pages.fragments
+
+  static panelSettings = {
+    activePanelType: 'pages',
+    breadcrumbs: [
+      {
+        label: 'Pages'
+      }
+    ]
+  }
 
   static propTypes = {
     hasQueryChanged: PropTypes.bool.isRequired,
@@ -41,15 +51,6 @@ export default class PagesContainer extends Component {
         ))
         .done();
     }
-  }
-
-  static panelSettings = {
-    activePanelType: 'pages',
-    breadcrumbs: [
-      {
-        label: 'Pages'
-      }
-    ]
   }
 
   render () {

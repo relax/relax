@@ -22,6 +22,8 @@ export default class MediaManager extends Component {
     selected: PropTypes.string,
     removing: PropTypes.boolean,
     upload: PropTypes.boolean,
+    query: PropTypes.object,
+    count: PropTypes.number,
     media: PropTypes.array.isRequired,
     onGridClick: PropTypes.func.isRequired,
     onListClick: PropTypes.func.isRequired,
@@ -60,7 +62,7 @@ export default class MediaManager extends Component {
         <div className='admin-scrollable'>
           {this.renderSelectedMenu()}
           {this.renderItems()}
-          <Pagination url='/admin/media'/>
+          <Pagination url='/admin/media' query={this.props.query} count={this.props.count} />
         </div>
         {this.renderLightbox()}
         {this.renderRemoving()}
