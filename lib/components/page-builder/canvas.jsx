@@ -2,12 +2,14 @@ import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import displays from '../../displays';
-import {Droppable} from '../drag';
+import {Droppable} from '../dnd';
 
 // import utils from '../../utils';
 
 export default class Canvas extends Component {
   static propTypes = {
+    dnd: PropTypes.object.isRequired,
+    dndActions: PropTypes.object.isRequired,
     pageBuilder: PropTypes.object.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
     elements: PropTypes.object.isRequired,
@@ -41,6 +43,7 @@ export default class Canvas extends Component {
 
   render () {
     const dropInfo = {
+      id: 'body',
       type: 'body'
     };
     const bodyStyle = {
@@ -54,8 +57,8 @@ export default class Canvas extends Component {
     return (
       <div className='page-builder-canvas' ref='canvas'>
         <div className='body-element' style={bodyStyle} ref='body'>
-          <Droppable type='body' dropInfo={dropInfo} accepts='Section' placeholder>
-            {this.renderChildren(this.props.data, elementsLinks)}
+          <Droppable type='body' dropInfo={dropInfo} accepts='Section' placeholder dnd={this.props.dnd} dndActions={this.props.dndActions} pageBuilder={this.props.pageBuilder}>
+            {this.props.data && this.props.data.body && this.renderChildren(this.props.data.body.children, elementsLinks)}
           </Droppable>
         </div>
       </div>
@@ -72,15 +75,25 @@ export default class Canvas extends Component {
     return result;
   }
 
-  renderElement (elementsLinks, element) {
+  renderElement (elementsLinks, elementId) {
+    const element = this.props.data[elementId];
+
     if ((!element.hide || !element.hide[this.props.pageBuilder.display]) && element.display !== false) {
       if (element.display !== false) {
-        const FactoredElement = this.props.elements[element.tag];
+        const FactoredElement = this.props.pageBuilder.elements[element.tag];
         const selected = this.props.pageBuilder.selected && this.props.pageBuilder.selected.id === element.id;
 
         return (
-          <FactoredElement {...element.props} key={element.id} selected={selected} element={element}>
-            {this.renderChildren(element.children || '', elementsLinks)}
+          <FactoredElement
+            {...element.props}
+            key={element.id}
+            selected={selected}
+            element={element}
+            dnd={this.props.dnd}
+            dndActions={this.props.dndActions}
+            pageBuilder={this.props.pageBuilder}
+            pageBuilderActions={this.props.pageBuilderActions}>
+            {element.children && this.renderChildren(element.children, elementsLinks)}
           </FactoredElement>
         );
       }

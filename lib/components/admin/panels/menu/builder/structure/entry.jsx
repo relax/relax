@@ -1,7 +1,7 @@
-import {Component} from 'relax-framework';
 import React from 'react';
+import {Component} from 'relax-framework';
 
-import {Droppable, Draggable} from '../../../../../drag';
+import {Droppable, Draggable} from '../../../../../dnd';
 
 export default class Entry extends Component {
   propTypes = {

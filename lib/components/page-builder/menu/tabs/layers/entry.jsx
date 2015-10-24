@@ -3,7 +3,7 @@ import React from 'react';
 import {Component} from 'relax-framework';
 
 import OptionsMenu from '../../../../options-menu';
-import {Draggable} from '../../../../drag';
+import {Draggable} from '../../../../dnd';
 
 export default class Entry extends Component {
   getInitialState () {

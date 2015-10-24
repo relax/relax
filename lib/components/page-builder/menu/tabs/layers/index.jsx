@@ -4,7 +4,7 @@ import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import Entry from './entry';
-import {Droppable} from '../../../../drag';
+import {Droppable} from '../../../../dnd';
 
 export default class Layers extends Component {
   static propTypes = {

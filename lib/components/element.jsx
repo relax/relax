@@ -6,7 +6,7 @@ import Velocity from 'velocity-animate';
 import {Component} from 'relax-framework';
 
 import Utils from '../utils';
-import {Droppable, Draggable} from './drag';
+import {Droppable, Draggable} from './dnd';
 
 export default class Element extends Component {
   getInitialState () {
@@ -24,7 +24,6 @@ export default class Element extends Component {
   }
 
   componentDidMount () {
-    super.componentDidMount();
     this.state.offset = this.getOffset();
 
     if ((!this.context.editing && this.state.animation) || this.props.onEnterScreen) {
@@ -43,7 +42,6 @@ export default class Element extends Component {
   }
 
   componentWillUnmount () {
-    super.componentWillUnmount();
     if (this.onScrollBind) {
       window.removeEventListener('scroll', this.onScrollBind);
     }

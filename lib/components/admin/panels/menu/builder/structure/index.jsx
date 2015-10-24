@@ -1,8 +1,8 @@
-import {Component} from 'relax-framework';
 import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
 
 import Entry from './entry';
-import {Droppable} from '../../../../../drag';
+import {Droppable} from '../../../../../dnd';
 
 export default class Structure extends Component {
   propTypes = {
@@ -12,7 +12,7 @@ export default class Structure extends Component {
   render () {
     return (
       <div className='menu-builder-structure'>
-        <Droppable dropInfo={{id: 'base'}} placeholder={true} placeholderContent={'Drop links here'} minHeight={7}>
+        <Droppable dropInfo={{id: 'base'}} placeholder placeholderContent={'Drop links here'} minHeight={7}>
           {this.props.data.map(this.renderEntry, this)}
         </Droppable>
       </div>

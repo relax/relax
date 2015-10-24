@@ -1,12 +1,12 @@
 import React from 'react';
+
+import jss from '../../../react-jss';
+import propsSchema from './props-schema';
+import settings from './settings';
 import Component from '../../component';
 import Element from '../../element';
 import Utils from '../../../utils';
-import {Droppable} from '../../drag';
-
-import jss from '../../../react-jss';
-import settings from './settings';
-import propsSchema from './props-schema';
+import {Droppable} from '../../dnd';
 
 export default class Columns extends Component {
 

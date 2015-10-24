@@ -1,15 +1,16 @@
-import React, {PropTypes} from 'react';
 import cloneDeep from 'lodash.clonedeep';
 import forEach from 'lodash.foreach';
+import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
 
-import {DragRoot} from '../../../../drag';
 import Sidebar from './sidebar';
 import Structure from './structure';
 
-export default class Builder extends DragRoot {
+export default class Builder extends Component {
   static fragments = Sidebar.fragments
 
   static propTypes = {
+    dnd: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
     data: PropTypes.array.isRequired,
     pages: PropTypes.array.isRequired
@@ -144,5 +145,14 @@ export default class Builder extends DragRoot {
         {this.renderDragger()}
       </div>
     );
+  }
+
+  renderDragger () {
+    const {dragging} = this.props.dnd;
+    if (dragging) {
+      return (
+        <Dragger onStopDrag={this.draggedComponent.bind(this)} />
+      );
+    }
   }
 }

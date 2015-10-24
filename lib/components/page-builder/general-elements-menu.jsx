@@ -5,12 +5,14 @@ import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import Input from '../input';
-import {Draggable} from '../drag';
+import {Draggable} from '../dnd';
 
 export default class GeneralElementsMenu extends Component {
   static propTypes = {
     pageBuilder: PropTypes.object.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired
+    pageBuilderActions: PropTypes.object.isRequired,
+    dnd: PropTypes.object.isRequired,
+    dndActions: PropTypes.object.isRequired
   }
 
   toggleCategory (category, event) {
@@ -37,11 +39,6 @@ export default class GeneralElementsMenu extends Component {
       return true;
     }
     return tag.toLowerCase().indexOf(generalElementsMenuSearch.toLowerCase()) === 0;
-  }
-
-  onStartDrag () {
-    // this.context.onStartDrag();
-    this.close();
   }
 
   render () {
@@ -129,7 +126,8 @@ export default class GeneralElementsMenu extends Component {
 
     const props = {
       key: label,
-      onStartDrag: this.onStartDrag.bind(this),
+      dnd: this.props.dnd,
+      dndActions: this.props.dndActions,
       dragInfo: {
         type: 'new',
         element: label

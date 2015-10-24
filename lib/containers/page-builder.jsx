@@ -1,3 +1,4 @@
+import * as dndActions from '../client/actions/dnd';
 import * as draftActions from '../client/actions/draft';
 import * as pageBuilderActions from '../client/actions/page-builder';
 
@@ -11,12 +12,15 @@ import PageBuilder from '../components/page-builder';
 
 @connect(
   (state) => ({
-    draft: state.draft.data,
-    pageBuilder: {...state.pageBuilder, elements}
+    data: state.draft.data.data,
+    actions: state.draft.data.actions,
+    pageBuilder: {...state.pageBuilder, elements},
+    dnd: state.dnd
   }),
   (dispatch) => ({
     pageBuilderActions: bindActionCreators(pageBuilderActions, dispatch),
-    draftActions: bindActionCreators(draftActions, dispatch)
+    draftActions: bindActionCreators(draftActions, dispatch),
+    dndActions: bindActionCreators(dndActions, dispatch)
   })
 )
 export default class PageBuilderContainer extends Component {
@@ -29,19 +33,19 @@ export default class PageBuilderContainer extends Component {
   }
 
   static propTypes = {
-    draft: PropTypes.object,
-    pageBuilder: PropTypes.object,
-    pageBuilderActions: PropTypes.object,
-    draftActions: PropTypes.object
+    data: PropTypes.object,
+    actions: PropTypes.object,
+    pageBuilder: PropTypes.object.isRequired,
+    pageBuilderActions: PropTypes.object.isRequired,
+    draftActions: PropTypes.object.isRequired,
+    dnd: PropTypes.object.isRequired,
+    dndActions: PropTypes.object.isRequired
   }
 
   render () {
     return (
       <PageBuilder
-        data={this.props.draft.data}
-        actions={this.props.draft.actions}
-        pageBuilder={this.props.pageBuilder}
-        pageBuilderActions={this.props.pageBuilderActions}
+        {...this.props}
       />
     );
   }

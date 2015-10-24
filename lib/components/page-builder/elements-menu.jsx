@@ -1,105 +1,74 @@
 import cx from 'classnames';
 import forEach from 'lodash.foreach';
-import merge from 'lodash.merge';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import Animate from '../animate';
 
-var collapsed = false;
-
 export default class ElementsMenu extends Component {
   static propTypes = {
     pageBuilder: PropTypes.object.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired,
-    container: React.PropTypes.any.isRequired,
-    targetId: React.PropTypes.number.isRequired,
-    onClose: React.PropTypes.func.isRequired
+    pageBuilderActions: PropTypes.object.isRequired
   }
 
   getInitialState () {
-    var categories = [
-      'structure',
-      'content',
-      'media',
-      'form'
-    ];
-
-    forEach(this.context.elements, (element) => {
-      if (element.settings && element.settings.category) {
-        if (categories.indexOf(element.settings.category) === -1) {
-          categories.push(element.settings.category);
-        }
-      }
-    });
-
-    categories.push('other');
-
-    if (collapsed === false) {
-      collapsed = {};
-      forEach(categories, (category) => collapsed[category] = false);
-    }
-
     return {
       top: 0,
       left: 0,
-      contentTop: 0
+      contentTop: 0,
+      side: 'right'
     };
   }
 
-  toggleCategory (category, event) {
-    event.preventDefault();
-    collapsed[category] = !collapsed[category];
-    this.forceUpdate();
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (this.props.targetId !== nextProps.targetId || this.props.targetPosition !== nextProps.targetPosition) {
-      this.updatePosition(nextProps);
-    }
-  }
-
   componentDidMount () {
-    super.componentDidMount();
     this.onCloseBind = this.onClose.bind(this);
     this.updatePositionBind = this.updatePosition.bind(this);
     this.stopPropagationBind = this.stopPropagation.bind(this);
 
+    React.findDOMNode(this).addEventListener('click', this.stopPropagationBind);
     document.addEventListener('click', this.onCloseBind);
-    ReactDOM.findDOMNode(this).addEventListener('click', this.stopPropagationBind);
     window.addEventListener('scroll', this.updatePositionBind);
     window.addEventListener('resize', this.updatePositionBind);
     this.updatePosition();
   }
 
+  componentWillReceiveProps (nextProps) {
+    // if (this.props.targetId !== nextProps.targetId || this.props.targetPosition !== nextProps.targetPosition) {
+    //   this.updatePosition(nextProps);
+    // }
+  }
+
   componentWillUnmount () {
-    super.componentWillUnmount();
+    React.findDOMNode(this).removeEventListener('click', this.stopPropagationBind);
     document.removeEventListener('click', this.onCloseBind);
-    ReactDOM.findDOMNode(this).removeEventListener('click', this.stopPropagationBind);
     window.removeEventListener('scroll', this.updatePositionBind);
     window.removeEventListener('resize', this.updatePositionBind);
+  }
+
+  toggleCategory (category, event) {
+    event.preventDefault();
+    const {toggleCategory} = this.props.pageBuilderActions;
+    toggleCategory(category);
   }
 
   stopPropagation (event) {
     this.clickedInside = true;
   }
 
-  updatePosition (props) {
-    props = (props && props.container) ? props : this.props;
-
+  updatePosition (props = this.props) {
     const containerRect = props.container.getBoundingClientRect();
 
-    let top = containerRect.top + containerRect.height / 2 - 26;
+    const top = containerRect.top + containerRect.height / 2 - 26;
     let left = containerRect.right + 10;
     let side = 'right';
 
     // Constraints
     let contentTop = 0;
-    let menuWidth = 190; // XXX hard coded
-    let menuHeight = 240; // XXX hard coded
-    let windowHeight = window.innerHeight;
-    let windowWidth = window.innerWidth;
+    const menuWidth = 190; // XXX hard coded
+    const menuHeight = 240; // XXX hard coded
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
 
     if (top + menuHeight > windowHeight) {
       contentTop = windowHeight - (top + menuHeight);
@@ -118,38 +87,102 @@ export default class ElementsMenu extends Component {
   }
 
   onClose () {
-    if (!this.clickedInside) {
-      this.props.onClose();
-    }
-    this.clickedInside = false;
+    // if (!this.clickedInside) {
+    //   this.props.onClose();
+    // }
+    // this.clickedInside = false;
   }
 
   addElement (tag) {
-    this.props.onClose();
-    this.context.addElementAtId(tag, this.props.targetId, this.props.targetPosition);
+    // this.props.onClose();
+    // this.context.addElementAtId(tag, this.props.targetId, this.props.targetPosition);
   }
 
   elementAcceptable (elementTag, element) {
-    var is = true;
+    const {elementsMenuOptions} = this.props.pageBuilder;
+    let is = true;
 
-    if (this.props.accepts) {
-      if (this.props.accepts !== 'any' && this.props.accepts !== elementTag) {
+    if (elementsMenuOptions.accepts) {
+      if (elementsMenuOptions.accepts !== 'any' && elementsMenuOptions.accepts !== elementTag) {
         is = false;
       }
-    } else if (this.props.rejects) {
-      if (this.props.rejects === 'any' || this.props.rejects === elementTag) {
+    } else if (elementsMenuOptions.rejects) {
+      if (elementsMenuOptions.rejects === 'any' || elementsMenuOptions.rejects === elementTag) {
         is = false;
       }
     }
 
     const droppableOn = element.settings.drag && element.settings.drag.droppableOn;
     if (droppableOn) {
-      if (droppableOn !== 'any' && this.props.targetType !== droppableOn) {
+      if (droppableOn !== 'any' && elementsMenuOptions.targetType !== droppableOn) {
         is = false;
       }
     }
 
     return is;
+  }
+
+  render () {
+    const {categories} = this.props.pageBuilder;
+    const style = {
+      top: this.state.top,
+      left: this.state.left
+    };
+    const ballonStyle = {
+      top: this.state.contentTop
+    };
+
+    return (
+      <Animate transition='slideLeftIn'>
+        <div className={cx('elements-menu', this.state.side)} style={style}>
+          <div className='arrow-left'></div>
+          <div className='ballon' style={ballonStyle}>
+            <div className='categories'>
+              <GeminiScrollbar autoshow className='gm-scrollbar-black'>
+                {categories.map(this.renderCategory, this)}
+              </GeminiScrollbar>
+            </div>
+          </div>
+        </div>
+      </Animate>
+    );
+  }
+
+  renderCategory (category) {
+    const {elements, categoriesCollapsed} = this.props.pageBuilder;
+    const categoryElements = [];
+
+    forEach(elements, (element, index) => {
+      if (element.settings && element.settings.category) {
+        if (element.settings.category === category && this.elementAcceptable(index, element)) {
+          categoryElements.push({
+            label: index,
+            element
+          });
+        }
+      } else if (category === 'other' && this.elementAcceptable(index, element)) {
+        categoryElements.push({
+          label: index,
+          element
+        });
+      }
+    });
+
+    if (categoryElements.length > 0) {
+      const collapsedCategory = categoriesCollapsed[category];
+
+      return (
+        <div className={cx('category', collapsedCategory && 'collapsed')}>
+          <div className='category-info' onClick={this.toggleCategory.bind(this, category)}>
+            <span>{category}</span>
+            <i className='material-icons'>{collapsedCategory ? 'expand_more' : 'expand_less'}</i>
+          </div>
+          <div className='category-list'>
+            {!collapsedCategory && categoryElements.map(this.renderElement, this)}
+          </div>
+        </div>
+      );
+    }
   }
 
   renderElement (elementObj) {
@@ -162,68 +195,6 @@ export default class ElementsMenu extends Component {
         <i className={icon.class}>{icon.content}</i>
         <span>{label}</span>
       </div>
-    );
-  }
-
-  renderCategory (category) {
-    var elements = [];
-
-    forEach(this.context.elements, (element, index) => {
-      if (element.settings && element.settings.category) {
-        if (element.settings.category === category && this.elementAcceptable(index, element)) {
-          elements.push({
-            label: index,
-            element
-          });
-        }
-      } else if (category === 'other' && this.elementAcceptable(index, element)) {
-        elements.push({
-          label: index,
-          element
-        });
-      }
-    });
-
-    if (elements.length > 0) {
-      let collapsedCategory = collapsed[category];
-
-      return (
-        <div className={cx('category', collapsedCategory && 'collapsed')}>
-          <div className='category-info' onClick={this.toggleCategory.bind(this, category)}>
-            <span>{category}</span>
-            <i className='material-icons'>{collapsedCategory ? 'expand_more' : 'expand_less'}</i>
-          </div>
-          <div className='category-list'>
-            {!collapsedCategory && elements.map(this.renderElement, this)}
-          </div>
-        </div>
-      );
-    }
-  }
-
-  render () {
-    let style = {
-      top: this.state.top,
-      left: this.state.left
-    };
-
-    let ballonStyle = {
-      top: this.state.contentTop
-    };
-
-    return (
-      <Animate transition='slideLeftIn'>
-        <div className={cx('elements-menu', this.state.side)} style={style}>
-          <div className='arrow-left'></div>
-          <div className='ballon' style={ballonStyle}>
-            <div className='categories'>
-              <GeminiScrollbar autoshow={true} className='gm-scrollbar-black'>
-                {this.state.categories.map(this.renderCategory, this)}
-              </GeminiScrollbar>
-            </div>
-          </div>
-        </div>
-      </Animate>
     );
   }
 }

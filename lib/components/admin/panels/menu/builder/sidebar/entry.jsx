@@ -1,8 +1,8 @@
-import {Component} from 'relax-framework';
-import React from 'react';
 import cloneDeep from 'lodash.clonedeep';
+import React from 'react';
+import {Component} from 'relax-framework';
 
-import {Draggable} from '../../../../../drag';
+import {Draggable} from '../../../../../dnd';
 
 export default class Entry extends Component {
   static fragments = {
