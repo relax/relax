@@ -162,7 +162,6 @@ export default class Droppable extends Component {
   onMouseMove (event) {
     let position = -1;
     const hitSpace = this.props.hitSpace;
-
     const mousePosition = this.props.orientation === 'horizontal' ? event.pageX : event.pageY;
 
     forEach(this.childrenData, (child, index) => {
@@ -309,7 +308,7 @@ export default class Droppable extends Component {
     }
 
     if (isActive && hasChildren) {
-      children = children instanceof Object ? [this.props.children] : children.slice(0);
+      children = children instanceof Array ? children.slice(0) : [children];
 
       const marker = (
         <Marker key='marker' dnd={this.props.dnd} />
