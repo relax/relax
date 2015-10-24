@@ -1,9 +1,30 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
-import Image from './image';
+
 import utils from '../utils';
+import Image from './image';
 
 export default class MediaItem extends Component {
+  static fragments = {
+    media: {
+      _id: 1,
+      thumbnail: 1,
+      url: 1,
+      name: 1
+    }
+  }
+
+  static propTypes = {
+    item: PropTypes.object.isRequired,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    useThumbnail: PropTypes.bool
+  }
+
+  static defaultProps = {
+    useThumbnail: true
+  }
+
   render () {
     let result = <span />;
     const type = utils.getMediaType(this.props.item.type);
@@ -41,14 +62,3 @@ export default class MediaItem extends Component {
     return <div className='media-item'>{result}</div>;
   }
 }
-
-MediaItem.propTypes = {
-  item: React.PropTypes.object.isRequired,
-  width: React.PropTypes.number,
-  height: React.PropTypes.number,
-  useThumbnail: React.PropTypes.bool
-};
-
-MediaItem.defaultProps = {
-  useThumbnail: true
-};

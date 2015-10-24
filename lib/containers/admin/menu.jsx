@@ -1,12 +1,13 @@
-import {Component} from 'relax-framework';
+import * as menuActions from '../../client/actions/menu';
+
 import cloneDeep from 'lodash.clonedeep';
 import merge from 'lodash.merge';
-import React, {findDOMNode, PropTypes} from 'react';
 import Velocity from 'velocity-animate';
-
+import React, {findDOMNode, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as menuActions from '../../client/actions/menu';
+import {Component} from 'relax-framework';
+
 import Menu from '../../components/admin/panels/menu';
 
 @connect(

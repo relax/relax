@@ -1,16 +1,28 @@
-import {Component} from 'relax-framework';
-import React from 'react';
 import moment from 'moment';
+import React from 'react';
+import {Component, mergeFragments} from 'relax-framework';
+
 import MediaItem from '../../../media-item';
 
 export default class MediaList extends Component {
+  static fragments = mergeFragments(MediaItem.fragments)
 
-  onSelect (id) {
-    this.props.onSelect(id);
+  static propTypes = {
+    media: React.PropTypes.array.isRequired,
+    selected: React.PropTypes.array.isRequired,
+    onSelect: React.PropTypes.func.isRequired
+  }
+
+  render () {
+    return (
+      <div className='list'>
+        {this.renderMedia()}
+      </div>
+    );
   }
 
   renderItem (data) {
-    var date = moment(data.date).format("Do MMMM YYYY");
+    var date = moment(data.date).format('Do MMMM YYYY');
     var className = 'entry';
 
     if (this.props.selected.indexOf(data._id) !== -1) {
@@ -18,13 +30,17 @@ export default class MediaList extends Component {
     }
 
     return (
-      <div key={data._id} onClick={this.onSelect.bind(this, data._id)} className={className}>
+      <div key={data._id} onClick={this.props.onSelect.bind(null, data._id)} className={className}>
         <div className='image-part'>
           <MediaItem item={data} width={100} height={100} useThumbnail={true} />
         </div>
         <div className='info-part'>
           <div className='title'>{data.name}</div>
-          {data.dimension && <div className='under-title'>{data.dimension.width+'x'+data.dimension.height}</div>}
+          {data.dimension &&
+            <div className='under-title'>
+              {`${data.dimension.width}x${data.dimension.height}`}
+            </div>
+          }
           <div className='under-title'>{data.size}</div>
           <div className='under-title'>{date}</div>
         </div>
@@ -49,18 +65,4 @@ export default class MediaList extends Component {
       );
     }
   }
-
-  render () {
-    return (
-      <div className='list'>
-        {this.renderMedia()}
-      </div>
-    );
-  }
 }
-
-MediaList.propTypes = {
-  media: React.PropTypes.array.isRequired,
-  selected: React.PropTypes.array.isRequired,
-  onSelect: React.PropTypes.func.isRequired
-};
