@@ -12,6 +12,7 @@ import MediaManager from '../../components/admin/panels/media';
   (state) => ({
     media: state.media.data.items,
     count: state.media.data.count,
+    uploadedMedia: state.media.uploadedData,
     errors: state.menu.errors
   }),
   (dispatch) => bindActionCreators(mediaActions, dispatch)
@@ -36,6 +37,7 @@ export default class MediaManagerContainer extends Component {
     media: PropTypes.array.isRequired,
     hasQueryChanged: PropTypes.bool.isRequired,
     queryVariables: PropTypes.object.isRequired,
+    addMedia: PropTypes.func.isRequired,
     getAdmin: PropTypes.func.isRequired
   }
 
@@ -65,8 +67,8 @@ export default class MediaManagerContainer extends Component {
     }
   }
 
-  onSuccess (file, mediaItem, progressFinal) {
-    mediaActions.add(mediaItem);
+  async onAddMedia (file) {
+    await this.props.addMedia(this.constructor.fragments, file);
   }
 
   onListClick (event) {
@@ -130,6 +132,19 @@ export default class MediaManagerContainer extends Component {
     this.setState({
       upload: false
     });
+
+    const vars = {
+      media: {
+        ...this.props.queryVariables
+      }
+    };
+
+    this.props
+      .getAdmin(buildQueryAndVariables(
+        this.constructor.fragments,
+        vars
+      ))
+      .done();
   }
 
   render () {
@@ -137,7 +152,7 @@ export default class MediaManagerContainer extends Component {
       <MediaManager
         {...this.props}
         {...this.state}
-        onSuccess={::this.onSuccess}
+        onAddMedia={::this.onAddMedia}
         onListClick={::this.onListClick}
         onGridClick={::this.onGridClick}
         onSelect={::this.onSelect}

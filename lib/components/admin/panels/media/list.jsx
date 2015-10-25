@@ -9,8 +9,12 @@ export default class MediaList extends Component {
 
   static propTypes = {
     media: React.PropTypes.array.isRequired,
-    selected: React.PropTypes.array.isRequired,
-    onSelect: React.PropTypes.func.isRequired
+    selected: React.PropTypes.array,
+    onSelect: React.PropTypes.func
+  }
+
+  static defaultProps = {
+    selected: []
   }
 
   render () {
@@ -30,7 +34,7 @@ export default class MediaList extends Component {
     }
 
     return (
-      <div key={data._id} onClick={this.props.onSelect.bind(null, data._id)} className={className}>
+      <div key={data._id} onClick={this.props.onSelect && this.props.onSelect.bind(null, data._id)} className={className}>
         <div className='image-part'>
           <MediaItem item={data} width={100} height={100} useThumbnail={true} />
         </div>

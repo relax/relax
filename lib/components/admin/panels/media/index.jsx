@@ -25,6 +25,8 @@ export default class MediaManager extends Component {
     query: PropTypes.object,
     count: PropTypes.number,
     media: PropTypes.array.isRequired,
+    uploadedMedia: PropTypes.array.isRequired,
+    onAddMedia: PropTypes.func.isRequired,
     onGridClick: PropTypes.func.isRequired,
     onListClick: PropTypes.func.isRequired,
     onOpenUpload: PropTypes.func.isRequired,
@@ -98,7 +100,9 @@ export default class MediaManager extends Component {
     if (this.props.upload) {
       return (
         <Lightbox title='Upload media' onClose={this.props.onCloseUpload}>
-          <Upload action='/api/media/upload' acceptedFiles='image/*' success={this.props.onSuccess} />
+          <Upload acceptedFiles='image/*' onFile={this.props.onAddMedia}>
+            <List media={this.props.uploadedMedia} />
+          </Upload>
         </Lightbox>
       );
     }

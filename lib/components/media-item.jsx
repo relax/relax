@@ -10,7 +10,8 @@ export default class MediaItem extends Component {
       _id: 1,
       thumbnail: 1,
       url: 1,
-      name: 1
+      name: 1,
+      type: 1
     }
   }
 
@@ -32,7 +33,7 @@ export default class MediaItem extends Component {
     if (type === 'image') {
       if (this.props.useThumbnail) {
         result = (
-          <img src={this.props.item.thumbnail} width={this.props.width} height={this.props.height} />
+          <img src={`/${this.props.item.thumbnail}`} width={this.props.width} height={this.props.height} />
         );
       } else {
         result = (

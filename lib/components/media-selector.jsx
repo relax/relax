@@ -1,11 +1,20 @@
+import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
-import React from 'react';
-// import mediaStore from '../client/stores/media';
-// import mediaActions from '../client/actions/media';
-import Upload from './upload';
+
 import MediaItem from './media-item';
+import Upload from './upload';
 
 export default class MediaSelector extends Component {
+  static propTypes = {
+    selected: PropTypes.string,
+    onAddMedia: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    selected: ''
+  }
+
   getInitialState () {
     return {
       selected: this.props.selected,
@@ -25,9 +34,16 @@ export default class MediaSelector extends Component {
     }
   }
 
-  onSuccess (file, mediaItem, progressFinal) {
-    // mediaActions.add(mediaItem);
-    file.previewElement.style.display = "none";
+  render () {
+    // TODO `acceptedFiles` on `Upload` does not seem to be being used inside
+    // the `Upload` component
+    return (
+      <div className='media-selector'>
+        <Upload acceptedFiles='image/*' onFile={this.props.onAddMedia}>
+          {this.state.media.map(this.renderMediaItem, this)}
+        </Upload>
+      </div>
+    );
   }
 
   renderMediaItem (item) {
@@ -43,23 +59,4 @@ export default class MediaSelector extends Component {
       </a>
     );
   }
-
-  render () {
-    return (
-      <div className='media-selector'>
-        <Upload action='/api/media/upload' acceptedFiles='image/*' success={this.onSuccess.bind(this)}>
-          {this.state.media.map(this.renderMediaItem, this)}
-        </Upload>
-      </div>
-    );
-  }
 }
-
-MediaSelector.propTypes = {
-  onChange: React.PropTypes.func,
-  selected: React.PropTypes.string
-};
-
-MediaSelector.defaultProps = {
-  selected: ''
-};
