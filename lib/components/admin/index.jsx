@@ -2,6 +2,7 @@ import cx from 'classnames';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
+import Loading from './loading';
 import MenuBar from './menu-bar';
 import TopMenu from './top-menu';
 
@@ -170,7 +171,7 @@ export default class Admin extends Component {
           <div className='admin-holder'>
             {this.props.activePanelType !== 'pageBuild' && <MenuBar user={this.props.user} activePanelType={this.props.activePanelType} breadcrumbs={this.props.breadcrumbs} />}
             <div className='admin-content'>
-              {this.props.children}
+              {this.props.loading ? <Loading /> : this.props.children}
             </div>
           </div>
         </div>

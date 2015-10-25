@@ -31,7 +31,7 @@ export default class AdminContainer extends Component {
 
   getInitialState (props = this.props) {
     return {
-      loading: true,
+      loading: false,
       ...props.children.type.panelSettings
     };
   }
