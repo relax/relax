@@ -38,7 +38,8 @@ export default class MediaManagerContainer extends Component {
     hasQueryChanged: PropTypes.bool.isRequired,
     queryVariables: PropTypes.object.isRequired,
     addMedia: PropTypes.func.isRequired,
-    getAdmin: PropTypes.func.isRequired
+    getAdmin: PropTypes.func.isRequired,
+    removeMedia: PropTypes.func.isRequired
   }
 
   getInitialState () {
@@ -52,19 +53,23 @@ export default class MediaManagerContainer extends Component {
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.hasQueryChanged) {
-      const vars = {
-        media: {
-          ...nextProps.queryVariables
-        }
-      };
-
-      nextProps
-        .getAdmin(buildQueryAndVariables(
-          this.constructor.fragments,
-          vars
-        ))
-        .done();
+      this.fetchData(nextProps);
     }
+  }
+
+  fetchData (props = this.props) {
+    const vars = {
+      media: {
+        ...this.props.queryVariables
+      }
+    };
+
+    props
+      .getAdmin(buildQueryAndVariables(
+        this.constructor.fragments,
+        vars
+      ))
+      .done();
   }
 
   async onAddMedia (file) {
@@ -112,9 +117,12 @@ export default class MediaManagerContainer extends Component {
     });
   }
 
-  onConfirmRemove (event) {
+  async onConfirmRemove (event) {
     event.preventDefault();
-    mediaActions.removeBulk(this.state.selected);
+
+    await this.props.removeMedia(this.state.selected);
+    this.fetchData();
+
     this.setState({
       removing: false,
       selected: []
@@ -133,18 +141,7 @@ export default class MediaManagerContainer extends Component {
       upload: false
     });
 
-    const vars = {
-      media: {
-        ...this.props.queryVariables
-      }
-    };
-
-    this.props
-      .getAdmin(buildQueryAndVariables(
-        this.constructor.fragments,
-        vars
-      ))
-      .done();
+    this.fetchData();
   }
 
   render () {
