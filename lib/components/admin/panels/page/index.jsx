@@ -186,7 +186,7 @@ export default class Page extends Component {
           </div>
         </Animate>
       );
-    } else if (this.props.error) {
+    } else if (this.props.errors) {
       result = (
         <Animate transition='slideDownIn' key='error'>
           <div className='error' ref='success'>
