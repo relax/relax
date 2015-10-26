@@ -22,6 +22,15 @@ import Menus from '../../components/admin/panels/menus';
 export default class MenusContainer extends Component {
   static fragments = Menus.fragments
 
+  static panelSettings = {
+    activePanelType: 'menus',
+    breadcrumbs: [
+      {
+        label: 'Menus'
+      }
+    ]
+  }
+
   static propTypes = {
     breadcrumbs: PropTypes.array.isRequired,
     menus: PropTypes.array,
@@ -48,15 +57,6 @@ export default class MenusContainer extends Component {
         ))
         .done();
     }
-  }
-
-  static panelSettings = {
-    activePanelType: 'menus',
-    breadcrumbs: [
-      {
-        label: 'Menus'
-      }
-    ]
   }
 
   render () {

@@ -60,7 +60,7 @@ export default class MediaManagerContainer extends Component {
   fetchData (props = this.props) {
     const vars = {
       media: {
-        ...this.props.queryVariables
+        ...props.queryVariables
       }
     };
 

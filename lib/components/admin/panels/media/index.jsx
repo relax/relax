@@ -59,6 +59,7 @@ export default class MediaManager extends Component {
             sorts={[{label: 'Date', property: '_id'}, {label: 'Size', property: 'filesize'}, {label: 'Dimensions', property: 'dimension'}]}
             url='/admin/media'
             search='name'
+            query={this.props.query}
           />
         </div>
         <div className='admin-scrollable'>
