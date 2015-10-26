@@ -19,7 +19,9 @@ export default class EditTab extends Component {
 
   remove (event) {
     event.preventDefault();
-    // this.context.removeElement(this.context.selected.id);
+    const {removeElement} = this.props.pageBuilderActions;
+    const {selectedId} = this.props.pageBuilder;
+    removeElement(selectedId);
   }
 
   render () {

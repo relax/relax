@@ -32,8 +32,8 @@ function getPageBuilder (pageBuilder, data) {
   if (pageBuilder.selectedId && data[pageBuilder.selectedId]) {
     const selectedElement = data[pageBuilder.selectedId];
     result.selectedElement = selectedElement;
-    result.selectedParent = selectedElement.parent;
-    result.selectedPath = getElementPath(selectedElement, data);
+    result.selectedParent = selectedElement && selectedElement.parent;
+    result.selectedPath = selectedElement && getElementPath(selectedElement, data);
   }
 
   return result;
