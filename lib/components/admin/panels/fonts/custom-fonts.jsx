@@ -1,9 +1,10 @@
-import {Component} from 'relax-framework';
-import React from 'react';
 import forEach from 'lodash.foreach';
+import React from 'react';
+import {Component} from 'relax-framework';
+
 import Font from './font';
-import Utils from '../../../../utils';
 import Upload from '../../../upload';
+import Utils from '../../../../utils';
 
 export default class CustomFonts extends Component {
   static propTypes = {
