@@ -1,6 +1,6 @@
 import React from 'react';
 
-import jss from '../../../react-jss';
+import jss from '../../../helpers/stylesheet';
 import propsSchema from './props-schema';
 import settings from './settings';
 import Component from '../../component';

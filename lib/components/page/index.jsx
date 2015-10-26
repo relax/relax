@@ -1,9 +1,11 @@
+import forEach from 'lodash.foreach';
 import React from 'react';
 import {Component} from 'relax-framework';
-import JSSReact from '../../react-jss/jss-react';
+import {Component as JSS} from 'relax-jss';
+
 import displays from '../../displays';
+import stylesheet from '../../helpers/stylesheet';
 import utils from '../../utils';
-import forEach from 'lodash.foreach';
 
 export default class Page extends Component {
   getInitialState () {
@@ -118,7 +120,7 @@ export default class Page extends Component {
   render () {
     return (
       <div>
-        <JSSReact />
+        <JSS stylesheet={stylesheet} />
         {this.renderChildren(this.state.page.data)}
       </div>
     );

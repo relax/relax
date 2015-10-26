@@ -2,11 +2,12 @@ import cx from 'classnames';
 import key from 'keymaster';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
+import {Component as JSS} from 'relax-jss';
 
+import stylesheet from '../../helpers/stylesheet';
 import Canvas from './canvas';
 import ElementsMenu from './elements-menu';
 import GeneralElementsMenu from './general-elements-menu';
-import JSSReact from '../../react-jss/jss-react';
 import Menu from './menu';
 import {Dragger} from '../dnd';
 
@@ -42,7 +43,7 @@ export default class PageBuilder extends Component {
   render () {
     return (
       <div className={cx('page-builder', !this.props.pageBuilder.editing && 'preview')}>
-        <JSSReact />
+        <JSS stylesheet={stylesheet} />
         <Canvas {...this.props} />
         <Menu {...this.props} />
         <GeneralElementsMenu {...this.props} />

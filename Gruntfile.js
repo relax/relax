@@ -11,7 +11,8 @@ module.exports = function (grunt) {
     'react-router',
     'redux',
     'redux-router',
-    'relax-framework'
+    'relax-framework',
+    'relax-jss'
   ];
 
   var browserifyProductionOptions = {
