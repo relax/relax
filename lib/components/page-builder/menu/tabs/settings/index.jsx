@@ -12,7 +12,9 @@ export default class EditTab extends Component {
 
   duplicate (event) {
     event.preventDefault();
-    // this.context.duplicateElement(this.context.selected.id);
+    const {duplicateElement} = this.props.pageBuilderActions;
+    const {selectedId} = this.props.pageBuilder;
+    duplicateElement(selectedId);
   }
 
   remove (event) {
