@@ -1,11 +1,11 @@
 .number-input {
   width: 90px;
-  height: 30px;
+  height: 40px;
   display: block;
   position: relative;
   outline: none;
-  //background-color: #12171A;
-  border: 1px solid #383838;
+  background-color: @pageBuilderChromeDarker;
+  border: 1px solid @pageBuilderChromeBorders;
   border-radius: 3px;
   overflow: hidden;
   .transition();
@@ -21,20 +21,22 @@
     outline: 0;
     background: transparent;
     box-shadow: none;
-    line-height: 30px;
-    padding: 0 5px;
-    width: 40px;
-    font-size: 12px;
+    line-height: 38px;
+    padding: 0 12px;
+    padding-right: 0;
+    width: 43px;
+    font-size: 10px;
+    color: #efefef;
   }
 
   span {
     display: inline-block;
     vertical-align: top;
-    line-height: 30px;
+    line-height: 38px;
     width: 30px;
-    font-size: 12px;
+    font-size: 10px;
     text-align: center;
-    color: #858585;
+    color: #efefef;
     cursor: ns-resize;
   }
 
@@ -47,28 +49,27 @@
     right: 0;
     bottom: 0;
     a {
-      background-color: #383838;
-      color: #efefef;
+      color: #999999;
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      height: 15px;
+      height: 19px;
       text-align: center;
-      font-size: 11px;
+      font-size: 12px;
 
       i {
-        line-height: 15px;
+        line-height: 19px;
+        color: #999999;
       }
 
       &:last-child {
         top: auto;
         bottom: 0;
-        border-top: 1px solid #333333;
       }
 
       &:hover {
-        background-color: @adminPrimary;
+        background-color: #3f4249;
       }
     }
   }

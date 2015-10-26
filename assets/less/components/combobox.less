@@ -1,19 +1,19 @@
 .combobox {
-  @comboboxHeight: 32px;
+  @comboboxHeight: 38px;
   //min-width: 150px;
   position: relative;
   display: inline-block;
   cursor: pointer;
   width: 100%;
   max-width: 480px;
-  font-size: 13px;
+  font-size: 10px;
 
   .combobox-holder {
     height: @comboboxHeight;
     position: relative;
-    border: solid 1px #333333;
+    border: solid 1px @pageBuilderChromeBorders;
+    background-color: @pageBuilderChromeDarker;
     overflow: hidden;
-    //background-color: #383838;
 
     .roundedCorners (3px);
     .transition();
@@ -21,10 +21,6 @@
     .combobox-button {
       color: #efefef;
       text-align: center;
-      i {
-        line-height: @comboboxHeight;
-        font-size: 13px;
-      }
     }
 
     &.opened {
@@ -37,9 +33,9 @@
 
     .selected-text {
       position: relative;
-      padding: 0px 6px;
+      padding: 0px 12px;
       line-height: @comboboxHeight;
-      font-size: 13px;
+      font-size: 10px;
       display: inline-block;
       float: left;
       color: #efefef;
@@ -49,8 +45,10 @@
       float: right;
       width: @comboboxHeight;
       height: @comboboxHeight;
-      border-left: solid 1px #333333;
-      //background-color: #333333;
+      i {
+        line-height: @comboboxHeight;
+        font-size: 20px;
+      }
     }
   }
 
@@ -60,29 +58,21 @@
     display: block;
     max-height: 155px;
     overflow-y: auto;
-
-    border-top: solid 1px #333333;
+    border-top: solid 1px @pageBuilderChromeBorders;
   }
 
   &:hover {
     .combobox-holder {
       border-color: @adminPrimary;
     }
-    .combobox-header {
-      .combobox-button {
-        background-color: #333333;
-        //border-color: @adminPrimary;
-      }
-    }
   }
 }
 
 .combobox-option {
-  color: #858585;
-  //background-color: #383838;
-  padding: 6px 38px 6px 7px;
+  color: #efefef;
+  padding: 6px 12px;
   display: block;
-  font-size: 12px;
+  font-size: 10px;
 
   .transition(0.2s);
 
