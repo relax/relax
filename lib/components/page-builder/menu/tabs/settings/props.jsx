@@ -72,8 +72,9 @@ export default class EditProps extends Component {
 
   renderOptions (options, values) {
     const {changeElementProperty} = this.props.pageBuilderActions;
+    const {selectedId} = this.props.pageBuilder;
     return (
-      <OptionsList options={options} values={values} onChange={changeElementProperty} />
+      <OptionsList options={options} values={values} onChange={changeElementProperty.bind(this, selectedId)} />
     );
   }
 }
