@@ -3,7 +3,7 @@ import React from 'react';
 import {Component} from 'relax-framework';
 import {Component as JSS} from 'relax-jss';
 
-import displays from '../../displays';
+import displays from '../../helpers/displays';
 import stylesheet from '../../helpers/stylesheet';
 import utils from '../../utils';
 

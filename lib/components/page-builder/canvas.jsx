@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
-import displays from '../../displays';
+import displays from '../../helpers/displays';
 import {Droppable} from '../dnd';
 
 // import utils from '../../utils';

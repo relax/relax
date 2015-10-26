@@ -2,7 +2,7 @@ import React from 'react';
 import {Component} from 'relax-framework';
 import Lightbox from './lightbox';
 
-import icons from '../icons';
+import icons from '../helpers/icons';
 
 export default class IconManager extends Component {
   getInitialState () {
