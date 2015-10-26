@@ -14,6 +14,7 @@ export default class Droppable extends Component {
     dropInfo: PropTypes.object.isRequired,
     hitSpace: PropTypes.number.isRequired,
     pageBuilder: PropTypes.object,
+    pageBuilderActions: PropTypes.object,
     orientation: PropTypes.string,
     className: PropTypes.string,
     style: PropTypes.object,
@@ -76,22 +77,19 @@ export default class Droppable extends Component {
     return childContext;
   }
 
-  componentDidMount () {
-    // const containerRect = React.findDOMNode(this).getBoundingClientRect();
-    // if (containerRect.left < 40) {
-    //   if (!this.state.closeToMargin) {
-    //     this.setState({
-    //       closeToMargin: true
-    //     });
-    //   }
-    // } else if (this.state.closeToMargin) {
-    //   this.setState({
-    //     closeToMargin: false
-    //   });
-    // }
-  }
-
   componentWillReceiveProps (nextProps) {
+    const containerRect = React.findDOMNode(this).getBoundingClientRect();
+    if (containerRect.left < 40) {
+      if (!this.state.closeToMargin) {
+        this.setState({
+          closeToMargin: true
+        });
+      }
+    } else if (this.state.closeToMargin) {
+      this.setState({
+        closeToMargin: false
+      });
+    }
     if (this.props.dnd.dragging && !nextProps.dnd.dragging) {
       this.removeOrderingEvents();
     }
@@ -266,14 +264,15 @@ export default class Droppable extends Component {
 
   addSpotClick (position, event) {
     event.preventDefault();
-    // this.context.openElementsMenu({
-    //   targetId: this.props.dropInfo.id || 'body',
-    //   targetType: this.props.type,
-    //   targetPosition: position,
-    //   container: React.findDOMNode(this.refs['spot' + position]),
-    //   accepts: this.props.accepts,
-    //   rejects: this.props.rejects
-    // });
+    const {openElementsMenu} = this.props.pageBuilderActions;
+    openElementsMenu({
+      targetId: this.props.dropInfo.id || 'body',
+      targetType: this.props.type,
+      targetPosition: position,
+      container: React.findDOMNode(this.refs['spot' + position]),
+      accepts: this.props.accepts,
+      rejects: this.props.rejects
+    });
   }
 
   hasChildren () {

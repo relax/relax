@@ -57,7 +57,7 @@ export default class ElementsMenu extends Component {
   }
 
   updatePosition (props = this.props) {
-    const containerRect = props.container.getBoundingClientRect();
+    const containerRect = props.pageBuilder.elementsMenuOptions.container.getBoundingClientRect();
 
     const top = containerRect.top + containerRect.height / 2 - 26;
     let left = containerRect.right + 10;
@@ -87,15 +87,19 @@ export default class ElementsMenu extends Component {
   }
 
   onClose () {
-    // if (!this.clickedInside) {
-    //   this.props.onClose();
-    // }
-    // this.clickedInside = false;
+    if (!this.clickedInside) {
+      this.props.pageBuilderActions.closeElementsMenu();
+    }
+    this.clickedInside = false;
   }
 
   addElement (tag) {
-    // this.props.onClose();
-    // this.context.addElementAtId(tag, this.props.targetId, this.props.targetPosition);
+    const {elementsMenuOptions} = this.props.pageBuilder;
+    this.props.pageBuilderActions.closeElementsMenu();
+    this.props.pageBuilderActions.addElementAt({tag}, {
+      id: elementsMenuOptions.targetId,
+      position: elementsMenuOptions.targetPosition
+    });
   }
 
   elementAcceptable (elementTag, element) {

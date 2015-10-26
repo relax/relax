@@ -233,7 +233,9 @@ export default class Element extends Component {
           {...this.props.settings.drop}
           placeholder
           dnd={this.props.dnd}
-          dndActions={this.props.dndActions}>
+          dndActions={this.props.dndActions}
+          pageBuilder={this.props.pageBuilder}
+          pageBuilderActions={this.props.pageBuilderActions}>
           {this.props.children}
         </Droppable>
       );

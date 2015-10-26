@@ -57,7 +57,7 @@ export default class Canvas extends Component {
     return (
       <div className='page-builder-canvas' ref='canvas'>
         <div className='body-element' style={bodyStyle} ref='body'>
-          <Droppable type='body' dropInfo={dropInfo} accepts='Section' placeholder dnd={this.props.dnd} dndActions={this.props.dndActions} pageBuilder={this.props.pageBuilder}>
+          <Droppable type='body' dropInfo={dropInfo} accepts='Section' placeholder dnd={this.props.dnd} dndActions={this.props.dndActions} pageBuilder={this.props.pageBuilder} pageBuilderActions={this.props.pageBuilderActions}>
             {data && data.body && this.renderChildren(data.body.children, elementsLinks)}
           </Droppable>
         </div>

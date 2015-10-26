@@ -6,6 +6,7 @@ import {Droppable} from './dnd';
 export default class ElementComponent extends Component {
   static propTypes = {
     pageBuilder: PropTypes.object.isRequired,
+    pageBuilderActions: PropTypes.object.isRequired,
     element: PropTypes.object.isRequired,
     elementId: PropTypes.string.isRequired,
     children: PropTypes.node,
@@ -49,6 +50,7 @@ export default class ElementComponent extends Component {
           {...customProps}
           placeholder
           pageBuilder={this.props.pageBuilder}
+          pageBuilderActions={this.props.pageBuilderActions}
           dnd={this.props.dnd}
           dndActions={this.props.dndActions}>
           {this.props.children}
