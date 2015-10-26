@@ -36,7 +36,7 @@ export default class MediaList extends Component {
     return (
       <div key={data._id} onClick={this.props.onSelect && this.props.onSelect.bind(null, data._id)} className={className}>
         <div className='image-part'>
-          <MediaItem item={data} width={100} height={100} useThumbnail={true} />
+          <MediaItem item={data} width={100} height={100} useThumbnail />
         </div>
         <div className='info-part'>
           <div className='title'>{data.name}</div>
@@ -53,10 +53,12 @@ export default class MediaList extends Component {
   }
 
   renderMedia () {
+    var result;
+
     if (this.props.media.length > 0) {
-      return this.props.media.map(this.renderItem, this);
+      result = this.props.media.map(this.renderItem, this);
     } else {
-      return (
+      result = (
         <div className='none-warning'>
           <div className='none-icon-part'>
             <i className='material-icons'>error_outline</i>
@@ -68,5 +70,7 @@ export default class MediaList extends Component {
         </div>
       );
     }
+
+    return result;
   }
 }

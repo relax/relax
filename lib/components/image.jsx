@@ -1,23 +1,23 @@
 import forEach from 'lodash.foreach';
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
-import Utils from '../utils';
+import {getBestImageUrl} from '../utils';
 
 export default class Image extends Component {
   static propTypes = {
-    id: React.PropTypes.string.isRequired,
-    width: React.PropTypes.number.isRequired,
-    height: React.PropTypes.number
+    id: PropTypes.string.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number
   }
-  
+
   static contextTypes = {
     editing: React.PropTypes.bool
   }
 
   render () {
     if (this.props.id && this.props.id !== '') {
-      const url = Utils.getBestImageUrl(this.props.id, this.props.width);
+      const url = getBestImageUrl(this.props.id, this.props.width);
       var extraProps = {};
 
       forEach(this.props, (value, key) => {
