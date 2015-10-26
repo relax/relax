@@ -34,17 +34,11 @@ export default class EditProps extends Component {
       result = (
         <div className='element-options'>
           <div className='option'>
-            <div className='label'>
-              <i className={element.settings.icon.class}>{element.settings.icon.content}</i>
-              <span>{selectedElement.tag + ' element label'}</span>
-            </div>
+            <div className='label'>{selectedElement.tag + ' element label'}</div>
             <Input value={selectedElement.label || selectedElement.tag} onChange={changeElementLabel} />
           </div>
           <div className='option'>
-            <div className='label'>
-              <i className='fa fa-eye'></i>
-              <span>Visible on</span>
-            </div>
+            <div className='label'>Visible on</div>
             <div className='visibility'>
               <a
                 className={selectedElement.hide && selectedElement.hide.desktop ? 'selected' : ''}
