@@ -11,7 +11,8 @@ export default class Canvas extends Component {
     dnd: PropTypes.object.isRequired,
     dndActions: PropTypes.object.isRequired,
     pageBuilder: PropTypes.object.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired
+    pageBuilderActions: PropTypes.object.isRequired,
+    display: PropTypes.string.isRequired
   }
 
   static childContextTypes = {
@@ -78,7 +79,7 @@ export default class Canvas extends Component {
     const {data} = this.props.pageBuilder;
     const element = data[elementId];
 
-    if ((!element.hide || !element.hide[this.props.pageBuilder.display]) && element.display !== false) {
+    if ((!element.hide || !element.hide[this.props.display]) && element.display !== false) {
       if (element.display !== false) {
         const FactoredElement = this.props.pageBuilder.elements[element.tag];
         const selected = this.props.pageBuilder.selected && this.props.pageBuilder.selected.id === element.id;

@@ -13,7 +13,8 @@ export default class EditProps extends Component {
 
   displayToggleElement (id, display, event) {
     event.preventDefault();
-    // this.context.displayToggleElement(id, display);
+    const {toggleElementVisibleOn} = this.props.pageBuilderActions;
+    toggleElementVisibleOn(id, display);
   }
 
   render () {
