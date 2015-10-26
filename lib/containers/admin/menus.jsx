@@ -1,10 +1,11 @@
+import * as menusActions from '../../client/actions/menus';
+
 import React, {PropTypes} from 'react';
-import {Component, buildQueryAndVariables} from 'relax-framework';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {Component, buildQueryAndVariables} from 'relax-framework';
 
 import queryProps from '../../decorators/query-props';
-import * as menusActions from '../../client/actions/menus';
 import Menus from '../../components/admin/panels/menus';
 
 @connect(
@@ -16,7 +17,7 @@ import Menus from '../../components/admin/panels/menus';
 )
 @queryProps({
   page: 1,
-  limit: 3
+  limit: 10
 })
 export default class MenusContainer extends Component {
   static fragments = Menus.fragments
