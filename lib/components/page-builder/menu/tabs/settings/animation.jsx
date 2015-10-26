@@ -87,9 +87,9 @@ export default class AnimationTab extends Component {
   ]
 
   onChange (id, value) {
-    const {selected} = this.props.pageBuilder;
+    const {selectedId} = this.props.pageBuilder;
     const {changeElementAnimation} = this.props.pageBuilderActions;
-    changeElementAnimation(selected.id, id, value);
+    changeElementAnimation(selectedId, id, value);
   }
 
   playAnimations (event) {
@@ -107,10 +107,10 @@ export default class AnimationTab extends Component {
   }
 
   renderContent () {
-    const {selected} = this.props.pageBuilder;
+    const {selectedElement} = this.props.pageBuilder;
     let result;
-    if (selected) {
-      const values =  selected.animation || AnimationTab.defaults;
+    if (selectedElement) {
+      const values =  selectedElement.animation || AnimationTab.defaults;
       result = (
         <OptionsList options={AnimationTab.options} onChange={this.onChange.bind(this)} values={values} />
       );

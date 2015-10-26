@@ -21,13 +21,13 @@ export default class EditTab extends Component {
   }
 
   render () {
-    const {selected} = this.props.pageBuilder;
+    const {selectedId} = this.props.pageBuilder;
     return (
       <div className='settings-tab'>
         <div className='content-scrollable'>
           <GeminiScrollbar autoshow>
             <div className='edit-tab'>
-              {selected && selected !== 'body' ? this.renderTab() : this.renderNonSelected()}
+              {selectedId && selectedId !== 'body' ? this.renderTab() : this.renderNonSelected()}
             </div>
           </GeminiScrollbar>
         </div>
@@ -47,10 +47,10 @@ export default class EditTab extends Component {
   }
 
   renderActionButtons () {
-    const {selected} = this.props.pageBuilder;
-    if (selected && selected !== 'body') {
+    const {selectedId, selectedElement} = this.props.pageBuilder;
+    if (selectedId && selectedId !== 'body') {
       let result;
-      if (selected.subComponent) {
+      if (selectedElement.subComponent) {
         result = (
           <div className='actions'>
             <span>This is a sub element</span>

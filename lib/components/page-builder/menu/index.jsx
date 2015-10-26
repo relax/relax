@@ -13,7 +13,8 @@ export default class PropsMenu extends Component {
 
   changeTab (tab, event) {
     event.preventDefault();
-    // this.props.changeTab(tab);
+    const {setMenuTab} = this.props.pageBuilderActions;
+    setMenuTab(tab);
   }
 
   toggleOpen (event) {

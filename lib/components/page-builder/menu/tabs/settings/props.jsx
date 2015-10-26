@@ -17,9 +17,9 @@ export default class EditProps extends Component {
   }
 
   render () {
-    const {selected, elements} = this.props.pageBuilder;
+    const {selectedElement, elements} = this.props.pageBuilder;
     const {changeElementLabel} = this.props.pageBuilderActions;
-    const element = elements[selected.tag];
+    const element = elements[selectedElement.tag];
     let result;
 
     if (!element) {
@@ -27,7 +27,7 @@ export default class EditProps extends Component {
     } else {
       let options;
       if (element.propsSchema) {
-        const values = Object.assign({}, element.defaultProps, selected.props);
+        const values = Object.assign({}, element.defaultProps, selectedElement.props);
         options = this.renderOptions(element.propsSchema, values);
       }
 
@@ -36,9 +36,9 @@ export default class EditProps extends Component {
           <div className='option'>
             <div className='label'>
               <i className={element.settings.icon.class}>{element.settings.icon.content}</i>
-              <span>{selected.tag + ' element label'}</span>
+              <span>{selectedElement.tag + ' element label'}</span>
             </div>
-            <Input value={selected.label || selected.tag} onChange={changeElementLabel} />
+            <Input value={selectedElement.label || selectedElement.tag} onChange={changeElementLabel} />
           </div>
           <div className='option'>
             <div className='label'>
@@ -47,21 +47,21 @@ export default class EditProps extends Component {
             </div>
             <div className='visibility'>
               <a
-                className={selected.hide && selected.hide.desktop ? 'selected' : ''}
+                className={selectedElement.hide && selectedElement.hide.desktop ? 'selected' : ''}
                 href='#'
-                onClick={this.displayToggleElement.bind(this, selected.id, 'desktop')}>
+                onClick={this.displayToggleElement.bind(this, selectedElement.id, 'desktop')}>
                 <i className='fa fa-desktop'></i>
               </a>
               <a
-                className={selected.hide && selected.hide.tablet ? 'selected' : ''}
+                className={selectedElement.hide && selectedElement.hide.tablet ? 'selected' : ''}
                 href='#'
-                onClick={this.displayToggleElement.bind(this, selected.id, 'tablet')}>
+                onClick={this.displayToggleElement.bind(this, selectedElement.id, 'tablet')}>
                 <i className='fa fa-tablet'></i>
               </a>
               <a
-                className={selected.hide && selected.hide.mobile ? 'selected' : ''}
+                className={selectedElement.hide && selectedElement.hide.mobile ? 'selected' : ''}
                 href='#'
-                onClick={this.displayToggleElement.bind(this, selected.id, 'mobile')}>
+                onClick={this.displayToggleElement.bind(this, selectedElement.id, 'mobile')}>
                 <i className='fa fa-mobile'></i>
               </a>
             </div>
