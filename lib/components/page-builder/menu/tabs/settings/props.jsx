@@ -31,12 +31,13 @@ export default class EditProps extends Component {
         const values = Object.assign({}, element.defaultProps, selectedElement.props);
         options = this.renderOptions(element.propsSchema, values);
       }
+      const label = typeof selectedElement.label === 'string' ? selectedElement.label : selectedElement.tag;
 
       result = (
         <div className='element-options'>
           <div className='option'>
             <div className='label'>{selectedElement.tag + ' element label'}</div>
-            <Input value={selectedElement.label || selectedElement.tag} onChange={changeElementLabel} />
+            <Input value={label} onChange={changeElementLabel.bind(this, selectedElement.id)} />
           </div>
           <div className='option'>
             <div className='label'>Visible on</div>
