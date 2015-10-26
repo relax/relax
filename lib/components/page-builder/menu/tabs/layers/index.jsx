@@ -9,7 +9,9 @@ import {Droppable} from '../../../../dnd';
 export default class Layers extends Component {
   static propTypes = {
     pageBuilder: PropTypes.object.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired
+    pageBuilderActions: PropTypes.object.isRequired,
+    dnd: PropTypes.object.isRequired,
+    dndActions: PropTypes.object.isRequired
   }
 
   changeDisplay (type, event) {
@@ -37,6 +39,7 @@ export default class Layers extends Component {
   }
 
   render () {
+    const {data} = this.props.pageBuilder;
     return (
       <div className='content-scrollable'>
         <GeminiScrollbar autoshow>
@@ -55,7 +58,7 @@ export default class Layers extends Component {
                 <a href='#' onClick={this.collapseAll.bind(this)}>Collapse all</a>
               </div>
             </div>
-            {this.renderList(this.context.page.data, {type: 'body'}, {accepts: 'Section'}, {tag: 'body'})}
+            {data.body && data.body.children && this.renderList(data.body.children, {type: 'body', id: 'body'}, {accepts: 'Section'}, {tag: 'body'})}
           </div>
         </GeminiScrollbar>
       </div>
@@ -73,7 +76,7 @@ export default class Layers extends Component {
     } else {
       result = (
         <ul>
-          <Droppable type={parent.type} dropInfo={dropInfo} {...dropSettings} hitSpace={12}>
+          <Droppable type={parent.type} dropInfo={dropInfo} {...dropSettings} hitSpace={12} pageBuilder={this.props.pageBuilder} dnd={this.props.dnd} dndActions={this.props.dndActions}>
             {children.map(this.renderListEntry, this)}
           </Droppable>
         </ul>
@@ -82,8 +85,10 @@ export default class Layers extends Component {
     return result;
   }
 
-  renderListEntry (elementInfo) {
-    const {elements} = this.props.pageBuilder;
+  renderListEntry (elementId) {
+    const {elements, data} = this.props.pageBuilder;
+    const {dragging} = this.props.dnd;
+    const elementInfo = data[elementId];
     const hasChildren = elementInfo.children instanceof Array && elementInfo.children.length > 0;
     const element = elements[elementInfo.tag];
     const dropInfo = {id: elementInfo.id};
@@ -105,6 +110,10 @@ export default class Layers extends Component {
     return (
       <li key={elementInfo.id}>
         <Entry
+          pageBuilder={this.props.pageBuilder}
+          pageBuilderActions={this.props.pageBuilderActions}
+          dnd={this.props.dnd}
+          dndActions={this.props.dndActions}
           id={elementInfo.id}
           elementInfo={elementInfo}
           isExpanded={isExpanded}
@@ -114,18 +123,9 @@ export default class Layers extends Component {
         {
           isExpanded ?
           this.renderList(elementInfo.children, dropInfo, dropSettings, elementInfo, dropSettings) :
-          (this.context.dragging && !hasChildren && dropSettings !== false ? <ul><Droppable type={elementInfo.tag} dropInfo={dropInfo} {...dropSettings} minHeight={7} /></ul> : null)
+          (dragging && !hasChildren && dropSettings !== false ? <ul><Droppable type={elementInfo.tag} dropInfo={dropInfo} {...dropSettings} minHeight={7} pageBuilder={this.props.pageBuilder} dnd={this.props.dnd} dndActions={this.props.dndActions} /></ul> : null)
         }
       </li>
     );
   }
 }
-
-Layers.contextTypes = {
-  page: React.PropTypes.object.isRequired,
-  elements: React.PropTypes.object.isRequired,
-  dragging: React.PropTypes.bool.isRequired,
-  expandAll: React.PropTypes.func.isRequired,
-  collapseAll: React.PropTypes.func.isRequired,
-  selectedPath: React.PropTypes.array.isRequired
-};

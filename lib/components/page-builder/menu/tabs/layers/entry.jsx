@@ -1,11 +1,24 @@
 import cx from 'classnames';
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import OptionsMenu from '../../../../options-menu';
 import {Draggable} from '../../../../dnd';
 
 export default class Entry extends Component {
+  static propTypes = {
+    dnd: PropTypes.object.isRequired,
+    dndActions: PropTypes.object.isRequired,
+    pageBuilder: PropTypes.object.isRequired,
+    pageBuilderActions: PropTypes.object.isRequired,
+    id: React.PropTypes.number.isRequired,
+    elementInfo: React.PropTypes.object.isRequired,
+    toggleExpand: React.PropTypes.func.isRequired,
+    isExpanded: React.PropTypes.bool.isRequired,
+    hasChildren: React.PropTypes.bool.isRequired,
+    display: React.PropTypes.string.isRequired
+  }
+
   getInitialState () {
     return {
       options: false
@@ -13,20 +26,24 @@ export default class Entry extends Component {
   }
 
   onClick () {
-    this.context.selectElement(this.props.id);
+    // this.context.selectElement(this.props.id);
   }
 
   onMouseOver (event) {
-    if (!this.context.dragging) {
-      this.context.overElement(this.props.id);
+    const {dragging} = this.props.dnd;
+    const {overElement} = this.props.pageBuilderActions;
+    if (!dragging) {
+      overElement(this.props.id);
     } else if (this.props.hasChildren && !this.props.isExpanded) {
-      this.openInterval = setTimeout(this.context.toggleExpandElement.bind(this, this.props.id), 500);
+      // this.openInterval = setTimeout(this.context.toggleExpandElement.bind(this, this.props.id), 500);
     }
   }
 
   onMouseOut () {
-    if (!this.context.dragging) {
-      this.context.outElement(this.props.id);
+    const {dragging} = this.props.dnd;
+    const {outElement} = this.props.pageBuilderActions;
+    if (!dragging) {
+      outElement(this.props.id);
 
       if (this.state.options) {
         this.setState({
@@ -48,7 +65,7 @@ export default class Entry extends Component {
 
   duplicate (event) {
     event.preventDefault();
-    this.context.duplicateElement(this.props.id);
+    // this.context.duplicateElement(this.props.id);
     this.setState({
       options: false
     });
@@ -56,7 +73,7 @@ export default class Entry extends Component {
 
   remove (event) {
     event.preventDefault();
-    this.context.removeElement(this.props.id);
+    // this.context.removeElement(this.props.id);
     this.setState({
       options: false
     });
@@ -65,7 +82,35 @@ export default class Entry extends Component {
   toggleExpand (event) {
     event.preventDefault();
     event.stopPropagation();
-    this.context.toggleExpandElement(this.props.id);
+    // this.context.toggleExpandElement(this.props.id);
+  }
+
+  render () {
+    const {elements} = this.props.pageBuilder;
+    const element = elements[this.props.elementInfo.tag];
+    let result;
+
+    if (this.props.elementInfo.subComponent) {
+      result = (
+        <div>
+          {this.renderContent()}
+        </div>
+      );
+    } else {
+      const dragInfo = {
+        type: 'move',
+        id: this.props.id
+      };
+
+      result = (
+        <div>
+          <Draggable type={this.props.elementInfo.tag} dragInfo={dragInfo} {...element.settings.drag} pageBuilder={this.props.pageBuilder} dnd={this.props.dnd} dndActions={this.props.dndActions}>
+            {this.renderContent()}
+          </Draggable>
+        </div>
+      );
+    }
+    return result;
   }
 
   renderOptionsMenu () {
@@ -91,12 +136,13 @@ export default class Entry extends Component {
   }
 
   renderContent () {
-    var element = this.context.elements[this.props.elementInfo.tag];
+    const {elements, selectedId, overedId} = this.props.pageBuilder;
+    const element = elements[this.props.elementInfo.tag];
 
-    let selected = this.context.selected && this.context.selected.id === this.props.id;
-    let overed = this.context.overedElement && this.context.overedElement === this.props.id;
-    let hasChildren = this.props.hasChildren;
-    let subComponent = this.props.elementInfo.subComponent;
+    const selected = selectedId === this.props.id;
+    const overed = overedId === this.props.id;
+    const hasChildren = this.props.hasChildren;
+    const subComponent = this.props.elementInfo.subComponent;
 
     return (
       <div
@@ -112,51 +158,4 @@ export default class Entry extends Component {
       </div>
     );
   }
-
-  render () {
-    var element = this.context.elements[this.props.elementInfo.tag];
-
-    if (this.props.elementInfo.subComponent) {
-      return (
-        <div>
-          {this.renderContent()}
-        </div>
-      );
-    } else {
-      var dragInfo = {
-        type: 'move',
-        id: this.props.id
-      };
-
-      return (
-        <div>
-          <Draggable type={this.props.elementInfo.tag} dragInfo={dragInfo} {...element.settings.drag}>
-            {this.renderContent()}
-          </Draggable>
-        </div>
-      );
-    }
-  }
 }
-
-Entry.propTypes = {
-  id: React.PropTypes.number.isRequired,
-  elementInfo: React.PropTypes.object.isRequired,
-  toggleExpand: React.PropTypes.func.isRequired,
-  isExpanded: React.PropTypes.bool.isRequired,
-  hasChildren: React.PropTypes.bool.isRequired,
-  display: React.PropTypes.string.isRequired
-};
-
-Entry.contextTypes = {
-  dragging: React.PropTypes.bool.isRequired,
-  elements: React.PropTypes.object.isRequired,
-  selected: React.PropTypes.any.isRequired,
-  selectElement: React.PropTypes.func.isRequired,
-  overElement: React.PropTypes.func.isRequired,
-  outElement: React.PropTypes.func.isRequired,
-  overedElement: React.PropTypes.any.isRequired,
-  duplicateElement: React.PropTypes.func.isRequired,
-  removeElement: React.PropTypes.func.isRequired,
-  toggleExpandElement: React.PropTypes.func.isRequired
-};
