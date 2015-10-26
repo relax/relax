@@ -34,6 +34,7 @@ function getPageBuilder (pageBuilder, data) {
     result.selectedElement = selectedElement;
     result.selectedParent = selectedElement && selectedElement.parent;
     result.selectedPath = selectedElement && getElementPath(selectedElement, data);
+    pageBuilder.selectedId = selectedElement && pageBuilder.selectedId;
   }
 
   return result;

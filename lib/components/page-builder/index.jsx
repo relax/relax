@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import key from 'keymaster';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
@@ -15,6 +16,19 @@ export default class PageBuilder extends Component {
     dndActions: PropTypes.object.isRequired,
     pageBuilder: PropTypes.object.isRequired,
     pageBuilderActions: PropTypes.object.isRequired
+  }
+
+  componentDidMount () {
+    if (window !== undefined) {
+      const {undoAction, redoAction} = this.props.pageBuilderActions;
+      key('⌘+z, ctrl+z', undoAction);
+      key('⌘+y, ctrl+y', redoAction);
+    }
+  }
+
+  componentWillUnmount () {
+    key.unbind('⌘+z, ctrl+z');
+    key.unbind('⌘+y, ctrl+y');
   }
 
   draggedComponent () {
