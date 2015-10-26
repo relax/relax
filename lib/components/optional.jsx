@@ -2,6 +2,12 @@ import React from 'react';
 import {Component} from 'relax-framework';
 
 export default class Optional extends Component {
+  static propTypes = {
+    value: React.PropTypes.bool.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    label: React.PropTypes.string.isRequired
+  }
+
   toggle (event) {
     event.preventDefault();
     this.props.onChange(!this.props.value);
@@ -18,8 +24,3 @@ export default class Optional extends Component {
     );
   }
 }
-
-Optional.propTypes = {
-  value: React.PropTypes.bool.isRequired,
-  onChange: React.PropTypes.func.isRequired
-};

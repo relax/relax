@@ -10,12 +10,6 @@ export default class AnimationTab extends Component {
     pageBuilder: PropTypes.object.isRequired,
     pageBuilderActions: PropTypes.object.isRequired
   }
-  static defaults = {
-    use: false,
-    effect: 'transition.fadeIn',
-    duration: 400,
-    delay: 300
-  }
 
   static options = [
     {
@@ -110,7 +104,7 @@ export default class AnimationTab extends Component {
     const {selectedElement} = this.props.pageBuilder;
     let result;
     if (selectedElement) {
-      const values =  selectedElement.animation || AnimationTab.defaults;
+      const values =  selectedElement.animation || {};
       result = (
         <OptionsList options={AnimationTab.options} onChange={this.onChange.bind(this)} values={values} />
       );

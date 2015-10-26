@@ -1,8 +1,15 @@
 import React from 'react';
 import {Component} from 'relax-framework';
+
 import NumberInput from './number-input';
 
 export default class CornersPicker extends Component {
+  static propTypes = {
+    value: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    type: React.PropTypes.string.isRequired
+  }
+
   getInitialState () {
     return {
       selected: 'center',
@@ -29,7 +36,7 @@ export default class CornersPicker extends Component {
   }
 
   getValuesString (values) {
-    return values.tl+'px '+values.tr+'px '+values.br+'px '+values.bl+'px';
+    return `${values.tl}px ${values.tr}px ${values.br}px ${values.bl}px`;
   }
 
   parseValue (value) {
@@ -76,24 +83,6 @@ export default class CornersPicker extends Component {
     });
   }
 
-  renderToggleButton (pos, active) {
-    var className = 'toggle ' + pos;
-
-    if (this.state.selected === pos) {
-      className += ' selected';
-    }
-
-    if (active) {
-      className += ' active';
-    }
-
-    return (
-      <div className={className} onClick={this.changeSelected.bind(this, pos)}>
-        {pos === 'center' ? <i className='material-icons'>link</i> : <span></span>}
-      </div>
-    );
-  }
-
   render () {
     var className = 'corners-picker type-' + this.props.type;
     var values = this.state.values;
@@ -104,7 +93,7 @@ export default class CornersPicker extends Component {
       value = values[this.state.selected];
     } else {
       inactive = !values.equal;
-      value = values.equal ? values.tl : Math.round((values.tl+values.tr+values.br+values.bl)/4);
+      value = values.equal ? values.tl : Math.round((values.tl + values.tr + values.br + values.bl) / 4);
     }
 
     return (
@@ -123,10 +112,22 @@ export default class CornersPicker extends Component {
       </div>
     );
   }
-}
 
-CornersPicker.propTypes = {
-  value: React.PropTypes.string.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  type: React.PropTypes.string.isRequired
-};
+  renderToggleButton (pos, active) {
+    var className = 'toggle ' + pos;
+
+    if (this.state.selected === pos) {
+      className += ' selected';
+    }
+
+    if (active) {
+      className += ' active';
+    }
+
+    return (
+      <div className={className} onClick={this.changeSelected.bind(this, pos)}>
+        {pos === 'center' ? <i className='material-icons'>link</i> : <span></span>}
+      </div>
+    );
+  }
+}

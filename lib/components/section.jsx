@@ -2,6 +2,12 @@ import React from 'react';
 import {Component} from 'relax-framework';
 
 export default class Section extends Component {
+  static propTypes = {
+    value: React.PropTypes.bool.isRequired,
+    label: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func.isRequired
+  }
+
   toggle (event) {
     event.preventDefault();
     this.props.onChange(!this.props.value);
@@ -16,9 +22,3 @@ export default class Section extends Component {
     );
   }
 }
-
-Section.propTypes = {
-  value: React.PropTypes.bool.isRequired,
-  label: React.PropTypes.string.isRequired,
-  onChange: React.PropTypes.func.isRequired
-};

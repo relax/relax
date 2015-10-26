@@ -2,20 +2,38 @@ import React from 'react';
 import {Component} from 'relax-framework';
 
 export default class NumberInput extends Component {
+  static propTypes = {
+    value: React.PropTypes.number.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    label: React.PropTypes.any,
+    min: React.PropTypes.number,
+    max: React.PropTypes.number,
+    inactive: React.PropTypes.bool
+  }
+
+  static defaultProps = {
+    min: 0,
+    max: false,
+    label: 'px',
+    inactive: false
+  }
+
   limitValue (value) {
+    let result = value;
+
     if (this.props.min !== false) {
       if (value < this.props.min) {
-        value = this.props.min;
+        result = this.props.min;
       }
     }
 
     if (this.props.max !== false) {
       if (value > this.props.max) {
-        value = this.props.max;
+        result = this.props.max;
       }
     }
 
-    return value;
+    return result;
   }
 
   onInput (event) {
@@ -27,12 +45,12 @@ export default class NumberInput extends Component {
 
   up (event) {
     event.preventDefault();
-    this.props.onChange(this.limitValue(this.props.value+1));
+    this.props.onChange(this.limitValue(this.props.value + 1));
   }
 
   down (event) {
     event.preventDefault();
-    this.props.onChange(this.limitValue(this.props.value-1));
+    this.props.onChange(this.limitValue(this.props.value - 1));
   }
 
   onFocus () {
@@ -65,7 +83,7 @@ export default class NumberInput extends Component {
     const cof = 2;
     var amount = this.startY - event.pageY;
 
-    this.props.onChange(this.limitValue(Math.round(this.startValue + amount/cof)));
+    this.props.onChange(this.limitValue(Math.round(this.startValue + amount / cof)));
   }
 
   onMouseUp (event) {
@@ -101,19 +119,3 @@ export default class NumberInput extends Component {
     );
   }
 }
-
-NumberInput.propTypes = {
-  value: React.PropTypes.number.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  label: React.PropTypes.any,
-  min: React.PropTypes.number,
-  max: React.PropTypes.number,
-  inactive: React.PropTypes.bool
-};
-
-NumberInput.defaultProps = {
-  min: 0,
-  max: false,
-  label: 'px',
-  inactive: false
-};

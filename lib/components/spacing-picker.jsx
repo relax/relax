@@ -1,8 +1,15 @@
 import React from 'react';
 import {Component} from 'relax-framework';
+
 import NumberInput from './number-input';
 
 export default class SpacingPicker extends Component {
+  static propTypes = {
+    value: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    type: React.PropTypes.string.isRequired
+  }
+
   getInitialState () {
     return {
       selected: 'center',
@@ -29,7 +36,7 @@ export default class SpacingPicker extends Component {
   }
 
   getValuesString (values) {
-    return values.top+'px '+values.right+'px '+values.bottom+'px '+values.left+'px';
+    return `${values.top}px ${values.right}px ${values.bottom}px ${values.left}px`;
   }
 
   parseValue (value) {
@@ -76,24 +83,6 @@ export default class SpacingPicker extends Component {
     });
   }
 
-  renderToggleButton (pos, icon, active) {
-    var className = 'toggle ' + pos;
-
-    if (this.state.selected === pos) {
-      className += ' selected';
-    }
-
-    if (active) {
-      className += ' active';
-    }
-
-    return (
-      <div className={className} onClick={this.changeSelected.bind(this, pos)}>
-        <i className='material-icons'>{icon}</i>
-      </div>
-    );
-  }
-
   render () {
     var className = 'spacing-picker type-' + this.props.type;
     var values = this.state.values;
@@ -104,7 +93,7 @@ export default class SpacingPicker extends Component {
       value = values[this.state.selected];
     } else {
       inactive = !values.equal;
-      value = values.equal ? values.top : Math.round((values.top+values.right+values.bottom+values.left)/4);
+      value = values.equal ? values.top : Math.round((values.top + values.right + values.bottom + values.left) / 4);
     }
 
     return (
@@ -123,10 +112,22 @@ export default class SpacingPicker extends Component {
       </div>
     );
   }
-}
 
-SpacingPicker.propTypes = {
-  value: React.PropTypes.string.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  type: React.PropTypes.string.isRequired
-};
+  renderToggleButton (pos, icon, active) {
+    var className = 'toggle ' + pos;
+
+    if (this.state.selected === pos) {
+      className += ' selected';
+    }
+
+    if (active) {
+      className += ' active';
+    }
+
+    return (
+      <div className={className} onClick={this.changeSelected.bind(this, pos)}>
+        <i className='material-icons'>{icon}</i>
+      </div>
+    );
+  }
+}
