@@ -7,12 +7,14 @@ import {Component, mergeFragments, buildQueryAndVariables} from 'relax-framework
 
 import panels from '../../components/admin/panels';
 import Admin from '../../components/admin';
+import Overlays from '../../components/overlays';
 import {getQueryVariables} from '../../decorators/query-props';
 
 @connect(
   (state) => ({
     user: state.session.data,
-    display: state.display
+    display: state.display,
+    overlays: state.overlays
   }),
   (dispatch) => bindActionCreators(adminActions, dispatch)
 )
@@ -26,7 +28,8 @@ export default class AdminContainer extends Component {
     params: PropTypes.object.isRequired,
     getAdmin: PropTypes.func.isRequired,
     updatePage: PropTypes.func.isRequired,
-    display: PropTypes.string.isRequired
+    display: PropTypes.string.isRequired,
+    overlays: PropTypes.array.isRequired
   }
 
   getInitialState (props = this.props) {
@@ -155,6 +158,7 @@ export default class AdminContainer extends Component {
           ...this.state,
           ref: 'panel'
         })}
+        <Overlays overlays={this.props.overlays} />
       </Admin>
     );
   }
