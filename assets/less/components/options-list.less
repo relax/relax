@@ -33,6 +33,21 @@
     margin-left: 9px;
     margin-top: 10px;
   }
+  .option-columns {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    .option-column {
+      display: table-cell;
+      vertical-align: top;
+      &:first-child {
+        padding-right: 10px;
+      }
+      &:last-child {
+        padding-left: 10px;
+      }
+    }
+  }
 }
 
 .white-options .option .label {

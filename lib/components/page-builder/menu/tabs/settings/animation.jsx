@@ -57,25 +57,31 @@ export default class AnimationTab extends Component {
           }
         },
         {
-          label: 'Duration',
-          type: Types.Number,
-          id: 'duration',
-          props: {
-            min: 0,
-            max: 20000,
-            label: 'ms'
-          }
-        },
-        {
-          label: 'Delay',
-          type: Types.Number,
-          id: 'delay',
-          props: {
-            min: 0,
-            max: 20000,
-            label: 'ms'
-          }
+          type: 'Columns',
+          options: [
+            {
+              label: 'Duration',
+              type: Types.Number,
+              id: 'duration',
+              props: {
+                min: 0,
+                max: 20000,
+                label: 'ms'
+              }
+            },
+            {
+              label: 'Delay',
+              type: Types.Number,
+              id: 'delay',
+              props: {
+                min: 0,
+                max: 20000,
+                label: 'ms'
+              }
+            }
+          ]
         }
+
       ]
     }
   ]
