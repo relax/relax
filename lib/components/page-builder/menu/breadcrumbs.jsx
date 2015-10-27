@@ -9,7 +9,8 @@ export default class Breadcrumbs extends Component {
 
   entryClicked (id, event) {
     event.preventDefault();
-    // this.context.selectElement(id);
+    const {selectElement} = this.props.pageBuilderActions;
+    selectElement(id);
   }
 
   render () {
