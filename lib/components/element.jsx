@@ -179,10 +179,10 @@ export default class Element extends Component {
 
       if (element.subComponent) {
         result = (
-          <element.tag {...props} onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)} onClick={this.onElementClick.bind(this)}>
+          <props.htmlTag {...props} onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)} onClick={this.onElementClick.bind(this)}>
             {this.renderContent()}
             {this.renderHighlight()}
-          </element.tag>
+          </props.htmlTag>
         );
       } else {
         const draggableProps = Object.assign({
@@ -196,10 +196,10 @@ export default class Element extends Component {
 
         result = (
           <Draggable {...draggableProps} dnd={this.props.dnd} dndActions={this.props.dndActions}>
-            <element.tag {...props} onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)}>
+            <props.htmlTag {...props} onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)}>
               {this.renderContent()}
               {this.renderHighlight()}
-            </element.tag>
+            </props.htmlTag>
           </Draggable>
         );
       }
@@ -210,9 +210,9 @@ export default class Element extends Component {
       }
 
       result = (
-        <element.tag {...props}>
+        <props.tag {...props}>
           {this.renderContent()}
-        </element.tag>
+        </props.tag>
       );
     }
     return result;

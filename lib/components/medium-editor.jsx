@@ -1,9 +1,20 @@
-import {Component} from 'relax-framework';
-import React from 'react';
-import ReactDOM from 'react-dom';
 import MediumEditor from 'medium-editor';
+import React from 'react';
+import {Component} from 'relax-framework';
 
 export default class MediumEditorElement extends Component {
+  static propTypes = {
+    tag: React.PropTypes.string,
+    className: React.PropTypes.string,
+    value: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    options: React.PropTypes.obj
+  }
+
+  static defaultProps = {
+    tag: 'div'
+  }
+
   getInitialState () {
     this.currentValue = this.props.value;
     return {
@@ -12,8 +23,7 @@ export default class MediumEditorElement extends Component {
   }
 
   componentDidMount () {
-    super.componentDidMount();
-    this.medium = new MediumEditor(ReactDOM.findDOMNode(this), this.props.options);
+    this.medium = new MediumEditor(React.findDOMNode(this), this.props.options);
     this.medium.subscribe('editableInput', this.onChange.bind(this));
   }
 
@@ -27,35 +37,22 @@ export default class MediumEditorElement extends Component {
   }
 
   componentWillUnmount () {
-    super.componentWillUnmount();
     this.medium.destroy();
   }
 
   onChange () {
-    let value = ReactDOM.findDOMNode(this).innerHTML;
+    const value = React.findDOMNode(this).innerHTML;
     this.currentValue = value;
-    this.props.onChange(value);
+    this.props.onChange && this.props.onChange(value);
   }
 
   render () {
     return (
       <this.props.tag
         className={this.props.className}
-        contentEditable={true}
+        contentEditable
         dangerouslySetInnerHTML={{__html: this.state.value}}
       />
     );
   }
 }
-
-MediumEditorElement.propTypes = {
-  tag: React.PropTypes.string,
-  className: React.PropTypes.string,
-  value: React.PropTypes.string.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  options: React.PropTypes.obj
-};
-
-MediumEditorElement.defaultProps = {
-  tag: 'div'
-};

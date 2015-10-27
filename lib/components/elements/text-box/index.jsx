@@ -1,19 +1,42 @@
-import React from 'react';
-import Component from '../../component';
-import Element from '../../element';
-import styles from '../../../styles';
 import cx from 'classnames';
-import Editor from '../../medium-editor';
+import React, {PropTypes} from 'react';
 
-import settings from './settings';
-import style from './style';
 import classes from './classes';
 import propsSchema from './props-schema';
+import settings from './settings';
+import Component from '../../component';
+import Editor from '../../medium-editor';
+import Element from '../../element';
+
+// import styles from '../../../styles';
+
+// import style from './style';
 
 export default class TextBox extends Component {
 
+  static propTypes = {
+    selected: PropTypes.bool,
+    usePadding: PropTypes.bool,
+    padding: PropTypes.string,
+    useAlign: PropTypes.bool,
+    textAlign: PropTypes.string,
+    children: PropTypes.node,
+    pageBuilder: PropTypes.object,
+    element: PropTypes.object
+  }
+
+  static defaultProps = {
+    padding: '0px',
+    textAlign: 'left'
+  }
+
+  static defaultChildren = 'Click to edit text'
+
+  static propsSchema = propsSchema
+  static settings = settings
+
   getStyle () {
-    let style = {};
+    const style = {};
 
     if (this.props.usePadding) {
       style.padding = this.props.padding;
@@ -25,43 +48,10 @@ export default class TextBox extends Component {
     return style;
   }
 
-  renderContent () {
-    var classMap = (this.props.style && styles.getClassesMap(this.props.style)) || {};
-
-    let html = '';
-    if ((!this.props.children || this.props.children === '') && this.context.editing && !this.props.selected) {
-      html = 'Double click to edit text';
-    } else {
-      html = this.props.children;
-    }
-
-    if (this.context.editing && this.props.selected) {
-      return (
-        <Editor
-          tag='div'
-          className={cx(classes.text, classMap.text)}
-          value={html}
-          onChange={this.context.elementContentChange}
-          options={{
-            toolbar: {
-              buttons: ['bold', 'italic', 'underline', 'anchor']
-            },
-            placeholder: false,
-            buttonLabels: 'fontawesome',
-            imageDragging: false
-          }}
-        />
-      );
-    } else {
-      return (
-        <div className={cx(classes.text, classMap.text)} dangerouslySetInnerHTML={{__html: html}}></div>
-      );
-    }
-  }
-
   render () {
     var props = {
-      tag: 'div',
+      ...this.props,
+      htmlTag: 'div',
       element: this.props.element,
       settings: this.constructor.settings,
       style: this.getStyle()
@@ -73,26 +63,41 @@ export default class TextBox extends Component {
       </Element>
     );
   }
+
+  renderContent () {
+    let result;
+    const classMap = {};// (this.props.style && styles.getClassesMap(this.props.style)) || {};
+    const {editing} = this.props.pageBuilder;
+
+    let html = '';
+    if ((!this.props.children || this.props.children === '') && editing && !this.props.selected) {
+      html = 'Double click to edit text';
+    } else {
+      html = this.props.children;
+    }
+
+    if (editing && this.props.selected) {
+      // onChange={this.context.elementContentChange}
+      result = (
+        <Editor
+          tag='div'
+          className={cx(classes.text, classMap.text)}
+          value={html}
+          options={{
+            toolbar: {
+              buttons: ['bold', 'italic', 'underline', 'anchor']
+            },
+            placeholder: false,
+            buttonLabels: 'fontawesome',
+            imageDragging: false
+          }}
+        />
+      );
+    } else {
+      result = (
+        <div className={cx(classes.text, classMap.text)} dangerouslySetInnerHTML={{__html: html}}></div>
+      );
+    }
+    return result;
+  }
 }
-
-TextBox.contextTypes = {
-  editing: React.PropTypes.bool.isRequired,
-  elementContentChange: React.PropTypes.func
-};
-
-TextBox.propTypes = {
-  selected: React.PropTypes.bool,
-  padding: React.PropTypes.string,
-  textAlign: React.PropTypes.string
-};
-
-TextBox.defaultProps = {
-  padding: '0px',
-  textAlign: 'left'
-};
-
-TextBox.defaultChildren = 'Click to edit text';
-
-styles.registerStyle(style);
-TextBox.propsSchema = propsSchema;
-TextBox.settings = settings;

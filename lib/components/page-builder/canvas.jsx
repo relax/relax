@@ -82,7 +82,7 @@ export default class Canvas extends Component {
     if ((!element.hide || !element.hide[this.props.display]) && element.display !== false) {
       if (element.display !== false) {
         const FactoredElement = this.props.pageBuilder.elements[element.tag];
-        const selected = this.props.pageBuilder.selected && this.props.pageBuilder.selected.id === element.id;
+        const selected = this.props.pageBuilder.selectedId === element.id;
 
         return (
           <FactoredElement

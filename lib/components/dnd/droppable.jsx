@@ -277,7 +277,15 @@ export default class Droppable extends Component {
 
   hasChildren () {
     const children = this.props.children;
-    return children && (children instanceof Array && children.length > 0 || children instanceof Object);
+    let hasChildren = false;
+    if (children) {
+      if (children instanceof Array) {
+        hasChildren = children.length > 0;
+      } else if (children instanceof Object) {
+        hasChildren = true;
+      }
+    }
+    return hasChildren;
   }
 
   showMarks () {

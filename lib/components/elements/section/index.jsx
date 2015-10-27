@@ -39,7 +39,7 @@ export default class Section extends Component {
 
     const props = {
       ...this.props,
-      tag: 'div',
+      htmlTag: 'div',
       style: {
         position: 'relative'
       },
