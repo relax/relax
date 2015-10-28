@@ -3,12 +3,10 @@ import React, {PropTypes} from 'react';
 
 import propsSchema from './props-schema';
 import settings from './settings';
+import style from './style';
 import BackgroundImage from '../../background-image';
 import Component from '../../component';
 import Element from '../../element';
-
-// import style from './style';
-// import styles from '../../../styles';
 
 export default class Section extends Component {
   static propTypes = {
@@ -30,8 +28,8 @@ export default class Section extends Component {
   }
 
   static propsSchema = propsSchema
-
   static settings = settings
+  static style = style
 
   render () {
     const classMap = {}; // this.props.style && styles.getClassesMap(this.props.style);

@@ -1,11 +1,12 @@
-import {Component} from 'relax-framework';
-import React from 'react';
 import Velocity from 'velocity-animate';
+import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
 
 export default class Animate extends Component {
   static propTypes = {
-    transition: React.PropTypes.string,
-    duration: React.PropTypes.number
+    transition: PropTypes.string,
+    duration: PropTypes.number,
+    children: PropTypes.node
   }
 
   static defaultProps = {
@@ -14,7 +15,7 @@ export default class Animate extends Component {
   }
 
   componentDidMount () {
-    var dom = React.findDOMNode(this);
+    const dom = React.findDOMNode(this);
     const transition = 'transition.' + this.props.transition;
     Velocity(dom, transition, {
       duration: this.props.duration,

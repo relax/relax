@@ -84,6 +84,8 @@ export default class Canvas extends Component {
         const FactoredElement = this.props.pageBuilder.elements[element.tag];
         const selected = this.props.pageBuilder.selectedId === element.id;
 
+        // element.props.style
+
         return (
           <FactoredElement
             {...element.props}

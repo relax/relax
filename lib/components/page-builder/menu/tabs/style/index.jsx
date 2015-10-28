@@ -1,15 +1,12 @@
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
-// import StylePicker from '../../../../../style-picker';
+
+import StylePicker from '../../../../../containers/style-picker';
 
 export default class Style extends Component {
   static propTypes = {
     pageBuilder: PropTypes.object.isRequired,
     pageBuilderActions: PropTypes.object.isRequired
-  }
-
-  onChange (id) {
-    // this.context.onPropChange('style', id);
   }
 
   render () {
@@ -21,22 +18,29 @@ export default class Style extends Component {
   }
 
   renderStyles () {
-    // const {selectedElement} = this.props.pageBuilder;
-    // if (selectedElement && selectedElement.tag !== 'body') {
-      // var Element = this.context.elements[element.tag];
+    const {selectedElement, elements} = this.props.pageBuilder;
+    let result;
+    if (selectedElement && selectedElement.tag !== 'body') {
+      const Element = elements[selectedElement.tag];
 
-      // if (Element && Element.settings && Element.settings.style) {
-      //   return (
-      //     <StylePicker type={Element.settings.style} value={element.props && element.props.style} onChange={this.onChange.bind(this)} />
-      //   );
-      // } else {
-    return (
-      <div className='none-info'>
-        <i className='material-icons'>gps_off</i>
-        <div>Current selected element has no style options, head to settings tab to edit its properties!</div>
-      </div>
-    );
-      // }
-    // }
+      if (Element && Element.style) {
+        result = (
+          <StylePicker
+            style={Element.style}
+            value={selectedElement.props && selectedElement.props.style}
+            pageBuilder={this.props.pageBuilder}
+            pageBuilderActions={this.props.pageBuilderActions}
+          />
+        );
+      } else {
+        result = (
+          <div className='none-info'>
+            <i className='material-icons'>gps_off</i>
+            <div>Current selected element has no style options, head to settings tab to edit its properties!</div>
+          </div>
+        );
+      }
+    }
+    return result;
   }
 }

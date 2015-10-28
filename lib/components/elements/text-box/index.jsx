@@ -49,7 +49,7 @@ export default class TextBox extends Component {
   }
 
   render () {
-    var props = {
+    const props = {
       ...this.props,
       htmlTag: 'div',
       element: this.props.element,

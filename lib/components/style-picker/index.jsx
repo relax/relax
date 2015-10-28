@@ -1,128 +1,129 @@
-import {Component} from 'relax-framework';
-import React from 'react';
-import styles from '../../styles';
-import Entry from './entry';
-import Edit from './edit';
-// TODO Use EventEmitter from Node or something
-// import {Events} from 'backbone';
-import merge from 'lodash.merge';
 import GeminiScrollbar from 'react-gemini-scrollbar';
+import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
+
+import Animate from '../animate';
+import Edit from './edit';
+import Entry from './entry';
+import Input from '../input';
 
 export default class StylePicker extends Component {
-  getInitialState () {
-    styles.fetch();
-    return {
-      styles: styles.getEntriesByType(this.props.type),
-      styleOptions: styles.getStyleOptionsByType(this.props.type)
-    };
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (this.props.type !== nextProps.type) {
-      this.setState({
-        styles: styles.getEntriesByType(nextProps.type),
-        styleOptions: styles.getStyleOptionsByType(nextProps.type)
-      });
+  static fragments = {
+    style: {
+      _id: 1,
+      type: 1,
+      title: 1,
+      options: 1
     }
   }
 
-  componentDidMount () {
-    super.componentDidMount();
-    this.listenTo(styles, 'update', this.updatedStyles.bind(this));
+  static propTypes = {
+    value: PropTypes.any.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onChangeValue: PropTypes.func.isRequired,
+    styles: PropTypes.array.isRequired,
+    selectedStyle: PropTypes.object.isRequired,
+    editing: PropTypes.bool.isRequired,
+    editingTitle: PropTypes.bool.isRequired,
+    titleValue: PropTypes.string.isRequired,
+    changeTitleValue: PropTypes.func.isRequired,
+    toggleEditing: PropTypes.func.isRequired,
+    toggleEditingTitle: PropTypes.func.isRequired,
+    saveStyle: PropTypes.func.isRequired,
+    styleOptions: PropTypes.object.isRequired
   }
 
-  comoponentWillUnmount () {
-    this.stopListening();
-  }
-
-  updatedStyles () {
-    this.setState({
-      styles: styles.getEntriesByType(this.props.type)
-    });
-  }
-
-  onClick (id) {
-    this.props.onChange(id);
-  }
-
-  onAddNewClick (event) {
+  onSubmit (event) {
     event.preventDefault();
-    this.setState({
-      editing: true,
-      editingValue: false
-    });
-  }
-
-  onEditEntry (id) {
-    this.setState({
-      editing: true,
-      editingValue: id
-    });
-  }
-
-  onEditClose () {
-    this.setState({
-      editing: false,
-      editingValue: false
-    });
-  }
-
-  renderEdit () {
-    if (this.state.editing) {
-      return <Edit editing={this.state.editingValue} type={this.props.type} onClose={this.onEditClose.bind(this)} />;
-    }
-  }
-
-  renderEntry (entry) {
-    return (
-      <Entry
-        entry={entry}
-        styleOptions={this.state.styleOptions}
-        key={entry._id}
-        onClick={this.onClick.bind(this)}
-        selected={entry._id === this.props.value}
-        editing={entry._id === this.state.editingValue || entry._id === 'temp'}
-        onEdit={this.onEditEntry.bind(this)}
-      />
-    );
-  }
-
-  renderEntries () {
-    if (this.state.styles.length > 0) {
-      return this.state.styles.map(this.renderEntry, this);
-    } else {
-      return (
-        <div className='none-info'>
-          <i className='material-icons'>gps_fixed</i>
-          <div>No entries in this style yet!</div>
-          <a href='#' onClick={this.onAddNewClick.bind(this)}>add new style</a>
-        </div>
-      );
-    }
+    this.props.saveStyle();
   }
 
   render () {
     return (
       <div className='style-picker'>
+        <div className='selected-style' onClick={this.props.toggleEditing}>
+          <span>{this.props.selectedStyle.title}</span>
+          <i className='material-icons'>{this.props.editing ? 'expand_less' : 'expand_more'}</i>
+        </div>
         <div className='content-scrollable'>
-          <GeminiScrollbar autoshow={true}>
-            {this.renderEntries()}
+          <GeminiScrollbar autoshow>
+            {this.renderContent()}
           </GeminiScrollbar>
         </div>
-        <div className='add-style-btn' onClick={this.onAddNewClick.bind(this)}>
-          <i className='material-icons'>add_circle_outline</i>
-          <span>Add new style</span>
-        </div>
-        {this.renderEdit()}
+        {this.renderSaveStyle()}
       </div>
     );
   }
+
+  renderContent () {
+    let result;
+    if (this.props.editing) {
+      result = (
+        <Animate transition='slideDownIn' duration={300} key='edit'>
+          {this.renderEdit()}
+        </Animate>
+      );
+    } else if (this.props.styles.length > 1) {
+      result = (
+        <Animate transition='slideUpIn' duration={300} key='list'>
+          <div>
+            {this.props.styles.map(this.renderEntry, this)}
+          </div>
+        </Animate>
+      );
+    }
+    return result;
+  }
+
+  renderEntry (entry) {
+    if (entry._id !== this.props.selectedStyle._id) {
+      return (
+        <Entry
+          entry={entry}
+          key={entry._id}
+          onClick={this.props.onChange}
+        />
+      );
+    }
+  }
+
+  renderEdit () {
+    return (
+      <Edit
+        selectedStyle={this.props.selectedStyle}
+        styleOptions={this.props.styleOptions}
+        onChange={this.props.onChangeValue}
+      />
+    );
+  }
+
+  renderSaveStyle () {
+    if (this.props.editing && this.props.selectedStyle._id === 'no_style') {
+      let result;
+      if (this.props.editingTitle) {
+        result = (
+          <div className='save-style'>
+            <Animate transition='slideRightIn' duration='300'>
+              <form onSubmit={::this.onSubmit}>
+                <Input placeholder='Style title' value={this.props.titleValue} onChange={this.props.changeTitleValue} focused />
+                <div className='submit-button' onClick={this.props.saveStyle}>
+                  <i className='material-icons'>arrow_forward</i>
+                </div>
+                <input type='submit' hidden />
+              </form>
+            </Animate>
+          </div>
+        );
+      } else {
+        result = (
+          <div className='save-style'>
+            <div className='button button-primary' onClick={this.props.toggleEditingTitle}>
+              Save style
+            </div>
+          </div>
+        );
+      }
+      return result;
+    }
+  }
 }
-
-merge(StylePicker.prototype, Events);
-
-StylePicker.propTypes = {
-  type: React.PropTypes.string.isRequired,
-  value: React.PropTypes.any.isRequired,
-  onChange: React.PropTypes.func.isRequired
-};

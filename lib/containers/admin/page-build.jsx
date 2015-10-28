@@ -1,9 +1,10 @@
-import {Component} from 'relax-framework';
+import * as pageActions from '../../client/actions/page';
+
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {Component} from 'relax-framework';
 
-import * as pageActions from '../../client/actions/page';
 import PageBuild from '../../components/admin/panels/page-build';
 
 @connect(
@@ -13,13 +14,15 @@ import PageBuild from '../../components/admin/panels/page-build';
   (dispatch) => bindActionCreators(pageActions, dispatch)
 )
 export default class PageBuildContainer extends Component {
-  static propTypes = {
-    page: PropTypes.object,
-    user: PropTypes.object
-  }
+  static fragments = PageBuild.fragments
 
   static panelSettings = {
     activePanelType: 'pageBuild'
+  }
+
+  static propTypes = {
+    page: PropTypes.object,
+    user: PropTypes.object
   }
 
   render () {

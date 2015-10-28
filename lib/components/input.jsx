@@ -1,6 +1,6 @@
-import {Component} from 'relax-framework';
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
+import {Component} from 'relax-framework';
 
 import Animate from './animate';
 import Spinner from './spinner';
@@ -13,7 +13,14 @@ export default class Input extends Component {
     placeholder: React.PropTypes.string,
     password: React.PropTypes.bool,
     state: React.PropTypes.string,
-    disabled: React.PropTypes.bool
+    disabled: React.PropTypes.bool,
+    focused: React.PropTypes.bool
+  }
+
+  componentDidMount () {
+    if (this.props.focused) {
+      React.findDOMNode(this.refs.input).focus();
+    }
   }
 
   onChange (event) {

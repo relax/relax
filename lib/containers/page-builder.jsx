@@ -52,10 +52,16 @@ function getPageBuilder (pageBuilder, data) {
 )
 export default class PageBuilderContainer extends Component {
   static fragments = {
-    draft: {
-      actions: 1,
-      data: 1,
-      __v: 1
+    // draft: {
+    //   actions: 1,
+    //   data: 1,
+    //   __v: 1
+    // },
+    styles: {
+      _id: 1,
+      title: 1,
+      type: 1,
+      options: 1
     }
   }
 
