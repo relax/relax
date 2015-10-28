@@ -1,13 +1,16 @@
-import {Component} from 'relax-framework';
+import * as overlaysActions from '../../client/actions/overlays';
+import * as pageActions from '../../client/actions/page';
+
 import cloneDeep from 'lodash.clonedeep';
-import React, {PropTypes} from 'react';
 import merge from 'lodash.merge';
 import Velocity from 'velocity-animate';
+import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {Component} from 'relax-framework';
 
-import * as pageActions from '../../client/actions/page';
 import Page from '../../components/admin/panels/page';
+import Revisions from './revisions';
 
 @connect(
   (state) => ({
@@ -15,10 +18,24 @@ import Page from '../../components/admin/panels/page';
     isSlugValid: state.page.isSlugValid,
     errors: state.page.errors
   }),
-  (dispatch) => bindActionCreators(pageActions, dispatch)
+  (dispatch) => ({
+    ...bindActionCreators(pageActions, dispatch),
+    ...bindActionCreators(overlaysActions, dispatch)
+  })
 )
 export default class PageContainer extends Component {
   static fragments = Page.fragments
+
+  static panelSettings = {
+    activePanelType: 'page',
+    breadcrumbs: [
+      {
+        label: 'Pages',
+        type: 'pages',
+        link: '/admin/pages'
+      }
+    ]
+  }
 
   static propTypes = {
     page: PropTypes.object,
@@ -27,6 +44,7 @@ export default class PageContainer extends Component {
     changePageFields: PropTypes.func,
     changePageToDefault: PropTypes.func,
     addPage: PropTypes.func.isRequired,
+    addOverlay: PropTypes.func.isRequired,
     validatePageSlug: PropTypes.func.isRequired,
     updatePage: PropTypes.func.isRequired
   }
@@ -41,17 +59,6 @@ export default class PageContainer extends Component {
     if (this.successTimeout) {
       clearTimeout(this.successTimeout);
     }
-  }
-
-  static panelSettings = {
-    activePanelType: 'page',
-    breadcrumbs: [
-      {
-        label: 'Pages',
-        type: 'pages',
-        link: '/admin/pages'
-      }
-    ]
   }
 
   onSubmit (pageProps) {
@@ -162,48 +169,37 @@ export default class PageContainer extends Component {
       savingLabel: 'Restoring revision'
     });
 
-    // pageActions
-    //   .restore({
-    //     _id: this.props.page._id,
-    //     __v
-    //   })
-    //   .then((page) => {
-    //     this.state.breadcrumbs[1].label = page.title;
-    //     this.setState({
-    //       saving: false,
-    //       page,
-    //       success: true,
-    //       error: false,
-    //       new: false,
-    //       breadcrumbs: this.state.breadcrumbs
-    //     });
-    //     Router.prototype.navigate('/admin/pages/'+page.slug, {trigger: false, replace: true});
-    //     this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
-    //   })
-    //   .catch(() => {
-    //     this.setState({
-    //       success: false
-    //     });
-    //   });
+    pageActions
+      .restore({
+        _id: this.props.page._id,
+        __v
+      })
+      .then((page) => {
+        this.state.breadcrumbs[1].label = page.title;
+        this.setState({
+          saving: false,
+          page,
+          success: true,
+          error: false,
+          new: false,
+          breadcrumbs: this.state.breadcrumbs
+        });
+        // Router.prototype.navigate('/admin/pages/' + page.slug, {trigger: false, replace: true});
+        this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
+      })
+      .catch(() => {
+        this.setState({
+          success: false
+        });
+      });
   }
 
   onRevisions (event) {
     event.preventDefault();
-
-    // const page = this.props.page;
-    // const current = {
-    //   _id: {
-    //     _id: page._id,
-    //     __v: page.__v
-    //   },
-    //   date: page.updatedDate,
-    //   user: page.updatedBy,
-    //   title: page.title
-    // };
-
-    // this.context.addOverlay(
-    //   <RevisionsOverlay current={current} onRestore={this.onRestore.bind(this)} />
-    // );
+    this.props.addOverlay(
+      'revisions',
+      Revisions
+    );
   }
 
   isNew () {

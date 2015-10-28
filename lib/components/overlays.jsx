@@ -15,6 +15,14 @@ export default class Overlays extends Component {
   }
 
   renderOverlay (overlay) {
-    return overlay.component;
+    var result;
+
+    if (overlay.component.prototype) {
+      result = <overlay.component />;
+    } else {
+      result = overlay.component;
+    }
+
+    return result;
   }
 }
