@@ -25,7 +25,6 @@
     "dropzone": "git://github.com/relax/dropzone.git",
     "express": "^4.13.3",
     "express-graphql": "^0.4.0",
-    "express-react-engine": "git://github.com/relax/express-react-engine.git",
     "express-session": "^1.11.3",
     "file-size": "^1.0.0",
     "graphql": "^0.4.7",
