@@ -58,6 +58,7 @@ export default class RevisionsContainer extends Component {
     );
 
     await this.props.restorePage(fragments, this.props.page._id, version);
+    this.onClose();
     history.pushState({}, '', `/admin/pages/${this.props.page.slug}`);
   }
 
