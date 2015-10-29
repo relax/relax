@@ -6,7 +6,7 @@ import {Component} from 'relax-framework';
 import Animate from '../animate';
 import Edit from './edit';
 import Entry from './entry';
-import Input from '../input';
+import Input from '../data-types/input';
 
 export default class StylePicker extends Component {
   static fragments = {

@@ -2,7 +2,7 @@ import {Component} from 'relax-framework';
 import React from 'react';
 import ColorPicker from 'react-colorpicker';
 import Lightbox from '../lightbox';
-import Input from '../input';
+import Input from '../data-types/input';
 
 import colorsActions from '../../client/actions/colors';
 

@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import Animation from './animation';
-import Input from '../../../../input';
+import Input from '../../../../data-types/input';
 import OptionsList from '../../../../options-list';
 
 export default class EditProps extends Component {

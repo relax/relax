@@ -1,8 +1,9 @@
+import cx from 'classnames';
 import React from 'react';
 import {Component} from 'relax-framework';
-import cx from 'classnames';
-import {Types} from '../data-types';
-import Utils from '../utils';
+
+import Utils from '../../utils';
+import {Types} from '../../data-types';
 
 export default class ColumnsManager extends Component {
   getInitialState () {
@@ -12,7 +13,7 @@ export default class ColumnsManager extends Component {
   }
 
   parseValue (value, idChanged = -1) {
-    return Utils.parseColumnsDisplay (value, this.context.selected.children.length, this.props.multiRows, idChanged);
+    return Utils.parseColumnsDisplay(value, this.context.selected.children.length, this.props.multiRows, idChanged);
   }
 
   onClick (key, event) {

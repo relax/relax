@@ -4,7 +4,7 @@ import React from 'react';
 import {Component} from 'relax-framework';
 
 import schemasStore from '../../../../../client/stores/schemas';
-import Combobox from '../../../../combobox';
+import Combobox from '../../../../data-types/combobox';
 import SchemaProperties from './schema-properties';
 
 export default class Schema extends Component {

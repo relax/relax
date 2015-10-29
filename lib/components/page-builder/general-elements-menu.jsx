@@ -4,7 +4,7 @@ import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
-import Input from '../input';
+import Input from '../data-types/input';
 import {Draggable} from '../dnd';
 
 export default class GeneralElementsMenu extends Component {

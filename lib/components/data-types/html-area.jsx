@@ -1,8 +1,8 @@
-import {Component} from 'relax-framework';
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
+import {Component} from 'relax-framework';
 
-import Editor from './medium-editor';
+import Editor from '../medium-editor';
 
 export default class HtmlArea extends Component {
   render () {

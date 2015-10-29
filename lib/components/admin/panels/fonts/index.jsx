@@ -6,7 +6,7 @@ import {Component} from 'relax-framework';
 
 import Breadcrumbs from '../../../breadcrumbs';
 import FontsList from './fonts-list';
-import Input from '../../../input';
+import Input from '../../../data-types/input';
 import Lightbox from '../../../lightbox';
 import Mananger from './manager';
 

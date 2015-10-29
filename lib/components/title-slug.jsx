@@ -2,7 +2,7 @@ import {Component} from 'relax-framework';
 import React from 'react';
 import slugify from 'slug';
 
-import Input from './input';
+import Input from './data-types/input';
 
 export default class TitleSlug extends Component {
   static propTypes = {

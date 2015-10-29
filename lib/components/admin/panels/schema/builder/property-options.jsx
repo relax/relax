@@ -10,8 +10,8 @@ import {TypesOptionsMap, TypesOptionsDefaultProps} from '../../../../../data-typ
 import Dependencies from './dependencies';
 import PropertyTypes from './property-types';
 import OptionsList from '../../../../options-list';
-import Checkbox from '../../../../checkbox';
-import Input from '../../../../input';
+import Checkbox from '../../../../data-types/checkbox';
+import Input from '../../../../data-types/input';
 
 export default class PropertyOptions extends Component {
   onChange (id, value) {

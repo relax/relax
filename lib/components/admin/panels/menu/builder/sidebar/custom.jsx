@@ -1,7 +1,7 @@
 import {Component} from 'relax-framework';
 import React from 'react';
 
-import Input from '../../../../../input';
+import Input from '../../../../../data-types/input';
 import Entry from './entry';
 
 export default class Builder extends Component {

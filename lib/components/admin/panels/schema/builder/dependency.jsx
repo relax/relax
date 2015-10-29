@@ -6,7 +6,7 @@ import clone from 'lodash.clone';
 
 import {TypesOptionsMap, TypesOptionsDefaultProps} from '../../../../../data-types/options-map';
 import OptionsList from '../../../../options-list';
-import Combobox from '../../../../combobox';
+import Combobox from '../../../../data-types/combobox';
 
 export default class Dependency extends Component {
   onChange (key, value) {

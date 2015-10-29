@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import CustomFonts from './custom-fonts';
-import Input from '../../../input';
+import Input from '../../../data-types/input';
 
 const tabs = [
   {

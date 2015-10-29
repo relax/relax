@@ -2,8 +2,8 @@ import classNames from 'classnames';
 import React from 'react';
 import {Component} from 'relax-framework';
 
-import Animate from './animate';
-import Spinner from './spinner';
+import Animate from '../animate';
+import Spinner from '../spinner';
 
 export default class Input extends Component {
   static propTypes = {

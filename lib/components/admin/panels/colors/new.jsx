@@ -1,6 +1,6 @@
 import {Component} from 'relax-framework';
 import ColorPicker from 'react-colorpicker';
-import Input from '../../../input';
+import Input from '../../../data-types/input';
 import React from 'react';
 
 export default class NewColor extends Component {
