@@ -107,7 +107,6 @@ export default class MenuContainer extends Component {
     clearTimeout(this.successTimeout);
 
     var dom = findDOMNode(this.refs.menu.refs.success);
-    console.log(dom);
     if (dom) {
       const transition = 'transition.slideDownOut';
       Velocity(dom, transition, {

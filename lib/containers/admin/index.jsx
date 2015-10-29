@@ -1,5 +1,6 @@
 import * as adminActions from '../../client/actions/admin';
 
+import forEach from 'lodash.foreach';
 import React, {cloneElement, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -36,6 +37,7 @@ export default class AdminContainer extends Component {
   getInitialState (props = this.props) {
     return {
       loading: false,
+      lastDashboard: '/admin',
       ...props.children.type.panelSettings
     };
   }
@@ -45,16 +47,35 @@ export default class AdminContainer extends Component {
     const params = nextProps.params;
 
     if (panelSettings.activePanelType !== this.state.activePanelType ||
-        params.slug && params.slug !== this.state.slug ||
-        params.id && params.id !== this.state.id) {
+        params.slug !== this.state.slug ||
+        params.id !== this.state.id) {
+      let lastDashboard = this.state.lastDashboard;
+      if (panelSettings.activePanelType !== 'pageBuild') {
+        lastDashboard = this.getUrlFromRoutes(nextProps.routes);
+      }
       this.setState({
         loading: true,
+        lastDashboard,
         ...panelSettings,
-        ...params
+        id: params.id,
+        slug: params.slug
       }, () => {
         this.fetchData(nextProps);
       });
     }
+  }
+
+  getUrlFromRoutes (routes) {
+    let str = '';
+    forEach(routes, (route, index) => {
+      if (typeof route.path !== 'undefined') {
+        if (index > 0) {
+          str += '/';
+        }
+        str += route.path;
+      }
+    });
+    return str;
   }
 
   static getQueryAndVariables (props, state) {

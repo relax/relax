@@ -88,7 +88,6 @@ export default class StylePickerContainer extends Component {
       changeElementStyle(selectedId, key, value);
     } else {
       this.props.changeStyleProp(selectedStyle, key, value);
-      console.log(selectedStyle);
       this.updateStyle(selectedStyle);
     }
   }
