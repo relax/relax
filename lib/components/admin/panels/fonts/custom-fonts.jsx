@@ -96,7 +96,6 @@ export default class CustomFonts extends Component {
     this.props
       .submitCustomFont(this.state.titleInput, filesInfo, types)
       .then(() => {
-        console.log('here');
         forEach(this.state.files, (file) => {
           file.previewElement.parentNode.removeChild(file.previewElement);
         });
