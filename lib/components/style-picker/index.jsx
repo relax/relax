@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
@@ -45,7 +46,7 @@ export default class StylePicker extends Component {
           <span>{this.props.selectedStyle.title}</span>
           <i className='material-icons'>{this.props.editing ? 'expand_less' : 'expand_more'}</i>
         </div>
-        <div className='content-scrollable'>
+        <div className={cx('content-scrollable', this.props.selectedStyle._id === 'no_style' && 'no_style')}>
           <GeminiScrollbar autoshow>
             {this.renderContent()}
           </GeminiScrollbar>
