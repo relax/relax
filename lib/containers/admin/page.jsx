@@ -10,7 +10,7 @@ import {bindActionCreators} from 'redux';
 import {Component} from 'relax-framework';
 
 import Page from '../../components/admin/panels/page';
-import Revisions from './revisions';
+import RevisionsContainer from './revisions';
 
 @connect(
   (state) => ({
@@ -198,7 +198,7 @@ export default class PageContainer extends Component {
     event.preventDefault();
     this.props.addOverlay(
       'revisions',
-      Revisions
+      RevisionsContainer
     );
   }
 

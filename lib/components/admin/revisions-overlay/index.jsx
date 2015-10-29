@@ -23,11 +23,11 @@ export default class RevisionsOverlay extends Component {
   static propTypes = {
     current: PropTypes.object.isRequired,
     revisions: PropTypes.array.isRequired,
-    onRestore: PropTypes.func.isRequired
+    onRestorePage: PropTypes.func.isRequired
   }
 
   onRestore (version) {
-    this.props.onRestore(version);
+    this.props.onRestorePage(version);
   }
 
   render () {

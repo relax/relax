@@ -4,9 +4,10 @@ import * as pageActions from '../../client/actions/page';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {Component} from 'relax-framework';
+import {Component, mergeFragments} from 'relax-framework';
 
 import Overlay from '../../components/overlay';
+import PageContainer from './page';
 import RevisionsOverlay from '../../components/admin/revisions-overlay';
 
 @connect(
@@ -38,7 +39,8 @@ export default class RevisionsContainer extends Component {
     page: PropTypes.object,
     revisions: PropTypes.array,
     getPage: PropTypes.func.isRequired,
-    closeOverlay: PropTypes.func.isRequired
+    closeOverlay: PropTypes.func.isRequired,
+    restorePage: PropTypes.func.isRequired
   }
 
   componentWillMount () {
@@ -47,6 +49,16 @@ export default class RevisionsContainer extends Component {
 
   onClose () {
     this.props.closeOverlay('revisions');
+  }
+
+  async onRestorePage (version) {
+    const fragments = mergeFragments(
+      this.constructor.fragments,
+      PageContainer.fragments
+    );
+
+    await this.props.restorePage(fragments, this.props.page._id, version);
+    history.pushState({}, '', `/admin/pages/${this.props.page.slug}`);
   }
 
   getCurrentPageProps () {
@@ -69,6 +81,7 @@ export default class RevisionsContainer extends Component {
         <RevisionsOverlay
           current={this.getCurrentPageProps()}
           revisions={this.props.revisions}
+          onRestorePage={::this.onRestorePage}
         />
       </Overlay>
     );
