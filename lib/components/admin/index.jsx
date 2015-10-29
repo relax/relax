@@ -1,20 +1,20 @@
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
-import {Component} from 'relax-framework';
+import {Component, mergeFragments} from 'relax-framework';
 
 import Loading from './loading';
 import MenuBar from './menu-bar';
 import TopMenu from './top-menu';
 
 export default class Admin extends Component {
-  static fragments = {
+  static fragments = mergeFragments({
     session: {
       _id: 1,
       username: 1,
       name: 1,
       email: 1
     }
-  }
+  }, TopMenu.fragments)
 
   static propTypes = {
     activePanelType: PropTypes.string,
@@ -25,7 +25,8 @@ export default class Admin extends Component {
     getAdmin: PropTypes.func.isRequired,
     updatePage: PropTypes.func.isRequired,
     display: PropTypes.string.isRequired,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
+    tabs: PropTypes.array.isRequired
   }
 
   static defaultProps = {
@@ -165,7 +166,7 @@ export default class Admin extends Component {
           <TopMenu
             activePanelType={this.props.activePanelType}
             user={this.props.user}
-            tabs={[]}
+            tabs={this.props.tabs}
             display={this.props.display}
           />
           <div className='admin-holder'>

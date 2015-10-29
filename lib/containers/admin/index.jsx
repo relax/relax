@@ -14,7 +14,8 @@ import {getQueryVariables} from '../../decorators/query-props';
   (state) => ({
     user: state.session.data,
     display: state.display,
-    overlays: state.overlays
+    overlays: state.overlays,
+    tabs: state.tabs.data
   }),
   (dispatch) => bindActionCreators(adminActions, dispatch)
 )
@@ -40,12 +41,15 @@ export default class AdminContainer extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const params = nextProps.children.type.panelSettings;
+    const panelSettings = nextProps.children.type.panelSettings;
+    const params = nextProps.params;
 
-    if (params.activePanelType !== this.state.activePanelType ||
-        params.slug !== this.state.slug) {
+    if (panelSettings.activePanelType !== this.state.activePanelType ||
+        params.slug !== this.state.slug ||
+        params.id !== this.state.id) {
       this.setState({
         loading: true,
+        ...panelSettings,
         ...params
       }, () => {
         this.fetchData(nextProps);
@@ -81,9 +85,15 @@ export default class AdminContainer extends Component {
           id: {
             value: props.params && props.params.id,
             type: 'String!'
+          }
+        };
+        vars.tab = {
+          id: {
+            value: props.params && props.params.id,
+            type: 'String!'
           },
-          user: {
-            value: props.session && props.session._id,
+          type: {
+            value: 'page',
             type: 'String!'
           }
         };
@@ -120,6 +130,7 @@ export default class AdminContainer extends Component {
         break;
       default:
     }
+    console.log(vars);
 
     return buildQueryAndVariables(
       mergeFragments(

@@ -1,9 +1,10 @@
 import React from 'react';
 import {Component} from 'relax-framework';
 
-// import AddOverlay from '../add-overlay';
-import Tab from './tab';
 import PageActions from './page-actions';
+import Tab from './tab';
+
+// import AddOverlay from '../add-overlay';
 
 export default class TopMenu extends Component {
   static fragments = {

@@ -1,6 +1,6 @@
+import cx from 'classnames';
 import React from 'react';
 import {Component} from 'relax-framework';
-import cx from 'classnames';
 
 import A from '../../a';
 
@@ -11,17 +11,8 @@ export default class Tab extends Component {
         _id: 1
       },
       page: {
-        title: 1,
-        slug: 1
-      },
-      userSchema: {
-        title: 1,
-        slug: 1
-      },
-      schemaEntry: {
-        schemaSlug: 1,
-        title: 1,
-        slug: 1
+        _id: 1,
+        title: 1
       }
     }
   }
@@ -42,26 +33,23 @@ export default class Tab extends Component {
 
   render () {
     const {tab} = this.props;
-    let active = this.props.activePanelType === 'pageBuild';
-    let slug;
+    const active = tab.selected;
+    let _id;
     let title;
     let link;
 
     if (tab.page) {
-      slug = tab.page.slug;
+      _id = tab.page._id;
       title = tab.page.title;
-      active = active && this.props.page && this.props.page.slug === slug;
-      link = '/admin/page/' + slug;
+      link = '/admin/page/' + _id;
     } else if (tab.userSchema) {
-      slug = tab.userSchema.slug;
+      _id = tab.userSchema._id;
       title = tab.userSchema.title + ' (template)';
-      active = active && this.props.schema && this.props.schema.slug === slug && !this.props.schemaEntry;
-      link = '/admin/schemas/' + slug + '/template';
+      link = '/admin/schemas/' + _id + '/template';
     } else if (tab.schemaEntry) {
-      slug = tab.schemaEntry.slug;
+      _id = tab.schemaEntry._id;
       title = tab.schemaEntry.title;
-      active = active && this.props.schemaEntry && this.props.schema && this.props.schemaEntry._slug === slug && this.props.schema.slug === tab.schemaEntry.schemaSlug;
-      link = '/admin/schema/' + tab.schemaEntry.schemaSlug + '/' + slug + '/single';
+      link = '/admin/schema/' + tab.schemaEntry.schemaSlug + '/' + _id + '/single';
     }
 
     const deduct = 35 / this.props.tabsCount;

@@ -84,10 +84,10 @@
       display: inline-block;
       vertical-align: top;
       text-decoration: none;
-      color: #a5a4a4;
+      color: #efefef;
       padding: 0 8px;
       i {
-        font-size: 18px;
+        font-size: 12px;
         line-height: @tabsHeight;
       }
       &:hover{
@@ -96,21 +96,19 @@
     }
     .tab {
       height: @tabsHeight;
-      border: 1px solid #494949;
-      border-bottom: 1px solid #494949;
-      border-top: 0;
+      border-right: 1px solid @pageBuilderChromeBorders;
       display: inline-block;
       vertical-align: top;
       text-decoration: none;
-      color: #a5a4a4;
-      background-color: #292828;
+      color: #ffffff;
+      background-color: transparent;
 
-      font-size: 13px;
+      font-size: 10px;
       line-height: @tabsHeight;
       width: 200px;
 
       margin: 0 -1px;
-      padding: 0 12px;
+      padding: 0 7.5px;
       padding-right: 30px;
 
       text-overflow: ellipsis;
@@ -120,7 +118,7 @@
 
       i {
         vertical-align: top;
-        font-size: 18px;
+        font-size: 11px;
         line-height: @tabsHeight;
       }
 
@@ -132,19 +130,23 @@
 
       .close {
         position: absolute;
-        width: 16px;
-        height: 16px;
+        width: 13px;
+        height: 13px;
         .roundedCorners(9px);
         text-align: center;
-        top: 5px;
+        top: 4px;
         right: 10px;
         i {
-          font-size: 12px;
-          line-height: 16px;
+          font-size: 11px;
+          line-height: 13px;
           vertical-align: top;
+          color: #999999;
         }
         &:hover {
           background-color: #DD6050;
+          i {
+            color: #ffffff;
+          }
         }
       }
 
