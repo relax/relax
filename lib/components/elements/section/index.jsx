@@ -16,7 +16,8 @@ export default class Section extends Component {
     repeat: PropTypes.string,
     vertical: PropTypes.number,
     horizontal: PropTypes.number,
-    navigation: PropTypes.string
+    navigation: PropTypes.string,
+    styleClassMap: PropTypes.object
   }
 
   static defaultProps = {
@@ -32,8 +33,7 @@ export default class Section extends Component {
   static style = style
 
   render () {
-    const classMap = {}; // this.props.style && styles.getClassesMap(this.props.style);
-    const classNameContent = classMap && classMap.content || '';
+    const classMap = this.props.styleClassMap || {};
 
     const props = {
       ...this.props,
@@ -52,7 +52,7 @@ export default class Section extends Component {
     return (
       <Element {...props}>
         {this.renderBackground()}
-        <div style={{position: 'relative'}} className={classNameContent}>
+        <div style={{position: 'relative'}} className={cx(classMap.content)}>
           {this.renderContent()}
         </div>
       </Element>

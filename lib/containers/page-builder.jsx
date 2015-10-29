@@ -43,7 +43,8 @@ function getPageBuilder (pageBuilder, data) {
 @connect(
   (state) => ({
     pageBuilder: getPageBuilder(state.pageBuilder, state.draft.data.data),
-    dnd: state.dnd
+    dnd: state.dnd,
+    styles: state.styles.data
   }),
   (dispatch) => ({
     pageBuilderActions: bindActionCreators(pageBuilderActions, dispatch),

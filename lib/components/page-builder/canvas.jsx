@@ -1,7 +1,10 @@
+import forEach from 'lodash.foreach';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
+import {Component as JSS} from 'relax-jss';
 
 import displays from '../../helpers/displays';
+import stylesManager from '../../helpers/styles-manager';
 import {Droppable} from '../dnd';
 
 // import utils from '../../utils';
@@ -12,7 +15,8 @@ export default class Canvas extends Component {
     dndActions: PropTypes.object.isRequired,
     pageBuilder: PropTypes.object.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
-    display: PropTypes.string.isRequired
+    display: PropTypes.string.isRequired,
+    styles: PropTypes.array.isRequired
   }
 
   static childContextTypes = {
@@ -53,16 +57,28 @@ export default class Canvas extends Component {
 
     // Process schema links if any
     const elementsLinks = {};
+    const elements = data && data.body && this.renderChildren(data.body.children, elementsLinks);
 
     return (
       <div className='page-builder-canvas' ref='canvas'>
         <div className='body-element' style={bodyStyle} ref='body'>
           <Droppable type='body' dropInfo={dropInfo} accepts='Section' placeholder dnd={this.props.dnd} dndActions={this.props.dndActions} pageBuilder={this.props.pageBuilder} pageBuilderActions={this.props.pageBuilderActions}>
-            {data && data.body && this.renderChildren(data.body.children, elementsLinks)}
+            {elements}
           </Droppable>
         </div>
+        {this.renderStyles()}
       </div>
     );
+  }
+
+  renderStyles () {
+    const styleTags = [];
+    forEach(stylesManager.stylesMap, (styleMap, key) => {
+      styleTags.push(
+        <JSS stylesheet={styleMap.stylesheet} key={key} />
+      );
+    });
+    return styleTags;
   }
 
   renderChildren (children, elementsLinks) {
@@ -76,15 +92,15 @@ export default class Canvas extends Component {
   }
 
   renderElement (elementsLinks, elementId) {
-    const {data} = this.props.pageBuilder;
+    const {data, elements, selectedId} = this.props.pageBuilder;
     const element = data[elementId];
+
+    const styleClassMap = stylesManager.processElement(element, elements[element.tag], this.props.styles, elements);
 
     if ((!element.hide || !element.hide[this.props.display]) && element.display !== false) {
       if (element.display !== false) {
-        const FactoredElement = this.props.pageBuilder.elements[element.tag];
-        const selected = this.props.pageBuilder.selectedId === element.id;
-
-        // element.props.style
+        const FactoredElement = elements[element.tag];
+        const selected = selectedId === element.id;
 
         return (
           <FactoredElement
@@ -93,7 +109,8 @@ export default class Canvas extends Component {
             key={elementId}
             selected={selected}
             element={element}
-            elementId={elementId}>
+            elementId={elementId}
+            styleClassMap={styleClassMap}>
             {element.children && this.renderChildren(element.children, elementsLinks)}
           </FactoredElement>
         );
