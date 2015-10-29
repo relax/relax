@@ -1,11 +1,12 @@
+import * as schemasActions from '../../client/actions/schemas';
+
 import React, {PropTypes} from 'react';
-import {Component, buildQueryAndVariables} from 'relax-framework';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {Component, buildQueryAndVariables} from 'relax-framework';
 
-import Schemas from '../../components/admin/panels/schemas';
 import queryProps from '../../decorators/query-props';
-import * as schemasActions from '../../client/actions/schemas';
+import Schemas from '../../components/admin/panels/schemas';
 
 @connect(
   (state) => ({
@@ -20,6 +21,15 @@ import * as schemasActions from '../../client/actions/schemas';
 })
 export default class SchemasContainer extends Component {
   static fragments = Schemas.fragments
+
+  static panelSettings = {
+    activePanelType: 'schemas',
+    breadcrumbs: [
+      {
+        label: 'Schemas'
+      }
+    ]
+  }
 
   static propTypes = {
     hasQueryChanged: PropTypes.bool.isRequired,
@@ -41,15 +51,6 @@ export default class SchemasContainer extends Component {
         ))
         .done();
     }
-  }
-
-  static panelSettings = {
-    activePanelType: 'schemas',
-    breadcrumbs: [
-      {
-        label: 'Schemas'
-      }
-    ]
   }
 
   render () {

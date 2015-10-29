@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import moment from 'moment';
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import A from '../../../a';
@@ -10,7 +10,7 @@ import Builder from './builder';
 import NotFound from '../not-found';
 import Spinner from '../../../spinner';
 import TitleSlug from '../../../title-slug';
-import Utils from '../../../../utils';
+import {getGravatarImage} from '../../../../utils';
 
 export default class SchemasManage extends Component {
   static fragments = {
@@ -35,16 +35,19 @@ export default class SchemasManage extends Component {
   }
 
   static propTypes = {
-    schema: React.PropTypes.object,
-    user: React.PropTypes.object,
-    breadcrumbs: React.PropTypes.array,
-    isNew: React.PropTypes.bool,
-    errors: React.PropTypes.any,
-    onRevisions: React.PropTypes.func,
-    status: React.PropTypes.oneOf(['saving', 'error', 'success']),
-    savingLabel: React.PropTypes.string,
-    onCreate: React.PropTypes.func,
-    onSave: React.PropTypes.func
+    schema: PropTypes.object,
+    user: PropTypes.object,
+    breadcrumbs: PropTypes.array,
+    isNew: PropTypes.bool,
+    errors: PropTypes.any,
+    onRevisions: PropTypes.func,
+    status: PropTypes.oneOf(['saving', 'error', 'success']),
+    savingLabel: PropTypes.string,
+    isSlugValid: PropTypes.boolean,
+    onCreate: PropTypes.func.isRequired,
+    onSave: PropTypes.func.isRequired,
+    validateSlug: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired
   }
 
   render () {
@@ -73,8 +76,14 @@ export default class SchemasManage extends Component {
             </div>
             <div className='admin-scrollable'>
               <div className='list white-options'>
-                <TitleSlug title={this.props.schema.title} slug={this.props.schema.slug} validateSlug={this.validateSlug.bind(this)} onChange={this.onChange.bind(this)} />
-                <Builder value={this.props.schema.properties || []} onChange={this.onPropertiesChange.bind(this)} />
+                <TitleSlug
+                  title={this.props.schema.title}
+                  slug={this.props.schema.slug}
+                  isSlugValid={this.props.isSlugValid}
+                  validateSlug={this.props.validateSlug}
+                  onChange={this.props.onChange}
+                />
+                {/* <Builder value={this.props.schema.properties || []} onChange={this.props.onPropertiesChange.bind(this)} /> */}
               </div>
             </div>
           </div>
@@ -96,12 +105,16 @@ export default class SchemasManage extends Component {
                 <div>{updatedDate}</div>
               </div>
               <div className='info'>
-                <span className='thumbnail'><img src={Utils.getGravatarImage(createdUser && createdUser.email || 'default', 40)} /></span>
+                <span className='thumbnail'>
+                  <img src={getGravatarImage(createdUser && createdUser.email || 'default', 40)} />
+                </span>
                 <span>Created by</span>
                 <div>{createdUser && createdUser.name || 'removed user'}</div>
               </div>
               <div className='info'>
-                <span className='thumbnail'><img src={Utils.getGravatarImage(updatedUser && updatedUser.email || 'default', 40)} /></span>
+                <span className='thumbnail'>
+                  <img src={getGravatarImage(updatedUser && updatedUser.email || 'default', 40)} />
+                </span>
                 <span>Last update by</span>
                 <div>{updatedUser && updatedUser.name || 'removed user'}</div>
               </div>

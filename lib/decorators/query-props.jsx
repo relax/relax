@@ -1,8 +1,8 @@
 import forEach from 'lodash.foreach';
 import hoistStatics from 'hoist-non-react-statics';
 import qs from 'query-string';
-import {Component} from 'relax-framework';
 import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
 
 function sanatizeQueryObject (query) {
   if (query.limit) {

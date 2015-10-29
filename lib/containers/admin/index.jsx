@@ -45,8 +45,8 @@ export default class AdminContainer extends Component {
     const params = nextProps.params;
 
     if (panelSettings.activePanelType !== this.state.activePanelType ||
-        params.slug !== this.state.slug ||
-        params.id !== this.state.id) {
+        params.slug && params.slug !== this.state.slug ||
+        params.id && params.id !== this.state.id) {
       this.setState({
         loading: true,
         ...panelSettings,
@@ -107,6 +107,7 @@ export default class AdminContainer extends Component {
           }
         };
         break;
+      case 'schema':
       case 'page':
       case 'menu':
         if (props.params && props.params.slug !== 'new') {
@@ -130,7 +131,6 @@ export default class AdminContainer extends Component {
         break;
       default:
     }
-    console.log(vars);
 
     return buildQueryAndVariables(
       mergeFragments(
