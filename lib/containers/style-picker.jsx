@@ -44,6 +44,14 @@ export default class StylePickerContainer extends Component {
     };
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.style !== this.props.style) {
+      this.setState({
+        styleOptions: this.getStyleOptions(nextProps.style)
+      });
+    }
+  }
+
   onUpdateStyle (styleId) {
     if (styleId !== 'no_style') {
       const selectedStyle = find(this.props.styles, {_id: styleId});

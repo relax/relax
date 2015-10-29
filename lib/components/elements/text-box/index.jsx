@@ -4,13 +4,10 @@ import React, {PropTypes} from 'react';
 import classes from './classes';
 import propsSchema from './props-schema';
 import settings from './settings';
+import style from './style';
 import Component from '../../component';
 import Editor from '../../medium-editor';
 import Element from '../../element';
-
-// import styles from '../../../styles';
-
-// import style from './style';
 
 export default class TextBox extends Component {
 
@@ -34,6 +31,7 @@ export default class TextBox extends Component {
 
   static propsSchema = propsSchema
   static settings = settings
+  static style = style
 
   getStyle () {
     const style = {};

@@ -1,7 +1,16 @@
-import {Component} from 'relax-framework';
 import React from 'react';
+import {Component} from 'relax-framework';
 
 export default class Dropdown extends Component {
+
+  static propTypes = {
+    value: React.PropTypes.string.isRequired,
+    label: React.PropTypes.string.isRequired,
+    entries: React.PropTypes.array.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    tempChange: React.PropTypes.func.isRequired,
+    tempRevert: React.PropTypes.func.isRequired
+  }
 
   getInitialState () {
     return {
@@ -14,39 +23,10 @@ export default class Dropdown extends Component {
     this.props.onChange(value);
   }
 
-  onEntryEnter (value) {
-    this.props.tempChange(value);
-  }
-
-  onEntryLeave () {
-    this.props.tempRevert();
-  }
-
   toggle () {
     this.setState({
       opened: !this.state.opened
     });
-  }
-
-  renderEntry (entry) {
-    return (
-      <a href='#'
-        onClick={this.onEntryClick.bind(this, entry.value)}
-        onMouseEnter={this.onEntryEnter.bind(this, entry.value)}
-        onMouseLeave={this.onEntryLeave.bind(this)}>
-        {entry.label}
-      </a>
-    );
-  }
-
-  renderCollapsable () {
-    if (this.state.opened) {
-      return (
-        <div className='collapsable'>
-          {this.props.entries.map(this.renderEntry, this)}
-        </div>
-      );
-    }
   }
 
   render () {
@@ -60,13 +40,22 @@ export default class Dropdown extends Component {
       </div>
     );
   }
-}
 
-Dropdown.propTypes = {
-  value: React.PropTypes.string.isRequired,
-  label: React.PropTypes.string.isRequired,
-  entries: React.PropTypes.array.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  tempChange: React.PropTypes.func.isRequired,
-  tempRevert: React.PropTypes.func.isRequired
-};
+  renderCollapsable () {
+    if (this.state.opened) {
+      return (
+        <div className='collapsable'>
+          {this.props.entries.map(this.renderEntry, this)}
+        </div>
+      );
+    }
+  }
+
+  renderEntry (entry) {
+    return (
+      <a href='#' onClick={this.onEntryClick.bind(this, entry.value)}>
+        {entry.label}
+      </a>
+    );
+  }
+}

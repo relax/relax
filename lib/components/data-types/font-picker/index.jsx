@@ -1,30 +1,28 @@
-import {Component} from 'relax-framework';
-import React from 'react';
-import Font from '../font';
-import Utils from '../../utils';
-import Dropdown from './dropdown';
 import clone from 'lodash.clone';
 import forEach from 'lodash.foreach';
+import React from 'react';
+import {Component} from 'relax-framework';
 
-// import settingsStore from '../../client/stores/settings';
+import Dropdown from './dropdown';
+import Font from '../../font';
+import Utils from '../../../utils';
 
 export default class FontPicker extends Component {
-
-  getInitialState () {
-    return {
-      data: {}
-    };
+  static propTypes = {
+    value: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    fonts: React.PropTypes.object.isRequired
   }
 
   getChangedValue (key, value) {
-    var newValue = clone(this.props.value || {});
+    const newValue = clone(this.props.value || {});
 
     newValue[key] = value;
 
     if (key === 'family') {
       // check if current fvd exists
-      var family = value;
-      var fvds = this.state.data.value.fonts[family];
+      const family = value;
+      const fvds = this.props.fonts.fonts[family];
 
       if (fvds.indexOf(newValue.fvd) === -1) {
         newValue.fvd = fvds[0];
@@ -35,44 +33,26 @@ export default class FontPicker extends Component {
   }
 
   onChange (key, value) {
-    var newValue = this.getChangedValue(key, value);
-    this.props.onChange(newValue);
-    this.setState({
-      selected: newValue
-    });
-  }
-
-  tempChange (key, value) {
-    var newValue = this.getChangedValue(key, value);
+    const newValue = this.getChangedValue(key, value);
     this.props.onChange(newValue);
   }
 
-  tempRevert () {
-    this.props.onChange(this.state.selected);
-  }
-
-  renderFont () {
-    if (typeof this.props.value === 'object' && this.props.value.family && this.props.value.fvd) {
-      return (
-        <Font
-          family={this.props.value.family}
-          fvd={this.props.value.fvd}
-          text={'Abc'}
-          />
-      );
-    } else {
-      return (
-        <p className='warning'>No font selected yet</p>
-      );
-    }
+  render () {
+    return (
+      <div className='font-picker'>
+        {this.renderFont()}
+        {this.renderOptions()}
+      </div>
+    );
   }
 
   renderOptions () {
-    var families = [], fvds = [];
-    var value = this.props.value || {};
+    const families = [];
+    const fvds = [];
+    const value = this.props.value;
 
-    if (this.state.data.value && typeof this.state.data.value.fonts === 'object') {
-      forEach(this.state.data.value.fonts, (fvdsArray, family) => {
+    if (this.props.fonts && typeof this.props.fonts.fonts === 'object') {
+      forEach(this.props.fonts.fonts, (fvdsArray, family) => {
         families.push({
           label: family,
           value: family
@@ -96,31 +76,31 @@ export default class FontPicker extends Component {
           value={value.family}
           label={Utils.filterFontFamily(value.family || '')}
           onChange={this.onChange.bind(this, 'family')}
-          tempChange={this.tempChange.bind(this, 'family')}
-          tempRevert={this.tempRevert.bind(this)} />
+        />
         <span className='sep'></span>
         <Dropdown
           entries={fvds}
           value={value.fvd}
           label={value.fvd}
           onChange={this.onChange.bind(this, 'fvd')}
-          tempChange={this.tempChange.bind(this, 'fvd')}
-          tempRevert={this.tempRevert.bind(this)} />
+        />
       </div>
     );
   }
 
-  render () {
-    return (
-      <div className='font-picker'>
-        {this.renderFont()}
-        {this.renderOptions()}
-      </div>
-    );
+  renderFont () {
+    if (typeof this.props.value === 'object' && this.props.value.family && this.props.value.fvd) {
+      return (
+        <Font
+          family={this.props.value.family}
+          fvd={this.props.value.fvd}
+          text={'Abc'}
+        />
+      );
+    } else {
+      return (
+        <p className='warning'>No font selected yet</p>
+      );
+    }
   }
 }
-
-FontPicker.propTypes = {
-  value: React.PropTypes.string.isRequired,
-  onChange: React.PropTypes.func.isRequired
-};

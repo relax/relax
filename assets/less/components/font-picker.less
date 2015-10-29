@@ -1,13 +1,13 @@
 .font-picker{
   width: 100%;
-  border: 1px solid #333333;
+  border: 1px solid @pageBuilderChromeBorders;
 
   .roundedCorners(3px);
 
   // Font part
-  .font{
-    color: #ffffff;
-    font-size: 60px;
+  .font {
+    color: #efefef;
+    font-size: 55px;
     line-height: 77px;
     height: 77px;
     text-align: center;
@@ -18,16 +18,16 @@
     margin: 0;
     padding-left: 7px;
   }
-  >p.warning{
-    color: #fefefe;
+  >p.warning {
+    color: #efefef;
     line-height: 77px;
     text-align: center;
     margin:0;
   }
 
   // Options
-  .font-picker-options{
-    background-color: #383838;
+  .font-picker-options {
+    background-color: @pageBuilderChromeDarker;
     padding: 5px 5px;
     position: relative;
     height: 40px;
@@ -57,13 +57,13 @@
       }
 
       &:hover{
-        background-color: #333333;
+        background-color: #3f4249;
       }
     }
     .font-picker-dropdown {
       height: 30px;
       font-size: 13px;
-      color: #ffffff;
+      color: #efefef;
       >span{
         position: relative;
         display: inline-block;
@@ -86,7 +86,7 @@
     .sep {
       height: 24px;
       width: 0;
-      border-left: 1px solid #333333;
+      border-left: 1px solid @pageBuilderChromeBorders;
       position: absolute;
       top: 8px;
     }
@@ -95,8 +95,8 @@
     .collapsable {
       position: absolute;
       top: 0; left: 0; right: 0;
-      border: 1px solid #333333;
-      background-color: #333333;
+      border: 1px solid @pageBuilderChromeBorders;
+      background-color: @pageBuilderChromeDarker;
       padding-top: 29px;
       margin-bottom: 30px;
 
@@ -109,11 +109,11 @@
 
         display: block;
         text-decoration: none;
-        border-top: 1px solid #292929;
+        border-top: 1px solid @pageBuilderChromeBorders;
 
         &:hover{
           color: @adminPrimary;
-          background-color: #292929;
+          background-color: #3f4249;
         }
       }
     }
