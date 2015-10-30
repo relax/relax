@@ -1,6 +1,6 @@
-import {Component} from 'relax-framework';
-import React from 'react';
 import slugify from 'slug';
+import React from 'react';
+import {Component} from 'relax-framework';
 
 import Input from './data-types/input';
 
@@ -83,6 +83,8 @@ export default class TitleSlug extends Component {
     if (slug) {
       !isSlugValidating && this.setState({isSlugValidating: true});
       await this.props.validateSlug(slug);
+      this.setState({isSlugValidating: false});
+    } else {
       this.setState({isSlugValidating: false});
     }
   }

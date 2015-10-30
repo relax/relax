@@ -1,10 +1,9 @@
 import React from 'react';
 import {Component} from 'relax-framework';
 
+import AddOverlay from '../../../containers/add-overlay';
 import PageActions from './page-actions';
 import Tab from './tab';
-
-// import AddOverlay from '../add-overlay';
 
 export default class TopMenu extends Component {
   static fragments = {
@@ -20,15 +19,22 @@ export default class TopMenu extends Component {
     schema: React.PropTypes.object,
     schemaEntry: React.PropTypes.object,
     removeTab: React.PropTypes.func,
-    changeDisplay: React.PropTypes.func
+    changeDisplay: React.PropTypes.func,
+    addOverlay: React.PropTypes.func.isRequired,
+    closeOverlay: React.PropTypes.func.isRequired
   }
 
+  static contextTypes = {
+    store: React.PropTypes.object.isRequired
+  }
 
   onAddTabClick (event) {
     event.preventDefault();
-    // this.context.addOverlay(
-    //   <AddOverlay />
-    // );
+    this.props.addOverlay('addTab', <AddOverlay store={this.context.store} onClose={::this.onCloseAdd} />);
+  }
+
+  onCloseAdd () {
+    this.props.closeOverlay('addTab');
   }
 
   render () {

@@ -6,10 +6,10 @@ import Animate from './animate';
 
 export default class Overlay extends Component {
   static propTypes = {
-    children: PropTypes.element.isRequired,
-    transition: React.PropTypes.string,
-    closable: React.PropTypes.bool,
-    switch: React.PropTypes.bool,
+    children: PropTypes.node.isRequired,
+    transition: PropTypes.string,
+    closable: PropTypes.bool,
+    switch: PropTypes.bool,
     onClose: PropTypes.func.isRequired
   }
 
