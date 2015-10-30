@@ -1,6 +1,10 @@
 .color-picker {
   @previewHeight: 40px;
 
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid @pageBuilderChromeBorders;
+
   .color-preview {
     cursor: pointer;
     border: 1px solid @adminPrimary;
@@ -13,6 +17,7 @@
     font-weight: 800;
     text-transform: uppercase;
     color: #ffffff;
+    border-radius: 3px 3px 0 0;
 
     &:before {
       content: " ";
@@ -61,13 +66,13 @@
     }
 
     .color-value-holder {
-      width: 65%;
+      width: 62%;
       padding: 11px 7px;
     }
 
     .color-opacity-holder {
       position: relative;
-      width: 35%;
+      width: 38%;
       text-align: right;
 
       &:before {
@@ -130,8 +135,6 @@
   }
 
   .color-opened {
-    border: 1px solid @pageBuilderChromeBorders;
-    border-top: 0;
   }
 
   .color-list {
