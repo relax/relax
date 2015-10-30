@@ -19,7 +19,10 @@ export default class TextBox extends Component {
     textAlign: PropTypes.string,
     children: PropTypes.node,
     pageBuilder: PropTypes.object,
-    element: PropTypes.object
+    pageBuilderActions: PropTypes.object,
+    element: PropTypes.object,
+    elementId: PropTypes.string,
+    styleClassMap: PropTypes.object
   }
 
   static defaultProps = {
@@ -34,16 +37,16 @@ export default class TextBox extends Component {
   static style = style
 
   getStyle () {
-    const style = {};
+    const result = {};
 
     if (this.props.usePadding) {
-      style.padding = this.props.padding;
+      result.padding = this.props.padding;
     }
     if (this.props.useAlign) {
-      style.textAlign = this.props.textAlign;
+      result.textAlign = this.props.textAlign;
     }
 
-    return style;
+    return result;
   }
 
   render () {
@@ -64,7 +67,7 @@ export default class TextBox extends Component {
 
   renderContent () {
     let result;
-    const classMap = {};// (this.props.style && styles.getClassesMap(this.props.style)) || {};
+    const classMap = this.props.styleClassMap || {};
     const {editing} = this.props.pageBuilder;
 
     let html = '';
@@ -75,11 +78,12 @@ export default class TextBox extends Component {
     }
 
     if (editing && this.props.selected) {
-      // onChange={this.context.elementContentChange}
+      //
       result = (
         <Editor
           tag='div'
           className={cx(classes.text, classMap.text)}
+          onChange={this.props.pageBuilderActions.changeElementContent.bind(this, this.props.elementId)}
           value={html}
           options={{
             toolbar: {
