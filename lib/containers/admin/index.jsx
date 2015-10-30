@@ -1,4 +1,5 @@
 import * as adminActions from '../../client/actions/admin';
+import * as tabsActions from '../../client/actions/tabs';
 
 import forEach from 'lodash.foreach';
 import React, {cloneElement, PropTypes} from 'react';
@@ -18,7 +19,10 @@ import {getQueryVariables} from '../../decorators/query-props';
     overlays: state.overlays,
     tabs: state.tabs.data
   }),
-  (dispatch) => bindActionCreators(adminActions, dispatch)
+  (dispatch) => ({
+    ...bindActionCreators(adminActions, dispatch),
+    ...bindActionCreators(tabsActions, dispatch)
+  })
 )
 export default class AdminContainer extends Component {
   static fragments = Admin.fragments
@@ -45,7 +49,7 @@ export default class AdminContainer extends Component {
   componentWillReceiveProps (nextProps) {
     const panelSettings = nextProps.children.type.panelSettings;
     const params = nextProps.params;
-
+    
     if (panelSettings.activePanelType !== this.state.activePanelType ||
         params.slug !== this.state.slug ||
         params.id !== this.state.id) {

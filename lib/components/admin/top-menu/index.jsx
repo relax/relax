@@ -18,7 +18,8 @@ export default class TopMenu extends Component {
     activePanelType: React.PropTypes.string,
     page: React.PropTypes.object,
     schema: React.PropTypes.object,
-    schemaEntry: React.PropTypes.object
+    schemaEntry: React.PropTypes.object,
+    removeTab: React.PropTypes.func
   }
 
 
@@ -55,6 +56,7 @@ export default class TopMenu extends Component {
         tab={tab}
         activePanelType={this.props.activePanelType}
         tabsCount={this.props.tabs.length}
+        removeTab={this.props.removeTab}
       />
     );
   }

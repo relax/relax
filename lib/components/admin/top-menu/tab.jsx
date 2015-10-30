@@ -23,12 +23,14 @@ export default class Tab extends Component {
     tabsCount: React.PropTypes.number,
     page: React.PropTypes.object,
     schema: React.PropTypes.object,
-    schemaEntry: React.PropTypes.object
+    schemaEntry: React.PropTypes.object,
+    removeTab: React.PropTypes.func
   }
 
   onCloseTab (_id, active, event) {
     event.preventDefault();
     event.stopPropagation();
+    this.props.removeTab(this.constructor.fragments, _id, active);
   }
 
   render () {
