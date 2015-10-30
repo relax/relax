@@ -132,6 +132,7 @@ export default class AdminContainer extends Component {
           }
         };
         break;
+      case 'schema':
       case 'page':
       case 'menu':
         if (props.params && props.params.slug !== 'new') {

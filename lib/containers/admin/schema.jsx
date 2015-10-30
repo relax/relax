@@ -1,12 +1,13 @@
-import {Component} from 'relax-framework';
+import * as schemaActions from '../../client/actions/schema';
+
 import cloneDeep from 'lodash.clonedeep';
-import React, {PropTypes} from 'react';
 import merge from 'lodash.merge';
 import Velocity from 'velocity-animate';
+import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {Component} from 'relax-framework';
 
-import * as schemaActions from '../../client/actions/schema';
 import Schema from '../../components/admin/panels/schema';
 
 @connect(
@@ -20,22 +21,6 @@ import Schema from '../../components/admin/panels/schema';
 export default class SchemaContainer extends Component {
   static fragments = Schema.fragments
 
-  static propTypes = {
-    schema: PropTypes.object,
-    user: PropTypes.object,
-    slug: PropTypes.string,
-    changeSchemaFields: PropTypes.func,
-    addSchema: PropTypes.func.isRequired,
-    validateSchemaSlug: PropTypes.func.isRequired,
-    updateSchema: PropTypes.func.isRequired
-  }
-
-  componentWillUnmount () {
-    if (this.successTimeout) {
-      clearTimeout(this.successTimeout);
-    }
-  }
-
   static panelSettings = {
     activePanelType: 'schema',
     breadcrumbs: [
@@ -45,6 +30,29 @@ export default class SchemaContainer extends Component {
         link: '/admin/schemas'
       }
     ]
+  }
+
+  static propTypes = {
+    schema: PropTypes.object,
+    user: PropTypes.object,
+    slug: PropTypes.string,
+    changeSchemaFields: PropTypes.func,
+    addSchema: PropTypes.func.isRequired,
+    validateSchemaSlug: PropTypes.func.isRequired,
+    updateSchema: PropTypes.func.isRequired,
+    changeSchemaToDefault: PropTypes.func.isRequired
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.slug !== 'new' && nextProps.slug === 'new') {
+      this.props.changeSchemaToDefault();
+    }
+  }
+
+  componentWillUnmount () {
+    if (this.successTimeout) {
+      clearTimeout(this.successTimeout);
+    }
   }
 
   onSubmit (schemaProps) {
