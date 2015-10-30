@@ -1,30 +1,38 @@
-import React from 'react';
-import Component from '../../component';
-import Element from '../../element';
-import styles from '../../../styles';
+import React, {PropTypes} from 'react';
 
+import propsSchema from './props-schema';
 import settings from './settings';
 import style from './style';
-import propsSchema from './props-schema';
+import Component from '../../component';
+import Element from '../../element';
 
 export default class Container extends Component {
-  render () {
-    let classMap = this.props.style && styles.getClassesMap(this.props.style);
-    let className = classMap && classMap.container || '';
-    let classNameHolder = classMap && classMap.holder || '';
+  static propTypes = {
+    styleClassMap: PropTypes.object,
+    element: PropTypes.object.isRequired,
+    childre: PropTypes.node
+  }
 
-    let props = {
-      tag: 'div',
+  static style = style
+  static propsSchema = propsSchema
+  static settings = settings
+
+  render () {
+    const classMap = this.props.styleClassMap || {};
+
+    const props = {
+      ...this.props,
+      htmlTag: 'div',
       style: {
         position: 'relative'
       },
-      className,
+      className: classMap.container,
       settings: this.constructor.settings,
       element: this.props.element
     };
 
     return (
-      <div className={classNameHolder}>
+      <div className={classMap.holder}>
         <Element {...props}>
           {this.props.children}
         </Element>
@@ -32,10 +40,3 @@ export default class Container extends Component {
     );
   }
 }
-
-Container.propTypes = {};
-Container.defaultProps = {};
-
-styles.registerStyle(style);
-Container.propsSchema = propsSchema;
-Container.settings = settings;

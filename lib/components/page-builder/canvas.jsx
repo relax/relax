@@ -105,7 +105,10 @@ export default class Canvas extends Component {
         return (
           <FactoredElement
             {...element.props}
-            {...this.props}
+            dnd={this.props.dnd}
+            dndActions={this.props.dndActions}
+            pageBuilder={this.props.pageBuilder}
+            pageBuilderActions={this.props.pageBuilderActions}
             key={elementId}
             selected={selected}
             element={element}

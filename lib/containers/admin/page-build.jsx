@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux';
 import {Component} from 'relax-framework';
 
 import PageBuild from '../../components/admin/panels/page-build';
+import {updateColors} from '../../helpers/colors';
 
 @connect(
   (state) => ({
@@ -23,7 +24,18 @@ export default class PageBuildContainer extends Component {
 
   static propTypes = {
     page: PropTypes.object,
-    user: PropTypes.object
+    user: PropTypes.object,
+    colors: PropTypes.array.isRequired
+  }
+
+  getInitialState () {
+    updateColors(this.props.colors);
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.colors !== nextProps.colors) {
+      updateColors(nextProps.colors);
+    }
   }
 
   render () {

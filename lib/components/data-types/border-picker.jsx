@@ -1,11 +1,17 @@
+import cx from 'classnames';
 import React from 'react';
 import {Component} from 'relax-framework';
-import NumberInput from './number-input';
+
 import BorderStyle from './border-style';
-import ColorPicker from './color-palette-picker';
-import cloneDeep from 'lodash.clonedeep';
+import ColorPicker from '../../containers/data-types/color-palette-picker';
+import NumberInput from './number-input';
 
 export default class BorderPicker extends Component {
+  static propTypes = {
+    value: React.PropTypes.object.isRequired,
+    onChange: React.PropTypes.func.isRequired
+  }
+
   getInitialState () {
     return {
       selected: 'center',
@@ -22,20 +28,20 @@ export default class BorderPicker extends Component {
   onInputChange (id, value) {
     if (this.state.selected === 'center') {
       this.state.values.top[id] = value;
-      this.state.values.right = cloneDeep(this.state.values.top);
-      this.state.values.bottom = cloneDeep(this.state.values.top);
-      this.state.values.left = cloneDeep(this.state.values.top);
+      this.state.values.right = Object.assign({}, this.state.values.top);
+      this.state.values.bottom = Object.assign({}, this.state.values.top);
+      this.state.values.left = Object.assign({}, this.state.values.top);
       this.state.values.equal = true;
     } else {
       this.state.values[this.state.selected][id] = value;
     }
-    this.props.onChange(cloneDeep(this.state.values));
+    this.props.onChange(Object.assign({}, this.state.values));
   }
 
   parseValue (value) {
     var result = {
       top: {
-        style: 'solid',
+        style: 'none',
         width: 1,
         color: {
           value: '#000000',
@@ -43,7 +49,7 @@ export default class BorderPicker extends Component {
         }
       },
       left: {
-        style: 'solid',
+        style: 'none',
         width: 1,
         color: {
           value: '#000000',
@@ -51,7 +57,7 @@ export default class BorderPicker extends Component {
         }
       },
       right: {
-        style: 'solid',
+        style: 'none',
         width: 1,
         color: {
           value: '#000000',
@@ -59,7 +65,7 @@ export default class BorderPicker extends Component {
         }
       },
       bottom: {
-        style: 'solid',
+        style: 'none',
         width: 1,
         color: {
           value: '#000000',
@@ -101,24 +107,6 @@ export default class BorderPicker extends Component {
     });
   }
 
-  renderToggleButton (pos, icon, active) {
-    var className = 'toggle ' + pos;
-
-    if (this.state.selected === pos) {
-      className += ' selected';
-    }
-
-    if (active) {
-      className += ' active';
-    }
-
-    return (
-      <div className={className} onClick={this.changeSelected.bind(this, pos)}>
-        <i className='material-icons'>{icon}</i>
-      </div>
-    );
-  }
-
   render () {
     var values = this.state.values;
     var value = 0;
@@ -136,25 +124,30 @@ export default class BorderPicker extends Component {
     }
 
     return (
-      <div className='border-picker'>
-        <div className='toggles'>
-          {this.renderToggleButton('top', 'border_top', !values.equal)}
-          {this.renderToggleButton('left', 'border_left', !values.equal)}
-          {this.renderToggleButton('center', 'border_outer', values.equal)}
-          {this.renderToggleButton('right', 'border_right', !values.equal)}
-          {this.renderToggleButton('bottom', 'border_bottom', !values.equal)}
+      <div>
+        <div className='border-picker'>
+          <div className='toggles'>
+            {this.renderToggleButton('top', 'border_top', !values.equal)}
+            {this.renderToggleButton('left', 'border_left', !values.equal)}
+            {this.renderToggleButton('center', 'border_outer', values.equal)}
+            {this.renderToggleButton('right', 'border_right', !values.equal)}
+            {this.renderToggleButton('bottom', 'border_bottom', !values.equal)}
+          </div>
+          <div className='inputs'>
+            <BorderStyle value={value.style} onChange={this.onInputChange.bind(this, 'style')} />
+            <NumberInput value={value.width} onChange={this.onInputChange.bind(this, 'width')} inactive={inactive} />
+          </div>
         </div>
-        <div className='inputs'>
-          <BorderStyle value={value.style} onChange={this.onInputChange.bind(this, 'style')} />
-          <NumberInput value={value.width} onChange={this.onInputChange.bind(this, 'width')} inactive={inactive} />
-          <ColorPicker className='small' value={value.color} onChange={this.onInputChange.bind(this, 'color')} />
-        </div>
+        <ColorPicker className='small' value={value.color} onChange={this.onInputChange.bind(this, 'color')} />
+      </div>
+    );
+  }
+
+  renderToggleButton (pos, icon, active) {
+    return (
+      <div className={cx('toggle', pos, this.state.selected === pos && 'selected', active && 'active')} onClick={this.changeSelected.bind(this, pos)}>
+        <i className='material-icons'>{icon}</i>
       </div>
     );
   }
 }
-
-BorderPicker.propTypes = {
-  value: React.PropTypes.object.isRequired,
-  onChange: React.PropTypes.func.isRequired
-};
