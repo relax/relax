@@ -1,29 +1,30 @@
 import React from 'react';
+
+import propsSchema from './props-schema';
+import settings from './settings';
 import Component from '../../component';
 import Element from '../../element';
 
-import settings from './settings';
-import propsSchema from './props-schema';
-
 export default class Gap extends Component {
+  static propTypes = {
+    amount: React.PropTypes.number.isRequired,
+    element: React.PropTypes.object.isRequired
+  }
+
+  static defaultProps = {
+    amount: 30
+  }
+
+  static propsSchema = propsSchema
+  static settings = settings
+
   render () {
-    var style = {
+    const style = {
       height: this.props.amount
     };
 
     return (
-      <Element tag='div' style={style} settings={this.constructor.settings} element={this.props.element} />
+      <Element {...this.props} htmlTag='div' style={style} settings={this.constructor.settings} element={this.props.element} />
     );
   }
 }
-
-Gap.propTypes = {
-  amount: React.PropTypes.number.isRequired
-};
-
-Gap.defaultProps = {
-  amount: 30
-};
-
-Gap.propsSchema = propsSchema;
-Gap.settings = settings;
