@@ -1,69 +1,35 @@
-import {Component} from 'relax-framework';
 import React from 'react';
-import Entry from './entry';
-import Edit from './edit';
-import cloneDeep from 'lodash.clonedeep';
+import {Component} from 'relax-framework';
 
-// import colorsStore from '../../client/stores/colors';
+import Edit from './edit';
+import Entry from './entry';
 
 export default class List extends Component {
-  getInitialState () {
-    return {
-      colors: [],
-      editing: false
-    };
+  static propTypes = {
+    onEntryClick: React.PropTypes.func.isRequired,
+    selected: React.PropTypes.string.isRequired,
+    colors: React.PropTypes.array.isRequired,
+    addOverlay: React.PropTypes.func.isRequired,
+    closeOverlay: React.PropTypes.func.isRequired,
+    colorsActions: React.PropTypes.object.isRequired
   }
 
   addNewOpen (event) {
     event.preventDefault();
-    this.setState({
-      editing: true,
-      editingValue: this.props.selected.charAt(0) === '#' ? {label: '', value: this.props.selected} : false
-    });
+    const value = this.props.selected.charAt(0) === '#' ? {label: '', value: this.props.selected} : false;
+    this.props.addOverlay('new-color', (
+      <Edit value={value} onClose={::this.closeEdit} colorsActions={this.props.colorsActions} />
+    ));
   }
 
   editOpen (color) {
-    this.setState({
-      editing: true,
-      editingValue: cloneDeep(color)
-    });
+    this.props.addOverlay('new-color', (
+      <Edit value={Object.assign({}, color)} onClose={::this.closeEdit} colorsActions={this.props.colorsActions} />
+    ));
   }
 
   closeEdit () {
-    this.setState({
-      editing: false
-    });
-  }
-
-  renderColorEntry (color) {
-    return (
-      <Entry color={color} selected={this.props.selected === color._id} key={color._id} onEdit={this.editOpen.bind(this)} onClick={this.props.onEntryClick}></Entry>
-    );
-  }
-
-  renderList () {
-    if (this.state.colors.length > 0) {
-      return (
-        <div>
-          {this.state.colors.map(this.renderColorEntry, this)}
-        </div>
-      );
-    } else {
-      return (
-        <div className='color-warning'>
-          <div><i className='material-icons'>invert_colors_off</i></div>
-          <div>You still don't have any colors in your palette!</div>
-        </div>
-      );
-    }
-  }
-
-  renderEditing () {
-    if (this.state.editing) {
-      return (
-        <Edit value={this.state.editingValue} onClose={this.closeEdit.bind(this)} />
-      );
-    }
+    this.props.closeOverlay('new-color');
   }
 
   render () {
@@ -76,13 +42,39 @@ export default class List extends Component {
           <i className='material-icons'>add_circle_outline</i>
           <span>Add new color</span>
         </div>
-        {this.renderEditing()}
       </div>
     );
   }
-}
 
-List.propTypes = {
-  onEntryClick: React.PropTypes.func.isRequired,
-  selected: React.PropTypes.string.isRequired
-};
+  renderList () {
+    let result;
+    if (this.props.colors.length > 0) {
+      result = (
+        <div>
+          {this.props.colors.map(this.renderColorEntry, this)}
+        </div>
+      );
+    } else {
+      result = (
+        <div className='color-warning'>
+          <div><i className='material-icons'>invert_colors_off</i></div>
+          <div>You still don't have any colors in your palette!</div>
+        </div>
+      );
+    }
+    return result;
+  }
+
+  renderColorEntry (color) {
+    return (
+      <Entry
+        color={color}
+        selected={this.props.selected === color._id}
+        key={color._id}
+        onEdit={::this.editOpen}
+        onClick={this.props.onEntryClick}
+        colorsActions={this.props.colorsActions}
+      />
+    );
+  }
+}

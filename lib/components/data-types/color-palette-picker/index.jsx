@@ -1,104 +1,75 @@
-import {Component} from 'relax-framework';
-import React from 'react';
-import NumberInput from '../number-input';
-import List from './list';
-import HexEdit from './hex-edit';
-// import Colors from '../../colors';
-import clone from 'lodash.clone';
 import cx from 'classnames';
+import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
+
+import HexEdit from './hex-edit';
+import List from './list';
+import NumberInput from '../number-input';
+import {getColor, getColorString} from '../../../helpers/colors';
 
 export default class ColorPicker extends Component {
-  getInitialState () {
-    return {
-      opened: false,
-      hexLightbox: false
-    };
+  static propTypes = {
+    value: PropTypes.object,
+    onChange: PropTypes.func,
+    toggleOpened: PropTypes.func.isRequired,
+    addOverlay: PropTypes.func.isRequired,
+    closeOverlay: PropTypes.func.isRequired,
+    className: PropTypes.string,
+    colors: PropTypes.array.isRequired,
+    opened: PropTypes.bool.isRequired
   }
 
   onOpacityChange (opacity) {
-    var value = clone(this.props.value);
-    value.opacity = opacity;
-    this.props.onChange(value);
+    this.props.onChange({
+      opacity: parseInt(opacity, 10)
+    });
   }
 
   onHexChange (event) {
-    var value = clone(this.props.value);
-    value.type = 'custom';
-    value.value = event.target.value;
-    this.props.onChange(value);
+    this.props.onChange({
+      type: 'custom',
+      value: event.target.value
+    });
   }
 
   onEntryClick (id) {
-    var value = clone(this.props.value);
-    value.type = 'palette';
-    value.value = id;
-    this.props.onChange(value);
-    this.setState({
-      opened: false
+    this.props.onChange({
+      type: 'palette',
+      value: id
     });
+    this.props.toggleOpened();
   }
 
   toggleOpen (event) {
     event.preventDefault();
-    this.setState({
-      opened: !this.state.opened
-    });
+    this.props.toggleOpened();
   }
 
-  openEditColor (event) {
-    event.preventDefault();
-    this.setState({
-      hexLightbox: true
-    });
+  openEditColor (hex) {
+    this.props.addOverlay('color-edit', (
+      <HexEdit onClose={::this.closeEditColor} onSubmit={::this.submitEditColor} value={hex} />
+    ));
   }
+
   closeEditColor () {
-    this.setState({
-      hexLightbox: false
-    });
+    this.props.closeOverlay('color-edit');
   }
+
   submitEditColor (hex) {
-    var value = clone(this.props.value);
-    value.type = 'custom';
-    value.value = hex;
-    this.props.onChange(value);
-    this.closeEditColor();
-  }
-
-  renderHexLightbox (hex) {
-    if (this.state.hexLightbox) {
-      return <HexEdit onClose={this.closeEditColor.bind(this)} onSubmit={this.submitEditColor.bind(this)} value={hex} />;
-    }
-  }
-
-  renderContent (color) {
-    if (this.state.opened) {
-      return <List onEntryClick={this.onEntryClick.bind(this)} selected={this.props.value.value} />;
-    } else {
-      const hex = color.colr.toHex();
-      const hexString = this.props.value.type === 'palette' ? hex : this.props.value.value;
-
-      return (
-        <div className='color-info'>
-          <div className='color-value-holder'>
-            <div className='color-value-preview' style={{backgroundColor: hex}} onClick={this.openEditColor.bind(this)}></div>
-            <input className='color-value' value={hexString} onChange={this.onHexChange.bind(this)}></input>
-          </div>
-          <div className='color-opacity-holder'>
-            <NumberInput onChange={this.onOpacityChange.bind(this)} value={this.props.value.opacity} label='%' min={0} max={100} />
-          </div>
-          {this.renderHexLightbox(hex)}
-        </div>
-      );
-    }
+    this.props.onChange({
+      type: 'custom',
+      value: hex
+    });
+    this.props.closeOverlay('color-edit');
   }
 
   render () {
-    const color = Colors.getColor(this.props.value);
-    const colorString = Colors.getColorString(color);
+    const color = getColor(this.props.value, this.props.colors);
+    const colorString = getColorString(color, this.props.colors);
     const hsl = color.colr.toHslObject();
-    var colorStyle = {
+    const colorStyle = {
       backgroundColor: colorString,
-      borderColor: colorString
+      borderColor: 'transparent'
     };
 
     return (
@@ -112,17 +83,28 @@ export default class ColorPicker extends Component {
     );
   }
 
-}
+  renderContent (color) {
+    let result;
+    if (this.props.opened) {
+      result = (
+        <List onEntryClick={this.onEntryClick.bind(this)} selected={this.props.value.value} {...this.props} />
+      );
+    } else {
+      const hex = color.colr.toHex();
+      const hexString = this.props.value.type === 'palette' ? hex : this.props.value.value;
 
-ColorPicker.propTypes = {
-  value: React.PropTypes.object,
-  onChange: React.PropTypes.func
-};
-
-ColorPicker.defaultProps = {
-  value: {
-    type: 'custom',
-    value: '#000000',
-    opacity: 100
+      result = (
+        <div className='color-info'>
+          <div className='color-value-holder'>
+            <div className='color-value-preview' style={{backgroundColor: hex}} onClick={this.openEditColor.bind(this, hex)}></div>
+            <input className='color-value' value={hexString} onChange={this.onHexChange.bind(this)}></input>
+          </div>
+          <div className='color-opacity-holder'>
+            <NumberInput onChange={this.onOpacityChange.bind(this)} value={this.props.value.opacity} label='%' min={0} max={100} />
+          </div>
+        </div>
+      );
+    }
+    return result;
   }
-};
+}

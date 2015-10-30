@@ -1,12 +1,25 @@
-import {Component} from 'relax-framework';
-import React from 'react';
 import ColorPicker from 'react-colorpicker';
-import Lightbox from '../lightbox';
-import Input from '../data-types/input';
+import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
 
-import colorsActions from '../../client/actions/colors';
+import Input from '../input';
+import Lightbox from '../../lightbox';
 
 export default class Edit extends Component {
+  static fragments = {
+    color: {
+      _id: 1,
+      label: 1,
+      value: 1
+    }
+  }
+
+  static propTypes = {
+    value: PropTypes.object,
+    onClose: PropTypes.func.isRequired,
+    colorsActions: PropTypes.object.isRequired
+  }
+
   getInitialState () {
     return {
       value: this.props.value || {
@@ -16,36 +29,35 @@ export default class Edit extends Component {
     };
   }
 
-  closeEdit () {
-    this.props.onClose();
-  }
-
   onEditColorChange (color) {
     this.state.value.value = color.toHex();
     this.setState({
-      value: this.state.value
+      value: Object.assign({}, this.state.value, {
+        value: color.toHex()
+      })
     });
   }
 
   onTitleChange (value) {
-    this.state.value.label = value;
     this.setState({
-      value: this.state.value
+      value: Object.assign({}, this.state.value, {
+        label: value
+      })
     });
   }
 
   submit () {
     if (this.state.value._id) {
-      colorsActions.update(this.state.value).then(() => this.closeEdit());
+      this.props.colorsActions.updateColor(this.constructor.fragments, this.state.value).then(() => this.props.onClose());
     } else {
-      colorsActions.add(this.state.value).then(() => this.closeEdit());
+      this.props.colorsActions.addColor(this.constructor.fragments, this.state.value).then(() => this.props.onClose());
     }
   }
 
   render () {
-    var isNew = this.state.value._id ? false : true;
-    var title = isNew ? 'Adding new color to palette' : 'Editing '+this.state.value.label;
-    var btn = isNew ? 'Add color to palette' : 'Change color';
+    const isNew = this.state.value._id ? false : true;
+    const title = isNew ? 'Adding new color to palette' : 'Editing ' + this.state.value.label;
+    const btn = isNew ? 'Add color to palette' : 'Change color';
 
     return (
       <Lightbox className='small' onClose={this.props.onClose} title={title}>

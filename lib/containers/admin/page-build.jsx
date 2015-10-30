@@ -9,7 +9,8 @@ import PageBuild from '../../components/admin/panels/page-build';
 
 @connect(
   (state) => ({
-    page: state.page.data
+    page: state.page.data,
+    colors: state.colors.data
   }),
   (dispatch) => bindActionCreators(pageActions, dispatch)
 )

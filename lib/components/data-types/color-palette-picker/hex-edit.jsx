@@ -1,9 +1,16 @@
-import {Component} from 'relax-framework';
-import React from 'react';
 import ColorPicker from 'react-colorpicker';
-import Lightbox from '../lightbox';
+import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
+
+import Lightbox from '../../lightbox';
 
 export default class HexEdit extends Component {
+  static propTypes = {
+    onClose: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired
+  }
+
   getInitialState () {
     return {
       value: this.props.value
@@ -30,11 +37,4 @@ export default class HexEdit extends Component {
       </Lightbox>
     );
   }
-
 }
-
-HexEdit.propTypes = {
-  onClose: React.PropTypes.func.isRequired,
-  onSubmit: React.PropTypes.func.isRequired,
-  value: React.PropTypes.string.isRequired
-};

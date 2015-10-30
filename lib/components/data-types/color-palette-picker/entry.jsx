@@ -1,12 +1,26 @@
-import {Component} from 'relax-framework';
-import React from 'react';
-import OptionsMenu from '../options-menu';
-import cloneDeep from 'lodash.clonedeep';
 import cx from 'classnames';
+import React from 'react';
+import {Component} from 'relax-framework';
 
-import colorsActions from '../../client/actions/colors';
+import OptionsMenu from '../../options-menu';
 
 export default class Entry extends Component {
+  static fragments = {
+    color: {
+      _id: 1,
+      label: 1,
+      value: 1
+    }
+  }
+
+  static propTypes = {
+    color: React.PropTypes.object.isRequired,
+    onEdit: React.PropTypes.func.isRequired,
+    selected: React.PropTypes.bool.isRequired,
+    onClick: React.PropTypes.func.isRequired,
+    colorsActions: React.PropTypes.object.isRequired
+  }
+
   getInitialState () {
     return {
       options: false
@@ -21,10 +35,9 @@ export default class Entry extends Component {
   }
 
   duplicate () {
-    var duplicate = cloneDeep(this.props.color);
+    const duplicate = Object.assign({}, this.props.color);
     delete duplicate._id;
-
-    colorsActions.add(duplicate);
+    this.props.colorsActions.addColor(this.constructor.fragments, duplicate);
 
     this.setState({
       options: false
@@ -32,7 +45,7 @@ export default class Entry extends Component {
   }
 
   remove () {
-    colorsActions.remove(this.props.color._id);
+    this.props.colorsActions.removeColor(this.constructor.fragments, this.props.color);
   }
 
   openOptions (event) {
@@ -56,18 +69,6 @@ export default class Entry extends Component {
     this.props.onClick(this.props.color._id);
   }
 
-  renderOptionsMenu () {
-    if (this.state.options) {
-      return (
-        <OptionsMenu options={[
-          {label: 'Edit', action: this.edit.bind(this), icon: 'fa fa-pencil'},
-          {label: 'Duplicate', action: this.duplicate.bind(this), icon: 'fa fa-copy'},
-          {label: 'Remove', action: this.remove.bind(this), icon: 'fa fa-trash-o'}
-        ]} />
-      );
-    }
-  }
-
   render () {
     var style = {
       backgroundColor: this.props.color.value
@@ -84,10 +85,16 @@ export default class Entry extends Component {
       </div>
     );
   }
-}
 
-Entry.propTypes = {
-  color: React.PropTypes.object.isRequired,
-  onEdit: React.PropTypes.func.isRequired,
-  selected: React.PropTypes.bool.isRequired
-};
+  renderOptionsMenu () {
+    if (this.state.options) {
+      return (
+        <OptionsMenu options={[
+          {label: 'Edit', action: this.edit.bind(this), icon: 'fa fa-pencil'},
+          {label: 'Duplicate', action: this.duplicate.bind(this), icon: 'fa fa-copy'},
+          {label: 'Remove', action: this.remove.bind(this), icon: 'fa fa-trash-o'}
+        ]} />
+      );
+    }
+  }
+}

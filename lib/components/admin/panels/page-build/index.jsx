@@ -18,6 +18,11 @@ export default class PageBuild extends Component {
         _id: 1,
         title: 1
       }
+    },
+    colors: {
+      _id: 1,
+      label: 1,
+      value: 1
     }
   }, PageBuilderContainer.fragments)
 

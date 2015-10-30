@@ -43,10 +43,13 @@ export default class AdminContainer extends Component {
   }
 
   getInitialState (props = this.props) {
+    const params = props.params;
     return {
       loading: false,
       lastDashboard: '/admin',
-      ...props.children.type.panelSettings
+      ...props.children.type.panelSettings,
+      id: params.id,
+      slug: params.slug
     };
   }
 
