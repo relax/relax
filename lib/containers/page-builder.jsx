@@ -44,7 +44,8 @@ function getPageBuilder (pageBuilder, data) {
   (state) => ({
     pageBuilder: getPageBuilder(state.pageBuilder, state.draft.data.data),
     dnd: state.dnd,
-    styles: state.styles.data
+    styles: state.styles.data,
+    display: state.display
   }),
   (dispatch) => ({
     pageBuilderActions: bindActionCreators(pageBuilderActions, dispatch),

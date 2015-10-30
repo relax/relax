@@ -28,7 +28,8 @@ export default class Admin extends Component {
     loading: PropTypes.bool,
     tabs: PropTypes.array.isRequired,
     lastDashboard: PropTypes.string.isRequired,
-    removeTab: PropTypes.func.isRequired
+    removeTab: PropTypes.func.isRequired,
+    changeDisplay: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -44,6 +45,7 @@ export default class Admin extends Component {
             user={this.props.user}
             tabs={this.props.tabs}
             display={this.props.display}
+            changeDisplay={this.props.changeDisplay}
             lastDashboard={this.props.lastDashboard}
             removeTab={this.props.removeTab}
           />

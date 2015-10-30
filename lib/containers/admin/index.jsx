@@ -1,4 +1,5 @@
 import * as adminActions from '../../client/actions/admin';
+import * as displayActions from '../../client/actions/display';
 import * as tabsActions from '../../client/actions/tabs';
 
 import forEach from 'lodash.foreach';
@@ -21,7 +22,8 @@ import {getQueryVariables} from '../../decorators/query-props';
   }),
   (dispatch) => ({
     ...bindActionCreators(adminActions, dispatch),
-    ...bindActionCreators(tabsActions, dispatch)
+    ...bindActionCreators(tabsActions, dispatch),
+    ...bindActionCreators(displayActions, dispatch)
   })
 )
 export default class AdminContainer extends Component {
@@ -49,7 +51,7 @@ export default class AdminContainer extends Component {
   componentWillReceiveProps (nextProps) {
     const panelSettings = nextProps.children.type.panelSettings;
     const params = nextProps.params;
-    
+
     if (panelSettings.activePanelType !== this.state.activePanelType ||
         params.slug !== this.state.slug ||
         params.id !== this.state.id) {

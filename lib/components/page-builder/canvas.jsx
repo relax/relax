@@ -52,7 +52,7 @@ export default class Canvas extends Component {
     };
     const bodyStyle = {
       margin: '0 auto',
-      maxWidth: displays[this.props.pageBuilder.display]
+      maxWidth: displays[this.props.display]
     };
 
     // Process schema links if any

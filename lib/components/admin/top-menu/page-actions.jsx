@@ -1,10 +1,11 @@
+import cx from 'classnames';
 import React from 'react';
 import {Component} from 'relax-framework';
-import cx from 'classnames';
 
 import A from '../../a';
 import Animate from '../../animate';
 import Status from './status';
+
 // import RevisionsOverlay from '../revisions-overlay';
 
 export default class PageActions extends Component {
@@ -476,12 +477,12 @@ export default class PageActions extends Component {
   }
 
   renderDisplayMenu () {
-    var positions = {
+    const positions = {
       desktop: 0,
-      tablet: -35,
-      mobile: -70
+      tablet: -25,
+      mobile: -50
     };
-    var centerMenuStyle = {
+    const centerMenuStyle = {
       left: positions[this.props.display]
     };
 
