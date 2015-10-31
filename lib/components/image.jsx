@@ -8,11 +8,8 @@ export default class Image extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
-    height: PropTypes.number
-  }
-
-  static contextTypes = {
-    editing: React.PropTypes.bool
+    height: PropTypes.number,
+    editing: PropTypes.bool
   }
 
   render () {
@@ -29,7 +26,7 @@ export default class Image extends Component {
       return (
         <img src={url} {...extraProps} />
       );
-    } else if (this.context.editing) {
+    } else if (this.props.editing) {
       const style = {};
 
       if (this.props.height) {
