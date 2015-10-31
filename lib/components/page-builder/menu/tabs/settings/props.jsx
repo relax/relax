@@ -74,7 +74,10 @@ export default class EditProps extends Component {
     const {changeElementProperty} = this.props.pageBuilderActions;
     const {selectedId} = this.props.pageBuilder;
     return (
-      <OptionsList options={options} values={values} onChange={changeElementProperty.bind(this, selectedId)} />
+      <OptionsList options={options} values={values} onChange={changeElementProperty.bind(this, selectedId)} passToOptions={{
+        pageBuilder: this.props.pageBuilder,
+        pageBuilderActions: this.props.pageBuilderActions
+      }} />
     );
   }
 }

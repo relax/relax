@@ -6,6 +6,17 @@ import {TypesOptionsMap, TypesOptionsDefaultProps} from '../data-types/options-m
 
 export default class OptionsList extends Component {
 
+  static propTypes = {
+    options: React.PropTypes.array.isRequired,
+    values: React.PropTypes.object.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    passToOptions: React.PropTypes.object
+  }
+
+  static defaultProps = {
+    passToOptions: {}
+  }
+
   onChange (id, value) {
     this.props.onChange(id, value);
   }
@@ -83,7 +94,7 @@ export default class OptionsList extends Component {
         result = (
           <div className='option' key={option.id}>
             {this.renderLabel(option.type !== 'Optional' && option.label)}
-            <Option onChange={this.onChange.bind(this, option.id)} value={value} {...extraProps} OptionsList={OptionsList} />
+            <Option onChange={this.onChange.bind(this, option.id)} value={value} {...extraProps} OptionsList={OptionsList} {...this.props.passToOptions} />
             {unlockedContent}
           </div>
         );
@@ -102,9 +113,3 @@ export default class OptionsList extends Component {
     }
   }
 }
-
-OptionsList.propTypes = {
-  options: React.PropTypes.array.isRequired,
-  values: React.PropTypes.object.isRequired,
-  onChange: React.PropTypes.func.isRequired
-};

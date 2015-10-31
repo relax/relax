@@ -6,6 +6,65 @@ import Utils from '../../utils';
 import {Types} from '../../data-types';
 
 export default class ColumnsManager extends Component {
+  static columnOptions = [
+    {
+      label: 'Width',
+      type: Types.Select,
+      id: 'width',
+      props: {
+        labels: ['Block', 'Column auto', 'Column custom'],
+        values: ['block', 'auto', 'custom']
+      },
+      unlocks: {
+        custom: [
+          {
+            label: 'Width (%)',
+            type: Types.Percentage,
+            id: 'widthPerc'
+          }
+        ]
+      }
+    }
+  ]
+  static columnOptionsSingleRow = [
+    {
+      label: 'Width',
+      type: Types.Select,
+      id: 'width',
+      props: {
+        labels: ['Column auto', 'Column custom'],
+        values: ['auto', 'custom']
+      },
+      unlocks: {
+        custom: [
+          {
+            label: 'Width (%)',
+            type: Types.Percentage,
+            id: 'widthPerc'
+          }
+        ]
+      }
+    }
+  ]
+  static breakOptions = [
+    {
+      label: 'To next line',
+      type: Types.Boolean,
+      id: 'break',
+      default: false
+    }
+  ]
+  static propTypes = {
+    value: React.PropTypes.array.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    OptionsList: React.PropTypes.any.isRequired,
+    multiRows: React.PropTypes.bool,
+    pageBuilder: React.PropTypes.any.isRequired
+  }
+  static defaultProps = {
+    multiRows: true
+  }
+
   getInitialState () {
     return {
       selected: false
@@ -13,7 +72,7 @@ export default class ColumnsManager extends Component {
   }
 
   parseValue (value, idChanged = -1) {
-    return Utils.parseColumnsDisplay(value, this.context.selected.children.length, this.props.multiRows, idChanged);
+    return Utils.parseColumnsDisplay(value, this.props.pageBuilder.selectedElement.children.length, this.props.multiRows, idChanged);
   }
 
   onClick (key, event) {
@@ -37,27 +96,26 @@ export default class ColumnsManager extends Component {
     this.props.onChange(result);
   }
 
-  renderColumn (id, value) {
-    var style = {};
-
-    if (value.width === 'custom') {
-      style.width = value.widthPerc+'%';
-    }
-
+  render () {
     return (
-      <div style={style} className={cx('column', this.state.selected === id && 'active')} onClick={this.onClick.bind(this, id)} key={id}></div>
+      <div className='columns-manager'>
+        {this.renderChildren()}
+        {this.renderOptions()}
+      </div>
     );
   }
 
   renderChildren () {
-    var value = this.parseValue(this.props.value);
-    var children = [], i, numChildren = this.context.selected.children.length;
+    const value = this.parseValue(this.props.value);
+    const children = [];
+    const numChildren = this.props.pageBuilder.selectedElement.children.length;
+    let i;
 
     for (i = 0; i < numChildren; i++) {
       if (value[i].width === 'block') {
         children.push(this.renderColumn(i, value[i]));
       } else {
-        var columns = [];
+        const columns = [];
         for (i; i < numChildren; i++) {
           if (value[i].width !== 'block' && !(columns.length > 0 && value[i].break)) {
             columns.push(this.renderColumn(i, value[i]));
@@ -77,11 +135,23 @@ export default class ColumnsManager extends Component {
     return children;
   }
 
+  renderColumn (id, value) {
+    const style = {};
+
+    if (value.width === 'custom') {
+      style.width = value.widthPerc + '%';
+    }
+
+    return (
+      <div style={style} className={cx('column', this.state.selected === id && 'active')} onClick={this.onClick.bind(this, id)} key={id}></div>
+    );
+  }
+
   renderOptions () {
     if (this.state.selected !== false) {
-      var value = this.parseValue(this.props.value);
-      var values = value[this.state.selected];
-      var breakable = (
+      const value = this.parseValue(this.props.value);
+      const values = value[this.state.selected];
+      const breakable = (
         this.props.multiRows &&
         values.width !== 'block' &&
         this.state.selected >= 2 &&
@@ -98,79 +168,4 @@ export default class ColumnsManager extends Component {
       );
     }
   }
-
-  render () {
-    return (
-      <div className='columns-manager'>
-        {this.renderChildren()}
-        {this.renderOptions()}
-      </div>
-    );
-  }
 }
-
-ColumnsManager.columnOptions = [
-  {
-    label: 'Width',
-    type: Types.Select,
-    id: 'width',
-    props: {
-      labels: ['Block', 'Column auto', 'Column custom'],
-      values: ['block', 'auto', 'custom']
-    },
-    unlocks: {
-      custom: [
-        {
-          label: 'Width (%)',
-          type: Types.Percentage,
-          id: 'widthPerc'
-        }
-      ]
-    }
-  }
-];
-
-ColumnsManager.columnOptionsSingleRow = [
-  {
-    label: 'Width',
-    type: Types.Select,
-    id: 'width',
-    props: {
-      labels: ['Column auto', 'Column custom'],
-      values: ['auto', 'custom']
-    },
-    unlocks: {
-      custom: [
-        {
-          label: 'Width (%)',
-          type: Types.Percentage,
-          id: 'widthPerc'
-        }
-      ]
-    }
-  }
-];
-
-ColumnsManager.breakOptions = [
-  {
-    label: 'To next line',
-    type: Types.Boolean,
-    id: 'break',
-    default: false
-  }
-];
-
-ColumnsManager.contextTypes = {
-  selected: React.PropTypes.any.isRequired
-};
-
-ColumnsManager.propTypes = {
-  value: React.PropTypes.array.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  OptionsList: React.PropTypes.any.isRequired,
-  multiRows: React.PropTypes.bool
-};
-
-ColumnsManager.defaultProps = {
-  multiRows: true
-};

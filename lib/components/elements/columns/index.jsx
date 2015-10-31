@@ -1,6 +1,6 @@
 import React from 'react';
 
-import jss from '../../../helpers/stylesheet';
+import classes from './classes';
 import propsSchema from './props-schema';
 import settings from './settings';
 import Component from '../../component';
@@ -9,25 +9,47 @@ import Utils from '../../../utils';
 import {Droppable} from '../../dnd';
 
 export default class Columns extends Component {
-
-  renderBlock (child, layout, bottom) {
-    return React.cloneElement(child, {
-      layout,
-      bottom
-    });
+  static propTypes = {
+    spacing: React.PropTypes.number.isRequired,
+    spacingRows: React.PropTypes.number.isRequired,
+    desktop: React.PropTypes.array.isRequired,
+    tablet: React.PropTypes.array.isRequired,
+    mobile: React.PropTypes.array.isRequired,
+    children: React.PropTypes.node,
+    element: React.PropTypes.object.isRequired,
+    display: React.PropTypes.string.isRequired,
+    dnd: React.PropTypes.object.isRequired,
+    dndActions: React.PropTypes.object.isRequired,
+    pageBuilder: React.PropTypes.object.isRequired,
+    pageBuilderActions: React.PropTypes.object.isRequired
   }
 
-  renderColumn (child, layout, left, right) {
-    return React.cloneElement(child, {
-      layout,
-      left,
-      right
-    });
+  static defaultProps = {
+    spacing: 10,
+    spacingRows: 10,
+    desktop: [],
+    tablet: [],
+    mobile: []
+  }
+
+  static defaultChildren = [
+    {tag: 'Column'}, {tag: 'Column'}
+  ]
+  static settings = settings
+  static propsSchema = propsSchema
+
+  render () {
+    return (
+      <Element info={this.props} htmlTag='div' settings={settings}>
+        {this.renderChildren()}
+      </Element>
+    );
   }
 
   renderChildren () {
-    var children = [], i, numChildren = this.props.children.length;
-    const layout = Utils.parseColumnsDisplay(this.props[this.context.display], numChildren, this.context.display !== 'desktop');
+    const children = [];
+    const numChildren = this.props.children && this.props.children.length || 0;
+    const layout = Utils.parseColumnsDisplay(this.props[this.props.display], numChildren, this.props.display !== 'desktop');
 
     const spaceThird = Math.round(this.props.spacing / 3 * 100) / 100;
     const spaceSides = spaceThird * 2;
@@ -37,16 +59,27 @@ export default class Columns extends Component {
     };
 
     if (numChildren > 0) {
-      for (i = 0; i < numChildren; i++) {
+      for (let i = 0; i < numChildren; i++) {
         if (layout[i].width === 'block') {
           children.push(this.renderBlock(this.props.children[i], layout[i], i !== numChildren - 1 ? this.props.spacing : 0));
         } else {
           var columns = [];
           for (i; i < numChildren; i++) {
             if (layout[i].width !== 'block' && !(columns.length > 0 && layout[i].break)) {
-              let isLastColumn = (columns.length !== 0 && (i === numChildren - 1 || (layout[i + 1].width === 'block' || layout[i + 1].break)));
-              let left = columns.length === 0 ? 0 : (isLastColumn ? spaceSides : spaceThird);
-              let right = columns.length === 0 ? spaceSides : (isLastColumn ? 0 : spaceThird);
+              const isLastColumn = (columns.length !== 0 && (i === numChildren - 1 || (layout[i + 1].width === 'block' || layout[i + 1].break)));
+              let left;
+              let right;
+
+              if (columns.length === 0) {
+                left = 0;
+                right = spaceSides;
+              } else if (isLastColumn) {
+                left = spaceSides;
+                right = 0;
+              } else {
+                left = spaceThird;
+                right = spaceThird;
+              }
 
               columns.push(this.renderColumn(this.props.children[i], layout[i], left, right));
             } else {
@@ -55,14 +88,23 @@ export default class Columns extends Component {
             }
           }
 
-          if (this.context.editing && this.context.display === 'desktop') {
+          if (this.props.pageBuilder.editing && this.props.display === 'desktop') {
             return (
-              <Droppable type={this.props.element.tag} dropInfo={dropInfo} {...this.constructor.settings.drop} className={classes.row} placeholder={true}>
+              <Droppable
+                type={this.props.element.tag}
+                dropInfo={dropInfo}
+                {...settings.drop}
+                className={classes.row}
+                placeholder
+                dnd={this.props.dnd}
+                dndActions={this.props.dndActions}
+                pageBuilder={this.props.pageBuilder}
+                pageBuilderActions={this.props.pageBuilderActions}>
                 {columns}
               </Droppable>
             );
           } else {
-            let style = {};
+            const style = {};
 
             if (i < numChildren - 1) {
               style.paddingBottom = this.props.spacingRows;
@@ -76,57 +118,37 @@ export default class Columns extends Component {
           }
         }
       }
-    } else if (this.context.editing) {
+    } else if (this.props.pageBuilder.editing) {
       return (
-        <Droppable type={this.props.element.tag} dropInfo={dropInfo} {...this.constructor.settings.drop} className={classes.row} placeholder={true}></Droppable>
+        <Droppable
+          type={this.props.element.tag}
+          dropInfo={dropInfo}
+          {...settings.drop}
+          className={classes.row}
+          placeholder
+          dnd={this.props.dnd}
+          dndActions={this.props.dndActions}
+          pageBuilder={this.props.pageBuilder}
+          pageBuilderActions={this.props.pageBuilderActions}
+        />
       );
     }
-
 
     return children;
   }
 
-  render () {
-    return (
-      <Element tag='div' settings={this.constructor.settings} element={this.props.element}>
-        {this.renderChildren()}
-      </Element>
-    );
+  renderColumn (child, layout, left, right) {
+    return React.cloneElement(child, {
+      layout,
+      left,
+      right
+    });
+  }
+
+  renderBlock (child, layout, bottom) {
+    return React.cloneElement(child, {
+      layout,
+      bottom
+    });
   }
 }
-
-var classes = jss.createRules({
-  row: {
-    display: 'table',
-    tableLayout: 'fixed',
-    width: '100%'
-  }
-});
-
-Columns.contextTypes = {
-  editing: React.PropTypes.bool.isRequired,
-  display: React.PropTypes.string.isRequired
-};
-
-Columns.propTypes = {
-  spacing: React.PropTypes.number.isRequired,
-  spacingRows: React.PropTypes.number.isRequired,
-  desktop: React.PropTypes.array.isRequired,
-  tablet: React.PropTypes.array.isRequired,
-  mobile: React.PropTypes.array.isRequired
-};
-
-Columns.defaultProps = {
-  spacing: 10,
-  spacingRows: 10,
-  desktop: [],
-  tablet: [],
-  mobile: []
-};
-
-Columns.defaultChildren = [
-  {tag: 'Column'}, {tag: 'Column'}
-];
-
-Columns.settings = settings;
-Columns.propsSchema = propsSchema;

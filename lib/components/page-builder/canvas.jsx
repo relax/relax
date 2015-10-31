@@ -109,6 +109,7 @@ export default class Canvas extends Component {
             dndActions={this.props.dndActions}
             pageBuilder={this.props.pageBuilder}
             pageBuilderActions={this.props.pageBuilderActions}
+            display={this.props.display}
             key={elementId}
             selected={selected}
             element={element}
