@@ -19,7 +19,8 @@ import {getQueryVariables} from '../../decorators/query-props';
     user: state.session.data,
     display: state.display,
     overlays: state.overlays,
-    tabs: state.tabs.data
+    tabs: state.tabs.data,
+    editing: state.pageBuilder.editing
   }),
   (dispatch) => ({
     ...bindActionCreators(adminActions, dispatch),

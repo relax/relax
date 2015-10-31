@@ -31,7 +31,8 @@ export default class Admin extends Component {
     removeTab: PropTypes.func.isRequired,
     changeDisplay: PropTypes.func.isRequired,
     addOverlay: PropTypes.func.isRequired,
-    closeOverlay: PropTypes.func.isRequired
+    closeOverlay: PropTypes.func.isRequired,
+    editing: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
@@ -52,6 +53,7 @@ export default class Admin extends Component {
             removeTab={this.props.removeTab}
             addOverlay={this.props.addOverlay}
             closeOverlay={this.props.closeOverlay}
+            editing={this.props.editing}
           />
           <div className='admin-holder'>
             {this.props.activePanelType !== 'pageBuild' && <MenuBar user={this.props.user} activePanelType={this.props.activePanelType} breadcrumbs={this.props.breadcrumbs} />}
