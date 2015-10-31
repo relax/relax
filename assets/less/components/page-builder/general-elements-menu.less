@@ -8,6 +8,12 @@
   position: fixed;
   bottom: @margin;
   left: @margin;
+  .transition(0.5s);
+
+  .previewing & {
+    left: -@width;
+    bottom: -@height;
+  }
 
   .toggle {
     display: inline-block;

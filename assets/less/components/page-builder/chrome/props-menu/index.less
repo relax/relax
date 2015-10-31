@@ -1,8 +1,12 @@
+@triggerButtonsSize: 35px;
+
+.previewing .advanced-menu {
+  right: -@pageBuilderAdvancedMenuWidth - @triggerButtonsSize;
+}
+
 .advanced-menu {
   @import './breadcrumbs.less';
   @import './tabs/index.less';
-
-  @triggerButtonsSize: 35px;
 
   position: absolute;
   z-index: 4;

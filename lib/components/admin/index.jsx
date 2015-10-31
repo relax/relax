@@ -32,7 +32,8 @@ export default class Admin extends Component {
     changeDisplay: PropTypes.func.isRequired,
     addOverlay: PropTypes.func.isRequired,
     closeOverlay: PropTypes.func.isRequired,
-    editing: PropTypes.bool.isRequired
+    editing: PropTypes.bool.isRequired,
+    pageBuilderActions: PropTypes.object.isRequired
   }
 
   static defaultProps = {
@@ -42,7 +43,8 @@ export default class Admin extends Component {
   render () {
     return (
       <div>
-        <div className={cx('blurr', this.state.overlay && 'blurred')}>
+        <div className={cx('blurr', this.state.overlay && 'blurred', !this.props.editing && 'previewing')}>
+          <div className='close-preview' onClick={this.props.pageBuilderActions.toggleEditing}>Close preview</div>
           <TopMenu
             activePanelType={this.props.activePanelType}
             user={this.props.user}
@@ -54,6 +56,7 @@ export default class Admin extends Component {
             addOverlay={this.props.addOverlay}
             closeOverlay={this.props.closeOverlay}
             editing={this.props.editing}
+            pageBuilderActions={this.props.pageBuilderActions}
           />
           <div className='admin-holder'>
             {this.props.activePanelType !== 'pageBuild' && <MenuBar user={this.props.user} activePanelType={this.props.activePanelType} breadcrumbs={this.props.breadcrumbs} />}

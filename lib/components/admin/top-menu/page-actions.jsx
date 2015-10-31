@@ -18,7 +18,7 @@ export default class PageActions extends Component {
     lastDashboard: React.PropTypes.string.isRequired,
     display: React.PropTypes.string.isRequired,
     changeDisplay: React.PropTypes.func.isRequired,
-    previewToggle: React.PropTypes.func.isRequired,
+    pageBuilderActions: React.PropTypes.object.isRequired,
     addOverlay: React.PropTypes.func.isRequired,
     closeOverlay: React.PropTypes.func.isRequired,
     activePanelType: React.PropTypes.string
@@ -324,7 +324,7 @@ export default class PageActions extends Component {
 
   previewToggle (event) {
     event.preventDefault();
-    this.props.previewToggle();
+    this.props.pageBuilderActions.toggleEditing();
   }
 
   changeDisplay (display, event) {

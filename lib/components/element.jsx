@@ -207,9 +207,9 @@ export default class Element extends Component {
       }
 
       result = (
-        <props.tag {...tagProps}>
+        <this.props.htmlTag {...tagProps}>
           {this.renderContent()}
-        </props.tag>
+        </this.props.htmlTag>
       );
     }
     return result;

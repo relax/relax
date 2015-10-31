@@ -9,8 +9,13 @@
 .page-builder {
   position: fixed;
   top: @pageBuilderTopMenuHeight;
+  .transition(0.5s);
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 1;
+}
+
+.previewing .page-builder {
+  top: 0;
 }

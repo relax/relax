@@ -1,6 +1,7 @@
 import * as adminActions from '../../client/actions/admin';
 import * as displayActions from '../../client/actions/display';
 import * as overlaysActions from '../../client/actions/overlays';
+import * as pageBuilderActions from '../../client/actions/page-builder';
 import * as tabsActions from '../../client/actions/tabs';
 
 import forEach from 'lodash.foreach';
@@ -26,7 +27,8 @@ import {getQueryVariables} from '../../decorators/query-props';
     ...bindActionCreators(adminActions, dispatch),
     ...bindActionCreators(tabsActions, dispatch),
     ...bindActionCreators(displayActions, dispatch),
-    ...bindActionCreators(overlaysActions, dispatch)
+    ...bindActionCreators(overlaysActions, dispatch),
+    pageBuilderActions: bindActionCreators(pageBuilderActions, dispatch)
   })
 )
 export default class AdminContainer extends Component {

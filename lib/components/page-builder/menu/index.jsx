@@ -32,9 +32,9 @@ export default class PropsMenu extends Component {
   }
 
   render () {
-    const {menuOpened, menuSwitchSide} = this.props.pageBuilder;
+    const {menuOpened, menuSwitchSide, editing} = this.props.pageBuilder;
     return (
-      <div className={cx('advanced-menu', menuOpened && 'opened', menuSwitchSide && 'left')}>
+      <div className={cx('advanced-menu', menuOpened && editing && 'opened', menuSwitchSide && 'left')}>
         {this.renderTabs()}
         {this.renderTab()}
         {this.renderBreadcrumbs()}
