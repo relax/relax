@@ -21,14 +21,13 @@ export default class Container extends Component {
     const classMap = this.props.styleClassMap || {};
 
     const props = {
-      ...this.props,
+      info: this.props,
       htmlTag: 'div',
       style: {
         position: 'relative'
       },
       className: classMap.container,
-      settings: this.constructor.settings,
-      element: this.props.element
+      settings: settings
     };
 
     return (

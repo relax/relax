@@ -82,7 +82,7 @@ export default class Image extends Component {
     }
 
     return (
-      <Element {...this.props} htmlTag='div' className={cx(this.props.useOver && classes.overable)} style={style} element={this.props.element} settings={this.constructor.settings}>
+      <Element info={this.props} htmlTag='div' className={cx(this.props.useOver && classes.overable)} style={style} settings={settings}>
         {this.renderImage(imageStyle)}
       </Element>
     );

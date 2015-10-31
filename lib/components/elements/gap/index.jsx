@@ -24,7 +24,7 @@ export default class Gap extends Component {
     };
 
     return (
-      <Element {...this.props} htmlTag='div' style={style} settings={this.constructor.settings} element={this.props.element} />
+      <Element info={this.props} htmlTag='div' style={style} settings={settings} />
     );
   }
 }

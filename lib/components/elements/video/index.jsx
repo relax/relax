@@ -52,7 +52,7 @@ export default class Video extends Component {
 
   render () {
     return (
-      <Element {...this.props} htmlTag='div' element={this.props.element} settings={this.constructor.settings}>
+      <Element info={this.props} htmlTag='div' settings={settings}>
         {this.renderIframe()}
       </Element>
     );

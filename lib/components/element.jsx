@@ -10,33 +10,29 @@ export default class Element extends Component {
   static propTypes = {
     children: PropTypes.node,
     style: PropTypes.object,
-    dnd: PropTypes.object,
-    dndActions: PropTypes.object,
-    tag: React.PropTypes.string.isRequired,
-    element: React.PropTypes.object.isRequired,
-    elementId: React.PropTypes.string.isRequired,
-    settings: React.PropTypes.object.isRequired,
-    onEnterScreen: React.PropTypes.func,
-    pageBuilder: React.PropTypes.object,
-    pageBuilderActions: React.PropTypes.object
+    info: PropTypes.object,
+    onEnterScreen: PropTypes.func,
+    htmlTag: PropTypes.string.isRequired,
+    settings: PropTypes.object.isRequired
   }
 
   getInitialState () {
-    if (this.context.editing && this.isClient()) {
+    const editing = this.props.info.pageBuilder.editing;
+    if (editing && this.isClient()) {
       this.animationEditingBind = this.animationEditing.bind(this);
       window.addEventListener('animateElements', this.animationEditingBind);
     }
 
     return {
       offset: {top: 0},
-      animation: this.props.element.animation && this.props.element.animation.use,
+      animation: this.props.info.element.animation && this.props.info.element.animation.use,
       animated: false,
       animatedEditing: false
     };
   }
 
   componentDidMount () {
-    const {editing} = this.props.pageBuilder;
+    const {editing} = this.props.info.pageBuilder;
     this.state.offset = this.getOffset();
 
     if ((!editing && this.state.animation) || this.props.onEnterScreen) {
@@ -47,10 +43,10 @@ export default class Element extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const {editing} = nextProps.pageBuilder;
-    if (editing && this.state.animation !== (this.props.element.animation && this.props.element.animation.use)) {
+    const {editing} = nextProps.info.pageBuilder;
+    if (editing && this.state.animation !== (this.props.info.element.animation && this.props.info.element.animation.use)) {
       this.setState({
-        animation: this.props.element.animation && this.props.element.animation.use
+        animation: this.props.info.element.animation && this.props.info.element.animation.use
       });
     }
   }
@@ -69,7 +65,7 @@ export default class Element extends Component {
 
   animate () {
     const dom = React.findDOMNode(this);
-    const animation = this.props.element.animation;
+    const animation = this.props.info.element.animation;
     this.state.animated = true;
     this.state.animatedEditing = false;
     Velocity(dom, animation.effect, {
@@ -80,7 +76,7 @@ export default class Element extends Component {
 
   animationInit () {
     if (this.state.animation) {
-      const animation = this.props.element.animation;
+      const animation = this.props.info.element.animation;
       this.animationTimeout = setTimeout(this.animate.bind(this), animation.delay);
     }
   }
@@ -111,9 +107,9 @@ export default class Element extends Component {
   }
 
   onElementClick (event) {
-    const {selectElement} = this.props.pageBuilderActions;
+    const {selectElement} = this.props.info.pageBuilderActions;
     event.stopPropagation();
-    selectElement(this.props.elementId);
+    selectElement(this.props.info.elementId);
   }
 
   getOffset () {
@@ -122,95 +118,96 @@ export default class Element extends Component {
   }
 
   onMouseOver (event) {
-    const {dragging} = this.props.dnd;
-    const {overElement} = this.props.pageBuilderActions;
+    const {dragging} = this.props.info.dnd;
+    const {overElement} = this.props.info.pageBuilderActions;
     if (!dragging) {
       event.stopPropagation();
       clearTimeout(this.outTimeout);
       if (!this.isOvered() && !this.isSelected()) {
         const offset = this.getOffset();
-        overElement(this.props.elementId);
+        overElement(this.props.info.elementId);
         this.state.offset = offset;
       }
     }
   }
 
   onMouseOut () {
-    const {dragging} = this.props.dnd;
+    const {dragging} = this.props.info.dnd;
     if (!dragging && this.isOvered()) {
       this.outTimeout = setTimeout(this.selectOut.bind(this), 50);
     }
   }
 
   selectOut () {
-    const {outElement} = this.props.pageBuilderActions;
-    outElement(this.props.elementId);
+    const {outElement} = this.props.info.pageBuilderActions;
+    outElement(this.props.info.elementId);
   }
 
   isOvered () {
-    const {overedId} = this.props.pageBuilder;
-    return (overedId && this.props.elementId === overedId);
+    const {overedId} = this.props.info.pageBuilder;
+    return (overedId && this.props.info.elementId === overedId);
   }
 
   isSelected () {
-    const {selectedId} = this.props.pageBuilder;
-    return (selectedId && this.props.elementId === selectedId);
+    const {selectedId} = this.props.info.pageBuilder;
+    return (selectedId && this.props.info.elementId === selectedId);
   }
 
   render () {
     let result;
-    const {children, settings, element, elementId, onEnterScreen, ...props} = this.props;
-    const {editing, selectedParent} = this.props.pageBuilder;
+    const {children, settings, info, onEnterScreen, htmlTag, ...tagProps} = this.props;
+    const {element, elementId, pageBuilder, dnd, dndActions} = info;
+    const {editing, selectedParent} = pageBuilder;
 
     if (editing && this.props.settings.drag) {
       const overed = this.isOvered();
       const selected = this.isSelected();
-      const {dragging} = this.props.dnd;
+      const {dragging} = dnd;
 
       if ((!dragging && (overed || selected)) || dragging || selectedParent === elementId) {
-        props.style = props.style || {};
-        props.style.position = props.style.position || 'relative';
+        tagProps.style = tagProps.style || {};
+        tagProps.style.position = tagProps.style.position || 'relative';
       }
 
       if (this.state.animatedEditing && this.state.animation && !this.state.animated) {
-        props.style = props.style || {};
-        props.style.opacity = 0;
+        tagProps.style = tagProps.style || {};
+        tagProps.style.opacity = 0;
       }
 
       if (element.subComponent) {
         result = (
-          <props.htmlTag {...props} onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)} onClick={this.onElementClick.bind(this)}>
+          <this.props.htmlTag {...tagProps} onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)} onClick={this.onElementClick.bind(this)}>
             {this.renderContent()}
             {this.renderHighlight()}
-          </props.htmlTag>
+          </this.props.htmlTag>
         );
       } else {
         const draggableProps = Object.assign({
           dragInfo: {
             type: 'move',
-            id: this.props.elementId
+            id: elementId
           },
           onClick: this.onElementClick.bind(this),
-          type: this.props.element.tag
-        }, this.props.settings.drag);
+          type: element.tag
+        }, settings.drag);
 
         result = (
-          <Draggable {...draggableProps} dnd={this.props.dnd} dndActions={this.props.dndActions}>
-            <props.htmlTag {...props} onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)}>
+          <Draggable {...draggableProps} dnd={dnd} dndActions={dndActions}>
+            <this.props.htmlTag {...tagProps} onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)}>
               {this.renderContent()}
               {this.renderHighlight()}
-            </props.htmlTag>
+            </this.props.htmlTag>
           </Draggable>
         );
       }
     } else {
       if (this.state.animation && !this.state.animated) {
-        props.style = props.style || {};
-        props.style.opacity = 0;
+        tagProps.style = tagProps.style || {};
+        tagProps.style.opacity = 0;
       }
 
       result = (
-        <props.tag {...props}>
+        <props.tag {...tagProps}>
           {this.renderContent()}
         </props.tag>
       );
@@ -219,23 +216,25 @@ export default class Element extends Component {
   }
 
   renderContent () {
-    const {editing} = this.props.pageBuilder;
+    const {settings, info} = this.props;
+    const {element, elementId, pageBuilder, pageBuilderActions, dnd, dndActions} = info;
+    const {editing} = pageBuilder;
     let result;
-    if (this.props.settings.drop && !this.props.settings.drop.customDropArea && editing) {
+    if (settings.drop && !settings.drop.customDropArea && editing) {
       const dropInfo = {
-        id: this.props.elementId
+        id: elementId
       };
 
       result = (
         <Droppable
-          type={this.props.element.tag}
+          type={element.tag}
           dropInfo={dropInfo}
-          {...this.props.settings.drop}
+          {...settings.drop}
           placeholder
-          dnd={this.props.dnd}
-          dndActions={this.props.dndActions}
-          pageBuilder={this.props.pageBuilder}
-          pageBuilderActions={this.props.pageBuilderActions}>
+          dnd={dnd}
+          dndActions={dndActions}
+          pageBuilder={pageBuilder}
+          pageBuilderActions={pageBuilderActions}>
           {this.props.children}
         </Droppable>
       );
@@ -246,9 +245,11 @@ export default class Element extends Component {
   }
 
   renderHighlight () {
-    if (this.props.elementId) {
-      const {elements} = this.props.pageBuilder;
-      const {dragging} = this.props.dnd;
+    const {info} = this.props;
+    if (info.elementId) {
+      const {pageBuilder, dnd, element} = info;
+      const {elements} = pageBuilder;
+      const {dragging} = dnd;
       const dropHighlight = this._reactInternalInstance._context.dropHighlight; // # TODO modify when react passes context from owner-based to parent-based (0.14?)
       let className;
 
@@ -256,16 +257,16 @@ export default class Element extends Component {
       const selected = this.isSelected();
 
       if (!dragging && (overed || selected)) {
-        const elementType = this.props.element.tag;
-        const element = elements[elementType];
+        const elementType = element.tag;
+        const ElementClass = elements[elementType];
         const inside = this.state.offset.top <= 65 || (this.props.style && this.props.style.overflow === 'hidden');
-        const subComponent = this.props.element.subComponent;
+        const subComponent = element.subComponent;
 
         return (
           <div className={cx('element-highlight', selected && 'selected', inside && 'inside', subComponent && 'sub-component')}>
             <div className='element-identifier'>
-              <i className={element.settings.icon.class}>{element.settings.icon.content}</i>
-              <span>{this.props.element.label || elementType}</span>
+              <i className={ElementClass.settings.icon.class}>{ElementClass.settings.icon.content}</i>
+              <span>{element.label || elementType}</span>
             </div>
           </div>
         );

@@ -1,36 +1,30 @@
-import React from 'react';
-import Component from '../../component';
-import Element from '../../element';
-import styles from '../../../styles';
 import cx from 'classnames';
+import React, {PropTypes} from 'react';
 
-import settings from './settings';
-import style from './style';
 import classes from './classes';
 import propsSchema from './props-schema';
+import settings from './settings';
+import style from './style';
+import Component from '../../component';
+import Element from '../../element';
 
 export default class LineDivider extends Component {
+  static propTypes = {
+    styleClassMap: PropTypes.object,
+    element: PropTypes.object.isRequired
+  }
+
+  static style = style
+  static propsSchema = propsSchema
+  static settings = settings
+
   render () {
-    let classMap = (this.props.style && styles.getClassesMap(this.props.style)) || {};
-    let style = {
-      padding: this.props.padding
-    };
+    const classMap = this.props.styleClassMap || {};
 
     return (
-      <Element tag='div' className={cx(classes.holder, classMap.holder)} style={style} settings={this.constructor.settings} element={this.props.element}>
+      <Element info={this.props} htmlTag='div' className={cx(classes.holder, classMap.holder)} settings={settings}>
         <div className={cx(classes.line, classMap.line)}></div>
       </Element>
     );
   }
 }
-
-LineDivider.propTypes = {
-  padding: React.PropTypes.string.isRequired
-};
-LineDivider.defaultProps = {
-  padding: '0px'
-};
-
-styles.registerStyle(style);
-LineDivider.propsSchema = propsSchema;
-LineDivider.settings = settings;
