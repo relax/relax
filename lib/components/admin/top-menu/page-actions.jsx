@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import A from '../../a';
@@ -10,23 +10,23 @@ import Status from './status';
 
 export default class PageActions extends Component {
   static propTypes = {
-    draft: React.PropTypes.object,
-    page: React.PropTypes.object,
-    schema: React.PropTypes.object,
-    schemaEntry: React.PropTypes.object,
-    user: React.PropTypes.object.isRequired,
-    lastDashboard: React.PropTypes.string.isRequired,
-    display: React.PropTypes.string.isRequired,
-    changeDisplay: React.PropTypes.func.isRequired,
-    pageBuilderActions: React.PropTypes.object.isRequired,
-    addOverlay: React.PropTypes.func.isRequired,
-    closeOverlay: React.PropTypes.func.isRequired,
-    activePanelType: React.PropTypes.string
+    draft: PropTypes.object,
+    draftActions: PropTypes.object,
+    page: PropTypes.object,
+    schema: PropTypes.object,
+    schemaEntry: PropTypes.object,
+    user: PropTypes.object.isRequired,
+    lastDashboard: PropTypes.string.isRequired,
+    display: PropTypes.string.isRequired,
+    changeDisplay: PropTypes.func.isRequired,
+    pageBuilderActions: PropTypes.object.isRequired,
+    addOverlay: PropTypes.func.isRequired,
+    closeOverlay: PropTypes.func.isRequired,
+    activePanelType: PropTypes.string
   }
 
   getInitialState () {
     return {
-      draft: this.props.draft,
       save: false,
       state: null,
       stateMessage: ''
@@ -39,16 +39,13 @@ export default class PageActions extends Component {
 
   componentDidUpdate () {
     this.launchAutosave();
-    if (this.props.draft && this.props.draft.id !== this.currentDraftId) {
-      this.setModels(this.getInitialModels());
-    }
   }
 
   launchAutosave () {
     if (this.props.draft && this.props.activePanelType === 'pageBuild') {
       clearInterval(this.autosaveInterval);
       this.autosaveInterval = setInterval(this.autosave.bind(this), 30000);
-    } else {
+    } else if (this.autosaveInterval) {
       clearInterval(this.autosaveInterval);
     }
   }
@@ -76,32 +73,30 @@ export default class PageActions extends Component {
     }
   }
 
-  autosave () {
-    if (this.state.draft) {
+  async autosave () {
+    if (this.props.draft) {
       this.setState({
         state: 'loading',
         stateMessage: 'Auto saving draft'
       });
 
-      // draftActions
-      //   .update(this.state.draft)
-      //   .then(() => {
-      //     this.setState({
-      //       state: 'success',
-      //       stateMessage: 'Autosave successful'
-      //     });
-      //     this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
-      //   })
-      //   .catch(() => {
-      //     this.setState({
-      //       state: 'error',
-      //       stateMessage: 'Error auto saving draft'
-      //     });
-      //   });
+      try {
+        await this.props.draftActions.saveDraft();
+        this.setState({
+          state: 'success',
+          stateMessage: 'Autosave successful'
+        });
+        this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
+      } catch (err) {
+        this.setState({
+          state: 'error',
+          stateMessage: 'Error auto saving draft'
+        });
+      }
     }
   }
 
-  saveDraft (event) {
+  async saveDraft (event) {
     event.preventDefault();
     event.stopPropagation();
     clearTimeout(this.successTimeout);
@@ -111,21 +106,19 @@ export default class PageActions extends Component {
       stateMessage: 'Saving your draft'
     });
 
-    // draftActions
-    //   .update(this.state.draft)
-    //   .then(() => {
-    //     this.setState({
-    //       state: 'success',
-    //       stateMessage: 'Draft saved successfully'
-    //     });
-    //     this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
-    //   })
-    //   .catch(() => {
-    //     this.setState({
-    //       state: 'error',
-    //       stateMessage: 'Error saving draft'
-    //     });
-    //   });
+    try {
+      await this.props.draftActions.saveDraft();
+      this.setState({
+        state: 'success',
+        stateMessage: 'Draft saved successfully'
+      });
+      this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
+    } catch (err) {
+      this.setState({
+        state: 'error',
+        stateMessage: 'Error saving draft'
+      });
+    }
   }
 
   savePage (event) {
@@ -455,13 +448,13 @@ export default class PageActions extends Component {
   }
 
   renderStatus () {
-    if (this.props.draft) {
-      return <Status fetchCurrent={this.fetchCurrent.bind(this)} state={this.state.state} stateMessage={this.state.stateMessage} draft={this.state.draft} />;
+    if (this.props.draft && this.props.activePanelType === 'pageBuild') {
+      return <Status fetchCurrent={this.fetchCurrent.bind(this)} state={this.state.state} stateMessage={this.state.stateMessage} draft={this.props.draft} />;
     }
   }
 
   renderSave () {
-    if (this.props.activePanelType === 'pageBuild' && (this.props.page || this.props.schema) && this.state.save) {
+    if (this.props.activePanelType === 'pageBuild' && this.state.save) {
       return (
         <Animate transition='slideDownIn'>
           <div className='save-menu'>

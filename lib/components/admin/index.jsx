@@ -21,17 +21,8 @@ export default class Admin extends Component {
     breadcrumbs: PropTypes.array,
     children: PropTypes.element.isRequired,
     user: PropTypes.object,
-    slug: PropTypes.string,
-    getAdmin: PropTypes.func.isRequired,
-    updatePage: PropTypes.func.isRequired,
-    display: PropTypes.string.isRequired,
     loading: PropTypes.bool,
-    tabs: PropTypes.array.isRequired,
-    lastDashboard: PropTypes.string.isRequired,
     removeTab: PropTypes.func.isRequired,
-    changeDisplay: PropTypes.func.isRequired,
-    addOverlay: PropTypes.func.isRequired,
-    closeOverlay: PropTypes.func.isRequired,
     editing: PropTypes.bool.isRequired,
     pageBuilderActions: PropTypes.object.isRequired
   }
@@ -45,19 +36,7 @@ export default class Admin extends Component {
       <div>
         <div className={cx('blurr', this.state.overlay && 'blurred', !this.props.editing && 'previewing')}>
           <div className='close-preview' onClick={this.props.pageBuilderActions.toggleEditing}>Close preview</div>
-          <TopMenu
-            activePanelType={this.props.activePanelType}
-            user={this.props.user}
-            tabs={this.props.tabs}
-            display={this.props.display}
-            changeDisplay={this.props.changeDisplay}
-            lastDashboard={this.props.lastDashboard}
-            removeTab={this.props.removeTab}
-            addOverlay={this.props.addOverlay}
-            closeOverlay={this.props.closeOverlay}
-            editing={this.props.editing}
-            pageBuilderActions={this.props.pageBuilderActions}
-          />
+          <TopMenu {...this.props} />
           <div className='admin-holder'>
             {this.props.activePanelType !== 'pageBuild' && <MenuBar user={this.props.user} activePanelType={this.props.activePanelType} breadcrumbs={this.props.breadcrumbs} />}
             <div className='admin-content'>
