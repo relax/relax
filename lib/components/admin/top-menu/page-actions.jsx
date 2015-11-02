@@ -148,118 +148,55 @@ export default class PageActions extends Component {
     }
   }
 
-  publishPage (event) {
+  async publishPage (event) {
     event.preventDefault();
     event.stopPropagation();
     clearTimeout(this.successTimeout);
 
-    // Publish only for pages and schema entries
-    if (!this.props.page && !this.props.schemaEntry) {
-      return;
-    }
+    this.setState({
+      state: 'loading',
+      stateMessage: 'Publishing page'
+    });
 
-    // let clone, actions;
-    //
-    // if (this.props.page) {
-    //   this.setState({
-    //     state: 'loading',
-    //     stateMessage: 'Publishing page'
-    //   });
-    //   actions = pageActions;
-    //   clone = cloneDeep(this.props.page);
-    //   clone.state = 'published';
-    //   clone.data = this.state.draft.data;
-    //   clone.updatedBy = this.props.user._id;
-    // } else if (this.props.schemaEntry) {
-    //   this.setState({
-    //     state: 'loading',
-    //     stateMessage: 'Publishing '+this.props.schemaEntry._title
-    //   });
-    //   actions = schemaEntriesActionsFactory(this.props.schema.slug);
-    //   clone = cloneDeep(this.props.schemaEntry);
-    //   clone._state = 'published';
-    //   clone._data = this.state.draft.data;
-    //   clone._schemaLinks = this.state.draft.schemaLinks;
-    //   clone._updatedBy = this.props.user._id;
-    // }
-    //
-    //
-    // actions
-    //   .update(clone)
-    //   .then((result) => {
-    //     let draftClone = cloneDeep(this.state.draft);
-    //
-    //     draftClone.actions = [];
-    //     draftClone.data = result._data || result.data;
-    //     draftClone.__v = result.__v;
-    //
-    //     return draftActions.update(draftClone);
-    //   })
-    //   .then((draft) => {
-    //     this.setState({
-    //       state: 'success',
-    //       stateMessage: 'Published successfully'
-    //     });
-    //     this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
-    //   })
-    //   .catch(() => {
-    //     this.setState({
-    //       state: 'error',
-    //       stateMessage: 'Error publishing'
-    //     });
-    //   });
+    try {
+      await this.props.pageActions.savePageFromDraft(PageBuild.fragments, true);
+      this.setState({
+        state: 'success',
+        stateMessage: 'Page published successfully'
+      });
+      this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
+    } catch (err) {
+      this.setState({
+        state: 'error',
+        stateMessage: 'Error publishing page'
+      });
+    }
   }
 
-  fetchCurrent (event) {
+  async fetchCurrent (event) {
     if (event && event.preventDefault) {
       event.preventDefault();
     }
     clearTimeout(this.successTimeout);
 
-    // this.setState({
-    //   state: 'loading',
-    //   stateMessage: 'Dropping draft changes'
-    // });
-    //
-    // let current;
-    // if (this.props.page) {
-    //   current = this.props.page;
-    // } else if (this.props.schemaEntry) {
-    //   current = this.props.schemaEntry;
-    // } else if (this.props.schema) {
-    //   current = this.props.schema;
-    // } else {
-    //   this.setState({
-    //     state: 'error',
-    //     stateMessage: 'Something went wrong'
-    //   });
-    //   return;
-    // }
-    //
-    // let draftClone = cloneDeep(this.state.draft);
-    // draftClone.__v = current.__v;
-    // draftClone.data = current._data || current.data;
-    // draftClone.actions = [];
-    //
-    // if (current.schemaLinks || current._schemaLinks) {
-    //   draftClone.schemaLinks = current._schemaLinks || current.schemaLinks;
-    // }
-    //
-    // draftActions
-    //   .update(draftClone)
-    //   .then(() => {
-    //     this.setState({
-    //       state: 'success',
-    //       stateMessage: 'Draft dropped successfully'
-    //     });
-    //     this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
-    //   })
-    //   .catch(() => {
-    //     this.setState({
-    //       state: 'error',
-    //       stateMessage: 'Error dropping draft'
-    //     });
-    //   });
+    this.setState({
+      state: 'loading',
+      stateMessage: 'Dropping draft changes'
+    });
+
+    try {
+      await this.props.draftActions.dropDraft(PageBuild.fragments, this.props.draft._id._id);
+      this.setState({
+        state: 'success',
+        stateMessage: 'Draft dropped successfully'
+      });
+      this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
+    } catch (err) {
+      this.setState({
+        state: 'error',
+        stateMessage: 'Error dropping draft'
+      });
+    }
   }
 
   outSuccess () {
