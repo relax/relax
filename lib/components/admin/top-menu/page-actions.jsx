@@ -5,9 +5,8 @@ import {Component} from 'relax-framework';
 import A from '../../a';
 import Animate from '../../animate';
 import PageBuild from '../panels/page-build';
+import RevisionsContainer from '../../../containers/admin/revisions';
 import Status from './status';
-
-// import RevisionsOverlay from '../revisions-overlay';
 
 export default class PageActions extends Component {
   static propTypes = {
@@ -217,7 +216,7 @@ export default class PageActions extends Component {
     this.props.changeDisplay(display);
   }
 
-  onRestore (__v) {
+  async onRestore (__v) {
     this.props.closeOverlay();
 
     this.setState({
@@ -225,94 +224,29 @@ export default class PageActions extends Component {
       savingLabel: 'Restoring revision'
     });
 
-    // let actions, current;
-    // if (this.props.page) {
-    //   actions = pageActions;
-    //   current = this.props.page;
-    // } else if (this.props.schemaEntry) {
-    //   actions = schemaEntriesActionsFactory(this.props.schema.slug);
-    //   current = this.props.schemaEntry;
-    // } else if (this.props.schema) {
-    //   actions = schemaActions;
-    //   current = this.props.schema;
-    // } else {
-    //   this.setState({
-    //     state: 'error',
-    //     stateMessage: 'Something went wrong'
-    //   });
-    //   return;
-    // }
-    //
-    // actions
-    //   .restore({
-    //     _id: current._id,
-    //     __v
-    //   })
-    //   .then((result) => {
-    //     let draftClone = cloneDeep(this.state.draft);
-    //
-    //     draftClone.actions = [];
-    //     draftClone.data = result._data || result.data;
-    //     draftClone.__v = result.__v;
-    //
-    //     if (result.schemaLinks || result._schemaLinks) {
-    //       draftClone.schemaLinks = result._schemaLinks || result.schemaLinks;
-    //     }
-    //
-    //     return Q.all([result, draftActions.update(draftClone)]);
-    //   })
-    //   .spread((result, draft) => {
-    //     this.setState({
-    //       state: 'success',
-    //       stateMessage: 'Revision restored successfully'
-    //     });
-    //     this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
-    //
-    //     if (this.props.page) {
-    //       Router.prototype.navigate('/admin/page/'+result.slug, {trigger: false, replace: true});
-    //     } else if (this.props.schemaEntry) {
-    //       Router.prototype.navigate('/admin/schema/'+this.props.schema.slug+'/'+result._slug+'/single', {trigger: false, replace: true});
-    //     } else if (this.props.schema) {
-    //       Router.prototype.navigate('/admin/schemas/'+result.slug+'/template', {trigger: false, replace: true});
-    //     }
-    //   })
-    //   .catch(() => {
-    //     this.setState({
-    //       success: false,
-    //       stateMessage: 'Error restoring revision'
-    //     });
-    //   });
+    try {
+      await this.props.pageActions.restore({
+        _id: this.props.page._id,
+        __v
+      });
+      this.setState({
+        state: 'success',
+        stateMessage: 'Page revision restored'
+      });
+      this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
+    } catch (err) {
+      this.setState({
+        success: false
+      });
+    }
   }
 
   onRevisionsClick (event) {
     event.preventDefault();
-
-    // let page;
-    // if (this.props.page) {
-    //   page = this.props.page;
-    // } else if (this.props.schema) {
-    //   page = this.props.schema;
-    // } else {
-    //   this.setState({
-    //     state: 'error',
-    //     stateMessage: 'Something went wrong'
-    //   });
-    //   return;
-    // }
-    //
-    // let current = {
-    //   _id: {
-    //     _id: page._id,
-    //     __v: page.__v
-    //   },
-    //   date: page.updatedDate,
-    //   user: page.updatedBy,
-    //   title: page.title
-    // };
-    //
-    // this.props.addOverlay(
-    //   <RevisionsOverlay current={current} onRestore={this.onRestore.bind(this)} />
-    // );
+    this.props.addOverlay(
+      'revisions',
+      RevisionsContainer
+    );
   }
 
   render () {
