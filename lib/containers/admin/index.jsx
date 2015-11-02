@@ -2,6 +2,7 @@ import * as adminActions from '../../client/actions/admin';
 import * as displayActions from '../../client/actions/display';
 import * as draftActions from '../../client/actions/draft';
 import * as overlaysActions from '../../client/actions/overlays';
+import * as pageActions from '../../client/actions/page';
 import * as pageBuilderActions from '../../client/actions/page-builder';
 import * as tabsActions from '../../client/actions/tabs';
 
@@ -23,7 +24,8 @@ import {getQueryVariables} from '../../decorators/query-props';
     overlays: state.overlays,
     tabs: state.tabs.data,
     editing: state.pageBuilder.editing,
-    draft: state.draft.data
+    draft: state.draft.data,
+    page: state.page.data
   }),
   (dispatch) => ({
     ...bindActionCreators(adminActions, dispatch),
@@ -31,7 +33,8 @@ import {getQueryVariables} from '../../decorators/query-props';
     ...bindActionCreators(displayActions, dispatch),
     ...bindActionCreators(overlaysActions, dispatch),
     pageBuilderActions: bindActionCreators(pageBuilderActions, dispatch),
-    draftActions: bindActionCreators(draftActions, dispatch)
+    draftActions: bindActionCreators(draftActions, dispatch),
+    pageActions: bindActionCreators(pageActions, dispatch)
   })
 )
 export default class AdminContainer extends Component {

@@ -7,6 +7,7 @@ export default class PageBuild extends Component {
   static fragments = mergeFragments({
     page: {
       _id: 1,
+      __v: 1,
       state: 1
     },
     tab: {

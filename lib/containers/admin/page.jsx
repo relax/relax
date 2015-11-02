@@ -221,7 +221,7 @@ export default class PageContainer extends Component {
         onRevisions={::this.onRevisions}
         onRestore={::this.onRestore}
         onSaveDraft={::this.onSaveDraft}
-        onUnpublish={::this.onPublish}
+        onUnpublish={::this.onUnpublish}
         onUpdate={::this.onUpdate}
         validateSlug={::this.validateSlug}
       />

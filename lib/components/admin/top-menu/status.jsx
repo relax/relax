@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import Animate from '../../animate';
@@ -6,23 +6,16 @@ import FormState from '../../form-state';
 
 export default class Status extends Component {
   static propTypes = {
-    draft: React.PropTypes.object.isRequired,
-    fetchCurrent: React.PropTypes.func.isRequired,
-    state: React.PropTypes.string,
-    stateMessage: React.PropTypes.string
+    draft: PropTypes.object.isRequired,
+    fetchCurrent: PropTypes.func.isRequired,
+    state: PropTypes.string,
+    stateMessage: PropTypes.string,
+    currentVersion: PropTypes.number
   }
 
   render () {
     let result;
-    let currentVersion = 10;
-
-    // if (this.context.page) {
-    //   currentVersion = this.context.page.__v;
-    // } else if (this.context.schemaEntry) {
-    //   currentVersion = this.context.schemaEntry.__v;
-    // } else if (this.context.schema) {
-    //   currentVersion = this.context.schema.__v;
-    // }
+    const currentVersion = this.props.currentVersion;
 
     if (this.props.state) {
       result = <FormState state={this.props.state} message={this.props.stateMessage} />;
@@ -41,7 +34,7 @@ export default class Status extends Component {
           <Animate transition='slideDownIn' key='draft'>
             <span className='status draft'>
               <span>Editing your draft - </span>
-              <a href='#' onClick={this.props.fetchCurrent}> drop my changes</a>
+              <a href='#' onClick={this.props.fetchCurrent}> Drop changes</a>
             </span>
           </Animate>
         );

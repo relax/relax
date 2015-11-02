@@ -4,6 +4,7 @@ import {Component} from 'relax-framework';
 
 import A from '../../a';
 import Animate from '../../animate';
+import PageBuild from '../panels/page-build';
 import Status from './status';
 
 // import RevisionsOverlay from '../revisions-overlay';
@@ -20,6 +21,7 @@ export default class PageActions extends Component {
     display: PropTypes.string.isRequired,
     changeDisplay: PropTypes.func.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
+    pageActions: PropTypes.object.isRequired,
     addOverlay: PropTypes.func.isRequired,
     closeOverlay: PropTypes.func.isRequired,
     activePanelType: PropTypes.string
@@ -121,76 +123,29 @@ export default class PageActions extends Component {
     }
   }
 
-  savePage (event) {
+  async savePage (event) {
     event.preventDefault();
     event.stopPropagation();
     clearTimeout(this.successTimeout);
 
-    // let actions, clone, label;
-    // if (this.props.page) {
-    //   actions = pageActions;
-    //   clone = cloneDeep(this.props.page);
-    //   clone.data = this.state.draft.data;
-    //   clone.updatedBy = this.props.user._id;
-    //   label = 'Page';
-    //   this.setState({
-    //     state: 'loading',
-    //     stateMessage: 'Saving page'
-    //   });
-    // } else if (this.props.schemaEntry) {
-    //   actions = schemaEntriesActionsFactory(this.props.schema.slug);
-    //   clone = cloneDeep(this.props.schemaEntry);
-    //   label = this.props.schemaEntry._title;
-    //   clone._data = this.state.draft.data;
-    //   clone._schemaLinks = this.state.draft.schemaLinks;
-    //   clone._updatedBy = this.props.user._id;
-    //   this.setState({
-    //     state: 'loading',
-    //     stateMessage: 'Saving '+this.props.schemaEntry._title
-    //   });
-    // } else if (this.props.schema) {
-    //   actions = schemaActions;
-    //   clone = cloneDeep(this.props.schema);
-    //   clone.data = this.state.draft.data;
-    //   clone.schemaLinks = this.state.draft.schemaLinks;
-    //   clone.updatedBy = this.props.user._id;
-    //   label = 'Schema template';
-    //   this.setState({
-    //     state: 'loading',
-    //     stateMessage: 'Saving schema template'
-    //   });
-    // } else {
-    //   this.setState({
-    //     state: 'error',
-    //     stateMessage: 'Something went wrong'
-    //   });
-    //   return;
-    // }
-    //
-    // actions
-    //   .update(clone)
-    //   .then((result) => {
-    //     let draftClone = cloneDeep(this.state.draft);
-    //
-    //     draftClone.__v = result.__v;
-    //     draftClone.actions = [];
-    //     draftClone.data = result._data || result.data;
-    //
-    //     return draftActions.update(draftClone);
-    //   })
-    //   .then(() => {
-    //     this.setState({
-    //       state: 'success',
-    //       stateMessage: label+' saved successfully'
-    //     });
-    //     this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
-    //   })
-    //   .catch(() => {
-    //     this.setState({
-    //       state: 'error',
-    //       stateMessage: 'Error occurred while saving'
-    //     });
-    //   });
+    this.setState({
+      state: 'loading',
+      stateMessage: 'Saving page'
+    });
+
+    try {
+      await this.props.pageActions.savePageFromDraft(PageBuild.fragments);
+      this.setState({
+        state: 'success',
+        stateMessage: 'Page saved successfully'
+      });
+      this.successTimeout = setTimeout(this.outSuccess.bind(this), 2000);
+    } catch (err) {
+      this.setState({
+        state: 'error',
+        stateMessage: 'Error saving page'
+      });
+    }
   }
 
   publishPage (event) {
@@ -449,7 +404,15 @@ export default class PageActions extends Component {
 
   renderStatus () {
     if (this.props.draft && this.props.activePanelType === 'pageBuild') {
-      return <Status fetchCurrent={this.fetchCurrent.bind(this)} state={this.state.state} stateMessage={this.state.stateMessage} draft={this.props.draft} />;
+      return (
+        <Status
+          fetchCurrent={this.fetchCurrent.bind(this)}
+          state={this.state.state}
+          stateMessage={this.state.stateMessage}
+          draft={this.props.draft}
+          currentVersion={this.props.page.__v}
+        />
+      );
     }
   }
 
