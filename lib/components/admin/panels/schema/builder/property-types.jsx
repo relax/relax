@@ -1,9 +1,15 @@
+import cx from 'classnames';
 import React from 'react';
 import {Component} from 'relax-framework';
+
 import {schemaTypesOrdered} from '../../../../../data-types';
-import cx from 'classnames';
 
 export default class PropertyTypes extends Component {
+  static propTypes = {
+    value: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func.isRequired
+  }
+
   getInitialState () {
     return {
       expanded: false
@@ -20,15 +26,19 @@ export default class PropertyTypes extends Component {
     });
   }
 
-  renderType (type, index) {
+  render () {
     return (
-      <div className={cx('type', this.props.value === type && 'active')} onClick={this.onClick.bind(this, type)} key={type}>{type}</div>
+      <div className='property-types'>
+        {schemaTypesOrdered.common.map(this.renderType, this)}
+        {this.renderExpanded()}
+      </div>
     );
   }
 
   renderExpanded () {
+    let result;
     if (this.state.expanded) {
-      return (
+      result = (
         <div className='advanced-types'>
           <div className='toggle-more' key='toggle-more' onClick={this.toggleMore.bind(this)}>
             <span>Hide advanced options</span>
@@ -38,26 +48,19 @@ export default class PropertyTypes extends Component {
         </div>
       );
     } else {
-      return (
+      result = (
         <div className='toggle-more' onClick={this.toggleMore.bind(this)}>
           <span>Show advanced options</span>
           <i className='material-icons'>expand_less</i>
         </div>
       );
     }
+    return result;
   }
 
-  render () {
+  renderType (type, index) {
     return (
-      <div className='property-types'>
-        {schemaTypesOrdered.common.map(this.renderType, this)}
-        {this.renderExpanded()}
-      </div>
+      <div className={cx('type', this.props.value === type && 'active')} onClick={this.onClick.bind(this, type)} key={type}>{type}</div>
     );
   }
 }
-
-PropertyTypes.propTypes = {
-  value: React.PropTypes.string.isRequired,
-  onChange: React.PropTypes.func.isRequired
-};

@@ -1,26 +1,34 @@
-import React from 'react';
-import {Component} from 'relax-framework';
-import merge from 'lodash.merge';
 import clone from 'lodash.clone';
 import forEach from 'lodash.foreach';
+import merge from 'lodash.merge';
+import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
 
+import Checkbox from '../../../../data-types/checkbox';
+import Dependencies from './dependencies';
+import Input from '../../../../data-types/input';
+import OptionsList from '../../../../options-list';
+import PropertyTypes from './property-types';
 import {TypesProps, dependsOnWhitelist} from '../../../../../data-types';
 import {TypesOptionsMap, TypesOptionsDefaultProps} from '../../../../../data-types/options-map';
 
-import Dependencies from './dependencies';
-import PropertyTypes from './property-types';
-import OptionsList from '../../../../options-list';
-import Checkbox from '../../../../data-types/checkbox';
-import Input from '../../../../data-types/input';
-
 export default class PropertyOptions extends Component {
+  static propTypes = {
+    onChange: PropTypes.func.isRequired
+  }
+
+  static contextTypes = {
+    selected: PropTypes.object.isRequired,
+    properties: PropTypes.array.isRequired
+  }
+
   onChange (id, value) {
-    let changeObj = {};
+    const changeObj = {};
 
     changeObj[id] = value;
 
     if (id === 'type') {
-      let typeProps = TypesProps[value];
+      const typeProps = TypesProps[value];
       if (typeProps) {
         changeObj.default = typeProps.default;
         if (typeProps.defaults) {
@@ -35,9 +43,9 @@ export default class PropertyOptions extends Component {
   }
 
   propChange (id, value) {
-    let selected = this.context.selected;
-    let typeProps = TypesProps[selected.type];
-    let values = merge(clone(typeProps.defaults), selected.props);
+    const selected = this.context.selected;
+    const typeProps = TypesProps[selected.type];
+    const values = merge(clone(typeProps.defaults), selected.props);
     values[id] = value;
     this.props.onChange({
       props: values
@@ -45,7 +53,7 @@ export default class PropertyOptions extends Component {
   }
 
   getDepends () {
-    let canDependOn = [];
+    const canDependOn = [];
     forEach(this.context.properties, property => {
       if (property.id !== this.context.selected.id && dependsOnWhitelist.indexOf(property.type) !== -1) {
         canDependOn.push(property);
@@ -54,58 +62,10 @@ export default class PropertyOptions extends Component {
     return canDependOn;
   }
 
-  renderOptionsProps () {
-    let selected = this.context.selected;
-    let typeProps = TypesProps[selected.type];
-
-    if (typeProps && typeProps.options) {
-      let values = merge(clone(typeProps.defaults), selected.props);
-      return (
-        <OptionsList options={typeProps.options} values={values} onChange={this.propChange.bind(this)} />
-      );
-    }
-  }
-
-  renderDefault () {
-    let values = this.context.selected;
-    let Option = TypesOptionsMap[values.type];
-
-    if (Option) {
-      let props = clone(TypesOptionsDefaultProps[values.type] || {});
-      merge(props, values.props || {});
-
-      let value = values.default;
-
-      return (
-        <div className='option'>
-          <div className='label'>Default value</div>
-          <Option onChange={this.onChange.bind(this, 'default')} value={value} {...props} OptionsList={OptionsList} />
-        </div>
-      );
-    }
-  }
-
-  renderDepends () {
-    let canDependOn = this.getDepends();
-    if (canDependOn.length > 0) {
-      let values = this.context.selected;
-      return (
-        <div className='option'>
-          <div className='label'>Depends On</div>
-          <Dependencies
-            dependencies={values.dependencies || []}
-            onChange={this.onChange.bind(this, 'dependencies')}
-            canDependOn={canDependOn}
-          />
-        </div>
-      );
-    }
-  }
-
   render () {
     if (this.context.selected) {
-      let values = this.context.selected;
-      let cannotBeRequired = values.dependencies && values.dependencies.length > 0;
+      const values = this.context.selected;
+      const cannotBeRequired = values.dependencies && values.dependencies.length > 0;
 
       if (values) {
         return (
@@ -148,13 +108,52 @@ export default class PropertyOptions extends Component {
       );
     }
   }
+
+  renderDepends () {
+    const canDependOn = this.getDepends();
+    if (canDependOn.length > 0) {
+      const values = this.context.selected;
+      return (
+        <div className='option'>
+          <div className='label'>Depends On</div>
+          <Dependencies
+            dependencies={values.dependencies || []}
+            onChange={this.onChange.bind(this, 'dependencies')}
+            canDependOn={canDependOn}
+          />
+        </div>
+      );
+    }
+  }
+
+  renderDefault () {
+    const values = this.context.selected;
+    const Option = TypesOptionsMap[values.type];
+
+    if (Option) {
+      const props = clone(TypesOptionsDefaultProps[values.type] || {});
+      merge(props, values.props || {});
+
+      const value = values.default;
+
+      return (
+        <div className='option'>
+          <div className='label'>Default value</div>
+          <Option onChange={this.onChange.bind(this, 'default')} value={value} {...props} OptionsList={OptionsList} />
+        </div>
+      );
+    }
+  }
+
+  renderOptionsProps () {
+    const selected = this.context.selected;
+    const typeProps = TypesProps[selected.type];
+
+    if (typeProps && typeProps.options) {
+      const values = merge(clone(typeProps.defaults), selected.props);
+      return (
+        <OptionsList options={typeProps.options} values={values} onChange={this.propChange.bind(this)} />
+      );
+    }
+  }
 }
-
-PropertyOptions.propTypes = {
-  onChange: React.PropTypes.func.isRequired
-};
-
-PropertyOptions.contextTypes = {
-  selected: React.PropTypes.object.isRequired,
-  properties: React.PropTypes.array.isRequired
-};

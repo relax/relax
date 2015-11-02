@@ -21,6 +21,7 @@ export default class SchemasManage extends Component {
       slug: 1,
       date: 1,
       updatedDate: 1,
+      properties: 1,
       createdBy: {
         _id: 1,
         email: 1,
@@ -47,7 +48,8 @@ export default class SchemasManage extends Component {
     onCreate: PropTypes.func.isRequired,
     onSave: PropTypes.func.isRequired,
     validateSlug: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    onPropertiesChange: PropTypes.func.isRequired
   }
 
   render () {
@@ -83,7 +85,7 @@ export default class SchemasManage extends Component {
                   validateSlug={this.props.validateSlug}
                   onChange={this.props.onChange}
                 />
-                {/* <Builder value={this.props.schema.properties || []} onChange={this.props.onPropertiesChange.bind(this)} /> */}
+                <Builder value={this.props.schema.properties || []} onChange={this.props.onPropertiesChange.bind(this)} />
               </div>
             </div>
           </div>

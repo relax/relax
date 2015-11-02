@@ -128,6 +128,12 @@ export default class SchemaContainer extends Component {
     this.props.changeSchemaFields(merge({}, this.props.schema, values));
   }
 
+  onPropertiesChange (properties) {
+    this.props.changeSchemaFields(merge({}, this.props.schema, {
+      properties
+    }));
+  }
+
   isNew () {
     return !this.props.schema._id;
   }
@@ -146,6 +152,7 @@ export default class SchemaContainer extends Component {
         onCreate={::this.onCreate}
         onSave={::this.onSave}
         validateSlug={::this.validateSlug}
+        onPropertiesChange={::this.onPropertiesChange}
       />
     );
   }

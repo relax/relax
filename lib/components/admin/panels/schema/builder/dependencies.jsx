@@ -1,12 +1,18 @@
+import clone from 'lodash.clone';
 import React from 'react';
 import {Component} from 'relax-framework';
-import clone from 'lodash.clone';
 
 import Dependency from './dependency';
 
 export default class Dependencies extends Component {
+  static propTypes = {
+    dependencies: React.PropTypes.array.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    canDependOn: React.PropTypes.array.isRequired
+  }
+
   onAdd () {
-    let cloned = clone(this.props.dependencies);
+    const cloned = clone(this.props.dependencies);
 
     cloned.push({
       id: '',
@@ -17,28 +23,15 @@ export default class Dependencies extends Component {
   }
 
   onDependencyRemove (id) {
-    let cloned = clone(this.props.dependencies);
+    const cloned = clone(this.props.dependencies);
     cloned.splice(id, 1);
     this.props.onChange(cloned);
   }
 
   onDependencyChange (id, key, value) {
-    let cloned = clone(this.props.dependencies);
+    const cloned = clone(this.props.dependencies);
     cloned[id][key] = value;
     this.props.onChange(cloned);
-  }
-
-  renderDependency (dependency, index) {
-    return (
-      <Dependency
-        dependency={dependency}
-        onRemove={this.onDependencyRemove.bind(this)}
-        onChange={this.onDependencyChange.bind(this)}
-        id={index}
-        key={index}
-        canDependOn={this.props.canDependOn}
-      />
-    );
   }
 
   render () {
@@ -54,9 +47,17 @@ export default class Dependencies extends Component {
       </div>
     );
   }
-}
 
-Dependencies.propTypes = {
-  dependencies: React.PropTypes.array.isRequired,
-  onChange: React.PropTypes.func.isRequired
-};
+  renderDependency (dependency, index) {
+    return (
+      <Dependency
+        dependency={dependency}
+        onRemove={this.onDependencyRemove.bind(this)}
+        onChange={this.onDependencyChange.bind(this)}
+        id={index}
+        key={index}
+        canDependOn={this.props.canDependOn}
+      />
+    );
+  }
+}
