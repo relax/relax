@@ -45,8 +45,14 @@ export default class PageContainer extends Component {
     changePageToDefault: PropTypes.func,
     addPage: PropTypes.func.isRequired,
     addOverlay: PropTypes.func.isRequired,
+    closeOverlay: PropTypes.func.isRequired,
     validatePageSlug: PropTypes.func.isRequired,
-    updatePage: PropTypes.func.isRequired
+    updatePage: PropTypes.func.isRequired,
+    restorePage: PropTypes.func.isRequired
+  }
+
+  static contextTypes = {
+    store: PropTypes.object
   }
 
   componentWillReceiveProps (nextProps) {
@@ -161,44 +167,59 @@ export default class PageContainer extends Component {
     this.props.changePageFields(merge({}, this.props.page, values));
   }
 
-  onRestore (__v) {
-    this.context.closeOverlay();
+  async onRestore (__v) {
+    this.props.closeOverlay();
 
     this.setState({
       saving: true,
       savingLabel: 'Restoring revision'
     });
 
-    pageActions
-      .restore({
-        _id: this.props.page._id,
-        __v
-      })
-      .then((page) => {
-        this.state.breadcrumbs[1].label = page.title;
-        this.setState({
-          saving: false,
-          page,
-          success: true,
-          error: false,
-          new: false,
-          breadcrumbs: this.state.breadcrumbs
-        });
-        // Router.prototype.navigate('/admin/pages/' + page.slug, {trigger: false, replace: true});
-        this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
-      })
-      .catch(() => {
-        this.setState({
-          success: false
-        });
+    try {
+      const page = await this.props.restorePage(this.constructor.fragments, this.props.page._id, __v);
+
+      this.setState({
+        saving: false,
+        success: true,
+        error: false
       });
+
+      history.pushState({}, '', `/admin/pages/${page.restorePage.slug}`);
+      this.successTimeout = setTimeout(::this.onSuccessOut, 3000);
+    } catch (err) {
+      this.setState({
+        success: false,
+        error: 'Error restoring page revision'
+      });
+    }
+  }
+
+  getCurrentPageProps () {
+    const {page} = this.props;
+
+    return {
+      _id: {
+        _id: page._id,
+        __v: page.__v
+      },
+      date: page.updatedDate,
+      user: page.updatedBy,
+      title: page.title
+    };
   }
 
   onRevisions (event) {
     event.preventDefault();
     this.props.addOverlay(
       'revisions',
-      RevisionsContainer
+      (
+        <RevisionsContainer
+          id={this.props.page._id}
+          onRestore={::this.onRestore}
+          store={this.context.store}
+          current={this.getCurrentPageProps()}
+        />
+      )
     );
   }
 

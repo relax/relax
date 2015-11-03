@@ -6,18 +6,16 @@ import Utils from '../../../utils';
 
 export default class RevisionsOverlay extends Component {
   static fragments = {
-    page: {
-      revisions: {
-        _id: {
-          _id: 1,
-          __v: 1
-        },
-        user: {
-          email: 1,
-          name: 1
-        },
-        date: 1
-      }
+    revisions: {
+      _id: {
+        _id: 1,
+        __v: 1
+      },
+      user: {
+        email: 1,
+        name: 1
+      },
+      date: 1
     }
   }
   static propTypes = {

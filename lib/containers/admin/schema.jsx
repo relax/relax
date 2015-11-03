@@ -1,3 +1,4 @@
+import * as overlaysActions from '../../client/actions/overlays';
 import * as schemaActions from '../../client/actions/schema';
 
 import cloneDeep from 'lodash.clonedeep';
@@ -8,6 +9,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Component} from 'relax-framework';
 
+import RevisionsContainer from './revisions';
 import Schema from '../../components/admin/panels/schema';
 
 @connect(
@@ -16,7 +18,10 @@ import Schema from '../../components/admin/panels/schema';
     isSlugValid: state.schema.isSlugValid,
     errors: state.schema.errors
   }),
-  (dispatch) => bindActionCreators(schemaActions, dispatch)
+  (dispatch) => ({
+    ...bindActionCreators(schemaActions, dispatch),
+    ...bindActionCreators(overlaysActions, dispatch)
+  })
 )
 export default class SchemaContainer extends Component {
   static fragments = Schema.fragments
@@ -140,6 +145,14 @@ export default class SchemaContainer extends Component {
 
   async validateSlug (slug, schemaId = this.props.schema._id) {
     return await this.props.validateSchemaSlug({slug, schemaId});
+  }
+
+  onRevisions (event) {
+    event.preventDefault();
+    this.props.addOverlay(
+      'revisions',
+      RevisionsContainer
+    );
   }
 
   render () {

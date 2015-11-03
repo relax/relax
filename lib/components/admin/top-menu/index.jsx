@@ -2,7 +2,7 @@ import React from 'react';
 import {Component} from 'relax-framework';
 
 import AddOverlay from '../../../containers/add-overlay';
-import PageActions from './page-actions';
+import PageActionsContainer from '../../../containers/admin/page-actions';
 import Tab from './tab';
 
 export default class TopMenu extends Component {
@@ -40,7 +40,7 @@ export default class TopMenu extends Component {
   render () {
     return (
       <div className='top-bar'>
-        <PageActions {...this.props} />
+        <PageActionsContainer {...this.props} />
         {this.renderTabs()}
       </div>
     );
