@@ -45,7 +45,13 @@ export default class SchemaContainer extends Component {
     addSchema: PropTypes.func.isRequired,
     validateSchemaSlug: PropTypes.func.isRequired,
     updateSchema: PropTypes.func.isRequired,
-    changeSchemaToDefault: PropTypes.func.isRequired
+    restoreSchema: PropTypes.func.isRequired,
+    changeSchemaToDefault: PropTypes.func.isRequired,
+    addOverlay: PropTypes.func.isRequired
+  }
+
+  static contextTypes = {
+    store: PropTypes.object
   }
 
   componentWillReceiveProps (nextProps) {
@@ -147,11 +153,54 @@ export default class SchemaContainer extends Component {
     return await this.props.validateSchemaSlug({slug, schemaId});
   }
 
+  async onRestore (__v) {
+    this.setState({
+      status: 'saving',
+      savingLabel: 'Restoring revision'
+    });
+
+    try {
+      const schema = await this.props.restoreSchema(this.constructor.fragments, this.props.schema._id, __v);
+
+      this.setState({
+        status: 'success'
+      });
+
+      history.pushState({}, '', `/admin/schemas/${schema.restoreSchema.slug}`);
+      this.successTimeout = setTimeout(::this.onSuccessOut, 3000);
+    } catch (err) {
+      this.setState({
+        status: 'error'
+      });
+    }
+  }
+
+  getCurrentSchemaProps () {
+    const {schema} = this.props;
+
+    return {
+      _id: {
+        _id: schema._id,
+        __v: schema.__v
+      },
+      date: schema.updatedDate,
+      user: schema.updatedBy,
+      title: schema.title
+    };
+  }
+
   onRevisions (event) {
     event.preventDefault();
     this.props.addOverlay(
       'revisions',
-      RevisionsContainer
+      (
+        <RevisionsContainer
+          id={this.props.schema._id}
+          onRestore={::this.onRestore}
+          store={this.context.store}
+          current={this.getCurrentSchemaProps()}
+        />
+      )
     );
   }
 
@@ -164,6 +213,7 @@ export default class SchemaContainer extends Component {
         onChange={::this.onChange}
         onCreate={::this.onCreate}
         onSave={::this.onSave}
+        onRevisions={::this.onRevisions}
         validateSlug={::this.validateSlug}
         onPropertiesChange={::this.onPropertiesChange}
       />

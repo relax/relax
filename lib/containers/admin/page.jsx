@@ -168,8 +168,6 @@ export default class PageContainer extends Component {
   }
 
   async onRestore (__v) {
-    this.props.closeOverlay();
-
     this.setState({
       saving: true,
       savingLabel: 'Restoring revision'
