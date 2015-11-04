@@ -131,7 +131,7 @@ export default class Page extends Component {
 
   renderlinks () {
     if (!this.props.isNew) {
-      const buildLink = '/admin/page/' + this.props.page.slug;
+      const buildLink = '/admin/page/' + this.props.page._id;
       const viewLink = '/' + this.props.page.slug;
       const revisions = this.props.page.__v;
       return (

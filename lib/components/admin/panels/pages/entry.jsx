@@ -59,7 +59,7 @@ export default class Entry extends Component {
   render () {
     const page = this.props.page;
 
-    const editLink = '/admin/pages/' + page.slug;
+    const editLink = '/admin/pages/' + page._id;
     const buildLink = '/admin/page/' + page._id;
     const viewLink = '/' + page.slug;
     const published = page.state === 'published';

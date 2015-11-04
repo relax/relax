@@ -3,7 +3,6 @@ import * as overlaysActions from '../../client/actions/overlays';
 import * as pageBuilderActions from '../../client/actions/page-builder';
 import * as tabsActions from '../../client/actions/tabs';
 
-import forEach from 'lodash.foreach';
 import React, {cloneElement, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -44,9 +43,13 @@ export default class AdminContainer extends Component {
 
   getInitialState (props = this.props) {
     const params = props.params;
+    let lastDashboard = '/admin';
+    if (props.children.type.panelSettings.activePanelType !== 'pageBuild') {
+      lastDashboard = props.location.pathname;
+    }
     return {
       loading: false,
-      lastDashboard: '/admin',
+      lastDashboard,
       ...props.children.type.panelSettings,
       id: params.id,
       slug: params.slug,
@@ -64,7 +67,7 @@ export default class AdminContainer extends Component {
         params.entryId !== this.state.entryId) {
       let lastDashboard = this.state.lastDashboard;
       if (panelSettings.activePanelType !== 'pageBuild') {
-        lastDashboard = this.getUrlFromRoutes(nextProps.routes);
+        lastDashboard = nextProps.location.pathname;
       }
       this.setState({
         loading: true,
@@ -77,19 +80,6 @@ export default class AdminContainer extends Component {
         this.fetchData(nextProps);
       });
     }
-  }
-
-  getUrlFromRoutes (routes) {
-    let str = '';
-    forEach(routes, (route, index) => {
-      if (typeof route.path !== 'undefined') {
-        if (index > 0) {
-          str += '/';
-        }
-        str += route.path;
-      }
-    });
-    return str;
   }
 
   static getQueryAndVariables (props, state) {
@@ -160,10 +150,10 @@ export default class AdminContainer extends Component {
       case 'schema':
       case 'page':
       case 'menu':
-        if (props.params && props.params.slug !== 'new') {
+        if (props.params && props.params.id !== 'new') {
           vars[activePanelType] = {
-            slug: {
-              value: props.params && props.params.slug,
+            _id: {
+              value: props.params && props.params.id,
               type: 'String!'
             }
           };

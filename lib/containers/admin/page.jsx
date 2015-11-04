@@ -40,7 +40,7 @@ export default class PageContainer extends Component {
   static propTypes = {
     page: PropTypes.object,
     user: PropTypes.object,
-    slug: PropTypes.string,
+    id: PropTypes.string,
     changePageFields: PropTypes.func,
     changePageToDefault: PropTypes.func,
     addPage: PropTypes.func.isRequired,
@@ -56,7 +56,7 @@ export default class PageContainer extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.props.slug !== 'new' && nextProps.slug === 'new') {
+    if (this.props.id !== 'new' && nextProps.id === 'new') {
       this.props.changePageToDefault();
     }
   }
@@ -67,16 +67,17 @@ export default class PageContainer extends Component {
     }
   }
 
-  onSubmit (pageProps) {
+  async onSubmit (pageProps) {
     if (this.successTimeout) {
       clearTimeout(this.successTimeout);
     }
 
     const submitPage = cloneDeep(pageProps);
+    const isNew = this.isNew();
 
     let action;
 
-    if (this.isNew()) {
+    if (isNew) {
       submitPage.createdBy = this.props.user._id;
       action = this.props.addPage;
     } else {
@@ -86,22 +87,23 @@ export default class PageContainer extends Component {
 
     submitPage.updatedBy = this.props.user._id;
 
-    action(this.constructor.fragments, submitPage)
-      .then(() => {
-        this.setState({
-          saving: false,
-          success: true,
-          error: false
-        });
-        history.pushState({}, '', `/admin/pages/${submitPage.slug}`);
-        this.successTimeout = setTimeout(::this.onSuccessOut, 3000);
-      })
-      .catch((error) => {
-        this.setState({
-          saving: false,
-          error: true
-        });
+    try {
+      const resultPage = await action(this.constructor.fragments, submitPage);
+      this.setState({
+        saving: false,
+        success: true,
+        error: false
       });
+      if (isNew) {
+        history.pushState({}, '', `/admin/pages/${resultPage._id}`);
+      }
+      this.successTimeout = setTimeout(::this.onSuccessOut, 3000);
+    } catch (err) {
+      this.setState({
+        saving: false,
+        error: true
+      });
+    }
   }
 
   onSuccessOut () {
@@ -174,15 +176,12 @@ export default class PageContainer extends Component {
     });
 
     try {
-      const page = await this.props.restorePage(this.constructor.fragments, this.props.page._id, __v);
-
+      await this.props.restorePage(this.constructor.fragments, this.props.page._id, __v);
       this.setState({
         saving: false,
         success: true,
         error: false
       });
-
-      history.pushState({}, '', `/admin/pages/${page.restorePage.slug}`);
       this.successTimeout = setTimeout(::this.onSuccessOut, 3000);
     } catch (err) {
       this.setState({
