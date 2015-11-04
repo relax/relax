@@ -17,6 +17,7 @@ export default class SchemaEntry extends Component {
   static fragments = {
     schema: {
       _id: 1,
+      title: 1,
       slug: 1,
       properties: 1
     },
@@ -75,16 +76,19 @@ export default class SchemaEntry extends Component {
     const createdUser = this.props.isNew ? this.props.user : this.props.schemaEntry.createdBy;
     const updatedUser = this.props.isNew ? this.props.user : this.props.schemaEntry.updatedBy;
 
-    const breadcrumbs = this.props.breadcrumbs.slice();
-    breadcrumbs.push({
+    const breadcrumbs = [...this.props.breadcrumbs, {
+      label: this.props.schema.title,
+      type: 'schema',
+      link: '/admin/schema/' + this.props.schema._id
+    }, {
       label: this.props.schemaEntry.title
-    });
+    }];
 
     return (
       <div className='admin-schema-entry with-admin-sidebar'>
         <div className='content'>
           <div className='filter-menu'>
-            <Breadcrumbs data={this.props.breadcrumbs} />
+            <Breadcrumbs data={breadcrumbs} />
             {!this.props.isNew &&
               <A href={newLink} className='button-clean'>
                 <i className='material-icons'>library_add</i>

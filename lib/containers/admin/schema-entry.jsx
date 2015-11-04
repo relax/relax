@@ -30,15 +30,16 @@ export default class SchemaEntryContainer extends Component {
     activePanelType: 'schemaEntry',
     breadcrumbs: [
       {
-        label: 'SchemaList',
-        type: 'schemaList',
-        link: '/admin/schemaList'
+        label: 'Schemas',
+        type: 'schemas',
+        link: '/admin/schemas'
       }
     ]
   }
 
   static propTypes = {
     schemaEntry: PropTypes.object,
+    schema: PropTypes.object,
     user: PropTypes.object,
     schemaId: PropTypes.string,
     changeSchemaEntryFields: PropTypes.func,
@@ -67,7 +68,7 @@ export default class SchemaEntryContainer extends Component {
     }
   }
 
-  onSubmit (schemaEntryProps) {
+  async onSubmit (schemaEntryProps) {
     if (this.successTimeout) {
       clearTimeout(this.successTimeout);
     }
@@ -86,22 +87,21 @@ export default class SchemaEntryContainer extends Component {
 
     submitSchemaEntry.updatedBy = this.props.user._id;
 
-    action(this.constructor.fragments, submitSchemaEntry)
-      .then(() => {
-        this.setState({
-          saving: false,
-          success: true,
-          error: false
-        });
-        history.pushState({}, '', `/admin/schemaList/${submitSchemaEntry.slug}`);
-        this.successTimeout = setTimeout(::this.onSuccessOut, 3000);
-      })
-      .catch((error) => {
-        this.setState({
-          saving: false,
-          error: true
-        });
+    try {
+      const resultSchemaEntry = await action(this.constructor.fragments, this.props.schema._id, submitSchemaEntry);
+      this.setState({
+        saving: false,
+        success: true,
+        error: false
       });
+      history.pushState({}, '', `/admin/schema/${this.props.schema._id}/${resultSchemaEntry._id}`);
+      this.successTimeout = setTimeout(::this.onSuccessOut, 3000);
+    } catch (err) {
+      this.setState({
+        saving: false,
+        error: true
+      });
+    }
   }
 
   onSuccessOut () {
@@ -176,7 +176,11 @@ export default class SchemaEntryContainer extends Component {
     });
 
     try {
-      const schemaEntry = await this.props.restoreSchemaEntry(this.constructor.fragments, this.props.schemaEntry._id, __v);
+      const schemaEntry = await this.props.restoreSchemaEntry(
+        this.constructor.fragments,
+        this.props.schema._id,
+        this.props.schemaEntry._id, __v
+      );
 
       this.setState({
         saving: false,
@@ -228,7 +232,7 @@ export default class SchemaEntryContainer extends Component {
   }
 
   async validateSlug (slug, schemaEntryId = this.props.schemaEntry._id) {
-    return await this.props.validateSchemaEntrySlug({slug, schemaEntryId});
+    return await this.props.validateSchemaEntrySlug({slug, schemaId: this.props.schema._id, schemaEntryId});
   }
 
   render () {
