@@ -17,7 +17,9 @@ import Menus from '../../components/admin/panels/menus';
 )
 @queryProps({
   page: 1,
-  limit: 10
+  limit: 10,
+  sort: '_id',
+  order: 'desc'
 })
 export default class MenusContainer extends Component {
   static fragments = Menus.fragments

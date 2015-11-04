@@ -1,12 +1,12 @@
+import * as usersActions from '../../client/actions/users';
+
 import React, {PropTypes} from 'react';
-import {Component, buildQueryAndVariables} from 'relax-framework';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {Component, buildQueryAndVariables} from 'relax-framework';
 
 import queryProps from '../../decorators/query-props';
 import Users from '../../components/admin/panels/users';
-
-import * as usersActions from '../../client/actions/users';
 
 @connect(
   (state) => ({
@@ -17,7 +17,9 @@ import * as usersActions from '../../client/actions/users';
 )
 @queryProps({
   page: 1,
-  limit: 10
+  limit: 10,
+  sort: '_id',
+  order: 'desc'
 })
 export default class UsersContainer extends Component {
   static fragments = Users.fragments

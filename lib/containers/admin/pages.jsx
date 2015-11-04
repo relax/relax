@@ -17,7 +17,9 @@ import Pages from '../../components/admin/panels/pages';
 )
 @queryProps({
   page: 1,
-  limit: 10
+  limit: 10,
+  sort: '_id',
+  order: 'desc'
 })
 export default class PagesContainer extends Component {
   static fragments = Pages.fragments

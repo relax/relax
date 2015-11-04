@@ -18,7 +18,9 @@ import SchemaList from '../../components/admin/panels/schema-list';
 )
 @queryProps({
   page: 1,
-  limit: 10
+  limit: 10,
+  sort: '_id',
+  order: 'desc'
 })
 export default class SchemaListContainer extends Component {
   static fragments = SchemaList.fragments

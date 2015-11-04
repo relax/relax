@@ -17,7 +17,9 @@ import Schemas from '../../components/admin/panels/schemas';
 )
 @queryProps({
   page: 1,
-  limit: 10
+  limit: 10,
+  sort: '_id',
+  order: 'desc'
 })
 export default class SchemasContainer extends Component {
   static fragments = Schemas.fragments
