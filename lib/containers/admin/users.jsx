@@ -24,6 +24,15 @@ import Users from '../../components/admin/panels/users';
 export default class UsersContainer extends Component {
   static fragments = Users.fragments
 
+  static panelSettings = {
+    activePanelType: 'users',
+    breadcrumbs: [
+      {
+        label: 'Users'
+      }
+    ]
+  }
+
   static propTypes = {
     breadcrumbs: PropTypes.array.isRequired,
     users: PropTypes.array,
@@ -56,15 +65,6 @@ export default class UsersContainer extends Component {
         ))
         .done();
     }
-  }
-
-  static panelSettings = {
-    activePanelType: 'users',
-    breadcrumbs: [
-      {
-        label: 'Users'
-      }
-    ]
   }
 
   onAddNew (newUser) {

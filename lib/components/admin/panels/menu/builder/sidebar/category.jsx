@@ -1,5 +1,5 @@
-import {Component} from 'relax-framework';
 import React from 'react';
+import {Component} from 'relax-framework';
 
 export default class Category extends Component {
   static propTypes = {
@@ -8,7 +8,7 @@ export default class Category extends Component {
     defaultOpened: React.PropTypes.string.isRequired
   }
 
-  defaultProps = {
+  static defaultProps = {
     defaultOpened: true
   }
 

@@ -1,9 +1,10 @@
+import * as settingsActions from '../../client/actions/settings';
+
 import React, {PropTypes} from 'react';
-import {Component} from 'relax-framework';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {Component} from 'relax-framework';
 
-import * as settingsActions from '../../client/actions/settings';
 import Settings from '../../components/admin/panels/settings';
 
 @connect(
@@ -14,6 +15,15 @@ import Settings from '../../components/admin/panels/settings';
 )
 export default class SettingsContainer extends Component {
   static fragments = Settings.fragments
+
+  static panelSettings = {
+    activePanelType: 'settings',
+    breadcrumbs: [
+      {
+        label: 'Settings'
+      }
+    ]
+  }
 
   static propTypes = {
     settings: PropTypes.object.isRequired,
@@ -28,15 +38,6 @@ export default class SettingsContainer extends Component {
   }
 
   static settings = Settings.settings
-
-  static panelSettings = {
-    activePanelType: 'settings',
-    breadcrumbs: [
-      {
-        label: 'Settings'
-      }
-    ]
-  }
 
   onChange (id, value) {
     this.props.changeSettingValue(id, value);

@@ -1,9 +1,10 @@
+import * as fontsActions from '../../client/actions/fonts';
+
 import React, {PropTypes} from 'react';
-import {Component} from 'relax-framework';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {Component} from 'relax-framework';
 
-import * as fontsActions from '../../client/actions/fonts';
 import Fonts from '../../components/admin/panels/fonts';
 
 @connect(
@@ -14,6 +15,15 @@ import Fonts from '../../components/admin/panels/fonts';
 )
 export default class SettingsContainer extends Component {
   static fragments = Fonts.fragments
+
+  static panelSettings = {
+    activePanelType: 'fonts',
+    breadcrumbs: [
+      {
+        label: 'Fonts'
+      }
+    ]
+  }
 
   static propTypes = {
     settings: PropTypes.object.isRequired,
@@ -28,15 +38,6 @@ export default class SettingsContainer extends Component {
   }
 
   static settings = Fonts.settings
-
-  static panelSettings = {
-    activePanelType: 'fonts',
-    breadcrumbs: [
-      {
-        label: 'Fonts'
-      }
-    ]
-  }
 
   onChange (id, value) {
     this.props.changeSettingValue(id, value);

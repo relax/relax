@@ -1,6 +1,6 @@
 import React from 'react';
-import {Component} from 'relax-framework';
 import {connect} from 'react-redux';
+import {Component} from 'relax-framework';
 
 import UserEdit from '../../components/admin/panels/user-edit';
 
@@ -13,11 +13,6 @@ import UserEdit from '../../components/admin/panels/user-edit';
 export default class UserEditContainer extends Component {
   static fragments = UserEdit.fragments
 
-  static propTypes = {
-    user: React.PropTypes.object.isRequired,
-    breadcrumbs: React.PropTypes.array.isRequired
-  }
-
   static panelSettings = {
     activePanelType: 'userEdit',
     breadcrumbs: [
@@ -27,6 +22,11 @@ export default class UserEditContainer extends Component {
         link: '/admin/users'
       }
     ]
+  }
+
+  static propTypes = {
+    user: React.PropTypes.object.isRequired,
+    breadcrumbs: React.PropTypes.array.isRequired
   }
 
   render () {

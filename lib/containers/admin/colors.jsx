@@ -1,10 +1,11 @@
+import * as colorsActions from '../../client/actions/colors';
+
 import React from 'react';
-import {Component} from 'relax-framework';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {Component} from 'relax-framework';
 
 import Colors from '../../components/admin/panels/colors';
-import * as colorsActions from '../../client/actions/colors';
 
 @connect(
   (state) => ({
@@ -14,6 +15,15 @@ import * as colorsActions from '../../client/actions/colors';
 )
 export default class ColorsContainer extends Component {
   static fragments = Colors.fragments
+
+  static panelSettings = {
+    activePanelType: 'colors',
+    breadcrumbs: [
+      {
+        label: 'Colors'
+      }
+    ]
+  }
 
   static propTypes = {
     colors: React.PropTypes.array,
@@ -27,15 +37,6 @@ export default class ColorsContainer extends Component {
       edit: false,
       editingColor: false
     };
-  }
-
-  static panelSettings = {
-    activePanelType: 'colors',
-    breadcrumbs: [
-      {
-        label: 'Colors'
-      }
-    ]
   }
 
   onAddNew (event) {

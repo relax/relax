@@ -2,7 +2,6 @@ import * as dndActions from '../../client/actions/dnd';
 import * as menuActions from '../../client/actions/menu';
 
 import cloneDeep from 'lodash.clonedeep';
-import merge from 'lodash.merge';
 import Velocity from 'velocity-animate';
 import React, {findDOMNode, PropTypes} from 'react';
 import {connect} from 'react-redux';
@@ -148,11 +147,11 @@ export default class MenuContainer extends Component {
   }
 
   onChange (values) {
-    this.props.changeMenuFields(merge({}, this.props.menu, values));
+    this.props.changeMenuFields(Object.assign({}, this.props.menu, values));
   }
 
   onDataChange (value) {
-    this.props.changeMenuFields(merge({}, this.props.menu, {data: value}));
+    this.props.changeMenuFields(Object.assign({}, this.props.menu, {data: value}));
   }
 
   async validateSlug (slug) {

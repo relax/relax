@@ -1,9 +1,10 @@
+import * as usersActions from '../../client/actions/users';
+
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Component} from 'relax-framework';
 
-import * as usersActions from '../../client/actions/users';
 import AdminInit from '../../components/admin/init';
 
 @connect(

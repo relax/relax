@@ -5,7 +5,7 @@ import Entry from './entry';
 import {Droppable} from '../../../../../dnd';
 
 export default class Structure extends Component {
-  propTypes = {
+  static propTypes = {
     data: PropTypes.array.isRequired,
     dnd: PropTypes.object.isRequired,
     dndActions: PropTypes.object.isRequired

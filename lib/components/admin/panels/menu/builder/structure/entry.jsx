@@ -4,14 +4,14 @@ import {Component} from 'relax-framework';
 import {Droppable, Draggable} from '../../../../../dnd';
 
 export default class Entry extends Component {
-  propTypes = {
+  static propTypes = {
     entry: PropTypes.object.isRequired,
     dnd: PropTypes.object.isRequired,
     dndActions: PropTypes.object.isRequired,
     children: PropTypes.node
   }
 
-  contextTypes = {
+  static contextTypes = {
     onEntryRemove: React.PropTypes.func.isRequired
   }
 
