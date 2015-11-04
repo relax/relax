@@ -1,425 +1,92 @@
-import {Component, Router} from 'relax-framework';
-import merge from 'lodash.merge';
-import forEach from 'lodash.foreach';
-import clone from 'lodash.clone';
-import cloneDeep from 'lodash.clonedeep';
-import React from 'react';
 import cx from 'classnames';
+import forEach from 'lodash.foreach';
 import moment from 'moment';
-import Velocity from 'velocity-animate';
-import Utils from '../../../../utils';
+import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
 
 import A from '../../../a';
 import Animate from '../../../animate';
-import Spinner from '../../../spinner';
 import Breadcrumbs from '../../../breadcrumbs';
-import TitleSlug from '../../../title-slug';
 import OptionsList from '../../../options-list';
+import Spinner from '../../../spinner';
+import TitleSlug from '../../../title-slug';
+import Utils from '../../../../utils';
 import {TypesOptionsMap, TypesOptionsDefaultProps} from '../../../../data-types/options-map';
-import RevisionsOverlay from '../../revisions-overlay';
-
-import schemaEntriesStoreFactory from '../../../../client/stores/schema-entries';
-import schemaEntriesActionsFactory from '../../../../client/actions/schema-entries';
 
 export default class SchemaEntry extends Component {
-  getInitialState () {
-    schemaEntriesStoreFactory(this.context.schema.slug);
-    this.schemaEntriesActions = schemaEntriesActionsFactory(this.context.schema.slug);
-
-    let defaults = {
-      _title: 'New',
-      _slug: 'new',
-      _state: 'draft'
-    };
-
-    if (this.context.schema && this.context.schema.properties && this.context.schema.properties.length > 0) {
-      forEach(this.context.schema.properties, (property) => {
-        if (property.default !== null) {
-          defaults[property.id] = property.default;
-        }
-      });
-    }
-
-    return {
-      schema: this.context.schema,
-      schemaEntry: cloneDeep(this.context.schemaEntry) || defaults,
-      new: !(this.context.schemaEntry && this.context.schemaEntry._id),
-      breadcrumbs: this.context.breadcrumbs
-    };
-  }
-
-  componentDidUpdate () {
-    if ((!this.state.new && !this.context.schemaEntry) ||
-        (this.state.new && this.context.schemaEntry)) {
-      this.setState(this.getInitialState());
-    }
-  }
-
-  componentWillUnmount () {
-    super.componentWillUnmount();
-    if (this.successTimeout) {
-      clearTimeout(this.successTimeout);
-    }
-  }
-
-  onSubmit (data) {
-    if (this.successTimeout) {
-      clearTimeout(this.successTimeout);
-    }
-
-    let action, routerOptions;
-    if (this.state.new) {
-      data._createdBy = this.context.user._id;
-      action = this.schemaEntriesActions.add;
-      routerOptions = {trigger: true};
-    } else {
-      action = this.schemaEntriesActions.update;
-      routerOptions = {trigger: false, replace: true};
-    }
-
-    data._updatedBy = this.context.user._id;
-
-    action(data)
-      .then((schemaEntry) => {
-        this.setState({
-          saving: false,
-          schemaEntry,
-          success: true,
-          error: false,
-          new: false
-        });
-        Router.prototype.navigate('/admin/schema/'+this.context.schema.slug+'/'+schemaEntry._slug, routerOptions);
-        this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
-      })
-      .catch((error) => {
-        this.setState({
-          saving: false,
-          error: true
-        });
-      });
-  }
-
-  successOut () {
-    clearTimeout(this.successTimeout);
-
-    var dom = this.refs.success;
-    const transition = 'transition.slideDownOut';
-    Velocity(dom, transition, {
-      duration: 400,
-      display: null
-    }).then(() => {
-      this.setState({
-        success: false
-      });
-    });
-  }
-
-  onSaveDraft () {
-    this.setState({
-      saving: true,
-      savingLabel: 'Saving draft'
-    });
-
-    this.onSubmit(this.state.schemaEntry);
-  }
-
-  onUpdate () {
-    this.setState({
-      saving: true,
-      savingLabel: 'Updating entry'
-    });
-
-    this.onSubmit(this.state.schemaEntry);
-  }
-
-  onPublish () {
-    let clone = cloneDeep(this.state.schemaEntry);
-    clone._state = 'published';
-    clone._publishedDate = new Date();
-
-    this.setState({
-      saving: true,
-      savingLabel: 'Publishing'
-    });
-
-    this.onSubmit(clone);
-  }
-
-  onUnpublish () {
-    let clone = cloneDeep(this.state.schemaEntry);
-    clone._state = 'draft';
-
-    this.setState({
-      saving: true,
-      savingLabel: 'Saving and unpublishing'
-    });
-
-    this.onSubmit(clone);
-  }
-
-  onOverlap () {
-    let clone = cloneDeep(this.state.schemaEntry);
-    clone._overlap = true;
-
-    this.setState({
-      saving: true,
-      savingLabel: 'Overlaping schema template'
-    });
-
-    this.onSubmit(clone);
-  }
-
-  onRevertTemplate () {
-    let clone = cloneDeep(this.state.schemaEntry);
-    clone._overlap = false;
-    clone._data = [];
-
-    this.setState({
-      saving: true,
-      savingLabel: 'Reverting to schema template'
-    });
-
-    this.onSubmit(clone);
-  }
-
-  onFieldChange (id, value) {
-    this.state.schemaEntry[id] = value;
-
-    this.setState({
-      schemaEntry: this.state.schemaEntry
-    });
-  }
-
-  onChange (values) {
-    if (values.title) {
-      this.state.breadcrumbs[2].label = values.title;
-      this.state.schemaEntry._title = values.title;
-    }
-    if (values.slug) {
-      this.state.schemaEntry._slug = values.slug;
-    }
-
-    this.setState({
-      schemaEntry: this.state.schemaEntry,
-      breadcrumbs: this.state.breadcrumbs
-    });
-  }
-
-  validateSlug (slug) {
-    if (!this.state.new) {
-      if (this.context.schemaEntry._slug === slug) {
-        return false;
-      }
-    }
-
-    if (slug === 'new') {
-      return true;
-    }
-
-    return this.schemaEntriesActions.validateSlug(slug);
-  }
-
-  onRestore (__v) {
-    this.context.closeOverlay();
-
-    this.setState({
-      saving: true,
-      savingLabel: 'Restoring revision'
-    });
-
-    this.schemaEntriesActions
-      .restore({
-        _id: this.state.schemaEntry._id,
-        __v
-      })
-      .then((schemaEntry) => {
-        this.state.breadcrumbs[2].label = schemaEntry._title;
-        this.setState({
-          saving: false,
-          schemaEntry,
-          success: true,
-          error: false,
-          new: false,
-          breadcrumbs: this.state.breadcrumbs
-        });
-        Router.prototype.navigate('/admin/schema/'+this.context.schema.slug+'/'+schemaEntry._slug, {trigger: false, replace: true});
-        this.successTimeout = setTimeout(this.successOut.bind(this), 3000);
-      })
-      .catch(() => {
-        this.setState({
-          success: false
-        });
-      });
-  }
-
-  onRevisions (event) {
-    event.preventDefault();
-
-    const schemaEntry = this.context.schemaEntry;
-    let current = {
-      _id: {
-        _id: schemaEntry._id,
-        __v: schemaEntry.__v
+  static fragments = {
+    schema: {
+      _id: 1,
+      slug: 1,
+      properties: 1
+    },
+    schemaEntry: {
+      _id: 1,
+      __v: 1,
+      title: 1,
+      slug: 1,
+      state: 1,
+      date: 1,
+      updatedDate: 1,
+      createdBy: {
+        _id: 1,
+        email: 1,
+        name: 1
       },
-      date: schemaEntry._updatedDate,
-      user: schemaEntry._updatedBy,
-      title: schemaEntry._title
-    };
-
-    this.context.addOverlay(
-      <RevisionsOverlay current={current} onRestore={this.onRestore.bind(this)} />
-    );
-  }
-
-  renderProperty (property) {
-    // check dependencies
-    let show = true;
-    if (property.dependencies && property.dependencies.length > 0) {
-      forEach(property.dependencies, dependency => {
-        dependency.value = dependency.value === 'true' ? true : dependency.value;
-        if (this.state.schemaEntry[dependency.id] !== dependency.value) {
-          show = false;
-          return false;
-        }
-      });
-    }
-
-    if (show && TypesOptionsMap[property.type]) {
-      let Option = TypesOptionsMap[property.type];
-      let props = clone(TypesOptionsDefaultProps[property.type] || {});
-      merge(props, property.props || {});
-
-      let value = this.state.schemaEntry[property.id];
-
-      return (
-        <div className='option' key={property.id}>
-          <div className='label'>
-            <span>{property.title}</span>
-            {property.required && <span className='sub-label'>*</span>}
-          </div>
-          <Option onChange={this.onFieldChange.bind(this, property.id)} value={value} {...props} OptionsList={OptionsList} />
-        </div>
-      );
+      updatedBy: {
+        _id: 1,
+        email: 1,
+        name: 1
+      },
+      properties: 1
     }
   }
 
-  renderProperties () {
-    if (this.state.schema.properties && this.state.schema.properties.length > 0) {
-      return this.state.schema.properties.map(this.renderProperty, this);
-    }
-  }
-
-  renderBuildLinks () {
-    if (this.state.schemaEntry._overlap) {
-      const buildLink = '/admin/schema/'+this.context.schema.slug+'/'+this.state.schemaEntry._slug+'/single';
-      return (
-        <div>
-          <A className='link' href={buildLink}>
-            <i className='material-icons'>build</i>
-            <span>Build page</span>
-          </A>
-          <a href='#' className='link' onClick={this.onRevertTemplate.bind(this)}>
-            <i className='material-icons'>backspace</i>
-            <span>Revert to template</span>
-          </a>
-        </div>
-      );
-    } else {
-      return (
-        <a href='#' className='link' onClick={this.onOverlap.bind(this)}>
-          <i className='material-icons'>merge_type</i>
-          <span>Overlap template</span>
-        </a>
-      );
-    }
-  }
-
-  renderlinks () {
-    if (!this.state.new) {
-      const viewLink = '/'+this.context.schema.slug+'/'+this.state.schemaEntry._slug;
-      const revisions = this.state.schemaEntry.__v;
-      return (
-        <div className='links'>
-          {this.renderBuildLinks()}
-          <a className='link' href={viewLink} target='_blank'>
-            <i className='material-icons'>link</i>
-            <span>View</span>
-          </a>
-          {revisions > 0 &&
-            <a href='#' className='link' onClick={this.onRevisions.bind(this)}>
-              <i className='material-icons'>history</i>
-              <span>{'Revisions ('+revisions+')'}</span>
-            </a>
-          }
-        </div>
-      );
-    }
-  }
-
-  renderActions () {
-    if (this.state.schemaEntry._state === 'published') {
-      return (
-        <div className='actions'>
-          <div className={cx('button button-primary', this.state.saving && 'disabled')} onClick={this.onUpdate.bind(this)}>Update</div>
-          <div className={cx('button button-grey margined', this.state.saving && 'disabled')} onClick={this.onUnpublish.bind(this)}>Unpublish</div>
-        </div>
-      );
-    } else {
-      return (
-        <div className='actions'>
-          <div className={cx('button button-primary', this.state.saving && 'disabled')} onClick={this.onPublish.bind(this)}>Publish</div>
-          <div className={cx('button button-grey margined', this.state.saving && 'disabled')} onClick={this.onSaveDraft.bind(this)}>Save draft</div>
-        </div>
-      );
-    }
-  }
-
-  renderSaving () {
-    if (this.state.saving) {
-      return (
-        <Animate transition='slideDownIn' key='saving'>
-          <div className='saving'>
-            <Spinner />
-            <span>{this.state.savingLabel}</span>
-          </div>
-        </Animate>
-      );
-    } else if (this.state.error) {
-      return (
-        <Animate transition='slideDownIn'  key='error'>
-          <div className='error' ref='success'>
-            <i className='material-icons'>error_outline</i>
-            <span>Something went bad!</span>
-          </div>
-        </Animate>
-      );
-    } else if (this.state.success) {
-      return (
-        <Animate transition='slideDownIn'  key='success'>
-          <div className='success' ref='success'>
-            <i className='material-icons'>check</i>
-            <span>All good!</span>
-          </div>
-        </Animate>
-      );
-    }
+  static propTypes = {
+    schema: PropTypes.object,
+    schemaEntry: PropTypes.object,
+    user: PropTypes.object,
+    breadcrumbs: PropTypes.array,
+    isNew: PropTypes.bool,
+    errors: PropTypes.any,
+    isSlugValid: PropTypes.bool,
+    validateSlug: PropTypes.func,
+    onChange: PropTypes.func,
+    changeSchemaEntryProperty: PropTypes.func,
+    saving: PropTypes.bool,
+    onUpdate: PropTypes.func,
+    onPublish: PropTypes.func,
+    onUnpublish: PropTypes.func,
+    onSaveDraft: PropTypes.func,
+    onRevisions: PropTypes.func,
+    onRevertTemplate: PropTypes.func,
+    onOverlap: PropTypes.func,
+    savingLabel: PropTypes.string,
+    error: PropTypes.bool,
+    success: PropTypes.bool
   }
 
   render () {
-    const published = this.state.schemaEntry._state === 'published';
-    const createdDate = this.state.new ? 'Creating' : moment(this.state.schemaEntry._date).format('MMMM Do YYYY');
-    const publishedDate = !published ? 'Unpublished' : moment(this.state.schemaEntry._publishedDate).format('MMMM Do YYYY');
+    const published = this.props.schemaEntry.state === 'published';
+    const createdDate = this.props.isNew ? 'Creating' : moment(this.props.schemaEntry.date).format('MMMM Do YYYY');
+    const publishedDate = !published ? 'Unpublished' : moment(this.props.schemaEntry.publishedDate).format('MMMM Do YYYY');
+    const newLink = '/admin/schema/' + this.props.schema._id + '/new';
 
-    const createdUser = this.state.new ? this.context.user : this.state.schemaEntry._createdBy;
-    const updatedUser = this.state.new ? this.context.user : this.state.schemaEntry._updatedBy;
+    const createdUser = this.props.isNew ? this.props.user : this.props.schemaEntry.createdBy;
+    const updatedUser = this.props.isNew ? this.props.user : this.props.schemaEntry.updatedBy;
+
+    const breadcrumbs = this.props.breadcrumbs.slice();
+    breadcrumbs.push({
+      label: this.props.schemaEntry.title
+    });
 
     return (
       <div className='admin-schema-entry with-admin-sidebar'>
         <div className='content'>
           <div className='filter-menu'>
-            <Breadcrumbs data={this.state.breadcrumbs} />
-            {!this.state.new &&
-              <A href={'/admin/schema/'+this.context.schema.slug+'/new'} className='button-clean'>
+            <Breadcrumbs data={this.props.breadcrumbs} />
+            {!this.props.isNew &&
+              <A href={newLink} className='button-clean'>
                 <i className='material-icons'>library_add</i>
                 <span>Add new entry</span>
               </A>
@@ -428,10 +95,11 @@ export default class SchemaEntry extends Component {
           <div className='admin-scrollable'>
             <div className='white-options list'>
               <TitleSlug
-                title={this.state.schemaEntry._title}
-                slug={this.state.schemaEntry._slug}
-                validateSlug={this.validateSlug.bind(this)}
-                onChange={this.onChange.bind(this)}
+                title={this.props.schemaEntry.title}
+                slug={this.props.schemaEntry.slug}
+                isSlugValid={this.props.isSlugValid}
+                validateSlug={this.props.validateSlug}
+                onChange={this.props.onChange}
               />
               {this.renderProperties()}
             </div>
@@ -442,9 +110,9 @@ export default class SchemaEntry extends Component {
             <div className={cx('info', !published && 'alerted')}>
               <i className='material-icons'>{published ? 'cloud_queue' : 'cloud_off'}</i>
               <span>State</span>
-              <div>{this.state.schemaEntry._state}</div>
+              <div>{this.props.schemaEntry.state}</div>
             </div>
-            <div className={cx('info', this.state.new && 'alerted')}>
+            <div className={cx('info', this.props.isNew && 'alerted')}>
               <i className='material-icons'>today</i>
               <span>Created at</span>
               <div>{createdDate}</div>
@@ -472,13 +140,142 @@ export default class SchemaEntry extends Component {
       </div>
     );
   }
-}
 
-SchemaEntry.contextTypes = {
-  schema: React.PropTypes.object.isRequired,
-  schemaEntry: React.PropTypes.object.isRequired,
-  breadcrumbs: React.PropTypes.array.isRequired,
-  user: React.PropTypes.object.isRequired,
-  addOverlay: React.PropTypes.func.isRequired,
-  closeOverlay: React.PropTypes.func.isRequired
-};
+  renderlinks () {
+    if (!this.props.isNew) {
+      const viewLink = '/' + this.props.schema.slug + '/' + this.props.schemaEntry.slug;
+      const revisions = this.props.schemaEntry.__v;
+      return (
+        <div className='links'>
+          {this.renderBuildLinks()}
+          <a className='link' href={viewLink} target='_blank'>
+            <i className='material-icons'>link</i>
+            <span>View</span>
+          </a>
+          {revisions > 0 &&
+            <a href='#' className='link' onClick={this.onRevisions.bind(this)}>
+              <i className='material-icons'>history</i>
+              <span>{'Revisions (' + revisions + ')'}</span>
+            </a>
+          }
+        </div>
+      );
+    }
+  }
+
+  renderActions () {
+    let result;
+    if (this.props.schemaEntry.state === 'published') {
+      result = (
+        <div className='actions'>
+          <div className={cx('button button-primary', this.props.saving && 'disabled')} onClick={this.props.onUpdate}>Update</div>
+          <div className={cx('button button-grey margined', this.props.saving && 'disabled')} onClick={this.props.onUnpublish}>Unpublish</div>
+        </div>
+      );
+    } else {
+      result = (
+        <div className='actions'>
+          <div className={cx('button button-primary', this.props.saving && 'disabled')} onClick={this.props.onPublish}>Publish</div>
+          <div className={cx('button button-grey margined', this.props.saving && 'disabled')} onClick={this.props.onSaveDraft}>Save draft</div>
+        </div>
+      );
+    }
+    return result;
+  }
+
+  renderSaving () {
+    let result;
+    if (this.props.saving) {
+      result = (
+        <Animate transition='slideDownIn' key='saving'>
+          <div className='saving'>
+            <Spinner />
+            <span>{this.props.savingLabel}</span>
+          </div>
+        </Animate>
+      );
+    } else if (this.props.error) {
+      result = (
+        <Animate transition='slideDownIn' key='error'>
+          <div className='error' ref='success'>
+            <i className='material-icons'>error_outline</i>
+            <span>Something went bad!</span>
+          </div>
+        </Animate>
+      );
+    } else if (this.props.success) {
+      result = (
+        <Animate transition='slideDownIn' key='success'>
+          <div className='success' ref='success'>
+            <i className='material-icons'>check</i>
+            <span>All good!</span>
+          </div>
+        </Animate>
+      );
+    }
+    return result;
+  }
+
+  renderBuildLinks () {
+    let result;
+    if (this.props.schemaEntry._overlap) {
+      const buildLink = '/admin/schema/' + this.props.schema._id + '/' + this.props.schemaEntry._id + '/single';
+      result = (
+        <div>
+          <A className='link' href={buildLink}>
+            <i className='material-icons'>build</i>
+            <span>Build page</span>
+          </A>
+          <a href='#' className='link' onClick={this.props.onRevertTemplate}>
+            <i className='material-icons'>backspace</i>
+            <span>Revert to template</span>
+          </a>
+        </div>
+      );
+    } else {
+      result = (
+        <a href='#' className='link' onClick={this.props.onOverlap}>
+          <i className='material-icons'>merge_type</i>
+          <span>Overlap template</span>
+        </a>
+      );
+    }
+    return result;
+  }
+
+  renderProperties () {
+    if (this.props.schema.properties && this.props.schema.properties.length > 0) {
+      return this.props.schema.properties.map(this.renderProperty, this);
+    }
+  }
+
+  renderProperty (property) {
+    // check dependencies
+    let show = true;
+    if (property.dependencies && property.dependencies.length > 0) {
+      forEach(property.dependencies, dependency => {
+        dependency.value = dependency.value === 'true' ? true : dependency.value;
+        if (this.props.schemaEntry[dependency.id] !== dependency.value) {
+          show = false;
+          return false;
+        }
+      });
+    }
+
+    if (show && TypesOptionsMap[property.type]) {
+      const Option = TypesOptionsMap[property.type];
+      const props = Object.assign({}, TypesOptionsDefaultProps[property.type] || {}, property.props || {});
+      const value = this.props.schemaEntry[property.id];
+
+      return (
+        <div className='option' key={property.id}>
+          <div className='label'>
+            <span>{property.title}</span>
+            {property.required && <span className='sub-label'>*</span>}
+          </div>
+          <Option onChange={this.props.changeSchemaEntryProperty.bind(this, property.id)} value={value} {...props} OptionsList={OptionsList} />
+        </div>
+      );
+    }
+  }
+}

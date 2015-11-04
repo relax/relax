@@ -49,7 +49,8 @@ export default class AdminContainer extends Component {
       lastDashboard: '/admin',
       ...props.children.type.panelSettings,
       id: params.id,
-      slug: params.slug
+      slug: params.slug,
+      entryId: params.entryId
     };
   }
 
@@ -69,7 +70,8 @@ export default class AdminContainer extends Component {
         lastDashboard,
         ...panelSettings,
         id: params.id,
-        slug: params.slug
+        slug: params.slug,
+        entryId: params.entryId
       }, () => {
         this.fetchData(nextProps);
       });
@@ -162,6 +164,22 @@ export default class AdminContainer extends Component {
             slug: {
               value: props.params && props.params.slug,
               type: 'String!'
+            }
+          };
+        } else {
+          panelFragments[activePanelType] && delete panelFragments[activePanelType];
+        }
+        break;
+      case 'schemaEntry':
+        if (props.params && props.params.entryId !== 'new') {
+          vars.schemaEntry = {
+            id: {
+              value: props.params && props.params.id,
+              type: 'ID!'
+            },
+            schemaId: {
+              value: props.params && props.params.entryId,
+              type: 'ID!'
             }
           };
         } else {
