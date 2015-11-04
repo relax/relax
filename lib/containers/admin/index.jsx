@@ -106,6 +106,21 @@ export default class AdminContainer extends Component {
           ...props.queryVariables || getQueryVariables(panel.defaultQuery)
         };
         break;
+      case 'schemaList':
+        vars.schemaList = {
+          schemaId: {
+            value: props.params.id,
+            type: 'ID!'
+          },
+          ...props.queryVariables || getQueryVariables(panel.defaultQuery)
+        };
+        vars.schemaListCount = {
+          schemaId: {
+            value: props.params.id,
+            type: 'ID!'
+          }
+        };
+        break;
       case 'pageBuild':
         vars.page = {
           _id: {

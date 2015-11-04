@@ -1,53 +1,71 @@
-import React from 'react';
-import {Component} from 'relax-framework';
-import List from './list';
-import A from '../../../a';
-import Filter from '../../../filter';
-import Pagination from '../../../pagination';
-import Breadcrumbs from '../../../breadcrumbs';
+import React, {PropTypes} from 'react';
+import {Component, mergeFragments} from 'relax-framework';
 
-import schemaEntriesStoreFactory from '../../../../client/stores/schema-entries';
+import A from '../../../a';
+import Breadcrumbs from '../../../breadcrumbs';
+import Filter from '../../../filter';
+import List from './list';
+import Pagination from '../../../pagination';
 
 export default class Schema extends Component {
-  getInitialState () {
-    return {
-      schemaEntries: this.context.schemaEntries
-    };
-  }
+  static fragments = mergeFragments({
+    schemaListCount: {
+      count: 1
+    },
+    schema: {
+      _id: 1,
+      slug: 1,
+      title: 1
+    }
+  }, List.fragments)
 
-  getInitialCollections () {
-    return {
-      schemaEntries: schemaEntriesStoreFactory(this.context.schema.slug).getCollection()
-    };
+  static propTypes = {
+    schemaEntries: PropTypes.array.isRequired,
+    schema: PropTypes.object.isRequired,
+    breadcrumbs: PropTypes.array.isRequired,
+    schemaList: PropTypes.array.isRequired,
+    count: PropTypes.number.isRequired,
+    query: PropTypes.object
   }
 
   render () {
-    const newLink = '/admin/schema/'+this.context.schema.slug+'/new';
+    const newLink = '/admin/schema/' + this.props.schema._id + '/new';
+    const link = '/admin/schema/' + this.props.schema._id;
+    const breadcrumbs = this.props.breadcrumbs.slice();
+    breadcrumbs.push({
+      label: this.props.schema.title
+    });
     return (
       <div className='admin-schema'>
         <div className='filter-menu'>
-          <Breadcrumbs data={this.context.breadcrumbs} />
+          <Breadcrumbs data={breadcrumbs} />
           <A href={newLink} className='button-clean'>
             <i className='material-icons'>library_add</i>
             <span>Add new entry</span>
           </A>
           <Filter
-            sorts={[{label: 'Date', property: '_id'}, {label: 'Title', property: '_title'}, {label: 'Slug', property: '_slug'}]}
-            url={'/admin/schema/'+this.context.schema.slug}
-            search='_title'
+            sorts={[
+              {label: 'Date', property: '_id'},
+              {label: 'Title', property: 'title'},
+              {label: 'Slug', property: 'slug'}
+            ]}
+            url={link}
+            search='title'
+            query={this.props.query}
           />
         </div>
         <div className='admin-scrollable'>
-          <List schemaEntries={this.state.schemaEntries} />
-          <Pagination url={'/admin/schema/'+this.context.schema.slug}/>
+          <List
+            schemaList={this.props.schemaList}
+            schema={this.props.schema}
+          />
+          <Pagination
+            url={link}
+            query={this.props.query}
+            count={this.props.count}
+          />
         </div>
       </div>
     );
   }
 }
-
-Schema.contextTypes = {
-  schemaEntries: React.PropTypes.array.isRequired,
-  schema: React.PropTypes.object.isRequired,
-  breadcrumbs: React.PropTypes.array.isRequired
-};

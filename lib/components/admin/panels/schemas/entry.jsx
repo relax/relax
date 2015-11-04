@@ -48,7 +48,7 @@ export default class Entry extends Component {
 
   render () {
     const schema = this.props.schema;
-    const viewLink = '/admin/schema/' + schema.slug;
+    const viewLink = '/admin/schema/' + schema._id;
     const editLink = '/admin/schemas/' + schema.slug;
     const buildTemplateLink = '/admin/schemas/' + schema.slug + '/template';
 

@@ -1,13 +1,31 @@
-import A from '../../../a';
-import Lightbox from '../../../lightbox';
+import cx from 'classnames';
+import moment from 'moment';
 import React from 'react';
 import {Component} from 'relax-framework';
-import moment from 'moment';
-import cx from 'classnames';
 
-import schemaEntriesActionsFactory from '../../../../client/actions/schema-entries';
+import A from '../../../a';
+import Lightbox from '../../../lightbox';
 
 export default class Entry extends Component {
+  static fragments = {
+    schemaEntry: {
+      _id: 1,
+      title: 1,
+      slug: 1,
+      date: 1,
+      state: 1,
+      properties: 1
+    },
+    schema: {
+      _id: 1,
+      slug: 1
+    }
+  }
+  static propTypes = {
+    schema: React.PropTypes.object.isRequired,
+    schemaItem: React.PropTypes.object.isRequired
+  }
+
   getInitialState () {
     return {
       removing: false
@@ -30,35 +48,18 @@ export default class Entry extends Component {
 
   confirmRemove (event) {
     event.preventDefault();
-    schemaEntriesActionsFactory(this.props.schema.slug).remove(this.props.schemaItem._id);
+    // TODO remove action
     this.setState({
       removing: false
     });
   }
 
-  renderRemoving () {
-    if (this.state.removing) {
-      const label = 'Are you sure you want to remove the post '+this.props.schemaItem._title+'?';
-      const label1 = 'This action cannot be reverted';
-      return (
-        <Lightbox className='small' header={false}>
-          <div className='big centered'>{label}</div>
-          <div className='medium centered'>{label1}</div>
-          <div className='centered space-above'>
-            <a className='button button-grey margined' href='#' onClick={this.cancelRemove.bind(this)}>No, abort!</a>
-            <a className='button button-alert margined' href='#' onClick={this.confirmRemove.bind(this)}>Yes, delete it!</a>
-          </div>
-        </Lightbox>
-      );
-    }
-  }
-
   render () {
     const schemaItem = this.props.schemaItem;
-    let editLink = '/admin/schema/'+this.props.schema.slug+'/'+schemaItem._slug;
-    let viewLink = '/'+this.props.schema.slug+'/'+schemaItem._slug;
-    const published = schemaItem._state === 'published';
-    let date = 'Created - ' + moment(schemaItem._date).format('MMMM Do YYYY');
+    const editLink = '/admin/schema/' + this.props.schema.slug + '/' + schemaItem.slug;
+    const viewLink = '/' + this.props.schema.slug + '/' + schemaItem.slug;
+    const published = schemaItem.state === 'published';
+    const date = 'Created - ' + moment(schemaItem.date).format('MMMM Do YYYY');
 
     return (
       <div key={schemaItem._id} className='entry'>
@@ -67,14 +68,14 @@ export default class Entry extends Component {
         </div>
         <div className='info-part'>
           <div>
-            <span className='title'>{schemaItem._title}</span>
+            <span className='title'>{schemaItem.title}</span>
             <a className='sub-title' href={viewLink} target='_blank'>
               <i className='material-icons'>link</i>
               <span>{viewLink}</span>
             </a>
           </div>
           <div className='under-title'>{date}</div>
-          <div className='under-title'>{schemaItem._state}</div>
+          <div className='under-title'>{schemaItem.state}</div>
           <div className='actions'>
             <A href={editLink}>
               <i className='material-icons'>mode_edit</i>
@@ -94,9 +95,21 @@ export default class Entry extends Component {
       </div>
     );
   }
-}
 
-Entry.propTypes = {
-  schema: React.PropTypes.object.isRequired,
-  schemaItem: React.PropTypes.object.isRequired
-};
+  renderRemoving () {
+    if (this.state.removing) {
+      const label = 'Are you sure you want to remove the post ' + this.props.schemaItem.title + '?';
+      const label1 = 'This action cannot be reverted';
+      return (
+        <Lightbox className='small' header={false}>
+          <div className='big centered'>{label}</div>
+          <div className='medium centered'>{label1}</div>
+          <div className='centered space-above'>
+            <a className='button button-grey margined' href='#' onClick={this.cancelRemove.bind(this)}>No, abort!</a>
+            <a className='button button-alert margined' href='#' onClick={this.confirmRemove.bind(this)}>Yes, delete it!</a>
+          </div>
+        </Lightbox>
+      );
+    }
+  }
+}

@@ -1,19 +1,33 @@
 import React from 'react';
 import {Component} from 'relax-framework';
+
 import Entry from './entry';
 
 export default class List extends Component {
-  renderEntry (schemaItem) {
+  static fragments = {
+    schemaList: Entry.fragments.schemaEntry,
+    schema: Entry.fragments.schema
+  }
+
+  static propTypes = {
+    schemaList: React.PropTypes.array.isRequired,
+    schema: React.PropTypes.object.isRequired
+  }
+
+  render () {
     return (
-      <Entry key={schemaItem._id} schema={this.context.schema} schemaItem={schemaItem} />
+      <div className='list'>
+        {this.renderEntries()}
+      </div>
     );
   }
 
   renderEntries () {
-    if (this.props.schemaEntries && this.props.schemaEntries.length > 0) {
-      return this.props.schemaEntries.map(this.renderEntry, this);
+    let result;
+    if (this.props.schemaList && this.props.schemaList.length > 0) {
+      result = this.props.schemaList.map(this.renderEntry, this);
     } else {
-      return (
+      result = (
         <div className='none-warning'>
           <div className='none-icon-part'>
             <i className='material-icons'>error_outline</i>
@@ -25,21 +39,16 @@ export default class List extends Component {
         </div>
       );
     }
+    return result;
   }
 
-  render () {
+  renderEntry (schemaItem) {
     return (
-      <div className='list'>
-        {this.renderEntries()}
-      </div>
+      <Entry
+        key={schemaItem._id}
+        schema={this.props.schema}
+        schemaItem={schemaItem}
+      />
     );
   }
 }
-
-List.propTypes = {
-  schemaEntries: React.PropTypes.array
-};
-
-List.contextTypes = {
-  schema: React.PropTypes.object.isRequired
-};
