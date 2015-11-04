@@ -56,7 +56,7 @@ export default class Entry extends Component {
 
   render () {
     const schemaItem = this.props.schemaItem;
-    const editLink = '/admin/schema/' + this.props.schema.slug + '/' + schemaItem.slug;
+    const editLink = '/admin/schema/' + this.props.schema._id + '/' + schemaItem._id;
     const viewLink = '/' + this.props.schema.slug + '/' + schemaItem.slug;
     const published = schemaItem.state === 'published';
     const date = 'Created - ' + moment(schemaItem.date).format('MMMM Do YYYY');

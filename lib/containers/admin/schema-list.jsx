@@ -11,7 +11,7 @@ import SchemaList from '../../components/admin/panels/schema-list';
 @connect(
   (state) => ({
     schema: state.schema.data,
-    schemaEntries: state.schemaList.data.items,
+    schemaList: state.schemaList.data.items,
     count: state.schemaList.data.count
   }),
   (dispatch) => bindActionCreators(schemaListActions, dispatch)
@@ -43,7 +43,17 @@ export default class SchemaListContainer extends Component {
     if (nextProps.hasQueryChanged) {
       const vars = {
         schemaList: {
+          schemaId: {
+            value: nextProps.params.id,
+            type: 'ID!'
+          },
           ...nextProps.queryVariables
+        },
+        schemaListCount: {
+          schemaId: {
+            value: nextProps.params.id,
+            type: 'ID!'
+          }
         }
       };
 

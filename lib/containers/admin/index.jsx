@@ -174,11 +174,11 @@ export default class AdminContainer extends Component {
         if (props.params && props.params.entryId !== 'new') {
           vars.schemaEntry = {
             id: {
-              value: props.params && props.params.id,
+              value: props.params && props.params.entryId,
               type: 'ID!'
             },
             schemaId: {
-              value: props.params && props.params.entryId,
+              value: props.params && props.params.id,
               type: 'ID!'
             }
           };

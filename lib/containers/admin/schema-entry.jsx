@@ -227,6 +227,14 @@ export default class SchemaEntryContainer extends Component {
     );
   }
 
+  onRevertTemplate (event) {
+    event.preventDefault();
+  }
+
+  onOverlap (event) {
+    event.preventDefault();
+  }
+
   isNew () {
     return !this.props.schemaEntry._id;
   }
@@ -249,6 +257,8 @@ export default class SchemaEntryContainer extends Component {
         onUnpublish={::this.onUnpublish}
         onUpdate={::this.onUpdate}
         validateSlug={::this.validateSlug}
+        onRevertTemplate={::this.onRevertTemplate}
+        onOverlap={::this.onOverlap}
       />
     );
   }

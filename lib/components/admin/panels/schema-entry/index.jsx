@@ -157,7 +157,7 @@ export default class SchemaEntry extends Component {
             <span>View</span>
           </a>
           {revisions > 0 &&
-            <a href='#' className='link' onClick={this.onRevisions.bind(this)}>
+            <a href='#' className='link' onClick={this.props.onRevisions.bind(this)}>
               <i className='material-icons'>history</i>
               <span>{'Revisions (' + revisions + ')'}</span>
             </a>

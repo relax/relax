@@ -20,7 +20,6 @@ export default class Schema extends Component {
   }, List.fragments)
 
   static propTypes = {
-    schemaEntries: PropTypes.array.isRequired,
     schema: PropTypes.object.isRequired,
     breadcrumbs: PropTypes.array.isRequired,
     schemaList: PropTypes.array.isRequired,
