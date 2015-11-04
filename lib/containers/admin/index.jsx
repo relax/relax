@@ -118,19 +118,19 @@ export default class AdminContainer extends Component {
         vars.page = {
           _id: {
             value: props.params && props.params.id,
-            type: 'String!'
+            type: 'ID!'
           }
         };
         vars.draft = {
           id: {
             value: props.params && props.params.id,
-            type: 'String!'
+            type: 'ID!'
           }
         };
         vars.tab = {
           id: {
             value: props.params && props.params.id,
-            type: 'String!'
+            type: 'ID!'
           },
           type: {
             value: 'page',
@@ -154,7 +154,7 @@ export default class AdminContainer extends Component {
           vars[activePanelType] = {
             _id: {
               value: props.params && props.params.id,
-              type: 'String!'
+              type: 'ID!'
             }
           };
         } else {
