@@ -1,5 +1,5 @@
 import cloneDeep from 'lodash.clonedeep';
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import {Draggable} from '../../../../../dnd';
@@ -11,6 +11,12 @@ export default class Entry extends Component {
       title: 1,
       slug: 1
     }
+  }
+
+  static propTypes = {
+    entry: PropTypes.object.isRequired,
+    dnd: PropTypes.object.isRequired,
+    dndActions: PropTypes.object.isRequired
   }
 
   render () {
@@ -30,7 +36,7 @@ export default class Entry extends Component {
     }
 
     return (
-      <Draggable dragInfo={dragInfo}>
+      <Draggable dragInfo={dragInfo} dnd={this.props.dnd} dndActions={this.props.dndActions}>
         <div className='link-entry'>
           <i className='material-icons'>{icon}</i>
           <span className='title'>{label}</span>
@@ -43,7 +49,3 @@ export default class Entry extends Component {
     );
   }
 }
-
-Entry.propTypes = {
-  entry: React.PropTypes.object.isRequired
-};

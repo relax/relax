@@ -1,3 +1,4 @@
+import * as dndActions from '../../client/actions/dnd';
 import * as menuActions from '../../client/actions/menu';
 
 import cloneDeep from 'lodash.clonedeep';
@@ -15,9 +16,13 @@ import Menu from '../../components/admin/panels/menu';
     pages: state.pages.data.items,
     menu: state.menu.data,
     isSlugValid: state.menu.isSlugValid,
-    errors: state.menu.errors
+    errors: state.menu.errors,
+    dnd: state.dnd
   }),
-  (dispatch) => bindActionCreators(menuActions, dispatch)
+  (dispatch) => ({
+    ...bindActionCreators(menuActions, dispatch),
+    dndActions: bindActionCreators(dndActions, dispatch)
+  })
 )
 export default class MenuContainer extends Component {
   static fragments = Menu.fragments

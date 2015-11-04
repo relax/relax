@@ -1,10 +1,15 @@
+import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
-import React from 'react';
 
-import Input from '../../../../../data-types/input';
 import Entry from './entry';
+import Input from '../../../../../data-types/input';
 
 export default class Builder extends Component {
+  static propTypes = {
+    dnd: PropTypes.object.isRequired,
+    dndActions: PropTypes.object.isRequired
+  }
+
   getInitialState () {
     return {
       label: '',
@@ -37,7 +42,7 @@ export default class Builder extends Component {
           <div className='label'>Link</div>
           <Input value={this.state.link} onChange={this.onChange.bind(this, 'link')} />
         </div>
-        <Entry entry={customEntry} />
+        <Entry entry={customEntry} dnd={this.props.dnd} dndActions={this.props.dndActions} />
       </div>
     );
   }

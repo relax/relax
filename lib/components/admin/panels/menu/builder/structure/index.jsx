@@ -6,13 +6,21 @@ import {Droppable} from '../../../../../dnd';
 
 export default class Structure extends Component {
   propTypes = {
-    data: PropTypes.array.isRequired
+    data: PropTypes.array.isRequired,
+    dnd: PropTypes.object.isRequired,
+    dndActions: PropTypes.object.isRequired
   }
 
   render () {
     return (
       <div className='menu-builder-structure'>
-        <Droppable dropInfo={{id: 'base'}} placeholder placeholderContent={'Drop links here'} minHeight={7}>
+        <Droppable
+          dropInfo={{id: 'base'}}
+          placeholder
+          placeholderContent={'Drop links here'}
+          minHeight={7}
+          dnd={this.props.dnd}
+          dndActions={this.props.dndActions}>
           {this.props.data.map(this.renderEntry, this)}
         </Droppable>
       </div>
@@ -21,7 +29,11 @@ export default class Structure extends Component {
 
   renderEntry (entry) {
     return (
-      <Entry entry={entry} key={entry.id}>
+      <Entry
+        entry={entry}
+        key={entry.id}
+        dnd={this.props.dnd}
+        dndActions={this.props.dndActions}>
         {
           entry.children &&
           entry.children.constructor === Array &&

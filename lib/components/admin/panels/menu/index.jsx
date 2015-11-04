@@ -1,14 +1,14 @@
-import {Component, mergeFragments} from 'relax-framework';
-import React from 'react';
 import cx from 'classnames';
 import moment from 'moment';
+import React from 'react';
+import {Component, mergeFragments} from 'relax-framework';
 
-import Builder from './builder';
-import NotFound from '../not-found';
 import A from '../../../a';
 import Animate from '../../../animate';
-import Spinner from '../../../spinner';
 import Breadcrumbs from '../../../breadcrumbs';
+import Builder from './builder';
+import NotFound from '../not-found';
+import Spinner from '../../../spinner';
 import TitleSlug from '../../../title-slug';
 import {getGravatarImage} from '../../../../utils';
 
@@ -62,11 +62,24 @@ export default class Menu extends Component {
     user: React.PropTypes.object,
     errors: React.PropTypes.any,
     breadcrumbs: React.PropTypes.array,
-    slug: React.PropTypes.string
+    slug: React.PropTypes.string,
+    isSlugValid: React.PropTypes.bool.isRequired,
+    validateSlug: React.PropTypes.func.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    pages: React.PropTypes.array.isRequired,
+    onDataChange: React.PropTypes.func.isRequired,
+    saving: React.PropTypes.bool.isRequired,
+    success: React.PropTypes.bool.isRequired,
+    savingLabel: React.PropTypes.string.isRequired,
+    error: React.PropTypes.bool.isRequired,
+    onUpdate: React.PropTypes.func.isRequired,
+    onCreate: React.PropTypes.func.isRequired,
+    dnd: React.PropTypes.object.isRequired,
+    dndActions: React.PropTypes.object.isRequired
   }
 
   isNew () {
-    return !this.props.menu._id && this.props.slug === 'new';
+    return !this.props.menu._id;
   }
 
   render () {
@@ -109,6 +122,8 @@ export default class Menu extends Component {
                   data={this.props.menu.data}
                   pages={this.props.pages}
                   onChange={this.props.onDataChange}
+                  dnd={this.props.dnd}
+                  dndActions={this.props.dndActions}
                 />
               </div>
             </div>

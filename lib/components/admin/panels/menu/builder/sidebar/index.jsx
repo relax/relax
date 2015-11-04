@@ -1,5 +1,5 @@
-import {Component} from 'relax-framework';
 import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
 
 import Category from './category';
 import Custom from './custom';
@@ -11,7 +11,9 @@ export default class Sidebar extends Component {
   }
 
   static propTypes = {
-    pages: PropTypes.array
+    pages: PropTypes.array,
+    dnd: PropTypes.object.isRequired,
+    dndActions: PropTypes.object.isRequired
   }
 
   getInitialState () {
@@ -33,7 +35,7 @@ export default class Sidebar extends Component {
           {this.props.pages.map(this.renderPageEntry, this)}
         </Category>
         <Category title='Custom' icon='link'>
-          <Custom />
+          <Custom dnd={this.props.dnd} dndActions={this.props.dndActions} />
         </Category>
       </div>
     );
@@ -45,7 +47,7 @@ export default class Sidebar extends Component {
       page: entry
     };
     return (
-      <Entry entry={menuEntry} key={entry._id} />
+      <Entry entry={menuEntry} key={entry._id} dnd={this.props.dnd} dndActions={this.props.dndActions} />
     );
   }
 }

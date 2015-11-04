@@ -5,25 +5,24 @@ import {Component} from 'relax-framework';
 
 import Sidebar from './sidebar';
 import Structure from './structure';
+import {Dragger} from '../../../../dnd';
 
 export default class Builder extends Component {
   static fragments = Sidebar.fragments
 
   static propTypes = {
     dnd: PropTypes.object.isRequired,
+    dndActions: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
     data: PropTypes.array.isRequired,
     pages: PropTypes.array.isRequired
   }
 
   static childContextTypes = {
-    onEntryRemove: React.PropTypes.func.isRequired,
-    onStartDrag: React.PropTypes.func.isRequired,
-    dragging: React.PropTypes.bool.isRequired
+    onEntryRemove: React.PropTypes.func.isRequired
   }
 
   getInitialState () {
-    this.onStartDragBind = this.onStartDrag.bind(this);
     this.onEntryRemoveBind = this.onEntryRemove.bind(this);
 
     return {
@@ -33,9 +32,7 @@ export default class Builder extends Component {
 
   getChildContext () {
     return {
-      onEntryRemove: this.onEntryRemoveBind,
-      onStartDrag: this.onStartDragBind,
-      dragging: this.state.dragging
+      onEntryRemove: this.onEntryRemoveBind
     };
   }
 
@@ -90,11 +87,9 @@ export default class Builder extends Component {
     return result;
   }
 
-  draggedComponent (dragReport) {
+  draggedComponent () {
     const dataDuplicate = cloneDeep(this.props.data);
-
-    const dragInfo = dragReport.dragInfo;
-    const dropInfo = dragReport.dropInfo;
+    const {dragInfo, dropInfo} = this.props.dnd;
 
     // dropped no where
     if (!dropInfo || !dragInfo) {
@@ -137,10 +132,10 @@ export default class Builder extends Component {
 
   render () {
     return (
-      <div className={this.state.dragging && 'dragging'}>
+      <div className={this.props.dnd.dragging && 'dragging'}>
         <div className='menu-builder'>
-          <Sidebar pages={this.props.pages} />
-          <Structure data={this.props.data} />
+          <Sidebar pages={this.props.pages} dnd={this.props.dnd} dndActions={this.props.dndActions} />
+          <Structure data={this.props.data} dnd={this.props.dnd} dndActions={this.props.dndActions} />
         </div>
         {this.renderDragger()}
       </div>
@@ -151,7 +146,11 @@ export default class Builder extends Component {
     const {dragging} = this.props.dnd;
     if (dragging) {
       return (
-        <Dragger onStopDrag={this.draggedComponent.bind(this)} />
+        <Dragger
+          onStopDrag={::this.draggedComponent}
+          dnd={this.props.dnd}
+          dndActions={this.props.dndActions}
+        />
       );
     }
   }

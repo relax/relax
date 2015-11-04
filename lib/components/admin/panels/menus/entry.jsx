@@ -1,7 +1,8 @@
+import cx from 'classnames';
+import moment from 'moment';
 import React from 'react';
 import {Component} from 'relax-framework';
-import moment from 'moment';
-import cx from 'classnames';
+
 import A from '../../../a';
 import Lightbox from '../../../lightbox';
 
@@ -51,7 +52,7 @@ export default class Entry extends Component {
 
   render () {
     const menu = this.props.menu;
-    const editLink = '/admin/menus/' + menu.slug;
+    const editLink = '/admin/menus/' + menu._id;
     const date = 'Created - ' + moment(menu.date).format('MMMM Do YYYY');
 
     return (

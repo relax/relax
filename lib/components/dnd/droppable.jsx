@@ -289,8 +289,12 @@ export default class Droppable extends Component {
   }
 
   showMarks () {
-    const {selectedParent, selectedId} = this.props.pageBuilder;
-    return (selectedParent === this.props.dropInfo.id || (selectedId === this.props.dropInfo.id));
+    let result = false;
+    if (this.props.pageBuilder) {
+      const {selectedParent, selectedId} = this.props.pageBuilder;
+      result = (selectedParent === this.props.dropInfo.id || (selectedId === this.props.dropInfo.id));
+    }
+    return result;
   }
 
   isActive () {
