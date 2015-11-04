@@ -269,7 +269,7 @@ export default class SchemaEntry extends Component {
     if (show && TypesOptionsMap[property.type]) {
       const Option = TypesOptionsMap[property.type];
       const props = Object.assign({}, TypesOptionsDefaultProps[property.type] || {}, property.props || {});
-      const value = this.props.schemaEntry[property.id];
+      const value = this.props.schemaEntry.properties && this.props.schemaEntry.properties[property.id];
 
       return (
         <div className='option' key={property.id}>

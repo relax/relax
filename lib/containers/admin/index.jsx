@@ -60,7 +60,8 @@ export default class AdminContainer extends Component {
 
     if (panelSettings.activePanelType !== this.state.activePanelType ||
         params.slug !== this.state.slug ||
-        params.id !== this.state.id) {
+        params.id !== this.state.id ||
+        params.entryId !== this.state.entryId) {
       let lastDashboard = this.state.lastDashboard;
       if (panelSettings.activePanelType !== 'pageBuild') {
         lastDashboard = this.getUrlFromRoutes(nextProps.routes);

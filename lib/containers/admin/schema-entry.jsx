@@ -188,7 +188,7 @@ export default class SchemaEntryContainer extends Component {
         error: false
       });
 
-      history.pushState({}, '', `/admin/schemaList/${schemaEntry.restoreSchemaEntry._id}`);
+      history.pushState({}, '', `/admin/schema/${this.props.schema._id}/${schemaEntry.restoreSchemaEntry._id}`);
       this.successTimeout = setTimeout(::this.onSuccessOut, 3000);
     } catch (err) {
       this.setState({
