@@ -11,7 +11,8 @@ export default class List extends Component {
 
   static propTypes = {
     schemaList: React.PropTypes.array.isRequired,
-    schema: React.PropTypes.object.isRequired
+    schema: React.PropTypes.object.isRequired,
+    removeSchemaEntry: React.PropTypes.func.isRequired
   }
 
   render () {
@@ -42,12 +43,13 @@ export default class List extends Component {
     return result;
   }
 
-  renderEntry (schemaItem) {
+  renderEntry (schemaEntry) {
     return (
       <Entry
-        key={schemaItem._id}
+        key={schemaEntry._id}
         schema={this.props.schema}
-        schemaItem={schemaItem}
+        schemaEntry={schemaEntry}
+        removeSchemaEntry={this.props.removeSchemaEntry}
       />
     );
   }

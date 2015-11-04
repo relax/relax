@@ -24,7 +24,8 @@ export default class Schema extends Component {
     breadcrumbs: PropTypes.array.isRequired,
     schemaList: PropTypes.array.isRequired,
     count: PropTypes.number.isRequired,
-    query: PropTypes.object
+    query: PropTypes.object,
+    removeSchemaEntry: PropTypes.func.isRequired
   }
 
   render () {
@@ -57,6 +58,7 @@ export default class Schema extends Component {
           <List
             schemaList={this.props.schemaList}
             schema={this.props.schema}
+            removeSchemaEntry={this.props.removeSchemaEntry}
           />
           <Pagination
             url={link}

@@ -23,7 +23,8 @@ export default class Entry extends Component {
   }
   static propTypes = {
     schema: React.PropTypes.object.isRequired,
-    schemaItem: React.PropTypes.object.isRequired
+    schemaEntry: React.PropTypes.object.isRequired,
+    removeSchemaEntry: React.PropTypes.func.isRequired
   }
 
   getInitialState () {
@@ -48,34 +49,34 @@ export default class Entry extends Component {
 
   confirmRemove (event) {
     event.preventDefault();
-    // TODO remove action
+    this.props.removeSchemaEntry(this.constructor.fragments, this.props.schema._id, this.props.schemaEntry._id);
     this.setState({
       removing: false
     });
   }
 
   render () {
-    const schemaItem = this.props.schemaItem;
-    const editLink = '/admin/schema/' + this.props.schema._id + '/' + schemaItem._id;
-    const viewLink = '/' + this.props.schema.slug + '/' + schemaItem.slug;
-    const published = schemaItem.state === 'published';
-    const date = 'Created - ' + moment(schemaItem.date).format('MMMM Do YYYY');
+    const {schemaEntry} = this.props;
+    const editLink = '/admin/schema/' + this.props.schema._id + '/' + schemaEntry._id;
+    const viewLink = '/' + this.props.schema.slug + '/' + schemaEntry.slug;
+    const published = schemaEntry.state === 'published';
+    const date = 'Created - ' + moment(schemaEntry.date).format('MMMM Do YYYY');
 
     return (
-      <div key={schemaItem._id} className='entry'>
+      <div key={schemaEntry._id} className='entry'>
         <div className={cx('icon-part', !published && 'unpublished')}>
           <i className='material-icons'>{published ? 'cloud_queue' : 'cloud_off'}</i>
         </div>
         <div className='info-part'>
           <div>
-            <span className='title'>{schemaItem.title}</span>
+            <span className='title'>{schemaEntry.title}</span>
             <a className='sub-title' href={viewLink} target='_blank'>
               <i className='material-icons'>link</i>
               <span>{viewLink}</span>
             </a>
           </div>
           <div className='under-title'>{date}</div>
-          <div className='under-title'>{schemaItem.state}</div>
+          <div className='under-title'>{schemaEntry.state}</div>
           <div className='actions'>
             <A href={editLink}>
               <i className='material-icons'>mode_edit</i>
@@ -98,7 +99,7 @@ export default class Entry extends Component {
 
   renderRemoving () {
     if (this.state.removing) {
-      const label = 'Are you sure you want to remove the post ' + this.props.schemaItem.title + '?';
+      const label = 'Are you sure you want to remove the post ' + this.props.schemaEntry.title + '?';
       const label1 = 'This action cannot be reverted';
       return (
         <Lightbox className='small' header={false}>
