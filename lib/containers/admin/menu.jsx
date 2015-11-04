@@ -27,6 +27,17 @@ import Menu from '../../components/admin/panels/menu';
 export default class MenuContainer extends Component {
   static fragments = Menu.fragments
 
+  static panelSettings = {
+    activePanelType: 'menu',
+    breadcrumbs: [
+      {
+        label: 'Menus',
+        type: 'menus',
+        link: '/admin/menus'
+      }
+    ]
+  }
+
   static propTypes = {
     menu: PropTypes.object,
     user: PropTypes.object,
@@ -52,17 +63,6 @@ export default class MenuContainer extends Component {
     }
   }
 
-  static panelSettings = {
-    activePanelType: 'menu',
-    breadcrumbs: [
-      {
-        label: 'Menus',
-        type: 'menus',
-        link: '/admin/menus'
-      }
-    ]
-  }
-
   async onSubmit (menuProps) {
     if (this.successTimeout) {
       clearTimeout(this.successTimeout);
@@ -71,8 +71,9 @@ export default class MenuContainer extends Component {
     const submitMenu = cloneDeep(menuProps);
 
     let action;
+    const isNew = this.isNew();
 
-    if (this.isNew()) {
+    if (isNew) {
       submitMenu.createdBy = this.props.user._id;
       action = ::this.props.addMenu;
     } else {
@@ -83,9 +84,10 @@ export default class MenuContainer extends Component {
 
     submitMenu.updatedBy = this.props.user._id;
 
-    var hasErrors = false;
+    let hasErrors = false;
+    let resultMenu;
     try {
-      await action(this.constructor.fragments, submitMenu);
+      resultMenu = await action(this.constructor.fragments, submitMenu);
     } catch (ex) {
       hasErrors = true;
       console.error(ex);
@@ -98,7 +100,9 @@ export default class MenuContainer extends Component {
         error: false,
         new: false
       });
-      history.pushState({}, '', `/admin/menus/${submitMenu.slug}`);
+      if (isNew) {
+        history.pushState({}, '', `/admin/menus/${resultMenu._id}`);
+      }
       this.successTimeout = setTimeout(::this.onSuccessOut, 3000);
     } else {
       this.setState({
