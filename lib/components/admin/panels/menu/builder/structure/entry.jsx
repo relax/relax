@@ -29,7 +29,7 @@ export default class Entry extends Component {
     let label;
     let icon;
     if (this.props.entry.type === 'page') {
-      label = this.props.entry.page.title;
+      label = this.props.entry.page && this.props.entry.page.title || '(Removed page)';
       icon = 'insert_drive_file';
     } else if (this.props.entry.type === 'link') {
       label = this.props.entry.link.label;
