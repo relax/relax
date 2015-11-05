@@ -24,7 +24,8 @@ export default class Admin extends Component {
     loading: PropTypes.bool,
     removeTab: PropTypes.func.isRequired,
     editing: PropTypes.bool.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired
+    pageBuilderActions: PropTypes.object.isRequired,
+    overlays: PropTypes.array.isRequired
   }
 
   static defaultProps = {
@@ -34,7 +35,7 @@ export default class Admin extends Component {
   render () {
     return (
       <div>
-        <div className={cx('blurr', this.state.overlay && 'blurred', !this.props.editing && 'previewing')}>
+        <div className={cx('blurr', this.props.overlays.length && 'blurred', !this.props.editing && 'previewing')}>
           <div className='close-preview' onClick={this.props.pageBuilderActions.toggleEditing}>Close preview</div>
           <TopMenu {...this.props} />
           <div className='admin-holder'>

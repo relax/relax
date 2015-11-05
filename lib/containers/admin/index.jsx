@@ -107,6 +107,12 @@ export default class AdminContainer extends Component {
           },
           ...props.queryVariables || getQueryVariables(panel.defaultQuery)
         };
+        vars.schema = {
+          _id: {
+            value: props.params.id,
+            type: 'ID!'
+          }
+        };
         vars.schemaListCount = {
           schemaId: {
             value: props.params.id,
@@ -162,6 +168,12 @@ export default class AdminContainer extends Component {
         }
         break;
       case 'schemaEntry':
+        vars.schema = {
+          _id: {
+            value: props.params.id,
+            type: 'ID!'
+          }
+        };
         if (props.params && props.params.entryId !== 'new') {
           vars.schemaEntry = {
             id: {
@@ -218,15 +230,17 @@ export default class AdminContainer extends Component {
 
   render () {
     return (
-      <Admin {...this.props} {...this.props.params} {...this.state}>
-        {cloneElement(this.props.children, {
-          ...this.props,
-          ...this.props.params,
-          ...this.state,
-          ref: 'panel'
-        })}
+      <div>
+        <Admin {...this.props} {...this.props.params} {...this.state}>
+          {cloneElement(this.props.children, {
+            ...this.props,
+            ...this.props.params,
+            ...this.state,
+            ref: 'panel'
+          })}
+        </Admin>
         <Overlays overlays={this.props.overlays} />
-      </Admin>
+      </div>
     );
   }
 }

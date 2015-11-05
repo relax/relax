@@ -41,7 +41,7 @@ export default class SchemaEntryContainer extends Component {
     schemaEntry: PropTypes.object,
     schema: PropTypes.object,
     user: PropTypes.object,
-    schemaId: PropTypes.string,
+    id: PropTypes.string.isRequired,
     changeSchemaEntryFields: PropTypes.func,
     changeSchemaEntryToDefault: PropTypes.func,
     addSchemaEntry: PropTypes.func.isRequired,
@@ -57,7 +57,7 @@ export default class SchemaEntryContainer extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.props.schemaId !== 'new' && nextProps.schemaId === 'new') {
+    if (this.props.id !== 'new' && nextProps.id === 'new') {
       this.props.changeSchemaEntryToDefault();
     }
   }

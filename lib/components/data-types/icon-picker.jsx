@@ -1,9 +1,7 @@
 import React from 'react';
 import {Component} from 'relax-framework';
-import IconManager from './icon-manager';
 
-// import settingsStore from '../client/stores/settings';
-// import settingsActions from '../client/actions/settings';
+import IconManager from './icon-manager';
 
 export default class IconPicker extends Component {
   getInitialState () {
@@ -77,6 +75,16 @@ export default class IconPicker extends Component {
   //   });
   }
 
+  render () {
+    return (
+      <div className='icon-picker'>
+        {this.renderSelected()}
+        {this.renderPicker()}
+        {this.renderManager()}
+      </div>
+    );
+  }
+
   renderSelected () {
     if (this.props.value) {
       return (
@@ -86,6 +94,27 @@ export default class IconPicker extends Component {
       );
     } else {
       return <p onClick={this.open.bind(this)}>No icon selected</p>;
+    }
+  }
+
+  renderPicker () {
+    if (this.state.opened) {
+      return (
+        <div className='icon-picker-opened' onMouseEnter={this.enter.bind(this)} onMouseLeave={this.closeDelay.bind(this)}>
+          <div className='scrollable'>
+            {this.renderIcons()}
+          </div>
+          <a className='manage-icons' href='#' onClick={this.onManagerOpen.bind(this)}><i className='fa fa-plus'></i> Manage icons</a>
+        </div>
+      );
+    }
+  }
+
+  renderIcons () {
+    if (this.state.icons.value && this.state.icons.value.length > 0) {
+      return this.state.icons.value.map(this.renderIcon, this);
+    } else {
+      return <p>No icons selected yet, you can add icons by opening the icon manager below</p>;
     }
   }
 
@@ -103,42 +132,11 @@ export default class IconPicker extends Component {
     );
   }
 
-  renderIcons () {
-    if (this.state.icons.value && this.state.icons.value.length > 0) {
-      return this.state.icons.value.map(this.renderIcon, this);
-    } else {
-      return <p>No icons selected yet, you can add icons by opening the icon manager below</p>;
-    }
-  }
-
-  renderPicker () {
-    if (this.state.opened) {
-      return (
-        <div className='icon-picker-opened' onMouseEnter={this.enter.bind(this)} onMouseLeave={this.closeDelay.bind(this)}>
-          <div className='scrollable'>
-            {this.renderIcons()}
-          </div>
-          <a className='manage-icons' href='#' onClick={this.onManagerOpen.bind(this)}><i className='fa fa-plus'></i> Manage icons</a>
-        </div>
-      );
-    }
-  }
-
   renderManager () {
     if (this.state.manager) {
       var icons = this.state.icons.value || [];
       return <IconManager toggleIcon={this.toggleIcon.bind(this)} onClose={this.onManagerClose.bind(this)} icons={icons} />;
     }
-  }
-
-  render () {
-    return (
-      <div className='icon-picker'>
-        {this.renderSelected()}
-        {this.renderPicker()}
-        {this.renderManager()}
-      </div>
-    );
   }
 }
 
