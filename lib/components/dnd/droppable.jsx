@@ -324,8 +324,9 @@ export default class Droppable extends Component {
       const marker = (
         <Marker key='marker' dnd={this.props.dnd} />
       );
+      const markerPosition = this.draggerPosition || dropInfo.position;
 
-      children.splice(this.draggerPosition, 0, marker);
+      children.splice(markerPosition, 0, marker);
     } else if (hasChildren && !dragging && this.showMarks()) {
       const tempChildren = [
         this.renderMark(0)

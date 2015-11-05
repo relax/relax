@@ -11,7 +11,7 @@ export default class Entry extends Component {
     dndActions: PropTypes.object.isRequired,
     pageBuilder: PropTypes.object.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
-    id: React.PropTypes.number.isRequired,
+    id: React.PropTypes.string.isRequired,
     elementInfo: React.PropTypes.object.isRequired,
     toggleExpand: React.PropTypes.func.isRequired,
     isExpanded: React.PropTypes.bool.isRequired,
@@ -26,7 +26,7 @@ export default class Entry extends Component {
   }
 
   onClick () {
-    // this.context.selectElement(this.props.id);
+    this.props.pageBuilderActions.selectElement(this.props.id);
   }
 
   onMouseOver (event) {
@@ -65,7 +65,7 @@ export default class Entry extends Component {
 
   duplicate (event) {
     event.preventDefault();
-    // this.context.duplicateElement(this.props.id);
+    this.props.pageBuilderActions.duplicateElement(this.props.id);
     this.setState({
       options: false
     });
@@ -73,7 +73,7 @@ export default class Entry extends Component {
 
   remove (event) {
     event.preventDefault();
-    // this.context.removeElement(this.props.id);
+    this.props.pageBuilderActions.removeElement(this.props.id);
     this.setState({
       options: false
     });
@@ -117,8 +117,8 @@ export default class Entry extends Component {
     if (this.state.options) {
       return (
         <OptionsMenu options={[
-          {label: 'Duplicate', action: this.duplicate.bind(this), icon: 'fa fa-copy'},
-          {label: 'Remove', action: this.remove.bind(this), icon: 'fa fa-trash-o'}
+          {label: 'Duplicate', action: ::this.duplicate, icon: 'fa fa-copy'},
+          {label: 'Remove', action: ::this.remove, icon: 'fa fa-trash-o'}
         ]} />
       );
     }

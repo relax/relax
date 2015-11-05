@@ -76,7 +76,7 @@ export default class Layers extends Component {
     } else {
       result = (
         <ul>
-          <Droppable type={parent.type} dropInfo={dropInfo} {...dropSettings} hitSpace={12} pageBuilder={this.props.pageBuilder} dnd={this.props.dnd} dndActions={this.props.dndActions}>
+          <Droppable type={parent.type} dropInfo={dropInfo} {...dropSettings} hitSpace={12} dnd={this.props.dnd} dndActions={this.props.dndActions}>
             {children.map(this.renderListEntry, this)}
           </Droppable>
         </ul>
