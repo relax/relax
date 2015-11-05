@@ -1,61 +1,68 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
 import forEach from 'lodash.foreach';
-import slugify from 'slug';
-import $ from 'jquery';
+import React, {PropTypes} from 'react';
+
+import propsSchema from './props-schema';
+import settings from './settings';
 import Component from '../../component';
 import Element from '../../element';
 
-import settings from './settings';
-import propsSchema from './props-schema';
-
-import schemaEntriesActionsFactory from '../../../client/actions/schema-entries';
+// import slugify from 'slug';
 
 export default class Form extends Component {
+  static propTypes = {
+    action: PropTypes.string,
+    schema: PropTypes.string,
+    custom: PropTypes.string,
+    children: PropTypes.node
+  }
+
+  static propsSchema = propsSchema
+  static settings = settings
+
   sendEmail (formData) {
-    $
-      .post('/send-email', formData)
-      .done((response) => {
-
-      })
-      .fail((error) => {
-
-      });
+    // $
+    //   .post('/send-email', formData)
+    //   .done((response) => {
+    //
+    //   })
+    //   .fail((error) => {
+    //
+    //   });
   }
 
   addToSchema (formData) {
-    let actions = schemaEntriesActionsFactory(this.props.schema);
-
-    // Check required fields
-    if (formData._title && !formData._slug) {
-      formData._slug = slugify(formData._title, {lower: true}).toLowerCase();
-    }
-
-    actions
-      .add(formData)
-      .then((result) => {
-
-      })
-      .catch(() => {
-
-      });
+    // let actions = schemaEntriesActionsFactory(this.props.schema);
+    //
+    // // Check required fields
+    // if (formData._title && !formData._slug) {
+    //   formData._slug = slugify(formData._title, {lower: true}).toLowerCase();
+    // }
+    //
+    // actions
+    //   .add(formData)
+    //   .then((result) => {
+    //
+    //   })
+    //   .catch(() => {
+    //
+    //   });
   }
 
   sendCustom (formData) {
-    $
-      .post(this.props.custom, formData)
-      .done((response) => {
-
-      })
-      .fail((error) => {
-
-      });
+    // $
+    //   .post(this.props.custom, formData)
+    //   .done((response) => {
+    //
+    //   })
+    //   .fail((error) => {
+    //
+    //   });
   }
 
   onSubmit (event) {
     event.preventDefault();
-    const formElement = ReactDOM.findDOMNode(this);
-    let formData = {};
+    const formElement = React.findDOMNode(this);
+    const formData = {};
 
     forEach(formElement.elements, (element) => {
       formData[element.name] = element.value;
@@ -71,29 +78,10 @@ export default class Form extends Component {
   }
 
   render () {
-    let props = {
-      tag: 'form',
-      element: this.props.element,
-      settings: this.constructor.settings,
-      onSubmit: this.onSubmit.bind(this)
-    };
-
     return (
-      <Element {...props}>
+      <Element info={this.props} htmlTag='form' settings={settings} onSubmit={::this.onSubmit}>
         {this.props.children}
-        <input type='submit' hidden='true' />
       </Element>
     );
   }
 }
-
-Form.propTypes = {
-  action: React.PropTypes.string,
-  schema: React.PropTypes.string,
-  custom: React.PropTypes.string
-};
-
-Form.defaultProps = {};
-
-Form.propsSchema = propsSchema;
-Form.settings = settings;
