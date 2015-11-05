@@ -5,6 +5,12 @@ import {Component} from 'relax-framework';
 import Editor from '../medium-editor';
 
 export default class HtmlArea extends Component {
+  static propTypes = {
+    value: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    className: React.PropTypes.string
+  }
+
   render () {
     return (
       <div className={classNames('html-area', this.props.className)}>
@@ -26,9 +32,3 @@ export default class HtmlArea extends Component {
     );
   }
 }
-
-HtmlArea.propTypes = {
-  value: React.PropTypes.string.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  className: React.PropTypes.string
-};
