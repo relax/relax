@@ -116,7 +116,7 @@ export default class Fonts extends Component {
         return true;
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   }
 

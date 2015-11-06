@@ -1,11 +1,12 @@
-import {Component} from 'relax-framework';
 import React from 'react';
 import Velocity from 'velocity-animate';
+import {Component} from 'relax-framework';
 
 export default class AnimateProps extends Component {
   static propTypes = {
     props: React.PropTypes.object,
-    options: React.PropTypes.object
+    options: React.PropTypes.object,
+    children: React.PropTypes.node
   }
 
   static defaultProps = {

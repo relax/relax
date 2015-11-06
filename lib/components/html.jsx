@@ -1,13 +1,25 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 export default class Html extends React.Component {
-  renderTag (tag) {
-    tag.props = tag.props || {};
-    if (tag.content) {
-      tag.props.dangerouslySetInnerHTML = {__html: tag.content};
-    }
+  static propTypes = {
+    locals: PropTypes.object,
+    props: PropTypes.any,
+    body: PropTypes.any
+  }
+
+  render () {
     return (
-      <tag.tag {...tag.props} />
+      <html>
+        <head>
+          {this.renderHeader()}
+          <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+        </head>
+        <body>
+          <div id='view' dangerouslySetInnerHTML={{__html: this.props.body}} />
+          <script dangerouslySetInnerHTML={{__html: `window.__initialState = ${this.props.props};`}} />
+          {this.renderFooter()}
+        </body>
+      </html>
     );
   }
 
@@ -23,19 +35,13 @@ export default class Html extends React.Component {
     }
   }
 
-  render () {
+  renderTag (tag) {
+    tag.props = tag.props || {};
+    if (tag.content) {
+      tag.props.dangerouslySetInnerHTML = {__html: tag.content};
+    }
     return (
-      <html>
-        <head>
-          {this.renderHeader()}
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        </head>
-        <body>
-          <div id='view' dangerouslySetInnerHTML={{__html: this.props.body}} />
-          <script dangerouslySetInnerHTML={{__html: `window.__initialState = ${this.props.props};`}} />
-          {this.renderFooter()}
-        </body>
-      </html>
+      <tag.tag {...tag.props} />
     );
   }
 }
