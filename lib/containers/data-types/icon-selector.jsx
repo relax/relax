@@ -32,7 +32,8 @@ export default class IconSelectorContainer extends Component {
   getInitialState () {
     return {
       selectedFamily: 0,
-      selected: this.props.value
+      selected: this.props.value,
+      search: ''
     };
   }
 
@@ -71,6 +72,12 @@ export default class IconSelectorContainer extends Component {
     });
   }
 
+  changeSearch (value) {
+    this.setState({
+      search: value
+    });
+  }
+
   render () {
     return (
       <IconSelector
@@ -79,6 +86,7 @@ export default class IconSelectorContainer extends Component {
         icons={iconsData}
         changeSelectedFamily={::this.changeSelectedFamily}
         onSelectedChange={::this.onSelectedChange}
+        changeSearch={::this.changeSearch}
       />
     );
   }

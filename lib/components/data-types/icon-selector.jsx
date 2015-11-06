@@ -12,7 +12,9 @@ export default class IconSelector extends Component {
     icons: PropTypes.array.isRequired,
     selectedFamily: PropTypes.number.isRequired,
     changeSelectedFamily: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired,
+    search: PropTypes.string.isRequired,
+    changeSearch: PropTypes.func.isRequired
   }
 
   changeIconFamily (value) {
@@ -26,6 +28,10 @@ export default class IconSelector extends Component {
 
   onEntryClick (icon) {
     this.props.onSelectedChange(icon);
+  }
+
+  onSearchChange (event) {
+    this.props.changeSearch(event.target.value);
   }
 
   render () {
@@ -56,9 +62,23 @@ export default class IconSelector extends Component {
           </div>
         </div>
         <div className='modal-content-area'>
-          <GeminiScrollbar autoshow>
-            {this.renderFamilyIcons(icons[this.props.selectedFamily])}
-          </GeminiScrollbar>
+          <div className='search-bar'>
+            <a href={icons[this.props.selectedFamily].link} target='_blank'>
+              <span>{icons[this.props.selectedFamily].family}</span>
+              <span> site</span>
+            </a>
+            <div className='search-part'>
+              <div className='search-input'>
+                <i className='material-icons'>search</i>
+                <input type='text' value={this.props.search} onChange={::this.onSearchChange} />
+              </div>
+            </div>
+          </div>
+          <div className='content-area-scrollable'>
+            <GeminiScrollbar autoshow>
+              {this.renderFamilyIcons(icons[this.props.selectedFamily])}
+            </GeminiScrollbar>
+          </div>
         </div>
       </div>
     );
@@ -66,7 +86,7 @@ export default class IconSelector extends Component {
 
   renderIconFamily (iconFamily, key) {
     return (
-      <div className={cx('icon-family', key === this.props.selectedFamily && 'selected')} onClick={this.changeSelectedFamily.bind(this, key)}>
+      <div className={cx('icon-family', key === this.props.selectedFamily && 'selected')} key={key} onClick={this.changeSelectedFamily.bind(this, key)}>
         <span>{iconFamily.family}</span>
         <Checkbox value={false} onChange={this.changeIconFamily.bind(this, iconFamily.family)}/>
       </div>
@@ -81,14 +101,17 @@ export default class IconSelector extends Component {
   }
 
   renderIcon (family, icon) {
-    const className = cx(family.baseClass, family.reference === 'className' && icon);
-    const content = family.reference === 'content' && icon;
-    const selected = this.props.selected.family === family.family && className === this.props.selected.className && content === this.props.selected.content;
-    return (
-      <div className={cx('icon-entry', selected && 'selected')} onClick={this.onEntryClick.bind(this, icon)}>
-        <i className={className}>{content}</i>
-        <div>{icon}</div>
-      </div>
-    );
+    const invalid = this.props.search && icon.indexOf(this.props.search) === -1;
+    if (!invalid) {
+      const className = cx(family.baseClass, family.reference === 'className' && icon);
+      const content = family.reference === 'content' && icon;
+      const selected = this.props.selected.family === family.family && className === this.props.selected.className && content === this.props.selected.content;
+      return (
+        <div className={cx('icon-entry', selected && 'selected')} key={className + content} onClick={this.onEntryClick.bind(this, icon)}>
+          <i className={className}>{content}</i>
+          <div>{icon}</div>
+        </div>
+      );
+    }
   }
 }
