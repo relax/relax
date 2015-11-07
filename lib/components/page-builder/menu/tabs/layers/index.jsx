@@ -1,4 +1,3 @@
-import forEach from 'lodash.foreach';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
@@ -20,22 +19,12 @@ export default class Layers extends Component {
 
   expandAll (event) {
     event.preventDefault();
+    this.props.pageBuilderActions.expandAll();
   }
 
   collapseAll (event) {
     event.preventDefault();
-  }
-
-  inPath (id) {
-    const {selectedPath} = this.props.pageBuilder;
-    let is = false;
-    forEach(selectedPath, (pathEntry) => {
-      if (pathEntry.id === id) {
-        is = true;
-        return false;
-      }
-    });
-    return is;
+    this.props.pageBuilderActions.collapseAll();
   }
 
   render () {
@@ -45,18 +34,8 @@ export default class Layers extends Component {
         <GeminiScrollbar autoshow>
           <div className='advanced-menu-structure'>
             <div className='filter-display'>
-              <p>Show</p>
-              <a className={this.state.display === 'label' ? 'active' : ''} href='#' onClick={this.changeDisplay.bind(this, 'label')}>labels</a>
-              <span> / </span>
-              <a className={this.state.display === 'tag' ? 'active' : ''} href='#' onClick={this.changeDisplay.bind(this, 'tag')}>type</a>
-            </div>
-            <div className='filter-display right'>
-              <div>
-                <a href='#' onClick={this.expandAll.bind(this)}>Expand all</a>
-              </div>
-              <div>
-                <a href='#' onClick={this.collapseAll.bind(this)}>Collapse all</a>
-              </div>
+              <a href='#' onClick={this.expandAll.bind(this)}>Expand all</a>
+              <a href='#' onClick={this.collapseAll.bind(this)}>Collapse all</a>
             </div>
             {data.body && data.body.children && this.renderList(data.body.children, {type: 'body', id: 'body'}, {accepts: 'Section'}, {tag: 'body'})}
           </div>
@@ -86,14 +65,14 @@ export default class Layers extends Component {
   }
 
   renderListEntry (elementId) {
-    const {elements, data} = this.props.pageBuilder;
+    const {elements, data, expanded, userExpanded} = this.props.pageBuilder;
     const {dragging} = this.props.dnd;
     const elementInfo = data[elementId];
     const hasChildren = elementInfo.children instanceof Array && elementInfo.children.length > 0;
     const element = elements[elementInfo.tag];
     const dropInfo = {id: elementInfo.id};
     let dropSettings = element.settings.drop;
-    let isExpanded = hasChildren && elementInfo.expanded;
+    const isExpanded = hasChildren && (expanded[elementId] || userExpanded[elementId]);
 
     if (dropSettings !== false) {
       dropSettings = Object.assign({}, element.settings.drop, {
@@ -101,10 +80,6 @@ export default class Layers extends Component {
         customDropArea: false,
         selectionChildren: false
       });
-    }
-
-    if (this.inPath(elementInfo.id)) {
-      isExpanded = true;
     }
 
     return (
@@ -118,7 +93,6 @@ export default class Layers extends Component {
           elementInfo={elementInfo}
           isExpanded={isExpanded}
           hasChildren={hasChildren}
-          display={this.state.display}
         />
         {
           isExpanded ?

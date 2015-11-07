@@ -15,8 +15,7 @@ export default class Entry extends Component {
     elementInfo: React.PropTypes.object.isRequired,
     toggleExpand: React.PropTypes.func.isRequired,
     isExpanded: React.PropTypes.bool.isRequired,
-    hasChildren: React.PropTypes.bool.isRequired,
-    display: React.PropTypes.string.isRequired
+    hasChildren: React.PropTypes.bool.isRequired
   }
 
   getInitialState () {
@@ -35,7 +34,7 @@ export default class Entry extends Component {
     if (!dragging) {
       overElement(this.props.id);
     } else if (this.props.hasChildren && !this.props.isExpanded) {
-      // this.openInterval = setTimeout(this.context.toggleExpandElement.bind(this, this.props.id), 500);
+      this.openInterval = setTimeout(this.props.pageBuilderActions.toggleExpandElement.bind(this, this.props.id), 500);
     }
   }
 
@@ -82,7 +81,7 @@ export default class Entry extends Component {
   toggleExpand (event) {
     event.preventDefault();
     event.stopPropagation();
-    // this.context.toggleExpandElement(this.props.id);
+    this.props.pageBuilderActions.toggleExpandElement(this.props.id);
   }
 
   render () {
@@ -152,7 +151,7 @@ export default class Entry extends Component {
         onMouseLeave={this.onMouseOut.bind(this)}
       >
         <i className={element.settings.icon.class}>{element.settings.icon.content}</i>
-        <span>{this.props.display === 'tag' ? this.props.elementInfo.tag : (this.props.elementInfo.label || this.props.elementInfo.tag)}</span>
+        <span>{this.props.elementInfo.label || this.props.elementInfo.tag}</span>
         {this.props.hasChildren ? <a href='#' onClick={this.toggleExpand.bind(this)}><i className={this.props.isExpanded ? 'fa fa-caret-up' : 'fa fa-caret-down'}></i></a> : null}
         {this.renderOptions()}
       </div>

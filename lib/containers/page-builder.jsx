@@ -21,12 +21,15 @@ function getElementPath (selectedElement, data) {
   return result;
 }
 
-function getPageBuilder (pageBuilder, data) {
+function getPageBuilder (pageBuilder, draft) {
+  const data = draft.data.data;
   const result = {
     ...pageBuilder,
     data,
     elements,
-    selectedPath: []
+    selectedPath: [],
+    expanded: draft.expanded,
+    userExpanded: draft.userExpanded
   };
 
   if (pageBuilder.selectedId && data[pageBuilder.selectedId]) {
@@ -42,7 +45,7 @@ function getPageBuilder (pageBuilder, data) {
 
 @connect(
   (state) => ({
-    pageBuilder: getPageBuilder(state.pageBuilder, state.draft.data.data),
+    pageBuilder: getPageBuilder(state.pageBuilder, state.draft),
     dnd: state.dnd,
     styles: state.styles.data,
     display: state.display
