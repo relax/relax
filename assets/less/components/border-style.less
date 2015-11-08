@@ -2,14 +2,14 @@
   @btnsSize: 25px;
   @btnsSpacing: 3px;
 
-  >* {
+  > div {
     position: relative;
     display: inline-block;
     vertical-align: top;
     width: @btnsSize;
     height: @btnsSize;
     margin-right: @btnsSpacing;
-    border: 1px solid #383838;
+    border: 1px solid @pageBuilderChromeBorders;
     cursor: pointer;
     text-align: center;
 
@@ -46,7 +46,7 @@
     }
 
     &:hover {
-      background-color: #383838;
+      background-color: #3f4249;
       i {
         color: #ffffff;
       }
@@ -56,6 +56,7 @@
     }
 
     &.active {
+      background-color: #3f4249;
       border-color: @adminPrimary;
       i {
         color: @adminPrimary;
