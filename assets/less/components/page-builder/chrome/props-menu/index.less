@@ -115,7 +115,12 @@
 
     .menu-triggers {
       left: auto;
-      right: -@triggerButtonsSize - 1;
+      right: -@triggerButtonsSize;
+      >div {
+        border-radius: 0 2px 2px 0;
+        border-left: 1px solid @pageBuilderChromeBorders;
+        border-right: 0;
+      }
     }
   }
 }
