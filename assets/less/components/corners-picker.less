@@ -16,7 +16,7 @@
 
   .toggles {
     position: relative;
-    height: @total;
+    height: 48px;
     width: @total;
   }
 
@@ -37,7 +37,7 @@
     position: absolute;
     width: @btnsSize;
     height: @btnsSize;
-    border: 1px solid #383838;
+    border: 1px solid @pageBuilderChromeBorders;
     text-align: center;
     cursor: pointer;
 
@@ -54,6 +54,8 @@
       display: inline-block;
       width: 10px;
       height: 10px;
+      position: relative;
+      top: 6px;
     }
 
     &.tl {
@@ -76,11 +78,11 @@
     }
     &.center {
       left: @center;
-      top: @center;
+      top: 14px;
     }
     &.br {
       right: 0;
-      bottom: 0;
+      top: 30px;
       span {
         border-right: 2px solid #cccccc;
         border-bottom: 2px solid #cccccc;
@@ -89,7 +91,7 @@
     }
     &.bl {
       left: 0;
-      bottom: 0;
+      top: 30px;
       span {
         border-left: 2px solid #cccccc;
         border-bottom: 2px solid #cccccc;
