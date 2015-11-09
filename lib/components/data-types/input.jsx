@@ -19,7 +19,7 @@ export default class Input extends Component {
 
   componentDidMount () {
     if (this.props.focused) {
-      React.findDOMNode(this.refs.input).focus();
+      this.refs.input.focus();
     }
   }
 

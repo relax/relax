@@ -24,7 +24,7 @@ export default class ImagePicker extends Component {
   }
 
   componentDidMount () {
-    const dom = React.findDOMNode(this.refs.imageHolder);
+    const dom = this.refs.imageHolder;
     const rect = dom.getBoundingClientRect();
 
     const width = Math.round(rect.right - rect.left);

@@ -36,8 +36,6 @@ export default class AdminContainer extends Component {
     location: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     getAdmin: PropTypes.func.isRequired,
-    updatePage: PropTypes.func.isRequired,
-    display: PropTypes.string.isRequired,
     overlays: PropTypes.array.isRequired
   }
 
@@ -217,15 +215,6 @@ export default class AdminContainer extends Component {
           loading: false
         });
       });
-  }
-
-  updatePage (data) {
-    const panel = panels[this.state.activePanelType];
-    const pageFragments = mergeFragments(
-      this.constructor.fragments,
-      panel.fragments
-    );
-    return this.props.updatePage(pageFragments, data);
   }
 
   render () {

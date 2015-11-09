@@ -1,6 +1,7 @@
 import cx from 'classnames';
 import Velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 import {Component} from 'relax-framework';
 
 import Utils from '../utils';
@@ -64,7 +65,7 @@ export default class Element extends Component {
   }
 
   animate () {
-    const dom = React.findDOMNode(this);
+    const dom = findDOMNode(this);
     const animation = this.props.info.element.animation;
     this.state.animated = true;
     this.state.animatedEditing = false;
@@ -92,7 +93,7 @@ export default class Element extends Component {
   }
 
   onScroll () {
-    const dom = React.findDOMNode(this);
+    const dom = findDOMNode(this);
     const rect = dom.getBoundingClientRect();
 
     if ((rect.top <= 0 && rect.bottom >= 0) || (rect.top > 0 && rect.top < window.outerHeight)) {
@@ -113,7 +114,7 @@ export default class Element extends Component {
   }
 
   getOffset () {
-    const dom = React.findDOMNode(this);
+    const dom = findDOMNode(this);
     return Utils.getOffsetRect(dom);
   }
 

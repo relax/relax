@@ -1,9 +1,10 @@
+import cx from 'classnames';
+import merge from 'lodash.merge';
 import React from 'react';
 import {Component} from 'relax-framework';
+
 import A from './a';
 import Utils from '../utils';
-import merge from 'lodash.merge';
-import cx from 'classnames';
 
 export default class Filter extends Component {
   static propTypes = {

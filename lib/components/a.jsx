@@ -24,9 +24,8 @@ export default class A extends Component {
   render () {
     const urlAndQuery = this.props.href && this.props.href.split('?');
 
-    var url;
-    var query;
-
+    let url;
+    let query;
     if (urlAndQuery) {
       url = urlAndQuery[0];
       query = qs.parse(urlAndQuery[1]);

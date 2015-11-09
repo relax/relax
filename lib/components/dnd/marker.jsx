@@ -1,5 +1,6 @@
 import Velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 import {Component} from 'relax-framework';
 
 export default class Marker extends Component {
@@ -25,7 +26,7 @@ export default class Marker extends Component {
       animateObj.width = '7px';
     }
 
-    Velocity(React.findDOMNode(this), animateObj, { duration: 400, easing: 'easeOutExpo' });
+    Velocity(findDOMNode(this), animateObj, { duration: 400, easing: 'easeOutExpo' });
   }
 
   render () {

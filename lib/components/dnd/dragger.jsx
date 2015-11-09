@@ -1,5 +1,6 @@
 import Velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 import {Component} from 'relax-framework';
 
 export default class Dragger extends Component {
@@ -24,13 +25,13 @@ export default class Dragger extends Component {
     this.onMouseUpListener = this.onMouseUp.bind(this);
     this.onMouseMoveListener = this.onMouseMove.bind(this);
 
-    const node = React.findDOMNode(this);
+    const node = findDOMNode(this);
 
     const relativeX = draggingData.mouseX - draggingData.elementOffset.left;
     const relativeY = draggingData.mouseY - draggingData.elementOffset.top;
     node.style.transformOrigin = relativeX + 'px ' + relativeY + 'px';
 
-    Velocity(React.findDOMNode(this), {
+    Velocity(node, {
       scaleX: '0.5',
       scaleY: '0.5',
       opacity: '0.7'

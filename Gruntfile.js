@@ -7,6 +7,7 @@ module.exports = function (grunt) {
     'jquery',
     'q',
     'react',
+    'react-dom',
     'react-redux',
     'react-router',
     'redux',

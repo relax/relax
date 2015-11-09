@@ -1,5 +1,6 @@
 import Velocity from 'velocity-animate';
-import React, {PropTypes} from 'react';
+import {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 import {Component} from 'relax-framework';
 
 export default class Animate extends Component {
@@ -15,7 +16,7 @@ export default class Animate extends Component {
   }
 
   componentDidMount () {
-    const dom = React.findDOMNode(this);
+    const dom = findDOMNode(this);
     const transition = 'transition.' + this.props.transition;
     Velocity(dom, transition, {
       duration: this.props.duration,

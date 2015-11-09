@@ -1,5 +1,6 @@
 import forEach from 'lodash.foreach';
 import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 
 import propsSchema from './props-schema';
 import settings from './settings';
@@ -61,7 +62,7 @@ export default class Form extends Component {
 
   onSubmit (event) {
     event.preventDefault();
-    const formElement = React.findDOMNode(this);
+    const formElement = findDOMNode(this);
     const formData = {};
 
     forEach(formElement.elements, (element) => {

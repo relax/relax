@@ -102,19 +102,20 @@ export default class SchemaContainer extends Component {
 
   onSuccessOut () {
     clearTimeout(this.successTimeout);
-    const dom = React.findDOMNode(this.refs.success);
-
-    if (dom) {
-      const transition = 'transition.slideDownOut';
-      Velocity(dom, transition, {
-        duration: 400,
-        display: null
-      }).then(() => {
-        this.setState({
-          status: null
-        });
-      });
-    }
+    // FIXME
+    // const dom = findDOMNode(this.refs.success);
+    //
+    // if (dom) {
+    //   const transition = 'transition.slideDownOut';
+    //   Velocity(dom, transition, {
+    //     duration: 400,
+    //     display: null
+    //   }).then(() => {
+    //     this.setState({
+    //       status: null
+    //     });
+    //   });
+    // }
   }
 
   onSave () {

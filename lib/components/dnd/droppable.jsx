@@ -1,6 +1,7 @@
 import cx from 'classnames';
 import forEach from 'lodash.foreach';
 import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 import {Component} from 'relax-framework';
 
 import AnimateProps from '../animate-props';
@@ -78,7 +79,7 @@ export default class Droppable extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const containerRect = React.findDOMNode(this).getBoundingClientRect();
+    const containerRect = findDOMNode(this).getBoundingClientRect();
     if (containerRect.left < 40) {
       if (!this.state.closeToMargin) {
         this.setState({
@@ -103,7 +104,7 @@ export default class Droppable extends Component {
     // Ordering
     let order = false;
     if (this.props.children && (this.props.children instanceof Array && this.props.children.length > 0)) {
-      const elements = React.findDOMNode(this).children;
+      const elements = findDOMNode(this).children;
 
       if (elements.length > 0) {
         // store children positions
@@ -269,7 +270,7 @@ export default class Droppable extends Component {
       targetId: this.props.dropInfo.id || 'body',
       targetType: this.props.type,
       targetPosition: position,
-      container: React.findDOMNode(this.refs['spot' + position]),
+      container: findDOMNode(this.refs['spot' + position]),
       accepts: this.props.accepts,
       rejects: this.props.rejects
     });

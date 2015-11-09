@@ -3,7 +3,8 @@ import * as menuActions from '../../client/actions/menu';
 
 import cloneDeep from 'lodash.clonedeep';
 import Velocity from 'velocity-animate';
-import React, {findDOMNode, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Component} from 'relax-framework';
@@ -114,7 +115,7 @@ export default class MenuContainer extends Component {
   onSuccessOut () {
     clearTimeout(this.successTimeout);
 
-    var dom = findDOMNode(this.refs.menu.refs.success);
+    const dom = findDOMNode(this.refs.menu.refs.success);
     if (dom) {
       const transition = 'transition.slideDownOut';
       Velocity(dom, transition, {

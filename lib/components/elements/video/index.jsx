@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 
 import propsSchema from './props-schema';
 import settings from './settings';
@@ -41,7 +42,7 @@ export default class Video extends Component {
   }
 
   onResize () {
-    const dom = React.findDOMNode(this);
+    const dom = findDOMNode(this);
     const rect = dom.getBoundingClientRect();
     const width = Math.round(rect.right - rect.left);
     this.setState({

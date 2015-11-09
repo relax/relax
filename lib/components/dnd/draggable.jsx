@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 import {Component} from 'relax-framework';
 
 import Utils from '../../utils';
@@ -33,7 +34,7 @@ export default class Draggable extends Component {
 
     this.onMouseUp();
 
-    const element = React.findDOMNode(this);
+    const element = findDOMNode(this);
     const elementOffset = Utils.getOffsetRect(element);
     const width = elementOffset.width;
     const {startDragging} = this.props.dndActions;

@@ -1,6 +1,7 @@
 import Dropzone from 'dropzone';
 import ReactDropzone from 'react-dropzone';
 import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 import {Component} from 'relax-framework';
 
 export default class Upload extends Component {
@@ -29,7 +30,7 @@ export default class Upload extends Component {
         options[opt] = Dropzone.prototype.defaultOptions[opt];
       }
 
-      this.dropzone = new Dropzone(React.findDOMNode(this), options);
+      this.dropzone = new Dropzone(findDOMNode(this), options);
 
       if (this.props.query) {
         this.dropzone.on('sending', (file, xhr, formData) => {
