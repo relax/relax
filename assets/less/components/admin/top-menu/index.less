@@ -1,4 +1,30 @@
-
+.previewing .top-bar {
+  transform: ~'translateY(-@{pageBuilderTopMenuHeight})';
+}
+.close-preview {
+  background-color: @pageBuilderChrome;
+  border: 1px solid @pageBuilderChromeBorders;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 25px;
+  border-radius: 0 0 0 3px;
+  z-index: 2;
+  font-size: 10px;
+  line-height: 25px;
+  padding: 0 7px;
+  color: #efefef;
+  text-transform: uppercase;
+  transform: ~'translateX(100%)';
+  cursor: pointer;
+  .transition(0.6s);
+  &:hover {
+    background-color: @pageBuilderChromeDarker;
+  }
+}
+.previewing .close-preview {
+  transform: ~'translateX(0%)';
+}
 .top-bar {
   position: absolute;
   left: 0px; right: 0; top: 0;
@@ -7,12 +33,10 @@
   background-color: @pageBuilderTopMenu;
 
   z-index: 2;
-  -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.5);
-  -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.5);
-  box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.5);
-
-  @tabsHeight: 25px;
-  @actionsHeight: 35px;
+  // -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.5);
+  // -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.5);
+  // box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.5);
+  .transition(0.5s);
 
   .disabled {
     .opacity(0.2);
@@ -27,19 +51,19 @@
     display: inline-block;
     vertical-align: top;
     position: relative;
-    height: 35px;
-    padding: 0 15px;
+    height: @actionsHeight;
+    padding: 0 16px;
 
     .status {
-      font-size: 11px;
-      line-height: 35px;
+      font-size: 9px;
+      line-height: @actionsHeight;
       display: block;
       color: #a5a4a4;
 
       i, span, a {
         display: inline-block;
         vertical-align: top;
-        line-height: 35px;
+        line-height: @actionsHeight;
       }
       a {
         color: #a5a4a4;
@@ -57,10 +81,10 @@
       margin: 0;
       padding: 0;
       i, span {
-        line-height: 35px;
+        line-height: @actionsHeight;
       }
       .spinner {
-        top: 10px;
+        top: 0px;
       }
       .spinner, .spinner:after {
         border-radius: 50%;
@@ -72,7 +96,7 @@
 
   .page-actions {
     height: @actionsHeight;
-    border-bottom: 1px solid #343333;
+    border-bottom: 1px solid #494949;
 
     .right-menu {
       float: right;
@@ -87,10 +111,10 @@
       display: inline-block;
       vertical-align: top;
       text-decoration: none;
-      color: #a5a4a4;
+      color: #efefef;
       padding: 0 8px;
       i {
-        font-size: 18px;
+        font-size: 12px;
         line-height: @tabsHeight;
       }
       &:hover{
@@ -99,21 +123,19 @@
     }
     .tab {
       height: @tabsHeight;
-      border: 1px solid #343333;
-      border-bottom: 1px solid #343333;
-      border-top: 0;
+      border-right: 1px solid @pageBuilderChromeBorders;
       display: inline-block;
       vertical-align: top;
       text-decoration: none;
-      color: #a5a4a4;
-      background-color: #292828;
+      color: #ffffff;
+      background-color: transparent;
 
-      font-size: 13px;
+      font-size: 10px;
       line-height: @tabsHeight;
       width: 200px;
 
       margin: 0 -1px;
-      padding: 0 12px;
+      padding: 0 7.5px;
       padding-right: 30px;
 
       text-overflow: ellipsis;
@@ -123,7 +145,7 @@
 
       i {
         vertical-align: top;
-        font-size: 18px;
+        font-size: 11px;
         line-height: @tabsHeight;
       }
 
@@ -135,19 +157,23 @@
 
       .close {
         position: absolute;
-        width: 16px;
-        height: 16px;
+        width: 13px;
+        height: 13px;
         .roundedCorners(9px);
         text-align: center;
-        top: 5px;
+        top: 4px;
         right: 10px;
         i {
-          font-size: 12px;
-          line-height: 16px;
+          font-size: 11px;
+          line-height: 13px;
           vertical-align: top;
+          color: #999999;
         }
         &:hover {
           background-color: #DD6050;
+          i {
+            color: #ffffff;
+          }
         }
       }
 
@@ -157,9 +183,8 @@
 
       &.selected {
         z-index: 1;
-        background-color: #191818;
+        background-color: #3f4249;
         color: #ffffff;
-        border-bottom: 1px solid #191818;
       }
 
       &:hover{
@@ -177,13 +202,15 @@
     overflow: hidden;
 
     .top-bar-button i {
-      width: 35px;
+      width: @actionsHeight;
+      font-size: 13px;
+      line-height: @actionsHeight;
     }
     .top-bar-button:nth-child(2) i {
-      font-size: 15px;
+      font-size: 11px;
     }
     .top-bar-button:nth-child(3) i {
-      font-size: 13px;
+      font-size: 10px;
     }
 
     .center-menu-wraper {
@@ -215,6 +242,26 @@
     }
   }
 
+  .dashboard-button {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    height: @actionsHeight;
+    .logo {
+      width: 15px;
+      top: 4.5px;
+      margin-left: 6px;
+      position: relative;
+      display: inline-block;
+    }
+    .lettering {
+      position: relative;
+      margin-left: 4px;
+      display: inline-block;
+      top: 4px;
+      height: 13px;
+    }
+  }
 
   a.top-bar-button {
     position: relative;
@@ -226,17 +273,17 @@
 
     text-transform: uppercase;
     text-decoration: none;
-    font-size: 11px;
+    font-size: 10px;
     color: #a5a4a4;
 
     i {
-      width: 50px;
+      width: @actionsHeight;
       line-height: @actionsHeight;
-      font-size: 20px;
+      font-size: 13px;
     }
 
     &.text-button {
-      padding: 0 20px;
+      padding: 0 15px;
       margin: 4px 5px;
       line-height: @actionsHeight - 9;
       height: @actionsHeight - 9;

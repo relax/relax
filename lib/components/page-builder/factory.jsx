@@ -1,6 +1,7 @@
-import React from 'react';
-import Common from './common';
 import cx from 'classnames';
+import React from 'react';
+
+import Common from './common';
 
 export default (Component, props = {}) => {
   class Factory extends Common {

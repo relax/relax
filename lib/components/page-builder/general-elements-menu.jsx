@@ -1,78 +1,122 @@
-import React from 'react';
-import {Component} from 'relax-framework';
+import cx from 'classnames';
 import forEach from 'lodash.foreach';
 import GeminiScrollbar from 'react-gemini-scrollbar';
-import cx from 'classnames';
-import merge from 'lodash.merge';
-import {Draggable} from '../drag';
+import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
+
+import Input from '../data-types/input';
+import {Draggable} from '../dnd';
 
 export default class GeneralElementsMenu extends Component {
-  getInitialState () {
-    var categories = [
-      'structure',
-      'content',
-      'media',
-      'form'
-    ];
-
-    forEach(this.context.elements, (element) => {
-      if (element.settings && element.settings.category) {
-        if (categories.indexOf(element.settings.category) === -1) {
-          categories.push(element.settings.category);
-        }
-      }
-    });
-
-    categories.push('other');
-
-    var collapsed = {};
-    forEach(categories, (category) => collapsed[category] = false);
-
-    return {
-      categories,
-      search: '',
-      collapsed
-    };
+  static propTypes = {
+    pageBuilder: PropTypes.object.isRequired,
+    pageBuilderActions: PropTypes.object.isRequired,
+    dnd: PropTypes.object.isRequired,
+    dndActions: PropTypes.object.isRequired
   }
 
   toggleCategory (category, event) {
     event.preventDefault();
-    this.state.collapsed[category] = !this.state.collapsed[category];
-    this.setState({
-      collapsed: this.state.collapsed
-    });
+    const {toggleCategory} = this.props.pageBuilderActions;
+    toggleCategory(category);
   }
 
   onToggle (event) {
     event.preventDefault();
-    this.setState({
-      opened: !this.state.opened
-    });
+    const {generalElementsMenuOpened} = this.props.pageBuilder;
+    const {setGeneralElementsMenuOpened} = this.props.pageBuilderActions;
+    setGeneralElementsMenuOpened(!generalElementsMenuOpened);
   }
 
   close () {
-    this.setState({
-      opened: false
-    });
+    const {setGeneralElementsMenuOpened} = this.props.pageBuilderActions;
+    setGeneralElementsMenuOpened(false);
   }
 
   elementAcceptable (tag, element) {
-    if (this.state.search === '') {
+    const {generalElementsMenuSearch} = this.props.pageBuilder;
+    if (generalElementsMenuSearch === '') {
       return true;
     }
-
-    return tag.toLowerCase().indexOf(this.state.search.toLowerCase()) === 0;
+    return tag.toLowerCase().indexOf(generalElementsMenuSearch.toLowerCase()) === 0;
   }
 
-  onStartDrag () {
-    this.context.onStartDrag();
-    this.close();
+  render () {
+    const {generalElementsMenuOpened} = this.props.pageBuilder;
+    return (
+      <div className='general-elements-menu'>
+        {this.renderOpened()}
+        <div className={cx('toggle', generalElementsMenuOpened && 'opened')} onClick={this.onToggle.bind(this)}>
+          <i className='material-icons'>add</i>
+        </div>
+      </div>
+    );
   }
 
-  searchChange (event) {
-    this.setState({
-      search: event.target.value
+  renderOpened () {
+    const {generalElementsMenuOpened, generalElementsMenuSearch} = this.props.pageBuilder;
+    const {setGeneralElementsMenuSearch} = this.props.pageBuilderActions;
+    if (generalElementsMenuOpened) {
+      return (
+        <div className='opened-menu'>
+          <div className='list'>
+            {this.renderCategories()}
+          </div>
+          <div className='search'>
+            <i className='material-icons'>search</i>
+            <Input value={generalElementsMenuSearch} onChange={setGeneralElementsMenuSearch} />
+          </div>
+        </div>
+      );
+    }
+  }
+
+  renderCategories () {
+    const {categories} = this.props.pageBuilder;
+    return (
+      <div className='categories'>
+        <GeminiScrollbar autoshow className='gm-scrollbar-black'>
+          {categories.map(this.renderCategory, this)}
+        </GeminiScrollbar>
+      </div>
+    );
+  }
+
+  renderCategory (category) {
+    const {elements, categoriesCollapsed} = this.props.pageBuilder;
+    const categoryElements = [];
+
+    forEach(elements, (element, index) => {
+      if (element.settings && element.settings.category) {
+        if (element.settings.category === category && this.elementAcceptable(index, element)) {
+          categoryElements.push({
+            label: index,
+            element
+          });
+        }
+      } else if (category === 'other' && this.elementAcceptable(index, element)) {
+        categoryElements.push({
+          label: index,
+          element
+        });
+      }
     });
+
+    if (categoryElements.length > 0) {
+      const collapsed = categoriesCollapsed[category];
+
+      return (
+        <div className={cx('category', collapsed && 'collapsed')}>
+          <div className={cx('category-info')} onClick={this.toggleCategory.bind(this, category)}>
+            <span>{category}</span>
+            <i className='material-icons'>{collapsed ? 'expand_more' : 'expand_less'}</i>
+          </div>
+          <div className='category-list'>
+            {!collapsed && categoryElements.map(this.renderElement, this)}
+          </div>
+        </div>
+      );
+    }
   }
 
   renderElement (elementObj) {
@@ -80,9 +124,10 @@ export default class GeneralElementsMenu extends Component {
     const icon = element.settings.icon;
     const label = elementObj.label;
 
-    var props = {
+    const props = {
       key: label,
-      onStartDrag: this.onStartDrag.bind(this),
+      dnd: this.props.dnd,
+      dndActions: this.props.dndActions,
       dragInfo: {
         type: 'new',
         element: label
@@ -91,7 +136,7 @@ export default class GeneralElementsMenu extends Component {
     };
 
     if (element.settings && element.settings.drag) {
-      merge(props, element.settings.drag);
+      Object.assign(props, element.settings.drag);
     }
 
     return (
@@ -107,93 +152,4 @@ export default class GeneralElementsMenu extends Component {
       </Draggable>
     );
   }
-
-  renderCategory (category) {
-    var elements = [];
-
-    forEach(this.context.elements, (element, index) => {
-      if (element.settings && element.settings.category) {
-        if (element.settings.category === category && this.elementAcceptable(index, element)) {
-          elements.push({
-            label: index,
-            element
-          });
-        }
-      } else if (category === 'other' && this.elementAcceptable(index, element)) {
-        elements.push({
-          label: index,
-          element
-        });
-      }
-    });
-
-    if (elements.length > 0) {
-      let collapsed = this.state.collapsed[category];
-
-      return (
-        <div className={cx('category', collapsed && 'collapsed')}>
-          <div className={cx('category-info')} onClick={this.toggleCategory.bind(this, category)}>
-            <span>{category}</span>
-            <i className='material-icons'>{collapsed ? 'expand_more' : 'expand_less'}</i>
-          </div>
-          <div className='category-list'>
-            {!collapsed && elements.map(this.renderElement, this)}
-          </div>
-        </div>
-      );
-    }
-  }
-
-  renderCategories () {
-    return (
-      <div className='categories'>
-        <GeminiScrollbar autoshow={true} className='gm-scrollbar-black'>
-          {this.state.categories.map(this.renderCategory, this)}
-        </GeminiScrollbar>
-      </div>
-    );
-  }
-
-  renderOpened () {
-    if (this.state.opened) {
-      return (
-        <div className='opened-menu'>
-          <div className='list'>
-            {this.renderCategories()}
-          </div>
-          <div className='search'>
-            <i className='material-icons'>search</i>
-            <input type='text' value={this.state.search} onChange={this.searchChange.bind(this)}></input>
-          </div>
-        </div>
-      );
-    }
-  }
-
-  render () {
-    return (
-      <div className='general-elements-menu'>
-        {this.renderOpened()}
-        <div className={cx('toggle', this.state.opened && 'opened')} onClick={this.onToggle.bind(this)}>
-          <i className='material-icons'>add</i>
-        </div>
-      </div>
-    );
-  }
 }
-
-GeneralElementsMenu.contextTypes = {
-  elements: React.PropTypes.object.isRequired,
-  addElementAtId: React.PropTypes.func.isRequired,
-  onStartDrag: React.PropTypes.func.isRequired
-};
-
-GeneralElementsMenu.propTypes = {
-  container: React.PropTypes.any.isRequired,
-  targetId: React.PropTypes.number.isRequired,
-  onClose: React.PropTypes.func.isRequired
-};
-
-GeneralElementsMenu.defaultProps = {
-
-};

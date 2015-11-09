@@ -1,14 +1,30 @@
-import React from 'react';
+import cx from 'classnames';
+import ReactCounter from 'react-counter';
+import React, {PropTypes} from 'react';
+
+import propsSchema from './props-schema';
+import settings from './settings';
 import Component from '../../component';
 import Element from '../../element';
-import ReactCounter from 'react-counter';
-import styles from '../../../styles';
-import cx from 'classnames';
-
-import settings from './settings';
-import propsSchema from './props-schema';
 
 export default class Counter extends Component {
+  static propTypes = {
+    icon: PropTypes.string.isRequired,
+    style: PropTypes.any.isRequired,
+    element: PropTypes.object.isRequired,
+    styleClassMap: PropTypes.object,
+    align: PropTypes.string.isRequired,
+    begin: PropTypes.number.isRequired,
+    end: PropTypes.number.isRequired,
+    duration: PropTypes.number.isRequired
+  }
+
+  static defaultProps = {
+    begin: 0,
+    end: 100,
+    duration: 2000,
+    align: 'center'
+  }
 
   getInitialState () {
     return {
@@ -16,29 +32,23 @@ export default class Counter extends Component {
     };
   }
 
+  static style = 'text'
+  static propsSchema = propsSchema
+  static settings = settings
+
   onEnterScreen () {
     this.setState({
       animate: true
     });
   }
 
-  renderCounter () {
-    if (this.state.animate) {
-      return (
-        <ReactCounter begin={this.props.begin} end={this.props.end} time={this.props.duration} easing='outCube' />
-      );
-    } else {
-      return <span>{this.props.begin}</span>;
-    }
-  }
-
   render () {
-    var classMap = (this.props.style && styles.getClassesMap(this.props.style)) || {};
+    const classMap = this.props.styleClassMap || {};
 
     var props = {
-      tag: 'div',
-      element: this.props.element,
-      settings: this.constructor.settings,
+      info: this.props,
+      htmlTag: 'div',
+      settings: settings,
       onEnterScreen: this.onEnterScreen.bind(this),
       className: cx(classMap.text),
       style: {
@@ -52,19 +62,16 @@ export default class Counter extends Component {
       </Element>
     );
   }
+
+  renderCounter () {
+    let result;
+    if (this.state.animate) {
+      result = (
+        <ReactCounter begin={this.props.begin} end={this.props.end} time={this.props.duration} easing='outCube' />
+      );
+    } else {
+      result = <span>{this.props.begin}</span>;
+    }
+    return result;
+  }
 }
-
-Counter.propTypes = {
-  icon: React.PropTypes.string.isRequired,
-  style: React.PropTypes.any.isRequired
-};
-
-Counter.defaultProps = {
-  begin: 0,
-  end: 100,
-  duration: 2000,
-  align: 'center'
-};
-
-Counter.propsSchema = propsSchema;
-Counter.settings = settings;

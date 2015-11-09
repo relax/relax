@@ -1,13 +1,41 @@
 import React from 'react';
+import {GoogleMap, Marker} from 'react-google-maps';
+
+import propsSchema from './props-schema';
+import settings from './settings';
 import Component from '../../component';
 import Element from '../../element';
-import {GoogleMap, Marker} from 'react-google-maps';
 import Utils from '../../../utils';
 
-import settings from './settings';
-import propsSchema from './props-schema';
-
 export default class GoogleMapsElem extends Component {
+  static propTypes = {
+    zoom: React.PropTypes.number.isRequired,
+    lat: React.PropTypes.string.isRequired,
+    lng: React.PropTypes.string.isRequired,
+    height: React.PropTypes.number.isRequired,
+    scrollwheel: React.PropTypes.bool.isRequired,
+    zoomControls: React.PropTypes.bool.isRequired,
+    mapTypeControl: React.PropTypes.bool.isRequired,
+    streetViewControl: React.PropTypes.bool.isRequired,
+    useMarker: React.PropTypes.bool.isRequired,
+    selected: React.PropTypes.bool.isRequired,
+    pageBuilder: React.PropTypes.object
+  }
+
+  static defaultProps = {
+    zoom: 15,
+    lat: '41.1761671',
+    lng: '-8.601692',
+    height: 250,
+    scrollwheel: false,
+    zoomControls: true,
+    mapTypeControl: false,
+    streetViewControl: true,
+    useMarker: true
+  }
+
+  static propsSchema = propsSchema
+  static settings = settings
 
   getInitialState () {
     return {
@@ -15,15 +43,15 @@ export default class GoogleMapsElem extends Component {
     };
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
-    return (
-      this.context.editing && this.props.selected ||
-      nextState.ready !== this.state.ready
-    );
-  }
+  // shouldComponentUpdate (nextProps, nextState) {
+  //   return (
+  //     this.props.pageBuilder.editing && this.props.selected ||
+  //     nextState.ready !== this.state.ready
+  //   );
+  // }
 
   componentDidUpdate (prevProps) {
-    if (this.context.editing && this.state.ready && prevProps.height !== this.props.height) {
+    if (this.props.pageBuilder && this.props.pageBuilder.editing && this.state.ready && prevProps.height !== this.props.height) {
       if (this.refs.map && this.refs.map.state && this.refs.map.state.instance) {
         window.google.maps.event.trigger(this.refs.map.state.instance, 'resize');
       }
@@ -31,6 +59,7 @@ export default class GoogleMapsElem extends Component {
   }
 
   loadAPI () {
+    let result = false;
     if (typeof document !== 'undefined') {
       if (!Utils.hasClass(document.body, 'googleMapsInitiated') && !Utils.hasClass(document.body, 'googleMapsLoading')) {
         Utils.addClass(document.body, 'googleMapsLoading');
@@ -43,21 +72,19 @@ export default class GoogleMapsElem extends Component {
           /* jshint ignore:end */
         };
 
-        var script = document.createElement('script');
+        const script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=googleMapsInitiated';
         document.body.appendChild(script);
 
         window.addEventListener('googleMapsInitiated', this.onReady.bind(this));
-
-        return false;
       } else if (!Utils.hasClass(document.body, 'googleMapsInitiated')) {
         window.addEventListener('googleMapsInitiated', this.onReady.bind(this));
-        return false;
       } else {
-        return true;
+        result = true;
       }
     }
+    return result;
   }
 
   onReady () {
@@ -66,24 +93,23 @@ export default class GoogleMapsElem extends Component {
     });
   }
 
-  renderMarker () {
-    if (this.props.useMarker) {
-      var position = {
-        lat: parseFloat(this.props.lat, 10),
-        lng: parseFloat(this.props.lng, 10)
-      };
-      return (
-        <Marker position={position} key={this.props.lat+this.props.lng} />
-      );
-    }
+  render () {
+    return (
+      <Element info={this.props} htmlTag='div' settings={settings}>
+        {this.renderMap()}
+      </Element>
+    );
   }
 
   renderMap () {
     if (this.state.ready) {
-      let key = this.props.zoom + this.props.scrollwheel + this.props.zoomControls + this.props.streetViewControl + this.props.mapTypeControl + this.props.lat + this.props.lng;
-      var gmap = (
+      let result;
+      const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
+      const key = this.props.zoom + this.props.scrollwheel + this.props.zoomControls + this.props.streetViewControl + this.props.mapTypeControl + this.props.lat + this.props.lng;
+
+      const gmap = (
         <GoogleMap
-          ref="map"
+          ref='map'
           containerProps={{
             style: {
               height: this.props.height
@@ -102,55 +128,29 @@ export default class GoogleMapsElem extends Component {
         >{this.renderMarker()}</GoogleMap>
       );
 
-      if (this.context.editing) {
-        return (
+      if (editing) {
+        result = (
           <div className='editing-wrapper'>
             {gmap}
             <div className='editing-cover'></div>
           </div>
         );
       } else {
-        return gmap;
+        result = gmap;
       }
+      return result;
     }
   }
 
-  render () {
-    return (
-      <Element tag='div' settings={this.constructor.settings} element={this.props.element}>
-        {this.renderMap()}
-      </Element>
-    );
+  renderMarker () {
+    if (this.props.useMarker) {
+      const position = {
+        lat: parseFloat(this.props.lat, 10),
+        lng: parseFloat(this.props.lng, 10)
+      };
+      return (
+        <Marker position={position} key={this.props.lat + this.props.lng} />
+      );
+    }
   }
 }
-
-GoogleMapsElem.contextTypes = {
-  editing: React.PropTypes.bool.isRequired
-};
-
-GoogleMapsElem.propTypes = {
-  zoom: React.PropTypes.number.isRequired,
-  lat: React.PropTypes.string.isRequired,
-  lng: React.PropTypes.string.isRequired,
-  height: React.PropTypes.number.isRequired,
-  scrollwheel: React.PropTypes.bool.isRequired,
-  zoomControls: React.PropTypes.bool.isRequired,
-  mapTypeControl: React.PropTypes.bool.isRequired,
-  streetViewControl: React.PropTypes.bool.isRequired,
-  useMarker: React.PropTypes.bool.isRequired
-};
-
-GoogleMapsElem.defaultProps = {
-  zoom: 15,
-  lat: '41.1761671',
-  lng: '-8.601692',
-  height: 250,
-  scrollwheel: false,
-  zoomControls: true,
-  mapTypeControl: false,
-  streetViewControl: true,
-  useMarker: true
-};
-
-GoogleMapsElem.propsSchema = propsSchema;
-GoogleMapsElem.settings = settings;

@@ -1,8 +1,12 @@
+@triggerButtonsSize: 35px;
+
+.previewing .advanced-menu {
+  right: -@pageBuilderAdvancedMenuWidth - @triggerButtonsSize;
+}
+
 .advanced-menu {
   @import './breadcrumbs.less';
   @import './tabs/index.less';
-
-  @triggerButtonsSize: 35px;
 
   position: absolute;
   z-index: 4;
@@ -21,15 +25,6 @@
     right: 40px;
   }
 
-  &:before {
-    content: " ";
-    position: absolute;
-    left: -1px; right: -1px; top: -1px; bottom: -1px;
-    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.82);
-    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.82);
-    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.82);
-  }
-
   .content-scrollable {
     position: absolute;
     top: 66px;
@@ -46,26 +41,29 @@
   // tabs
   .tabs {
     position: relative;
-    border-bottom: 1px solid #2f3132;
     .tab {
       cursor: pointer;
       display: inline-block;
       vertical-align: top;
       width: 33.3332%;
-      border-bottom: 2px solid rgba(0, 0, 0, 0);
       color: #616363;
       text-align: center;
-      font-size: 11px;
-      line-height: 37px;
+      font-size: 12px;
+      line-height: 50px;
       text-transform: uppercase;
       position: relative;
       top: 1px;
+      border-right: 1px solid @pageBuilderChromeBorders;
+      border-bottom: 1px solid @pageBuilderChromeBorders;
 
+      &:last-child {
+        border-right: 0;
+      }
       &.selected, &:hover {
         color: #ffffff;
       }
       &.selected {
-        border-color: @adminPrimary;
+        background-color: #3f4249;
       }
     }
 
@@ -76,19 +74,10 @@
 
   .menu-triggers {
     position: absolute;
-    left: -@triggerButtonsSize - 1;
+    left: -@triggerButtonsSize;
 
     top: 50%;
     .transform(translateY(-50%));
-
-    &:before {
-      content: " ";
-      position: absolute;
-      left: -1px; right: -1px; top: -1px; bottom: -1px;
-      -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.82);
-      -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.82);
-      box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.82);
-    }
 
     >div {
       position: relative;
@@ -99,6 +88,7 @@
       text-align: center;
       margin-bottom: 1px;
       border-radius: 2px 0 0 2px;
+      border-right: 1px solid @pageBuilderChromeBorders;
 
       i {
         font-size: 16px;
@@ -125,7 +115,12 @@
 
     .menu-triggers {
       left: auto;
-      right: -@triggerButtonsSize - 1;
+      right: -@triggerButtonsSize;
+      >div {
+        border-radius: 0 2px 2px 0;
+        border-left: 1px solid @pageBuilderChromeBorders;
+        border-right: 0;
+      }
     }
   }
 }

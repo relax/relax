@@ -1,28 +1,63 @@
+import clone from 'lodash.clone';
 import React from 'react';
 import {Component} from 'relax-framework';
-import clone from 'lodash.clone';
+
 import A from './a';
 import Utils from '../utils';
 
 export default class Pagination extends Component {
+  static propTypes = {
+    url: React.PropTypes.string.isRequired,
+    query: React.PropTypes.object,
+    count: React.PropTypes.number
+  }
 
-  renderPreviousButton () {
+  static defaultProps = {
+    query: {
+      page: 1,
+      limit: 10
+    },
+    count: 0
+  }
+
+  render () {
+    return (
+      <div className='pagination'>
+        {this.props.query && this.renderButtons()}
+      </div>
+    );
+  }
+
+  renderButtons () {
+    const numPages = Math.ceil(this.props.count / this.props.query.limit);
+    const buttons = [];
+
+    buttons.push(this.renderPreviousButton());
+    for (let i = 0; i < numPages; i++) {
+      buttons.push(this.renderButton(i + 1));
+    }
+    buttons.push(this.renderNextButton(numPages));
+
+    return buttons;
+  }
+
+  renderButton (number) {
     let result;
 
-    if (this.context.query.page > 1) {
-      let query = clone(this.context.query);
-      query.page --;
-      let url = Utils.parseQueryUrl(this.props.url, query);
+    if (this.props.query.page !== number) {
+      const query = clone(this.props.query);
+      query.page = number;
+      const url = Utils.parseQueryUrl(this.props.url, query);
 
       result = (
-        <A className='pagination-button previous' href={url} key='previous'>
-          <i className='material-icons'>navigate_before</i>
+        <A className='pagination-button to' query={query} href={url} key={number}>
+          {number}
         </A>
       );
     } else {
       result = (
-        <span className='pagination-button previous' key='previous'>
-          <i className='material-icons'>navigate_before</i>
+        <span className='pagination-button to' key={number}>
+          {number}
         </span>
       );
     }
@@ -33,10 +68,10 @@ export default class Pagination extends Component {
   renderNextButton (numPages) {
     let result;
 
-    if (this.context.query.page < numPages) {
-      let query = clone(this.context.query);
+    if (this.props.query.page < numPages) {
+      const query = clone(this.props.query);
       query.page ++;
-      let url = Utils.parseQueryUrl(this.props.url, query);
+      const url = Utils.parseQueryUrl(this.props.url, query);
 
       result = (
         <A className='pagination-button next' href={url} key='next'>
@@ -54,60 +89,27 @@ export default class Pagination extends Component {
     return result;
   }
 
-  renderButton (number) {
+  renderPreviousButton () {
     let result;
 
-    if (this.context.query.page !== number) {
-      let query = clone(this.context.query);
-      query.page = number;
-      let url = Utils.parseQueryUrl(this.props.url, query);
+    if (this.props.query.page > 1) {
+      const query = clone(this.props.query);
+      query.page --;
+      const url = Utils.parseQueryUrl(this.props.url, query);
 
       result = (
-        <A className='pagination-button to' href={url} key={number}>
-          {number}
+        <A className='pagination-button previous' href={url} key='previous'>
+          <i className='material-icons'>navigate_before</i>
         </A>
       );
     } else {
       result = (
-        <span className='pagination-button to' key={number}>
-          {number}
+        <span className='pagination-button previous' key='previous'>
+          <i className='material-icons'>navigate_before</i>
         </span>
       );
     }
 
     return result;
   }
-
-  renderButtons () {
-    const numPages = Math.ceil(this.context.count / this.context.query.limit);
-
-    let buttons = [];
-
-    buttons.push(this.renderPreviousButton());
-
-    for (let i = 0; i < numPages; i++) {
-      buttons.push(this.renderButton(i+1));
-    }
-
-    buttons.push(this.renderNextButton(numPages));
-
-    return buttons;
-  }
-
-  render () {
-    return (
-      <div className='pagination'>
-        {this.renderButtons()}
-      </div>
-    );
-  }
 }
-
-Pagination.propTypes = {
-  url: React.PropTypes.string.isRequired
-};
-
-Pagination.contextTypes = {
-  query: React.PropTypes.object.isRequired,
-  count: React.PropTypes.number.isRequired
-};

@@ -1,32 +1,37 @@
 .selected-breadcrumbs {
-  position: relative;
-  line-height: 23px;
-  border-bottom: 1px solid #2f3132;
-  background-color: #12171a;
+  position: absolute;
+  line-height: 30px;
+  border-bottom: 1px solid @pageBuilderChromeBorders;
+  background-color: @pageBuilderChrome;
+  border-top: 1px solid @pageBuilderChromeBorders;
   padding: 0 7px;
-  
+  bottom: 0;
+  left: 0;
+  right: 0;
+
   overflow: hidden;
   white-space: nowrap;
-  direction: rtl;
+  direction: ltr;
   text-align: left;
   font-size: 12px;
 
   a {
+    display: inline-block;
     text-decoration: none;
-    font-size: 10px;
-    color: #969696;
+    font-size: 12px;
+    color: #efefef;
     text-transform: capitalize;
     &:hover {
-      color: #ffffff;
+      color: @adminPrimary;
     }
   }
 
   span {
-    font-size: 10px;
-    color: #969696;
+    font-size: 12px;
+    color: #efefef;
   }
 
   .current {
-    color: #ffffff;
+    color: #999999;
   }
 }

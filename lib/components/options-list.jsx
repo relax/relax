@@ -1,28 +1,63 @@
+import merge from 'lodash.merge';
 import React from 'react';
 import {Component} from 'relax-framework';
-import merge from 'lodash.merge';
+
 import {TypesOptionsMap, TypesOptionsDefaultProps} from '../data-types/options-map';
 
 export default class OptionsList extends Component {
+
+  static propTypes = {
+    options: React.PropTypes.array.isRequired,
+    values: React.PropTypes.object.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    passToOptions: React.PropTypes.object
+  }
+
+  static defaultProps = {
+    passToOptions: {}
+  }
 
   onChange (id, value) {
     this.props.onChange(id, value);
   }
 
-  renderLabel (label) {
-    if (label) {
-      return (
-        <div className='label'>{label}</div>
-      );
-    }
+  render () {
+    return (
+      <div>
+        {this.renderOptions(this.props.options)}
+      </div>
+    );
   }
 
-  renderOption (option) {
-    if (TypesOptionsMap[option.type]) {
-      var Option = TypesOptionsMap[option.type];
-      var value = this.props.values[option.id];
+  renderOptions (options) {
+    return (
+      <div className='options-group'>
+        {options.map(this.renderOption, this)}
+      </div>
+    );
+  }
 
-      var extraProps = merge({}, TypesOptionsDefaultProps[option.type] || {});
+  renderColumn (option, index) {
+    return (
+      <div className='option-column'>
+        {this.renderOption(option)}
+      </div>
+    );
+  }
+
+  renderOption (option, index) {
+    let result;
+
+    if (option.type === 'Columns') {
+      result = (
+        <div className='option-columns' key={index}>
+          {option.options.map(this.renderColumn, this)}
+        </div>
+      );
+    } else if (TypesOptionsMap[option.type]) {
+      const Option = TypesOptionsMap[option.type];
+      const value = this.props.values[option.id];
+      const extraProps = merge({}, TypesOptionsDefaultProps[option.type] || {});
       merge(extraProps, option.props || {});
 
       var unlockedContent = null;
@@ -49,46 +84,32 @@ export default class OptionsList extends Component {
       }
 
       if (option.type === 'Section') {
-        return (
+        result = (
           <div key={option.id}>
             <Option onChange={this.onChange.bind(this, option.id)} value={value} {...extraProps} OptionsList={OptionsList} />
             {unlockedContent}
           </div>
         );
       } else {
-        return (
+        result = (
           <div className='option' key={option.id}>
             {this.renderLabel(option.type !== 'Optional' && option.label)}
-            <Option onChange={this.onChange.bind(this, option.id)} value={value} {...extraProps} OptionsList={OptionsList} />
+            <Option onChange={this.onChange.bind(this, option.id)} value={value} {...extraProps} OptionsList={OptionsList} {...this.props.passToOptions} />
             {unlockedContent}
           </div>
         );
       }
-    }
-    else {
+    } else {
       console.log('Element option type not valid');
     }
+    return result;
   }
 
-  renderOptions (options) {
-    return (
-      <div className='options-group'>
-        {options.map(this.renderOption, this)}
-      </div>
-    );
-  }
-
-  render () {
-    return (
-      <div>
-        {this.renderOptions(this.props.options)}
-      </div>
-    );
+  renderLabel (label) {
+    if (label) {
+      return (
+        <div className='label'>{label}</div>
+      );
+    }
   }
 }
-
-OptionsList.propTypes = {
-  options: React.PropTypes.array.isRequired,
-  values: React.PropTypes.object.isRequired,
-  onChange: React.PropTypes.func.isRequired
-};

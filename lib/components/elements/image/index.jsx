@@ -1,16 +1,48 @@
-import React from 'react';
 import cx from 'classnames';
+import React, {PropTypes} from 'react';
+
+import classes from './classes';
+import propsSchema from './props-schema';
+import settings from './settings';
 import Component from '../../component';
 import Element from '../../element';
 import MediaImage from '../../image';
 import Utils from '../../../utils';
-import Colors from '../../../colors';
-
-import settings from './settings';
-import classes from './classes';
-import propsSchema from './props-schema';
+import {getColorString} from '../../../helpers/colors';
 
 export default class Image extends Component {
+  static propTypes = {
+    element: PropTypes.object.isRequired,
+    pageBuilder: PropTypes.object,
+    color: PropTypes.object.isRequired,
+    useOver: PropTypes.bool.isRequired,
+    imageOver: PropTypes.string,
+    strictHeight: PropTypes.bool.isRequired,
+    height: PropTypes.number.isRequired,
+    vertical: PropTypes.number.isRequired,
+    useMaxWidth: PropTypes.bool.isRequired,
+    width: PropTypes.number.isRequired,
+    horizontal: PropTypes.oneOf(['left', 'center', 'right']).isRequired,
+    children: PropTypes.string
+  }
+
+  static defaultProps = {
+    color: {
+      value: '#ffffff',
+      opacity: 0
+    },
+    useOver: false,
+    strictHeight: false,
+    height: 200,
+    vertical: 50,
+    useMaxWidth: false,
+    width: 300,
+    horizontal: 'center'
+  }
+
+  static propsSchema = propsSchema
+  static settings = settings
+
   getInitialState () {
     return {
       mounted: false
@@ -18,80 +50,73 @@ export default class Image extends Component {
   }
 
   componentDidMount () {
-    super.componentDidMount();
-    var dom = React.findDOMNode(this);
-    var rect = dom.getBoundingClientRect();
-
-    var width = Math.round(rect.right-rect.left);
-
+    const dom = React.findDOMNode(this);
+    const rect = dom.getBoundingClientRect();
+    const width = Math.round(rect.right - rect.left);
     this.setState({
       mounted: true,
       width
     });
   }
 
-  renderImage (imageStyle) {
-    if (this.state.mounted) {
-      return (
-        <div>
-          <MediaImage className='normal-image' id={this.props.children} width={this.state.width} style={imageStyle} height={this.props.height === 'strict' && this.props.height_px} />
-          {this.props.useOver && <MediaImage className='over-image' id={this.props.imageOver} width={this.state.width} style={imageStyle} />}
-        </div>
-      );
-    }
-  }
-
   render () {
-    var style = {
-      backgroundColor: Colors.getColorString(this.props.color)
+    const style = {
+      backgroundColor: getColorString(this.props.color)
     };
-    var imageStyle = {};
+    const imageStyle = {};
 
-    if (this.props.height === 'strict') {
-      style.height = this.props.height_px;
+    if (this.props.strictHeight) {
+      style.height = this.props.height;
       style.overflow = 'hidden';
 
-      Utils.translate(imageStyle, 0, (-this.props.vertical)+'%');
-      imageStyle.top = this.props.height_px * (this.props.vertical / 100);
+      Utils.translate(imageStyle, 0, (-this.props.vertical) + '%');
+      imageStyle.top = this.props.height * (this.props.vertical / 100);
       imageStyle.position = 'relative';
     }
 
-    if (this.props.width === 'max') {
-      imageStyle.maxWidth = this.props.width_px;
+    if (this.props.useMaxWidth) {
+      imageStyle.maxWidth = this.props.width;
       style.textAlign = this.props.horizontal;
     } else {
       imageStyle.minWidth = '100%';
     }
 
     return (
-      <Element tag='div' className={cx(this.props.useOver && classes.overable)} style={style} element={this.props.element} settings={this.constructor.settings}>
+      <Element info={this.props} htmlTag='div' className={cx(this.props.useOver && classes.overable)} style={style} settings={settings}>
         {this.renderImage(imageStyle)}
       </Element>
     );
   }
+
+  renderImage (imageStyle) {
+    if (this.state.mounted) {
+      return (
+        <div>
+          <MediaImage
+            className='normal-image'
+            editing={this.props.pageBuilder && this.props.pageBuilder.editing}
+            id={this.props.children}
+            width={this.state.width}
+            style={imageStyle}
+            height={this.props.strictHeight && this.props.height}
+          />
+          {this.renderOverImage(imageStyle)}
+        </div>
+      );
+    }
+  }
+
+  renderOverImage (imageStyle) {
+    if (this.props.useOver) {
+      return (
+        <MediaImage
+          className='over-image'
+          id={this.props.imageOver}
+          width={this.state.width}
+          style={imageStyle}
+          height={this.props.strictHeight && this.props.height}
+        />
+      );
+    }
+  }
 }
-
-Image.propTypes = {
-  color: React.PropTypes.string.isRequired,
-  useOver: React.PropTypes.bool.isRequired,
-  height: React.PropTypes.string.isRequired,
-  height_px: React.PropTypes.number,
-  vertical: React.PropTypes.number
-};
-
-Image.defaultProps = {
-  color: {
-    value: '#ffffff',
-    opacity: 0
-  },
-  useOver: false,
-  height: 'auto',
-  height_px: 200,
-  vertical: 50,
-  width: 'full',
-  width_px: 300,
-  horizontal: 'center'
-};
-
-Image.propsSchema = propsSchema;
-Image.settings = settings;

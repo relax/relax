@@ -1,28 +1,32 @@
-import {Component} from 'relax-framework';
-import React from 'react';
 import cx from 'classnames';
+import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
+
 import MediaItem from '../../../../media-item';
 
 export default class MediaGridItem extends Component {
-  onSelect (id, event) {
-    event.preventDefault();
-    this.props.onSelect(id);
+  static propTypes = {
+    width: PropTypes.number,
+    height: PropTypes.number,
+    data: PropTypes.object.isRequired,
+    selected: PropTypes.bool,
+    onSelect: PropTypes.func
+  }
+
+  defaultProps = {
+    selected: false,
+    width: 350,
+    height: 190
   }
 
   render () {
-    const width = 350;
-    const height = 190;
-
     return (
-      <a href='#' onClick={this.onSelect.bind(this, this.props.data._id)} className={cx(this.props.selected && 'active')}>
-        <MediaItem item={this.props.data} width={width} height={height} useThumbnail={false} />
+      <a
+          href='#'
+          onClick={this.props.onSelect && this.props.onSelect.bind(null, this.props.data._id)}
+          className={cx(this.props.selected && 'active')}>
+        <MediaItem item={this.props.data} width={this.props.width} height={this.props.height} useThumbnail />
       </a>
     );
   }
 }
-
-MediaGridItem.propTypes = {
-  data: React.PropTypes.object.isRequired,
-  selected: React.PropTypes.bool.isRequired,
-  onSelect: React.PropTypes.func.isRequired
-};

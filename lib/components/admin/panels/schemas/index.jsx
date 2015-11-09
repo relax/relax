@@ -1,48 +1,59 @@
-import React from 'react';
-import {Component} from 'relax-framework';
-import List from './list';
-import Filter from '../../../filter';
-import A from '../../../a';
+import React, {PropTypes} from 'react';
+import {Component, mergeFragments} from 'relax-framework';
 
-import schemasStore from '../../../../client/stores/schemas';
+import A from '../../../a';
+import Breadcrumbs from '../../../breadcrumbs';
+import Filter from '../../../filter';
+import List from './list';
+import Pagination from '../../../pagination';
 
 export default class Schemas extends Component {
-  getInitialState () {
-    return {
-      opened: false,
-      schemas: this.context.schemas
-    };
-  }
+  static fragments = mergeFragments({
+    schemasCount: {
+      count: 1
+    }
+  }, List.fragments)
 
-  getInitialCollections () {
-    return {
-      schemas: schemasStore.getCollection()
-    };
+  static propTypes = {
+    breadcrumbs: PropTypes.array.isRequired,
+    schemas: PropTypes.array,
+    query: PropTypes.object,
+    count: PropTypes.number,
+    removeSchema: PropTypes.func
   }
 
   render () {
     return (
       <div className='admin-schemas'>
         <div className='filter-menu'>
-          <span className='admin-title'>Schemas</span>
+          <Breadcrumbs data={this.props.breadcrumbs} />
           <A href='/admin/schemas/new' className='button-clean'>
             <i className='material-icons'>library_add</i>
             <span>Add new schema</span>
           </A>
           <Filter
-            sorts={[{label: 'Date', property: '_id'}, {label: 'Title', property: 'title'}, {label: 'Slug', property: 'slug'}]}
+            sorts={[
+              {label: 'Date', property: '_id'},
+              {label: 'Title', property: 'title'},
+              {label: 'Slug', property: 'slug'}
+            ]}
             url='/admin/schemas'
             search='title'
+            query={this.props.query}
           />
         </div>
         <div className='admin-scrollable'>
-          <List data={this.state.schemas} />
+          <List
+            schemas={this.props.schemas}
+            removeSchema={this.props.removeSchema}
+          />
+          <Pagination
+            url='/admin/schemas'
+            query={this.props.query}
+            count={this.props.count}
+          />
         </div>
       </div>
     );
   }
 }
-
-Schemas.contextTypes = {
-  schemas: React.PropTypes.array.isRequired
-};

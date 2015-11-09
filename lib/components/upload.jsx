@@ -1,11 +1,24 @@
-import React from 'react';
-import {Component} from 'relax-framework';
 import Dropzone from 'dropzone';
+import ReactDropzone from 'react-dropzone';
+import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
 
 export default class Upload extends Component {
+  static propTypes = {
+    action: PropTypes.string,
+    acceptedFiles: PropTypes.string,
+    success: PropTypes.func,
+    children: PropTypes.node,
+    query: PropTypes.string,
+    onFile: PropTypes.func
+  }
+
+  static defaultProps = {
+    acceptedFiles: 'image/*,video/*,audio/*'
+  }
+
   componentDidMount () {
-    super.componentDidMount();
-    if (typeof document !== 'undefined') {
+    if (typeof document !== 'undefined' && this.props.action) {
       var options = {};
       for (var opt in Dropzone.prototype.defaultOptions) {
         var prop = this.props[opt];
@@ -16,29 +29,53 @@ export default class Upload extends Component {
         options[opt] = Dropzone.prototype.defaultOptions[opt];
       }
 
-      options.acceptedFiles = 'image/*,video/*,audio/*';
-
       this.dropzone = new Dropzone(React.findDOMNode(this), options);
+
+      if (this.props.query) {
+        this.dropzone.on('sending', (file, xhr, formData) => {
+          formData.append('query', this.props.query);
+        });
+      }
     }
   }
 
   componentWillUnmount () {
-    super.componentWillUnmount();
-    this.dropzone.destroy();
-    this.dropzone = null;
+    if (this.props.action) {
+      this.dropzone.destroy();
+      this.dropzone = null;
+    }
+  }
+
+  onDrop (files) {
+    files.forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        this.props.onFile({
+          file: event.target.result,
+          filename: file.name
+        })
+      };
+      reader.readAsDataURL(file);
+    });
   }
 
   render () {
-    return (
-      <form className='dropzone' action={this.props.action} encType='multipart/form-data'>
-        {this.props.children}
-      </form>
-    );
+    var result;
+
+    if (this.props.action) {
+      result = (
+        <form className='dropzone' action={this.props.action} encType='multipart/form-data'>
+          {this.props.children}
+        </form>
+      );
+    } else {
+      result = (
+        <ReactDropzone style={{}} activeStyle={{}} className='dropzone' onDrop={::this.onDrop}>
+          {this.props.children}
+        </ReactDropzone>
+      );
+    }
+
+    return result;
   }
 }
-
-Upload.propTypes = {
-  action: React.PropTypes.string.isRequired,
-  acceptedFiles: React.PropTypes.string,
-  success: React.PropTypes.func
-};

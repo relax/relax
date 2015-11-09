@@ -3,6 +3,18 @@ import {Component} from 'relax-framework';
 import A from './a';
 
 export default class Breadcrumbs extends Component {
+  static propTypes = {
+    data: React.PropTypes.array.isRequired
+  }
+
+  render () {
+    return (
+      <div className='breadcrumbs'>
+        {this.props.data.map(this.renderBreadcrumb, this)}
+      </div>
+    );
+  }
+
   renderBreadcrumb (item, index) {
     var props = {
       className: 'breadcrumb'
@@ -18,8 +30,7 @@ export default class Breadcrumbs extends Component {
           <i className='fa fa-angle-right'></i>
         </span>
       );
-    }
-    else {
+    } else {
       result = (
         <span key={index}>{item.label}</span>
       );
@@ -27,16 +38,4 @@ export default class Breadcrumbs extends Component {
 
     return result;
   }
-
-  render () {
-    return (
-      <div className='breadcrumbs'>
-        {this.props.data.map(this.renderBreadcrumb, this)}
-      </div>
-    );
-  }
 }
-
-Breadcrumbs.propTypes = {
-  data: React.PropTypes.array.isRequired
-};

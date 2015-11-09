@@ -3,6 +3,7 @@
   position: relative;
   cursor: pointer;
   padding: 0 3px;
+  margin-bottom: 8px;
 
   .box, .label {
     vertical-align: top;
@@ -24,16 +25,13 @@
     width: @size;
     height: @size;
     text-align: center;
-    border: 1px solid #383838;
+    border: 1px solid #999999;
     .roundedCorners(3px);
 
     i {
-      font-size: 23px;
-      color: @adminPrimary;
-      top: -2px;
-      left: -4px;
-      position: relative;
-      line-height: 15px;
+      font-size: 13px;
+      color: #ffffff;
+      line-height: 14px;
     }
   }
 
@@ -42,7 +40,7 @@
       color: #efefef;
     }
     .box {
-      border-color: #777;
+      border-color: @adminPrimary;
     }
   }
 }

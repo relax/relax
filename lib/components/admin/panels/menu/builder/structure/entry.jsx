@@ -1,9 +1,20 @@
+import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
-import React from 'react';
 
-import {Droppable, Draggable} from '../../../../../drag';
+import {Droppable, Draggable} from '../../../../../dnd';
 
 export default class Entry extends Component {
+  static propTypes = {
+    entry: PropTypes.object.isRequired,
+    dnd: PropTypes.object.isRequired,
+    dndActions: PropTypes.object.isRequired,
+    children: PropTypes.node
+  }
+
+  static contextTypes = {
+    onEntryRemove: React.PropTypes.func.isRequired
+  }
+
   onRemove (event) {
     event.preventDefault();
     this.context.onEntryRemove(this.props.entry.id);
@@ -15,9 +26,10 @@ export default class Entry extends Component {
       id: this.props.entry.id
     };
 
-    let label, icon;
+    let label;
+    let icon;
     if (this.props.entry.type === 'page') {
-      label = this.props.entry.page.title;
+      label = this.props.entry.page && this.props.entry.page.title || '(Removed page)';
       icon = 'insert_drive_file';
     } else if (this.props.entry.type === 'link') {
       label = this.props.entry.link.label;
@@ -25,7 +37,7 @@ export default class Entry extends Component {
     }
 
     return (
-      <Draggable dragInfo={dragInfo}>
+      <Draggable dragInfo={dragInfo} dnd={this.props.dnd} dndActions={this.props.dndActions}>
         <div className='menu-structure-entry'>
           <div className='link-entry'>
             <i className='material-icons'>{icon}</i>
@@ -39,7 +51,13 @@ export default class Entry extends Component {
             </span>
           </div>
           <div className='sub'>
-            <Droppable dropInfo={this.props.entry} minHeight={7} placeholder={this.context.dragging} placeholderContent='Drop sub link'>
+            <Droppable
+              dropInfo={this.props.entry}
+              minHeight={7}
+              placeholder={this.props.dnd.dragging}
+              placeholderContent='Drop sub link'
+              dnd={this.props.dnd}
+              dndActions={this.props.dndActions}>
               {this.props.children}
             </Droppable>
           </div>
@@ -48,12 +66,3 @@ export default class Entry extends Component {
     );
   }
 }
-
-Entry.propTypes = {
-  entry: React.PropTypes.object.isRequired
-};
-
-Entry.contextTypes = {
-  dragging: React.PropTypes.bool.isRequired,
-  onEntryRemove: React.PropTypes.func.isRequired
-};

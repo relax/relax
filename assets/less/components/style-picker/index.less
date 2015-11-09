@@ -2,30 +2,87 @@
   @import './entry.less';
   @import './edit.less';
 
-  .add-style-btn {
+  .content-scrollable {
+    bottom: 31px;
+    top: 117px;
+    &.no_style {
+      bottom: 91px;
+    }
+  }
+
+  .save-style {
     position: absolute;
-    bottom: 0; left: 0; right: 0;
-
-    height: 40px;
-    line-height: 40px;
-    border-top: 1px solid #383838;
+    bottom: 31px;
+    height: 60px;
+    left: 0; right: 0;
+    border-top: 1px solid @pageBuilderChromeBorders;
     text-align: center;
-    color: #616363;
-    cursor: pointer;
-
-    i, span {
+    .input {
+      width: 205px;
+      margin-top: 10px;
+      height: 39px;
       display: inline-block;
       vertical-align: top;
-      color: #616363;
-      font-size: 14px;
-      line-height: 40px;
-      margin-right: 5px;
+      input {
+        text-transform: uppercase;
+      }
+    }
+    .submit-button {
+      display: inline-block;
+      vertical-align: top;
+      width: 50px;
+      text-align: center;
+      margin-top: 10px;
+      cursor: pointer;
+      i {
+        font-size: 22px;
+        line-height: 39px;
+        color: #999999;
+        .transition();
+      }
+      &:hover {
+        i {
+          color: #efefef;
+          transform: translateX(5px);
+        }
+      }
+    }
+    .button {
+      width: 255px;
+      margin-top: 10px;
+      height: 39px;
+      font-size: 12px;
+      line-height: 39px;
+      padding: 0;
+      text-transform: uppercase;
+    }
+  }
+
+  .selected-style {
+    position: relative;
+    padding: 0 18px;
+    border-bottom: 1px solid @pageBuilderChromeBorders;
+    cursor: pointer;
+
+    span, i {
+      display: inline-block;
+    }
+    span {
+      font-size: 11px;
+      text-transform: uppercase;
+      line-height: 65px;
+      color: #efefef;
+    }
+    i {
+      font-size: 24px;
+      position: absolute;
+      right: 12px;
+      line-height: 65px;
+      color: #999999;
     }
 
     &:hover {
-      i, span {
-        color: #ffffff;
-      }
+      background-color: #3f4249;
     }
   }
 }

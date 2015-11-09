@@ -1,14 +1,64 @@
-import React from 'react';
-import Component from '../../component';
-import Element from '../../element';
-import BackgroundImage from '../../background-image';
-import styles from '../../../styles';
+import cx from 'classnames';
+import React, {PropTypes} from 'react';
 
+import propsSchema from './props-schema';
 import settings from './settings';
 import style from './style';
-import propsSchema from './props-schema';
+import BackgroundImage from '../../background-image';
+import Component from '../../component';
+import Element from '../../element';
 
 export default class Section extends Component {
+  static propTypes = {
+    element: PropTypes.object.isRequired,
+    useBackgroundImage: PropTypes.bool,
+    backgroundImage: PropTypes.string,
+    repeat: PropTypes.string,
+    vertical: PropTypes.number,
+    horizontal: PropTypes.number,
+    navigation: PropTypes.string,
+    styleClassMap: PropTypes.object
+  }
+
+  static defaultProps = {
+    backgroundImage: '',
+    repeat: 'no-repeat',
+    vertical: 50,
+    horizontal: 50,
+    navigation: ''
+  }
+
+  static propsSchema = propsSchema
+  static settings = settings
+  static style = style
+
+  render () {
+    const classMap = this.props.styleClassMap || {};
+
+    const props = {
+      info: this.props,
+      htmlTag: 'div',
+      style: {
+        position: 'relative'
+      },
+      className: cx(classMap && classMap.section),
+      settings: settings
+    };
+
+    if (this.props.navigation && this.props.navigation !== '') {
+      props.id = this.props.navigation;
+    }
+
+    return (
+      <Element {...props}>
+        {this.renderBackground()}
+        <div style={{position: 'relative'}} className={cx(classMap.content)}>
+          {this.renderContent()}
+        </div>
+      </Element>
+    );
+  }
+
   renderBackground () {
     if (this.props.useBackgroundImage) {
       return (
@@ -21,53 +71,4 @@ export default class Section extends Component {
       );
     }
   }
-
-  render () {
-    let classMap = this.props.style && styles.getClassesMap(this.props.style);
-    let className = classMap && classMap.section || '';
-    let classNameContent = classMap && classMap.content || '';
-
-    let props = {
-      tag: 'div',
-      style: {
-        position: 'relative'
-      },
-      className,
-      settings: this.constructor.settings,
-      element: this.props.element
-    };
-
-    if (this.props.navigation && this.props.navigation !== '') {
-      props.id = this.props.navigation;
-    }
-
-    return (
-      <Element {...props}>
-        {this.renderBackground()}
-        <div style={{position: 'relative'}} className={classNameContent}>
-          {this.renderContent()}
-        </div>
-      </Element>
-    );
-  }
 }
-
-Section.propTypes = {
-  backgroundImage: React.PropTypes.string.isRequired,
-  repeat: React.PropTypes.string.isRequired,
-  vertical: React.PropTypes.number,
-  horizontal: React.PropTypes.number,
-  navigation: React.PropTypes.string
-};
-
-Section.defaultProps = {
-  backgroundImage: '',
-  repeat: 'no-repeat',
-  vertical: 50,
-  horizontal: 50,
-  navigation: ''
-};
-
-styles.registerStyle(style);
-Section.propsSchema = propsSchema;
-Section.settings = settings;

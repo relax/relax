@@ -1,11 +1,23 @@
 import React from 'react';
 import {Component} from 'relax-framework';
+
 import A from '../../../a';
 import Lightbox from '../../../lightbox';
 
-import schemaActions from '../../../../client/actions/schema';
-
 export default class Entry extends Component {
+  static fragments = {
+    schema: {
+      _id: 1,
+      title: 1,
+      slug: 1
+    }
+  }
+
+  static propTypes = {
+    removeSchema: React.PropTypes.func.isRequired,
+    schema: React.PropTypes.object.isRequired
+  }
+
   getInitialState () {
     return {
       removing: false
@@ -28,34 +40,17 @@ export default class Entry extends Component {
 
   confirmRemove (event) {
     event.preventDefault();
-    schemaActions.remove(this.props.schema._id);
+    this.props.removeSchema(this.constructor.fragments, this.props.schema._id);
     this.setState({
       removing: false
     });
   }
 
-  renderRemoving () {
-    if (this.state.removing) {
-      const label = 'Are you sure you want to remove the schema '+this.props.schema.title+'?';
-      const label1 = 'You will loose the schema and all entries in it';
-      return (
-        <Lightbox className='small' header={false}>
-          <div className='big centered'>{label}</div>
-          <div className='medium centered'>{label1}</div>
-          <div className='centered space-above'>
-            <a className='button button-grey margined' href='#' onClick={this.cancelRemove.bind(this)}>No, abort!</a>
-            <a className='button button-alert margined' href='#' onClick={this.confirmRemove.bind(this)}>Yes, delete it!</a>
-          </div>
-        </Lightbox>
-      );
-    }
-  }
-
   render () {
     const schema = this.props.schema;
-    const viewLink = '/admin/schema/'+schema.slug;
-    const editLink = '/admin/schemas/'+schema.slug;
-    const buildTemplateLink = '/admin/schemas/'+schema.slug+'/template';
+    const viewLink = '/admin/schema/' + schema._id;
+    const editLink = '/admin/schemas/' + schema._id;
+    const buildTemplateLink = '/admin/schemas/' + schema._id + '/template';
 
     return (
       <div key={schema._id} className='entry'>
@@ -94,8 +89,21 @@ export default class Entry extends Component {
       </div>
     );
   }
-}
 
-Entry.propTypes = {
-  schema: React.PropTypes.object.isRequired
-};
+  renderRemoving () {
+    if (this.state.removing) {
+      const label = 'Are you sure you want to remove the schema ' + this.props.schema.title + '?';
+      const label1 = 'You will loose the schema and all entries in it';
+      return (
+        <Lightbox className='small' header={false}>
+          <div className='big centered'>{label}</div>
+          <div className='medium centered'>{label1}</div>
+          <div className='centered space-above'>
+            <a className='button button-grey margined' href='#' onClick={this.cancelRemove.bind(this)}>No, abort!</a>
+            <a className='button button-alert margined' href='#' onClick={this.confirmRemove.bind(this)}>Yes, delete it!</a>
+          </div>
+        </Lightbox>
+      );
+    }
+  }
+}

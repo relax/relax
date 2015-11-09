@@ -3,17 +3,42 @@ import {Component} from 'relax-framework';
 import Entry from './entry';
 
 export default class List extends Component {
+  static fragments = {
+    pages: Entry.fragments.page
+  }
+
+  static propTypes = {
+    pages: React.PropTypes.array,
+    removePage: React.PropTypes.func,
+    duplicatePage: React.PropTypes.func
+  }
+
+  render () {
+    return (
+      <div className='list'>
+        {this.renderEntries()}
+      </div>
+    );
+  }
+
   renderEntry (page) {
     return (
-      <Entry key={page._id} page={page} />
+      <Entry
+        key={page._id}
+        page={page}
+        removePage={this.props.removePage}
+        duplicatePage={this.props.duplicatePage}
+      />
     );
   }
 
   renderEntries () {
-    if (this.props.data.length > 0) {
-      return this.props.data.map(this.renderEntry, this);
+    let result;
+
+    if (this.props.pages && this.props.pages.length > 0) {
+      result = this.props.pages.map(this.renderEntry, this);
     } else {
-      return (
+      result = (
         <div className='none-warning'>
           <div className='none-icon-part'>
             <i className='material-icons'>error_outline</i>
@@ -25,17 +50,7 @@ export default class List extends Component {
         </div>
       );
     }
-  }
 
-  render () {
-    return (
-      <div className='list'>
-        {this.renderEntries()}
-      </div>
-    );
+    return result;
   }
 }
-
-List.propTypes = {
-  data: React.PropTypes.array.isRequired
-};

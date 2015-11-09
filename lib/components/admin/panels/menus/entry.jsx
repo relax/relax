@@ -1,13 +1,27 @@
+import cx from 'classnames';
+import moment from 'moment';
 import React from 'react';
 import {Component} from 'relax-framework';
-import moment from 'moment';
-import cx from 'classnames';
+
 import A from '../../../a';
 import Lightbox from '../../../lightbox';
 
-import menuActions from '../../../../client/actions/menu';
-
 export default class Entry extends Component {
+  static fragments = {
+    menu: {
+      _id: 1,
+      title: 1,
+      slug: 1,
+      date: 1
+    }
+  }
+
+  static propTypes = {
+    removeMenu: React.PropTypes.func.isRequired,
+    duplicateMenu: React.PropTypes.func.isRequired,
+    menu: React.PropTypes.object.isRequired
+  }
+
   getInitialState () {
     return {
       removing: false
@@ -30,34 +44,16 @@ export default class Entry extends Component {
 
   confirmRemove (event) {
     event.preventDefault();
-    menuActions.remove(this.props.menu._id);
+    this.props.removeMenu(this.constructor.fragments, this.props.menu).done();
     this.setState({
       removing: false
     });
   }
 
-  renderRemoving () {
-    if (this.state.removing) {
-      const label = 'Are you sure you want to remove '+this.props.menu.title+' menu?';
-      const label1 = 'You\'ll loose this menu\'s data forever!';
-      return (
-        <Lightbox className='small' header={false}>
-          <div className='big centered'>{label}</div>
-          <div className='medium centered'>{label1}</div>
-          <div className='centered space-above'>
-            <a className='button button-grey margined' href='#' onClick={this.cancelRemove.bind(this)}>No, abort!</a>
-            <a className='button button-alert margined' href='#' onClick={this.confirmRemove.bind(this)}>Yes, delete it!</a>
-          </div>
-        </Lightbox>
-      );
-    }
-  }
-
   render () {
     const menu = this.props.menu;
-
-    let editLink = '/admin/menus/'+menu.slug;
-    let date = 'Created - ' + moment(menu.date).format('MMMM Do YYYY');
+    const editLink = '/admin/menus/' + menu._id;
+    const date = 'Created - ' + moment(menu.date).format('MMMM Do YYYY');
 
     return (
       <div key={menu._id} className='entry'>
@@ -69,7 +65,6 @@ export default class Entry extends Component {
             <span className='title'>{menu.title}</span>
           </div>
           <div className='under-title'>{date}</div>
-          <div className='under-title'>{menu.state}</div>
           <div className='actions'>
             <A href={editLink}>
               <i className='material-icons'>mode_edit</i>
@@ -85,8 +80,21 @@ export default class Entry extends Component {
       </div>
     );
   }
-}
 
-Entry.propTypes = {
-  menu: React.PropTypes.object.isRequired
-};
+  renderRemoving () {
+    if (this.state.removing) {
+      const label = 'Are you sure you want to remove ' + this.props.menu.title + ' menu?';
+      const label1 = 'You\'ll loose this menu\'s data forever!';
+      return (
+        <Lightbox className='small' header={false}>
+          <div className='big centered'>{label}</div>
+          <div className='medium centered'>{label1}</div>
+          <div className='centered space-above'>
+            <a className='button button-grey margined' href='#' onClick={this.cancelRemove.bind(this)}>No, abort!</a>
+            <a className='button button-alert margined' href='#' onClick={this.confirmRemove.bind(this)}>Yes, delete it!</a>
+          </div>
+        </Lightbox>
+      );
+    }
+  }
+}

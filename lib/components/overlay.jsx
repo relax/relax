@@ -1,17 +1,22 @@
-import React from 'react';
-import {Component} from 'relax-framework';
-import Animate from './animate';
 import cx from 'classnames';
+import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
+
+import Animate from './animate';
 
 export default class Overlay extends Component {
-  renderClose () {
-    if (this.props.closable) {
-      return (
-        <div className='close-button' onClick={this.context.closeOverlay}>
-          <i className='material-icons'>close</i>
-        </div>
-      );
-    }
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+    transition: PropTypes.string,
+    closable: PropTypes.bool,
+    switch: PropTypes.bool,
+    onClose: PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    transition: 'slideUpIn',
+    closable: true,
+    switch: false
   }
 
   render () {
@@ -29,20 +34,14 @@ export default class Overlay extends Component {
       </div>
     );
   }
+
+  renderClose () {
+    if (this.props.closable) {
+      return (
+        <div className='close-button' onClick={this.props.onClose}>
+          <i className='material-icons'>close</i>
+        </div>
+      );
+    }
+  }
 }
-
-Overlay.contextTypes = {
-  closeOverlay: React.PropTypes.func.isRequired
-};
-
-Overlay.propTypes = {
-  transition: React.PropTypes.string,
-  closable: React.PropTypes.bool,
-  switch: React.PropTypes.bool
-};
-
-Overlay.defaultProps = {
-  transition: 'slideUpIn',
-  closable: true,
-  switch: false
-};

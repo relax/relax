@@ -1,6 +1,9 @@
 .color-picker {
-  @previewHeight: 35px;
+  @previewHeight: 40px;
 
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid @pageBuilderChromeBorders;
 
   .color-preview {
     cursor: pointer;
@@ -14,6 +17,7 @@
     font-weight: 800;
     text-transform: uppercase;
     color: #ffffff;
+    border-radius: 3px 3px 0 0;
 
     &:before {
       content: " ";
@@ -51,10 +55,10 @@
   }
 
   .color-info {
-    border: 1px solid #383838;
     border-top: 0;
     height: @previewHeight;
     display: block;
+    background-color: @pageBuilderChromeDarker;
 
     >* {
       display: table-cell;
@@ -62,24 +66,23 @@
     }
 
     .color-value-holder {
-      width: 65%;
-      padding: 8px 7px;
+      width: 62%;
+      padding: 11px 7px;
     }
 
     .color-opacity-holder {
       position: relative;
-      width: 35%;
+      width: 38%;
       text-align: right;
-      padding: 3px 0px;
 
       &:before {
         content: ' ';
         position: absolute;
-        left: 0;
-        top: 9px;
+        left: -1px;
+        top: 12px;
         height: 16px;
         width: 1px;
-        background-color: #383838;
+        background-color: @pageBuilderChromeBorders;
       }
     }
 
@@ -132,8 +135,6 @@
   }
 
   .color-opened {
-    border: 1px solid #383838;
-    border-top: 0;
   }
 
   .color-list {
@@ -141,6 +142,7 @@
     height: @listItemHeight * 4.5;
     overflow-y: auto;
     overflow-x: hidden;
+    background-color: @pageBuilderChromeDarker;
 
     .color-entry {
       cursor: pointer;
@@ -203,17 +205,18 @@
   }
 
   .color-add-new {
-    border-top: 1px solid #383838;
+    border-top: 1px solid @pageBuilderChromeBorders;
+    background-color: @pageBuilderChromeDarker;
     height: 35px;
     line-height: 35px;
     text-align: center;
-    color: #616363;
+    color: #efefef;
     cursor: pointer;
 
     i, span {
       display: inline-block;
       vertical-align: top;
-      color: #616363;
+      color: #efefef;
       font-size: 14px;
       line-height: 35px;
       margin-right: 5px;

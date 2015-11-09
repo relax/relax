@@ -1,14 +1,28 @@
-import React from 'react';
 import cloneDeep from 'lodash.clonedeep';
 import forEach from 'lodash.foreach';
+import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
 
-import {DragRoot} from '../../../../drag';
 import Sidebar from './sidebar';
 import Structure from './structure';
+import {Dragger} from '../../../../dnd';
 
-export default class Builder extends DragRoot {
+export default class Builder extends Component {
+  static fragments = Sidebar.fragments
+
+  static propTypes = {
+    dnd: PropTypes.object.isRequired,
+    dndActions: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired,
+    data: PropTypes.array.isRequired,
+    pages: PropTypes.array.isRequired
+  }
+
+  static childContextTypes = {
+    onEntryRemove: React.PropTypes.func.isRequired
+  }
+
   getInitialState () {
-    this.onStartDragBind = this.onStartDrag.bind(this);
     this.onEntryRemoveBind = this.onEntryRemove.bind(this);
 
     return {
@@ -18,9 +32,7 @@ export default class Builder extends DragRoot {
 
   getChildContext () {
     return {
-      onEntryRemove: this.onEntryRemoveBind,
-      onStartDrag: this.onStartDragBind,
-      dragging: this.state.dragging
+      onEntryRemove: this.onEntryRemoveBind
     };
   }
 
@@ -75,25 +87,24 @@ export default class Builder extends DragRoot {
     return result;
   }
 
-  draggedComponent (dragReport) {
-    let dataDuplicate = cloneDeep(this.props.data);
-
-    const dragInfo = dragReport.dragInfo;
-    const dropInfo = dragReport.dropInfo;
+  draggedComponent () {
+    const dataDuplicate = cloneDeep(this.props.data);
+    const {dragInfo, dropInfo} = this.props.dnd;
 
     // dropped no where
     if (!dropInfo || !dragInfo) {
       return;
     }
 
-    let entry, position = typeof dropInfo.position !== 'undefined' ? dropInfo.position : 0;
+    let entry;
+    let position = typeof dropInfo.position !== 'undefined' ? dropInfo.position : 0;
 
     // dragging element
     if (dragInfo.type === 'new') {
       entry = cloneDeep(dragInfo.entry);
       entry.id = this.checkLatestId(dataDuplicate) + 1;
     } else if (dragInfo.type === 'move') {
-      let info = this.findById(dataDuplicate, dragInfo.id, true);
+      const info = this.findById(dataDuplicate, dragInfo.id, true);
       entry = info.entry;
 
       if (info.parentId === dropInfo.id && position > info.position) {
@@ -105,7 +116,7 @@ export default class Builder extends DragRoot {
     if (dropInfo.id === 'base') {
       dataDuplicate.splice(position, 0, entry);
     } else {
-      let destination = this.findById(dataDuplicate, dropInfo.id).entry;
+      const destination = this.findById(dataDuplicate, dropInfo.id).entry;
       destination.children = destination.children || [];
       destination.children.splice(position, 0, entry);
     }
@@ -114,26 +125,33 @@ export default class Builder extends DragRoot {
   }
 
   onEntryRemove (id) {
-    let dataDuplicate = cloneDeep(this.props.data);
+    const dataDuplicate = cloneDeep(this.props.data);
     this.findById(dataDuplicate, id, true);
     this.props.onChange(dataDuplicate);
   }
 
   render () {
     return (
-      <div className={this.state.dragging && 'dragging'}>
+      <div className={this.props.dnd.dragging && 'dragging'}>
         <div className='menu-builder'>
-          <Sidebar />
-          <Structure data={this.props.data} />
+          <Sidebar pages={this.props.pages} dnd={this.props.dnd} dndActions={this.props.dndActions} />
+          <Structure data={this.props.data} dnd={this.props.dnd} dndActions={this.props.dndActions} />
         </div>
         {this.renderDragger()}
       </div>
     );
   }
-}
 
-Builder.childContextTypes = {
-  onEntryRemove: React.PropTypes.func.isRequired,
-  onStartDrag: React.PropTypes.func.isRequired,
-  dragging: React.PropTypes.bool.isRequired
-};
+  renderDragger () {
+    const {dragging} = this.props.dnd;
+    if (dragging) {
+      return (
+        <Dragger
+          onStopDrag={::this.draggedComponent}
+          dnd={this.props.dnd}
+          dndActions={this.props.dndActions}
+        />
+      );
+    }
+  }
+}

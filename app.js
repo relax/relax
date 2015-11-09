@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
-import config from './config';
-import logger from './lib/logger';
+
 import app from './lib/server';
+import config from './config';
+import logger from './lib/server/logger';
 import migrate from './lib/server/migrate';
 
 // Connect mongoose
@@ -15,8 +16,8 @@ migrate()
   .then(() => {
     // Start server
     var server = app.listen(config.port, () => {
-       var port = server.address().port;
-       logger.debug('Listening at port', port);
+      var port = server.address().port;
+      logger.debug('Listening at port', port);
     });
   })
   .done();

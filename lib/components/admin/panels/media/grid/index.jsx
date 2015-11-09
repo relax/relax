@@ -1,13 +1,17 @@
+import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
-import React from 'react';
+
 import Item from './item';
 
 export default class MediaGrid extends Component {
-  renderItem (data) {
-    var selected = this.props.selected.indexOf(data._id) !== -1;
-    return (
-      <Item key={data._id} data={data} onSelect={this.props.onSelect} selected={selected} />
-    );
+  static propTypes = {
+    media: PropTypes.array.isRequired,
+    selected: PropTypes.array,
+    onSelect: PropTypes.func
+  }
+
+  static defaultProps = {
+    selected: []
   }
 
   render () {
@@ -17,10 +21,17 @@ export default class MediaGrid extends Component {
       </div>
     );
   }
-}
 
-MediaGrid.propTypes = {
-  media: React.PropTypes.array.isRequired,
-  selected: React.PropTypes.array.isRequired,
-  onSelect: React.PropTypes.func.isRequired
-};
+  renderItem (data) {
+    const selected = this.props.selected.indexOf(data._id) !== -1;
+
+    return (
+      <Item
+        key={data._id}
+        data={data}
+        onSelect={this.props.onSelect}
+        selected={selected}
+      />
+    );
+  }
+}

@@ -1,14 +1,7 @@
 import React from 'react';
 import {Component} from 'relax-framework';
-import {Types} from '../../data-types';
 
 export default class Login extends Component {
-
-  onSubmit (event) {
-    event.preventDefault();
-    React.findDOMNode(this.refs.form).submit();
-  }
-
   render () {
     return (
       <div className='page-init white-options'>
@@ -26,25 +19,10 @@ export default class Login extends Component {
               <input type='password' name='password' placeholder='Password' />
             </div>
           </div>
-          <a className='button button-primary full' href='#' onClick={this.onSubmit.bind(this)}>Login</a>
+          <a className='button button-primary full' href='#' onClick={this.props.onSubmit}>Login</a>
           <input type='submit' hidden='true' />
         </form>
       </div>
     );
   }
 }
-
-Login.options = [
-  {
-    label: 'Username',
-    type: Types.String,
-    id: 'username',
-    default: ''
-  },
-  {
-    label: 'Password',
-    type: Types.String,
-    id: 'password',
-    default: ''
-  }
-];

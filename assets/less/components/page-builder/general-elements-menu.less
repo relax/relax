@@ -3,11 +3,17 @@
   @buttonSize: 45px;
 
   @width: 300px;
-  @height: 500px;
+  @height: 70vh;
 
   position: fixed;
   bottom: @margin;
   left: @margin;
+  .transition(0.5s);
+
+  .previewing & {
+    left: -@width;
+    bottom: -@height;
+  }
 
   .toggle {
     display: inline-block;

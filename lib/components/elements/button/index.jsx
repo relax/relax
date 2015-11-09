@@ -1,24 +1,51 @@
-import React from 'react';
-import Component from '../../component';
-import Element from '../../element';
-import styles from '../../../styles';
 import cx from 'classnames';
 import forEach from 'lodash.foreach';
+import React, {PropTypes} from 'react';
 
-import settings from './settings';
-import style from './style';
 import classes from './classes';
 import propsSchema from './props-schema';
+import settings from './settings';
+import style from './style';
+import Component from '../../component';
+import Element from '../../element';
 
 export default class Button extends Component {
 
+  static propTypes = {
+    pageBuilder: PropTypes.object,
+    pageBuilderActions: PropTypes.object,
+    selected: PropTypes.bool,
+    layout: PropTypes.string.isRequired,
+    arrange: PropTypes.string.isRequired,
+    styleClassMap: PropTypes.object,
+    children: PropTypes.node,
+    element: PropTypes.object.isRequired
+  }
+
+  static defaultProps = {
+    layout: 'text',
+    arrange: 'side'
+  }
+
+  static defaultChildren = [
+    {
+      tag: 'TextBox',
+      children: 'Button text',
+      subComponent: true
+    }
+  ]
+
+  static style = style
+  static propsSchema = propsSchema
+  static settings = settings
+
   componentWillReceiveProps (nextProps) {
-    if (this.context.editing && this.context.selected && this.context.selected.id === this.props.element.id) {
+    const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
+    if (editing && this.props.selected) {
       // Check if layout changed
       if (nextProps.layout !== this.props.layout) {
         // 'text', 'icontext', 'texticon', 'icon'
-
-        let newChildren = [];
+        const newChildren = [];
 
         let textChild = false;
         let iconChild = false;
@@ -70,32 +97,18 @@ export default class Button extends Component {
           newChildren.push(iconChild || textChild);
         }
 
-        // Change it
-        this.context.elementContentChange(newChildren);
+        this.props.pageBuilderActions.changeElementChildren(this.props.element.id, newChildren);
       }
     }
   }
 
-  renderChildren () {
-    if (this.props.arrange === 'blocks' || this.props.layout === 'text' || this.props.layout === 'icon') {
-      return this.props.children;
-    } else {
-      return (
-        <div className={cx(classes.sided)}>
-          {this.props.children[0]}
-          {this.props.children[1]}
-        </div>
-      );
-    }
-  }
-
   render () {
-    let classMap = (this.props.style && styles.getClassesMap(this.props.style)) || {};
+    const classMap = this.props.styleClassMap || {};
 
-    let props = {
-      tag: 'div',
-      element: this.props.element,
-      settings: this.constructor.settings,
+    const props = {
+      htmlTag: 'div',
+      info: this.props,
+      settings,
       className: cx(classes.holder, classMap.holder)
     };
 
@@ -107,30 +120,19 @@ export default class Button extends Component {
       </Element>
     );
   }
-}
 
-Button.propTypes = {
-};
-
-Button.contextTypes = {
-  editing: React.PropTypes.bool.isRequired,
-  elementContentChange: React.PropTypes.func,
-  selected: React.PropTypes.any
-};
-
-Button.defaultProps = {
-  layout: 'text',
-  arrange: 'side'
-};
-
-Button.defaultChildren = [
-  {
-    tag: 'TextBox',
-    children: 'Button text',
-    subComponent: true
+  renderChildren () {
+    let result;
+    if (this.props.arrange === 'blocks' || this.props.layout === 'text' || this.props.layout === 'icon') {
+      result = this.props.children;
+    } else {
+      result = (
+        <div className={cx(classes.sided)}>
+          {this.props.children[0]}
+          {this.props.children[1]}
+        </div>
+      );
+    }
+    return result;
   }
-];
-
-styles.registerStyle(style);
-Button.propsSchema = propsSchema;
-Button.settings = settings;
+}

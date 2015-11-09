@@ -1,86 +1,75 @@
-import React from 'react';
-import {Component} from 'relax-framework';
+import React, {PropTypes} from 'react';
+import {Component, mergeFragments} from 'relax-framework';
+
+import Breadcrumbs from '../../../breadcrumbs';
 import List from './list';
 import Filter from '../../../filter';
+import Pagination from '../../../pagination';
 import Lightbox from '../../../lightbox';
 import New from './new';
 
-import userActions from '../../../../client/actions/user';
-import usersStore from '../../../../client/stores/users';
-
 export default class Users extends Component {
-  getInitialState () {
-    return {
-      users: this.context.users,
-      search: (this.context.query && this.context.query.s) || '',
-      lightbox: false
-    };
-  }
-
-  getInitialCollections () {
-    return {
-      users: usersStore.getCollection()
-    };
-  }
-
-  onAddNew (newUser) {
-    userActions
-      .add(newUser)
-      .then(() => {
-        this.setState({
-          lightbox: false
-        });
-      });
-  }
-
-  addNewClick (event) {
-    event.preventDefault();
-    this.setState({
-      lightbox: true
-    });
-  }
-
-  closeLightbox () {
-    this.setState({
-      lightbox: false
-    });
-  }
-
-  renderLightbox () {
-    if (this.state.lightbox) {
-      return (
-        <Lightbox className='small' title='Add user' onClose={this.closeLightbox.bind(this)}>
-          <New onSubmit={this.onAddNew.bind(this)} />
-        </Lightbox>
-      );
+  static fragments = mergeFragments({
+    usersCount: {
+      count: 1
     }
+  }, List.fragments)
+
+  static propTypes = {
+    breadcrumbs: PropTypes.array.isRequired,
+    users: PropTypes.array,
+    query: PropTypes.object,
+    count: PropTypes.number,
+    lightbox: PropTypes.boolean,
+    removeUser: PropTypes.func.isRequired,
+    onAddNew: PropTypes.func.isRequired,
+    onAddNewClick: PropTypes.func.isRequired,
+    onCloseLightbox: PropTypes.func.isRequired
   }
 
   render () {
     return (
       <div className='admin-users'>
         <div className='filter-menu'>
-          <span className='admin-title'>Users</span>
-          <a href='#' className='button-clean' onClick={this.addNewClick.bind(this)}>
+          <Breadcrumbs data={this.props.breadcrumbs} />
+          <a href='#' className='button-clean' onClick={this.props.onAddNewClick}>
             <i className='material-icons'>person_add</i>
             <span>Add new user</span>
           </a>
           <Filter
-            sorts={[{label: 'Date', property: '_id'}, {label: 'Username', property: 'username'}, {label: 'Email', property: 'email'}]}
+            sorts={[
+              {label: 'Date', property: '_id'},
+              {label: 'Username', property: 'username'},
+              {label: 'Email', property: 'email'}
+            ]}
             url='/admin/users'
             search='username'
+            query={this.props.query}
           />
         </div>
         <div className='admin-scrollable'>
-          <List data={this.state.users} />
+          <List
+            users={this.props.users}
+            removeUser={this.props.removeUser}
+          />
+          <Pagination
+            url='/admin/users'
+            query={this.props.query}
+            count={this.props.count}
+          />
         </div>
         {this.renderLightbox()}
       </div>
     );
   }
-}
 
-Users.contextTypes = {
-  users: React.PropTypes.array.isRequired,
-  query: React.PropTypes.object
-};
+  renderLightbox () {
+    if (this.props.lightbox) {
+      return (
+        <Lightbox className='small' title='Add user' onClose={this.props.onCloseLightbox}>
+          <New onSubmit={this.props.onAddNew} />
+        </Lightbox>
+      );
+    }
+  }
+}

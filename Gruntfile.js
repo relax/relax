@@ -4,18 +4,23 @@ module.exports = function (grunt) {
   var browserifyExternalOptions, browserifyExternalRequire;
 
   browserifyExternalOptions = browserifyExternalRequire = [
-    'backbone',
-    'backbone-cortex',
     'jquery',
     'q',
     'react',
-    'relax-framework'
+    'react-redux',
+    'react-router',
+    'redux',
+    'redux-router',
+    'relax-framework',
+    'relax-jss'
   ];
 
   var browserifyProductionOptions = {
     ignore: ['./lib/server/**/*'],
     transform: [
-      'babelify'
+      ['babelify', {
+        optional: ['runtime']
+      }]
     ],
     browserifyOptions: {
       extensions: ['.jsx', '.js']
@@ -28,7 +33,9 @@ module.exports = function (grunt) {
       options: {
         ignore: ['./lib/server/**/*'],
         transform: [
-          'babelify'
+          ['babelify', {
+            optional: ['runtime']
+          }]
         ],
         browserifyOptions: {
           extensions: ['.jsx', '.js'],
@@ -41,10 +48,12 @@ module.exports = function (grunt) {
         options: {
           ignore: ['./lib/server/**/*'],
           transform: [
-            'babelify'
+            ['babelify', {
+              optional: ['runtime']
+            }]
           ],
           browserifyOptions: {
-            extensions: ['.jsx', '.js'],
+            extensions: ['.jsx', '.js']
           },
           require: browserifyExternalRequire,
           external: null
@@ -71,7 +80,8 @@ module.exports = function (grunt) {
     less: {
       development: {
         files: {
-          'public/css/main.css': ['assets/less/main.less']
+          'public/css/main.css': ['assets/less/main.less'],
+          'public/css/public.css': ['assets/less/public.less']
         }
       },
       production: {

@@ -1,32 +1,27 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import Entry from './entry';
 
-import pagesStore from '../../../client/stores/pages';
-
 export default class List extends Component {
-  getInitialState () {
-    return {
-      pages: []
-    };
+  static fragments = {
+    pages: Entry.fragments.page
   }
 
-  getInitialCollections () {
-    return {
-      pages: pagesStore.getCollection()
-    };
-  }
-
-  renderEntry (page) {
-    return <Entry page={page} />;
+  static propTypes = {
+    pages: PropTypes.array.isRequired,
+    onClose: PropTypes.func.isRequired
   }
 
   render () {
     return (
       <div className='list'>
-        {this.state.pages.map(this.renderEntry, this)}
+        {this.props.pages.map(this.renderEntry, this)}
       </div>
     );
+  }
+
+  renderEntry (page) {
+    return <Entry page={page} onClose={this.props.onClose} />;
   }
 }

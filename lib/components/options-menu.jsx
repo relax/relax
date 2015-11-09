@@ -2,13 +2,9 @@ import React from 'react';
 import {Component} from 'relax-framework';
 
 export default class OptionsMenu extends Component {
-  renderOption (option, key) {
-    return (
-      <a href='#' onClick={option.action || 'return false;'} key={key}>
-        {option.icon && <i className={option.icon}></i>}
-        {option.label}
-      </a>
-    );
+  static propTypes = {
+    options: React.PropTypes.array.isRequired,
+    style: React.PropTypes.object
   }
 
   render () {
@@ -18,8 +14,12 @@ export default class OptionsMenu extends Component {
       </div>
     );
   }
+  renderOption (option, key) {
+    return (
+      <a href='#' onClick={option.action || 'return false;'} key={key}>
+        {option.icon && <i className={option.icon}></i>}
+        {option.label}
+      </a>
+    );
+  }
 }
-
-OptionsMenu.propTypes = {
-  options: React.PropTypes.array.isRequired
-};

@@ -3,39 +3,7 @@ import {Component} from 'relax-framework';
 import OptionsList from '../../../options-list';
 import {Types} from '../../../../data-types';
 
-export default class New extends Component {
-  getInitialState () {
-    return {
-      username: '',
-      password: '',
-      name: '',
-      email: ''
-    };
-  }
-
-  onChange (id, value) {
-    this.setState({
-      [id]: value
-    });
-  }
-
-  onSubmit (event) {
-    event.preventDefault();
-    this.props.onSubmit(this.state);
-  }
-
-  render () {
-    return (
-      <form onSubmit={this.onSubmit.bind(this)}>
-        <OptionsList options={this.constructor.options} values={this.state} onChange={this.onChange.bind(this)} />
-        <input type='submit' hidden='true' />
-        <a className='button button-primary' href='#' onClick={this.onSubmit.bind(this)}>Add user</a>
-      </form>
-    );
-  }
-}
-
-New.options = [
+const options = [
   {
     label: 'Username',
     type: Types.String,
@@ -65,6 +33,38 @@ New.options = [
   }
 ];
 
-New.propTypes = {
-  onSubmit: React.PropTypes.func.isRequired
-};
+export default class New extends Component {
+  static propTypes = {
+    onSubmit: React.PropTypes.func.isRequired
+  }
+
+  getInitialState () {
+    return {
+      username: '',
+      password: '',
+      name: '',
+      email: ''
+    };
+  }
+
+  onChange (id, value) {
+    this.setState({
+      [id]: value
+    });
+  }
+
+  onSubmit (event) {
+    event.preventDefault();
+    this.props.onSubmit(this.state);
+  }
+
+  render () {
+    return (
+      <form onSubmit={this.onSubmit.bind(this)}>
+        <OptionsList options={options} values={this.state} onChange={this.onChange.bind(this)} />
+        <input type='submit' hidden />
+        <a className='button button-primary' href='#' onClick={this.onSubmit.bind(this)}>Add user</a>
+      </form>
+    );
+  }
+}

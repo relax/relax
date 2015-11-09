@@ -1,21 +1,37 @@
-import React from 'react';
-import Component from '../../component';
-import Element from '../../element';
-import styles from '../../../styles';
 import cx from 'classnames';
+import React from 'react';
 
+import classes from './classes';
+import propsSchema from './props-schema';
 import settings from './settings';
 import style from './style';
-import propsSchema from './props-schema';
-import classes from './classes';
+import Component from '../../component';
+import Element from '../../element';
 
 export default class Icon extends Component {
+  static propTypes = {
+    icon: React.PropTypes.object.isRequired,
+    align: React.PropTypes.string.isRequired,
+    styleClassMap: React.PropTypes.object
+  }
+
+  static defaultProps = {
+    icon: {
+      family: 'fontawesome',
+      className: 'fa fa-beer'
+    },
+    align: 'center'
+  }
+  static style = style
+  static propsSchema = propsSchema
+  static settings = settings
+
   render () {
-    let classMap = (this.props.style && styles.getClassesMap(this.props.style)) || {};
-    var props = {
-      tag: 'div',
-      element: this.props.element,
-      settings: this.constructor.settings,
+    const classMap = this.props.styleClassMap || {};
+    const props = {
+      htmlTag: 'div',
+      info: this.props,
+      settings,
       style: {
         textAlign: this.props.align
       }
@@ -24,23 +40,11 @@ export default class Icon extends Component {
     return (
       <Element {...props}>
         <div className={cx(classes.holder, classMap.holder)}>
-          <i className={cx(this.props.icon, classMap.icon)} style={style}></i>
+          <i className={cx(this.props.icon && this.props.icon.className, classMap.icon)}>
+            {this.props.icon && this.props.icon.content}
+          </i>
         </div>
       </Element>
     );
   }
 }
-
-Icon.propTypes = {
-  icon: React.PropTypes.string.isRequired,
-  style: React.PropTypes.any.isRequired
-};
-
-Icon.defaultProps = {
-  icon: 'fa fa-beer',
-  align: 'center'
-};
-
-styles.registerStyle(style);
-Icon.propsSchema = propsSchema;
-Icon.settings = settings;

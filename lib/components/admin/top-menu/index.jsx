@@ -1,115 +1,55 @@
 import React from 'react';
-import {Component, Router} from 'relax-framework';
-import cx from 'classnames';
-import forEach from 'lodash.foreach';
+import {Component} from 'relax-framework';
 
-import A from '../../a';
-import AddOverlay from '../add-overlay';
-import PageActions from './page-actions';
-
-import tabsStore from '../../../client/stores/tabs';
-import tabActions from '../../../client/actions/tab';
+import AddOverlay from '../../../containers/add-overlay';
+import PageActionsContainer from '../../../containers/admin/page-actions';
+import Tab from './tab';
 
 export default class TopMenu extends Component {
-  getInitialState () {
-    return {
-      tabs: this.context.tabs
-    };
+  static fragments = {
+    tabs: Tab.fragments.tab
   }
 
-  getInitialCollections () {
-    return {
-      tabs: tabsStore.getCollection({
-        fetch: false,
-        options: {
-          user: this.context.user._id
-        }
-      })
-    };
+  static propTypes = {
+    tabs: React.PropTypes.array.isRequired,
+    user: React.PropTypes.object.isRequired,
+    editing: React.PropTypes.bool.isRequired,
+    activePanelType: React.PropTypes.string,
+    page: React.PropTypes.object,
+    schema: React.PropTypes.object,
+    schemaEntry: React.PropTypes.object,
+    removeTab: React.PropTypes.func,
+    changeDisplay: React.PropTypes.func,
+    addOverlay: React.PropTypes.func.isRequired,
+    closeOverlay: React.PropTypes.func.isRequired
   }
 
-  onCloseTab (_id, active, event) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    tabActions
-      .remove(_id)
-      .then(() => {
-        if (active) {
-          var to = '/admin/pages';
-          forEach(this.state.tabs, (tab, ind) => {
-            if (tab._id._id === _id._id) {
-              let toTab = false;
-              if (ind < this.state.tabs.length - 1) {
-                toTab = this.state.tabs[ind+1];
-              } else if (ind !== 0) {
-                toTab = this.state.tabs[ind-1];
-              }
-              if (toTab !== false) {
-                if (toTab.page) {
-                  to = '/admin/page/'+toTab.page.slug;
-                } else if (toTab.userSchema) {
-                  to = '/admin/schemas/'+toTab.userSchema.slug+'/template';
-                } else if (toTab.schemaEntry) {
-                  to = '/admin/schema/'+toTab.schemaEntry.schemaSlug+'/'+toTab.schemaEntry.slug+'/single';
-                }
-              }
-              return false;
-            }
-          });
-          Router.prototype.navigate(to, {trigger: true});
-        }
-      });
+  static contextTypes = {
+    store: React.PropTypes.object.isRequired
   }
 
   onAddTabClick (event) {
     event.preventDefault();
-    this.context.addOverlay(
-      <AddOverlay />
-    );
+    this.props.addOverlay('addTab', <AddOverlay store={this.context.store} onClose={::this.onCloseAdd} />);
   }
 
-  renderTab (tab) {
-    let slug, title, link, active = this.context.activePanelType === 'pageBuild';
+  onCloseAdd () {
+    this.props.closeOverlay('addTab');
+  }
 
-    if (tab.page) {
-      slug = tab.page.slug;
-      title = tab.page.title;
-      active = active && this.context.page && this.context.page.slug === slug;
-      link = '/admin/page/'+slug;
-    } else if (tab.userSchema) {
-      slug = tab.userSchema.slug;
-      title = tab.userSchema.title+' (template)';
-      active = active && this.context.schema && this.context.schema.slug === slug && !this.context.schemaEntry;
-      link = '/admin/schemas/'+slug+'/template';
-    } else if (tab.schemaEntry) {
-      slug = tab.schemaEntry.slug;
-      title = tab.schemaEntry.title;
-      active = active && this.context.schemaEntry && this.context.schema && this.context.schemaEntry._slug === slug && this.context.schema.slug === tab.schemaEntry.schemaSlug;
-      link = '/admin/schema/'+tab.schemaEntry.schemaSlug+'/'+slug+'/single';
-    } else {
-      return;
-    }
-
-    const deduct = 35 / this.state.tabs.length;
-    let style = {
-      maxWidth: 'calc('+(100 / this.state.tabs.length) +'% - '+deduct+'px)'
-    };
-
-
-
+  render () {
     return (
-      <A href={link} className={cx('tab', active && 'selected')} key={tab._id._id} style={style}>
-        <span>{title}</span>
-        <span className='close' onClick={this.onCloseTab.bind(this, tab._id, active)}><i className='material-icons'>close</i></span>
-      </A>
+      <div className='top-bar'>
+        <PageActionsContainer {...this.props} />
+        {this.renderTabs()}
+      </div>
     );
   }
 
   renderTabs () {
     return (
       <div className='tabs'>
-        {this.state.tabs && this.state.tabs.map(this.renderTab, this)}
+        {this.props.tabs && this.props.tabs.map(this.renderTab, this)}
         <a href='#' className='add-btn' onClick={this.onAddTabClick.bind(this)}>
           <i className='material-icons'>add</i>
         </a>
@@ -117,28 +57,14 @@ export default class TopMenu extends Component {
     );
   }
 
-  render () {
+  renderTab (tab) {
     return (
-      <div className='top-bar'>
-        <PageActions />
-        {this.renderTabs()}
-      </div>
+      <Tab
+        tab={tab}
+        activePanelType={this.props.activePanelType}
+        tabsCount={this.props.tabs.length}
+        removeTab={this.props.removeTab}
+      />
     );
   }
 }
-
-TopMenu.propTypes = {
-
-};
-
-TopMenu.contextTypes = {
-  tabs: React.PropTypes.array.isRequired,
-  user: React.PropTypes.object.isRequired,
-  page: React.PropTypes.object,
-  schema: React.PropTypes.object,
-  schemaEntry: React.PropTypes.object,
-  draft: React.PropTypes.object,
-  editing: React.PropTypes.bool.isRequired,
-  addOverlay: React.PropTypes.func.isRequired,
-  activePanelType: React.PropTypes.string
-};

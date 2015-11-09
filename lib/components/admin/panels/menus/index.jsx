@@ -1,52 +1,61 @@
-import React from 'react';
-import {Component} from 'relax-framework';
+import React, {PropTypes} from 'react';
+import {Component, mergeFragments} from 'relax-framework';
+
+import Breadcrumbs from '../../../breadcrumbs';
 import List from './list';
 import Filter from '../../../filter';
 import Pagination from '../../../pagination';
 import A from '../../../a';
 
-import menusStore from '../../../../client/stores/menus';
-
 export default class Menus extends Component {
-  getInitialState () {
-    return {
-      menus: this.context.menus,
-      search: (this.context.query && this.context.query.s) || '',
-      lightbox: false
-    };
-  }
+  static fragments = mergeFragments({
+    menusCount: {
+      count: 1
+    }
+  }, List.fragments)
 
-  getInitialCollections () {
-    return {
-      menus: menusStore.getCollection()
-    };
+  static propTypes = {
+    breadcrumbs: PropTypes.array.isRequired,
+    menus: PropTypes.array,
+    query: PropTypes.object.isRequired,
+    count: PropTypes.number.isRequired,
+    removeMenu: PropTypes.func.isRequired,
+    duplicateMenu: PropTypes.func.isRequired
   }
 
   render () {
     return (
       <div className='admin-menus'>
         <div className='filter-menu'>
-          <span className='admin-title'>Menus</span>
+          <Breadcrumbs data={this.props.breadcrumbs} />
           <A href='/admin/menus/new' className='button-clean'>
             <i className='material-icons'>library_add</i>
             <span>Add new menu</span>
           </A>
           <Filter
-            sorts={[{label: 'Date', property: '_id'}, {label: 'Title', property: 'title'}, {label: 'Slug', property: 'slug'}]}
+            sorts={[
+              {label: 'Date', property: '_id'},
+              {label: 'Title', property: 'title'},
+              {label: 'Slug', property: 'slug'}
+            ]}
             url='/admin/menus'
             search='title'
+            query={this.props.query}
           />
         </div>
         <div className='admin-scrollable'>
-          <List data={this.state.menus} />
-          <Pagination url='/admin/menus' />
+          <List
+            menus={this.props.menus}
+            removeMenu={this.props.removeMenu}
+            duplicateMenu={this.props.duplicateMenu}
+          />
+          <Pagination
+            url='/admin/menus'
+            query={this.props.query}
+            count={this.props.count}
+          />
         </div>
       </div>
     );
   }
 }
-
-Menus.contextTypes = {
-  menus: React.PropTypes.array.isRequired,
-  query: React.PropTypes.object
-};
