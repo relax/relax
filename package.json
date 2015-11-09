@@ -1,6 +1,6 @@
 {
   "name": "relax",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "New generation CMS on top of React and Node.js",
   "license": "GPL-3.0",
   "repository": {
@@ -71,8 +71,8 @@
     "redux-logger": "^2.0.3",
     "redux-router": "^1.0.0-beta3",
     "redux-thunk": "^1.0.0",
-    "relax-framework": "^0.0.1",
-    "relax-jss": "0.0.0-2",
+    "relax-framework": "^0.1.0",
+    "relax-jss": "0.1.0",
     "rimraf": "^2.4.3",
     "semver": "^5.0.3",
     "serialize-javascript": "^1.1.2",
