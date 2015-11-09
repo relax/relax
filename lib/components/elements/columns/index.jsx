@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import classes from './classes';
 import propsSchema from './props-schema';
@@ -10,18 +10,18 @@ import {Droppable} from '../../dnd';
 
 export default class Columns extends Component {
   static propTypes = {
-    spacing: React.PropTypes.number.isRequired,
-    spacingRows: React.PropTypes.number.isRequired,
-    desktop: React.PropTypes.array.isRequired,
-    tablet: React.PropTypes.array.isRequired,
-    mobile: React.PropTypes.array.isRequired,
-    children: React.PropTypes.node,
-    element: React.PropTypes.object.isRequired,
-    display: React.PropTypes.string.isRequired,
-    dnd: React.PropTypes.object.isRequired,
-    dndActions: React.PropTypes.object.isRequired,
-    pageBuilder: React.PropTypes.object.isRequired,
-    pageBuilderActions: React.PropTypes.object.isRequired
+    spacing: PropTypes.number.isRequired,
+    spacingRows: PropTypes.number.isRequired,
+    desktop: PropTypes.array.isRequired,
+    tablet: PropTypes.array.isRequired,
+    mobile: PropTypes.array.isRequired,
+    children: PropTypes.node,
+    element: PropTypes.object.isRequired,
+    display: PropTypes.string.isRequired,
+    dnd: PropTypes.object,
+    dndActions: PropTypes.object,
+    pageBuilder: PropTypes.object,
+    pageBuilderActions: PropTypes.object
   }
 
   static defaultProps = {
@@ -50,6 +50,7 @@ export default class Columns extends Component {
     const children = [];
     const numChildren = this.props.children && this.props.children.length || 0;
     const layout = Utils.parseColumnsDisplay(this.props[this.props.display], numChildren, this.props.display !== 'desktop');
+    const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
 
     const spaceThird = Math.round(this.props.spacing / 3 * 100) / 100;
     const spaceSides = spaceThird * 2;
@@ -63,7 +64,7 @@ export default class Columns extends Component {
         if (layout[i].width === 'block') {
           children.push(this.renderBlock(this.props.children[i], layout[i], i !== numChildren - 1 ? this.props.spacing : 0));
         } else {
-          var columns = [];
+          const columns = [];
           for (i; i < numChildren; i++) {
             if (layout[i].width !== 'block' && !(columns.length > 0 && layout[i].break)) {
               const isLastColumn = (columns.length !== 0 && (i === numChildren - 1 || (layout[i + 1].width === 'block' || layout[i + 1].break)));
@@ -88,7 +89,7 @@ export default class Columns extends Component {
             }
           }
 
-          if (this.props.pageBuilder.editing && this.props.display === 'desktop') {
+          if (editing && this.props.display === 'desktop') {
             return (
               <Droppable
                 type={this.props.element.tag}
@@ -118,7 +119,7 @@ export default class Columns extends Component {
           }
         }
       }
-    } else if (this.props.pageBuilder.editing) {
+    } else if (editing) {
       return (
         <Droppable
           type={this.props.element.tag}

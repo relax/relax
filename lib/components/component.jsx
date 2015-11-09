@@ -5,13 +5,13 @@ import {Droppable} from './dnd';
 
 export default class ElementComponent extends Component {
   static propTypes = {
-    pageBuilder: PropTypes.object.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired,
+    pageBuilder: PropTypes.object,
+    pageBuilderActions: PropTypes.object,
     element: PropTypes.object.isRequired,
     elementId: PropTypes.string.isRequired,
     children: PropTypes.node,
-    dnd: PropTypes.object.isRequired,
-    dndActions: PropTypes.object.isRequired
+    dnd: PropTypes.object,
+    dndActions: PropTypes.object
   }
 
   componentWillReceiveProps (nextProps) {
@@ -36,7 +36,7 @@ export default class ElementComponent extends Component {
 
   renderContent (customProps) {
     let result;
-    const {editing} = this.props.pageBuilder;
+    const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
     if (editing) {
       const dropInfo = {
         id: this.props.elementId

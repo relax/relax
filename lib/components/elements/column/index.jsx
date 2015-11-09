@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import propsSchema from './props-schema';
 import settings from './settings';
@@ -7,13 +7,12 @@ import Element from '../../element';
 
 export default class Column extends Component {
   static propTypes = {
-    padding: React.PropTypes.string.isRequired,
-    vertical: React.PropTypes.string.isRequired,
-    columnsDisplay: React.PropTypes.string.isRequired,
-    left: React.PropTypes.number,
-    right: React.PropTypes.number,
-    bottom: React.PropTypes.number,
-    layout: React.PropTypes.object
+    padding: PropTypes.string.isRequired,
+    vertical: PropTypes.string.isRequired,
+    left: PropTypes.number,
+    right: PropTypes.number,
+    bottom: PropTypes.number,
+    layout: PropTypes.object
   }
 
   static defaultProps = {

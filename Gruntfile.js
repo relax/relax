@@ -80,7 +80,8 @@ module.exports = function (grunt) {
     less: {
       development: {
         files: {
-          'public/css/main.css': ['assets/less/main.less']
+          'public/css/main.css': ['assets/less/main.less'],
+          'public/css/public.css': ['assets/less/public.less']
         }
       },
       production: {

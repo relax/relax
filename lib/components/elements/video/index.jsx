@@ -12,7 +12,7 @@ export default class Video extends Component {
     videoId: PropTypes.string.isRequired,
     videoHeight: PropTypes.number.isRequired,
     element: PropTypes.object.isRequired,
-    pageBuilder: PropTypes.object.isRequired
+    pageBuilder: PropTypes.object
   }
 
   static defaultProps = {
@@ -80,7 +80,7 @@ export default class Video extends Component {
 
       const iframe = <iframe src={src} width='100%' height={height} frameBorder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>;
 
-      if (this.props.pageBuilder.editing) {
+      if (this.props.pageBuilder && this.props.pageBuilder.editing) {
         result = (
           <div className='editing-wrapper'>
             {iframe}

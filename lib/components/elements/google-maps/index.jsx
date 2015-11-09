@@ -19,7 +19,7 @@ export default class GoogleMapsElem extends Component {
     streetViewControl: React.PropTypes.bool.isRequired,
     useMarker: React.PropTypes.bool.isRequired,
     selected: React.PropTypes.bool.isRequired,
-    pageBuilder: React.PropTypes.object.isRequired
+    pageBuilder: React.PropTypes.object
   }
 
   static defaultProps = {
@@ -51,7 +51,7 @@ export default class GoogleMapsElem extends Component {
   // }
 
   componentDidUpdate (prevProps) {
-    if (this.props.pageBuilder.editing && this.state.ready && prevProps.height !== this.props.height) {
+    if (this.props.pageBuilder && this.props.pageBuilder.editing && this.state.ready && prevProps.height !== this.props.height) {
       if (this.refs.map && this.refs.map.state && this.refs.map.state.instance) {
         window.google.maps.event.trigger(this.refs.map.state.instance, 'resize');
       }
@@ -72,7 +72,7 @@ export default class GoogleMapsElem extends Component {
           /* jshint ignore:end */
         };
 
-        var script = document.createElement('script');
+        const script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=googleMapsInitiated';
         document.body.appendChild(script);
@@ -104,7 +104,9 @@ export default class GoogleMapsElem extends Component {
   renderMap () {
     if (this.state.ready) {
       let result;
+      const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
       const key = this.props.zoom + this.props.scrollwheel + this.props.zoomControls + this.props.streetViewControl + this.props.mapTypeControl + this.props.lat + this.props.lng;
+
       const gmap = (
         <GoogleMap
           ref='map'
@@ -126,7 +128,7 @@ export default class GoogleMapsElem extends Component {
         >{this.renderMarker()}</GoogleMap>
       );
 
-      if (this.props.pageBuilder.editing) {
+      if (editing) {
         result = (
           <div className='editing-wrapper'>
             {gmap}

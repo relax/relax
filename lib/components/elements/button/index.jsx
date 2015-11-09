@@ -12,9 +12,9 @@ import Element from '../../element';
 export default class Button extends Component {
 
   static propTypes = {
-    pageBuilder: PropTypes.object.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired,
-    selected: PropTypes.bool.isRequired,
+    pageBuilder: PropTypes.object,
+    pageBuilderActions: PropTypes.object,
+    selected: PropTypes.bool,
     layout: PropTypes.string.isRequired,
     arrange: PropTypes.string.isRequired,
     styleClassMap: PropTypes.object,
@@ -40,7 +40,7 @@ export default class Button extends Component {
   static settings = settings
 
   componentWillReceiveProps (nextProps) {
-    const {editing} = this.props.pageBuilder;
+    const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
     if (editing && this.props.selected) {
       // Check if layout changed
       if (nextProps.layout !== this.props.layout) {

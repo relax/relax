@@ -13,7 +13,7 @@ import {getColorString} from '../../../helpers/colors';
 export default class Image extends Component {
   static propTypes = {
     element: PropTypes.object.isRequired,
-    pageBuilder: PropTypes.object.isRequired,
+    pageBuilder: PropTypes.object,
     color: PropTypes.object.isRequired,
     useOver: PropTypes.bool.isRequired,
     imageOver: PropTypes.string,
@@ -94,7 +94,7 @@ export default class Image extends Component {
         <div>
           <MediaImage
             className='normal-image'
-            editing={this.props.pageBuilder.editing}
+            editing={this.props.pageBuilder && this.props.pageBuilder.editing}
             id={this.props.children}
             width={this.state.width}
             style={imageStyle}

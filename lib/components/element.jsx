@@ -17,7 +17,7 @@ export default class Element extends Component {
   }
 
   getInitialState () {
-    const editing = this.props.info.pageBuilder.editing;
+    const editing = this.props.info.pageBuilder && this.props.info.pageBuilder.editing;
     if (editing && this.isClient()) {
       this.animationEditingBind = this.animationEditing.bind(this);
       window.addEventListener('animateElements', this.animationEditingBind);
@@ -32,7 +32,7 @@ export default class Element extends Component {
   }
 
   componentDidMount () {
-    const {editing} = this.props.info.pageBuilder;
+    const editing = this.props.info.pageBuilder && this.props.info.pageBuilder.editing;
     this.state.offset = this.getOffset();
 
     if ((!editing && this.state.animation) || this.props.onEnterScreen) {
@@ -43,7 +43,7 @@ export default class Element extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const {editing} = nextProps.info.pageBuilder;
+    const editing = nextProps.info.pageBuilder && nextProps.info.pageBuilder.editing;
     if (editing && this.state.animation !== (this.props.info.element.animation && this.props.info.element.animation.use)) {
       this.setState({
         animation: this.props.info.element.animation && this.props.info.element.animation.use
@@ -157,9 +157,10 @@ export default class Element extends Component {
     let result;
     const {children, settings, info, onEnterScreen, htmlTag, ...tagProps} = this.props;
     const {element, elementId, pageBuilder, dnd, dndActions} = info;
-    const {editing, selectedParent} = pageBuilder;
+    const editing = pageBuilder && pageBuilder.editing;
 
     if (editing && this.props.settings.drag) {
+      const {selectedParent} = pageBuilder;
       const overed = this.isOvered();
       const selected = this.isSelected();
       const {dragging} = dnd;
@@ -218,9 +219,9 @@ export default class Element extends Component {
   renderContent () {
     const {settings, info} = this.props;
     const {element, elementId, pageBuilder, pageBuilderActions, dnd, dndActions} = info;
-    const {editing} = pageBuilder;
+    const editing = pageBuilder && pageBuilder.editing;
     let result;
-    if (settings.drop && !settings.drop.customDropArea && editing) {
+    if (editing && settings.drop && !settings.drop.customDropArea) {
       const dropInfo = {
         id: elementId
       };

@@ -10,7 +10,7 @@ import Element from '../../element';
 
 export default class Icon extends Component {
   static propTypes = {
-    icon: React.PropTypes.string.isRequired,
+    icon: React.PropTypes.object.isRequired,
     align: React.PropTypes.string.isRequired,
     styleClassMap: React.PropTypes.object
   }
@@ -40,7 +40,7 @@ export default class Icon extends Component {
     return (
       <Element {...props}>
         <div className={cx(classes.holder, classMap.holder)}>
-          <i className={cx(this.props.icon && this.props.icon.className, classMap.icon)} style={style}>
+          <i className={cx(this.props.icon && this.props.icon.className, classMap.icon)}>
             {this.props.icon && this.props.icon.content}
           </i>
         </div>

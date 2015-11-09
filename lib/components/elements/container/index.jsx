@@ -10,7 +10,7 @@ export default class Container extends Component {
   static propTypes = {
     styleClassMap: PropTypes.object,
     element: PropTypes.object.isRequired,
-    childre: PropTypes.node
+    children: PropTypes.node
   }
 
   static style = style

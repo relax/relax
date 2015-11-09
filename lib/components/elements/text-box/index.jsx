@@ -67,7 +67,7 @@ export default class TextBox extends Component {
   renderContent () {
     let result;
     const classMap = this.props.styleClassMap || {};
-    const {editing} = this.props.pageBuilder;
+    const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
 
     let html = '';
     if ((!this.props.children || this.props.children === '') && editing && !this.props.selected) {
@@ -77,7 +77,6 @@ export default class TextBox extends Component {
     }
 
     if (editing && this.props.selected) {
-      //
       result = (
         <Editor
           tag='div'
