@@ -19,9 +19,9 @@ import ColorPalettePicker from '../../components/data-types/color-palette-picker
 )
 export default class ColorPalettePickerContainer extends Component {
   static propTypes = {
-    value: PropTypes.string.isRequired,
-    onChange: PropTypes.string.isRequired,
-    colors: PropTypes.object.isRequired,
+    value: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired,
+    colors: PropTypes.array.isRequired,
     addOverlay: PropTypes.func.isRequired,
     closeOverlay: PropTypes.func.isRequired,
     colorsActions: PropTypes.object.isRequired

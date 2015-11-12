@@ -20,13 +20,17 @@ export default class Canvas extends Component {
   }
 
   static childContextTypes = {
-    renderElement: PropTypes.func.isRequired,
     dropHighlight: PropTypes.string.isRequired
+  }
+
+  getInitialState () {
+    this.renderElementBind = ::this.renderElement;
+    this.renderChildrenBind = ::this.renderChildren;
+    return {};
   }
 
   getChildContext () {
     return {
-      renderElement: this.renderElement.bind(this, {}),
       dropHighlight: this.props.pageBuilder.dragging ? 'vertical' : 'none'
     };
   }
@@ -114,7 +118,9 @@ export default class Canvas extends Component {
             selected={selected}
             element={element}
             elementId={elementId}
-            styleClassMap={styleClassMap}>
+            styleClassMap={styleClassMap}
+            renderElement={this.renderElementBind}
+            renderChildren={this.renderChildrenBind}>
             {element.children && this.renderChildren(element.children, elementsLinks)}
           </FactoredElement>
         );

@@ -5,7 +5,7 @@ export default class NumberInput extends Component {
   static propTypes = {
     value: React.PropTypes.number.isRequired,
     onChange: React.PropTypes.func.isRequired,
-    label: React.PropTypes.any,
+    label: React.PropTypes.node,
     min: React.PropTypes.number,
     max: React.PropTypes.number,
     inactive: React.PropTypes.bool
@@ -14,7 +14,7 @@ export default class NumberInput extends Component {
   static defaultProps = {
     min: 0,
     max: false,
-    label: 'px',
+    label: '',
     inactive: false
   }
 
