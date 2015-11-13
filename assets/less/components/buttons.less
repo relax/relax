@@ -28,6 +28,16 @@
     margin-top: 5px;
     margin-bottom: 5px;
   }
+
+  i, span {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 15px;
+  }
+  i {
+    padding-right: 5px;
+    font-size: 20px;
+  }
 }
 
 .button-primary {
@@ -58,11 +68,27 @@
 }
 
 .button-faded-grey {
-  background-color: rgba(239, 239, 239, 0.10);
-  color: #666666;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+
+  color: #ffffff;
+  font-size: 12px;
+
+  i {
+    color: #efefef;
+    font-size: 14px;
+    padding-right: 5px;
+  }
+  i, span {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 20px;
+  }
+
 
   &:hover {
-    color: @adminPrimaryDarker;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: @adminPrimary;
   }
 }
 

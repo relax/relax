@@ -193,9 +193,15 @@ export default class Element extends Component {
           type: element.tag
         }, settings.drag);
 
+        if (pageBuilder.focusElementId === elementId) {
+          tagProps.style = tagProps.style || {};
+          tagProps.style.boxShadow = '0 0 0 99999px rgba(0, 0, 0, .81)';
+          tagProps.style.zIndex = 999;
+        }
+
         result = (
           <Draggable {...draggableProps} dnd={dnd} dndActions={dndActions}>
-            <this.props.htmlTag {...tagProps} onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)}>
+            <this.props.htmlTag {...tagProps} onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)} id={elementId}>
               {this.renderContent()}
               {this.renderHighlight()}
             </this.props.htmlTag>

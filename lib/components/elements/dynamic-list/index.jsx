@@ -95,6 +95,7 @@ export default class Schema extends Component {
           pageBuilderActions={this.props.pageBuilderActions}
           dnd={this.props.dnd}
           dndActions={this.props.dndActions}
+          style={{position: 'relative'}}
         >
           {content}
         </Droppable>

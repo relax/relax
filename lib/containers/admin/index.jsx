@@ -3,6 +3,7 @@ import * as overlaysActions from '../../client/actions/overlays';
 import * as pageBuilderActions from '../../client/actions/page-builder';
 import * as tabsActions from '../../client/actions/tabs';
 
+import forEach from 'lodash.foreach';
 import React, {cloneElement, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -13,12 +14,25 @@ import Admin from '../../components/admin';
 import Overlays from '../../components/overlays';
 import {getQueryVariables} from '../../decorators/query-props';
 
+function isBlurred (overlays) {
+  let blurred = false;
+  forEach(overlays, (overlay) => {
+    if (overlay.blur) {
+      blurred = true;
+      return false;
+    }
+  });
+  return blurred;
+}
+
 @connect(
   (state) => ({
     user: state.session.data,
     overlays: state.overlays,
     tabs: state.tabs.data,
-    editing: state.pageBuilder.editing
+    editing: state.pageBuilder.editing,
+    linkingData: state.pageBuilder.linkingData,
+    blurred: isBlurred(state.overlays)
   }),
   (dispatch) => ({
     ...bindActionCreators(adminActions, dispatch),

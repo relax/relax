@@ -32,12 +32,18 @@ function getPageBuilder (pageBuilder, draft) {
     userExpanded: draft.userExpanded
   };
 
-  if (pageBuilder.selectedId && data[pageBuilder.selectedId]) {
+  if (pageBuilder.selectedId) {
     const selectedElement = data[pageBuilder.selectedId];
     result.selectedElement = selectedElement;
     result.selectedParent = selectedElement && selectedElement.parent;
     result.selectedPath = selectedElement && getElementPath(selectedElement, data);
-    pageBuilder.selectedId = selectedElement && pageBuilder.selectedId;
+    result.selectedId = selectedElement && pageBuilder.selectedId;
+  }
+
+  if (pageBuilder.linkingDataElementId) {
+    const linkingDataElement = data[pageBuilder.linkingDataElementId];
+    result.linkingDataElement = linkingDataElement;
+    result.linkingDataElementId = linkingDataElement && pageBuilder.linkingDataElementId;
   }
 
   return result;

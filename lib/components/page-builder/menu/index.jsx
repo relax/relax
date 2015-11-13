@@ -3,6 +3,7 @@ import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import Breadcrumbs from './breadcrumbs';
+import DataLinking from '../../../containers/data-linking';
 import Tabs from './tabs';
 
 export default class PropsMenu extends Component {
@@ -32,11 +33,12 @@ export default class PropsMenu extends Component {
   }
 
   render () {
-    const {menuOpened, menuSwitchSide, editing} = this.props.pageBuilder;
+    const {menuOpened, menuSwitchSide, editing, linkingData} = this.props.pageBuilder;
     return (
-      <div className={cx('advanced-menu', menuOpened && editing && 'opened', menuSwitchSide && 'left')}>
-        {this.renderTabs()}
-        {this.renderTab()}
+      <div className={cx('advanced-menu', menuOpened && editing && 'opened', menuSwitchSide && 'left', linkingData && 'linking')}>
+        {!linkingData && this.renderTabs()}
+        {!linkingData && this.renderTab()}
+        {linkingData && this.renderDataLinking()}
         {this.renderBreadcrumbs()}
         {this.renderButtons()}
       </div>
@@ -45,8 +47,7 @@ export default class PropsMenu extends Component {
 
   renderTabs () {
     return (
-      <div className={cx('tabs', this.context.useSchema && 'with-schema')}>
-        {(this.context.useSchema || this.context.schema) && this.renderTabButton('schema')}
+      <div className='tabs'>
         {this.renderTabButton('style')}
         {this.renderTabButton('settings')}
         {this.renderTabButton('layers')}
@@ -60,6 +61,10 @@ export default class PropsMenu extends Component {
       var Tab = Tabs[menuTab];
       return <Tab {...this.props} />;
     }
+  }
+
+  renderDataLinking () {
+    return <DataLinking {...this.props} />;
   }
 
   renderBreadcrumbs () {
