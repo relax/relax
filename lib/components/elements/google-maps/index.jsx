@@ -23,9 +23,9 @@ export default class GoogleMapsElem extends Component {
   }
 
   static defaultProps = {
-    zoom: 15,
-    lat: '41.1761671',
-    lng: '-8.601692',
+    zoom: 0,
+    lat: '0',
+    lng: '0',
     height: 250,
     scrollwheel: false,
     zoomControls: true,
