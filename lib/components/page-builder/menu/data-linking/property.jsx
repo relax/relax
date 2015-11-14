@@ -67,12 +67,13 @@ export default class Property extends Component {
     }
   }
 
-  renderLink (link) {
+  renderLink (link, key) {
     const linkedElement = this.props.pageBuilder.data[link.elementId];
     if (linkedElement) {
       return (
         <Link
           key={link.id}
+          linkIndex={key}
           link={link}
           linkedElement={linkedElement}
           property={this.props.property}

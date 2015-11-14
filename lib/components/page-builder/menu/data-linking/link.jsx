@@ -9,7 +9,9 @@ export default class Link extends Component {
     link: PropTypes.object.isRequired,
     linkedElement: PropTypes.object.isRequired,
     pageBuilder: PropTypes.object.isRequired,
-    property: PropTypes.object.isRequired
+    pageBuilderActions: PropTypes.object.isRequired,
+    property: PropTypes.object.isRequired,
+    linkIndex: PropTypes.number.isRequired
   }
 
   getInitialState () {
@@ -21,12 +23,19 @@ export default class Link extends Component {
 
   }
 
+  onRemove () {
+    const {pageBuilder, pageBuilderActions, property, linkIndex} = this.props;
+    const {linkingDataElementId} = pageBuilder;
+    const {elementRemoveSchemaLink} = pageBuilderActions;
+    elementRemoveSchemaLink(linkingDataElementId, property.id, this.props.linkIndex);
+  }
+
   render () {
     return (
       <div className='property-link'>
         <div className='link-info'>
           <span>{this.props.linkedElement.label || this.props.linkedElement.tag}</span>
-          <span className='remove-link'>
+          <span className='remove-link' onClick={::this.onRemove}>
             <i className='material-icons'>close</i>
             <span>Remove</span>
           </span>

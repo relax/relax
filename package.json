@@ -89,7 +89,7 @@
     "babel-runtime": "^5.8.25",
     "babelify": "^6.3.0",
     "eslint": "^1.6.0",
-    "eslint-config-relax": "^1.0.0",
+    "eslint-config-relax": "^1.0.5",
     "eslint-plugin-react": "^3.5.1",
     "grunt": "^0.4.5",
     "grunt-browserify": "^4.0.0",
