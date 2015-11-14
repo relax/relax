@@ -49,7 +49,7 @@ export default class Property extends Component {
       <div className='property'>
         <div className='property-info'>
           <span className={cx('status', hasLinks && 'linked')} onMouseDown={::this.onMouseDown} ref='anchor'></span>
-          <span className='title'>{this.props.property.id}</span>
+          <span className='title'>{this.props.property.title || this.props.property.id}</span>
           <span className='type'>{this.props.property.type}</span>
         </div>
         {this.renderLinks()}

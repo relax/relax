@@ -20,7 +20,10 @@ export default class Link extends Component {
   }
 
   onActionChange (value) {
-
+    const {pageBuilder, pageBuilderActions, property, linkIndex} = this.props;
+    const {linkingDataElementId} = pageBuilder;
+    const {elementChangeSchemaLinkAction} = pageBuilderActions;
+    elementChangeSchemaLinkAction(linkingDataElementId, property.id, this.props.linkIndex, value);
   }
 
   onRemove () {
@@ -30,9 +33,17 @@ export default class Link extends Component {
     elementRemoveSchemaLink(linkingDataElementId, property.id, this.props.linkIndex);
   }
 
+  onMouseOver () {
+    this.props.pageBuilderActions.overElement(this.props.link.elementId);
+  }
+
+  onMouseOut () {
+    this.props.pageBuilderActions.outElement(this.props.link.elementId);
+  }
+
   render () {
     return (
-      <div className='property-link'>
+      <div className='property-link' onMouseOver={::this.onMouseOver} onMouseOut={::this.onMouseOut}>
         <div className='link-info'>
           <span>{this.props.linkedElement.label || this.props.linkedElement.tag}</span>
           <span className='remove-link' onClick={::this.onRemove}>
