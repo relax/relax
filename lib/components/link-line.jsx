@@ -37,7 +37,7 @@ export default class LinkLine extends Component {
       document.removeEventListener('mousemove', this.onMouseMoveBind);
     }
     if (this.onMouseUpBind) {
-      document.removeEventListener('mousemove', this.onMouseUpBind);
+      document.removeEventListener('mouseup', this.onMouseUpBind);
     }
   }
 

@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
@@ -34,17 +35,20 @@ export default class Property extends Component {
     const {closeOverlay, pageBuilder, pageBuilderActions, property} = this.props;
     const {linkingDataElementId, overedId, data} = pageBuilder;
     const {elementAddSchemaLink} = pageBuilderActions;
-    const actions = getSchemaLinkActions(pageBuilder, data[overedId], property);
-
     closeOverlay('linking-line');
-    elementAddSchemaLink(linkingDataElementId, property.id, overedId, actions.values[0]);
+
+    if (overedId && data[overedId]) {
+      const actions = getSchemaLinkActions(pageBuilder, data[overedId], property);
+      elementAddSchemaLink(linkingDataElementId, property.id, overedId, actions.values[0]);
+    }
   }
 
   render () {
+    const hasLinks = this.props.links.length > 0;
     return (
       <div className='property'>
         <div className='property-info'>
-          <span className='status' onMouseDown={::this.onMouseDown} ref='anchor'></span>
+          <span className={cx('status', hasLinks && 'linked')} onMouseDown={::this.onMouseDown} ref='anchor'></span>
           <span className='title'>{this.props.property.id}</span>
           <span className='type'>{this.props.property.type}</span>
         </div>

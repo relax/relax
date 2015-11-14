@@ -19,16 +19,18 @@
       border-radius: 4px;
       cursor: pointer;
 
-      &:before {
-        content: ' ';
-        position: absolute;
-        display: inline-block;
-        top: 2px;
-        left: 2px;
-        width: 4px;
-        height: 4px;
-        border-radius: 2px;
-        background-color: @adminPrimary;
+      &.linked {
+        &:before {
+          content: ' ';
+          position: absolute;
+          display: inline-block;
+          top: 2px;
+          left: 2px;
+          width: 4px;
+          height: 4px;
+          border-radius: 2px;
+          background-color: @adminPrimary;
+        }
       }
     }
     .type {
