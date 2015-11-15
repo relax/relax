@@ -103,6 +103,12 @@ module.exports = function (grunt) {
         cwd: 'assets/images/',
         src: '**',
         dest: 'public/images/'
+      },
+      fonts: {
+        expand: true,
+        cwd: 'assets/fonts/',
+        src: '**',
+        dest: 'public/fonts/'
       }
     },
     uglify: {
