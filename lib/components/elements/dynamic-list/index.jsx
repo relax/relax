@@ -1,17 +1,27 @@
-import cx from 'classnames';
-import React, {PropTypes} from 'react';
+import * as elementsActions from '../../../client/actions/elements';
 
-import classes from './classes';
+import React, {PropTypes} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {buildQueryAndVariables} from 'relax-framework';
+
 import propsSchema from './props-schema';
 import settings from './settings';
 import Component from '../../component';
 import Element from '../../element';
-import {Droppable} from '../../dnd';
+import List from './list';
 
+@connect(
+  (state) => ({
+    elements: state.elements
+  }),
+  (dispatch) => bindActionCreators(elementsActions, dispatch)
+)
 export default class Schema extends Component {
   static propTypes = {
     children: PropTypes.node,
     schemaId: PropTypes.string,
+    dataLinking: PropTypes.object,
     limit: PropTypes.number,
     columns: PropTypes.number,
     pageBuilder: PropTypes.object,
@@ -22,7 +32,8 @@ export default class Schema extends Component {
     elementId: PropTypes.string.isRequired,
     renderChildren: PropTypes.func.isRequired,
     verticalGutter: PropTypes.number.isRequired,
-    horizontalGutter: PropTypes.number.isRequired
+    horizontalGutter: PropTypes.number.isRequired,
+    getElementData: PropTypes.func.isRequired
   }
   static defaultProps = {
     limit: 10,
@@ -32,6 +43,49 @@ export default class Schema extends Component {
   }
   static propsSchema = propsSchema
   static settings = settings
+  static fragments = {
+    schemaList: {
+      _id: 1,
+      title: 1,
+      slug: 1,
+      date: 1,
+      state: 1,
+      properties: 1
+    }
+  }
+
+  getInitialState () {
+    this.fetchData(this.props);
+    return {};
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.schemaId !== this.props.schemaId ||
+        nextProps.dataLinking !== this.props.dataLinking ||
+        nextProps.limit > this.props.limit) {
+      this.fetchData(nextProps);
+    }
+  }
+
+  fetchData (props) {
+    if (props.schemaId) {
+      props.getElementData(props.elementId, buildQueryAndVariables(
+        this.constructor.fragments,
+        {
+          schemaList: {
+            schemaId: {
+              value: props.schemaId,
+              type: 'ID!'
+            },
+            limit: {
+              value: props.limit,
+              type: 'Int'
+            }
+          }
+        }
+      ));
+    }
+  }
 
   render () {
     const props = {
@@ -42,86 +96,10 @@ export default class Schema extends Component {
 
     return (
       <Element {...props}>
-        {this.renderItems()}
+        <List {...this.props}>
+          {this.props.children}
+        </List>
       </Element>
-    );
-  }
-
-  renderItems () {
-    const items = [];
-    for (let i = 0; i < this.props.limit; i) {
-      if (this.props.columns > 1) {
-        const columnItems = [];
-        for (let a = 0; a < this.props.columns && i < this.props.limit; a++) {
-          columnItems.push(this.renderItem(i, a === 0, a === this.props.columns - 1));
-          i++;
-        }
-        items.push(this.renderRow(columnItems, i >= this.props.limit));
-      } else {
-        items.push(this.renderItem(i));
-        i++;
-      }
-    }
-    return items;
-  }
-
-  renderRow (items, isLast) {
-    const style = {};
-    if (!isLast) {
-      style.marginBottom = this.props.verticalGutter + 'px';
-    }
-
-    return (
-      <div className={cx(classes.row)} style={style}>{items}</div>
-    );
-  }
-
-  renderItem (key, isFirst, isLast) {
-    let result;
-    const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
-    const content = this.props.children && this.props.renderChildren(this.props.element.children, {});
-    const spaceThird = Math.round(this.props.horizontalGutter / 3 * 100) / 100;
-    const spaceSides = spaceThird * 2;
-
-    if (editing) {
-      result = (
-        <Droppable
-          key={key}
-          type={this.props.element.tag}
-          dropInfo={{id: this.props.elementId}}
-          {...settings.drop}
-          placeholder
-          pageBuilder={this.props.pageBuilder}
-          pageBuilderActions={this.props.pageBuilderActions}
-          dnd={this.props.dnd}
-          dndActions={this.props.dndActions}
-          style={{position: 'relative'}}
-        >
-          {content}
-        </Droppable>
-      );
-    } else {
-      result = content;
-    }
-
-    const style = {};
-    if (this.props.columns > 1) {
-      style.width = (100 / this.props.columns) + '%';
-
-      if (isFirst) {
-        style.paddingRight = spaceSides;
-      } else if (isLast) {
-        style.paddingLeft = spaceSides;
-      } else {
-        style.paddingRight = spaceThird;
-        style.paddingLeft = spaceThird;
-      }
-    }
-
-    return (
-      <div className={cx(this.props.columns > 1 && classes.column)} style={style}>
-        {result}
-      </div>
     );
   }
 }
