@@ -22,7 +22,6 @@ export default class Entry extends Component {
   }
 
   componentWillUnmount () {
-    super.componentWillUnmount();
     clearTimeout(this.closeTimeout);
   }
 
@@ -34,7 +33,7 @@ export default class Entry extends Component {
   }
 
   onMouseOut (event) {
-    this.closeTimeout = setTimeout(this.close.bind(this), 400);
+    this.closeTimeout = setTimeout(::this.close, 400);
   }
 
   close () {
@@ -82,7 +81,16 @@ export default class Entry extends Component {
   }
 
   renderEntry (entry) {
-    return <Entry entry={entry} subitem classMap={this.props.classMap} classes={this.props.classes} key={entry.id} pageBuilder={this.props.pageBuilder} />;
+    return (
+      <Entry
+        entry={entry}
+        subitem
+        classMap={this.props.classMap}
+        classes={this.props.classes}
+        key={entry.id}
+        pageBuilder={this.props.pageBuilder}
+      />
+    );
   }
 
   renderEntryLink (href, label) {

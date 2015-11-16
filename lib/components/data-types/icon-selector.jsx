@@ -105,7 +105,7 @@ export default class IconSelector extends Component {
     if (!invalid) {
       const className = cx(family.baseClass, family.reference === 'className' && icon);
       const content = family.reference === 'content' && icon;
-      const selected = this.props.selected.family === family.family && className === this.props.selected.className && content === this.props.selected.content;
+      const selected = this.props.selected && this.props.selected.family === family.family && className === this.props.selected.className && content === this.props.selected.content;
       return (
         <div className={cx('icon-entry', selected && 'selected')} key={className + content} onClick={this.onEntryClick.bind(this, icon)}>
           <i className={className}>{content}</i>
