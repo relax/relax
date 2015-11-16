@@ -13,7 +13,8 @@ export default class Property extends Component {
     closeOverlay: PropTypes.func.isRequired,
     links: PropTypes.array.isRequired,
     pageBuilder: PropTypes.object.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired
+    pageBuilderActions: PropTypes.object.isRequired,
+    prefix: PropTypes.string.isRequired
   }
 
   onMouseDown (event) {
@@ -32,14 +33,14 @@ export default class Property extends Component {
   }
 
   onMouseUp () {
-    const {closeOverlay, pageBuilder, pageBuilderActions, property} = this.props;
+    const {closeOverlay, pageBuilder, pageBuilderActions, property, prefix} = this.props;
     const {linkingDataElementId, overedId, data} = pageBuilder;
     const {elementAddSchemaLink} = pageBuilderActions;
     closeOverlay('linking-line');
 
     if (overedId && data[overedId]) {
       const actions = getSchemaLinkActions(pageBuilder, data[overedId], property);
-      elementAddSchemaLink(linkingDataElementId, property.id, overedId, actions.values[0]);
+      elementAddSchemaLink(linkingDataElementId, prefix + property.id, overedId, actions.values[0]);
     }
   }
 
@@ -73,6 +74,7 @@ export default class Property extends Component {
       return (
         <Link
           key={link.id}
+          prefix={this.props.prefix}
           linkIndex={key}
           link={link}
           linkedElement={linkedElement}

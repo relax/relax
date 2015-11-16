@@ -5,9 +5,8 @@ import {Component as JSS} from 'relax-jss';
 
 import displays from '../../helpers/displays';
 import stylesManager from '../../helpers/styles-manager';
+import utils from '../../utils';
 import {Droppable} from '../dnd';
-
-// import utils from '../../utils';
 
 export default class Canvas extends Component {
   static propTypes = {
@@ -85,23 +84,27 @@ export default class Canvas extends Component {
     return styleTags;
   }
 
-  renderChildren (children, elementsLinks) {
+  renderChildren (children, elementsLinks = false, schemaEntry = false) {
     let result;
     if ( children instanceof Array ) {
-      result = children.map(this.renderElement.bind(this, elementsLinks));
+      result = children.map(this.renderElement.bind(this, elementsLinks, schemaEntry));
     } else {
       result = children;
     }
     return result;
   }
 
-  renderElement (elementsLinks, elementId) {
+    renderElement (elementsLinks = false, schemaEntry = false, elementId) {
     const {data, elements, selectedId} = this.props.pageBuilder;
-    const element = data[elementId];
+    let element = data[elementId];
 
     const styleClassMap = stylesManager.processElement(element, elements[element.tag], this.props.styles, elements);
 
     if ((!element.hide || !element.hide[this.props.display]) && element.display !== false) {
+      if (schemaEntry && elementsLinks && elementsLinks[element.id]) {
+        element = utils.alterSchemaElementProps(elementsLinks[element.id], element, schemaEntry);
+      }
+
       if (element.display !== false) {
         const FactoredElement = elements[element.tag];
         const selected = selectedId === element.id;

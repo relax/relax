@@ -11,7 +11,8 @@ export default class Link extends Component {
     pageBuilder: PropTypes.object.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
     property: PropTypes.object.isRequired,
-    linkIndex: PropTypes.number.isRequired
+    linkIndex: PropTypes.number.isRequired,
+    prefix: PropTypes.string.isRequired
   }
 
   getInitialState () {
@@ -20,17 +21,17 @@ export default class Link extends Component {
   }
 
   onActionChange (value) {
-    const {pageBuilder, pageBuilderActions, property, linkIndex} = this.props;
+    const {pageBuilder, pageBuilderActions, property, linkIndex, prefix} = this.props;
     const {linkingDataElementId} = pageBuilder;
     const {elementChangeSchemaLinkAction} = pageBuilderActions;
-    elementChangeSchemaLinkAction(linkingDataElementId, property.id, this.props.linkIndex, value);
+    elementChangeSchemaLinkAction(linkingDataElementId, prefix + property.id, this.props.linkIndex, value);
   }
 
   onRemove () {
-    const {pageBuilder, pageBuilderActions, property, linkIndex} = this.props;
+    const {pageBuilder, pageBuilderActions, property, linkIndex, prefix} = this.props;
     const {linkingDataElementId} = pageBuilder;
     const {elementRemoveSchemaLink} = pageBuilderActions;
-    elementRemoveSchemaLink(linkingDataElementId, property.id, this.props.linkIndex);
+    elementRemoveSchemaLink(linkingDataElementId, prefix + property.id, this.props.linkIndex);
   }
 
   onMouseOver () {
