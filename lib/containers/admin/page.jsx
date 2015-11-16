@@ -55,10 +55,11 @@ export default class PageContainer extends Component {
     store: PropTypes.object
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (this.props.id !== 'new' && nextProps.id === 'new') {
+  getInitialState () {
+    if (this.props.id === 'new') {
       this.props.changePageToDefault();
     }
+    return {};
   }
 
   componentWillUnmount () {
