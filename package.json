@@ -16,7 +16,7 @@
     "watch": "grunt watch"
   },
   "dependencies": {
-    "babel": "^5.8.23",
+    "babel": "^6.1.18",
     "blueimp-md5": "^1.1.1",
     "body-parser": "^1.13.3",
     "classnames": "^2.1.3",
@@ -85,9 +85,14 @@
     "winston": "^2.1.0"
   },
   "devDependencies": {
+    "autoprefixer-loader": "^3.1.0",
+    "babel-core": "^6.1.21",
     "babel-eslint": "^4.1.3",
-    "babel-runtime": "^5.8.25",
-    "babelify": "^6.3.0",
+    "babel-loader": "^6.1.0",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.18",
+    "babel-preset-stage-0": "^6.1.18",
+    "babelify": "^7.2.0",
     "eslint": "^1.6.0",
     "eslint-config-relax": "^1.0.5",
     "eslint-plugin-react": "^3.5.1",
@@ -99,11 +104,15 @@
     "grunt-contrib-uglify": "^0.10.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-nodemon": "^0.4.0",
+    "less-loader": "^2.2.1",
     "less-plugin-autoprefix": "^1.4.2",
     "less-plugin-clean-css": "^1.5.1",
     "nodemon": "^1.8.1",
     "redux-devtools": "^3.0.0-beta-3",
-    "redux-immutable-state-invariant": "^1.1.1"
+    "redux-immutable-state-invariant": "^1.1.1",
+    "webpack": "^1.12.6",
+    "webpack-dev-server": "^1.12.1",
+    "webpack-hot-middleware": "^2.5.0"
   },
   "apps": [
     {
