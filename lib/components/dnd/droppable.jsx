@@ -311,10 +311,12 @@ export default class Droppable extends Component {
 
     const style = {
       backgroundColor: isActive && !hasChildren && !this.props.placeholder ? '#33CC33' : 'transparent',
-      minHeight: hasChildren ? 0 : this.props.minHeight,
-      minWidth: hasChildren ? 0 : this.props.minWidth,
       position: dragging && 'relative'
     };
+    if (!hasChildren) {
+      style.minHeight = this.props.minHeight;
+      style.minWidth = this.props.minWidth;
+    }
     if (this.props.style) {
       Object.assign(style, this.props.style);
     }
@@ -354,7 +356,7 @@ export default class Droppable extends Component {
     const active = elementsMenuSpot === position && selectedId === this.props.dropInfo.id;
 
     return (
-      <div key={position} className={cx('add-marker', vertical && 'vertical', !vertical && this.state.closeToMargin && 'inverted', active && 'active')} onClick={this.addSpotClick.bind(this, position)}>
+      <div key={'mark' + position} className={cx('add-marker', vertical && 'vertical', !vertical && this.state.closeToMargin && 'inverted', active && 'active')} onClick={this.addSpotClick.bind(this, position)}>
         <span className='marker' ref={'spot' + position}>
           <span className='triangle'></span>
           <span className='circle'>
