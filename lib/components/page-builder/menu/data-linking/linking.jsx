@@ -55,7 +55,7 @@ export default class Linking extends Component {
     return (
       <div className='linking'>
         {staticProperties.map(this.renderProperty.bind(this, schemaLinks, ''))}
-        {(this.props.schema.properties || []).map(this.renderProperty.bind(this, schemaLinks, 'properties.'))}
+        {(this.props.schema.properties || []).map(this.renderProperty.bind(this, schemaLinks, 'properties#'))}
       </div>
     );
   }
