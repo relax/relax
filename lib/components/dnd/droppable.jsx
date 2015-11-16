@@ -354,7 +354,7 @@ export default class Droppable extends Component {
     const active = elementsMenuSpot === position && selectedId === this.props.dropInfo.id;
 
     return (
-      <div className={cx('add-marker', vertical && 'vertical', !vertical && this.state.closeToMargin && 'inverted', active && 'active')} onClick={this.addSpotClick.bind(this, position)}>
+      <div key={position} className={cx('add-marker', vertical && 'vertical', !vertical && this.state.closeToMargin && 'inverted', active && 'active')} onClick={this.addSpotClick.bind(this, position)}>
         <span className='marker' ref={'spot' + position}>
           <span className='triangle'></span>
           <span className='circle'>
