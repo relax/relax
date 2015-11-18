@@ -19,7 +19,9 @@ import MediaManager from '../../components/admin/panels/media';
 )
 @queryProps({
   page: 1,
-  limit: 10
+  limit: 10,
+  sort: '_id',
+  order: 'desc'
 })
 export default class MediaManagerContainer extends Component {
   static fragments = MediaManager.fragments

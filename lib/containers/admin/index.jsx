@@ -178,6 +178,8 @@ export default class AdminContainer extends Component {
         } else {
           panelFragments[activePanelType] && delete panelFragments[activePanelType];
         }
+        console.log(activePanelType);
+        console.log(panelFragments);
         break;
       case 'schemaEntry':
         vars.schema = {
