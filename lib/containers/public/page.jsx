@@ -36,6 +36,10 @@ export default class PublicPageContainer extends Component {
     colors: PropTypes.array.isRequired
   }
 
+  static defaultProps = {
+    params: {}
+  }
+
   getInitialState (props = this.props) {
     const params = props.params;
     updateColors(this.props.colors);
@@ -77,6 +81,9 @@ export default class PublicPageContainer extends Component {
       fragments.page = Page.fragments.page;
     } else if (props.params && props.params.slug && props.params.entrySlug) {
       // TODO schema loading
+    } else {
+      // frontpage
+      fragments.page = Page.fragments.page;
     }
 
     return buildQueryAndVariables(fragments, vars);
