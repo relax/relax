@@ -39,7 +39,7 @@ export default class Settings extends Component {
     return (
       <div>
         <div className='filter-menu'>
-          <span className='admin-title'>Settings</span>
+          <span className='admin-title'>General Settings</span>
         </div>
         <div className='admin-scrollable'>
           <div className='list white-options'>

@@ -9,8 +9,10 @@
   },
   "scripts": {
     "build": "NODE_ENV=production ./node_modules/.bin/webpack --output-public-path /public/js/ -p",
-    "dev": "./node_modules/.bin/parallelshell 'node_modules/.bin/babel-node node_modules/.bin/webpack-dev-server --inline --hot' 'npm start'",
-    "start": "./node_modules/.bin/babel-node app"
+    "dev": "./node_modules/.bin/parallelshell 'npm run webpackServer' 'npm run watchServer'",
+    "start": "./node_modules/.bin/babel-node app",
+    "watchServer": "./node_modules/.bin/nodemon -e js,jsx,json -w app.js -w lib -i lib/client -x node_modules/.bin/babel-node app",
+    "webpackServer": "./node_modules/.bin/babel-node node_modules/.bin/webpack-dev-server --inline --hot"
   },
   "dependencies": {
     "babel": "^5.8.23",
