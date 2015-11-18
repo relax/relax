@@ -84,6 +84,8 @@ export default class SchemasManage extends Component {
                   isSlugValid={this.props.isSlugValid}
                   validateSlug={this.props.validateSlug}
                   onChange={this.props.onChange}
+                  titlePlaceholder='Schema title'
+                  slugPlaceholder='schema-slug'
                 />
                 <Builder value={this.props.schema.properties || []} onChange={this.props.onPropertiesChange.bind(this)} />
               </div>

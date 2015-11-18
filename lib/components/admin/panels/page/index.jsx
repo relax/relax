@@ -91,6 +91,8 @@ export default class Page extends Component {
                   isSlugValid={this.props.isSlugValid}
                   validateSlug={this.props.validateSlug}
                   onChange={this.props.onChange}
+                  titlePlaceholder='Page title'
+                  slugPlaceholder='page-slug'
                 />
               </div>
             </div>

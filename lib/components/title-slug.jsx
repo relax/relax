@@ -10,7 +10,9 @@ export default class TitleSlug extends Component {
     onChange: React.PropTypes.func.isRequired,
     title: React.PropTypes.string.isRequired,
     slug: React.PropTypes.string.isRequired,
-    isSlugValid: React.PropTypes.string
+    isSlugValid: React.PropTypes.string,
+    titlePlaceholder: React.PropTypes.string,
+    slugPlaceholder: React.PropTypes.string
   }
 
   constructor (props) {
@@ -107,11 +109,11 @@ export default class TitleSlug extends Component {
       <div>
         <div className='option'>
           <div className='label'>Title</div>
-          <Input label='Title' type='text' onChange={this.onTitleChange} value={title} />
+          <Input label='Title' type='text' onChange={this.onTitleChange} value={title} placeholder={this.props.titlePlaceholder} />
         </div>
         <div className='option'>
           <div className='label'>Slug</div>
-          <Input label='Slug' state={state} type='text' onChange={this.onSlugChange} value={slug} />
+          <Input label='Slug' state={state} type='text' onChange={this.onSlugChange} value={slug} placeholder={this.props.slugPlaceholder} />
         </div>
       </div>
     );

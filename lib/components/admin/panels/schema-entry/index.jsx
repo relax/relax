@@ -104,6 +104,8 @@ export default class SchemaEntry extends Component {
                 isSlugValid={this.props.isSlugValid}
                 validateSlug={this.props.validateSlug}
                 onChange={this.props.onChange}
+                titlePlaceholder={this.props.schema.title + ' entry title'}
+                slugPlaceholder={this.props.schema.slug + '-entry-slug'}
               />
               {this.renderProperties()}
             </div>
