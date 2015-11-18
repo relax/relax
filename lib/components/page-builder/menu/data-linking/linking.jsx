@@ -49,25 +49,26 @@ export default class Linking extends Component {
   }
 
   render () {
-    const properties = [...staticProperties, ...(this.props.schema.properties || [])];
     const {linkingDataElement} = this.props.pageBuilder;
     const schemaLinks = linkingDataElement && linkingDataElement.props && linkingDataElement.props.schemaLinks || {};
 
     return (
       <div className='linking'>
-        {properties.map(this.renderProperty.bind(this, schemaLinks))}
+        {staticProperties.map(this.renderProperty.bind(this, schemaLinks, ''))}
+        {(this.props.schema.properties || []).map(this.renderProperty.bind(this, schemaLinks, 'properties#'))}
       </div>
     );
   }
 
-  renderProperty (schemaLinks, property) {
+  renderProperty (schemaLinks, prefix, property) {
     return (
       <Property
         key={property.id}
         property={property}
+        prefix={prefix}
         addOverlay={this.props.addOverlay}
         closeOverlay={this.props.closeOverlay}
-        links={schemaLinks[property.id] || []}
+        links={schemaLinks[prefix + property.id] || []}
         pageBuilder={this.props.pageBuilder}
         pageBuilderActions={this.props.pageBuilderActions}
       />

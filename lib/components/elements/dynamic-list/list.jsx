@@ -9,6 +9,7 @@ import {Droppable} from '../../dnd';
 export default class List extends Component {
   static propTypes = {
     children: PropTypes.node,
+    entries: PropTypes.array.isRequired,
     limit: PropTypes.number,
     columns: PropTypes.number,
     renderChildren: PropTypes.func.isRequired,
@@ -19,19 +20,25 @@ export default class List extends Component {
     dnd: PropTypes.object,
     dndActions: PropTypes.object,
     element: PropTypes.object.isRequired,
-    elementId: PropTypes.string.isRequired
+    elementId: PropTypes.string.isRequired,
+    elementsLinks: PropTypes.object.isRequired
   }
 
   render () {
     const items = [];
-    for (let i = 0; i < this.props.limit; i) {
+    let number = Math.min(this.props.entries.length, this.props.limit);
+    if (number === 0) {
+      number = this.props.limit;
+    }
+
+    for (let i = 0; i < number; i) {
       if (this.props.columns > 1) {
         const columnItems = [];
-        for (let a = 0; a < this.props.columns && i < this.props.limit; a++) {
+        for (let a = 0; a < this.props.columns && i < number; a++) {
           columnItems.push(this.renderItem(i, a === 0, a === this.props.columns - 1));
           i++;
         }
-        items.push(this.renderRow(columnItems, i >= this.props.limit));
+        items.push(this.renderRow(columnItems, i >= number));
       } else {
         items.push(this.renderItem(i));
         i++;
@@ -58,7 +65,8 @@ export default class List extends Component {
   renderItem (key, isFirst, isLast) {
     let result;
     const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
-    const content = this.props.children && this.props.renderChildren(this.props.element.children, {});
+    const schemaEntry = this.props.entries && this.props.entries[key];
+    const content = this.props.children && this.props.renderChildren(this.props.element.children, this.props.elementsLinks, schemaEntry);
     const spaceThird = Math.round(this.props.horizontalGutter / 3 * 100) / 100;
     const spaceSides = spaceThird * 2;
 

@@ -56,10 +56,11 @@ export default class SchemaEntryContainer extends Component {
     store: PropTypes.object
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (this.props.id !== 'new' && nextProps.id === 'new') {
+  getInitialState () {
+    if (this.props.entryId === 'new') {
       this.props.changeSchemaEntryToDefault();
     }
+    return {};
   }
 
   componentWillUnmount () {

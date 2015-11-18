@@ -10,13 +10,13 @@ import Combobox from '../../components/data-types/combobox';
 
 @connect(
   (state) => ({
-    schemas: state.schemas.data.items
+    menus: state.menus.data.items
   }),
   (dispatch) => bindActionCreators(adminActions, dispatch)
 )
-export default class SchemaPickerContainer extends Component {
+export default class MenuPickerContainer extends Component {
   static fragments = {
-    schemas: {
+    menus: {
       _id: 1,
       title: 1
     }
@@ -25,7 +25,7 @@ export default class SchemaPickerContainer extends Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
     onChange: PropTypes.string.isRequired,
-    schemas: PropTypes.array.isRequired,
+    menus: PropTypes.array.isRequired,
     getAdmin: PropTypes.func.isRequired
   }
 
@@ -37,9 +37,9 @@ export default class SchemaPickerContainer extends Component {
     const labels = [];
     const values = [];
 
-    forEach(this.props.schemas, (schema) => {
-      labels.push(schema.title);
-      values.push(schema._id);
+    forEach(this.props.menus, (menu) => {
+      labels.push(menu.title);
+      values.push(menu._id);
     });
 
     return (

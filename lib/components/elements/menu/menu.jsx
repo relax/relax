@@ -7,7 +7,7 @@ import Entry from './entry';
 
 export default class Menu extends Component {
   static propTypes = {
-    menu: PropTypes.object.isRequired,
+    menu: PropTypes.object,
     styleClassMap: PropTypes.object,
     pageBuilder: PropTypes.object
   }
@@ -21,13 +21,15 @@ export default class Menu extends Component {
     if (this.props.menu && this.props.menu.data) {
       result = (
         <ul className={cx(classes.menu, classMap.menu)}>
-          {this.state.menu.data.map(this.renderEntry, this)}
+          {this.props.menu.data.map(this.renderEntry, this)}
         </ul>
       );
     } else if (this.context.editing) {
       result = (
         <div>Choose a menu on settings</div>
       );
+    } else {
+      result = <div></div>;
     }
     return result;
   }
