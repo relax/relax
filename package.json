@@ -8,7 +8,7 @@
     "url": "https://github.com/relax/relax.git"
   },
   "scripts": {
-    "build": "NODE_ENV=production ./node_modules/.bin/webpack --output-public-path /public/js/ -p",
+    "build": "NODE_ENV=production ./node_modules/.bin/webpack --output-public-path /public/js/ -p && cp -r assets/images/* public/images",
     "start": "NODE_ENV=production ./node_modules/.bin/babel-node app",
     "dev": "./node_modules/.bin/parallelshell 'npm run webpackServer' 'npm run watchServer'",
     "watchServer": "./node_modules/.bin/nodemon -e js,jsx,json -w app.js -w lib -i lib/client -x node_modules/.bin/babel-node app",
