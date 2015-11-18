@@ -117,6 +117,8 @@ export default class Menu extends Component {
                   isSlugValid={this.props.isSlugValid}
                   validateSlug={this.props.validateSlug}
                   onChange={this.props.onChange}
+                  titlePlaceholder='Menu title'
+                  slugPlaceholder='menu-slug'
                 />
                 <Builder
                   data={this.props.menu.data}

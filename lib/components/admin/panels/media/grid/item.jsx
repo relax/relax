@@ -13,7 +13,7 @@ export default class MediaGridItem extends Component {
     onSelect: PropTypes.func
   }
 
-  defaultProps = {
+  static defaultProps = {
     selected: false,
     width: 350,
     height: 190
@@ -22,10 +22,11 @@ export default class MediaGridItem extends Component {
   render () {
     return (
       <a
-          href='#'
-          onClick={this.props.onSelect && this.props.onSelect.bind(null, this.props.data._id)}
-          className={cx(this.props.selected && 'active')}>
-        <MediaItem item={this.props.data} width={this.props.width} height={this.props.height} useThumbnail />
+        href='#'
+        onClick={this.props.onSelect && this.props.onSelect.bind(null, this.props.data._id)}
+        className={cx(this.props.selected && 'active')}
+      >
+        <MediaItem item={this.props.data} width={this.props.width} height={this.props.height} useThumbnail={false} />
       </a>
     );
   }

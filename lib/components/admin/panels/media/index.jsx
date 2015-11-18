@@ -35,7 +35,8 @@ export default class MediaManager extends Component {
     onConfirmRemove: PropTypes.func.isRequired,
     onRemoveSelected: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
-    onSuccess: PropTypes.func.isRequired
+    onSuccess: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired
   }
 
   render () {
@@ -60,6 +61,7 @@ export default class MediaManager extends Component {
             url='/admin/media'
             search='name'
             query={this.props.query}
+            history={this.props.history}
           />
         </div>
         <div className='admin-scrollable'>

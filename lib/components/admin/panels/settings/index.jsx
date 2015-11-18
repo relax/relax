@@ -20,12 +20,13 @@ export default class Settings extends Component {
     saveSettings: PropTypes.func.isRequired,
     saving: PropTypes.boolean,
     state: PropTypes.string.isRequired,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired
   }
 
   static settings = [
     'title',
-    'url',
+    'frontpage',
     'favicon',
     'webclip',
     'googleAnalytics',
@@ -43,7 +44,7 @@ export default class Settings extends Component {
         </div>
         <div className='admin-scrollable'>
           <div className='list white-options'>
-            <OptionsList options={options} values={this.props.settings} onChange={this.onChange} />
+            <OptionsList options={options} values={this.props.settings} onChange={this.props.onChange} />
             <a
                 href='#'
                 className={cx('button', 'button-primary', this.props.saving && 'disabled')}

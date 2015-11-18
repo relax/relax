@@ -65,11 +65,33 @@ export default class Canvas extends Component {
     return (
       <div className='page-builder-canvas' ref='canvas'>
         <div className='body-element' style={bodyStyle} ref='body'>
-          <Droppable type='body' dropInfo={dropInfo} accepts='Section' placeholder dnd={this.props.dnd} dndActions={this.props.dndActions} pageBuilder={this.props.pageBuilder} pageBuilderActions={this.props.pageBuilderActions}>
+          <Droppable
+            type='body'
+            placeholderOverlap={this.renderEmpty}
+            dropInfo={dropInfo}
+            accepts='Section'
+            placeholder
+            dnd={this.props.dnd}
+            dndActions={this.props.dndActions}
+            pageBuilder={this.props.pageBuilder}
+            pageBuilderActions={this.props.pageBuilderActions}
+            minHeight='100%'>
             {elements}
           </Droppable>
         </div>
         {this.renderStyles()}
+      </div>
+    );
+  }
+
+  renderEmpty (renderMark) {
+    return (
+      <div className='pb-empty-placeholder'>
+        <div className='pb-empty-placeholder-wrapper'>
+          <div className='title'>Let's get you started</div>
+          <div className='sub-title'>Click the blue dot below to add your first section</div>
+          {renderMark()}
+        </div>
       </div>
     );
   }
