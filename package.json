@@ -114,7 +114,10 @@
       "error_file": "../shared/logs/stderr.log",
       "out_file": "../shared/logs/stdout.log",
       "pid_file": "../shared/pids/pid",
-      "merge_logs": true
+      "merge_logs": true,
+      "env": {
+        "NODE_ENV": "production"
+      }
     }
   ],
   "deploy": {
@@ -124,7 +127,7 @@
       "path": "/home/node/apps/relax",
       "ref": "origin/master",
       "repo": "https://github.com/relax/relax.git",
-      "post-deploy": ". /home/node/.nvm/nvm.sh && npm install && npm run build && pm2 startOrGracefulReload package.json --env test"
+      "post-deploy": ". /home/node/.nvm/nvm.sh && npm install && npm run build && pm2 startOrGracefulReload package.json --env production"
     }
   }
 }
