@@ -17,7 +17,7 @@ export default class Breadcrumbs extends Component {
     const {selectedPath, selectedElement} = this.props.pageBuilder;
     return (
       <div className='selected-breadcrumbs'>
-        {selectedPath.map(this.renderPathEntry, this)}
+        {selectedPath && selectedPath.map(this.renderPathEntry, this)}
         <span className='current' key='current'>{(selectedElement && (selectedElement.label || selectedElement.tag)) || 'body'}</span>
       </div>
     );
