@@ -14,6 +14,7 @@ module.exports = {
   output: {
     path: './public/js',
     filename: '[name].js',
+    publicPath: 'http://localhost:' + config.devPort + '/js/'
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json']
@@ -29,6 +30,7 @@ module.exports = {
         test: /\.(js|jsx)$/,
         loader: 'babel',
         query: {
+          optional: ['runtime'],
           env: {
             development: {
               plugins: [
@@ -67,6 +69,6 @@ module.exports = {
   },
   devServer: {
     port: config.devPort,
-    contentBase: `http://localhost:${config.port}`
+    contentBase: 'http://localhost:' + config.port
   }
 };
