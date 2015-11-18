@@ -233,7 +233,7 @@ export default class AdminContainer extends Component {
 
   render () {
     return (
-      <div>
+      <div className='max-size'>
         <Admin {...this.props} {...this.props.params} {...this.state}>
           {cloneElement(this.props.children, {
             ...this.props,
