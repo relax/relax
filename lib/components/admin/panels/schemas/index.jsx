@@ -19,7 +19,8 @@ export default class Schemas extends Component {
     schemas: PropTypes.array,
     query: PropTypes.object,
     count: PropTypes.number,
-    removeSchema: PropTypes.func
+    removeSchema: PropTypes.func,
+    history: PropTypes.object.isRequired
   }
 
   render () {
@@ -40,6 +41,7 @@ export default class Schemas extends Component {
             url='/admin/schemas'
             search='title'
             query={this.props.query}
+            history={this.props.history}
           />
         </div>
         <div className='admin-scrollable'>

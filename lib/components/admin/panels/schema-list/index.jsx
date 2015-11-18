@@ -25,7 +25,8 @@ export default class Schema extends Component {
     schemaList: PropTypes.array.isRequired,
     count: PropTypes.number.isRequired,
     query: PropTypes.object,
-    removeSchemaEntry: PropTypes.func.isRequired
+    removeSchemaEntry: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired
   }
 
   render () {
@@ -52,6 +53,7 @@ export default class Schema extends Component {
             url={link}
             search='title'
             query={this.props.query}
+            history={this.props.history}
           />
         </div>
         <div className='admin-scrollable'>

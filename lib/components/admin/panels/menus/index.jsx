@@ -1,11 +1,11 @@
 import React, {PropTypes} from 'react';
 import {Component, mergeFragments} from 'relax-framework';
 
-import Breadcrumbs from '../../../breadcrumbs';
-import List from './list';
-import Filter from '../../../filter';
-import Pagination from '../../../pagination';
 import A from '../../../a';
+import Breadcrumbs from '../../../breadcrumbs';
+import Filter from '../../../filter';
+import List from './list';
+import Pagination from '../../../pagination';
 
 export default class Menus extends Component {
   static fragments = mergeFragments({
@@ -20,7 +20,8 @@ export default class Menus extends Component {
     query: PropTypes.object.isRequired,
     count: PropTypes.number.isRequired,
     removeMenu: PropTypes.func.isRequired,
-    duplicateMenu: PropTypes.func.isRequired
+    duplicateMenu: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired
   }
 
   render () {
@@ -41,6 +42,7 @@ export default class Menus extends Component {
             url='/admin/menus'
             search='title'
             query={this.props.query}
+            history={this.props.history}
           />
         </div>
         <div className='admin-scrollable'>

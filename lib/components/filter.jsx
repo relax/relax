@@ -11,7 +11,8 @@ export default class Filter extends Component {
     sorts: React.PropTypes.array.isRequired,
     url: React.PropTypes.string.isRequired,
     search: React.PropTypes.string.isRequired,
-    query: React.PropTypes.object
+    query: React.PropTypes.object,
+    history: React.PropTypes.object.isRequired
   }
 
   getInitialState () {
@@ -40,7 +41,7 @@ export default class Filter extends Component {
 
     const url = Utils.parseQueryUrl(this.props.url, query);
 
-    history.pushState({}, '', url);
+    this.props.history.pushState({}, url);
   }
 
   render () {

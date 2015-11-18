@@ -20,7 +20,8 @@ export default class Pages extends Component {
     query: PropTypes.object,
     count: PropTypes.number,
     removePage: PropTypes.func,
-    duplicatePage: PropTypes.func
+    duplicatePage: PropTypes.func,
+    history: PropTypes.object.isRequired
   }
 
   render () {
@@ -41,6 +42,7 @@ export default class Pages extends Component {
             url='/admin/pages'
             search='title'
             query={this.props.query}
+            history={this.props.history}
           />
         </div>
         <div className='admin-scrollable'>

@@ -2,11 +2,11 @@ import React, {PropTypes} from 'react';
 import {Component, mergeFragments} from 'relax-framework';
 
 import Breadcrumbs from '../../../breadcrumbs';
-import List from './list';
 import Filter from '../../../filter';
-import Pagination from '../../../pagination';
 import Lightbox from '../../../lightbox';
+import List from './list';
 import New from './new';
+import Pagination from '../../../pagination';
 
 export default class Users extends Component {
   static fragments = mergeFragments({
@@ -24,7 +24,8 @@ export default class Users extends Component {
     removeUser: PropTypes.func.isRequired,
     onAddNew: PropTypes.func.isRequired,
     onAddNewClick: PropTypes.func.isRequired,
-    onCloseLightbox: PropTypes.func.isRequired
+    onCloseLightbox: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired
   }
 
   render () {
@@ -45,6 +46,7 @@ export default class Users extends Component {
             url='/admin/users'
             search='username'
             query={this.props.query}
+            history={this.props.history}
           />
         </div>
         <div className='admin-scrollable'>
