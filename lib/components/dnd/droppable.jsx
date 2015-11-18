@@ -26,6 +26,7 @@ export default class Droppable extends Component {
     type: PropTypes.string,
     placeholder: PropTypes.bool,
     placeholderContent: PropTypes.string,
+    placeholderOverlap: PropTypes.func,
     selectionChildren: PropTypes.string,
     children: PropTypes.node
   }
@@ -369,11 +370,17 @@ export default class Droppable extends Component {
 
   renderPlaceholder () {
     if (this.props.placeholder) {
-      return (
-        <div className={cx('drop-placeholder', this.state.overed && 'active')}>
-          {this.renderPlaceholderContent()}
-        </div>
-      );
+      let result;
+      if (this.props.placeholderOverlap) {
+        result = this.props.placeholderOverlap(this.renderMark.bind(this, 0));
+      } else {
+        result = (
+          <div className={cx('drop-placeholder', this.state.overed && 'active')}>
+            {this.renderPlaceholderContent()}
+          </div>
+        );
+      }
+      return result;
     }
   }
 
