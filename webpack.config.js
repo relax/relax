@@ -1,58 +1,72 @@
-import {join} from 'path';
-import {
-  HotModuleReplacementPlugin,
-  NoErrorsPlugin,
-  DefinePlugin,
-  optimize
-} from 'webpack';
+var webpack = require('webpack');
+var config = require('./config');
 
-import config from './config';
-
-// import babelConfig from './.babelrc';
+var NoErrorsPlugin = webpack.NoErrorsPlugin;
+var optimize = webpack.optimize;
 
 module.exports = {
-  // devtool: 'eval',
+  devtool: 'eval',
   entry: {
-    admin: join(__dirname, '/lib/client/admin.js'),
-    auth: join(__dirname, '/lib/client/auth.js'),
-    public: join(__dirname, '/lib/client/public.js'),
-    // devServer: `webpack-dev-server/client?http://0.0.0.0:${config.devPort}`,
-    // hotPlug: 'webpack/hot/only-dev-server',
-    // server: join(__dirname, 'index.js')
+    admin: ['./lib/client/admin.js'],
+    auth: ['./lib/client/auth.js'],
+    public: ['./lib/client/public.js']
   },
   output: {
-    path: join(__dirname, '/public'),
-    filename: '[name].js'
+    path: './public/js',
+    filename: '[name].js',
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx', '.json']
   },
   plugins: [
     new optimize.OccurenceOrderPlugin(),
     new optimize.CommonsChunkPlugin('common.js', ['admin', 'auth', 'public']),
-    // new HotModuleReplacementPlugin(),
-    new NoErrorsPlugin(),
-    // new DefinePlugin({
-    //   __DEVELOPMENT__: true,
-    //   __DEVTOOLS__: false
-    // })
+    new NoErrorsPlugin()
   ],
   module: {
     loaders: [
       {
         test: /\.(js|jsx)$/,
-        // include: [join(__dirname, 'index.js'), join(__dirname, 'lib')],
         loader: 'babel',
-        exclude: /node_modules/,
         query: {
-          cacheDirectory: true
-        }
+          env: {
+            development: {
+              plugins: [
+                'react-transform'
+              ],
+              extra: {
+                'react-transform': {
+                  transforms: [{
+                    transform: 'react-transform-hmr',
+                    imports: ['react'],
+                    locals: ['module']
+                  }, {
+                    transform: 'react-transform-catch-errors',
+                    imports: ['react', 'redbox-react']
+                  }]
+                }
+              }
+            }
+          }
+        },
+        exclude: /node_modules/
       },
-      // {
-      //   test: /\.(less|css)$/,
-      //   include: [join(__dirname, 'assets/less')],
-      //   loader: 'style!css!less!autoprefixer'
-      // }
+      {
+        test: /\.(less|css)$/,
+        loader: 'style!css!less!autoprefixer'
+      },
+      {
+        test: /\.json$/,
+        loader: 'json'
+      },
+      {
+        test: /\.(woff|woff2|ttf|eot|svg|png|jpg|jpeg|gif)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url'
+      }
     ]
+  },
+  devServer: {
+    port: config.devPort,
+    contentBase: `http://localhost:${config.port}`
   }
 };

@@ -1,6 +1,6 @@
-import rc from 'rc';
+var rc = require('rc');
 
-export default rc('relax', {
+module.exports = rc('relax', {
    port: 8080,
    devPort: 8181,
    db: {

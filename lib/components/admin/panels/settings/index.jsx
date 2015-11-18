@@ -1,10 +1,10 @@
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
-import cx from 'classnames';
 
-import OptionsList from '../../../options-list';
-import FormState from '../../../form-state';
 import options from './options';
+import FormState from '../../../form-state';
+import OptionsList from '../../../options-list';
 
 export default class Settings extends Component {
   static fragments = {
@@ -39,7 +39,7 @@ export default class Settings extends Component {
     return (
       <div>
         <div className='filter-menu'>
-          <span className='admin-title'>General Settings</span>
+          <span className='admin-title'>Settings</span>
         </div>
         <div className='admin-scrollable'>
           <div className='list white-options'>

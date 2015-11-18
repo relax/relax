@@ -8,15 +8,12 @@
     "url": "https://github.com/relax/relax.git"
   },
   "scripts": {
-    "prepublish": "npm run build",
-    "build": "NODE_ENV=production grunt build:production",
-    "dev": "grunt dev",
-    "test": "grunt test",
-    "start": "node index",
-    "watch": "grunt watch"
+    "build": "NODE_ENV=production ./node_modules/.bin/webpack --output-public-path /public/js/ -p",
+    "dev": "./node_modules/.bin/parallelshell 'node_modules/.bin/babel-node node_modules/.bin/webpack-dev-server --inline --hot' 'npm start'",
+    "start": "./node_modules/.bin/babel-node app"
   },
   "dependencies": {
-    "babel": "^6.1.18",
+    "babel": "^5.8.23",
     "blueimp-md5": "^1.1.1",
     "body-parser": "^1.13.3",
     "classnames": "^2.1.3",
@@ -86,30 +83,26 @@
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.1.0",
-    "babel-core": "^6.1.21",
     "babel-eslint": "^4.1.3",
-    "babel-loader": "^6.1.0",
-    "babel-preset-es2015": "^6.1.18",
-    "babel-preset-react": "^6.1.18",
-    "babel-preset-stage-0": "^6.1.18",
-    "babelify": "^7.2.0",
+    "babel-loader": "^5.4.0",
+    "babel-plugin-react-transform": "^1.1.1",
+    "babel-runtime": "^5.8.25",
+    "babelify": "^6.3.0",
+    "css-loader": "^0.23.0",
     "eslint": "^1.6.0",
     "eslint-config-relax": "^1.0.5",
     "eslint-plugin-react": "^3.5.1",
-    "grunt": "^0.4.5",
-    "grunt-browserify": "^4.0.0",
-    "grunt-concurrent": "^2.0.3",
-    "grunt-contrib-copy": "^0.8.1",
-    "grunt-contrib-less": "^1.0.1",
-    "grunt-contrib-uglify": "^0.10.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-nodemon": "^0.4.0",
+    "file-loader": "^0.8.4",
+    "json-loader": "^0.5.3",
     "less-loader": "^2.2.1",
     "less-plugin-autoprefix": "^1.4.2",
     "less-plugin-clean-css": "^1.5.1",
     "nodemon": "^1.8.1",
-    "redux-devtools": "^3.0.0-beta-3",
-    "redux-immutable-state-invariant": "^1.1.1",
+    "react-transform-catch-errors": "^1.0.0",
+    "react-transform-hmr": "^1.0.1",
+    "redbox-react": "^1.2.0",
+    "style-loader": "^0.13.0",
+    "url-loader": "^0.5.6",
     "webpack": "^1.12.6",
     "webpack-dev-server": "^1.12.1",
     "webpack-hot-middleware": "^2.5.0"
@@ -117,7 +110,7 @@
   "apps": [
     {
       "name": "relax",
-      "script": "index.js",
+      "script": "app.js",
       "instances": 1,
       "exec_mode": "cluster",
       "error_file": "../shared/logs/stderr.log",
@@ -133,7 +126,7 @@
       "path": "/home/node/apps/relax",
       "ref": "origin/master",
       "repo": "https://github.com/relax/relax.git",
-      "post-deploy": ". /home/node/.nvm/nvm.sh && npm install && pm2 startOrGracefulReload package.json --env test"
+      "post-deploy": ". /home/node/.nvm/nvm.sh && npm install && npm run build && pm2 startOrGracefulReload package.json --env test"
     }
   }
 }
