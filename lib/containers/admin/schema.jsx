@@ -46,7 +46,8 @@ export default class SchemaContainer extends Component {
     restoreSchema: PropTypes.func.isRequired,
     changeSchemaToDefault: PropTypes.func.isRequired,
     addOverlay: PropTypes.func.isRequired,
-    id: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    history: PropTypes.object.isRequired
   }
 
   static contextTypes = {
@@ -90,7 +91,7 @@ export default class SchemaContainer extends Component {
         this.setState({
           status: 'success'
         });
-        history.pushState({}, '', `/admin/schemas/${submitSchema.slug}`);
+        this.props.history.pushState({}, `/admin/schemas/${submitSchema.slug}`);
         this.successTimeout = setTimeout(::this.onSuccessOut, 3000);
       })
       .catch((error) => {

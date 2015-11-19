@@ -48,7 +48,8 @@ export default class MenuContainer extends Component {
     addMenu: PropTypes.func,
     updateMenu: PropTypes.func,
     changeMenuFields: PropTypes.func,
-    validateMenuSlug: PropTypes.func.isRequired
+    validateMenuSlug: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired
   }
 
   componentWillReceiveProps (nextProps) {
@@ -101,7 +102,7 @@ export default class MenuContainer extends Component {
         new: false
       });
       if (isNew) {
-        history.pushState({}, '', `/admin/menus/${resultMenu._id}`);
+        this.props.history.pushState({}, `/admin/menus/${resultMenu._id}`);
       }
       this.successTimeout = setTimeout(::this.onSuccessOut, 3000);
     } else {

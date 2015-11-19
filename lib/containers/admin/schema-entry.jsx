@@ -2,7 +2,6 @@ import * as overlaysActions from '../../client/actions/overlays';
 import * as schemaEntryActions from '../../client/actions/schema-entry';
 
 import cloneDeep from 'lodash.clonedeep';
-import Velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -49,7 +48,9 @@ export default class SchemaEntryContainer extends Component {
     closeOverlay: PropTypes.func.isRequired,
     validateSchemaEntrySlug: PropTypes.func.isRequired,
     updateSchemaEntry: PropTypes.func.isRequired,
-    restoreSchemaEntry: PropTypes.func.isRequired
+    restoreSchemaEntry: PropTypes.func.isRequired,
+    entryId: PropTypes.string.isRequired,
+    history: PropTypes.object.isRequired
   }
 
   static contextTypes = {
@@ -57,6 +58,8 @@ export default class SchemaEntryContainer extends Component {
   }
 
   getInitialState () {
+    console.log('here');
+    console.log(this.props.entryId);
     if (this.props.entryId === 'new') {
       this.props.changeSchemaEntryToDefault();
     }
@@ -95,7 +98,7 @@ export default class SchemaEntryContainer extends Component {
         success: true,
         error: false
       });
-      history.pushState({}, '', `/admin/schema/${this.props.schema._id}/${resultSchemaEntry._id}`);
+      this.props.history.pushState({}, `/admin/schema/${this.props.schema._id}/${resultSchemaEntry._id}`);
       this.successTimeout = setTimeout(::this.onSuccessOut, 3000);
     } catch (err) {
       this.setState({

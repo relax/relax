@@ -3,7 +3,6 @@ import * as pageActions from '../../client/actions/page';
 
 import cloneDeep from 'lodash.clonedeep';
 import merge from 'lodash.merge';
-import Velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -48,7 +47,8 @@ export default class PageContainer extends Component {
     closeOverlay: PropTypes.func.isRequired,
     validatePageSlug: PropTypes.func.isRequired,
     updatePage: PropTypes.func.isRequired,
-    restorePage: PropTypes.func.isRequired
+    restorePage: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired
   }
 
   static contextTypes = {
@@ -96,7 +96,7 @@ export default class PageContainer extends Component {
         error: false
       });
       if (isNew) {
-        history.pushState({}, '', `/admin/pages/${resultPage._id}`);
+        this.props.history.pushState({}, `/admin/pages/${resultPage._id}`);
       }
       this.successTimeout = setTimeout(::this.onSuccessOut, 3000);
     } catch (err) {
