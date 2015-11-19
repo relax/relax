@@ -82,6 +82,7 @@ export default class StylePicker extends Component {
         <Entry
           entry={entry}
           key={entry._id}
+          styleOptions={this.props.styleOptions}
           onClick={this.props.onChange}
         />
       );

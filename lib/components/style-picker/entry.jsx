@@ -1,13 +1,11 @@
-import cx from 'classnames';
 import React from 'react';
 import {Component} from 'relax-framework';
-
-import OptionsMenu from '../options-menu';
 
 export default class Entry extends Component {
   static propTypes = {
     entry: React.PropTypes.object.isRequired,
-    onClick: React.PropTypes.func.isRequired
+    onClick: React.PropTypes.func.isRequired,
+    styleOptions: React.PropTypes.object.isRequired
   }
 
   onClick (event) {
@@ -27,10 +25,10 @@ export default class Entry extends Component {
   }
 
   renderInfo () {
-    // if (this.props.styleOptions.getIdentifierLabel) {
-    //   return (
-    //     <span className='info'>{this.props.styleOptions.getIdentifierLabel(this.props.entry.options)}</span>
-    //   );
-    // }
+    if (this.props.styleOptions.getIdentifierLabel && this.props.entry._id !== 'no_style') {
+      return (
+        <span className='info'>{this.props.styleOptions.getIdentifierLabel(this.props.entry.options)}</span>
+      );
+    }
   }
 }
