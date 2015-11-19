@@ -87,7 +87,7 @@ export default class SchemasManage extends Component {
                   titlePlaceholder='Schema title'
                   slugPlaceholder='schema-slug'
                 />
-                <Builder value={this.props.schema.properties || []} onChange={this.props.onPropertiesChange.bind(this)} />
+                <Builder value={this.props.schema.properties || []} onChange={this.props.onPropertiesChange} />
               </div>
             </div>
           </div>

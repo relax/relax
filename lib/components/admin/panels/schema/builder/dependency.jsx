@@ -18,7 +18,7 @@ export default class Dependency extends Component {
   }
 
   static contextTypes = {
-    selected: PropTypes.object.isRequired,
+    selected: PropTypes.object,
     properties: PropTypes.array.isRequired
   }
 

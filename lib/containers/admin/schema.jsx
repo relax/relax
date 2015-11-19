@@ -2,8 +2,6 @@ import * as overlaysActions from '../../client/actions/overlays';
 import * as schemaActions from '../../client/actions/schema';
 
 import cloneDeep from 'lodash.clonedeep';
-import merge from 'lodash.merge';
-import Velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -47,7 +45,8 @@ export default class SchemaContainer extends Component {
     updateSchema: PropTypes.func.isRequired,
     restoreSchema: PropTypes.func.isRequired,
     changeSchemaToDefault: PropTypes.func.isRequired,
-    addOverlay: PropTypes.func.isRequired
+    addOverlay: PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired
   }
 
   static contextTypes = {
@@ -138,11 +137,11 @@ export default class SchemaContainer extends Component {
   }
 
   onChange (values) {
-    this.props.changeSchemaFields(merge({}, this.props.schema, values));
+    this.props.changeSchemaFields(Object.assign({}, this.props.schema, values));
   }
 
   onPropertiesChange (properties) {
-    this.props.changeSchemaFields(merge({}, this.props.schema, {
+    this.props.changeSchemaFields(Object.assign({}, this.props.schema, {
       properties
     }));
   }

@@ -116,7 +116,7 @@ export default class Canvas extends Component {
     return result;
   }
 
-    renderElement (elementsLinks = false, schemaEntry = false, elementId) {
+  renderElement (elementsLinks = false, schemaEntry = false, elementId) {
     const {data, elements, selectedId} = this.props.pageBuilder;
     let element = data[elementId];
 

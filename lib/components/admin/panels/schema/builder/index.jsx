@@ -73,7 +73,7 @@ export default class SchemasBuilder extends Component {
   }
 
   static childContextTypes = {
-    selected: React.PropTypes.object.isRequired,
+    selected: React.PropTypes.object,
     properties: React.PropTypes.array.isRequired
   }
 
@@ -187,6 +187,7 @@ export default class SchemasBuilder extends Component {
     if (propertyInfo) {
       const valuesClone = cloneDeep(this.props.value);
       valuesClone.splice(propertyInfo.index, 1);
+        console.log(valuesClone);
       this.setState({
         selected: false
       });
