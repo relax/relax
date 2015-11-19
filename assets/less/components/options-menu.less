@@ -5,28 +5,41 @@
   width: 140px;
   padding: 7px 0;
 
-  background-color: #282828;
-  .roundedCorners(3px);
+  background-color: #ffffff;
+  .roundedCorners(4px);
 
-  top: 15px;
+  top: 100%;
   right: 0;
 
-  .drop-shadow-box-spread(0, 0, 2px, 2px, #000000, 5);
+  -webkit-box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.5);
+  -moz-box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.5);
+  box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.5);
+
+  &:before {
+    content: ' ';
+    position: absolute;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #ffffff;
+    right: 10px;
+    top: -5px;
+  }
 
   a {
     display: block;
-    line-height: 24px;
+    line-height: 30px;
     font-size: 11px;
     text-align: left;
-    color: #f7f7f7;
-    padding: 0 10px;
+    color: @pageBuilderChrome;
+    padding: 0 15px;
     text-decoration: none;
 
     i {
-      line-height: 24px;
+      line-height: 30px;
       text-align: left;
       width: 18px;
-      color: #f7f7f7;
+      margin-right: 5px;
+      color: @pageBuilderChrome;
     }
 
     &:hover {

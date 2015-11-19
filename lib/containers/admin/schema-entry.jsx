@@ -58,8 +58,6 @@ export default class SchemaEntryContainer extends Component {
   }
 
   getInitialState () {
-    console.log('here');
-    console.log(this.props.entryId);
     if (this.props.entryId === 'new') {
       this.props.changeSchemaEntryToDefault();
     }

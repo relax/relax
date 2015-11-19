@@ -31,7 +31,8 @@ export default class StylePicker extends Component {
     toggleEditing: PropTypes.func.isRequired,
     toggleEditingTitle: PropTypes.func.isRequired,
     saveStyle: PropTypes.func.isRequired,
-    styleOptions: PropTypes.object.isRequired
+    styleOptions: PropTypes.object.isRequired,
+    removeStyle: PropTypes.func.isRequired
   }
 
   onSubmit (event) {
@@ -84,6 +85,7 @@ export default class StylePicker extends Component {
           key={entry._id}
           styleOptions={this.props.styleOptions}
           onClick={this.props.onChange}
+          removeStyle={this.props.removeStyle}
         />
       );
     }

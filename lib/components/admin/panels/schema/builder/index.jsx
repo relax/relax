@@ -187,7 +187,6 @@ export default class SchemasBuilder extends Component {
     if (propertyInfo) {
       const valuesClone = cloneDeep(this.props.value);
       valuesClone.splice(propertyInfo.index, 1);
-        console.log(valuesClone);
       this.setState({
         selected: false
       });
