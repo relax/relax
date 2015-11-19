@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var config = require('./config');
 
 var NoErrorsPlugin = webpack.NoErrorsPlugin;
@@ -20,7 +21,8 @@ var webpackConfig = module.exports = {
   },
   plugins: [
     new optimize.OccurenceOrderPlugin(),
-    new optimize.CommonsChunkPlugin('common.js', ['admin', 'auth', 'public'])
+    new optimize.CommonsChunkPlugin('common.js', ['admin', 'auth', 'public']),
+    new ExtractTextPlugin('../css/main.css')
   ],
   module: {
     loaders: [
@@ -53,7 +55,13 @@ var webpackConfig = module.exports = {
       },
       {
         test: /\.(less|css)$/,
-        loader: 'style!css!less!autoprefixer'
+        loader: ExtractTextPlugin.extract(
+          'style-loader',
+          'css-loader!less!autoprefixer',
+          {
+            publicPath: '../css/'
+          }
+        )
       },
       {
         test: /\.json$/,
