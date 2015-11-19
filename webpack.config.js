@@ -21,8 +21,7 @@ var webpackConfig = module.exports = {
   },
   plugins: [
     new optimize.OccurenceOrderPlugin(),
-    new optimize.CommonsChunkPlugin('common.js', ['admin', 'auth', 'public']),
-    new ExtractTextPlugin('../css/main.css')
+    new optimize.CommonsChunkPlugin('common.js', ['admin', 'auth', 'public'])
   ],
   module: {
     loaders: [
@@ -54,16 +53,6 @@ var webpackConfig = module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(less|css)$/,
-        loader: ExtractTextPlugin.extract(
-          'style-loader',
-          'css-loader!less!autoprefixer',
-          {
-            publicPath: '../css/'
-          }
-        )
-      },
-      {
         test: /\.json$/,
         loader: 'json'
       },
@@ -80,6 +69,17 @@ var webpackConfig = module.exports = {
 };
 
 if (process.env.NODE_ENV === 'production') {
+  webpackConfig.plugins.push(new ExtractTextPlugin('../css/main.css'));
+  webpackConfig.module.loaders.push({
+    test: /\.(less|css)$/,
+    loader: ExtractTextPlugin.extract(
+      'style-loader',
+      'css-loader!less!autoprefixer',
+      {
+        publicPath: '../css/'
+      }
+    )
+  });
   webpackConfig.plugins.push(
     new webpack.optimize.UglifyJsPlugin({
       mangle: true,
@@ -106,5 +106,9 @@ if (process.env.NODE_ENV === 'production') {
 
   webpackConfig.devtool = 'source-map';
 } else {
+  webpackConfig.module.loaders.push({
+    test: /\.(less|css)$/,
+    loader: 'style!css!less!autoprefixer'
+  });
   webpackConfig.devtool = 'eval';
 }
