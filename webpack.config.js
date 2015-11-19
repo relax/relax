@@ -4,8 +4,7 @@ var config = require('./config');
 var NoErrorsPlugin = webpack.NoErrorsPlugin;
 var optimize = webpack.optimize;
 
-module.exports = {
-  devtool: 'eval',
+var webpackConfig = module.exports = {
   entry: {
     admin: ['./lib/client/admin.js'],
     auth: ['./lib/client/auth.js'],
@@ -21,8 +20,7 @@ module.exports = {
   },
   plugins: [
     new optimize.OccurenceOrderPlugin(),
-    new optimize.CommonsChunkPlugin('common.js', ['admin', 'auth', 'public']),
-    new NoErrorsPlugin()
+    new optimize.CommonsChunkPlugin('common.js', ['admin', 'auth', 'public'])
   ],
   module: {
     loaders: [
@@ -72,3 +70,31 @@ module.exports = {
     contentBase: 'http://localhost:' + config.port
   }
 };
+
+if (process.env.NODE_ENV === 'production') {
+  webpackConfig.plugins.push(
+    new webpack.optimize.UglifyJsPlugin({
+      mangle: true,
+      compress: {
+        sequences: true,
+        dead_code: true,
+        conditionals: true,
+        booleans: true,
+        unused: true,
+        if_return: true,
+        join_vars: true,
+        drop_console: true,
+        warnings: false
+      }
+    }),
+  	new webpack.optimize.DedupePlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
+    new NoErrorsPlugin()
+  );
+} else {
+  webpackConfig.devtool = 'eval';
+}
