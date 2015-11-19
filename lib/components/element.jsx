@@ -164,7 +164,7 @@ export default class Element extends Component {
       const {selectedParent} = pageBuilder;
       const overed = this.isOvered();
       const selected = this.isSelected();
-      const {dragging} = dnd;
+      const {dragging, dragInfo} = dnd;
 
       if ((!dragging && (overed || selected)) || dragging || selectedParent === elementId) {
         tagProps.style = tagProps.style || {};
@@ -197,6 +197,10 @@ export default class Element extends Component {
           tagProps.style = tagProps.style || {};
           tagProps.style.boxShadow = '0 0 0 99999px rgba(0, 0, 0, .81)';
           tagProps.style.zIndex = 999;
+        }
+        if (dragging && dragInfo.id === elementId) {
+          tagProps.style = tagProps.style || {};
+          tagProps.style.opacity = 0.5;
         }
 
         result = (
