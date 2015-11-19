@@ -95,6 +95,8 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new NoErrorsPlugin()
   );
+
+  webpackConfig.devtool = 'source-map';
 } else {
   webpackConfig.devtool = 'eval';
 }
