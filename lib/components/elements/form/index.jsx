@@ -1,4 +1,5 @@
 import forEach from 'lodash.foreach';
+import request from 'superagent';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
@@ -21,14 +22,15 @@ export default class Form extends Component {
   static settings = settings
 
   sendEmail (formData) {
-    // $
-    //   .post('/send-email', formData)
-    //   .done((response) => {
-    //
-    //   })
-    //   .fail((error) => {
-    //
-    //   });
+    request
+      .post('/send-email')
+      .set('Content-Type', 'application/json')
+      .type('json')
+      .send(formData)
+      .end((error, res) => {
+        console.log(error);
+        console.log(res);
+      });
   }
 
   addToSchema (formData) {
@@ -82,6 +84,7 @@ export default class Form extends Component {
     return (
       <Element info={this.props} htmlTag='form' settings={settings} onSubmit={::this.onSubmit}>
         {this.props.children}
+        <input type='submit' hidden />
       </Element>
     );
   }
