@@ -4,6 +4,7 @@ import debounce from 'lodash.debounce';
 import filter from 'lodash.filter';
 import find from 'lodash.find';
 import forEach from 'lodash.foreach';
+import omit from 'lodash.omit';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -29,6 +30,7 @@ export default class StylePickerContainer extends Component {
     pageBuilder: PropTypes.object.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
     saveStyle: PropTypes.func.isRequired,
+    duplicateStyle: PropTypes.func.isRequired,
     updateStyle: PropTypes.func.isRequired,
     changeStyleProp: PropTypes.func.isRequired
   }
@@ -56,9 +58,7 @@ export default class StylePickerContainer extends Component {
     if (styleId !== 'no_style') {
       const selectedStyle = find(this.props.styles, {_id: styleId});
       if (selectedStyle) {
-        this.props.updateStyle(this.constructor.fragments, Object.assign({}, selectedStyle, {
-          options: JSON.stringify(selectedStyle.options)
-        }));
+        this.props.updateStyle(this.constructor.fragments, selectedStyle);
       }
     }
   }
@@ -70,7 +70,7 @@ export default class StylePickerContainer extends Component {
       const style = {
         title: this.state.titleValue,
         type: this.state.styleOptions.type,
-        options: JSON.stringify(selectedElement.style || {})
+        options: selectedElement.style || {}
       };
       await this.props.saveStyle(this.constructor.fragments, selectedElement.id, style);
       this.setState({
@@ -78,6 +78,16 @@ export default class StylePickerContainer extends Component {
         titleValue: ''
       });
     }
+  }
+
+  async duplicateStyle (data) {
+    const {selectedElement} = this.props.pageBuilder;
+    const style = omit(data, '_id');
+    style.title += ' copy';
+    await this.props.saveStyle(this.constructor.fragments, selectedElement.id, style);
+    this.setState({
+      editing: true
+    });
   }
 
   onChangeValue (key, value) {
@@ -160,6 +170,7 @@ export default class StylePickerContainer extends Component {
         saveStyle={::this.saveStyle}
         onChange={::this.onChange}
         onChangeValue={::this.onChangeValue}
+        duplicateStyle={::this.duplicateStyle}
       />
     );
   }

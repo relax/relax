@@ -1,14 +1,15 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import OptionsMenu from '../options-menu';
 
 export default class Entry extends Component {
   static propTypes = {
-    entry: React.PropTypes.object.isRequired,
-    onClick: React.PropTypes.func.isRequired,
-    styleOptions: React.PropTypes.object.isRequired,
-    removeStyle: React.PropTypes.func.isRequired
+    entry: PropTypes.object.isRequired,
+    onClick: PropTypes.func.isRequired,
+    styleOptions: PropTypes.object.isRequired,
+    removeStyle: PropTypes.func.isRequired,
+    duplicateStyle: PropTypes.func.isRequired
   }
 
   getInitialState () {
@@ -39,7 +40,7 @@ export default class Entry extends Component {
   }
 
   duplicate () {
-
+    this.props.duplicateStyle(this.props.entry);
   }
 
   remove () {

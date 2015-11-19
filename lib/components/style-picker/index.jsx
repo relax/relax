@@ -32,7 +32,8 @@ export default class StylePicker extends Component {
     toggleEditingTitle: PropTypes.func.isRequired,
     saveStyle: PropTypes.func.isRequired,
     styleOptions: PropTypes.object.isRequired,
-    removeStyle: PropTypes.func.isRequired
+    removeStyle: PropTypes.func.isRequired,
+    duplicateStyle: PropTypes.func.isRequired
   }
 
   onSubmit (event) {
@@ -47,7 +48,7 @@ export default class StylePicker extends Component {
           <span>{this.props.selectedStyle.title}</span>
           <i className='material-icons'>{this.props.editing ? 'expand_less' : 'expand_more'}</i>
         </div>
-        <div className={cx('content-scrollable', this.props.selectedStyle._id === 'no_style' && 'no_style')}>
+        <div className={cx('content-scrollable', this.props.selectedStyle._id === 'no_style' && this.props.editing && 'no_style')}>
           <GeminiScrollbar autoshow>
             {this.renderContent()}
           </GeminiScrollbar>
@@ -86,6 +87,7 @@ export default class StylePicker extends Component {
           styleOptions={this.props.styleOptions}
           onClick={this.props.onChange}
           removeStyle={this.props.removeStyle}
+          duplicateStyle={this.props.duplicateStyle}
         />
       );
     }
