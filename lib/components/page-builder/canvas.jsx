@@ -146,7 +146,7 @@ export default class Canvas extends Component {
             styleClassMap={styleClassMap}
             renderElement={this.renderElementBind}
             renderChildren={this.renderChildrenBind}>
-            {element.children && this.renderChildren(element.children, elementsLinks)}
+            {element.children && this.renderChildren(element.children, elementsLinks, schemaEntry)}
           </FactoredElement>
         );
       }
