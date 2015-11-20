@@ -25,9 +25,10 @@ export default class StylePickerContainer extends Component {
   }
 
   getInitialState () {
+    const {linkingDataElement} = this.props.pageBuilder;
     this.fetchCurrentSchema(this.props);
     return {
-      list: false
+      list: linkingDataElement.props && linkingDataElement.props.schemaId ? false : true
     };
   }
 
@@ -36,8 +37,8 @@ export default class StylePickerContainer extends Component {
     const {linkingDataElement} = nextProps.pageBuilder;
 
     if (oldLinkingDataElement && linkingDataElement) {
-      if (oldLinkingDataElement.props && linkingDataElement.props &&
-          oldLinkingDataElement.props.schemaId !== linkingDataElement.props.schemaId ) {
+      if (!oldLinkingDataElement.props && linkingDataElement.props ||
+          (oldLinkingDataElement.props && linkingDataElement.props && oldLinkingDataElement.props.schemaId !== linkingDataElement.props.schemaId)) {
         this.fetchCurrentSchema(nextProps);
       }
     }

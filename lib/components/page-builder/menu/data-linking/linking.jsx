@@ -45,7 +45,8 @@ export default class Linking extends Component {
     addOverlay: PropTypes.func.isRequired,
     closeOverlay: PropTypes.func.isRequired,
     pageBuilder: PropTypes.object.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired
+    pageBuilderActions: PropTypes.object.isRequired,
+    selectedSchema: PropTypes.object
   }
 
   render () {
@@ -54,8 +55,8 @@ export default class Linking extends Component {
 
     return (
       <div className='linking'>
-        {staticProperties.map(this.renderProperty.bind(this, schemaLinks, ''))}
-        {(this.props.schema.properties || []).map(this.renderProperty.bind(this, schemaLinks, 'properties#'))}
+        {this.props.selectedSchema && staticProperties.map(this.renderProperty.bind(this, schemaLinks, ''))}
+        {this.props.selectedSchema && (this.props.schema.properties || []).map(this.renderProperty.bind(this, schemaLinks, 'properties#'))}
       </div>
     );
   }

@@ -50,7 +50,7 @@ export default class DataLinking extends Component {
           <Linking {...this.props} />
         </Animate>
       );
-    } else if (this.props.schemas.length > 1) {
+    } else if (this.props.selectedSchema && this.props.schemas.length > 1 || !this.props.selectedSchema && this.props.schemas.length) {
       result = (
         <Animate transition='slideUpIn' duration={300} key='list'>
           <List {...this.props} />

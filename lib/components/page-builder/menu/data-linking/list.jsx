@@ -10,7 +10,8 @@ export default class List extends Component {
 
   static propTypes = {
     schemas: PropTypes.array.isRequired,
-    changeSchema: PropTypes.func.isRequired
+    changeSchema: PropTypes.func.isRequired,
+    selectedSchema: PropTypes.object.isRequired
   }
 
   render () {
@@ -22,12 +23,14 @@ export default class List extends Component {
   }
 
   renderEntry (schema) {
-    return (
-      <Entry
-        key={schema._id}
-        schema={schema}
-        changeSchema={this.props.changeSchema}
-      />
-    );
+    if (!this.props.selectedSchema || schema._id !== this.props.selectedSchema._id) {
+      return (
+        <Entry
+          key={schema._id}
+          schema={schema}
+          changeSchema={this.props.changeSchema}
+        />
+      );
+    }
   }
 }
