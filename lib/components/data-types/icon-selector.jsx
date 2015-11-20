@@ -3,8 +3,6 @@ import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
-import Checkbox from './checkbox';
-
 export default class IconSelector extends Component {
   static propTypes = {
     selected: PropTypes.object.isRequired,
@@ -15,10 +13,6 @@ export default class IconSelector extends Component {
     onClose: PropTypes.func.isRequired,
     search: PropTypes.string.isRequired,
     changeSearch: PropTypes.func.isRequired
-  }
-
-  changeIconFamily (value) {
-
   }
 
   changeSelectedFamily (value, event) {
@@ -88,7 +82,6 @@ export default class IconSelector extends Component {
     return (
       <div className={cx('icon-family', key === this.props.selectedFamily && 'selected')} key={key} onClick={this.changeSelectedFamily.bind(this, key)}>
         <span>{iconFamily.family}</span>
-        <Checkbox value={false} onChange={this.changeIconFamily.bind(this, iconFamily.family)}/>
       </div>
     );
   }
