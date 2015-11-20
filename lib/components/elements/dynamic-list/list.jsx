@@ -24,6 +24,11 @@ export default class List extends Component {
     elementsLinks: PropTypes.object.isRequired
   }
 
+  isLinkingData () {
+    const {pageBuilder} = this.props;
+    return pageBuilder && pageBuilder.linkingData && pageBuilder.linkingDataElementId === this.props.elementId;
+  }
+
   render () {
     const items = [];
     let number = Math.min(this.props.entries.length, this.props.limit);
@@ -37,6 +42,12 @@ export default class List extends Component {
         for (let a = 0; a < this.props.columns && i < number; a++) {
           columnItems.push(this.renderItem(i, a === 0, a === this.props.columns - 1));
           i++;
+        }
+        if (columnItems.length < this.props.columns) {
+          const missing = this.props.columns - columnItems.length;
+          for (let c = 0; c < missing; c++) {
+            columnItems.push(this.renderItem(i, false, c === missing - 1, true));
+          }
         }
         items.push(this.renderRow(columnItems, i >= number));
       } else {
@@ -54,15 +65,21 @@ export default class List extends Component {
   renderRow (items, isLast) {
     const style = {};
     if (!isLast) {
-      style.marginBottom = this.props.verticalGutter + 'px';
+      if (this.isLinkingData()) {
+        style.borderBottom = `${this.props.verticalGutter}px solid rgba(0, 0, 0, 0.8)`;
+      } else {
+        style.marginBottom = this.props.verticalGutter + 'px';
+      }
     }
 
     return (
-      <div className={cx(classes.row)} style={style}>{items}</div>
+      <div className={cx(classes.row)} style={style}>
+        {items}
+      </div>
     );
   }
 
-  renderItem (key, isFirst, isLast) {
+  renderItem (key, isFirst, isLast, dummy = false) {
     let result;
     const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
     const schemaEntry = this.props.entries && this.props.entries[key];
@@ -70,38 +87,47 @@ export default class List extends Component {
     const spaceThird = Math.round(this.props.horizontalGutter / 3 * 100) / 100;
     const spaceSides = spaceThird * 2;
 
-    if (editing) {
-      result = (
-        <Droppable
-          key={key}
-          type={this.props.element.tag}
-          dropInfo={{id: this.props.elementId}}
-          {...settings.drop}
-          placeholder
-          pageBuilder={this.props.pageBuilder}
-          pageBuilderActions={this.props.pageBuilderActions}
-          dnd={this.props.dnd}
-          dndActions={this.props.dndActions}
-          style={{position: 'relative'}}
-        >
-          {content}
-        </Droppable>
-      );
-    } else {
-      result = content;
+    if (!dummy) {
+      if (editing) {
+        result = (
+          <Droppable
+            key={key}
+            type={this.props.element.tag}
+            dropInfo={{id: this.props.elementId}}
+            {...settings.drop}
+            placeholder
+            pageBuilder={this.props.pageBuilder}
+            pageBuilderActions={this.props.pageBuilderActions}
+            dnd={this.props.dnd}
+            dndActions={this.props.dndActions}
+            style={{position: 'relative'}}
+          >
+            {content}
+          </Droppable>
+        );
+      } else {
+        result = content;
+      }
     }
 
     const style = {};
     if (this.props.columns > 1) {
       style.width = (100 / this.props.columns) + '%';
 
+      const isLinkingData = this.isLinkingData();
+      const property = !dummy && isLinkingData && 'border' || 'padding';
+
       if (isFirst) {
-        style.paddingRight = spaceSides;
+        style[property + 'Right'] = cx(spaceSides + 'px', property === 'border' && 'solid rgba(0, 0, 0, 0.8)');
       } else if (isLast) {
-        style.paddingLeft = spaceSides;
+        style[property + 'Left'] = cx(spaceSides + 'px', property === 'border' && 'solid rgba(0, 0, 0, 0.8)');
       } else {
-        style.paddingRight = spaceThird;
-        style.paddingLeft = spaceThird;
+        style[property + 'Right'] = cx(spaceThird + 'px', property === 'border' && 'solid rgba(0, 0, 0, 0.8)');
+        style[property + 'Left'] = cx(spaceThird + 'px', property === 'border' && 'solid rgba(0, 0, 0, 0.8)');
+      }
+
+      if (dummy && isLinkingData) {
+        style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
       }
     }
 
