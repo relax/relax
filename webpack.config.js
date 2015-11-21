@@ -69,7 +69,7 @@ var webpackConfig = module.exports = {
 };
 
 if (process.env.NODE_ENV === 'production') {
-  webpackConfig.plugins.push(new ExtractTextPlugin('../css/main.css'));
+  webpackConfig.plugins.push(new ExtractTextPlugin('../css/[name].css'));
   webpackConfig.module.loaders.push({
     test: /\.(less|css)$/,
     loader: ExtractTextPlugin.extract(
