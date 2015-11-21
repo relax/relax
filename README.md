@@ -53,7 +53,7 @@ You can find a sample with the default values [here](.relaxrc.sample).
 Contributing
 ------------
 
-### Build
+### Build and start
 
 #### Development
 
@@ -65,7 +65,7 @@ up to date.
 
 #### Production
 
-To build your assets ready to go for production run `npm run build`.
+To build your assets ready to go for production run `npm run build` and `npm start` to start the application.
 
 
 License
