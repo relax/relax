@@ -39,10 +39,6 @@ export default class PageActionsContainer extends Component {
     changeDisplay: PropTypes.func.isRequired
   }
 
-  static contextTypes = {
-    store: PropTypes.object
-  }
-
   getInitialState () {
     return {
       save: false,
@@ -251,7 +247,6 @@ export default class PageActionsContainer extends Component {
         <RevisionsContainer
           id={this.props.page._id}
           onRestore={::this.onRestore}
-          store={this.context.store}
           current={this.getCurrentPageProps()}
         />
       )

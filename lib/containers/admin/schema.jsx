@@ -50,10 +50,6 @@ export default class SchemaContainer extends Component {
     history: PropTypes.object.isRequired
   }
 
-  static contextTypes = {
-    store: PropTypes.object
-  }
-
   getInitialState () {
     if (this.props.id === 'new') {
       this.props.changeSchemaToDefault();
@@ -199,7 +195,6 @@ export default class SchemaContainer extends Component {
         <RevisionsContainer
           id={this.props.schema._id}
           onRestore={::this.onRestore}
-          store={this.context.store}
           current={this.getCurrentSchemaProps()}
         />
       )

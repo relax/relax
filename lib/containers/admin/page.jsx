@@ -51,10 +51,6 @@ export default class PageContainer extends Component {
     history: PropTypes.object.isRequired
   }
 
-  static contextTypes = {
-    store: PropTypes.object
-  }
-
   getInitialState () {
     if (this.props.id === 'new') {
       this.props.changePageToDefault();
@@ -215,7 +211,6 @@ export default class PageContainer extends Component {
         <RevisionsContainer
           id={this.props.page._id}
           onRestore={::this.onRestore}
-          store={this.context.store}
           current={this.getCurrentPageProps()}
         />
       )

@@ -8,8 +8,8 @@ import {bindActionCreators} from 'redux';
 import {Component} from 'relax-framework';
 
 import ImagePicker from '../../components/data-types/image-picker';
-import Lightbox from '../../components/lightbox';
-import MediaSelectorContainer from '../../containers/media-selector';
+import MediaSelectorContainer from './media-selector';
+import Modal from '../../components/modal';
 
 @connect(
   (state) => ({
@@ -30,10 +30,6 @@ export default class ImagePickerContainer extends Component {
     getMediaItem: PropTypes.func.isRequired,
     addOverlay: PropTypes.func.isRequired,
     closeOverlay: PropTypes.func.isRequired
-  }
-
-  static contextTypes = {
-    store: PropTypes.object.isRequired
   }
 
   getInitialState () {
@@ -61,9 +57,9 @@ export default class ImagePickerContainer extends Component {
 
   openSelector () {
     this.props.addOverlay('media-selector', (
-      <Lightbox title='Select an image' onClose={::this.closeSelector}>
-        <MediaSelectorContainer store={this.context.store} onChange={this.props.onChange} selected={this.props.value} />
-      </Lightbox>
+      <Modal onClose={::this.closeSelector}>
+        <MediaSelectorContainer onChange={this.props.onChange} selected={this.props.value} onClose={::this.closeSelector} />
+      </Modal>
     ));
   }
 
@@ -79,10 +75,7 @@ export default class ImagePickerContainer extends Component {
   }
 
   render () {
-    let mediaItem = null;
-    if (this.props.value) {
-      mediaItem = find(this.props.mediaItems, {_id: this.props.value});
-    }
+    const mediaItem = this.props.mediaItems[this.props.value];
 
     return (
       <ImagePicker

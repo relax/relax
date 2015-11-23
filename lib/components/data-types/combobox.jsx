@@ -1,13 +1,15 @@
+import cx from 'classnames';
+import forEach from 'lodash.foreach';
 import React from 'react';
 import {Component} from 'relax-framework';
-import forEach from 'lodash.foreach';
 
 export default class Combobox extends Component {
   static propTypes = {
     labels: React.PropTypes.array,
     values: React.PropTypes.array.isRequired,
     value: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired
+    onChange: React.PropTypes.func.isRequired,
+    className: React.PropTypes.string
   }
 
   getInitialState () {
@@ -35,9 +37,7 @@ export default class Combobox extends Component {
   }
 
   render () {
-    var className = 'combobox-holder' + (this.state.opened ? ' opened' : '');
-
-    var label = '';
+    let label = '';
     forEach(this.props.values, (value, key) => {
       if (this.props.value === value) {
         label = this.props.labels && this.props.labels[key] || value;
@@ -45,8 +45,8 @@ export default class Combobox extends Component {
     });
 
     return (
-      <div className='combobox'>
-        <div className={className}>
+      <div className={cx('combobox', this.props.className)}>
+        <div className={cx('combobox-holder', this.state.opened && 'opened')}>
           <div className='combobox-header' onClick={this.toggle.bind(this)}>
             <div className='selected-text'>{label}</div>
             <div className='combobox-button'>

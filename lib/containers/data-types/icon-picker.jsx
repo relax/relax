@@ -21,14 +21,10 @@ export default class IconPickerContainer extends Component {
     closeOverlay: PropTypes.func.isRequired
   }
 
-  static contextTypes = {
-    store: PropTypes.object.isRequired
-  }
-
   openSelector () {
     this.props.addOverlay('icon-selector', (
       <Modal onClose={::this.closeSelector}>
-        <IconSelector store={this.context.store} onChange={this.props.onChange} value={this.props.value} onClose={::this.closeSelector} />
+        <IconSelector onChange={this.props.onChange} value={this.props.value} onClose={::this.closeSelector} />
       </Modal>
     ));
   }

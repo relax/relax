@@ -32,17 +32,17 @@ export default class ImagePicker extends Component {
     this.props.onMount(width);
   }
 
-  onClick (event) {
-    event.preventDefault();
-    this.props.openSelector();
-  }
-
   shouldComponentUpdate (nextProps, nextState) {
     return (
       this.props.value !== nextProps.value ||
       this.props.mounted !== nextProps.mounted ||
       this.props.mediaItem !== nextProps.mediaItem
     );
+  }
+
+  onClick (event) {
+    event.preventDefault();
+    this.props.openSelector();
   }
 
   render () {

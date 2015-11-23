@@ -24,13 +24,9 @@ export default class TopMenu extends Component {
     closeOverlay: React.PropTypes.func.isRequired
   }
 
-  static contextTypes = {
-    store: React.PropTypes.object.isRequired
-  }
-
   onAddTabClick (event) {
     event.preventDefault();
-    this.props.addOverlay('addTab', <AddOverlay store={this.context.store} onClose={::this.onCloseAdd} />);
+    this.props.addOverlay('addTab', <AddOverlay onClose={::this.onCloseAdd} />);
   }
 
   onCloseAdd () {
