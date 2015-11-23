@@ -28,7 +28,9 @@ Installation
 
 ### Dependencies
 
-Relax uses [sharp](https://github.com/lovell/sharp) to resize images so you'll need to install its dependencies. Fortunately they have great documentation on how to install them for each platform, you can check them [here](http://sharp.dimens.io/en/stable/install/).
+Relax uses [sharp](https://github.com/lovell/sharp) to resize images.
+If you're using OS X, you'll need to install its libvips dependency via `brew install homebrew/science/vips`.
+Full installation instructions are available [here](http://sharp.dimens.io/en/stable/install/).
 
 You'll also need [MongoDB](https://www.mongodb.org/).
 
