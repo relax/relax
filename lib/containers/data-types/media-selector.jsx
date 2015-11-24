@@ -8,6 +8,7 @@ import {Component, buildQueryAndVariables} from 'relax-framework';
 
 import MediaSelector from '../../components/data-types/media-selector';
 import {getQueryVariables} from '../../decorators/query-props';
+import {getMimeTypes} from '../../helpers/mime-types';
 
 @connect(
   (state) => ({
@@ -31,10 +32,16 @@ export default class MediaSelectorContainer extends Component {
     getAdmin: PropTypes.func.isRequired,
     addMedia: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
-    getMediaItem: PropTypes.func.isRequired
+    getMediaItem: PropTypes.func.isRequired,
+    type: PropTypes.string.isRequired
+  }
+
+  static defaultProps = {
+    type: 'image'
   }
 
   getInitialState () {
+    this.mimeTypes = getMimeTypes(this.props.type);
     return {
       selected: this.props.selected,
       view: 'small',
@@ -51,7 +58,15 @@ export default class MediaSelectorContainer extends Component {
       media: {
         ...getQueryVariables({
           sort: this.state.sort.property,
-          order: this.state.sort.order
+          order: this.state.sort.order,
+          filters: [
+            {
+              property: 'type',
+              op: {
+                in: this.mimeTypes
+              }
+            }
+          ]
         })
       }
     };
@@ -82,7 +97,15 @@ export default class MediaSelectorContainer extends Component {
       media: {
         ...getQueryVariables({
           sort: this.state.sort.property,
-          order: this.state.sort.order
+          order: this.state.sort.order,
+          filters: [
+            {
+              property: 'type',
+              op: {
+                in: this.mimeTypes
+              }
+            }
+          ]
         })
       }
     };

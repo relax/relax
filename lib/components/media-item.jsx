@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
-import utils from '../utils';
 import Image from './image';
+import {getMediaType} from '../helpers/mime-types';
 
 export default class MediaItem extends Component {
   static fragments = {
@@ -28,7 +28,7 @@ export default class MediaItem extends Component {
 
   render () {
     let result = <span />;
-    const type = utils.getMediaType(this.props.item.type);
+    const type = getMediaType(this.props.item.type);
 
     if (type === 'image') {
       if (this.props.useThumbnail) {

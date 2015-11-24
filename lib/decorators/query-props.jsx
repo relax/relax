@@ -35,6 +35,12 @@ export function getQueryVariables (query) {
       type: 'Int'
     };
   }
+  if (query.filters) {
+    queryVariables.filters = {
+      value: query.filters,
+      type: '[Filter]'
+    };
+  }
   if (query.page) {
     queryVariables.page = {
       value: query.page,
