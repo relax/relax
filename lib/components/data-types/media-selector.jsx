@@ -1,9 +1,11 @@
 import cx from 'classnames';
+import forEach from 'lodash.foreach';
 import moment from 'moment';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react';
 import {Component, mergeFragments} from 'relax-framework';
 
+import Animate from '../animate';
 import Combobox from './combobox';
 import MediaItem from '../media-item';
 import Upload from '../upload';
@@ -34,7 +36,10 @@ export default class MediaSelector extends Component {
     mediaItem: PropTypes.object,
     changeView: PropTypes.func.isRequired,
     changeSort: PropTypes.func.isRequired,
-    sort: PropTypes.object.isRequired
+    sort: PropTypes.object.isRequired,
+    mimeTypes: PropTypes.array.isRequired,
+    filterMime: PropTypes.string.isRequired,
+    changeMime: PropTypes.func.isRequired
   }
 
   imageClicked (id, event) {
@@ -56,7 +61,18 @@ export default class MediaSelector extends Component {
   }
 
   render () {
-    const {media} = this.props;
+    const mimeFilterOptions = {
+      labels: ['ALL'],
+      values: ['all']
+    };
+    forEach(this.props.mimeTypes, (mimeType) => {
+      const splitted = mimeType.split('/');
+      if (splitted[1]) {
+        mimeFilterOptions.labels.push(splitted[1].toUpperCase());
+        mimeFilterOptions.values.push(mimeType);
+      }
+    });
+
     return (
       <div className='modal-content media-selector'>
         <div className='modal-menu'>
@@ -78,6 +94,14 @@ export default class MediaSelector extends Component {
                   value={this.props.sort.order}
                   className='small-combobox'
                   onChange={this.sortChange.bind(this, 'order')}
+                />
+              </div>
+              <div className='option'>
+                <div className='label'>Filter by type</div>
+                <Combobox
+                  {...mimeFilterOptions}
+                  value={this.props.filterMime}
+                  onChange={this.props.changeMime}
                 />
               </div>
             </GeminiScrollbar>
@@ -107,7 +131,7 @@ export default class MediaSelector extends Component {
           <div className={cx('content-area-scrollable', this.props.view)} key={this.props.view}>
             <GeminiScrollbar autoshow>
               <Upload acceptedFiles='image/*' onFile={this.props.onAddMedia}>
-                {media.map(this.renderMediaItem, this)}
+                {this.renderResults()}
               </Upload>
             </GeminiScrollbar>
           </div>
@@ -138,6 +162,27 @@ export default class MediaSelector extends Component {
         </div>
       );
     }
+  }
+
+  renderResults () {
+    const {media} = this.props;
+    let result;
+    if (media && media.length > 0) {
+      result = (
+        <div>
+          {media.map(this.renderMediaItem, this)}
+        </div>
+      );
+    } else {
+      result = (
+        <Animate transition='slideUpIn'>
+          <div className='no-results'>
+            <span>No results found</span>
+          </div>
+        </Animate>
+      );
+    }
+    return result;
   }
 
   renderMediaItem (item) {

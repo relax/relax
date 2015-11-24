@@ -49,7 +49,8 @@ export default class MediaSelectorContainer extends Component {
       sort: {
         property: '_id',
         order: 'desc'
-      }
+      },
+      filterMime: 'all'
     };
   }
 
@@ -93,6 +94,14 @@ export default class MediaSelectorContainer extends Component {
   }
 
   fetchMediaItems () {
+    const op = {};
+
+    if (this.state.filterMime === 'all') {
+      op.in = this.mimeTypes;
+    } else {
+      op.eq = this.state.filterMime;
+    }
+
     const vars = {
       media: {
         ...getQueryVariables({
@@ -101,9 +110,7 @@ export default class MediaSelectorContainer extends Component {
           filters: [
             {
               property: 'type',
-              op: {
-                in: this.mimeTypes
-              }
+              op
             }
           ]
         })
@@ -119,6 +126,14 @@ export default class MediaSelectorContainer extends Component {
         vars
       ))
       .done();
+  }
+
+  changeMime (filterMime) {
+    this.setState({
+      filterMime
+    }, () => {
+      this.fetchMediaItems();
+    });
   }
 
   onItemClick (id) {
@@ -162,6 +177,8 @@ export default class MediaSelectorContainer extends Component {
         onClose={this.props.onClose}
         changeView={::this.changeView}
         changeSort={::this.changeSort}
+        changeMime={::this.changeMime}
+        mimeTypes={this.mimeTypes}
       />
     );
   }
