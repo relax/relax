@@ -35,33 +35,4 @@
   bottom: 0;
   border: 0;
   padding: 0;
-  .dragging-info {
-    visibility: hidden;
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 3px;
-    pointer-events: none;
-    border: 1px solid @adminPrimary;
-    background-color: rgba(17, 164, 255, 0.75);
-    color: #ffffff;
-    font-size: 12px;
-    line-height: 28px;
-    text-align: center;
-    width: 280px;
-    z-index: 1;
-  }
-}
-
-.dropzone-active {
-  .dragging-info {
-    visibility: visible;
-  }
-  &:after {
-    content: ' ';
-    position: absolute;
-    top: 0; right: 0; bottom: 0; left: 0;
-    border: 5px solid @adminPrimary;
-  }
 }

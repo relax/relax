@@ -14,13 +14,17 @@ export default class Upload extends Component {
     query: PropTypes.string,
     className: PropTypes.string,
     activeClassName: PropTypes.string,
+    rejectClassName: PropTypes.string,
     onFile: PropTypes.func,
-    disableClick: PropTypes.bool
+    disableClick: PropTypes.bool,
+    accept: PropTypes.string,
+    infos: PropTypes.bool
   }
 
   static defaultProps = {
     acceptedFiles: 'image/*,video/*,audio/*',
-    disableClick: false
+    disableClick: false,
+    infos: false
   }
 
   componentDidMount () {
@@ -79,14 +83,28 @@ export default class Upload extends Component {
         <ReactDropzone
           className={cx(this.props.className || 'dropzone')}
           activeClassName={cx(this.props.activeClassName || 'dropzone-active')}
-          onDrop={::this.onDrop}
+          rejectClassName={cx(this.props.rejectClassName || 'dropzone-reject')}
+          onDropAccepted={::this.onDrop}
           disableClick={this.props.disableClick}
+          accept={this.props.accept}
         >
+          {this.renderInfos()}
           {this.props.children}
         </ReactDropzone>
       );
     }
 
     return result;
+  }
+
+  renderInfos () {
+    if (this.props.infos) {
+      return (
+        <div>
+          <div className='dropzone-info'>Release your file(s) to upload</div>
+          <div className='dropzone-error'>You're dragging invalid files</div>
+        </div>
+      );
+    }
   }
 }

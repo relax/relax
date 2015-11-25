@@ -18,7 +18,8 @@ export default class Content extends Component {
     onItemClick: PropTypes.func.isRequired,
     selected: PropTypes.string,
     uploading: PropTypes.bool.isRequired,
-    uploadedData: PropTypes.array.isRequired
+    uploadedData: PropTypes.array.isRequired,
+    mimeTypes: PropTypes.array.isRequired
   }
 
   imageClicked (id, event) {
@@ -29,8 +30,7 @@ export default class Content extends Component {
 
   render () {
     return (
-      <Upload acceptedFiles='image/*' onFile={this.props.onAddMedia} disableClick>
-        <div className='dragging-info'>Release your file to upload it</div>
+      <Upload accept={this.props.mimeTypes.toString()} onFile={this.props.onAddMedia} disableClick infos>
         <Uploads uploadedData={this.props.uploadedData} />
         <div className={cx('content-area-scrollable', this.props.view, this.props.uploading && 'uploading')} key={this.props.view}>
           <GeminiScrollbar autoshow>
