@@ -5,6 +5,7 @@ import {Component} from 'relax-framework';
 
 import Animate from '../../animate';
 import MediaItem from '../../media-item';
+import Spinner from '../../spinner';
 import Upload from '../../upload';
 import Uploads from './uploads';
 
@@ -19,7 +20,8 @@ export default class Content extends Component {
     selected: PropTypes.string,
     uploading: PropTypes.bool.isRequired,
     uploadedData: PropTypes.array.isRequired,
-    mimeTypes: PropTypes.array.isRequired
+    mimeTypes: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired
   }
 
   imageClicked (id, event) {
@@ -44,20 +46,31 @@ export default class Content extends Component {
   renderResults () {
     const {media} = this.props;
     let result;
-    if (media && media.length > 0) {
+
+    if (this.props.loading) {
       result = (
-        <div>
-          {media.map(this.renderMediaItem, this)}
-        </div>
-      );
-    } else {
-      result = (
-        <Animate transition='slideUpIn'>
-          <div className='no-results'>
-            <span>No results found</span>
-          </div>
+        <Animate transition='slideUpIn' key='loading'>
+          <div className='loading'></div>
         </Animate>
       );
+    } else {
+      if (media && media.length > 0) {
+        result = (
+          <Animate transition='slideUpIn' key='items'>
+            <div>
+              {media.map(this.renderMediaItem, this)}
+            </div>
+          </Animate>
+        );
+      } else {
+        result = (
+          <Animate transition='slideUpIn' key='no-items'>
+            <div className='no-results'>
+              <span>No results found</span>
+            </div>
+          </Animate>
+        );
+      }
     }
     return result;
   }

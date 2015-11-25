@@ -53,7 +53,8 @@ export default class MediaSelectorContainer extends Component {
         order: 'desc'
       },
       filterMime: 'all',
-      uploading: false
+      uploading: false,
+      loading: true
     };
   }
 
@@ -93,11 +94,19 @@ export default class MediaSelectorContainer extends Component {
         fragments,
         vars
       ))
-      .done();
+      .done(() => {
+        this.setState({
+          loading: false
+        });
+      });
   }
 
   fetchMediaItems () {
     const op = {};
+
+    this.setState({
+      loading: true
+    });
 
     if (this.state.filterMime === 'all') {
       op.in = this.mimeTypes;
@@ -128,7 +137,11 @@ export default class MediaSelectorContainer extends Component {
         fragments,
         vars
       ))
-      .done();
+      .done(() => {
+        this.setState({
+          loading: false
+        });
+      });
   }
 
   changeMime (filterMime) {
