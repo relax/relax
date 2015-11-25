@@ -53,13 +53,14 @@ export default class TopMenu extends Component {
     );
   }
 
-  renderTab (tab) {
+  renderTab (tab, key) {
     return (
       <Tab
         tab={tab}
         activePanelType={this.props.activePanelType}
         tabsCount={this.props.tabs.length}
         removeTab={this.props.removeTab}
+        key={tab && tab._id && tab._id._id || key}
       />
     );
   }
