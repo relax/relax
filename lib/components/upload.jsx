@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import Dropzone from 'dropzone';
 import ReactDropzone from 'react-dropzone';
 import React, {PropTypes} from 'react';
@@ -11,6 +12,8 @@ export default class Upload extends Component {
     success: PropTypes.func,
     children: PropTypes.node,
     query: PropTypes.string,
+    className: PropTypes.string,
+    activeClassName: PropTypes.string,
     onFile: PropTypes.func,
     disableClick: PropTypes.bool
   }
@@ -73,7 +76,12 @@ export default class Upload extends Component {
       );
     } else {
       result = (
-        <ReactDropzone className='dropzone' activeClassName='dropzone-active' onDrop={::this.onDrop} disableClick={this.props.disableClick}>
+        <ReactDropzone
+          className={cx(this.props.className || 'dropzone')}
+          activeClassName={cx(this.props.activeClassName || 'dropzone-active')}
+          onDrop={::this.onDrop}
+          disableClick={this.props.disableClick}
+        >
           {this.props.children}
         </ReactDropzone>
       );

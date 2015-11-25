@@ -24,9 +24,10 @@ export default class Selected extends Component {
 
   render () {
     const {mediaItem} = this.props;
+    let result;
     if (mediaItem) {
       const date = moment(mediaItem.date).format('Do MMMM YYYY');
-      return (
+      result = (
         <div className='selected-media'>
           <div className='wrapper'>
             <div className='image-part'>
@@ -45,6 +46,12 @@ export default class Selected extends Component {
           </div>
         </div>
       );
+    } else {
+      result = (
+        <span></span>
+      );
     }
+
+    return result;
   }
 }

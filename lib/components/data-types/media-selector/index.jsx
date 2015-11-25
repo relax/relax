@@ -15,7 +15,8 @@ export default class MediaSelector extends Component {
     view: PropTypes.string.isRequired,
     search: PropTypes.string.isRequired,
     mediaItem: PropTypes.object,
-    changeView: PropTypes.func.isRequired
+    changeView: PropTypes.func.isRequired,
+    onAddMedia: PropTypes.func.isRequired
   }
 
   render () {
@@ -35,6 +36,7 @@ export default class MediaSelector extends Component {
             search={this.props.search}
             changeView={this.props.changeView}
             changeSearch={this.props.changeSearch}
+            onAddMedia={this.props.onAddMedia}
           />
           <Content {...this.props} />
         </div>

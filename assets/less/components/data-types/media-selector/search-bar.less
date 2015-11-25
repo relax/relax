@@ -8,7 +8,7 @@
 
   i {
     color: #999999;
-    font-size: 18px;
+    font-size: 16px;
     line-height: 35px;
   }
 
@@ -17,6 +17,33 @@
   }
   &.active i {
     color: @adminPrimary;
+  }
+}
+
+.dropzone-button {
+  display: inline-block;
+  margin-top: 9px;
+  margin-left: 10px;
+  line-height: 35px;
+  font-size: 10px;
+  color: #999999;
+  cursor: pointer;
+
+  i, span {
+    display: inline-block;
+    vertical-align: top;
+  }
+  i {
+    font-size: 16px;
+    color: #999999;
+    line-height: 35px;
+    padding-right: 5px;
+  }
+
+  &:hover {
+    i, span {
+      color: @adminPrimary;
+    }
   }
 }
 
