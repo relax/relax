@@ -14,6 +14,7 @@ import {getMimeTypes} from '../../helpers/mime-types';
   (state) => ({
     media: state.media.data.items,
     mediaSingles: state.media.singles,
+    uploadedData: state.media.uploadedData,
     errors: state.menu.errors
   }),
   (dispatch) => ({
@@ -33,7 +34,8 @@ export default class MediaSelectorContainer extends Component {
     addMedia: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     getMediaItem: PropTypes.func.isRequired,
-    type: PropTypes.string.isRequired
+    type: PropTypes.string.isRequired,
+    uploadedData: PropTypes.array.isRequired
   }
 
   static defaultProps = {
@@ -50,7 +52,8 @@ export default class MediaSelectorContainer extends Component {
         property: '_id',
         order: 'desc'
       },
-      filterMime: 'all'
+      filterMime: 'all',
+      uploading: false
     };
   }
 
@@ -144,8 +147,12 @@ export default class MediaSelectorContainer extends Component {
     this.props.getMediaItem({media: this.constructor.fragments.mediaItem}, id);
   }
 
-  async onAddMedia (file) {
-    await this.props.addMedia(this.constructor.fragments, file);
+  async onAddMedia (file, fileInfo) {
+    this.setState({
+      uploading: true
+    });
+
+    await this.props.addMedia({media: this.constructor.fragments.media}, file, fileInfo);
   }
 
   changeView (view) {
@@ -175,6 +182,7 @@ export default class MediaSelectorContainer extends Component {
         onAddMedia={::this.onAddMedia}
         onItemClick={::this.onItemClick}
         onClose={this.props.onClose}
+        uploadedData={this.props.uploadedData}
         changeView={::this.changeView}
         changeSort={::this.changeSort}
         changeMime={::this.changeMime}

@@ -11,11 +11,13 @@ export default class Upload extends Component {
     success: PropTypes.func,
     children: PropTypes.node,
     query: PropTypes.string,
-    onFile: PropTypes.func
+    onFile: PropTypes.func,
+    disableClick: PropTypes.bool
   }
 
   static defaultProps = {
-    acceptedFiles: 'image/*,video/*,audio/*'
+    acceptedFiles: 'image/*,video/*,audio/*',
+    disableClick: false
   }
 
   componentDidMount () {
@@ -54,7 +56,7 @@ export default class Upload extends Component {
         this.props.onFile({
           file: event.target.result,
           filename: file.name
-        })
+        }, file);
       };
       reader.readAsDataURL(file);
     });
@@ -71,7 +73,7 @@ export default class Upload extends Component {
       );
     } else {
       result = (
-        <ReactDropzone style={{}} activeStyle={{}} className='dropzone' onDrop={::this.onDrop}>
+        <ReactDropzone className='dropzone' activeClassName='dropzone-active' onDrop={::this.onDrop} disableClick={this.props.disableClick}>
           {this.props.children}
         </ReactDropzone>
       );
