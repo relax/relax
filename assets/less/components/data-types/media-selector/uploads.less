@@ -44,14 +44,15 @@
   }
 
   .item {
-    width: 70px;
-    height: 70px;
+    width: 72px;
+    height: 72px;
     margin-left: 10px;
     display: inline-block;
     vertical-align: top;
     position: relative;
     background-color: #ddd;
     overflow: hidden;
+    border: 2px solid transparent;
     .status {
       position: absolute;
       top: 50%;
@@ -73,8 +74,14 @@
         background-color: @adminPrimary;
       }
     }
+    &.uploaded {
+      cursor: pointer;
+    }
     &:last-child {
       margin-right: 20px;
+    }
+    &.selected {
+      border-color: @adminPrimary;
     }
   }
 }

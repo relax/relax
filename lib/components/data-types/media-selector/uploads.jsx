@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
@@ -8,7 +9,14 @@ import MediaItem from '../../media-item';
 export default class Uploads extends Component {
   static propTypes = {
     uploadedData: PropTypes.array.isRequired,
-    closeUploads: PropTypes.func.isRequired
+    closeUploads: PropTypes.func.isRequired,
+    onItemClick: PropTypes.func.isRequired,
+    selected: PropTypes.string
+  }
+
+  imageClicked (id, event) {
+    event.preventDefault();
+    this.props.onItemClick(id);
   }
 
   render () {
@@ -44,7 +52,7 @@ export default class Uploads extends Component {
     } else {
       // Uploaded
       result = (
-        <div className='item uploaded' key={item.name}>
+        <div className={cx('item uploaded', item._id === this.props.selected && 'selected')} key={item.name} onClick={this.imageClicked.bind(this, item._id)}>
           {this.renderItemContent(item)}
           <span className='status'>
             <Animate key='uploaded'>

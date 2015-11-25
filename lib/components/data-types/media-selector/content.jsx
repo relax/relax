@@ -1,11 +1,9 @@
 import cx from 'classnames';
-import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import Animate from '../../animate';
 import MediaItem from '../../media-item';
-import Spinner from '../../spinner';
 import Upload from '../../upload';
 import Uploads from './uploads';
 
@@ -34,7 +32,12 @@ export default class Content extends Component {
   render () {
     return (
       <Upload accept={this.props.mimeTypes.toString()} onFile={this.props.onAddMedia} disableClick infos>
-        <Uploads uploadedData={this.props.uploadedData} closeUploads={this.props.closeUploads} />
+        <Uploads
+          uploadedData={this.props.uploadedData}
+          closeUploads={this.props.closeUploads}
+          onItemClick={this.props.onItemClick}
+          selected={this.props.selected}
+        />
         <div className={cx('content-area-scrollable', this.props.view, this.props.uploading && 'uploading')} key={this.props.view}>
           <div className='content'>
             {this.renderResults()}
