@@ -139,7 +139,8 @@ export default class MediaSelectorContainer extends Component {
       ))
       .done(() => {
         this.setState({
-          loading: false
+          loading: false,
+          uploading: this.state.uploading && this.props.uploadedData.length > 0
         });
       });
   }
@@ -184,6 +185,16 @@ export default class MediaSelectorContainer extends Component {
     });
   }
 
+  closeUploads () {
+    this.setState({
+      uploading: false
+    }, () => {
+      if (this.props.uploadedData.length > 0) {
+        this.fetchMediaItems();
+      }
+    });
+  }
+
   render () {
     const mediaItem = this.props.mediaSingles[this.state.selected];
 
@@ -196,6 +207,7 @@ export default class MediaSelectorContainer extends Component {
         onItemClick={::this.onItemClick}
         onClose={this.props.onClose}
         uploadedData={this.props.uploadedData}
+        closeUploads={::this.closeUploads}
         changeView={::this.changeView}
         changeSort={::this.changeSort}
         changeMime={::this.changeMime}

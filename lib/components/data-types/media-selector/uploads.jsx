@@ -7,7 +7,8 @@ import MediaItem from '../../media-item';
 
 export default class Uploads extends Component {
   static propTypes = {
-    uploadedData: PropTypes.array.isRequired
+    uploadedData: PropTypes.array.isRequired,
+    closeUploads: PropTypes.func.isRequired
   }
 
   render () {
@@ -15,7 +16,7 @@ export default class Uploads extends Component {
       <div className='uploads-area'>
         <div className='uploads-top'>
           <span>Uploads</span>
-          <i className='material-icons'>close</i>
+          <i className='material-icons' onClick={this.props.closeUploads}>close</i>
         </div>
         <div className='uploads-items'>
           <GeminiScrollbar autoshow>

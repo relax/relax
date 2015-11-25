@@ -21,7 +21,8 @@ export default class Content extends Component {
     uploading: PropTypes.bool.isRequired,
     uploadedData: PropTypes.array.isRequired,
     mimeTypes: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired
+    loading: PropTypes.bool.isRequired,
+    closeUploads: PropTypes.func.isRequired
   }
 
   imageClicked (id, event) {
@@ -33,11 +34,11 @@ export default class Content extends Component {
   render () {
     return (
       <Upload accept={this.props.mimeTypes.toString()} onFile={this.props.onAddMedia} disableClick infos>
-        <Uploads uploadedData={this.props.uploadedData} />
+        <Uploads uploadedData={this.props.uploadedData} closeUploads={this.props.closeUploads} />
         <div className={cx('content-area-scrollable', this.props.view, this.props.uploading && 'uploading')} key={this.props.view}>
-          <GeminiScrollbar autoshow>
+          <div className='content'>
             {this.renderResults()}
-          </GeminiScrollbar>
+          </div>
         </div>
       </Upload>
     );
