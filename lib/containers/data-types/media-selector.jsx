@@ -1,6 +1,7 @@
 import * as adminActions from '../../client/actions/admin';
 import * as mediaActions from '../../client/actions/media';
 
+import debounce from 'lodash.debounce';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -44,6 +45,7 @@ export default class MediaSelectorContainer extends Component {
 
   getInitialState () {
     this.mimeTypes = getMimeTypes(this.props.type);
+    this.fetchDebounce = debounce(::this.fetchMediaItems, 1000);
     return {
       selected: this.props.selected,
       view: 'small',
@@ -119,6 +121,8 @@ export default class MediaSelectorContainer extends Component {
         ...getQueryVariables({
           sort: this.state.sort.property,
           order: this.state.sort.order,
+          search: 'name',
+          s: this.state.search,
           filters: [
             {
               property: 'type',
@@ -185,6 +189,13 @@ export default class MediaSelectorContainer extends Component {
     });
   }
 
+  changeSearch (search) {
+    this.setState({
+      search
+    });
+    this.fetchDebounce();
+  }
+
   closeUploads () {
     this.setState({
       uploading: false
@@ -211,6 +222,7 @@ export default class MediaSelectorContainer extends Component {
         changeView={::this.changeView}
         changeSort={::this.changeSort}
         changeMime={::this.changeMime}
+        changeSearch={::this.changeSearch}
         mimeTypes={this.mimeTypes}
       />
     );
