@@ -29,7 +29,8 @@ export default class TextBox extends Component {
 
   static defaultProps = {
     padding: '0px',
-    textAlign: 'left'
+    textAlign: 'left',
+    maxWidth: 200
   }
 
   static defaultChildren = 'Click to edit text'
