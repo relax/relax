@@ -26,7 +26,7 @@
     "express-session": "^1.11.3",
     "file-size": "^1.0.0",
     "graphql": "^0.4.7",
-    "history": "^1.12.5",
+    "history": "^1.13.1",
     "hoist-non-react-statics": "^1.0.3",
     "jquery": "^2.1.4",
     "js-md5": "^0.3.0",
