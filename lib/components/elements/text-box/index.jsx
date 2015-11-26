@@ -22,7 +22,9 @@ export default class TextBox extends Component {
     pageBuilderActions: PropTypes.object,
     element: PropTypes.object,
     elementId: PropTypes.string,
-    styleClassMap: PropTypes.object
+    styleClassMap: PropTypes.object,
+    useTrim: PropTypes.bool,
+    maxWidth: PropTypes.number
   }
 
   static defaultProps = {
@@ -68,6 +70,8 @@ export default class TextBox extends Component {
     let result;
     const classMap = this.props.styleClassMap || {};
     const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
+    const styles = {};
+    const className = cx(classes.text, classMap.text);
 
     let html = '';
     if ((!this.props.children || this.props.children === '') && editing && !this.props.selected) {
@@ -76,11 +80,15 @@ export default class TextBox extends Component {
       html = this.props.children;
     }
 
+    if (this.props.useTrim) {
+      styles.maxWidth = this.props.maxWidth;
+    }
+
     if (editing && this.props.selected) {
       result = (
         <Editor
           tag='div'
-          className={cx(classes.text, classMap.text)}
+          className={className}
           onChange={this.props.pageBuilderActions.changeElementContent.bind(this, this.props.elementId)}
           value={html}
           options={{
@@ -95,7 +103,7 @@ export default class TextBox extends Component {
       );
     } else {
       result = (
-        <div className={cx(classes.text, classMap.text)} dangerouslySetInnerHTML={{__html: html}}></div>
+        <div className={cx(className, this.props.useTrim && classes.trim)} style={styles} dangerouslySetInnerHTML={{__html: html}}></div>
       );
     }
     return result;
