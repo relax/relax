@@ -160,7 +160,7 @@ export default class Element extends Component {
     const {element, elementId, pageBuilder, dnd, dndActions} = info;
     const editing = pageBuilder && pageBuilder.editing;
 
-    if (editing && this.props.settings.drag) {
+    if (editing && settings.drag) {
       const {selectedParent} = pageBuilder;
       const overed = this.isOvered();
       const selected = this.isSelected();
@@ -190,7 +190,8 @@ export default class Element extends Component {
             id: elementId
           },
           onClick: this.onElementClick.bind(this),
-          type: element.tag
+          type: element.tag,
+          disabled: (selected && settings.drag.dragSelected === false)
         }, settings.drag);
 
         if (pageBuilder.focusElementId === elementId) {
