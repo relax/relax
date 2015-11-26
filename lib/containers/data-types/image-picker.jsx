@@ -29,7 +29,8 @@ export default class ImagePickerContainer extends Component {
     mediaItems: PropTypes.array.isRequired,
     getMediaItem: PropTypes.func.isRequired,
     addOverlay: PropTypes.func.isRequired,
-    closeOverlay: PropTypes.func.isRequired
+    closeOverlay: PropTypes.func.isRequired,
+    type: React.PropTypes.string
   }
 
   getInitialState () {
@@ -58,7 +59,7 @@ export default class ImagePickerContainer extends Component {
   openSelector () {
     this.props.addOverlay('media-selector', (
       <Modal onClose={::this.closeSelector}>
-        <MediaSelectorContainer onChange={this.props.onChange} selected={this.props.value} onClose={::this.closeSelector} />
+        <MediaSelectorContainer onChange={this.props.onChange} selected={this.props.value} onClose={::this.closeSelector} type={this.props.type} />
       </Modal>
     ));
   }
