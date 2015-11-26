@@ -22,7 +22,8 @@ export default class A extends Component {
   }
 
   render () {
-    const urlAndQuery = this.props.href && this.props.href.split('?');
+    const {href, ...tagProps} = this.props;
+    const urlAndQuery = href && href.split('?');
 
     let url;
     let query;
@@ -32,7 +33,7 @@ export default class A extends Component {
     }
 
     return (
-      <Link to={url} query={query} {...this.props} onClick={::this.onClick}>
+      <Link to={url} query={query} {...tagProps} onClick={::this.onClick}>
         {this.props.children}
       </Link>
     );
