@@ -4,6 +4,7 @@ import {Component} from 'relax-framework';
 import {Component as JSS} from 'relax-jss';
 
 import displays from '../../helpers/displays';
+import getElementProps from '../../helpers/get-element-props';
 import stylesheet from '../../helpers/stylesheet';
 import stylesManager from '../../helpers/styles-manager';
 
@@ -82,13 +83,14 @@ export default class Page extends Component {
     const element = page.data[elementId];
 
     const ElementClass = elements[element.tag];
-    const styleClassMap = stylesManager.processElement(element, ElementClass, styles, elements, true);
+    const elementProps = getElementProps(element, this.state.display);
+    const styleClassMap = stylesManager.processElement(element, elementProps, ElementClass, styles, elements, true);
 
     if ((!element.hide || !element.hide[display]) && element.display !== false) {
       if (element.display !== false) {
         return (
           <ElementClass
-            {...element.props}
+            {...elementProps}
             key={elementId}
             element={element}
             elementId={elementId}

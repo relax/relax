@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
+import getElementProps from '../../../../../helpers/get-element-props';
 import Animation from './animation';
 import Input from '../../../../data-types/input';
 import OptionsList from '../../../../options-list';
@@ -8,7 +9,8 @@ import OptionsList from '../../../../options-list';
 export default class EditProps extends Component {
   static propTypes = {
     pageBuilder: PropTypes.object.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired
+    pageBuilderActions: PropTypes.object.isRequired,
+    display: PropTypes.string.isRequired
   }
 
   displayToggleElement (id, display, event) {
@@ -28,7 +30,7 @@ export default class EditProps extends Component {
     } else {
       let options;
       if (element.propsSchema) {
-        const values = Object.assign({}, element.defaultProps, selectedElement.props);
+        const values = Object.assign({}, element.defaultProps, getElementProps(selectedElement, this.props.display));
         options = this.renderOptions(element.propsSchema, values);
       }
       const label = typeof selectedElement.label === 'string' ? selectedElement.label : selectedElement.tag;

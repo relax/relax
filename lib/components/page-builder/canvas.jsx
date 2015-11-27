@@ -4,6 +4,7 @@ import {Component} from 'relax-framework';
 import {Component as JSS} from 'relax-jss';
 
 import displays from '../../helpers/displays';
+import getElementProps from '../../helpers/get-element-props';
 import stylesManager from '../../helpers/styles-manager';
 import utils from '../../utils';
 import {Droppable} from '../dnd';
@@ -117,10 +118,12 @@ export default class Canvas extends Component {
   }
 
   renderElement (elementsLinks = false, schemaEntry = false, elementId) {
+    const {display} = this.props;
     const {data, elements, selectedId} = this.props.pageBuilder;
     let element = data[elementId];
 
-    const styleClassMap = stylesManager.processElement(element, elements[element.tag], this.props.styles, elements);
+    const elementProps = getElementProps(element, display);
+    const styleClassMap = stylesManager.processElement(element, elementProps, elements[element.tag], this.props.styles, elements);
 
     if ((!element.hide || !element.hide[this.props.display]) && element.display !== false) {
       if (schemaEntry && elementsLinks && elementsLinks[element.id]) {
@@ -133,7 +136,7 @@ export default class Canvas extends Component {
 
         return (
           <FactoredElement
-            {...element.props}
+            {...elementProps}
             dnd={this.props.dnd}
             dndActions={this.props.dndActions}
             pageBuilder={this.props.pageBuilder}

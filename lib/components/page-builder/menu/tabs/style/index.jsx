@@ -1,12 +1,14 @@
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
+import getElementProps from '../../../../../helpers/get-element-props';
 import StylePicker from '../../../../../containers/style-picker';
 
 export default class Style extends Component {
   static propTypes = {
     pageBuilder: PropTypes.object.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired
+    pageBuilderActions: PropTypes.object.isRequired,
+    display: PropTypes.string.isRequired
   }
 
   render () {
@@ -24,10 +26,11 @@ export default class Style extends Component {
       const Element = elements[selectedElement.tag];
 
       if (Element && Element.style) {
+        const elementProps = getElementProps(selectedElement, this.props.display);
         result = (
           <StylePicker
             style={Element.style}
-            value={selectedElement.props && selectedElement.props.style}
+            value={elementProps && elementProps.style}
             pageBuilder={this.props.pageBuilder}
             pageBuilderActions={this.props.pageBuilderActions}
           />
