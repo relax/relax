@@ -1,3 +1,4 @@
+import cloneDeep from 'lodash.cloneDeep';
 import cx from 'classnames';
 import React from 'react';
 import {Component} from 'relax-framework';
@@ -90,7 +91,7 @@ export default class ColumnsManager extends Component {
   }
 
   onChange (id, value) {
-    var valueParsed = this.parseValue(this.props.value);
+    const valueParsed = cloneDeep(this.parseValue(this.props.value));
     valueParsed[this.state.selected][id] = value;
     const result = this.parseValue(valueParsed, this.state.selected);
     this.props.onChange(result);

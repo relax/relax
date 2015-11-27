@@ -12,9 +12,7 @@ export default class Columns extends Component {
   static propTypes = {
     spacing: PropTypes.number.isRequired,
     spacingRows: PropTypes.number.isRequired,
-    desktop: PropTypes.array.isRequired,
-    tablet: PropTypes.array.isRequired,
-    mobile: PropTypes.array.isRequired,
+    columnsDisplay: PropTypes.array.isRequired,
     children: PropTypes.node,
     element: PropTypes.object.isRequired,
     display: PropTypes.string.isRequired,
@@ -27,9 +25,7 @@ export default class Columns extends Component {
   static defaultProps = {
     spacing: 10,
     spacingRows: 10,
-    desktop: [],
-    tablet: [],
-    mobile: []
+    columnsDisplay: []
   }
 
   static defaultChildren = [
@@ -49,7 +45,7 @@ export default class Columns extends Component {
   renderChildren () {
     const children = [];
     const numChildren = this.props.children && this.props.children.length || 0;
-    const layout = Utils.parseColumnsDisplay(this.props[this.props.display], numChildren, this.props.display !== 'desktop');
+    const layout = Utils.parseColumnsDisplay(this.props.columnsDisplay, numChildren, this.props.display !== 'desktop');
     const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
 
     const spaceThird = Math.round(this.props.spacing / 3 * 100) / 100;
