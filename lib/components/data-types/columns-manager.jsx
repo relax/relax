@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash.cloneDeep';
+import cloneDeep from 'lodash.clonedeep';
 import cx from 'classnames';
 import React from 'react';
 import {Component} from 'relax-framework';
