@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import React from 'react';
 import {Component} from 'relax-framework';
 
@@ -37,10 +38,8 @@ export default class NumberInput extends Component {
   }
 
   onInput (event) {
-    if (!isNaN(event.target.value)) {
-      var val = this.limitValue(parseFloat(event.target.value, 10));
-      this.props.onChange(isNaN(val) ? '' : val);
-    }
+    const numb = event.target.value && parseFloat(event.target.value, 10);
+    this.props.onChange(numb && !isNaN(numb) && this.limitValue(numb) || '');
   }
 
   up (event) {
@@ -92,19 +91,10 @@ export default class NumberInput extends Component {
   }
 
   render () {
-    var className = 'number-input';
-    var value = this.props.value;
-
-    if (this.state.focused) {
-      className += ' focused';
-    }
-
-    if (this.props.inactive) {
-      value = '--';
-    }
+    const value = this.props.inactive ? '--' : this.props.value;
 
     return (
-      <div className={className}>
+      <div className={cx('number-input', this.state.focused && 'focused', this.props.className)}>
         <input type='text' value={value} onChange={this.onInput.bind(this)} ref='input' onBlur={this.onBlur.bind(this)} onFocus={this.onFocus.bind(this)} />
         <span onMouseDown={this.onMouseDown.bind(this)}>{this.props.label}</span>
         <div className='arrows'>

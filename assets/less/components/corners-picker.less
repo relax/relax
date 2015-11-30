@@ -1,7 +1,8 @@
 .corners-picker {
-  @btnsSize: 25px;
-  @btnsSpacing: 3px;
-  @total: @btnsSize * 3 + @btnsSpacing * 2;
+  @total: 36px;
+  @corners: 12px;
+  @btnsSize: 20px;
+  @nonActive: #979797;
 
   display: table;
   width: 100%;
@@ -10,39 +11,31 @@
 
   // Parts
   .toggles, .inputs {
-    display: table-cell;
-    vertical-align: middle;
+    display: inline-block;
+    vertical-align: top;
   }
 
   .toggles {
     position: relative;
-    height: 48px;
+    height: @total;
     width: @total;
   }
 
   .inputs {
-    padding-left: 25px;
-    padding-bottom: 13px;
-
-    .sub-label {
-      font-size: 9px;
-      color: #616363;
-      text-transform: uppercase;
-      margin-bottom: 5px;
-    }
+    padding-left: 13px;
   }
 
   // Toggle buttons
   .toggle {
+    display: inline-block;
     position: absolute;
     width: @btnsSize;
     height: @btnsSize;
-    border: 1px solid @pageBuilderChromeBorders;
-    text-align: center;
+    text-align: left;
     cursor: pointer;
 
     i {
-      color: #cccccc;
+      color: @nonActive;
       font-size: 15px;
       line-height: 23px;
       position: relative;
@@ -50,80 +43,92 @@
 
     @center: @total / 2 - @btnsSize / 2;
 
-    span {
+    &:before {
+      content: ' ';
       display: inline-block;
-      width: 10px;
-      height: 10px;
-      position: relative;
-      top: 6px;
+      width: 7px;
+      height: 7px;
+      position: absolute;
     }
 
     &.tl {
       left: 0;
       top: 0;
-      span {
-        border-left: 2px solid #cccccc;
-        border-top: 2px solid #cccccc;
-        .roundedCorners(6px, 0, 0, 0);
+      &:before {
+        top: 0px;
+        left: 0px;
+        border-left: 2px solid @nonActive;
+        border-top: 2px solid @nonActive;
+        .roundedCorners(@corners, 0, 0, 0);
       }
     }
     &.tr {
+      text-align: right;
       right: 0;
       top: 0;
-      span {
-        border-right: 2px solid #cccccc;
-        border-top: 2px solid #cccccc;
-        .roundedCorners(0, 6px, 0, 0);
+      &:before {
+        top: 0;
+        right: 0;
+        border-right: 2px solid @nonActive;
+        border-top: 2px solid @nonActive;
+        .roundedCorners(0, @corners, 0, 0);
       }
     }
     &.center {
       left: @center;
-      top: 14px;
+      top: @center;
+      &:before {
+        top: 3px;
+        left: 3px;
+        width: 10px;
+        height: 10px;
+        border: 2px solid @nonActive;
+        .roundedCorners(4px, 4px, 4px, 4px);
+      }
     }
     &.br {
+      text-align: right;
       right: 0;
-      top: 30px;
-      span {
-        border-right: 2px solid #cccccc;
-        border-bottom: 2px solid #cccccc;
-        .roundedCorners(0, 0, 6px, 0);
+      bottom: 0px;
+      &:before {
+        right: 0;
+        bottom: 0;
+        border-right: 2px solid @nonActive;
+        border-bottom: 2px solid @nonActive;
+        .roundedCorners(0, 0, @corners, 0);
       }
     }
     &.bl {
       left: 0;
-      top: 30px;
-      span {
-        border-left: 2px solid #cccccc;
-        border-bottom: 2px solid #cccccc;
-        .roundedCorners(0, 0, 0, 6px);
+      bottom: 0px;
+      &:before {
+        left: 0;
+        bottom: 0;
+        border-left: 2px solid @nonActive;
+        border-bottom: 2px solid @nonActive;
+        .roundedCorners(0, 0, 0, @corners);
       }
     }
 
     &:hover {
-      background-color: #3f4249;
-      i {
-        color: #ffffff;
-      }
-      span {
+      &:before {
         border-color: #ffffff;
       }
     }
     &.selected {
       border-color: @adminPrimary;
-      background-color: #3f4249;
-      i {
-        color: #ffffff;
-      }
-      span {
+      &:before {
         border-color: #ffffff;
       }
     }
     &.active {
-      i {
-        color: @adminPrimary;
-      }
-      span {
+      &:before {
         border-color: @adminPrimary;
+      }
+    }
+    &.selected.active {
+      &:before {
+        border-color: #ffffff;
       }
     }
   }

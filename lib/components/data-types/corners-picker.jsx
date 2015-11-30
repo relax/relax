@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import React from 'react';
 import {Component} from 'relax-framework';
 
@@ -36,7 +37,7 @@ export default class CornersPicker extends Component {
   }
 
   getValuesString (values) {
-    return `${values.tl}px ${values.tr}px ${values.br}px ${values.bl}px`;
+    return `${values.tl || '0'}px ${values.tr || '0'}px ${values.br || '0'}px ${values.bl || '0'}px`;
   }
 
   parseValue (value) {
@@ -84,10 +85,9 @@ export default class CornersPicker extends Component {
   }
 
   render () {
-    var className = 'corners-picker type-' + this.props.type;
-    var values = this.state.values;
-    var value = 0;
-    var inactive = false;
+    const values = this.state.values;
+    let inactive = false;
+    let value = 0;
 
     if (this.state.selected !== 'center') {
       value = values[this.state.selected];
@@ -97,37 +97,27 @@ export default class CornersPicker extends Component {
     }
 
     return (
-      <div className={className}>
+      <div className={cx('corners-picker', this.props.type)}>
         <div className='toggles'>
           {this.renderToggleButton('tl', !values.equal)}
           {this.renderToggleButton('bl', !values.equal)}
-          {this.renderToggleButton('center', values.equal)}
           {this.renderToggleButton('tr', !values.equal)}
           {this.renderToggleButton('br', !values.equal)}
+          {this.renderToggleButton('center', values.equal)}
         </div>
         <div className='inputs'>
-          <div className='sub-label'>Value</div>
-          <NumberInput value={value} onChange={this.onInputChange.bind(this)} inactive={inactive} />
+          <NumberInput className='micro' value={value} onChange={this.onInputChange.bind(this)} inactive={inactive} label='px' />
         </div>
       </div>
     );
   }
 
   renderToggleButton (pos, active) {
-    var className = 'toggle ' + pos;
-
-    if (this.state.selected === pos) {
-      className += ' selected';
-    }
-
-    if (active) {
-      className += ' active';
-    }
-
     return (
-      <div className={className} onClick={this.changeSelected.bind(this, pos)}>
-        {pos === 'center' ? <i className='material-icons'>link</i> : <span></span>}
-      </div>
+      <div
+        className={cx('toggle', pos, this.state.selected === pos && 'selected', active && 'active')}
+        onClick={this.changeSelected.bind(this, pos)}
+      />
     );
   }
 }
