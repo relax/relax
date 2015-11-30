@@ -14,7 +14,7 @@
     position: absolute;
     top: -14px - @borderSize; left: 0 - @borderSize;
     font-size: 11px;
-    line-height: 14px;
+    line-height: 15px;
     padding: 0px 3px;
     background-color: @adminPrimary;
 
@@ -27,12 +27,14 @@
     i {
       margin-right: 3px;
       font-size: 12px;
-      line-height: 14px;
+      line-height: 15px;
       color: #ffffff;
     }
     span {
-      line-height: 14px;
+      line-height: 15px;
       color: #ffffff;
+      font-size: 10px;
+      letter-spacing: 0.3px;
     }
   }
 
@@ -62,9 +64,9 @@
 
   &.inside .element-identifier {
     bottom: auto;
-    top: 2px;
-    left: 2px;
-    .roundedCorners(2px);
+    top: 0px;
+    left: 0px;
+    .roundedCorners(0px, 0px, 1px, 0);
   }
 
   &.sub-component {
