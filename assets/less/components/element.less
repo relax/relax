@@ -3,7 +3,9 @@
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   pointer-events: none;
-  .border(@borderSize, solid, @pageBuilderElementHighlight, 80);
+  border: @borderSize solid @adminPrimary;
+  .alphaColorToRgb(@adminPrimary, 0.1);
+  border-radius: 1px;
   z-index: 2;
   color: #ffffff;
 
@@ -14,15 +16,15 @@
     font-size: 11px;
     line-height: 14px;
     padding: 0px 3px;
+    background-color: @adminPrimary;
 
-    .roundedCorners(2px, 2px, 0, 0);
-    .alphaColorToRgb(@pageBuilderElementHighlight, 0.8);
+    .roundedCorners(1px, 1px, 0, 0);
 
     >* {
       display: inline-block;
       vertical-align: top;
     }
-    i{
+    i {
       margin-right: 3px;
       font-size: 12px;
       line-height: 14px;
@@ -36,10 +38,19 @@
 
   &.selected {
     z-index: 1;
-    .border(@borderSize, solid, @pageBuilderElementSelected, 80);
+    border: 1px solid @adminPrimary;
+    background-color: transparent;
+
+    &:before {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      top: 0px; right: 0px; bottom: 0px; left: 0px;
+      .border(2px, solid, @adminPrimary, 10);
+    }
 
     .element-identifier {
-      .alphaColorToRgb(@pageBuilderElementSelected, 0.8);
+      background-color: @adminPrimary;
     }
   }
 
