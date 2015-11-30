@@ -36,7 +36,7 @@ export default class SpacingPicker extends Component {
   }
 
   getValuesString (values) {
-    return `${values.top}px ${values.right}px ${values.bottom}px ${values.left}px`;
+    return `${values.top || '0'}px ${values.right || '0'}px ${values.bottom || '0'}px ${values.left || '0'}px`;
   }
 
   parseValue (value) {
