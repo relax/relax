@@ -14,27 +14,7 @@ export default class ElementComponent extends Component {
     dndActions: PropTypes.object
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.selected) {
-      this.onStateChangeBind = this.onStateChange.bind(this);
-      document.addEventListener('setState', this.onStateChangeBind, false);
-    } else if (this.onStateChangeBind) {
-      document.removeEventListener('setState', this.onStateChangeBind);
-      this.onStateChangeBind = false;
-    }
-  }
-
-  componentWillUnmount () {
-    if (this.onStateChangeBind) {
-      document.removeEventListener('setState', this.onStateChangeBind);
-    }
-  }
-
-  onStateChange (event) {
-    this.setState(event.detail);
-  }
-
-  renderContent (customProps) {
+  renderContent (customProps, children = this.props.children) {
     let result;
     const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
     if (editing) {
@@ -53,12 +33,13 @@ export default class ElementComponent extends Component {
           pageBuilderActions={this.props.pageBuilderActions}
           dnd={this.props.dnd}
           dndActions={this.props.dndActions}>
-          {this.props.children}
+          {children}
         </Droppable>
       );
     } else {
-      result = this.props.children;
+      result = children;
     }
+
     return result;
   }
 }
