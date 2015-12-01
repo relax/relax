@@ -19,7 +19,8 @@ export default class Selected extends Component {
   }
 
   static propTypes = {
-    mediaItem: PropTypes.object
+    mediaItem: PropTypes.object,
+    removeMediaItem: PropTypes.func.isRequired
   }
 
   render () {
@@ -42,6 +43,7 @@ export default class Selected extends Component {
                 </div>
               }
               <div className='under-title'>{mediaItem.size}</div>
+              <div className='remove-selected' onClick={this.props.removeMediaItem.bind(null, mediaItem._id)}>remove</div>
             </div>
           </div>
         </div>

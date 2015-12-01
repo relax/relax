@@ -36,7 +36,8 @@ export default class MediaSelectorContainer extends Component {
     onClose: PropTypes.func.isRequired,
     getMediaItem: PropTypes.func.isRequired,
     type: PropTypes.string.isRequired,
-    uploadedData: PropTypes.array.isRequired
+    uploadedData: PropTypes.array.isRequired,
+    removeMediaItem: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -217,6 +218,7 @@ export default class MediaSelectorContainer extends Component {
         onAddMedia={::this.onAddMedia}
         onItemClick={::this.onItemClick}
         onClose={this.props.onClose}
+        removeMediaItem={this.props.removeMediaItem}
         uploadedData={this.props.uploadedData}
         closeUploads={::this.closeUploads}
         changeView={::this.changeView}

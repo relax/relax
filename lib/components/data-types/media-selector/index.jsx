@@ -17,7 +17,8 @@ export default class MediaSelector extends Component {
     mediaItem: PropTypes.object,
     changeView: PropTypes.func.isRequired,
     onAddMedia: PropTypes.func.isRequired,
-    mimeTypes: PropTypes.array.isRequired
+    mimeTypes: PropTypes.array.isRequired,
+    removeMediaItem: PropTypes.func.isRequired
   }
 
   render () {
@@ -26,7 +27,7 @@ export default class MediaSelector extends Component {
         <div className='modal-menu'>
           <div className='modal-header'>Media selector</div>
           <Filters {...this.props} />
-          <Selected mediaItem={this.props.mediaItem} />
+          <Selected mediaItem={this.props.mediaItem} removeMediaItem={this.props.removeMediaItem} />
           <div className='modal-done'>
             <div className='button button-primary' onClick={this.props.onClose}>DONE</div>
           </div>
