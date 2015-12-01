@@ -36,7 +36,7 @@ export default class Selected extends Component {
             <div className='info-part'>
               <div className='title'>{mediaItem.name}</div>
               <div className='under-title'>{date}</div>
-              {mediaItem.dimension &&
+              {mediaItem.dimension && mediaItem.dimension.width &&
                 <div className='under-title'>
                   {`${mediaItem.dimension.width}x${mediaItem.dimension.height}`}
                 </div>
