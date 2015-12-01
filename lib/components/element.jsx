@@ -17,6 +17,10 @@ export default class Element extends Component {
     settings: PropTypes.object.isRequired
   }
 
+  static contextTypes = {
+    dropHighlight: PropTypes.string
+  }
+
   getInitialState () {
     const editing = this.props.info.pageBuilder && this.props.info.pageBuilder.editing;
     if (editing && this.isClient()) {
@@ -244,6 +248,7 @@ export default class Element extends Component {
           dropInfo={dropInfo}
           {...settings.drop}
           placeholder
+          placeholderOverlap={this.renderEmpty}
           dnd={dnd}
           dndActions={dndActions}
           pageBuilder={pageBuilder}
@@ -257,13 +262,36 @@ export default class Element extends Component {
     return result;
   }
 
+  renderEmpty (renderMark, addEvent) {
+    const {info} = this.props;
+    const {pageBuilder, element} = info;
+    const ElementClass = pageBuilder.elements[element.tag];
+
+    return (
+      <div className='element-empty-placeholder'>
+        <div className='element-empty-placeholder-wrapper'>
+          <i className={ElementClass.settings.icon.class}>
+            {ElementClass.settings.icon.content}
+          </i>
+          <div className=''>
+            <div>{`Empty ${element.tag} element`}</div>
+            <div>
+              <span>Drop elements here or </span>
+              <span className='link' onClick={addEvent}>click to add</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   renderHighlight () {
     const {info} = this.props;
     if (info.elementId) {
       const {pageBuilder, dnd, element} = info;
       const {elements} = pageBuilder;
       const {dragging} = dnd;
-      const dropHighlight = this._reactInternalInstance._context.dropHighlight; // # TODO modify when react passes context from owner-based to parent-based (0.14?)
+      const dropHighlight = this.context.dropHighlight;
       let className;
 
       const overed = this.isOvered();

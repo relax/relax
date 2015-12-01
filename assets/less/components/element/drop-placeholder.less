@@ -1,0 +1,48 @@
+.drop-placeholder {
+  position: relative;
+  text-align: center;
+  padding: 70px 30px;
+  color: #999999;
+  font-size: 14px;
+  height: 200px;
+  max-height: 100%;
+
+  .link {
+    position: relative;
+    color: @adminPrimary;
+    display: inline-block;
+
+    >span {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    &:hover {
+      color: @adminPrimaryDarker;
+    }
+  }
+
+  i {
+    font-size: 36px;
+    color: @pageBuilderElementDropHighlight;
+  }
+
+  &:before {
+    content: ' ';
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    border: 1px solid #dbdbdb;
+    pointer-events: none;
+  }
+
+  &.active {
+    &:before {
+      border: 1px solid @pageBuilderElementDropHighlight;
+      border-radius: 1px;
+      .alphaColorToRgb(@pageBuilderElementDropHighlight, 0.1);
+    }
+  }
+}

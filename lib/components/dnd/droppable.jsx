@@ -331,7 +331,22 @@ export default class Droppable extends Component {
       const markerPosition = this.draggerPosition || dropInfo.position;
 
       children.splice(markerPosition, 0, marker);
-    } else if (hasChildren && !dragging && this.showMarks()) {
+    }
+    // else if (hasChildren && dragging) {
+    //   children = children instanceof Array ? children.slice(0) : [children];
+    //
+    //   const tempChildren = [
+    //     <Marker key='marker' dnd={this.props.dnd} />
+    //   ];
+    //
+    //   forEach(children, (child, index) => {
+    //     tempChildren.push(child);
+    //     tempChildren.push(<Marker key={'marker' + index} dnd={this.props.dnd} />);
+    //   });
+    //
+    //   children = tempChildren;
+    // }
+    else if (hasChildren && !dragging && this.showMarks()) {
       const tempChildren = [
         this.renderMark(0)
       ];
@@ -372,7 +387,7 @@ export default class Droppable extends Component {
     if (this.props.placeholder) {
       let result;
       if (this.props.placeholderOverlap) {
-        result = this.props.placeholderOverlap(this.renderMark.bind(this, 0));
+        result = this.props.placeholderOverlap(this.renderMark.bind(this, 0), this.addSpotClick.bind(this, 0));
       } else {
         result = (
           <div className={cx('drop-placeholder', this.state.overed && 'active')}>

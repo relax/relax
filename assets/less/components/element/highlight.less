@@ -1,0 +1,87 @@
+.element-highlight {
+  @borderSize: 1px;
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  border: @borderSize solid @adminPrimary;
+  .alphaColorToRgb(@adminPrimary, 0.1);
+  border-radius: 1px;
+  z-index: 2;
+  color: #ffffff;
+
+  .element-identifier {
+    display: inline-block;
+    position: absolute;
+    top: -14px - @borderSize; left: 0 - @borderSize;
+    font-size: 11px;
+    line-height: 15px;
+    padding: 0px 3px;
+    background-color: @adminPrimary;
+
+    .roundedCorners(1px, 1px, 0, 0);
+
+    >* {
+      display: inline-block;
+      vertical-align: top;
+    }
+    i {
+      margin-right: 3px;
+      font-size: 12px;
+      line-height: 15px;
+      color: #ffffff;
+    }
+    span {
+      line-height: 15px;
+      color: #ffffff;
+      font-size: 10px;
+      letter-spacing: 0.3px;
+    }
+  }
+
+  &.selected {
+    z-index: 1;
+    border: 1px solid @adminPrimary;
+    background-color: transparent;
+
+    &:before {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      top: 0px; right: 0px; bottom: 0px; left: 0px;
+      .border(2px, solid, @adminPrimary, 10);
+    }
+
+    .element-identifier {
+      background-color: @adminPrimary;
+    }
+  }
+
+  &.bottom .element-identifier {
+    top: auto;
+    bottom: -16px;
+    .roundedCorners(0px, 0px, 2px, 2px);
+  }
+
+  &.inside .element-identifier {
+    bottom: auto;
+    top: 0px;
+    left: 0px;
+    .roundedCorners(0px, 0px, 1px, 0);
+  }
+
+  &.sub-component {
+    .border(@borderSize, solid, @pageBuilderElementHighlightSub, 80);
+
+    .element-identifier {
+      .alphaColorToRgb(@pageBuilderElementHighlightSub, 0.8);
+    }
+
+    &.selected {
+      .border(@borderSize, solid, @pageBuilderElementSelectedSub, 80);
+
+      .element-identifier {
+        .alphaColorToRgb(@pageBuilderElementSelectedSub, 0.8);
+      }
+    }
+  }
+}

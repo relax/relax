@@ -1,0 +1,162 @@
+.add-marker {
+  position: absolute;
+  width: 100%;
+  height: 0;
+  z-index: 3;
+  text-align: left;
+  left: 0;
+
+  .marker {
+    position: absolute;
+    display: inline-block;
+    left: -15px;
+    top: -15px;
+    cursor: pointer;
+
+    width: 30px;
+    height: 30px;
+
+    .opacity(0.90);
+    .transform(scale(0.3));
+    .transition(0.3s);
+
+    &:before {
+      content: ' ';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      width: 40px;
+      height: 40px;
+    	background-color: rgba(255, 255, 255, 0.4);
+      .roundedCorners(20px);
+      .transition(0.5s);
+      .opacity(1);
+    }
+  }
+
+  .circle {
+    width: 30px;
+    height: 30px;
+  	background-color: #131618;
+    display: inline-block;
+    position: relative;
+  	text-align: center;
+
+    .roundedCorners(15px);
+
+    >i {
+      .opacity(0);
+      text-align: center;
+      color: #eeeeee;
+      font-size: 20px;
+      line-height: 30px;
+    }
+  }
+
+  .triangle {
+  	position: absolute;
+  	background-color: #131618;
+  	text-align: left;
+    cursor: pointer;
+    .opacity(0);
+
+    position: absolute;
+    left: 16px;
+    top: 3px;
+  }
+  .triangle:before,
+  .triangle:after {
+  	content: '';
+  	position: absolute;
+  	background-color: inherit;
+  }
+  .triangle,
+  .triangle:before,
+  .triangle:after {
+  	width:  16px;
+  	height: 16px;
+  	border-top-right-radius: 30%;
+  }
+
+  .triangle {
+  	transform: rotate(-90deg) skewX(-30deg) scale(1,.866);
+  }
+  .triangle:before {
+  	transform: rotate(-135deg) skewX(-45deg) scale(1.414,.707) translate(0,-50%);
+  }
+  .triangle:after {
+  	transform: rotate(135deg) skewY(-45deg) scale(.707,1.414) translate(50%);
+  }
+
+  &:hover, &.active {
+    &:before {
+      content: ' ';
+      position: absolute;
+      display: block;
+      top: -1px;
+      bottom: -1px;
+      left: 0; right: 0;
+      background-color: @adminPrimary;
+    }
+    .marker {
+      .transform(scale(1));
+      .opacity(1);
+
+      &:before {
+        //pointer-events: none;
+        .opacity(0);
+        .transform(scale(1.1, 1.1));
+      }
+    }
+    .circle, .triangle {
+      background-color: @adminPrimary;
+
+      >i {
+        color: #ffffff;
+        .opacity(1);
+      }
+    }
+    .triangle {
+      .opacity(1);
+    }
+  }
+
+  &.inverted {
+    .marker {
+      left: 0px;
+      .triangle {
+      	transform: rotate(90deg) skewX(-30deg) scale(1,.866);
+        left: -2px;
+        top: 11px;
+      }
+    }
+  }
+
+  &.vertical {
+    width: 0;
+    height: 100%;
+    left: auto;
+
+    .triangle {
+    	transform: rotate(-0deg) skewX(-30deg) scale(1,.866);
+      left: 11px;
+      top: 16px;
+    }
+
+    .marker {
+      left: -15px;
+      top: -15px;
+      width: 30px;
+      height: 30px;
+    }
+
+    &:hover {
+      &:before {
+        top: 0px;
+        bottom: 0px;
+        left: -1px;
+        right: -1px;
+      }
+    }
+  }
+}
