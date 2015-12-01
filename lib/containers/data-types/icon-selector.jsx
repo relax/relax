@@ -12,7 +12,7 @@ export default class IconSelectorContainer extends Component {
     getAdmin: PropTypes.func.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       selectedFamily: 0,
       selected: this.props.value,

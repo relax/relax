@@ -44,7 +44,7 @@ export default class MediaManagerContainer extends Component {
     removeMedia: PropTypes.func.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       display: 'list',
       upload: false,

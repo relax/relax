@@ -21,7 +21,7 @@ export default class Page extends Component {
     page: PropTypes.object
   }
 
-  getInitialState () {
+  getInitState () {
     this.onResizeBind = this.onResize.bind(this);
 
     return {

@@ -66,7 +66,7 @@ export default class ColumnsManager extends Component {
     multiRows: true
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       selected: false
     };

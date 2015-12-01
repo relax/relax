@@ -12,7 +12,7 @@ export default class Combobox extends Component {
     className: React.PropTypes.string
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       opened: false
     };

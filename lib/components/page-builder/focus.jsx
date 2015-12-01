@@ -8,7 +8,7 @@ export default class Focus extends Component {
     elementId: PropTypes.string.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       dom: document.getElementById(this.props.elementId)
     };

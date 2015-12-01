@@ -14,7 +14,7 @@ export default class CustomFonts extends Component {
     previewText: React.PropTypes.string.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       customLoading: false,
       customError: false,

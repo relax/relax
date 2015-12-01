@@ -53,7 +53,7 @@ export default class SchemaEntryContainer extends Component {
     history: PropTypes.object.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     if (this.props.entryId === 'new') {
       this.props.changeSchemaEntryToDefault();
     }

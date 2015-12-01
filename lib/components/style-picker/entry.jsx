@@ -12,7 +12,7 @@ export default class Entry extends Component {
     duplicateStyle: PropTypes.func.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       options: false
     };

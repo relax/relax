@@ -48,7 +48,7 @@ export default class Droppable extends Component {
     placeholder: false
   }
 
-  getInitialState () {
+  getInitState () {
     this.onMouseMoveListener = this.onMouseMove.bind(this);
     this.onMouseUpListener = this.onMouseUp.bind(this);
 

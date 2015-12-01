@@ -38,7 +38,7 @@ export default class New extends Component {
     onSubmit: React.PropTypes.func.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       username: '',
       password: '',

@@ -21,7 +21,7 @@ export default class Entry extends Component {
     colorsActions: React.PropTypes.object.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       options: false
     };

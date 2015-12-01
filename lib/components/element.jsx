@@ -21,7 +21,7 @@ export default class Element extends Component {
     dropHighlight: PropTypes.string
   }
 
-  getInitialState () {
+  getInitState () {
     const editing = this.props.info.pageBuilder && this.props.info.pageBuilder.editing;
     if (editing && this.isClient()) {
       this.animationEditingBind = this.animationEditing.bind(this);

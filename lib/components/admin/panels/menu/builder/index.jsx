@@ -22,7 +22,7 @@ export default class Builder extends Component {
     onEntryRemove: React.PropTypes.func.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     this.onEntryRemoveBind = this.onEntryRemove.bind(this);
 
     return {

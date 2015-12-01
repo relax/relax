@@ -40,7 +40,7 @@ export default class PublicPageContainer extends Component {
     params: {}
   }
 
-  getInitialState (props = this.props) {
+  getInitState (props = this.props) {
     const params = props.params;
     updateColors(this.props.colors);
 

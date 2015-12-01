@@ -16,7 +16,7 @@ export default class MediumEditorElement extends Component {
     tag: 'div'
   }
 
-  getInitialState () {
+  getInitState () {
     this.currentValue = this.props.value;
     return {
       value: this.props.value

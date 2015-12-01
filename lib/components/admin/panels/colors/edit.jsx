@@ -13,7 +13,7 @@ export default class EditColor extends Component {
     fragment: React.PropTypes.object.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       value: this.props.value || {
         label: '',

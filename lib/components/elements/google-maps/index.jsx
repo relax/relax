@@ -37,7 +37,7 @@ export default class GoogleMapsElem extends Component {
   static propsSchema = propsSchema
   static settings = settings
 
-  getInitialState () {
+  getInitState () {
     return {
       ready: this.loadAPI()
     };

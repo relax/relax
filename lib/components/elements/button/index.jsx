@@ -35,9 +35,9 @@ export default class Button extends Component {
     }
   ]
 
-  static style = style
   static propsSchema = propsSchema
   static settings = settings
+  static style = style
 
   componentWillReceiveProps (nextProps) {
     const editing = this.props.pageBuilder && this.props.pageBuilder.editing;

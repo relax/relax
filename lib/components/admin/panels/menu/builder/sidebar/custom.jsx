@@ -10,7 +10,7 @@ export default class Builder extends Component {
     dndActions: PropTypes.object.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       label: '',
       link: ''

@@ -28,7 +28,7 @@ export default class PageBuildContainer extends Component {
     colors: PropTypes.array.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     updateColors(this.props.colors);
   }
 

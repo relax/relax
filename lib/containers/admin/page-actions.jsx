@@ -39,7 +39,7 @@ export default class PageActionsContainer extends Component {
     changeDisplay: PropTypes.func.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       save: false,
       state: null,

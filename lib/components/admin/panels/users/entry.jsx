@@ -21,7 +21,7 @@ export default class Entry extends Component {
     removeUser: PropTypes.func.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       removing: false
     };

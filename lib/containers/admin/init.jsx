@@ -16,7 +16,7 @@ export default class Init extends Component {
     addUser: PropTypes.func.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       user: {
         username: '',

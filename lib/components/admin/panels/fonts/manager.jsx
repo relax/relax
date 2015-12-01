@@ -45,7 +45,7 @@ export default class Manager extends Component {
     removeCustomFont: PropTypes.func.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       tab: 0
     };

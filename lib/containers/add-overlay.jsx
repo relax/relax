@@ -4,7 +4,7 @@ import * as pagesActions from '../client/actions/pages';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {Component, buildQueryAndVariables, mergeFragments} from 'relax-framework';
+import {Component, mergeFragments} from 'relax-framework';
 
 import AddOverlay from '../components/admin/add-overlay';
 import Overlay from '../components/overlay';
@@ -39,7 +39,7 @@ export default class PagesContainer extends Component {
     session: PropTypes.object.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       tab: 'new',
       state: '',

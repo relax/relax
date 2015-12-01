@@ -11,7 +11,7 @@ export default class MenuBar extends Component {
     breadcrumbs: React.PropTypes.array
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       userOpened: false
     };

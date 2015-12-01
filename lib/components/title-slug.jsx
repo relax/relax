@@ -22,7 +22,7 @@ export default class TitleSlug extends Component {
     this.onSlugChange = ::this.onSlugChange;
   }
 
-  getInitialState () {
+  getInitState () {
     const {slug} = this.props;
 
     return {

@@ -49,7 +49,7 @@ export default class DynamicListContainer extends Component {
     schemaLinks: PropTypes.object
   }
 
-  getInitialState () {
+  getInitState () {
     this.fetchData(this.props);
     return {};
   }

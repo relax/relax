@@ -12,7 +12,7 @@ export default class BorderPicker extends Component {
     onChange: React.PropTypes.func.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       selected: 'center',
       values: this.parseValue(this.props.value)

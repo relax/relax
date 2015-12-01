@@ -31,7 +31,7 @@ export default class SettingsContainer extends Component {
     saveSettings: PropTypes.func.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       state: false
     };

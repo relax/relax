@@ -74,7 +74,7 @@ export default function queryProps (defaultQuery = _defaultQuery) {
         location: PropTypes.object
       }
 
-      getInitialState (props = this.props) {
+      getInitState (props = this.props) {
         if (!props.location.query) {
           props.location.query = qs.parse(props.location.search);
         }
@@ -108,7 +108,7 @@ export default function queryProps (defaultQuery = _defaultQuery) {
 
         if (this.hasQueryChanged(nextQuery)) {
           nextState.hasQueryChanged = true;
-          Object.assign(nextState, this.getInitialState(nextProps));
+          Object.assign(nextState, this.getInitState(nextProps));
         } else {
           nextState.hasQueryChanged = false;
         }

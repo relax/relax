@@ -27,7 +27,7 @@ export default class ColorPalettePickerContainer extends Component {
     colorsActions: PropTypes.object.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       opened: false
     };

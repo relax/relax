@@ -15,7 +15,7 @@ export default class Link extends Component {
     prefix: PropTypes.string.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     const {linkedElement, pageBuilder, property} = this.props;
     return getSchemaLinkActions(pageBuilder, linkedElement, property);
   }

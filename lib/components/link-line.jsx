@@ -18,7 +18,7 @@ export default class LinkLine extends Component {
     lineColor: '#12a5ff'
   }
 
-  getInitialState () {
+  getInitState () {
     if (this.props.destination === 'cursor') {
       this.onMouseUpBind = ::this.onMouseUp;
       this.onMouseMoveBind = ::this.onMouseMove;

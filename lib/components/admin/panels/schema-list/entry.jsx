@@ -27,7 +27,7 @@ export default class Entry extends Component {
     removeSchemaEntry: React.PropTypes.func.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       removing: false
     };

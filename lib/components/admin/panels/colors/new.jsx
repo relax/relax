@@ -8,7 +8,7 @@ export default class NewColor extends Component {
     selected: React.PropTypes.any
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       title: 'Add new color',
       button: 'Add new color',
@@ -26,7 +26,7 @@ export default class NewColor extends Component {
         button: 'Change'
       });
     } else if (this.props.selected) {
-      this.setState(this.getInitialState());
+      this.setState(this.getInitState());
     }
   }
 
@@ -58,7 +58,7 @@ export default class NewColor extends Component {
       //     value: this.state.colorInput
       //   })
       //   .then(() => {
-      //     this.setState(this.getInitialState);
+      //     this.setState(this.getInitState);
       //   });
     }
   }

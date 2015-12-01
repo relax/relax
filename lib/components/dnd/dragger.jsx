@@ -11,7 +11,7 @@ export default class Dragger extends Component {
     offset: PropTypes.object
   }
 
-  getInitialState () {
+  getInitState () {
     const {draggingData} = this.props.dnd;
     return {
       top: draggingData.elementOffset.top + (this.props.offset && this.props.offset.top ? this.props.offset.top : 0),

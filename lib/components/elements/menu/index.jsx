@@ -54,7 +54,7 @@ export default class MenuContainer extends Component {
   static settings = settings
   static style = style
 
-  getInitialState () {
+  getInitState () {
     this.fetchData(this.props);
     return {};
   }

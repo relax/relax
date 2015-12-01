@@ -20,7 +20,7 @@ export default class Edit extends Component {
     colorsActions: PropTypes.object.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       value: this.props.value || {
         label: '',

@@ -11,7 +11,7 @@ export default class CornersPicker extends Component {
     type: React.PropTypes.string.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       selected: 'center',
       values: this.parseValue(this.props.value)

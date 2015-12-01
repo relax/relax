@@ -16,7 +16,7 @@ export default class Sidebar extends Component {
     dndActions: PropTypes.object.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       search: ''
     };

@@ -12,7 +12,7 @@ export default class Dropdown extends Component {
     tempRevert: React.PropTypes.func.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       opened: false
     };

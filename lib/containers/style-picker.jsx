@@ -35,7 +35,7 @@ export default class StylePickerContainer extends Component {
     changeStyleProp: PropTypes.func.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     const styleOptions = this.getStyleOptions(this.props.style);
     this.updateStyle = debounce(::this.onUpdateStyle, 3000);
     return {

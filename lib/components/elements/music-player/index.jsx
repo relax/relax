@@ -9,10 +9,10 @@ import Element from '../../element';
 import PlayerContainer from './container';
 
 export default class MusicPlayer extends Component {
-  static style = style
   static defaultChildren = defaultChildren
   static propsSchema = propsSchema
   static settings = settings
+  static style = style
 
   render () {
     return (

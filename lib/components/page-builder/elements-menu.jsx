@@ -13,7 +13,7 @@ export default class ElementsMenu extends Component {
     pageBuilderActions: PropTypes.object.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       top: 0,
       left: 0,

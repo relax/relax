@@ -18,7 +18,7 @@ export default class Entry extends Component {
     schema: React.PropTypes.object.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       removing: false
     };

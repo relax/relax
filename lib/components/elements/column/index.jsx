@@ -20,8 +20,8 @@ export default class Column extends Component {
     vertical: 'top'
   }
 
-  static settings = settings
   static propsSchema = propsSchema
+  static settings = settings
 
   render () {
     const layout = this.props.layout || {

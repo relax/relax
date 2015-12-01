@@ -33,7 +33,7 @@ export default class ImagePickerContainer extends Component {
     type: React.PropTypes.string
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       mounted: false,
       calcWidth: 200

@@ -19,7 +19,7 @@ export default class Color extends Component {
     addColor: React.PropTypes.func.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       removing: false
     };

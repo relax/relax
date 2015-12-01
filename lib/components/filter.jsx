@@ -15,7 +15,7 @@ export default class Filter extends Component {
     history: React.PropTypes.object.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       search: (this.props.query && this.props.query.s) || ''
     };

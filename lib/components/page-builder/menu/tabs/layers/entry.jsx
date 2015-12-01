@@ -18,7 +18,7 @@ export default class Entry extends Component {
     hasChildren: React.PropTypes.bool.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       options: false
     };

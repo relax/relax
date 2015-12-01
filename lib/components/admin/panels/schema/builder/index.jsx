@@ -77,7 +77,7 @@ export default class SchemasBuilder extends Component {
     properties: React.PropTypes.array.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       selected: false
     };

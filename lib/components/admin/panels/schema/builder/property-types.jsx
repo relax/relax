@@ -10,7 +10,7 @@ export default class PropertyTypes extends Component {
     onChange: React.PropTypes.func.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       expanded: false
     };

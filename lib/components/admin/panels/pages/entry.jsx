@@ -23,7 +23,7 @@ export default class Entry extends Component {
     page: React.PropTypes.object.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       removing: false
     };

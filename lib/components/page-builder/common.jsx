@@ -12,7 +12,7 @@ var BUILDER_ID = 0;
 const ACTIONS_LIMIT = 20;
 
 export default class Common extends DragRoot {
-  getInitialState () {
+  getInitState () {
     this.onStartDragBind = this.onStartDrag.bind(this);
     this.onPropChangeBind = this.onPropChange.bind(this);
     this.onAddElementAtSelected = this.addElementAtSelected.bind(this);

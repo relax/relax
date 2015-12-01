@@ -43,7 +43,7 @@ export default class MediaSelectorContainer extends Component {
     type: 'image'
   }
 
-  getInitialState () {
+  getInitState () {
     this.mimeTypes = getMimeTypes(this.props.type);
     this.fetchDebounce = debounce(::this.fetchMediaItems, 1000);
     return {

@@ -24,7 +24,7 @@ export default class StylePickerContainer extends Component {
     pageBuilderActions: PropTypes.object.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     const {linkingDataElement} = this.props.pageBuilder;
     this.fetchCurrentSchema(this.props);
     return {

@@ -31,8 +31,8 @@ export default class Columns extends Component {
   static defaultChildren = [
     {tag: 'Column'}, {tag: 'Column'}
   ]
-  static settings = settings
   static propsSchema = propsSchema
+  static settings = settings
 
   render () {
     return (

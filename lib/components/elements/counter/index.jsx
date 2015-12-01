@@ -26,15 +26,15 @@ export default class Counter extends Component {
     align: 'center'
   }
 
-  getInitialState () {
+  static propsSchema = propsSchema
+  static settings = settings
+  static style = 'text'
+
+  getInitState () {
     return {
       animate: false
     };
   }
-
-  static style = 'text'
-  static propsSchema = propsSchema
-  static settings = settings
 
   onEnterScreen () {
     this.setState({

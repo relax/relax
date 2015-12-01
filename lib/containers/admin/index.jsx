@@ -53,7 +53,7 @@ export default class AdminContainer extends Component {
     overlays: PropTypes.array.isRequired
   }
 
-  getInitialState (props = this.props) {
+  getInitState (props = this.props) {
     const params = props.params;
     let lastDashboard = '/admin';
     if (props.children.type.panelSettings.activePanelType !== 'pageBuild') {

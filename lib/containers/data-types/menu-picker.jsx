@@ -29,7 +29,7 @@ export default class MenuPickerContainer extends Component {
     getAdmin: PropTypes.func.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     this.props.getAdmin(buildQueryAndVariables(this.constructor.fragments, {})).done();
   }
 

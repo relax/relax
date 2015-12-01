@@ -12,7 +12,7 @@ export default class Category extends Component {
     defaultOpened: true
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       toggled: this.props.defaultOpened
     };

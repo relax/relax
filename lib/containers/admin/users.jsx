@@ -44,7 +44,7 @@ export default class UsersContainer extends Component {
     addUser: PropTypes.func.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       lightbox: false
     };

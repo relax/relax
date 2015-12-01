@@ -32,7 +32,7 @@ export default class ColorsContainer extends Component {
     removeColor: React.PropTypes.func
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       edit: false,
       editingColor: false

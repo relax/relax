@@ -15,7 +15,7 @@ export default class Entry extends Component {
     pageBuilder: PropTypes.object
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       opened: false
     };

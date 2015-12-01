@@ -23,7 +23,7 @@ export default class Canvas extends Component {
     dropHighlight: PropTypes.string.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     this.renderElementBind = ::this.renderElement;
     this.renderChildrenBind = ::this.renderChildren;
     return {};

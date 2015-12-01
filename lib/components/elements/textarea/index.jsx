@@ -18,9 +18,9 @@ export default class Textarea extends Component {
     rows: 6
   }
 
-  static style = 'input'
   static propsSchema = propsSchema
   static settings = settings
+  static style = 'input'
 
   render () {
     const classMap = this.props.styleClassMap || {};

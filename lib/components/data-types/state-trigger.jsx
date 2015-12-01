@@ -3,7 +3,7 @@ import React from 'react';
 
 export default class StateTrigger extends Component {
 
-  getInitialState () {
+  getInitState () {
     return {
       values: this.props.defaults
     };

@@ -22,7 +22,7 @@ export default class PlayerContainer extends Component {
     defaultVolume: 50
   }
 
-  getInitialState () {
+  getInitState () {
     if (!this.context.editing && this.isClient()) {
       if (this.props.type === 'soundcloud') {
         this.loadSoundcloud();

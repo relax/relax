@@ -11,7 +11,7 @@ export default class HexEdit extends Component {
     value: PropTypes.string.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       value: this.props.value
     };

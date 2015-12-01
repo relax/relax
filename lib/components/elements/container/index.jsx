@@ -13,9 +13,9 @@ export default class Container extends Component {
     children: PropTypes.node
   }
 
-  static style = style
   static propsSchema = propsSchema
   static settings = settings
+  static style = style
 
   render () {
     const classMap = this.props.styleClassMap || {};

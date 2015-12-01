@@ -25,7 +25,7 @@ export default class Video extends Component {
   static propsSchema = propsSchema
   static settings = settings
 
-  getInitialState () {
+  getInitState () {
     this.onResizeBind = ::this.onResize;
     return {
       mounted: false

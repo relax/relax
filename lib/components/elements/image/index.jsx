@@ -44,7 +44,7 @@ export default class Image extends Component {
   static propsSchema = propsSchema
   static settings = settings
 
-  getInitialState () {
+  getInitState () {
     return {
       mounted: false
     };

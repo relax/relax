@@ -4,7 +4,7 @@ import Combobox from './combobox';
 import forEach from 'lodash.foreach';
 
 export default class CollectionCombobox extends Component {
-  getInitialState () {
+  getInitState () {
     return {
       entries: []
     };

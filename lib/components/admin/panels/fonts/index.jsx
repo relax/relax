@@ -28,7 +28,7 @@ export default class Fonts extends Component {
     removeCustomFont: PropTypes.func.isRequired
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       loading: false,
       manager: false

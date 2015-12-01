@@ -23,7 +23,7 @@ export default class BackgroundImage extends Component {
     opacity: 100
   }
 
-  getInitialState () {
+  getInitState () {
     return {
       mounted: false
     };
