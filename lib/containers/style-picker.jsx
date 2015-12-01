@@ -15,7 +15,8 @@ import StylePicker from '../components/style-picker';
 
 @connect(
   (state) => ({
-    styles: state.styles.data
+    styles: state.styles.data,
+    display: state.display
   }),
   (dispatch) => bindActionCreators(stylesActions, dispatch)
 )
@@ -70,7 +71,8 @@ export default class StylePickerContainer extends Component {
       const style = {
         title: this.state.titleValue,
         type: this.state.styleOptions.type,
-        options: selectedElement.style || {}
+        options: selectedElement.style || {},
+        displayOptions: selectedElement.displayStyle || {}
       };
       await this.props.saveStyle(this.constructor.fragments, selectedElement.id, style);
       this.setState({
@@ -149,7 +151,8 @@ export default class StylePickerContainer extends Component {
       styles.unshift({
         _id: 'no_style',
         title: 'No style',
-        options: selectedElement.style || {}
+        options: selectedElement.style || {},
+        displayOptions: selectedElement.displayStyle || {}
       });
     }
     let selectedStyle = find(styles, {_id: this.props.value || 'no_style'});

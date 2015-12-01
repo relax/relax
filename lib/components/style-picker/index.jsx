@@ -14,7 +14,8 @@ export default class StylePicker extends Component {
       _id: 1,
       type: 1,
       title: 1,
-      options: 1
+      options: 1,
+      displayOptions: 1
     }
   }
 
@@ -33,7 +34,8 @@ export default class StylePicker extends Component {
     saveStyle: PropTypes.func.isRequired,
     styleOptions: PropTypes.object.isRequired,
     removeStyle: PropTypes.func.isRequired,
-    duplicateStyle: PropTypes.func.isRequired
+    duplicateStyle: PropTypes.func.isRequired,
+    display: React.PropTypes.string.isRequired
   }
 
   onSubmit (event) {
@@ -96,6 +98,7 @@ export default class StylePicker extends Component {
   renderEdit () {
     return (
       <Edit
+        display={this.props.display}
         selectedStyle={this.props.selectedStyle}
         styleOptions={this.props.styleOptions}
         onChange={this.props.onChangeValue}
@@ -109,7 +112,7 @@ export default class StylePicker extends Component {
       if (this.props.editingTitle) {
         result = (
           <div className='save-style'>
-            <Animate transition='slideRightIn' duration='300'>
+            <Animate transition='slideRightIn' duration={300}>
               <form onSubmit={::this.onSubmit}>
                 <Input placeholder='Style title' value={this.props.titleValue} onChange={this.props.changeTitleValue} focused />
                 <div className='submit-button' onClick={this.props.saveStyle}>

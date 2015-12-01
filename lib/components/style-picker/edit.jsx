@@ -1,10 +1,12 @@
 import React from 'react';
 import {Component} from 'relax-framework';
 
+import getElementStyleValues from '../../helpers/get-element-style-values';
 import OptionsList from '../options-list';
 
 export default class Edit extends Component {
   static propTypes = {
+    display: React.PropTypes.string.isRequired,
     styleOptions: React.PropTypes.object.isRequired,
     selectedStyle: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired
@@ -19,8 +21,8 @@ export default class Edit extends Component {
   }
 
   renderOptions () {
-    const {styleOptions, selectedStyle} = this.props;
-    const values = Object.assign({}, styleOptions.defaults, selectedStyle.options);
+    const {styleOptions, selectedStyle, display} = this.props;
+    const values = getElementStyleValues(styleOptions.defaults, selectedStyle.options, selectedStyle.displayOptions, display);
 
     return (
       <OptionsList

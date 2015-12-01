@@ -123,7 +123,7 @@ export default class Canvas extends Component {
     let element = data[elementId];
 
     const elementProps = getElementProps(element, display);
-    const styleClassMap = stylesManager.processElement(element, elementProps, elements[element.tag], this.props.styles, elements);
+    const styleClassMap = stylesManager.processElement(element, elementProps, elements[element.tag], this.props.styles, elements, this.props.display);
 
     if ((!element.hide || !element.hide[this.props.display]) && element.display !== false) {
       if (schemaEntry && elementsLinks && elementsLinks[element.id]) {
