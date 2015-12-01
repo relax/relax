@@ -220,7 +220,8 @@ export default class Droppable extends Component {
   }
 
   draggingSelf () {
-    const {dropInfo, dragInfo} = this.props.dnd;
+    const {dropInfo, dnd} = this.props;
+    const {dragInfo} = dnd;
     return dropInfo.id && dragInfo.id && dropInfo.id === dragInfo.id;
   }
 
@@ -228,7 +229,7 @@ export default class Droppable extends Component {
     const {draggingData} = this.props.dnd;
     let is = true;
 
-    const dropBlock = this._reactInternalInstance._context && this._reactInternalInstance._context.dropBlock; // # TODO modify when react passes context from owner-based to parent-based (0.14?)
+    const dropBlock = this.context.dropBlock;
     if (this.draggingSelf() || dropBlock) {
       return false;
     }

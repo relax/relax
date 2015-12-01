@@ -248,7 +248,6 @@ export default class Element extends Component {
           dropInfo={dropInfo}
           {...settings.drop}
           placeholder
-          placeholderOverlap={this.renderEmpty}
           dnd={dnd}
           dndActions={dndActions}
           pageBuilder={pageBuilder}
