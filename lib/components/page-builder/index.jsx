@@ -24,6 +24,7 @@ export default class PageBuilder extends Component {
       const {undoAction, redoAction} = this.props.pageBuilderActions;
       key('⌘+z, ctrl+z', undoAction);
       key('⌘+y, ctrl+y', redoAction);
+      // key('delete', );
     }
   }
 
