@@ -50,6 +50,7 @@ export default class Columns extends Component {
 
     const spaceThird = Math.round(this.props.spacing / 3 * 100) / 100;
     const spaceSides = spaceThird * 2;
+    let result;
 
     var dropInfo = {
       id: this.props.element.id
@@ -86,7 +87,7 @@ export default class Columns extends Component {
           }
 
           if (editing && this.props.display === 'desktop') {
-            return (
+            result = (
               <Droppable
                 type={this.props.element.tag}
                 dropInfo={dropInfo}
@@ -100,6 +101,7 @@ export default class Columns extends Component {
                 {columns}
               </Droppable>
             );
+            break;
           } else {
             const style = {};
 
@@ -116,7 +118,7 @@ export default class Columns extends Component {
         }
       }
     } else if (editing) {
-      return (
+      result = (
         <Droppable
           type={this.props.element.tag}
           dropInfo={dropInfo}
@@ -131,7 +133,7 @@ export default class Columns extends Component {
       );
     }
 
-    return children;
+    return result || children;
   }
 
   renderColumn (child, layout, left, right) {

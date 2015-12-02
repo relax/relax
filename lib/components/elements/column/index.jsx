@@ -49,11 +49,11 @@ export default class Column extends Component {
     }
 
     return (
-      <Element info={this.props} className='column' htmlTag='div' style={style} settings={settings}>
-        <div style={contentStyle}>
+      <div className='column' style={style}>
+        <Element info={this.props} htmlTag='div' style={contentStyle} settings={settings}>
           {this.renderContent()}
-        </div>
-      </Element>
+        </Element>
+      </div>
     );
   }
 }
