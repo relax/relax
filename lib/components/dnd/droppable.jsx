@@ -6,14 +6,12 @@ import {Component} from 'relax-framework';
 
 import AnimateProps from '../animate-props';
 import Marker from './marker';
-import Utils from '../../utils';
 
 export default class Droppable extends Component {
   static propTypes = {
     dnd: PropTypes.object.isRequired,
     dndActions: PropTypes.object.isRequired,
     dropInfo: PropTypes.object.isRequired,
-    hitSpace: PropTypes.number.isRequired,
     pageBuilder: PropTypes.object,
     pageBuilderActions: PropTypes.object,
     orientation: PropTypes.string,
@@ -44,14 +42,10 @@ export default class Droppable extends Component {
     orientation: 'vertical',
     minHeight: 150,
     minWidth: 50,
-    hitSpace: 18,
     placeholder: false
   }
 
   getInitState () {
-    this.onMouseMoveListener = this.onMouseMove.bind(this);
-    this.onMouseUpListener = this.onMouseUp.bind(this);
-
     return {
       overed: false,
       closeToMargin: false
@@ -92,9 +86,6 @@ export default class Droppable extends Component {
         closeToMargin: false
       });
     }
-    if (this.props.dnd.dragging && !nextProps.dnd.dragging) {
-      this.removeOrderingEvents();
-    }
   }
 
   onMouseEnter (event) {
@@ -102,32 +93,7 @@ export default class Droppable extends Component {
       return;
     }
 
-    // Ordering
-    let order = false;
-    if (this.props.children && (this.props.children instanceof Array && this.props.children.length > 0)) {
-      const elements = findDOMNode(this).children;
-
-      if (elements.length > 0) {
-        // store children positions
-        this.childrenData = [];
-        let domPosition = 0;
-        forEach(elements, (child) => {
-          if (this.props.selectionChildren && child.className.indexOf(this.props.selectionChildren) === -1) {
-            domPosition ++;
-            return true;
-          }
-          order = true;
-
-          const position = Utils.getOffsetRect(child);
-          const width = position.width;
-          const height = position.height;
-
-          this.childrenData.push({position, width, height, domPosition});
-
-          domPosition ++;
-        });
-      }
-    }
+    const order = this.props.children && (this.props.children instanceof Array && this.props.children.length > 0);
 
     this.setState({
       entered: true,
@@ -135,10 +101,7 @@ export default class Droppable extends Component {
       overed: !order
     });
 
-    if (order) {
-      this.addOrderingEvents();
-      this.onMouseMove(event);
-    } else {
+    if (!order) {
       const {onDroppable} = this.props.dndActions;
       onDroppable(this.props.dropInfo);
     }
@@ -147,7 +110,6 @@ export default class Droppable extends Component {
   onMouseLeave (event) {
     const {dropInfo} = this.props.dnd;
     const {outDroppable} = this.props.dndActions;
-    this.removeOrderingEvents();
 
     if (dropInfo && dropInfo.id === this.props.dropInfo.id) {
       outDroppable(this.props.dropInfo.id);
@@ -157,66 +119,6 @@ export default class Droppable extends Component {
       entered: false,
       overed: false
     });
-  }
-
-  onMouseMove (event) {
-    let position = -1;
-    const hitSpace = this.props.hitSpace;
-    const mousePosition = this.props.orientation === 'horizontal' ? event.pageX : event.pageY;
-
-    forEach(this.childrenData, (child, index) => {
-      if (index === 0) {
-        const firstPosition = this.props.orientation === 'horizontal' ? child.position.left : child.position.top;
-        const secondPosition = this.props.orientation === 'horizontal' ? child.position.left + hitSpace : child.position.top + hitSpace;
-
-        if (mousePosition > firstPosition && mousePosition < secondPosition) {
-          position = index;
-          this.draggerPosition = child.domPosition;
-          return false;
-        }
-      }
-
-      let firstPosition;
-      let secondPosition;
-      if (index === this.childrenData.length - 1) {
-        firstPosition = this.props.orientation === 'horizontal' ? child.position.left + child.width - hitSpace : child.position.top + child.height - hitSpace;
-        secondPosition = this.props.orientation === 'horizontal' ? child.position.left + child.width : child.position.top + child.height;
-      } else {
-        firstPosition = this.props.orientation === 'horizontal' ? child.position.left + child.width - hitSpace / 2 : child.position.top + child.height - hitSpace / 2;
-        secondPosition = this.props.orientation === 'horizontal' ? child.position.left + child.width + hitSpace / 2 : child.position.top + child.height + hitSpace / 2;
-      }
-
-      if (mousePosition > firstPosition && mousePosition < secondPosition) {
-        position = index + 1;
-        this.draggerPosition = child.domPosition + 1;
-        return false;
-      }
-    });
-
-    const {dropInfo} = this.props.dnd;
-    const {onDroppable, outDroppable} = this.props.dndActions;
-
-    if (position !== -1 && dropInfo === false) {
-      onDroppable({...this.props.dropInfo, position}, this.props.orientation);
-      event.stopPropagation();
-    }
-    if (position === -1 && dropInfo && dropInfo.id === this.props.dropInfo.id) {
-      outDroppable(this.props.dropInfo.id);
-    }
-  }
-
-  onMouseUp (event) {
-
-  }
-
-  addOrderingEvents () {
-    document.addEventListener('mousemove', this.onMouseMoveListener);
-    document.addEventListener('mouseup', this.onMouseUpListener);
-  }
-
-  removeOrderingEvents () {
-    document.removeEventListener('mousemove', this.onMouseMoveListener);
-    document.removeEventListener('mouseup', this.onMouseUpListener);
   }
 
   draggingSelf () {
@@ -312,8 +214,7 @@ export default class Droppable extends Component {
     const isActive = dragging && dropInfo.id === this.props.dropInfo.id;
 
     const style = {
-      backgroundColor: isActive && !hasChildren && !this.props.placeholder ? '#33CC33' : 'transparent',
-      position: dragging && 'relative'
+      backgroundColor: isActive && !hasChildren && !this.props.placeholder ? '#33CC33' : 'transparent'
     };
     if (!hasChildren) {
       style.minHeight = this.props.minHeight;
@@ -323,41 +224,10 @@ export default class Droppable extends Component {
       Object.assign(style, this.props.style);
     }
 
-    if (isActive && hasChildren) {
-      children = children instanceof Array ? children.slice(0) : [children];
-
-      const marker = (
-        <Marker key='marker' dnd={this.props.dnd} />
-      );
-      const markerPosition = this.draggerPosition || dropInfo.position;
-
-      children.splice(markerPosition, 0, marker);
-    }
-    // else if (hasChildren && dragging) {
-    //   children = children instanceof Array ? children.slice(0) : [children];
-    //
-    //   const tempChildren = [
-    //     <Marker key='marker' dnd={this.props.dnd} />
-    //   ];
-    //
-    //   forEach(children, (child, index) => {
-    //     tempChildren.push(child);
-    //     tempChildren.push(<Marker key={'marker' + index} dnd={this.props.dnd} />);
-    //   });
-    //
-    //   children = tempChildren;
-    // }
-    else if (hasChildren && !dragging && this.showMarks()) {
-      const tempChildren = [
-        this.renderMark(0)
-      ];
-
-      forEach(children, (child, index) => {
-        tempChildren.push(child);
-        tempChildren.push(this.renderMark(index + 1));
-      });
-
-      children = tempChildren;
+    if (hasChildren && dragging && this.droppableHere()) {
+      children = this.renderDropMarkers(children);
+    } else if (hasChildren && !dragging && this.showMarks()) {
+      children = this.renderAddMarkers(children);
     }
 
     return (
@@ -365,6 +235,51 @@ export default class Droppable extends Component {
         {hasChildren ? children : this.renderPlaceholder()}
       </div>
     );
+  }
+
+  renderDropMarkers (children) {
+    const {dropInfo} = this.props.dnd;
+    const isActive = this.isActive();
+
+    const tempChildren = [
+      <Marker
+        key='marker'
+        dnd={this.props.dnd}
+        dndActions={this.props.dndActions}
+        orientation={this.props.orientation}
+        active={isActive && dropInfo.position === 0}
+        report={{...this.props.dropInfo, position: 0}}
+      />
+    ];
+
+    forEach(children, (child, index) => {
+      tempChildren.push(child);
+      tempChildren.push((
+        <Marker
+          key={'marker' + index}
+          dnd={this.props.dnd}
+          dndActions={this.props.dndActions}
+          orientation={this.props.orientation}
+          active={isActive && dropInfo.position === index + 1}
+          report={{...this.props.dropInfo, position: index + 1}}
+        />
+      ));
+    });
+
+    return tempChildren;
+  }
+
+  renderAddMarkers (children) {
+    const tempChildren = [
+      this.renderMark(0)
+    ];
+
+    forEach(children, (child, index) => {
+      tempChildren.push(child);
+      tempChildren.push(this.renderMark(index + 1));
+    });
+
+    return tempChildren;
   }
 
   renderMark (position) {

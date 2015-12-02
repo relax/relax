@@ -17,10 +17,6 @@ export default class Element extends Component {
     settings: PropTypes.object.isRequired
   }
 
-  static contextTypes = {
-    dropHighlight: PropTypes.string
-  }
-
   getInitState () {
     const editing = this.props.info.pageBuilder && this.props.info.pageBuilder.editing;
     if (editing && this.isClient()) {
@@ -290,8 +286,6 @@ export default class Element extends Component {
       const {pageBuilder, dnd, element} = info;
       const {elements} = pageBuilder;
       const {dragging} = dnd;
-      const dropHighlight = this.context.dropHighlight;
-      let className;
 
       const overed = this.isOvered();
       const selected = this.isSelected();
@@ -309,11 +303,6 @@ export default class Element extends Component {
               <span>{element.label || elementType}</span>
             </div>
           </div>
-        );
-      } else if (dropHighlight !== 'none') {
-        className = 'element-drop-highlight ' + dropHighlight;
-        return (
-          <div className={className}></div>
         );
       }
     }
