@@ -1,5 +1,5 @@
 import React from 'react';
-import {GoogleMap, Marker} from 'react-google-maps';
+import {GoogleMap, GoogleMapLoader, Marker} from 'react-google-maps';
 
 import propsSchema from './props-schema';
 import settings from './settings';
@@ -51,10 +51,8 @@ export default class GoogleMapsElem extends Component {
   // }
 
   componentDidUpdate (prevProps) {
-    if (this.props.pageBuilder && this.props.pageBuilder.editing && this.state.ready && prevProps.height !== this.props.height) {
-      if (this.refs.map && this.refs.map.state && this.refs.map.state.instance) {
-        window.google.maps.event.trigger(this.refs.map.state.instance, 'resize');
-      }
+    if (this.props.pageBuilder && this.props.pageBuilder.editing && this.state.ready && prevProps.height !== this.props.height && this._map) {
+      window.google.maps.event.trigger(this._map, 'resize');
     }
   }
 
@@ -105,27 +103,38 @@ export default class GoogleMapsElem extends Component {
     if (this.state.ready) {
       let result;
       const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
-      const key = this.props.zoom + this.props.scrollwheel + this.props.zoomControls + this.props.streetViewControl + this.props.mapTypeControl + this.props.lat + this.props.lng;
+      const key = this.props.zoom + this.props.scrollwheel + this.props.zoomControls + this.props.streetViewControl + this.props.mapTypeControl + this.props.lat + this.props.lng + this.props.height;
 
       const gmap = (
-        <GoogleMap
-          ref='map'
-          containerProps={{
-            style: {
-              height: this.props.height
-            }
-          }}
-          googleMapsApi={window.google.maps}
-          options={{
-            scrollwheel: this.props.scrollwheel,
-            zoomControl: this.props.zoomControls,
-            streetViewControl: this.props.streetViewControl,
-            mapTypeControl: this.props.mapTypeControl
-          }}
-          zoom={this.props.zoom}
-          center={{lat: parseFloat(this.props.lat, 10), lng: parseFloat(this.props.lng, 10)}}
+        <GoogleMapLoader
           key={key}
-        >{this.renderMarker()}</GoogleMap>
+          containerElement={
+            <div
+              style={{
+                height: this.props.height
+              }}
+            />
+          }
+          googleMapElement={
+            <GoogleMap
+              ref={(map) => this._map = map}
+              containerProps={{
+                style: {
+                  height: this.props.height
+                }
+              }}
+              googleMapsApi={window.google.maps}
+              options={{
+                scrollwheel: this.props.scrollwheel,
+                zoomControl: this.props.zoomControls,
+                streetViewControl: this.props.streetViewControl,
+                mapTypeControl: this.props.mapTypeControl
+              }}
+              zoom={this.props.zoom}
+              center={{lat: parseFloat(this.props.lat, 10), lng: parseFloat(this.props.lng, 10)}}
+            >{this.renderMarker()}</GoogleMap>
+          }
+        />
       );
 
       if (editing) {
