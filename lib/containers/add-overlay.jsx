@@ -76,8 +76,14 @@ export default class PagesContainer extends Component {
       createdBy: this.props.session._id,
       updatedBy: this.props.session._id
     };
-    await this.props.addPage(this.constructor.fragments, submitPage, true);
-    this.props.onClose();
+    try {
+      await this.props.addPage(this.constructor.fragments, submitPage, true);
+      this.props.onClose();
+    } catch (err) {
+      this.setState({
+        state: 'error'
+      });
+    }
   }
 
   render () {
