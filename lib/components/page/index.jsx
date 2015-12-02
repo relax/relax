@@ -7,6 +7,7 @@ import displays from '../../helpers/displays';
 import getElementProps from '../../helpers/get-element-props';
 import stylesheet from '../../helpers/stylesheet';
 import stylesManager from '../../helpers/styles-manager';
+import utils from '../../utils';
 
 export default class Page extends Component {
   static fragments = {
@@ -22,7 +23,9 @@ export default class Page extends Component {
   }
 
   getInitState () {
-    this.onResizeBind = this.onResize.bind(this);
+    this.onResizeBind = ::this.onResize;
+    this.renderElementBind = ::this.renderElement;
+    this.renderChildrenBind = ::this.renderChildren;
 
     return {
       mounted: false,
@@ -67,26 +70,30 @@ export default class Page extends Component {
     );
   }
 
-  renderChildren (children) {
+  renderChildren (children, elementsLinks = false, schemaEntry = false) {
     let result;
     if ( children instanceof Array ) {
-      result = children.map(this.renderElement.bind(this));
+      result = children.map(this.renderElement.bind(this, elementsLinks, schemaEntry));
     } else {
       result = children;
     }
     return result;
   }
 
-  renderElement (elementId) {
+  renderElement (elementsLinks = false, schemaEntry = false, elementId) {
     const {display} = this.state;
     const {elements, styles, page} = this.props;
-    const element = page.data[elementId];
+    let element = page.data[elementId];
 
     const ElementClass = elements[element.tag];
     const elementProps = getElementProps(element, this.state.display);
-    const styleClassMap = stylesManager.processElement(element, elementProps, ElementClass, styles, elements, true);
+    const styleClassMap = stylesManager.processElement(element, elementProps, ElementClass, styles, elements, this.state.display, true);
 
     if ((!element.hide || !element.hide[display]) && element.display !== false) {
+      if (schemaEntry && elementsLinks && elementsLinks[element.id]) {
+        element = utils.alterSchemaElementProps(elementsLinks[element.id], element, schemaEntry);
+      }
+
       if (element.display !== false) {
         return (
           <ElementClass
@@ -96,8 +103,10 @@ export default class Page extends Component {
             elementId={elementId}
             styleClassMap={styleClassMap}
             display={this.state.display}
+            renderElement={this.renderElementBind}
+            renderChildren={this.renderChildrenBind}
           >
-            {element.children && this.renderChildren(element.children)}
+            {element.children && this.renderChildren(element.children, elementsLinks, schemaEntry)}
           </ElementClass>
         );
       }
