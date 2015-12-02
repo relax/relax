@@ -57,7 +57,7 @@
     "react-colorpicker": "git://github.com/relax/react-colorpicker.git#relay",
     "react-counter": "git://github.com/relax/react-counter.git#relay",
     "react-dom": "^0.14.0",
-    "react-dropzone": "^3.2.1",
+    "react-dropzone": "git://github.com/relax/react-dropzone.git#build",
     "react-gemini-scrollbar": "^2.0.1",
     "react-google-maps": "^4.6.0",
     "react-redux": "^4.0.0",
