@@ -12,6 +12,7 @@ import utils from '../../utils';
 export default class Page extends Component {
   static fragments = {
     page: {
+      title: 1,
       data: 1
     }
   }
