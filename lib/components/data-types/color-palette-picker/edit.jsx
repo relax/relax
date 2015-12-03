@@ -1,73 +1,50 @@
-import ColorPicker from 'react-colorpicker';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
-import Input from '../input';
-import Lightbox from '../../lightbox';
+import ColorPicker from './color-picker';
+import ColorsCollection from './colors-collection';
+import Inputs from './inputs';
+import Opacity from './opacity';
+import Types from './types';
 
 export default class Edit extends Component {
-  static fragments = {
-    color: {
-      _id: 1,
-      label: 1,
-      value: 1
-    }
-  }
 
   static propTypes = {
-    value: PropTypes.object,
-    onClose: PropTypes.func.isRequired,
-    colorsActions: PropTypes.object.isRequired
-  }
-
-  getInitState () {
-    return {
-      value: this.props.value || {
-        label: '',
-        value: '#ffffff'
-      }
-    };
-  }
-
-  onEditColorChange (color) {
-    this.state.value.value = color.toHex();
-    this.setState({
-      value: Object.assign({}, this.state.value, {
-        value: color.toHex()
-      })
-    });
-  }
-
-  onTitleChange (value) {
-    this.setState({
-      value: Object.assign({}, this.state.value, {
-        label: value
-      })
-    });
-  }
-
-  submit () {
-    if (this.state.value._id) {
-      this.props.colorsActions.updateColor(this.constructor.fragments, this.state.value).then(() => this.props.onClose());
-    } else {
-      this.props.colorsActions.addColor(this.constructor.fragments, this.state.value).then(() => this.props.onClose());
-    }
+    colr: PropTypes.object.isRequired,
+    opacity: PropTypes.number.isRequired,
+    colors: PropTypes.array.isRequired,
+    hsvChange: PropTypes.func.isRequired,
+    rgbChange: PropTypes.func.isRequired,
+    hexChange: PropTypes.func.isRequired,
+    opacityChange: PropTypes.func.isRequired,
+    inputType: PropTypes.string.isRequired,
+    previousInputType: PropTypes.func.isRequired,
+    nextInputType: PropTypes.func.isRequired,
+    selectColor: PropTypes.func.isRequired
   }
 
   render () {
-    const isNew = this.state.value._id ? false : true;
-    const title = isNew ? 'Adding new color to palette' : 'Editing ' + this.state.value.label;
-    const btn = isNew ? 'Add color to palette' : 'Change color';
+    const {colr, opacity, hsvChange, rgbChange, hexChange, opacityChange, inputType, previousInputType, nextInputType, selectColor} = this.props;
 
     return (
-      <Lightbox className='small' onClose={this.props.onClose} title={title}>
-        <Input className='white' type='text' value={this.state.value.label} onChange={this.onTitleChange.bind(this)} placeholder='Color title' />
-        <div className='color-picker-wrapper'>
-          <ColorPicker color={this.state.value.value} onChange={this.onEditColorChange.bind(this)} />
-        </div>
-        <a href='#' className='button button-primary' onClick={this.submit.bind(this)}>{btn}</a>
-      </Lightbox>
+      <div className='edit-color'>
+        <span className='triangle' />
+        <Types />
+        <ColorPicker colr={colr} hsvChange={hsvChange} />
+        <Opacity colr={colr} opacity={opacity} opacityChange={opacityChange} />
+        <Inputs
+          colr={colr}
+          opacity={opacity}
+          inputType={inputType}
+          previousInputType={previousInputType}
+          nextInputType={nextInputType}
+          hsvChange={hsvChange}
+          rgbChange={rgbChange}
+          hexChange={hexChange}
+          opacityChange={opacityChange}
+        />
+      <ColorsCollection colors={this.props.colors} selectColor={selectColor} />
+      </div>
     );
   }
-
 }

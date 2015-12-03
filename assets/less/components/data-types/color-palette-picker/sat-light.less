@@ -1,0 +1,48 @@
+.sat-light {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 14px;
+  background-color: #ff0000;
+  border-radius: 4px;
+
+  .border {
+    position: absolute;
+    display: block;
+    border-radius: 4px;
+    z-index: 1;
+    top: 0px; right: 0px; bottom: 0px; left: 0px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+  .marker {
+    position: absolute;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 2px solid #ffffff;
+    border-radius: 5px;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    cursor: pointer;
+  }
+  &:before, &:after {
+    content: '';
+    position: absolute;
+    display: block;
+    border-radius: 4px;
+    top: 0px; right: 0px; bottom: 0px; left: 0px;
+  }
+  &:before {
+    background: -moz-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+    background: -webkit-linear-gradient(left, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+    background: linear-gradient(to right, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+  }
+  &:after {
+    background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+    background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%);
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%);
+  }
+}
