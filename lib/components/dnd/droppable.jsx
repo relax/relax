@@ -238,32 +238,43 @@ export default class Droppable extends Component {
   }
 
   renderDropMarkers (children) {
-    const {dropInfo} = this.props.dnd;
+    const thisDropInfo = this.props.dropInfo;
+    const {dnd} = this.props;
+    const {dropInfo, dragInfo} = dnd;
     const isActive = this.isActive();
 
-    const tempChildren = [
-      <Marker
-        key='marker'
-        dnd={this.props.dnd}
-        dndActions={this.props.dndActions}
-        orientation={this.props.orientation}
-        active={isActive && dropInfo.position === 0}
-        report={{...this.props.dropInfo, position: 0}}
-      />
-    ];
+    const isDraggingParent = dragInfo.parentId === thisDropInfo.id;
 
-    forEach(children, (child, index) => {
-      tempChildren.push(child);
-      tempChildren.push((
+    const tempChildren = [];
+
+    if (!isDraggingParent || dragInfo.positionInParent !== 0) {
+      tempChildren.push(
         <Marker
-          key={'marker' + index}
+          key='marker'
           dnd={this.props.dnd}
           dndActions={this.props.dndActions}
           orientation={this.props.orientation}
-          active={isActive && dropInfo.position === index + 1}
-          report={{...this.props.dropInfo, position: index + 1}}
+          active={isActive && dropInfo.position === 0}
+          report={{...this.props.dropInfo, position: 0}}
         />
-      ));
+      );
+    }
+
+    forEach(children, (child, index) => {
+      tempChildren.push(child);
+
+      if (!isDraggingParent || dragInfo.positionInParent !== index && dragInfo.positionInParent !== index + 1) {
+        tempChildren.push((
+          <Marker
+            key={'marker' + index}
+            dnd={this.props.dnd}
+            dndActions={this.props.dndActions}
+            orientation={this.props.orientation}
+            active={isActive && dropInfo.position === index + 1}
+            report={{...this.props.dropInfo, position: index + 1}}
+          />
+        ));
+      }
     });
 
     return tempChildren;

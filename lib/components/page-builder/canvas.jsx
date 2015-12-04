@@ -117,7 +117,7 @@ export default class Canvas extends Component {
     return result;
   }
 
-  renderElement (elementsLinks = false, schemaEntry = false, elementId) {
+  renderElement (elementsLinks = false, schemaEntry = false, elementId, positionInParent) {
     const {display} = this.props;
     const {data, elements, selectedId} = this.props.pageBuilder;
     let element = data[elementId];
@@ -146,6 +146,7 @@ export default class Canvas extends Component {
             selected={selected}
             element={element}
             elementId={elementId}
+            positionInParent={positionInParent}
             styleClassMap={styleClassMap}
             renderElement={this.renderElementBind}
             renderChildren={this.renderChildrenBind}>

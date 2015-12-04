@@ -157,7 +157,7 @@ export default class Element extends Component {
   render () {
     let result;
     const {children, settings, info, onEnterScreen, htmlTag, ...tagProps} = this.props;
-    const {element, elementId, pageBuilder, dnd, dndActions} = info;
+    const {element, elementId, positionInParent, pageBuilder, dnd, dndActions} = info;
     const editing = pageBuilder && pageBuilder.editing;
 
     if (editing && settings.drag) {
@@ -187,7 +187,9 @@ export default class Element extends Component {
         const draggableProps = Object.assign({
           dragInfo: {
             type: 'move',
-            id: elementId
+            id: elementId,
+            parentId: element.parent,
+            positionInParent
           },
           onClick: this.onElementClick.bind(this),
           type: element.tag,
