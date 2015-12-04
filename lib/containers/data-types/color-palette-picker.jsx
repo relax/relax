@@ -34,12 +34,12 @@ export default class ColorPalettePickerContainer extends Component {
     side: 'left'
   }
 
-  getInitState () {
-    const color = getColor(this.props.value || {
+  getInitState (props = this.props) {
+    const color = getColor(props.value || {
       type: 'custom',
       value: '#000000',
       opacity: 100
-    }, this.props.colors);
+    }, props.colors);
 
     return {
       opened: false,
@@ -50,12 +50,19 @@ export default class ColorPalettePickerContainer extends Component {
     };
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (!this.state.opened && nextProps.value !== this.props.value) {
+      this.setState(this.getInitState(nextProps));
+    }
+  }
+
   shouldComponentUpdate (nextProps, nextState) {
     return (
       this.state.opened !== nextState.opened ||
       this.state.colr !== nextState.colr ||
       this.state.opacity !== nextState.opacity ||
-      this.state.inputType !== nextState.inputType
+      this.state.inputType !== nextState.inputType ||
+      !this.state.opened
     );
   }
 
