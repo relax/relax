@@ -16,19 +16,17 @@ export default class BorderStyle extends Component {
   render () {
     return (
       <div className='border-style'>
-        {this.renderOption('none')}
         {this.renderOption('solid')}
         {this.renderOption('dashed')}
         {this.renderOption('dotted')}
+        {this.renderOption('double')}
       </div>
     );
   }
 
   renderOption (type) {
     return (
-      <div className={cx(type, this.props.value === type && 'active')} onClick={this.onClick.bind(this, type)}>
-        {type === 'none' && <i className='material-icons'>close</i>}
-      </div>
+      <div className={cx(type, this.props.value === type && 'active')} onClick={this.onClick.bind(this, type)} />
     );
   }
 }

@@ -1,17 +1,12 @@
 .border-picker {
-  @btnsSize: 25px;
-  @btnsSpacing: 3px;
-  @total: @btnsSize * 3 + @btnsSpacing * 2;
-
-  display: table;
-  width: 100%;
-  table-layout: fixed;
-  margin-top: 10px;
+  @total: 42px;
+  @btnSize: 20px;
+  @nonActive: #979797;
 
   // Parts
-  .toggles, .inputs {
-    display: table-cell;
-    vertical-align: middle;
+  .toggles {
+    display: inline-block;
+    vertical-align: top;
   }
 
   .toggles {
@@ -20,77 +15,67 @@
     width: @total;
   }
 
-  .inputs {
-    padding-left: 25px;
-    padding-bottom: 13px;
+  .number-input, .color-picker {
+    display: inline-block;
+    vertical-align: right;
+    margin-left: 10px;
+  }
 
-    >* {
-      margin-bottom: 6px;
-    }
-
-    .sub-label {
-      font-size: 9px;
-      color: #616363;
-      text-transform: uppercase;
-      margin-bottom: 5px;
-    }
+  .border-style {
+    margin-top: 15px;
+    text-align: right;
   }
 
   // Toggle buttons
   .toggle {
     position: absolute;
-    width: @btnsSize;
-    height: @btnsSize;
-    border: 1px solid @pageBuilderChromeBorders;
     text-align: center;
+    display: inline-block;
     cursor: pointer;
+    width: @btnSize;
+    height: @btnSize;
 
-    i {
-      color: #cccccc;
-      font-size: 15px;
-      line-height: 23px;
-    }
-
-    @center: @total / 2 - @btnsSize / 2;
+    @center: 11px;
 
     &.top {
       left: @center;
       top: 0;
+      border-top: 2px solid @nonActive;
     }
     &.left {
       left: 0;
       top: @center;
+      border-left: 2px solid @nonActive;
     }
     &.center {
-      left: @center;
-      top: @center;
+      left: @center + 3px;
+      top: @center + 3px;
+      width: 14px;
+      height: 14px;
+      border: 2px solid @nonActive;
     }
     &.right {
       right: 0;
       top: @center;
+      border-right: 2px solid @nonActive;
     }
     &.bottom {
       left: @center;
-      top: 56px;
+      bottom: 0;
+      border-bottom: 2px solid @nonActive;
     }
 
     &:hover {
-      background-color: #3f4249;
-      i {
-        color: #ffffff;
-      }
+      border-color: #ffffff;
     }
     &.selected {
-      border-color: @adminPrimary;
-      background-color: #3f4249;
-      i {
-        color: #ffffff;
-      }
+      border-color: #ffffff;
     }
     &.active {
-      i {
-        color: @adminPrimary;
-      }
+      border-color: @adminPrimary;
+    }
+    &.selected.active {
+      border-color: #ffffff;
     }
   }
 }

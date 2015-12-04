@@ -1,6 +1,8 @@
 .border-style {
-  @btnsSize: 25px;
-  @btnsSpacing: 3px;
+  @btnsSize: 16px;
+  @btnsSpacing: 14px;
+  @nonActive: #979797;
+  @active: #ffffff;
 
   > div {
     position: relative;
@@ -13,57 +15,27 @@
     cursor: pointer;
     text-align: center;
 
-    i {
-      font-size: 14px;
-      line-height: @btnsSize;
-      color: #cccccc;
-    }
-
-    &:after {
-      content: ' ';
-      position: absolute;
-      top: @btnsSize / 2 - 1px;
-      left: 3px;
-      right: 3px;
-      height: 0px;
-      border: 0;
-    }
-
-    &.solid, &.dashed, &.dotted {
-      &:after {
-        border-bottom: 1px solid #cccccc;
-      }
-    }
     &.dashed {
-      &:after {
-        border-style: dashed;
-      }
+      border-style: dashed;
     }
     &.dotted {
-      &:after {
-        border-style: dotted;
-      }
+      border-style: dotted;
+    }
+    &.double {
+      border-width: 3px;
+      border-style: double;
+    }
+
+    &:last-child {
+      margin-right: 0;
     }
 
     &:hover {
-      background-color: #3f4249;
-      i {
-        color: #ffffff;
-      }
-      &:after {
-        border-color: #ffffff;
-      }
+      border-color: @active;
     }
 
     &.active {
-      background-color: #3f4249;
-      border-color: @adminPrimary;
-      i {
-        color: @adminPrimary;
-      }
-      &:after {
-        border-color: @adminPrimary;
-      }
+      border-color: @active;
     }
   }
 }
