@@ -43,13 +43,6 @@ export default class GoogleMapsElem extends Component {
     };
   }
 
-  // shouldComponentUpdate (nextProps, nextState) {
-  //   return (
-  //     this.props.pageBuilder.editing && this.props.selected ||
-  //     nextState.ready !== this.state.ready
-  //   );
-  // }
-
   componentDidUpdate (prevProps) {
     if (this.props.pageBuilder && this.props.pageBuilder.editing && this.state.ready && prevProps.height !== this.props.height && this._map) {
       window.google.maps.event.trigger(this._map, 'resize');
