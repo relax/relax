@@ -104,7 +104,7 @@ export default class TextBox extends Component {
       );
     } else {
       result = (
-        <div className={cx(className, this.props.useTrim && classes.trim)} style={styles} dangerouslySetInnerHTML={{__html: html}}></div>
+        <div className={cx(className, this.props.useTrim && classes.trim, editing && classes.cursor)} style={styles} dangerouslySetInnerHTML={{__html: html}}></div>
       );
     }
     return result;
