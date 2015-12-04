@@ -14,7 +14,8 @@ export default class ColorPicker extends Component {
     colr: PropTypes.object.isRequired,
     opacity: PropTypes.number.isRequired,
     colors: PropTypes.array.isRequired,
-    opened: PropTypes.bool.isRequired
+    opened: PropTypes.bool.isRequired,
+    label: PropTypes.string.isRequired
   }
 
   toggleOpen (event) {
@@ -23,14 +24,13 @@ export default class ColorPicker extends Component {
   }
 
   render () {
-    const {colr, colors, opacity} = this.props;
+    const {colr, colors, opacity, label} = this.props;
     const colorString = getColorString({
       colr: colr,
       opacity: opacity
     }, colors);
     const colorStyle = {
-      backgroundColor: colorString,
-      borderColor: 'transparent'
+      backgroundColor: colorString
     };
 
     return (
@@ -39,7 +39,7 @@ export default class ColorPicker extends Component {
           <div className='color-preview'>
             <span style={colorStyle} />
           </div>
-          <span>{colr.toHex()}</span>
+          <span>{label}</span>
         </div>
         {this.renderContent()}
       </div>

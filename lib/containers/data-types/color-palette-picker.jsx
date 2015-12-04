@@ -1,6 +1,5 @@
 import * as colorsActions from '../../client/actions/colors';
 
-import find from 'lodash.find';
 import Colr from 'colr';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
@@ -25,7 +24,14 @@ export default class ColorPalettePickerContainer extends Component {
     value: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
     colors: PropTypes.array.isRequired,
-    colorsActions: PropTypes.object.isRequired
+    colorsActions: PropTypes.object.isRequired,
+    gradients: PropTypes.bool.isRequired,
+    side: PropTypes.string.isRequired
+  }
+
+  static defaultProps = {
+    gradients: false,
+    side: 'left'
   }
 
   getInitState () {
@@ -39,6 +45,7 @@ export default class ColorPalettePickerContainer extends Component {
       opened: false,
       colr: color.colr,
       opacity: color.opacity,
+      label: color.label,
       inputType: 0
     };
   }
@@ -65,21 +72,24 @@ export default class ColorPalettePickerContainer extends Component {
     const color = getColor(value, this.props.colors);
     this.props.onChange(value);
     this.setState({
-      colr: color.colr
+      colr: color.colr,
+      label: color.label
     });
   }
 
   hsvChange (hsv) {
     const colr = Colr.fromHsvObject(hsv);
+    const hex = colr.toHex();
 
     this.props.onChange({
       type: 'custom',
-      value: colr.toHex(),
+      value: hex,
       opacity: this.state.opacity
     });
 
     this.setState({
-      colr
+      colr,
+      label: hex
     });
   }
 
@@ -93,21 +103,24 @@ export default class ColorPalettePickerContainer extends Component {
     });
 
     this.setState({
-      colr
+      colr,
+      label: hex
     });
   }
 
   rgbChange (rgb) {
     const colr = Colr.fromRgbObject(rgb);
+    const hex = colr.toHex();
 
     this.props.onChange({
       type: 'custom',
-      value: colr.toHex(),
+      value: hex,
       opacity: this.state.opacity
     });
 
     this.setState({
-      colr
+      colr,
+      label: hex
     });
   }
 
@@ -146,7 +159,10 @@ export default class ColorPalettePickerContainer extends Component {
       <ColorPalettePicker
         colr={this.state.colr}
         opacity={this.state.opacity}
+        label={this.state.label}
         colors={this.props.colors}
+        gradients={this.props.gradients}
+        side={this.props.side}
         opened={this.state.opened}
         onChange={::this.onChange}
         toggleOpened={::this.toggleOpened}

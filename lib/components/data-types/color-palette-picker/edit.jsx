@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
@@ -20,16 +21,18 @@ export default class Edit extends Component {
     inputType: PropTypes.string.isRequired,
     previousInputType: PropTypes.func.isRequired,
     nextInputType: PropTypes.func.isRequired,
-    selectColor: PropTypes.func.isRequired
+    selectColor: PropTypes.func.isRequired,
+    gradients: PropTypes.bool.isRequired,
+    side: PropTypes.string.isRequired
   }
 
   render () {
-    const {colr, opacity, hsvChange, rgbChange, hexChange, opacityChange, inputType, previousInputType, nextInputType, selectColor} = this.props;
+    const {colr, opacity, gradients, hsvChange, rgbChange, hexChange, opacityChange, inputType, previousInputType, nextInputType, selectColor} = this.props;
 
     return (
       <div className='edit-color'>
-        <span className='triangle' />
-        <Types />
+        <span className={cx('triangle', this.props.side)} />
+        {gradients && <Types />}
         <ColorPicker colr={colr} hsvChange={hsvChange} />
         <Opacity colr={colr} opacity={opacity} opacityChange={opacityChange} />
         <Inputs
