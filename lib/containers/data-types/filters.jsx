@@ -126,6 +126,12 @@ export default class FiltersContainer extends Component {
     }
   }
 
+  removeFilter (index) {
+    const newFilters = [...this.props.value];
+    newFilters.splice(index, 1);
+    this.props.onChange(newFilters);
+  }
+
   render () {
     const {pageBuilder, elements} = this.props;
     const elementData = elements[pageBuilder.selectedId];
@@ -152,6 +158,7 @@ export default class FiltersContainer extends Component {
         cancelEdit={::this.cancelEdit}
         submitEdit={::this.submitEdit}
         selectFilter={::this.selectFilter}
+        removeFilter={::this.removeFilter}
       />
     );
   }

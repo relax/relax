@@ -12,7 +12,9 @@ export default class Filter extends Component {
     filter: PropTypes.object.isRequired,
     schemaProperties: PropTypes.array.isRequired,
     index: PropTypes.number.isRequired,
-    selectFilter: PropTypes.func.isRequired
+    selectFilter: PropTypes.func.isRequired,
+    removeFilter: PropTypes.func.isRequired,
+    new: PropTypes.bool
   }
 
   getDateString (gran, value) {
@@ -29,11 +31,18 @@ export default class Filter extends Component {
     this.props.selectFilter(this.props.index);
   }
 
+  onRemove (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.props.removeFilter(this.props.index);
+  }
+
   render () {
     return (
       <div className='filter-item white-options'>
         <div className='filter' onClick={::this.onClick}>
           {this.renderContent()}
+          {!this.props.new && <div className='filter-remove' onClick={::this.onRemove}><i className='material-icons'>delete</i></div>}
         </div>
         {this.renderEditing()}
       </div>
