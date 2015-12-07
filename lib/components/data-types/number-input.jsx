@@ -9,7 +9,8 @@ export default class NumberInput extends Component {
     label: React.PropTypes.node,
     min: React.PropTypes.number,
     max: React.PropTypes.number,
-    inactive: React.PropTypes.bool
+    inactive: React.PropTypes.bool,
+    className: React.PropTypes.string
   }
 
   static defaultProps = {

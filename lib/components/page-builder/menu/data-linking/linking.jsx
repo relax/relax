@@ -1,35 +1,8 @@
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
+import staticProperties from '../../../../helpers/schema-static-properties';
 import Property from './property';
-
-const staticProperties = [
-  {
-    id: 'title',
-    title: 'Title',
-    type: 'String'
-  },
-  {
-    id: 'slug',
-    title: 'Slug',
-    type: 'String'
-  },
-  {
-    id: 'date',
-    title: 'Created Date',
-    type: 'Date'
-  },
-  {
-    id: 'publishedDate',
-    title: 'Published Date',
-    type: 'Date'
-  },
-  {
-    id: 'updatedDate',
-    title: 'Updated Date',
-    type: 'Date'
-  }
-];
 
 export default class Linking extends Component {
   static fragments = {

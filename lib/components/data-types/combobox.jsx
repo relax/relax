@@ -9,7 +9,8 @@ export default class Combobox extends Component {
     values: React.PropTypes.array.isRequired,
     value: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired,
-    className: React.PropTypes.string
+    className: React.PropTypes.string,
+    style: React.PropTypes.object
   }
 
   getInitState () {
@@ -45,7 +46,7 @@ export default class Combobox extends Component {
     });
 
     return (
-      <div className={cx('combobox', this.props.className)}>
+      <div className={cx('combobox', this.props.className)} style={this.props.style}>
         <div className={cx('combobox-holder', this.state.opened && 'opened')}>
           <div className='combobox-header' onClick={this.toggle.bind(this)}>
             <div className='selected-text'>{label}</div>

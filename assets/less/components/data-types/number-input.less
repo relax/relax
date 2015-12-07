@@ -1,7 +1,7 @@
 .number-input {
   width: 100%;
   max-width: 150px;
-  height: 40px;
+  height: 38px;
   display: block;
   position: relative;
   outline: none;
@@ -22,7 +22,7 @@
     outline: 0;
     background: transparent;
     box-shadow: none;
-    line-height: 38px;
+    line-height: 36px;
     padding: 0 12px;
     padding-right: 40px;
     width: 100%;
@@ -36,7 +36,7 @@
     right: 20px;
     top: 0;
     vertical-align: top;
-    line-height: 38px;
+    line-height: 36px;
     width: 20px;
     font-size: 10px;
     text-align: center;
@@ -86,29 +86,37 @@
   &.micro {
     width: 80px;
   }
+  &.inline-block {
+    display: inline-block;
+    vertical-align: top;
+  }
 }
 
 // White areas
 .white-options .number-input {
   border-color: #cccccc;
+  background-color: transparent;
 
   span {
+    color: #333333;
+  }
+  input {
     color: #333333;
   }
 
   .arrows {
     a {
-      background-color: #efefef;
       color: #333333;
-      border-left: 1px solid #ccc;
 
       &:last-child {
         border-color: #ccc;
       }
 
       &:hover {
-        background-color: @adminPrimary;
-        color: #ffffff;
+        background-color: transparent;
+        i {
+          color: @adminPrimary;
+        }
       }
     }
   }
