@@ -38,16 +38,28 @@ export default class FiltersContainer extends Component {
     };
   }
 
-  fetchData (props) {
+  componentWillReceiveProps (nextProps) {
+    if (this.getSelectedSchemaId(nextProps) !== this.getSelectedSchemaId(this.props)) {
+      this.fetchData(nextProps);
+    }
+  }
+
+  getSelectedSchemaId (props) {
     const elementId = props.pageBuilder.selectedId;
     const selectedElement = props.draftData[elementId];
-    if (selectedElement) {
+    return selectedElement && selectedElement.props && selectedElement.props.schemaId;
+  }
+
+  fetchData (props) {
+    const elementId = props.pageBuilder.selectedId;
+    const schemaId = this.getSelectedSchemaId(props);
+    if (schemaId) {
       props.getElementData(elementId, buildQueryAndVariables(
         this.constructor.fragments,
         {
           schema: {
             _id: {
-              value: selectedElement.props.schemaId,
+              value: schemaId,
               type: 'ID!'
             }
           }
