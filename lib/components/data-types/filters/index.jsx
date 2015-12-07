@@ -17,7 +17,9 @@ export default class Filters extends Component {
     openNew: PropTypes.func.isRequired,
     newOpened: PropTypes.bool.isRequired,
     schema: PropTypes.object.isRequired,
-    editingFilter: PropTypes.object
+    editingFilter: PropTypes.object,
+    editOpened: PropTypes.bool,
+    editIndex: PropTypes.number
   }
 
   render () {
@@ -30,9 +32,10 @@ export default class Filters extends Component {
     );
   }
 
-  renderFilter (filter) {
+  renderFilter (filter, index) {
+    const editing = this.props.editOpened && this.props.editIndex === index;
     return (
-      <Filter {...this.props} filter={filter} />
+      <Filter editing={editing} {...this.props} index={index} filter={editing ? this.props.editingFilter : filter} />
     );
   }
 

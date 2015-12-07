@@ -10,7 +10,9 @@ export default class Filter extends Component {
   static propTypes = {
     editing: PropTypes.bool.isRequired,
     filter: PropTypes.object.isRequired,
-    schemaProperties: PropTypes.array.isRequired
+    schemaProperties: PropTypes.array.isRequired,
+    index: PropTypes.number.isRequired,
+    selectFilter: PropTypes.func.isRequired
   }
 
   getDateString (gran, value) {
@@ -23,10 +25,16 @@ export default class Filter extends Component {
     return str;
   }
 
+  onClick () {
+    this.props.selectFilter(this.props.index);
+  }
+
   render () {
     return (
-      <div className='filter white-options'>
-        {this.renderContent()}
+      <div className='filter-item white-options'>
+        <div className='filter' onClick={::this.onClick}>
+          {this.renderContent()}
+        </div>
         {this.renderEditing()}
       </div>
     );
@@ -42,7 +50,6 @@ export default class Filter extends Component {
 
       switch (property.type) {
         case 'Date':
-
           result = (
             <div>
               <span>{property.title}</span>
@@ -58,7 +65,7 @@ export default class Filter extends Component {
             <div>
               <span>{property.title}</span>
               <span> is </span>
-              <span className='highlight'>{`${options.value}`}</span>
+              <span className='highlight'>{options.value}</span>
             </div>
           );
           break;
@@ -69,7 +76,7 @@ export default class Filter extends Component {
                 <span>{property.title}</span>
                 <span className='highlight'> equals</span>
                 <span> to </span>
-                <span className='highlight'>{`${options.value}`}</span>
+                <span className='highlight'>{options.value}</span>
               </div>
             );
           } else if (options.op === 'not-equal') {
@@ -78,7 +85,7 @@ export default class Filter extends Component {
                 <span>{property.title}</span>
                 <span className='highlight'> differs</span>
                 <span> from </span>
-                <span className='highlight'>{`${options.value}`}</span>
+                <span className='highlight'>{options.value}</span>
               </div>
             );
           } else if (options.op === 'set') {

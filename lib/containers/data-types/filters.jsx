@@ -1,5 +1,6 @@
 import * as elementsActions from '../../client/actions/elements';
 
+import cloneDeep from 'lodash.clonedeep';
 import forEach from 'lodash.foreach';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
@@ -86,7 +87,9 @@ export default class FiltersContainer extends Component {
 
   cancelEdit () {
     this.setState({
-      newOpened: false
+      newOpened: false,
+      editOpened: false,
+      editIndex: null
     });
   }
 
@@ -95,12 +98,32 @@ export default class FiltersContainer extends Component {
 
     if (this.state.newOpened) {
       newFilters = [...newFilters, this.state.editingFilter];
+    } else if (this.state.editOpened) {
+      newFilters = [...newFilters];
+      newFilters[this.state.editIndex] = this.state.editingFilter;
     }
 
     this.props.onChange(newFilters);
     this.setState({
-      newOpened: false
+      newOpened: false,
+      editOpened: false,
+      editIndex: null
     });
+  }
+
+  selectFilter (index) {
+    if (this.state.editOpened && this.state.editIndex === index) {
+      this.setState({
+        editOpened: false,
+        editIndex: null
+      });
+    } else {
+      this.setState({
+        editOpened: true,
+        editIndex: index,
+        editingFilter: cloneDeep(this.props.value[index])
+      });
+    }
   }
 
   render () {
@@ -128,6 +151,7 @@ export default class FiltersContainer extends Component {
         onOptionChange={::this.onOptionChange}
         cancelEdit={::this.cancelEdit}
         submitEdit={::this.submitEdit}
+        selectFilter={::this.selectFilter}
       />
     );
   }
