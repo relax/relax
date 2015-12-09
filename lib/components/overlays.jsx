@@ -18,7 +18,7 @@ export default class Overlays extends Component {
     var result;
 
     if (overlay.component.prototype) {
-      result = <overlay.component />;
+      result = <overlay.component key={overlay.id} />;
     } else {
       result = overlay.component;
     }

@@ -1,4 +1,5 @@
 import * as colorsActions from '../../client/actions/colors';
+import * as overlayActions from '../../client/actions/overlays';
 
 import Colr from 'colr';
 import React, {PropTypes} from 'react';
@@ -16,7 +17,8 @@ const INPUT_TYPES = ['hex', 'rgba', 'hsva'];
     colors: state.colors.data
   }),
   (dispatch) => ({
-    colorsActions: bindActionCreators(colorsActions, dispatch)
+    colorsActions: bindActionCreators(colorsActions, dispatch),
+    ...bindActionCreators(overlayActions, dispatch)
   })
 )
 export default class ColorPalettePickerContainer extends Component {
@@ -26,7 +28,9 @@ export default class ColorPalettePickerContainer extends Component {
     colors: PropTypes.array.isRequired,
     colorsActions: PropTypes.object.isRequired,
     gradients: PropTypes.bool.isRequired,
-    side: PropTypes.string.isRequired
+    side: PropTypes.string.isRequired,
+    addOverlay: PropTypes.func.isRequired,
+    closeOverlay: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -182,6 +186,8 @@ export default class ColorPalettePickerContainer extends Component {
         previousInputType={::this.previousInputType}
         nextInputType={::this.nextInputType}
         selectColor={::this.selectColor}
+        addOverlay={this.props.addOverlay}
+        closeOverlay={this.props.closeOverlay}
       />
     );
   }

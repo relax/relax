@@ -6,7 +6,9 @@ import Color from './color';
 export default class ColorsCollection extends Component {
   static propTypes = {
     colors: PropTypes.array.isRequired,
-    selectColor: PropTypes.func.isRequired
+    selectColor: PropTypes.func.isRequired,
+    addOverlay: PropTypes.func.isRequired,
+    closeOverlay: PropTypes.func.isRequired
   }
 
   render () {
@@ -25,7 +27,13 @@ export default class ColorsCollection extends Component {
 
   renderColor (color) {
     return (
-      <Color color={color} key={color._id} selectColor={this.props.selectColor} />
+      <Color
+        color={color}
+        key={color._id}
+        selectColor={this.props.selectColor}
+        addOverlay={this.props.addOverlay}
+        closeOverlay={this.props.closeOverlay}
+      />
     );
   }
 }

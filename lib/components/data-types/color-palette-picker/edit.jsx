@@ -23,7 +23,9 @@ export default class Edit extends Component {
     nextInputType: PropTypes.func.isRequired,
     selectColor: PropTypes.func.isRequired,
     gradients: PropTypes.bool.isRequired,
-    side: PropTypes.string.isRequired
+    side: PropTypes.string.isRequired,
+    addOverlay: PropTypes.func.isRequired,
+    closeOverlay: PropTypes.func.isRequired
   }
 
   render () {
@@ -46,7 +48,12 @@ export default class Edit extends Component {
           hexChange={hexChange}
           opacityChange={opacityChange}
         />
-      <ColorsCollection colors={this.props.colors} selectColor={selectColor} />
+        <ColorsCollection
+          colors={this.props.colors}
+          selectColor={selectColor}
+          addOverlay={this.props.addOverlay} 
+          closeOverlay={this.props.closeOverlay}
+        />
       </div>
     );
   }
