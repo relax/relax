@@ -1,5 +1,12 @@
+
+.structure-content-scrollable {
+  top: 52px;
+  bottom: 30px;
+}
+
 .advanced-menu-structure {
-  padding: 10px;
+  position: relative;
+
   h4 {
     margin-top: 7px;
     margin-bottom: 18px;
@@ -7,18 +14,23 @@
   ul {
     list-style-type: none;
     padding: 0;
+    margin: 0;
     ul {
       padding-left: 15px;
     }
   }
 
   .filter-display {
+    padding: 0 10px;
     a {
+      display: inline-block;
+      vertical-align: top;
       text-decoration: none;
-      font-size: 11px;
+      font-size: 10px;
       color: #efefef;
       margin-right: 10px;
       .opacity(0.7);
+      line-height: 30px;
 
       &:hover, &.active {
         .opacity(1);
@@ -27,108 +39,109 @@
   }
 }
 
+.structure-list {
+  border-top: 1px solid @pageBuilderChromeBorders;
+}
+
 .structure-entry-element {
-  position: relative;
+  @height: 30px;
+
   display: block;
   text-align: left;
   text-decoration: none;
 
   color: @pageBuilderAdvancedMenuText;
-  background-color: rgba(56, 60, 61, 0.5);
-  border: 1px solid rgba(0, 0, 0, 0);
   font-size: 11px;
-  line-height: 25px;
-  margin-bottom: 1px;
-  padding: 0px 23px;
+  line-height: @height;
   padding-right: 25px;
+  margin-top: 1px;
 
-  height: 25px;
+  height: @height;
 
   &.sub-component {
     .opacity(0.6);
   }
 
   >* {
+    position: relative;
     vertical-align: top;
     display: inline-block;
   }
 
-  >i {
-    width: 22px;
-    font-size: 12px;
-    line-height: 25px;
+  >.caret-toggle {
+    width: @height;
+    height: @height;
     text-align: center;
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-  }
-
-  >span {
-    line-height: 25px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    width: 100%;
-  }
-
-  >a, .options {
-    position: absolute;
-    top: 0; right: 0; bottom: 0;
-    display: inline-block;
-    width: 25px;
-    text-align: center;
-    line-height: 23px;
-    border-left: 1px solid #282828;
+    cursor: pointer;
     >i {
       color: @pageBuilderAdvancedMenuText;
-      font-size: 10px;
-      line-height: 23px;
+      font-size: 18px;
+      line-height: @height;
+      .transition();
     }
-
-    &:hover {
-      background-color: @adminPrimary;
-      color: #fff;
-    }
-  }
-
-  .options {
-    cursor: pointer;
-    visibility: hidden;
-    right: 0px;
-    >i {
-      font-size: 11px;
-    }
-    &:hover {
-      background-color: transparent;
+    &.collapsed {
       >i {
-        color: @adminPrimary;
+        transform: rotate(-90deg);
       }
     }
   }
 
-  &.hasChildren {
-    padding-right: 50px;
-    .options {
-      right: 25px;
+  >.element-info {
+    cursor: default;
+    i, span {
+      display: inline-block;
+      vertical-align: top;
+      line-height: @height;
+      color: @pageBuilderAdvancedMenuText;
+    }
+    i {
+      font-size: 18px;
+      padding-right: 10px;
+    }
+    span {
+      font-size: 11px;
     }
   }
 
+  >.options {
+    position: absolute;
+    right: 0;
+    height: @height;
+    width: @height;
+    text-align: center;
+    cursor: pointer;
+    >i {
+      line-height: @height;
+    }
+  }
+
+  &:not(.hasChildren) {
+    >.element-info {
+      padding-left: @height;
+    }
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: @height;
+    border-bottom: 1px solid @pageBuilderChromeBorders;
+  }
+
   &.overed {
-    border: 1px solid @adminPrimary;
+    &:before {
+      background-color: #3f4249;
+    }
     .options  {
       visibility: visible;
     }
   }
 
   &.selected {
-    border: 1px solid @adminPrimary;
-    background-color: @adminPrimary;
-    color: #ffffff;
-
-    >a, .options {
-      border-left: 1px solid @adminPrimaryDarker;
-      &:hover {
-        background-color: @adminPrimaryDarker;
-      }
+    &:before {
+      background-color: @adminPrimary;
     }
+    color: #ffffff;
   }
 }

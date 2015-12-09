@@ -30,14 +30,16 @@ export default class Layers extends Component {
   render () {
     const {data} = this.props.pageBuilder;
     return (
-      <div className='content-scrollable'>
+      <div className='content-scrollable structure-content-scrollable'>
         <GeminiScrollbar autoshow>
           <div className='advanced-menu-structure'>
             <div className='filter-display'>
               <a href='#' onClick={this.expandAll.bind(this)}>Expand all</a>
               <a href='#' onClick={this.collapseAll.bind(this)}>Collapse all</a>
             </div>
-            {data.body && data.body.children && this.renderList(data.body.children, {type: 'body', id: 'body'}, {accepts: 'Section'}, {tag: 'body'})}
+            <div className='structure-list'>
+              {data.body && data.body.children && this.renderList(data.body.children, {type: 'body', id: 'body'}, {accepts: 'Section'}, {tag: 'body'})}
+            </div>
           </div>
         </GeminiScrollbar>
       </div>

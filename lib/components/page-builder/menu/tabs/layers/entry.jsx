@@ -123,17 +123,6 @@ export default class Entry extends Component {
     }
   }
 
-  renderOptions () {
-    if (!this.props.elementInfo.subComponent) {
-      return (
-        <div className='options' href='#' onClick={this.openOptions.bind(this)}>
-          <i className='fa fa-ellipsis-h'></i>
-          {this.renderOptionsMenu()}
-        </div>
-      );
-    }
-  }
-
   renderContent () {
     const {elements, selectedId, overedId} = this.props.pageBuilder;
     const element = elements[this.props.elementInfo.tag];
@@ -150,11 +139,34 @@ export default class Entry extends Component {
         onMouseEnter={this.onMouseOver.bind(this)}
         onMouseLeave={this.onMouseOut.bind(this)}
       >
-        <i className={element.settings.icon.class}>{element.settings.icon.content}</i>
-        <span>{this.props.elementInfo.label || this.props.elementInfo.tag}</span>
-        {this.props.hasChildren ? <a href='#' onClick={this.toggleExpand.bind(this)}><i className={this.props.isExpanded ? 'fa fa-caret-up' : 'fa fa-caret-down'}></i></a> : null}
+        {this.renderCaret()}
+        <div className='element-info'>
+          <i className={element.settings.icon.class}>{element.settings.icon.content}</i>
+          <span>{this.props.elementInfo.label || this.props.elementInfo.tag}</span>
+        </div>
         {this.renderOptions()}
       </div>
     );
+  }
+
+  renderCaret () {
+    if (this.props.hasChildren) {
+      return (
+        <span className={cx('caret-toggle', !this.props.isExpanded && 'collapsed')} onClick={this.toggleExpand.bind(this)}>
+          <i className='material-icons'>arrow_drop_down</i>
+        </span>
+      );
+    }
+  }
+
+  renderOptions () {
+    if (!this.props.elementInfo.subComponent) {
+      return (
+        <div className='options' href='#' onClick={this.openOptions.bind(this)}>
+          <i className='fa fa-ellipsis-h'></i>
+          {this.renderOptionsMenu()}
+        </div>
+      );
+    }
   }
 }
