@@ -21,16 +21,18 @@ export default class Structure extends Component {
           minHeight={7}
           dnd={this.props.dnd}
           dndActions={this.props.dndActions}>
-          {this.props.data.map(this.renderEntry, this)}
+          {this.props.data.map(this.renderEntry.bind(this, 'base'))}
         </Droppable>
       </div>
     );
   }
 
-  renderEntry (entry) {
+  renderEntry (parentId, entry, key) {
     return (
       <Entry
         entry={entry}
+        parentId={parentId}
+        positionInParent={key}
         key={entry.id}
         dnd={this.props.dnd}
         dndActions={this.props.dndActions}>
@@ -38,7 +40,7 @@ export default class Structure extends Component {
           entry.children &&
           entry.children.constructor === Array &&
           entry.children.length > 0 &&
-          entry.children.map(this.renderEntry, this)
+          entry.children.map(this.renderEntry.bind(this, entry.id))
         }
       </Entry>
     );

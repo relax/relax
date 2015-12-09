@@ -8,6 +8,8 @@ export default class Entry extends Component {
     entry: PropTypes.object.isRequired,
     dnd: PropTypes.object.isRequired,
     dndActions: PropTypes.object.isRequired,
+    parentId: PropTypes.string.isRequired,
+    positionInParent: PropTypes.number.isRequired,
     children: PropTypes.node
   }
 
@@ -23,7 +25,9 @@ export default class Entry extends Component {
   render () {
     const dragInfo = {
       type: 'move',
-      id: this.props.entry.id
+      id: this.props.entry.id,
+      parentId: this.props.parentId,
+      positionInParent: this.props.positionInParent
     };
 
     let label;
@@ -52,10 +56,13 @@ export default class Entry extends Component {
           </div>
           <div className='sub'>
             <Droppable
-              dropInfo={this.props.entry}
+              dropInfo={{
+                id: this.props.entry.id
+              }}
               minHeight={7}
               placeholder={this.props.dnd.dragging}
               placeholderContent='Drop sub link'
+              hidePlaceholder
               dnd={this.props.dnd}
               dndActions={this.props.dndActions}>
               {this.props.children}
