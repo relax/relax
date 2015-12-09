@@ -45,4 +45,33 @@
       color: @adminPrimary;
     }
   }
+
+  .adding-color {
+    margin: 0;
+    display: block;
+    margin-top: 6px;
+
+    .input {
+      display: inline-block;
+      width: 75%;
+      input {
+        line-height: 28px;
+      }
+    }
+    .save-btn {
+      display: inline-block;
+      vertical-align: top;
+      width: 25%;
+      line-height: 30px;
+      color: @adminPrimary;
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 800;
+      text-align: center;
+      cursor: pointer;
+      &:hover {
+        color: #333333;
+      }
+    }
+  }
 }

@@ -13,7 +13,6 @@ export default class Edit extends Component {
   static propTypes = {
     colr: PropTypes.object.isRequired,
     opacity: PropTypes.number.isRequired,
-    colors: PropTypes.array.isRequired,
     hsvChange: PropTypes.func.isRequired,
     rgbChange: PropTypes.func.isRequired,
     hexChange: PropTypes.func.isRequired,
@@ -21,15 +20,12 @@ export default class Edit extends Component {
     inputType: PropTypes.string.isRequired,
     previousInputType: PropTypes.func.isRequired,
     nextInputType: PropTypes.func.isRequired,
-    selectColor: PropTypes.func.isRequired,
     gradients: PropTypes.bool.isRequired,
-    side: PropTypes.string.isRequired,
-    addOverlay: PropTypes.func.isRequired,
-    closeOverlay: PropTypes.func.isRequired
+    side: PropTypes.string.isRequired
   }
 
   render () {
-    const {colr, opacity, gradients, hsvChange, rgbChange, hexChange, opacityChange, inputType, previousInputType, nextInputType, selectColor} = this.props;
+    const {colr, opacity, gradients, hsvChange, rgbChange, hexChange, opacityChange, inputType, previousInputType, nextInputType} = this.props;
 
     return (
       <div className='edit-color'>
@@ -48,12 +44,7 @@ export default class Edit extends Component {
           hexChange={hexChange}
           opacityChange={opacityChange}
         />
-        <ColorsCollection
-          colors={this.props.colors}
-          selectColor={selectColor}
-          addOverlay={this.props.addOverlay} 
-          closeOverlay={this.props.closeOverlay}
-        />
+        <ColorsCollection {...this.props} />
       </div>
     );
   }

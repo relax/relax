@@ -50,7 +50,9 @@ export default class ColorPalettePickerContainer extends Component {
       colr: color.colr,
       opacity: color.opacity,
       label: color.label,
-      inputType: 0
+      inputType: 0,
+      addingColor: false,
+      addingColorName: ''
     };
   }
 
@@ -62,11 +64,9 @@ export default class ColorPalettePickerContainer extends Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     return (
-      this.state.opened !== nextState.opened ||
-      this.state.colr !== nextState.colr ||
-      this.state.opacity !== nextState.opacity ||
-      this.state.inputType !== nextState.inputType ||
-      !this.state.opened
+      this.state !== nextState ||
+      !this.state.opened ||
+      this.props.colors !== nextProps.colors
     );
   }
 
@@ -138,7 +138,7 @@ export default class ColorPalettePickerContainer extends Component {
   opacityChange (opacity) {
     this.props.onChange({
       type: this.props.value && this.props.value.type || 'custom',
-      value: this.state.colr.toHex(),
+      value: this.props.value && this.props.value.value || this.state.colr.toHex(),
       opacity
     });
 
@@ -165,6 +165,41 @@ export default class ColorPalettePickerContainer extends Component {
     });
   }
 
+  toggleAddingColor () {
+    this.setState({
+      addingColor: !this.state.addingColor
+    });
+  }
+
+  changeAddingColor (addingColorName) {
+    this.setState({
+      addingColorName
+    });
+  }
+
+  addColor () {
+    if (this.state.addingColorName) {
+      this.props.colorsActions
+        .addColor({
+          color: {
+            _id: 1,
+            label: 1,
+            value: 1
+          }
+        }, {
+          label: this.state.addingColorName,
+          value: this.state.colr.toHex()
+        })
+        .then((result) => {
+          this.selectColor(result.addColor._id);
+          this.setState({
+            addingColor: false,
+            addingColorName: ''
+          });
+        });
+    }
+  }
+
   render () {
     return (
       <ColorPalettePicker
@@ -188,6 +223,11 @@ export default class ColorPalettePickerContainer extends Component {
         selectColor={::this.selectColor}
         addOverlay={this.props.addOverlay}
         closeOverlay={this.props.closeOverlay}
+        addingColor={this.state.addingColor}
+        addingColorName={this.state.addingColorName}
+        toggleAddingColor={::this.toggleAddingColor}
+        changeAddingColor={::this.changeAddingColor}
+        addColor={::this.addColor}
       />
     );
   }
