@@ -18,26 +18,21 @@ export default class ElementsMenu extends Component {
       top: 0,
       left: 0,
       contentTop: 0,
-      side: 'right'
+      side: 'right',
+      angleTriangle: false
     };
   }
 
   componentDidMount () {
-    this.onCloseBind = this.onClose.bind(this);
-    this.updatePositionBind = this.updatePosition.bind(this);
-    this.stopPropagationBind = this.stopPropagation.bind(this);
+    this.onCloseBind = ::this.onClose;
+    this.updatePositionBind = ::this.updatePosition;
+    this.stopPropagationBind = ::this.stopPropagation;
 
     findDOMNode(this).addEventListener('click', this.stopPropagationBind);
     document.addEventListener('click', this.onCloseBind);
     window.addEventListener('scroll', this.updatePositionBind);
     window.addEventListener('resize', this.updatePositionBind);
     this.updatePosition();
-  }
-
-  componentWillReceiveProps (nextProps) {
-    // if (this.props.targetId !== nextProps.targetId || this.props.targetPosition !== nextProps.targetPosition) {
-    //   this.updatePosition(nextProps);
-    // }
   }
 
   componentWillUnmount () {
@@ -57,25 +52,35 @@ export default class ElementsMenu extends Component {
     this.clickedInside = true;
   }
 
-  updatePosition (props = this.props) {
+  updatePosition (event = null, props = this.props) {
     const containerRect = props.pageBuilder.elementsMenuOptions.container.getBoundingClientRect();
 
-    const top = containerRect.top + containerRect.height / 2 - 26;
+    const top = containerRect.top + containerRect.height / 2 - 105;
     let left = containerRect.right + 10;
     let side = 'right';
+    let angleTriangle = false;
 
     // Constraints
     let contentTop = 0;
-    const menuWidth = 190; // XXX hard coded
-    const menuHeight = 240; // XXX hard coded
+    const menuWidth = 280;
+    const menuHeight = 400;
     const windowHeight = window.innerHeight;
     const windowWidth = window.innerWidth;
 
     if (top + menuHeight > windowHeight) {
       contentTop = windowHeight - (top + menuHeight);
 
-      if (contentTop < -200) {
-        contentTop = -200;
+      if (contentTop < -360) {
+        contentTop = -360;
+      }
+    }
+
+    if (top < 46) {
+      const dif = 46 - top;
+      contentTop = dif;
+      if (contentTop > 95) {
+        contentTop = 115;
+        angleTriangle = true;
       }
     }
 
@@ -84,7 +89,7 @@ export default class ElementsMenu extends Component {
       left = containerRect.right - 10 - menuWidth - containerRect.width;
     }
 
-    this.setState({top, left, contentTop, side});
+    this.setState({top, left, contentTop, side, angleTriangle});
   }
 
   onClose () {
@@ -139,7 +144,7 @@ export default class ElementsMenu extends Component {
 
     return (
       <Animate transition='slideLeftIn'>
-        <div className={cx('elements-menu', this.state.side)} style={style}>
+        <div className={cx('elements-menu', this.state.side, this.state.angleTriangle && 'angled')} style={style}>
           <div className='arrow-left'></div>
           <div className='ballon' style={ballonStyle}>
             <div className='categories'>
@@ -179,8 +184,8 @@ export default class ElementsMenu extends Component {
       return (
         <div className={cx('category', collapsedCategory && 'collapsed')}>
           <div className='category-info' onClick={this.toggleCategory.bind(this, category)}>
+            <i className='material-icons'>arrow_drop_down</i>
             <span>{category}</span>
-            <i className='material-icons'>{collapsedCategory ? 'expand_more' : 'expand_less'}</i>
           </div>
           <div className='category-list'>
             {!collapsedCategory && categoryElements.map(this.renderElement, this)}
