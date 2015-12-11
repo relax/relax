@@ -68,17 +68,14 @@
       border-bottom: 2px solid @nonActive;
     }
 
-    &:hover {
-      border-color: #ffffff;
-    }
     &.selected {
-      border-color: #ffffff;
-    }
-    &.active {
       border-color: @adminPrimary;
     }
-    &.selected.active {
+    &.active {
       border-color: #ffffff;
+    }
+    &.selected.active {
+      border-color: @adminPrimary;
     }
   }
 }
