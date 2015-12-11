@@ -1,11 +1,12 @@
 import cx from 'classnames';
 import forEach from 'lodash.foreach';
-import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import {Component} from 'relax-framework';
 
-import Animate from '../animate';
+import Animate from '../../animate';
+import List from './list';
+import Search from './search';
 
 export default class ElementsMenu extends Component {
   static propTypes = {
@@ -19,7 +20,11 @@ export default class ElementsMenu extends Component {
       left: 0,
       contentTop: 0,
       side: 'right',
-      angleTriangle: false
+      angleTriangle: false,
+      searchOpened: false,
+      search: '',
+      suggestions: [],
+      suggestion: false
     };
   }
 
@@ -27,8 +32,10 @@ export default class ElementsMenu extends Component {
     this.onCloseBind = ::this.onClose;
     this.updatePositionBind = ::this.updatePosition;
     this.stopPropagationBind = ::this.stopPropagation;
+    this.keyDownBind = ::this.focusSearch;
 
     findDOMNode(this).addEventListener('click', this.stopPropagationBind);
+    document.addEventListener('keydown', this.keyDownBind);
     document.addEventListener('click', this.onCloseBind);
     window.addEventListener('scroll', this.updatePositionBind);
     window.addEventListener('resize', this.updatePositionBind);
@@ -37,13 +44,60 @@ export default class ElementsMenu extends Component {
 
   componentWillUnmount () {
     findDOMNode(this).removeEventListener('click', this.stopPropagationBind);
+    document.removeEventListener('keydown', this.keyDownBind);
     document.removeEventListener('click', this.onCloseBind);
     window.removeEventListener('scroll', this.updatePositionBind);
     window.removeEventListener('resize', this.updatePositionBind);
   }
 
-  toggleCategory (category, event) {
-    event.preventDefault();
+  focusSearch (event) {
+    if (!this.state.searchOpened) {
+      document.removeEventListener('keydown', this.keyDownBind);
+      this.setState({
+        searchOpened: true
+      });
+    }
+  }
+
+  onSearchChange (search) {
+    if (search) {
+      const {elements, categories} = this.props.pageBuilder;
+      const suggestions = [];
+      let suggestion = false;
+      let suggestionweight = categories.length + 1;
+
+      forEach(elements, (element, name) => {
+        if (this.elementAcceptable(name, element) && name.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
+          let weight = categories.length;
+          forEach(categories, (category, ind) => {
+            if (category === (element.settings && element.settings.category)) {
+              weight = ind;
+            }
+          });
+          if (weight < suggestionweight) {
+            suggestion = name;
+            suggestionweight = weight;
+          }
+          suggestions.push(name);
+        }
+      });
+
+      this.setState({
+        searchOpened: true,
+        search,
+        suggestions,
+        suggestion
+      });
+    } else {
+      this.state.searchOpened && document.addEventListener('keydown', this.keyDownBind);
+      this.setState({
+        searchOpened: false,
+        search
+      });
+    }
+  }
+
+  toggleCategory (category) {
     const {toggleCategory} = this.props.pageBuilderActions;
     toggleCategory(category);
   }
@@ -133,7 +187,6 @@ export default class ElementsMenu extends Component {
   }
 
   render () {
-    const {categories} = this.props.pageBuilder;
     const style = {
       top: this.state.top,
       left: this.state.left
@@ -144,67 +197,40 @@ export default class ElementsMenu extends Component {
 
     return (
       <Animate transition='slideLeftIn'>
-        <div className={cx('elements-menu', this.state.side, this.state.angleTriangle && 'angled')} style={style}>
+        <div className={cx('elements-menu', this.state.side, this.state.angleTriangle && 'angled', this.state.searchOpened && 'searching')} style={style}>
           <div className='arrow-left'></div>
           <div className='ballon' style={ballonStyle}>
-            <div className='categories'>
-              <GeminiScrollbar autoshow className='gm-scrollbar-black'>
-                {categories.map(this.renderCategory, this)}
-              </GeminiScrollbar>
-            </div>
+            {this.renderContent()}
           </div>
         </div>
       </Animate>
     );
   }
 
-  renderCategory (category) {
-    const {elements, categoriesCollapsed} = this.props.pageBuilder;
-    const categoryElements = [];
-
-    forEach(elements, (element, index) => {
-      if (element.settings && element.settings.category) {
-        if (element.settings.category === category && this.elementAcceptable(index, element)) {
-          categoryElements.push({
-            label: index,
-            element
-          });
-        }
-      } else if (category === 'other' && this.elementAcceptable(index, element)) {
-        categoryElements.push({
-          label: index,
-          element
-        });
-      }
-    });
-
-    if (categoryElements.length > 0) {
-      const collapsedCategory = categoriesCollapsed[category];
-
-      return (
-        <div className={cx('category', collapsedCategory && 'collapsed')}>
-          <div className='category-info' onClick={this.toggleCategory.bind(this, category)}>
-            <i className='material-icons'>arrow_drop_down</i>
-            <span>{category}</span>
-          </div>
-          <div className='category-list'>
-            {!collapsedCategory && categoryElements.map(this.renderElement, this)}
-          </div>
-        </div>
+  renderContent () {
+    let result;
+    if (this.state.searchOpened) {
+      result = (
+        <Search
+          {...this.props}
+          suggestions={this.state.suggestions}
+          suggestion={this.state.suggestion}
+          search={this.state.search}
+          elementAcceptable={::this.elementAcceptable}
+          onSearchChange={::this.onSearchChange}
+          addElement={::this.addElement}
+        />
+      );
+    } else {
+      result = (
+        <List
+          {...this.props}
+          elementAcceptable={::this.elementAcceptable}
+          addElement={::this.addElement}
+          toggleCategory={::this.toggleCategory}
+        />
       );
     }
-  }
-
-  renderElement (elementObj) {
-    const element = elementObj.element;
-    const icon = element.settings.icon;
-    const label = elementObj.label;
-
-    return (
-      <div className='element-entry' onClick={this.addElement.bind(this, label)}>
-        <i className={icon.class}>{icon.content}</i>
-        <span>{label}</span>
-      </div>
-    );
+    return result;
   }
 }
