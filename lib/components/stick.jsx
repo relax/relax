@@ -13,7 +13,8 @@ export default class Overlay extends Component {
     verticalPosition: PropTypes.oneOf(['top', 'center', 'bottom']),
     horizontalPosition: PropTypes.oneOf(['left', 'center', 'right']),
     verticalOffset: PropTypes.number,
-    horizontalOffset: PropTypes.number
+    horizontalOffset: PropTypes.number,
+    onClose: PropTypes.func
   }
 
   static defaultProps = {
@@ -34,12 +35,27 @@ export default class Overlay extends Component {
   componentDidMount () {
     this.mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? 'DOMMouseScroll' : 'mousewheel';
     this.scrollBind = ::this.onScroll;
+    this.onCloseBind = ::this.onClose;
     document.body.addEventListener(this.mousewheelevt, this.scrollBind, false);
+    this.props.onClose && document.body.addEventListener('click', this.onCloseBind, false);
     this.updatePosition();
   }
 
   componentWillUnmount () {
     document.body.removeEventListener(this.mousewheelevt, this.scrollBind);
+    this.props.onClose && document.body.removeEventListener('click', this.onCloseBind, false);
+  }
+
+  onClose (event) {
+    const rect = this.props.element.getBoundingClientRect();
+    const thisRect = this.refs.holder.getBoundingClientRect();
+
+    const outOfElement = (event.pageX < rect.left || event.pageX > rect.left + rect.width) || (event.pageY < rect.top || event.pageY > rect.top + rect.height);
+    const outOfThis = (event.pageX < thisRect.left || event.pageX > thisRect.left + thisRect.width) || (event.pageY < thisRect.top || event.pageY > thisRect.top + thisRect.height);
+
+    if (outOfElement && outOfThis) {
+      this.props.onClose();
+    }
   }
 
   onScroll () {

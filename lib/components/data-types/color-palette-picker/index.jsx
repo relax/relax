@@ -21,7 +21,10 @@ export default class ColorPicker extends Component {
   }
 
   toggleOpen (event) {
-    event.preventDefault();
+    if (event && event.preventDefault) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
     this.props.toggleOpened();
   }
 
@@ -52,7 +55,7 @@ export default class ColorPicker extends Component {
     if (this.props.opened) {
       return (
         <Portal>
-          <Stick element={this.ref} verticalPosition='bottom' horizontalPosition='left' transition='slideUpIn' horizontalOffset={-9}>
+          <Stick element={this.ref} verticalPosition='bottom' horizontalPosition='left' transition='slideUpIn' horizontalOffset={-9} onClose={::this.toggleOpen}>
             <Edit {...this.props} />
           </Stick>
         </Portal>
