@@ -1,9 +1,5 @@
-.edit-color {
-  position: absolute;
-  left: 5px;
-  right: 5px;
-  margin-bottom: 20px;
-  max-width: 270px;
+.color-picker-modal {
+  width: 270px;
   padding: 6px;
   border-radius: 4px;
   background-color: #ffffff;
@@ -22,11 +18,6 @@
     display: inline-block;
     top: -9px;
     left: 24px;
-
-    &.right {
-      left: auto;
-      right: 100px;
-    }
   }
   .triangle:before,
   .triangle:after {
@@ -57,4 +48,16 @@
   @import './opacity.less';
   @import './inputs.less';
   @import './colors-collection.less';
+}
+
+.stick {
+  &.right .color-picker-modal .triangle{
+    left: auto;
+    right: 100px;
+  }
+  &.top .color-picker-modal .triangle{
+    transform: rotate(120deg) skewX(-30deg) scale(1,.866);
+    top: auto;
+    bottom: -9px;
+  }
 }

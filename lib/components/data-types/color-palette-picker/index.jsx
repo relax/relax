@@ -3,6 +3,8 @@ import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import Edit from './edit';
+import Portal from '../../portal';
+import Stick from '../../stick';
 import {getColorString} from '../../../helpers/colors';
 
 export default class ColorPicker extends Component {
@@ -35,7 +37,7 @@ export default class ColorPicker extends Component {
 
     return (
       <div className={cx('color-picker', this.props.className)}>
-        <div className='color-picker-info' onClick={::this.toggleOpen}>
+        <div className='color-picker-info' onClick={::this.toggleOpen} ref={(ref) => this.ref = ref}>
           <div className='color-preview'>
             <span style={colorStyle} />
           </div>
@@ -49,7 +51,11 @@ export default class ColorPicker extends Component {
   renderContent () {
     if (this.props.opened) {
       return (
-        <Edit {...this.props} />
+        <Portal>
+          <Stick element={this.ref} verticalPosition='bottom' horizontalPosition='left' transition='slideUpIn' horizontalOffset={-9}>
+            <Edit {...this.props} />
+          </Stick>
+        </Portal>
       );
     }
   }

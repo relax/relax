@@ -28,7 +28,7 @@ export default class Edit extends Component {
     const {colr, opacity, gradients, hsvChange, rgbChange, hexChange, opacityChange, inputType, previousInputType, nextInputType} = this.props;
 
     return (
-      <div className='edit-color'>
+      <div className='color-picker-modal'>
         <span className={cx('triangle', this.props.side)} />
         {gradients && <Types />}
         <ColorPicker colr={colr} hsvChange={hsvChange} />

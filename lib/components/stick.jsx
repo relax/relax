@@ -8,25 +8,113 @@ export default class Overlay extends Component {
   static propTypes = {
     element: PropTypes.node.isRequired,
     children: PropTypes.node.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
+    transition: PropTypes.string,
+    verticalPosition: PropTypes.oneOf(['top', 'center', 'bottom']),
+    horizontalPosition: PropTypes.oneOf(['left', 'center', 'right']),
+    verticalOffset: PropTypes.number,
+    horizontalOffset: PropTypes.number
+  }
+
+  static defaultProps = {
+    transition: 'fadeIn',
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+    verticalOffset: 0,
+    horizontalOffset: 0
   }
 
   getInitState () {
-    return this.getPosition();
-  }
-
-  getPosition () {
-    const rect = this.props.element.getBoundingClientRect();
     return {
-      left: rect.left + (rect.right - rect.left) / 2,
-      top: rect.top
+      left: 0,
+      top: 0
     };
   }
 
+  componentDidMount () {
+    this.mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? 'DOMMouseScroll' : 'mousewheel';
+    this.scrollBind = ::this.onScroll;
+    document.body.addEventListener(this.mousewheelevt, this.scrollBind, false);
+    this.updatePosition();
+  }
+
+  componentWillUnmount () {
+    document.body.removeEventListener(this.mousewheelevt, this.scrollBind);
+  }
+
+  onScroll () {
+    this.updatePosition();
+    this.updateTimeout = setTimeout(::this.updatePosition, 0);
+  }
+
+  updatePosition () {
+    this.setState(this.getPosition());
+  }
+
+  getPosition () {
+    const position = {
+      left: 0,
+      top: 0,
+      horizontal: this.props.horizontalPosition,
+      vertical: this.props.verticalPosition
+    };
+    const rect = this.props.element.getBoundingClientRect();
+    const thisRect = this.refs.holder.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
+
+    switch (this.props.horizontalPosition) {
+      case 'left':
+        position.left = rect.left;
+        break;
+      case 'center':
+        position.left = rect.left + rect.width / 2 - thisRect.width / 2;
+        break;
+      case 'right':
+        position.left = rect.left + rect.width - thisRect.width;
+        break;
+      default:
+        position.left = 0;
+    }
+    position.left += this.props.horizontalOffset;
+
+    switch (this.props.verticalPosition) {
+      case 'top':
+        position.top = rect.top - thisRect.height;
+        break;
+      case 'center':
+        position.top = rect.top + rect.height / 2 - thisRect.height / 2;
+        break;
+      case 'bottom':
+        position.top = rect.top + rect.height;
+        break;
+      default:
+        position.top = 0;
+    }
+    position.top += this.props.verticalOffset;
+
+    // Overflows
+    if (position.top + thisRect.height > windowHeight) {
+      position.top = rect.top - thisRect.height - this.props.verticalOffset;
+      position.vertical = 'top';
+    }
+    if (position.left + thisRect.width > windowWidth) {
+      position.left = rect.left + rect.width - thisRect.width - this.props.horizontalOffset;
+      position.horizontal = 'right';
+    }
+
+    return position;
+  }
+
   render () {
+    const style = {
+      left: this.state.left,
+      top: this.state.top
+    };
+
     return (
-      <Animate transition='fadeIn'>
-        <div className={cx('stick', this.props.className)} style={this.state}>
+      <Animate transition={this.props.transition} duration={300}>
+        <div className={cx('stick', this.props.className, this.state.vertical, this.state.horizontal)} style={style} ref='holder'>
           {this.props.children}
         </div>
       </Animate>
