@@ -40,6 +40,7 @@
     "lodash.foreach": "^3.0.3",
     "lodash.merge": "^3.3.2",
     "lodash.omit": "^3.1.0",
+    "lodash.sortby": "^3.1.5",
     "medium-editor": "git://github.com/relax/medium-editor.git",
     "mkdirp": "^0.5.1",
     "moment": "^2.10.6",

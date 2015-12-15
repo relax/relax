@@ -1,7 +1,8 @@
 import * as colorsActions from '../../client/actions/colors';
 import * as overlayActions from '../../client/actions/overlays';
 
-import Colr from 'colr';
+import forEach from 'lodash.foreach';
+import sortBy from 'lodash.sortby';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -39,35 +40,13 @@ export default class ColorPalettePickerContainer extends Component {
   }
 
   getInitState (props = this.props) {
-    const color = getColor(props.value || {
-      type: 'custom',
-      value: '#000000',
-      opacity: 100
-    }, props.colors);
-
     return {
       opened: false,
-      colr: color.colr,
-      opacity: color.opacity,
-      label: color.label,
       inputType: 0,
       addingColor: false,
-      addingColorName: ''
+      addingColorName: '',
+      editingPoint: 0
     };
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (!this.state.opened && nextProps.value !== this.props.value) {
-      this.setState(this.getInitState(nextProps));
-    }
-  }
-
-  shouldComponentUpdate (nextProps, nextState) {
-    return (
-      this.state !== nextState ||
-      !this.state.opened ||
-      this.props.colors !== nextProps.colors
-    );
   }
 
   onChange (changes) {
@@ -75,76 +54,71 @@ export default class ColorPalettePickerContainer extends Component {
   }
 
   selectColor (id) {
-    const value = {
-      type: 'palette',
-      value: id,
-      opacity: this.state.opacity
-    };
-    const color = getColor(value, this.props.colors);
-    this.props.onChange(value);
-    this.setState({
-      colr: color.colr,
-      label: color.label
-    });
+    this.valueChange('palette', id);
   }
 
   hsvChange (hsv) {
-    const colr = Colr.fromHsvObject(hsv);
-    const hex = colr.toHex();
-
-    this.props.onChange({
-      type: 'custom',
-      value: hex,
-      opacity: this.state.opacity
-    });
-
-    this.setState({
-      colr,
-      label: hex
-    });
+    this.valueChange('hsv', hsv);
   }
 
   hexChange (hex) {
-    const colr = Colr.fromHex(hex);
-
-    this.props.onChange({
-      type: 'custom',
-      value: hex,
-      opacity: this.state.opacity
-    });
-
-    this.setState({
-      colr,
-      label: hex
-    });
+    this.valueChange('hex', hex);
   }
 
   rgbChange (rgb) {
-    const colr = Colr.fromRgbObject(rgb);
-    const hex = colr.toHex();
+    this.valueChange('rgb', rgb);
+  }
 
-    this.props.onChange({
-      type: 'custom',
-      value: hex,
-      opacity: this.state.opacity
-    });
+  valueChange (valueType, value) {
+    const type = this.props.value && this.props.value.type || 'hex';
 
-    this.setState({
-      colr,
-      label: hex
-    });
+    if (type !== 'radial' && type !== 'linear') {
+      const currentColor = this.getCurrentColor();
+      this.props.onChange({
+        type: valueType,
+        value,
+        opacity: currentColor.opacity
+      });
+    } else {
+      const editingPoint = Math.min(this.state.editingPoint, this.props.value.points.length);
+      const points = [];
+      forEach(this.props.value.points, (point, index) => {
+        if (index === editingPoint) {
+          points.push(Object.assign({}, point, {
+            type: valueType,
+            value
+          }));
+        } else {
+          points.push(point);
+        }
+      });
+      this.props.onChange(Object.assign({}, this.props.value, {points}));
+    }
   }
 
   opacityChange (opacity) {
-    this.props.onChange({
-      type: this.props.value && this.props.value.type || 'custom',
-      value: this.props.value && this.props.value.value || this.state.colr.toHex(),
-      opacity
-    });
+    const type = this.props.value && this.props.value.type || 'hex';
 
-    this.setState({
-      opacity
-    });
+    if (type !== 'radial' && type !== 'linear') {
+      this.props.onChange({
+        type: this.props.value && this.props.value.type || 'hex',
+        value: this.props.value && this.props.value.value || '#000000',
+        opacity: opacity
+      });
+    } else {
+      const editingPoint = Math.min(this.state.editingPoint, this.props.value.points.length);
+      const points = [];
+      forEach(this.props.value.points, (point, index) => {
+        if (index === editingPoint) {
+          points.push(Object.assign({}, point, {
+            opacity
+          }));
+        } else {
+          points.push(point);
+        }
+      });
+      this.props.onChange(Object.assign({}, this.props.value, {points}));
+    }
   }
 
   toggleOpened () {
@@ -179,6 +153,12 @@ export default class ColorPalettePickerContainer extends Component {
 
   addColor () {
     if (this.state.addingColorName) {
+      const color = getColor(this.props.value || {
+        type: 'hex',
+        value: '#000000',
+        opacity: 100
+      }, this.props.colors);
+
       this.props.colorsActions
         .addColor({
           color: {
@@ -188,7 +168,7 @@ export default class ColorPalettePickerContainer extends Component {
           }
         }, {
           label: this.state.addingColorName,
-          value: this.state.colr.toHex()
+          value: color.colr.toHex()
         })
         .then((result) => {
           this.selectColor(result.addColor._id);
@@ -200,12 +180,134 @@ export default class ColorPalettePickerContainer extends Component {
     }
   }
 
+  changeToSolid () {
+    this.props.onChange({
+      type: 'hex',
+      value: this.props.value.value,
+      opacity: this.props.value.opacity
+    });
+  }
+
+  changeToLinear () {
+    this.setState({
+      editingPoint: 0
+    }, () => {
+      this.props.onChange({
+        type: 'linear',
+        angle: 0,
+        points: [
+          Object.assign({perc: 0}, this.props.value),
+          {
+            type: 'hex',
+            value: '#000000',
+            opacity: 100,
+            perc: 100
+          }
+        ]
+      });
+    });
+  }
+
+  changeToRadial () {
+    this.props.onChange({
+      type: 'radial',
+      value: this.props.value.value,
+      opacity: this.props.value.opacity
+    });
+  }
+
+  changeAngle (angle) {
+    this.props.onChange(Object.assign({}, this.props.value, {angle}));
+  }
+
+  changeEditingPoint (editingPoint) {
+    this.setState({
+      editingPoint
+    });
+  }
+
+  pointPercChange (editingPoint, perc) {
+    const points = [];
+    forEach(this.props.value.points, (point, index) => {
+      if (index === editingPoint) {
+        points.push(Object.assign({}, point, {
+          perc
+        }));
+      } else {
+        points.push(point);
+      }
+    });
+    this.props.onChange(Object.assign({}, this.props.value, {points}));
+  }
+
+  addPoint (perc) {
+    const orderedPoints = sortBy(this.props.value.points, 'perc');
+    let to = 0;
+    forEach(orderedPoints, (point, index) => {
+      if (point.perc < perc) {
+        to = index + 1;
+      } else {
+        return false;
+      }
+    });
+
+    let newPoint;
+    if (to === 0) {
+      newPoint = Object.assign({}, orderedPoints[0], {perc});
+    } else if (to === orderedPoints.length) {
+      newPoint = Object.assign({}, orderedPoints[orderedPoints.length - 1], {perc});
+    } else {
+      newPoint = Object.assign({}, orderedPoints[to - 1], {perc});
+    }
+    const newPoints = this.props.value.points.slice(0);
+    newPoints.splice(to, 0, newPoint);
+    this.props.onChange(Object.assign({}, this.props.value, {
+      points: newPoints
+    }));
+    this.setState({
+      editingPoint: to
+    });
+  }
+
+  removePoint (index) {
+    if (this.props.value.points.length > 2) {
+      const newPoints = this.props.value.points.slice(0);
+      newPoints.splice(index, 1);
+      this.props.onChange(Object.assign({}, this.props.value, {
+        points: newPoints
+      }));
+      this.setState({
+        editingPoint: 0
+      });
+    }
+  }
+
+  getCurrentColor () {
+    return getColor(this.props.value || {
+      type: 'hex',
+      value: '#000000',
+      opacity: 100
+    }, this.props.colors);
+  }
+
   render () {
+    const type = this.props.value && this.props.value.type || 'hex';
+    let color;
+
+    if (type !== 'linear' && type !== 'radial') {
+      color = this.getCurrentColor();
+    } else {
+      color = getColor(this.props.value.points[Math.min(this.state.editingPoint, this.props.value.points.length)], this.props.colors);
+    }
+
     return (
       <ColorPalettePicker
-        colr={this.state.colr}
-        opacity={this.state.opacity}
-        label={this.state.label}
+        type={type}
+        colr={color.colr}
+        opacity={color.opacity}
+        label={color.label}
+        value={this.props.value}
+        editingPoint={this.state.editingPoint}
         colors={this.props.colors}
         gradients={this.props.gradients}
         side={this.props.side}
@@ -228,6 +330,14 @@ export default class ColorPalettePickerContainer extends Component {
         toggleAddingColor={::this.toggleAddingColor}
         changeAddingColor={::this.changeAddingColor}
         addColor={::this.addColor}
+        changeToSolid={::this.changeToSolid}
+        changeToLinear={::this.changeToLinear}
+        changeToRadial={::this.changeToRadial}
+        changeEditingPoint={::this.changeEditingPoint}
+        pointPercChange={::this.pointPercChange}
+        changeAngle={::this.changeAngle}
+        addPoint={::this.addPoint}
+        removePoint={::this.removePoint}
       />
     );
   }

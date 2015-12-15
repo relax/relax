@@ -54,8 +54,10 @@ export default class Hue extends Component {
 
   render () {
     const {hsv} = this.props;
+    const perc = (hsv.h / 360 * 100);
     const markerStyle = {
-      top: (hsv.h / 360 * 100) + '%'
+      top: perc + '%',
+      transform: `translate(-50%, ${-perc}%)`
     };
 
     return (

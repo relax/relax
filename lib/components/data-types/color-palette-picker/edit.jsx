@@ -1,18 +1,23 @@
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 import {Component} from 'relax-framework';
 
 import ColorPicker from './color-picker';
 import ColorsCollection from './colors-collection';
+import GradientPoints from './gradient-points';
 import Inputs from './inputs';
+import LinearGradient from './linear-gradient';
 import Opacity from './opacity';
 import Types from './types';
 
 export default class Edit extends Component {
 
   static propTypes = {
+    type: PropTypes.string.isRequired,
     colr: PropTypes.object.isRequired,
     opacity: PropTypes.number.isRequired,
+    editingPoint: PropTypes.number.isRequired,
     hsvChange: PropTypes.func.isRequired,
     rgbChange: PropTypes.func.isRequired,
     hexChange: PropTypes.func.isRequired,
@@ -21,16 +26,78 @@ export default class Edit extends Component {
     previousInputType: PropTypes.func.isRequired,
     nextInputType: PropTypes.func.isRequired,
     gradients: PropTypes.bool.isRequired,
-    side: PropTypes.string.isRequired
+    side: PropTypes.string.isRequired,
+    changeToSolid: PropTypes.func.isRequired,
+    changeToLinear: PropTypes.func.isRequired,
+    changeToRadial: PropTypes.func.isRequired,
+    value: PropTypes.object.isRequired,
+    colors: PropTypes.array.isRequired,
+    changeEditingPoint: PropTypes.func.isRequired,
+    pointPercChange: PropTypes.func.isRequired,
+    toggleOpened: PropTypes.func.isRequired,
+    infoElement: PropTypes.any,
+    changeAngle: PropTypes.func.isRequired,
+    addPoint: PropTypes.func.isRequired
+  }
+
+  componentDidMount () {
+    this.onCloseBind = ::this.onClose;
+    document.body.addEventListener('mousedown', this.onCloseBind, false);
+  }
+
+  componentWillUnmount () {
+    document.body.removeEventListener('mousedown', this.onCloseBind, false);
+  }
+
+  onClose (event) {
+    const holderRect = findDOMNode(this.refs.holder).getBoundingClientRect();
+    const outOfHolder = (event.pageX < holderRect.left || event.pageX > holderRect.left + holderRect.width) || (event.pageY < holderRect.top || event.pageY > holderRect.top + holderRect.height);
+
+    let outOfGradient = true;
+    if (this.refs.linearGradient) {
+      const gradientRect = findDOMNode(this.refs.linearGradient).getBoundingClientRect();
+      outOfGradient = (event.pageX < gradientRect.left - 10 || event.pageX > gradientRect.left + gradientRect.width + 10) || (event.pageY < gradientRect.top - 10 || event.pageY > gradientRect.top + gradientRect.height + 10);
+    }
+
+    let outOfInfo = true;
+    if (this.props.infoElement) {
+      const infoRect = findDOMNode(this.props.infoElement).getBoundingClientRect();
+      outOfInfo = (event.pageX < infoRect.left || event.pageX > infoRect.left + infoRect.width) || (event.pageY < infoRect.top || event.pageY > infoRect.top + infoRect.height);
+    }
+
+    if (outOfHolder && outOfGradient && outOfInfo) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.props.toggleOpened();
+    }
   }
 
   render () {
-    const {colr, opacity, gradients, hsvChange, rgbChange, hexChange, opacityChange, inputType, previousInputType, nextInputType} = this.props;
+    const {type, colr, opacity, gradients, hsvChange, rgbChange, hexChange, opacityChange, inputType, previousInputType, nextInputType, editingPoint} = this.props;
+    const isGradient = (type === 'linear' || type === 'radial');
 
     return (
-      <div className='color-picker-modal'>
+      <div className='color-picker-modal' ref='holder'>
         <span className={cx('triangle', this.props.side)} />
-        {gradients && <Types />}
+        {gradients &&
+          <Types
+            type={type}
+            changeToSolid={this.props.changeToSolid}
+            changeToLinear={this.props.changeToLinear}
+            changeToRadial={this.props.changeToRadial}
+          />
+        }
+        {isGradient &&
+          <GradientPoints
+            editingPoint={editingPoint}
+            value={this.props.value}
+            colors={this.props.colors}
+            changeEditingPoint={this.props.changeEditingPoint}
+            pointPercChange={this.props.pointPercChange}
+            addPoint={this.props.addPoint}
+            removePoint={this.props.removePoint}
+          />
+        }
         <ColorPicker colr={colr} hsvChange={hsvChange} />
         <Opacity colr={colr} opacity={opacity} opacityChange={opacityChange} />
         <Inputs
@@ -45,6 +112,17 @@ export default class Edit extends Component {
           opacityChange={opacityChange}
         />
         <ColorsCollection {...this.props} />
+        {isGradient &&
+          <LinearGradient
+            ref='linearGradient'
+            editingPoint={editingPoint}
+            value={this.props.value}
+            colors={this.props.colors}
+            changeEditingPoint={this.props.changeEditingPoint}
+            pointPercChange={this.props.pointPercChange}
+            changeAngle={this.props.changeAngle}
+          />
+        }
       </div>
     );
   }

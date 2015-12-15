@@ -50,7 +50,8 @@ export default class Opacity extends Component {
   render () {
     const {opacity, colr} = this.props;
     const markerStyle = {
-      left: opacity + '%'
+      left: opacity + '%',
+      transform: `translate(${-opacity}%, -50%)`
     };
     const rgb = colr.toRgbObject();
     const gradStyle = {

@@ -37,13 +37,13 @@ export default class Overlay extends Component {
     this.scrollBind = ::this.onScroll;
     this.onCloseBind = ::this.onClose;
     document.body.addEventListener(this.mousewheelevt, this.scrollBind, false);
-    this.props.onClose && document.body.addEventListener('click', this.onCloseBind, false);
+    this.props.onClose && document.body.addEventListener('mousedown', this.onCloseBind, false);
     this.updatePosition();
   }
 
   componentWillUnmount () {
     document.body.removeEventListener(this.mousewheelevt, this.scrollBind);
-    this.props.onClose && document.body.removeEventListener('click', this.onCloseBind, false);
+    this.props.onClose && document.body.removeEventListener('mousedown', this.onCloseBind, false);
   }
 
   onClose (event) {

@@ -5,7 +5,7 @@ import {Component} from 'relax-framework';
 import Edit from './edit';
 import Portal from '../../portal';
 import Stick from '../../stick';
-import {getColorString} from '../../../helpers/colors';
+import {applyBackground} from '../../../helpers/colors';
 
 export default class ColorPicker extends Component {
   static propTypes = {
@@ -17,26 +17,27 @@ export default class ColorPicker extends Component {
     opacity: PropTypes.number.isRequired,
     colors: PropTypes.array.isRequired,
     opened: PropTypes.bool.isRequired,
-    label: PropTypes.string.isRequired
+    label: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired
   }
 
   toggleOpen (event) {
-    if (event && event.preventDefault) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+    event.preventDefault();
+    event.stopPropagation();
     this.props.toggleOpened();
   }
 
   render () {
-    const {colr, colors, opacity, label} = this.props;
-    const colorString = getColorString({
-      colr: colr,
-      opacity: opacity
-    }, colors);
-    const colorStyle = {
-      backgroundColor: colorString
-    };
+    const {colors, value, type} = this.props;
+    const colorStyle = {};
+    applyBackground(colorStyle, value, colors);
+
+    let label = this.props.label;
+    if (type === 'linear') {
+      label = 'Linear Grad.';
+    } else if (type === 'radial') {
+      label = 'Radial Grad.';
+    }
 
     return (
       <div className={cx('color-picker', this.props.className)}>
@@ -55,8 +56,8 @@ export default class ColorPicker extends Component {
     if (this.props.opened) {
       return (
         <Portal>
-          <Stick element={this.ref} verticalPosition='bottom' horizontalPosition='left' transition='slideUpIn' horizontalOffset={-9} onClose={::this.toggleOpen}>
-            <Edit {...this.props} />
+          <Stick element={this.ref} verticalPosition='bottom' horizontalPosition='left' transition='slideUpIn' horizontalOffset={-9}>
+            <Edit {...this.props} infoElement={this.ref} />
           </Stick>
         </Portal>
       );
