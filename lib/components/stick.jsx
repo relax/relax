@@ -35,15 +35,18 @@ export default class Overlay extends Component {
   componentDidMount () {
     this.mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? 'DOMMouseScroll' : 'mousewheel';
     this.scrollBind = ::this.onScroll;
+    this.resizeBind = ::this.onResize;
     this.onCloseBind = ::this.onClose;
     document.body.addEventListener(this.mousewheelevt, this.scrollBind, false);
+    window.addEventListener('resize', this.resizeBind, false);
     this.props.onClose && document.body.addEventListener('mousedown', this.onCloseBind, false);
     this.updatePosition();
   }
 
   componentWillUnmount () {
     document.body.removeEventListener(this.mousewheelevt, this.scrollBind);
-    this.props.onClose && document.body.removeEventListener('mousedown', this.onCloseBind, false);
+    window.removeEventListener('resize', this.resizeBind);
+    this.props.onClose && document.body.removeEventListener('mousedown', this.onCloseBind);
   }
 
   onClose (event) {
@@ -61,6 +64,11 @@ export default class Overlay extends Component {
   onScroll () {
     this.updatePosition();
     this.updateTimeout = setTimeout(::this.updatePosition, 0);
+  }
+
+  onResize () {
+    this.updatePosition();
+    this.updateTimeout = setTimeout(::this.updatePosition, 10);
   }
 
   updatePosition () {
