@@ -221,7 +221,7 @@ export default class LinearGradient extends Component {
           />
         </svg>
         {this.props.value.points.map(this.renderPoint.bind(this, pointA, pointB))}
-        {this.state.dragging && <div className='angle-info' key='angle'>{angle + 'º'}</div>}
+        {this.state.dragging && (this.activeFirst || this.activeLast) && <div className='angle-info' key='angle'>{angle + 'º'}</div>}
       </div>
     );
   }
