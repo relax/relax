@@ -10,14 +10,22 @@ export default class NumberInput extends Component {
     min: React.PropTypes.number,
     max: React.PropTypes.number,
     inactive: React.PropTypes.bool,
-    className: React.PropTypes.string
+    className: React.PropTypes.string,
+    arrows: React.PropTypes.bool
   }
 
   static defaultProps = {
     min: 0,
     max: false,
     label: '',
-    inactive: false
+    inactive: false,
+    arrows: true
+  }
+
+  getInitState () {
+    return {
+      focused: false
+    };
   }
 
   limitValue (value) {
@@ -39,8 +47,12 @@ export default class NumberInput extends Component {
   }
 
   onInput (event) {
-    const numb = event.target.value && parseFloat(event.target.value, 10);
-    this.props.onChange(numb && !isNaN(numb) && this.limitValue(numb) || '');
+    const string = event.target.value.replace(',', '.').replace(/[^\d.-]/g, '');
+    const numb = string !== '' && parseFloat(string, 10);
+    numb !== false && !isNaN(numb) && this.props.onChange(this.limitValue(numb));
+    this.setState({
+      value: string
+    });
   }
 
   up (event) {
@@ -55,7 +67,8 @@ export default class NumberInput extends Component {
 
   onFocus () {
     this.setState({
-      focused: true
+      focused: true,
+      value: this.props.inactive ? '--' : this.props.value
     });
   }
 
@@ -96,16 +109,16 @@ export default class NumberInput extends Component {
 
     return (
       <div className={cx('number-input', this.state.focused && 'focused', this.props.className)}>
-        <input type='text' value={value} onChange={this.onInput.bind(this)} ref='input' onBlur={this.onBlur.bind(this)} onFocus={this.onFocus.bind(this)} />
-        <span onMouseDown={this.onMouseDown.bind(this)}>{this.props.label}</span>
-        <div className='arrows'>
-          <a href='#' onClick={this.up.bind(this)}>
+        <input type='text' value={this.state.focused ? this.state.value : value} onChange={::this.onInput} ref='input' onBlur={::this.onBlur} onFocus={::this.onFocus} />
+        <span onMouseDown={::this.onMouseDown}>{this.props.label}</span>
+        {this.props.arrows && <div className='arrows'>
+          <a href='#' onClick={::this.up}>
             <i className='fa fa-angle-up'></i>
           </a>
-          <a href='#' onClick={this.down.bind(this)}>
+          <a href='#' onClick={::this.down}>
             <i className='fa fa-angle-down'></i>
           </a>
-        </div>
+        </div>}
       </div>
     );
   }
