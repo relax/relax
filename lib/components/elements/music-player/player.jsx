@@ -21,7 +21,6 @@ export default class Player extends Component {
     horizontal: PropTypes.string,
     opacity: PropTypes.number,
     defaultVolume: PropTypes.number,
-    children: PropTypes.node,
     muted: PropTypes.bool.isRequired,
     playing: PropTypes.bool.isRequired,
     volume: PropTypes.number.isRequired,
@@ -107,7 +106,7 @@ export default class Player extends Component {
         <div className={cx(classes.table)}>
           <div className={cx(classes.part, classes.fit)}>
             <a href='#' onClick={this.toggleMute.bind(this)}>
-              {this.props.muted ? this.props.children[7] : this.props.children[6]}
+              <i className='material-icons'>{this.props.muted ? 'volume_mute' : 'volume_up'}</i>
             </a>
           </div>
           <div className={cx(classes.part, classes.volumeBars)}>
@@ -131,20 +130,19 @@ export default class Player extends Component {
   }
 
   renderPlayback (classMap) {
-    // this.props.playedLabel loadedLabel
     return (
       <div className={cx(classes.part, classMap.playback)}>
-        {this.props.children[2]}
-        {this.props.children[3]}
+        <div>Text 1</div>
+        <div>Text 2</div>
         <div className={cx(classes.table)}>
           <span className={cx(classes.part, classes.fit)}>
-            {React.cloneElement(this.props.children[4], {}, this.props.playedLabel)}
+            {this.props.playedLabel}
           </span>
           <div className={cx(classes.part)}>
             {this.renderProgressBar(classMap)}
           </div>
           <span className={cx(classes.part, classes.fit)}>
-            {React.cloneElement(this.props.children[5], {}, this.props.loadedLabel)}
+            {this.props.loadedLabel}
           </span>
         </div>
       </div>
@@ -160,8 +158,8 @@ export default class Player extends Component {
     };
     return (
       <div ref='bars' className={cx(classes.bar, classMap.bars)}>
-        <div className={cx(classes.streamBars, classMap.stream)} style={streamStyle} onClick={this.onProgressClick.bind(this)}></div>
-        <div className={cx(classes.streamBars, classMap.active)} style={activeStyle} onClick={this.onProgressClick.bind(this)}></div>
+        <div className={cx(classes.streamBars, classMap.stream)} style={streamStyle} onClick={::this.onProgressClick}></div>
+        <div className={cx(classes.streamBars, classMap.active)} style={activeStyle} onClick={::this.onProgressClick}></div>
       </div>
     );
   }
@@ -169,8 +167,8 @@ export default class Player extends Component {
   renderControls (classMap) {
     return (
       <div className={cx(classes.part, classes.fit, classMap.controls)}>
-        <a href='#' onClick={this.togglePlay.bind(this)}>
-          {this.props.playing ? this.props.children[1] : this.props.children[0]}
+        <a href='#' onClick={::this.togglePlay}>
+          <i className='material-icons'>{this.props.playing ? 'pause' : 'play_arrow'}</i>
         </a>
       </div>
     );

@@ -17,13 +17,9 @@ export default class PlayerContainer extends Component {
     defaultVolume: PropTypes.number
   }
 
-  static defaultProps = {
-    type: 'local',
-    defaultVolume: 50
-  }
-
   getInitState () {
-    if (!this.context.editing && this.isClient()) {
+    const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
+    if (!editing && this.isClient()) {
       if (this.props.type === 'soundcloud') {
         this.loadSoundcloud();
       }
