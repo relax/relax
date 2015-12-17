@@ -40,6 +40,12 @@ export default class PageActionsContainer extends Component {
   }
 
   getInitState () {
+    this.preventNavigationBind = ::this.preventNavigation;
+
+    if (this.isClient()) {
+      window.addEventListener('beforeunload', this.preventNavigationBind);
+    }
+
     return {
       save: false,
       state: null,
@@ -47,20 +53,24 @@ export default class PageActionsContainer extends Component {
     };
   }
 
-  componentDidMount () {
-    this.launchAutosave();
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.draft._id !== this.props.draft._id) {
+      this.save();
+    } else if (nextProps.draft.actions !== this.props.draft.actions) {
+      this.saveTimeout = setTimeout(::this.autosave, 2000);
+    }
   }
 
-  componentDidUpdate () {
-    this.launchAutosave();
+  componentWillUnmount () {
+    this.save();
+    window.removeEventListener('beforeunload', this.preventNavigationBind);
   }
 
-  launchAutosave () {
-    if (this.props.draft && this.props.activePanelType === 'pageBuild') {
-      clearInterval(this.autosaveInterval);
-      this.autosaveInterval = setInterval(::this.autosave, 30000);
-    } else if (this.autosaveInterval) {
-      clearInterval(this.autosaveInterval);
+  preventNavigation (event) {
+    if (this.saveTimeout) {
+      const confirmationMessage = 'Your draft has not been saved yet!';
+      event.returnValue = confirmationMessage;
+      return confirmationMessage;
     }
   }
 
@@ -78,12 +88,22 @@ export default class PageActionsContainer extends Component {
     }
   }
 
+  save () {
+    if (this.saveTimeout) {
+      clearTimeout(this.saveTimeout);
+      this.saveTimeout = false;
+      this.props.draftActions.saveDraft(this.props.draft);
+    }
+  }
+
   async autosave () {
     if (this.props.draft) {
       this.setState({
         state: 'loading',
         stateMessage: 'Auto saving draft'
       });
+      clearTimeout(this.saveTimeout);
+      this.saveTimeout = false;
 
       try {
         await this.props.draftActions.saveDraft();

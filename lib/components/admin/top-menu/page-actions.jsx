@@ -72,10 +72,7 @@ export default class PageActions extends Component {
           {this.renderRevisions()}
           <a href='#' className='top-bar-button'><i className='material-icons'>settings</i></a>
           <a href='#' className='top-bar-button text-button' onClick={::this.previewToggle}>Preview</a>
-          <a href='#' className='top-bar-button text-button primary save-button' onClick={::this.onSaveClick} onMouseLeave={::this.onSaveLeave} onMouseEnter={::this.onSaveEnter}>
-            <span>Save...</span>
-            {this.renderSave()}
-          </a>
+          {this.renderSaveButton()}
         </div>
       </div>
     );
@@ -95,16 +92,38 @@ export default class PageActions extends Component {
     }
   }
 
+  renderSaveButton () {
+    let result;
+    if (this.props.isPublished) {
+      result = (
+        <a href='#' className='top-bar-button text-button primary save-button' onClick={this.props.savePage}>
+          <span>Update</span>
+        </a>
+      );
+    } else {
+      result = (
+        <a href='#' className='top-bar-button text-button primary save-button' onClick={::this.onSaveClick} onMouseLeave={::this.onSaveLeave} onMouseEnter={::this.onSaveEnter}>
+          <span>Save...</span>
+          {this.renderSave()}
+        </a>
+      );
+    }
+    return result;
+  }
+
   renderSave () {
     if (this.props.activePanelType === 'pageBuild' && this.props.save) {
       return (
         <Animate transition='slideDownIn'>
           <div className='save-menu'>
-            <div className='save-action' onClick={this.props.saveDraft}>
-              <i className='material-icons'>mode_edit</i>
-              <span>Save my draft</span>
+            <div className='save-action' onClick={this.props.savePage}>
+              <i className='material-icons'>save</i>
+              <span>Save</span>
             </div>
-            {this.renderSaveMethods()}
+            <div className='save-action' onClick={this.props.publishPage}>
+              <i className='material-icons'>public</i>
+              <span>Save and publish</span>
+            </div>
           </div>
         </Animate>
       );
@@ -148,31 +167,5 @@ export default class PageActions extends Component {
         <a href='#' className='top-bar-button' onClick={::this.onRevisionsClick}><i className='material-icons'>history</i></a>
       );
     }
-  }
-
-  renderSaveMethods () {
-    let result;
-    if (this.props.isPublished) {
-      result = (
-        <div className='save-action' onClick={this.props.savePage}>
-          <i className='material-icons'>public</i>
-          <span>Update</span>
-        </div>
-      );
-    } else {
-      result = (
-        <div>
-          <div className='save-action' onClick={this.props.savePage}>
-            <i className='material-icons'>save</i>
-            <span>Save</span>
-          </div>
-          <div className='save-action' onClick={this.props.publishPage}>
-            <i className='material-icons'>public</i>
-            <span>Save and publish</span>
-          </div>
-        </div>
-      );
-    }
-    return result;
   }
 }
