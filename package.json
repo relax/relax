@@ -76,7 +76,7 @@
     "sharp": "^0.12.0",
     "slug": "^0.9.1",
     "soundmanager2": "git://github.com/relax/SoundManager2.git",
-    "superagent": "^1.4.0",
+    "superagent": "^1.6.1",
     "touch": "^1.0.0",
     "velocity-animate": "git://github.com/relax/velocity.git",
     "winston": "^2.1.0"

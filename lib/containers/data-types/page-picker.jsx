@@ -29,7 +29,7 @@ export default class PagePickerContainer extends Component {
     getAdmin: PropTypes.func.isRequired
   }
 
-  getInitState () {
+  componentDidMount () {
     this.props.getAdmin(buildQueryAndVariables(this.constructor.fragments, {})).done();
   }
 
