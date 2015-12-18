@@ -17,7 +17,7 @@ export default class PageActions extends Component {
     onRevisions: PropTypes.func.isRequired,
     draft: PropTypes.object.isRequired,
     fetchCurrent: PropTypes.func.isRequired,
-    state: PropTypes.string.isRequired,
+    state: PropTypes.string,
     stateMessage: PropTypes.string.isRequired,
     page: PropTypes.object.isRequired,
     save: PropTypes.bool.isRequired,

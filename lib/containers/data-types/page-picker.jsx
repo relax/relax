@@ -24,7 +24,7 @@ export default class PagePickerContainer extends Component {
 
   static propTypes = {
     value: PropTypes.string.isRequired,
-    onChange: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
     pages: PropTypes.array.isRequired,
     getAdmin: PropTypes.func.isRequired
   }

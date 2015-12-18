@@ -18,8 +18,8 @@ export default class Settings extends Component {
     settings: PropTypes.object.isRequired,
     changeSettingValue: PropTypes.func.isRequired,
     saveSettings: PropTypes.func.isRequired,
-    saving: PropTypes.boolean,
-    state: PropTypes.string.isRequired,
+    saving: PropTypes.bool,
+    state: PropTypes.any,
     onSubmit: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired
   }
@@ -46,9 +46,9 @@ export default class Settings extends Component {
           <div className='list white-options'>
             <OptionsList options={options} values={this.props.settings} onChange={this.props.onChange} />
             <a
-                href='#'
-                className={cx('button', 'button-primary', this.props.saving && 'disabled')}
-                onClick={this.props.onSubmit}>
+              href='#'
+              className={cx('button', 'button-primary', this.props.saving && 'disabled')}
+              onClick={this.props.onSubmit}>
               Submit changes
             </a>
             {this.renderSaving()}

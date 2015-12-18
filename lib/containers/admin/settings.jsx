@@ -31,13 +31,13 @@ export default class SettingsContainer extends Component {
     saveSettings: PropTypes.func.isRequired
   }
 
+  static settings = Settings.settings
+
   getInitState () {
     return {
       state: false
     };
   }
-
-  static settings = Settings.settings
 
   onChange (id, value) {
     this.props.changeSettingValue(id, value);

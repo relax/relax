@@ -1,7 +1,6 @@
 import * as mediaActions from '../../client/actions/media';
 import * as overlayActions from '../../client/actions/overlays';
 
-import find from 'lodash.find';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -25,8 +24,8 @@ export default class ImagePickerContainer extends Component {
 
   static propTypes = {
     value: PropTypes.string.isRequired,
-    onChange: PropTypes.string.isRequired,
-    mediaItems: PropTypes.array.isRequired,
+    onChange: PropTypes.func.isRequired,
+    mediaItems: PropTypes.object.isRequired,
     getMediaItem: PropTypes.func.isRequired,
     addOverlay: PropTypes.func.isRequired,
     closeOverlay: PropTypes.func.isRequired,
