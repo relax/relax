@@ -47,7 +47,7 @@ export default class MediaItem extends Component {
       }
     } else if (type === 'favicon') {
       result = (
-        <img src={item.url || item.preview} style={{top: '50%', left: '50%', position: 'absolute', transform: 'translate(-50%, -50%)'}} />
+        <img src={`/${item.url || item.preview}`} style={{top: '50%', left: '50%', position: 'absolute', transform: 'translate(-50%, -50%)'}} />
       );
     } else if (type === 'video') {
       result = (
