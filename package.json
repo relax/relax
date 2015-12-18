@@ -66,7 +66,7 @@
     "redux": "^3.0.4",
     "redux-combine-actions": "^0.1.2",
     "redux-logger": "^2.0.4",
-    "redux-router": "1.0.0-beta3",
+    "redux-router": "1.0.0-beta5",
     "redux-thunk": "^1.0.0",
     "relax-framework": "^0.3.0",
     "relax-jss": "0.2.0",
