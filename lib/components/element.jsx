@@ -198,7 +198,8 @@ export default class Element extends Component {
 
         if (pageBuilder.focusElementId === elementId) {
           tagProps.style = tagProps.style || {};
-          tagProps.style.boxShadow = '0 0 0 99999px rgba(0, 0, 0, .81)';
+          tagProps.style.position = tagProps.style.position || 'relative';
+          tagProps.style.boxShadow = '0 0 0 99999px rgba(0, 0, 0, 0.8)';
           tagProps.style.zIndex = 999;
         }
         if (dragging && dragInfo.id === elementId) {
