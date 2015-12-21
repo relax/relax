@@ -29,14 +29,12 @@ export default class ColorPalettePickerContainer extends Component {
     colors: PropTypes.array.isRequired,
     colorsActions: PropTypes.object.isRequired,
     gradients: PropTypes.bool.isRequired,
-    side: PropTypes.string.isRequired,
     addOverlay: PropTypes.func.isRequired,
     closeOverlay: PropTypes.func.isRequired
   }
 
   static defaultProps = {
-    gradients: false,
-    side: 'left'
+    gradients: false
   }
 
   getInitState (props = this.props) {
@@ -310,7 +308,6 @@ export default class ColorPalettePickerContainer extends Component {
         editingPoint={this.state.editingPoint}
         colors={this.props.colors}
         gradients={this.props.gradients}
-        side={this.props.side}
         opened={this.state.opened}
         onChange={::this.onChange}
         toggleOpened={::this.toggleOpened}
