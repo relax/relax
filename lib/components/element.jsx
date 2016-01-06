@@ -207,6 +207,14 @@ export default class Element extends Component {
           tagProps.style.opacity = 0.5;
         }
 
+        if (element.position) {
+          tagProps.style = tagProps.style || {};
+          Object.assign(tagProps.style, element.position);
+          if (tagProps.style.position === 'fixed' && tagProps.style.top !== 'auto') {
+            tagProps.style.top = `calc(${tagProps.style.top} + 45px)`;
+          }
+        }
+
         result = (
           <Draggable {...draggableProps} dnd={dnd} dndActions={dndActions}>
             <this.props.htmlTag {...tagProps} onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)} id={elementId}>
@@ -220,6 +228,11 @@ export default class Element extends Component {
       if (this.state.animation && !this.state.animated) {
         tagProps.style = tagProps.style || {};
         tagProps.style.opacity = 0;
+      }
+
+      if (element.position) {
+        tagProps.style = tagProps.style || {};
+        Object.assign(tagProps.style, element.position);
       }
 
       result = (
