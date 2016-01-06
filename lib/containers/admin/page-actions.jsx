@@ -57,6 +57,7 @@ export default class PageActionsContainer extends Component {
     if (nextProps.draft._id !== this.props.draft._id) {
       this.save();
     } else if (nextProps.draft.actions !== this.props.draft.actions) {
+      clearTimeout(this.saveTimeout);
       this.saveTimeout = setTimeout(::this.autosave, 2000);
     }
   }
