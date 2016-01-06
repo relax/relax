@@ -66,9 +66,9 @@ export default class List extends Component {
     const style = {};
     if (!isLast) {
       if (this.isLinkingData()) {
-        style.borderBottom = `${this.props.verticalGutter}px solid rgba(0, 0, 0, 0.8)`;
+        style.borderBottom = `${this.props.verticalGutter} solid rgba(0, 0, 0, 0.8)`;
       } else {
-        style.marginBottom = this.props.verticalGutter + 'px';
+        style.marginBottom = this.props.verticalGutter;
       }
     }
 
@@ -84,7 +84,7 @@ export default class List extends Component {
     const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
     const schemaEntry = this.props.entries && this.props.entries[key];
     const content = this.props.children && this.props.renderChildren(this.props.element.children, this.props.elementsLinks, schemaEntry);
-    const spaceThird = Math.round(this.props.horizontalGutter / 3 * 100) / 100;
+    const spaceThird = Math.round(parseInt(this.props.horizontalGutter, 10) / 3 * 100) / 100;
     const spaceSides = spaceThird * 2;
 
     if (!dummy) {

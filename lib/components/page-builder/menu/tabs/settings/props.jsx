@@ -5,6 +5,7 @@ import getElementProps from '../../../../../helpers/get-element-props';
 import Animation from './animation';
 import Input from '../../../../data-types/input';
 import OptionsList from '../../../../options-list';
+import Position from './position';
 
 export default class EditProps extends Component {
   static propTypes = {
@@ -64,6 +65,7 @@ export default class EditProps extends Component {
               </a>
             </div>
           </div>
+          <Position {...this.props} />
           {options}
           <Animation {...this.props} />
         </div>

@@ -9,8 +9,8 @@ export default class DynamicList extends Component {
   static defaultProps = {
     limit: 10,
     columns: 2,
-    verticalGutter: 10,
-    horizontalGutter: 10
+    verticalGutter: '10px',
+    horizontalGutter: '10px'
   }
   static propsSchema = propsSchema
   static settings = settings

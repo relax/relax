@@ -34,10 +34,10 @@ export default class Image extends Component {
     },
     useOver: false,
     strictHeight: false,
-    height: 200,
-    vertical: 50,
+    height: '200px',
+    vertical: '50%',
     useMaxWidth: false,
-    width: 300,
+    width: '300px',
     horizontal: 'center'
   }
 
@@ -70,8 +70,8 @@ export default class Image extends Component {
       style.height = this.props.height;
       style.overflow = 'hidden';
 
-      Utils.translate(imageStyle, 0, (-this.props.vertical) + '%');
-      imageStyle.top = this.props.height * (this.props.vertical / 100);
+      Utils.translate(imageStyle, 0, '-' + this.props.vertical);
+      imageStyle.top = parseInt(this.props.height, 10) * (parseInt(this.props.vertical, 10) / 100);
       imageStyle.position = 'relative';
     }
 

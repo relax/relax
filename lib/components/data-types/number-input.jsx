@@ -6,7 +6,7 @@ export default class NumberInput extends Component {
   static propTypes = {
     value: React.PropTypes.number.isRequired,
     onChange: React.PropTypes.func.isRequired,
-    label: React.PropTypes.node,
+    allowed: React.PropTypes.array,
     min: React.PropTypes.number,
     max: React.PropTypes.number,
     inactive: React.PropTypes.bool,
@@ -17,7 +17,7 @@ export default class NumberInput extends Component {
   static defaultProps = {
     min: 0,
     max: false,
-    label: '',
+    allowed: [],
     inactive: false,
     arrows: true
   }
@@ -46,10 +46,44 @@ export default class NumberInput extends Component {
     return result;
   }
 
+  getUnitAndValue (str, defaultUnit = this.props.allowed.length > 0 && this.props.allowed[0] || '') {
+    let result;
+
+    if (str === 'auto') {
+      result = {
+        value: 'auto',
+        unit: ''
+      };
+    } else {
+      let value = str !== '' && parseFloat(str, 10);
+      value = (value === false || isNaN(value)) ? this.limitValue(0) : value;
+
+      let unit = defaultUnit;
+      const valueLength = (value + '').length;
+
+      if (valueLength < str.length && this.props.allowed.indexOf(str.substr(valueLength)) > -1) {
+        unit = str.substr(valueLength);
+      }
+
+      result = {
+        value,
+        unit
+      };
+    }
+
+    return result;
+  }
+
   onInput (event) {
-    const string = event.target.value.replace(',', '.').replace(/[^\d.-]/g, '');
-    const numb = string !== '' && parseFloat(string, 10);
-    numb !== false && !isNaN(numb) && this.props.onChange(this.limitValue(numb));
+    const string = event.target.value.replace(',', '.').toLowerCase();
+
+    if (string === 'auto' && this.props.allowed.indexOf('auto') !== 0) {
+      this.props.onChange(string);
+    } else {
+      const unitValue = this.getUnitAndValue(string, this.state.unitValue.unit);
+      this.props.onChange(this.limitValue(unitValue.value) + unitValue.unit);
+    }
+
     this.setState({
       value: string
     });
@@ -57,51 +91,37 @@ export default class NumberInput extends Component {
 
   up (event) {
     event.preventDefault();
-    this.props.onChange(this.limitValue(this.props.value + 1));
+    if (this.props.value === 'auto') {
+      this.props.onChange(this.limitValue(1) + this.props.allowed[0]);
+    } else {
+      const unitValue = this.getUnitAndValue(this.props.value);
+      this.props.onChange(this.limitValue(unitValue.value + 1) + unitValue.unit);
+    }
   }
 
   down (event) {
     event.preventDefault();
-    this.props.onChange(this.limitValue(this.props.value - 1));
+    if (this.props.value === 'auto') {
+      this.props.onChange(this.limitValue(-1) + this.props.allowed[0]);
+    } else {
+      const unitValue = this.getUnitAndValue(this.props.value);
+      this.props.onChange(this.limitValue(unitValue.value - 1) + unitValue.unit);
+    }
   }
 
   onFocus () {
     this.setState({
       focused: true,
-      value: this.props.inactive ? '--' : this.props.value
+      value: this.props.inactive ? '--' : this.props.value,
+      unitValue: this.getUnitAndValue(this.props.value)
     });
   }
 
   onBlur () {
     this.setState({
-      focused: false
+      focused: false,
+      unitValue: null
     });
-  }
-
-  onMouseDown (event) {
-    event.preventDefault();
-
-    this.startValue = this.props.value;
-    this.startY = event.pageY;
-
-    this.onMouseUpListener = this.onMouseUp.bind(this);
-    this.onMouseMoveListener = this.onMouseMove.bind(this);
-    document.addEventListener('mouseup', this.onMouseUpListener);
-    document.addEventListener('mousemove', this.onMouseMoveListener);
-  }
-
-  onMouseMove (event) {
-    event.preventDefault();
-
-    const cof = 2;
-    var amount = this.startY - event.pageY;
-
-    this.props.onChange(this.limitValue(Math.round(this.startValue + amount / cof)));
-  }
-
-  onMouseUp (event) {
-    document.removeEventListener('mouseup', this.onMouseUpListener);
-    document.removeEventListener('mousemove', this.onMouseMoveListener);
   }
 
   render () {
@@ -110,7 +130,6 @@ export default class NumberInput extends Component {
     return (
       <div className={cx('number-input', this.state.focused && 'focused', this.props.className)}>
         <input type='text' value={this.state.focused ? this.state.value : value} onChange={::this.onInput} ref='input' onBlur={::this.onBlur} onFocus={::this.onFocus} />
-        <span onMouseDown={::this.onMouseDown}>{this.props.label}</span>
         {this.props.arrows && <div className='arrows'>
           <a href='#' onClick={::this.up}>
             <i className='fa fa-angle-up'></i>

@@ -12,7 +12,7 @@ export default class Gap extends Component {
   }
 
   static defaultProps = {
-    amount: 30
+    amount: '30px'
   }
 
   static propsSchema = propsSchema

@@ -26,7 +26,7 @@ export default class GoogleMapsElem extends Component {
     zoom: 0,
     lat: '0',
     lng: '0',
-    height: 250,
+    height: '250px',
     scrollwheel: false,
     zoomControls: true,
     mapTypeControl: false,
@@ -123,7 +123,7 @@ export default class GoogleMapsElem extends Component {
                 streetViewControl: this.props.streetViewControl,
                 mapTypeControl: this.props.mapTypeControl
               }}
-              zoom={this.props.zoom}
+              zoom={parseFloat(this.props.zoom, 10)}
               center={{lat: parseFloat(this.props.lat, 10), lng: parseFloat(this.props.lng, 10)}}
             >{this.renderMarker()}</GoogleMap>
           }

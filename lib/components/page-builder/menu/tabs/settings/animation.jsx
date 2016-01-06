@@ -1,4 +1,3 @@
-import cloneDeep from 'lodash.clonedeep';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 

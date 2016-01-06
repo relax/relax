@@ -23,8 +23,8 @@ export default class Section extends Component {
   static defaultProps = {
     backgroundImage: '',
     repeat: 'no-repeat',
-    vertical: 50,
-    horizontal: 50,
+    vertical: '50%',
+    horizontal: '50%',
     navigation: ''
   }
 
@@ -65,8 +65,8 @@ export default class Section extends Component {
         <BackgroundImage
           backgroundImage={this.props.backgroundImage}
           repeat={this.props.repeat}
-          vertical={this.props.vertical}
-          horizontal={this.props.horizontal}
+          vertical={parseInt(this.props.vertical, 10)}
+          horizontal={parseInt(this.props.horizontal, 10)}
         />
       );
     }

@@ -19,7 +19,7 @@ export default class Video extends Component {
   static defaultProps = {
     type: 'youtube',
     videoId: '',
-    videoHeight: 56
+    videoHeight: '56%'
   };
 
   static propsSchema = propsSchema
@@ -63,7 +63,7 @@ export default class Video extends Component {
     let result;
     let height = 300;
     if (this.state.width) {
-      height = Math.round(this.state.width * (this.props.videoHeight / 100));
+      height = Math.round(this.state.width * (parseInt(this.props.videoHeight, 10) / 100));
     }
 
     if (this.props.videoId && this.props.videoId !== '') {
