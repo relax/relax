@@ -179,11 +179,18 @@ export default class ColorPalettePickerContainer extends Component {
   }
 
   changeToSolid () {
-    this.props.onChange({
-      type: 'hex',
-      value: this.props.value.value,
-      opacity: this.props.value.opacity
-    });
+    if (this.props.value.type === 'linear' || this.props.value.type === 'radial') {
+      if (this.props.value.type === 'linear') {
+        this.previousLinear = this.props.value;
+      } else {
+        this.previousRadial = this.props.value;
+      }
+      this.props.onChange({
+        type: this.props.value.points[0].type,
+        value: this.props.value.points[0].value,
+        opacity: this.props.value.points[0].opacity
+      });
+    }
   }
 
   changeToLinear () {
@@ -191,8 +198,36 @@ export default class ColorPalettePickerContainer extends Component {
       this.setState({
         editingPoint: 0
       }, () => {
+        if (this.props.value.type !== 'radial' && this.previousLinear) {
+          this.props.onChange(this.previousLinear);
+        } else {
+          let points = [];
+          if (this.props.value.type === 'radial') {
+            points = this.props.value.points;
+          } else {
+            points = [
+              Object.assign({perc: 0}, this.props.value),
+              Object.assign({perc: 100}, this.props.value)
+            ];
+          }
+
+          this.props.onChange({
+            type: 'linear',
+            angle: 0,
+            points
+          });
+        }
+      });
+    }
+  }
+
+  changeToRadial () {
+    if (this.props.value.type !== 'radial') {
+      if (this.props.value.type !== 'linear' && this.previousRadial) {
+        this.props.onChange(this.previousRadial);
+      } else {
         let points = [];
-        if (this.props.value.type === 'radial') {
+        if (this.props.value.type === 'linear') {
           points = this.props.value.points;
         } else {
           points = [
@@ -202,35 +237,15 @@ export default class ColorPalettePickerContainer extends Component {
         }
 
         this.props.onChange({
-          type: 'linear',
-          angle: 0,
+          type: 'radial',
+          radius: 'fs',
+          center: {
+            top: 50,
+            left: 50
+          },
           points
         });
-      });
-    }
-  }
-
-  changeToRadial () {
-    if (this.props.value.type !== 'radial') {
-      let points = [];
-      if (this.props.value.type === 'linear') {
-        points = this.props.value.points;
-      } else {
-        points = [
-          Object.assign({perc: 0}, this.props.value),
-          Object.assign({perc: 100}, this.props.value)
-        ];
       }
-
-      this.props.onChange({
-        type: 'radial',
-        radius: 'fs',
-        center: {
-          top: 50,
-          left: 50
-        },
-        points
-      });
     }
   }
 
