@@ -9,6 +9,8 @@ import GradientPoints from './gradient-points';
 import Inputs from './inputs';
 import LinearGradient from './linear-gradient';
 import Opacity from './opacity';
+import RadialGradient from './radial-gradient';
+import RadialRadius from './radial-radius';
 import Types from './types';
 
 export default class Edit extends Component {
@@ -37,7 +39,10 @@ export default class Edit extends Component {
     toggleOpened: PropTypes.func.isRequired,
     infoElement: PropTypes.any,
     changeAngle: PropTypes.func.isRequired,
-    addPoint: PropTypes.func.isRequired
+    changeRadius: PropTypes.func.isRequired,
+    changeCenter: PropTypes.func.isRequired,
+    addPoint: PropTypes.func.isRequired,
+    removePoint: PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -59,13 +64,19 @@ export default class Edit extends Component {
       outOfGradient = (event.pageX < gradientRect.left - 10 || event.pageX > gradientRect.left + gradientRect.width + 10) || (event.pageY < gradientRect.top - 10 || event.pageY > gradientRect.top + gradientRect.height + 10);
     }
 
+    let outOfRadial = true;
+    if (this.refs.radialGradient) {
+      const gradientRect = findDOMNode(this.refs.radialGradient).getBoundingClientRect();
+      outOfRadial = (event.pageX < gradientRect.left - 10 || event.pageX > gradientRect.left + gradientRect.width + 10) || (event.pageY < gradientRect.top - 10 || event.pageY > gradientRect.top + gradientRect.height + 10);
+    }
+
     let outOfInfo = true;
     if (this.props.infoElement) {
       const infoRect = findDOMNode(this.props.infoElement).getBoundingClientRect();
       outOfInfo = (event.pageX < infoRect.left || event.pageX > infoRect.left + infoRect.width) || (event.pageY < infoRect.top || event.pageY > infoRect.top + infoRect.height);
     }
 
-    if (outOfHolder && outOfGradient && outOfInfo) {
+    if (outOfHolder && outOfGradient && outOfInfo && outOfRadial) {
       event.preventDefault();
       event.stopPropagation();
       this.props.toggleOpened();
@@ -111,8 +122,14 @@ export default class Edit extends Component {
           hexChange={hexChange}
           opacityChange={opacityChange}
         />
+        {type === 'radial' &&
+          <RadialRadius
+            radius={this.props.value.radius}
+            changeRadius={this.props.changeRadius}
+          />
+        }
         <ColorsCollection {...this.props} />
-        {isGradient &&
+        {type === 'linear' &&
           <LinearGradient
             ref='linearGradient'
             editingPoint={editingPoint}
@@ -121,6 +138,17 @@ export default class Edit extends Component {
             changeEditingPoint={this.props.changeEditingPoint}
             pointPercChange={this.props.pointPercChange}
             changeAngle={this.props.changeAngle}
+          />
+        }
+        {type === 'radial' &&
+          <RadialGradient
+            ref='radialGradient'
+            editingPoint={editingPoint}
+            value={this.props.value}
+            colors={this.props.colors}
+            changeEditingPoint={this.props.changeEditingPoint}
+            pointPercChange={this.props.pointPercChange}
+            changeCenter={this.props.changeCenter}
           />
         }
       </div>

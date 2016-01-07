@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import forEach from 'lodash.foreach';
 import sortBy from 'lodash.sortby';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
@@ -6,14 +7,16 @@ import {Component} from 'relax-framework';
 import utils from '../../../utils';
 import {applyBackground, getColorString} from '../../../helpers/colors';
 
-export default class LinearGradient extends Component {
+const size = 316;
+
+export default class RadialGradient extends Component {
   static propTypes = {
     editingPoint: PropTypes.number.isRequired,
     value: PropTypes.object.isRequired,
     colors: PropTypes.array.isRequired,
     changeEditingPoint: PropTypes.func.isRequired,
     pointPercChange: PropTypes.func.isRequired,
-    changeAngle: PropTypes.func.isRequired
+    changeCenter: PropTypes.func.isRequired
   }
 
   constructor (props, children) {
@@ -60,38 +63,25 @@ export default class LinearGradient extends Component {
     const bounds = utils.getOffsetRect(this.refs.holder);
     const point = {
       x: utils.limitNumber((event.pageX - bounds.left) / bounds.width, 0, 1),
-      y: 1 - utils.limitNumber((event.pageY - bounds.top) / bounds.height, 0, 1)
+      y: utils.limitNumber((event.pageY - bounds.top) / bounds.height, 0, 1)
     };
 
-    if (this.activeFirst || this.activeLast) {
-      // point.y = 1 - point.y;
-      const center = {
-        x: 0.5,
-        y: 0.5
-      };
-      let newAngle = Math.round(this.getLineAngle(center, point));
-      if (this.activeFirst) {
-        newAngle -= 180;
-        if (newAngle < 0) {
-          newAngle += 360;
-        }
-      }
-      this.props.changeAngle(newAngle);
+    if (this.activeFirst) {
+      this.props.changeCenter({
+        top: Math.round(point.y * 100),
+        left: Math.round(point.x * 100)
+      });
     } else {
-      const pointA = this.getRectPoint(this.props.value.angle, 158);
-      const pointB = {
-        x: -pointA.x,
-        y: -pointA.y
-      };
+      const {pointA, pointB} = this.getRadialLine();
 
       const newPoint = {
-        x: ((point.x - 0.5) * 2) * 156,
-        y: ((point.y - 0.5) * 2) * 156
+        x: point.x * size,
+        y: point.y * size
       };
 
       const xDelta = pointA.x - pointB.x;
       const yDelta = pointA.y - pointB.y;
-      const u = ((newPoint.x - pointB.x) * xDelta + (newPoint.y - pointB.y) * yDelta) / (xDelta * xDelta + yDelta * yDelta);
+      const u = 1 - ((newPoint.x - pointB.x) * xDelta + (newPoint.y - pointB.y) * yDelta) / (xDelta * xDelta + yDelta * yDelta);
 
       let closestPoint;
       if (u < 0) {
@@ -127,46 +117,87 @@ export default class LinearGradient extends Component {
     });
   }
 
-  getLineAngle (pointA, pointB) {
-    const dy = pointB.y - pointA.y;
-    const dx = pointB.x - pointA.x;
-    let theta = Math.atan2(dy, dx) * 180 / Math.PI; // range (-180, 180)
-    if (theta < 0) {
-      theta += 360;
-    }
-    return theta;
-  }
+  getRadialLine () {
+    const radius = this.props.value.radius;
+    const center = this.props.value.center;
 
-  getRectPoint (angle, radius) {
-    const result = {
-      x: 0,
-      y: 0
+    const pointA = {
+      x: size * center.left / 100,
+      y: size * center.top / 100
     };
-    if (angle >= 0 && angle <= 45) {
-      result.x = radius;
-      result.y = radius * Math.tan(angle * Math.PI / 180);
-    } else if (angle > 45 && angle <= 90) {
-      result.x = radius * Math.tan((45 - (angle - 45)) * Math.PI / 180);
-      result.y = radius;
-    } else if (angle > 90 && angle <= 180) {
-      const calc = this.getRectPoint(angle - 90, radius);
-      result.x = -calc.y;
-      result.y = calc.x;
-    } else if (angle > 180 && angle <= 270) {
-      const calc = this.getRectPoint(angle - 180, radius);
-      result.x = -calc.x;
-      result.y = -calc.y;
-    } else if (angle > 270 && angle <= 360) {
-      const calc = this.getRectPoint(angle - 270, radius);
-      result.x = calc.y;
-      result.y = -calc.x;
+    let pointB;
+
+    if (radius[1] === 'c') {
+      let closestPoint;
+      let closestDistance = 999;
+      let farthestPoint;
+      let farthestDistance = 0;
+
+      const corners = [
+        {x: 0, y: 0},
+        {x: size, y: 0},
+        {x: size, y: size},
+        {x: 0, y: size}
+      ];
+
+      forEach(corners, (cornerPoint) => {
+        const distance = utils.pointsDistance(pointA, cornerPoint);
+        if (distance > farthestDistance) {
+          farthestDistance = distance;
+          farthestPoint = cornerPoint;
+        }
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestPoint = cornerPoint;
+        }
+      });
+
+      if (radius === 'fc') {
+        pointB = farthestPoint;
+      } else {
+        pointB = closestPoint;
+      }
+    } else {
+      let closestPoint;
+      let closestDistance = 999;
+      let farthestPoint;
+      let farthestDistance = 0;
+
+      const sides = [
+        {x: 0, y: pointA.y},
+        {x: pointA.x, y: 0},
+        {x: size, y: pointA.y},
+        {x: pointA.x, y: size}
+      ];
+
+      forEach(sides, (sidePoint) => {
+        const distance = utils.pointsDistance(pointA, sidePoint);
+        if (distance > farthestDistance) {
+          farthestDistance = distance;
+          farthestPoint = sidePoint;
+        }
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestPoint = sidePoint;
+        }
+      });
+
+      if (radius === 'fs') {
+        pointB = farthestPoint;
+      } else {
+        pointB = closestPoint;
+      }
     }
-    return result;
+
+    return {
+      pointA,
+      pointB
+    };
   }
 
   render () {
     return (
-      <div className='linear-gradient' ref='holder'>
+      <div className='radial-gradient' ref='holder'>
         {this.renderContent()}
       </div>
     );
@@ -176,25 +207,14 @@ export default class LinearGradient extends Component {
     const gradStyle = {};
     applyBackground(gradStyle, this.props.value, this.props.colors);
 
-    const angle = this.props.value.angle;
-    const pointA = this.getRectPoint(angle, 158);
-    const pointB = {
-      x: -pointA.x,
-      y: -pointA.y
-    };
-
-    // relative to html axis
-    pointA.x = pointA.x + 158;
-    pointA.y = 158 - pointA.y;
-    pointB.x = pointB.x + 158;
-    pointB.y = 158 - pointB.y;
+    const radialLine = this.getRadialLine();
 
     const orderedPoints = sortBy(this.props.value.points, 'perc');
-    const firstPointPosition = utils.getPointInLineByPerc(pointB, pointA, orderedPoints[0].perc);
-    const lastPointPosition = utils.getPointInLineByPerc(pointB, pointA, orderedPoints[orderedPoints.length - 1].perc);
+    const firstPointPosition = utils.getPointInLineByPerc(radialLine.pointA, radialLine.pointB, orderedPoints[0].perc);
+    const lastPointPosition = utils.getPointInLineByPerc(radialLine.pointA, radialLine.pointB, orderedPoints[orderedPoints.length - 1].perc);
 
     return (
-      <div className='lg-content' style={gradStyle}>
+      <div className='lg-content' style={gradStyle} key={this.props.value.radius}>
         <svg className='line-svg' key='lineSvg'>
           <line
             className='line'
@@ -206,14 +226,13 @@ export default class LinearGradient extends Component {
             stroke='#ffffff'
           />
         </svg>
-        {this.props.value.points.map(this.renderPoint.bind(this, pointA, pointB))}
-        {this.state.dragging && (this.activeFirst || this.activeLast) && <div className='angle-info' key='angle'>{angle + 'º'}</div>}
+        {this.props.value.points.map(this.renderPoint.bind(this, radialLine.pointA, radialLine.pointB))}
       </div>
     );
   }
 
   renderPoint (pointA, pointB, colorObj, index) {
-    const pointPosition = utils.getPointInLineByPerc(pointB, pointA, colorObj.perc);
+    const pointPosition = utils.getPointInLineByPerc(pointA, pointB, colorObj.perc);
     const selected = this.props.editingPoint === index;
     const style = {
       left: pointPosition.x,

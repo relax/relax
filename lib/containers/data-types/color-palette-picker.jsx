@@ -187,35 +187,63 @@ export default class ColorPalettePickerContainer extends Component {
   }
 
   changeToLinear () {
-    this.setState({
-      editingPoint: 0
-    }, () => {
-      this.props.onChange({
-        type: 'linear',
-        angle: 0,
-        points: [
-          Object.assign({perc: 0}, this.props.value),
-          {
-            type: 'hex',
-            value: '#000000',
-            opacity: 100,
-            perc: 100
-          }
-        ]
+    if (this.props.value.type !== 'linear') {
+      this.setState({
+        editingPoint: 0
+      }, () => {
+        let points = [];
+        if (this.props.value.type === 'radial') {
+          points = this.props.value.points;
+        } else {
+          points = [
+            Object.assign({perc: 0}, this.props.value),
+            Object.assign({perc: 100}, this.props.value)
+          ];
+        }
+
+        this.props.onChange({
+          type: 'linear',
+          angle: 0,
+          points
+        });
       });
-    });
+    }
   }
 
   changeToRadial () {
-    this.props.onChange({
-      type: 'radial',
-      value: this.props.value.value,
-      opacity: this.props.value.opacity
-    });
+    if (this.props.value.type !== 'radial') {
+      let points = [];
+      if (this.props.value.type === 'linear') {
+        points = this.props.value.points;
+      } else {
+        points = [
+          Object.assign({perc: 0}, this.props.value),
+          Object.assign({perc: 100}, this.props.value)
+        ];
+      }
+
+      this.props.onChange({
+        type: 'radial',
+        radius: 'fs',
+        center: {
+          top: 50,
+          left: 50
+        },
+        points
+      });
+    }
   }
 
   changeAngle (angle) {
     this.props.onChange(Object.assign({}, this.props.value, {angle}));
+  }
+
+  changeRadius (radius) {
+    this.props.onChange(Object.assign({}, this.props.value, {radius}));
+  }
+
+  changeCenter (center) {
+    this.props.onChange(Object.assign({}, this.props.value, {center}));
   }
 
   changeEditingPoint (editingPoint) {
@@ -333,6 +361,8 @@ export default class ColorPalettePickerContainer extends Component {
         changeEditingPoint={::this.changeEditingPoint}
         pointPercChange={::this.pointPercChange}
         changeAngle={::this.changeAngle}
+        changeRadius={::this.changeRadius}
+        changeCenter={::this.changeCenter}
         addPoint={::this.addPoint}
         removePoint={::this.removePoint}
       />

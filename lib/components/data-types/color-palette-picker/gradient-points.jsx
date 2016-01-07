@@ -82,7 +82,7 @@ export default class GradientPoints extends Component {
 
   render () {
     const gradStyle = {};
-    applyBackground(gradStyle, Object.assign({}, this.props.value, {angle: 0}), this.props.colors);
+    applyBackground(gradStyle, Object.assign({}, this.props.value, {angle: 0, type: 'linear'}), this.props.colors);
 
     return (
       <div className='gradient-points-wraper'>
