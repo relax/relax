@@ -69,8 +69,8 @@ export default class RadialGradient extends Component {
 
     if (this.activeFirst) {
       this.props.changeCenter({
-        top: Math.round(point.y * 100),
-        left: Math.round(point.x * 100)
+        top: utils.roundSnap(point.y * 100, [0, 25, 50, 75, 100]),
+        left: utils.roundSnap(point.x * 100, [0, 25, 50, 75, 100])
       });
     } else {
       const {pointA, pointB} = this.getRadialLine();
@@ -104,7 +104,7 @@ export default class RadialGradient extends Component {
       const total = utils.pointsDistance(pointA, pointB);
       const dist = utils.pointsDistance(pointB, closestPoint);
 
-      this.props.pointPercChange(this.activePoint, Math.round(dist / total * 100));
+      this.props.pointPercChange(this.activePoint, utils.roundSnap(dist / total * 100, [0, 25, 50, 75, 100]));
     }
   }
 

@@ -70,7 +70,15 @@ export default class LinearGradient extends Component {
         x: 0.5,
         y: 0.5
       };
-      let newAngle = Math.round(this.getLineAngle(center, point));
+      const lineAngle = this.getLineAngle(center, point);
+
+      let newAngle;
+      if (lineAngle > 359 && lineAngle < 360) {
+        newAngle = 0;
+      } else {
+        newAngle = utils.roundSnap(lineAngle, [0, 45, 90, 135, 180, 225, 270, 315]);
+      }
+
       if (this.activeFirst) {
         newAngle -= 180;
         if (newAngle < 0) {
@@ -78,44 +86,43 @@ export default class LinearGradient extends Component {
         }
       }
       this.props.changeAngle(newAngle);
-    } else {
-      const pointA = this.getRectPoint(this.props.value.angle, 158);
-      const pointB = {
-        x: -pointA.x,
-        y: -pointA.y
-      };
-
-      const newPoint = {
-        x: ((point.x - 0.5) * 2) * 156,
-        y: ((point.y - 0.5) * 2) * 156
-      };
-
-      const xDelta = pointA.x - pointB.x;
-      const yDelta = pointA.y - pointB.y;
-      const u = ((newPoint.x - pointB.x) * xDelta + (newPoint.y - pointB.y) * yDelta) / (xDelta * xDelta + yDelta * yDelta);
-
-      let closestPoint;
-      if (u < 0) {
-        closestPoint = {
-          x: pointB.x,
-          y: pointB.y
-        };
-      } else if (u > 1) {
-        closestPoint = {
-          x: pointA.x,
-          y: pointA.y
-        };
-      } else {
-        closestPoint = {
-          x: Math.round(pointB.x + u * xDelta),
-          y: Math.round(pointB.y + u * yDelta)
-        };
-      }
-      const total = utils.pointsDistance(pointA, pointB);
-      const dist = utils.pointsDistance(pointB, closestPoint);
-
-      this.props.pointPercChange(this.activePoint, Math.round(dist / total * 100));
     }
+    const pointA = this.getRectPoint(this.props.value.angle, 158);
+    const pointB = {
+      x: -pointA.x,
+      y: -pointA.y
+    };
+
+    const newPoint = {
+      x: ((point.x - 0.5) * 2) * 156,
+      y: ((point.y - 0.5) * 2) * 156
+    };
+
+    const xDelta = pointA.x - pointB.x;
+    const yDelta = pointA.y - pointB.y;
+    const u = ((newPoint.x - pointB.x) * xDelta + (newPoint.y - pointB.y) * yDelta) / (xDelta * xDelta + yDelta * yDelta);
+
+    let closestPoint;
+    if (u < 0) {
+      closestPoint = {
+        x: pointB.x,
+        y: pointB.y
+      };
+    } else if (u > 1) {
+      closestPoint = {
+        x: pointA.x,
+        y: pointA.y
+      };
+    } else {
+      closestPoint = {
+        x: Math.round(pointB.x + u * xDelta),
+        y: Math.round(pointB.y + u * yDelta)
+      };
+    }
+    const total = utils.pointsDistance(pointA, pointB);
+    const dist = utils.pointsDistance(pointB, closestPoint);
+
+    this.props.pointPercChange(this.activePoint, utils.roundSnap(dist / total * 100, [0, 25, 50, 75, 100]));
   }
 
   onMouseUp (event) {

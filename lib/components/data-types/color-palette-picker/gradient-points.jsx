@@ -54,7 +54,7 @@ export default class GradientPoints extends Component {
       }
     }
 
-    this.props.pointPercChange(this.activePoint, Math.round(perc * 100));
+    this.props.pointPercChange(this.activePoint, utils.roundSnap(perc * 100, [0, 25, 50, 75, 100]));
   }
 
   onMouseUp (event) {
@@ -108,7 +108,13 @@ export default class GradientPoints extends Component {
     }
 
     return (
-      <span className={cx('marker', selected && 'selected')} style={markerStyle} key={index} onClick={this.markerClicked.bind(this, index)} onMouseDown={this.onMouseDown.bind(this, index)} />
+      <span
+        className={cx('marker', selected && 'selected')}
+        style={markerStyle}
+        key={index}
+        onClick={this.markerClicked.bind(this, index)}
+        onMouseDown={this.onMouseDown.bind(this, index)}
+      />
     );
   }
 }
