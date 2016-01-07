@@ -36,7 +36,7 @@ export default class Edit extends Component {
     });
 
     return (
-      <div className='filter-edit'>
+      <div className='filter-picker-edit white-options'>
         <div className='filter-submit-wrapper'>
           <div className='filter-cancel' onClick={this.props.cancelEdit}>cancel</div>
           <div className='filter-submit' onClick={this.props.submitEdit}>{this.props.new ? 'Create new filter' : 'Ok'}</div>

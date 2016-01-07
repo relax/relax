@@ -17,6 +17,12 @@ export default class Filter extends Component {
     new: PropTypes.bool
   }
 
+  componentDidMount () {
+    this.setState({
+      ready: true
+    });
+  }
+
   getDateString (gran, value) {
     let str;
     if (gran === 'present') {
@@ -28,7 +34,9 @@ export default class Filter extends Component {
   }
 
   onClick () {
-    this.props.selectFilter(this.props.index);
+    if (!this.props.new) {
+      this.props.selectFilter(this.props.index);
+    }
   }
 
   onRemove (event) {
@@ -40,7 +48,10 @@ export default class Filter extends Component {
   render () {
     return (
       <div className='filter-item white-options'>
-        <div className='filter' onClick={::this.onClick}>
+        <div className='filter' onClick={::this.onClick} ref={(ref) => {
+          this.ref = ref;
+          !this.state.ready && this.setState({ready: true});
+        }}>
           {this.renderContent()}
           {!this.props.new && <div className='filter-remove' onClick={::this.onRemove}><i className='material-icons'>delete</i></div>}
         </div>
@@ -121,9 +132,9 @@ export default class Filter extends Component {
   }
 
   renderEditing () {
-    if (this.props.editing) {
+    if (this.props.editing && this.state.ready) {
       return (
-        <Balloon>
+        <Balloon element={this.ref}>
           <Edit {...this.props} />
         </Balloon>
       );

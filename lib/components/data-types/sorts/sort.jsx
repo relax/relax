@@ -17,7 +17,9 @@ export default class Sort extends Component {
   }
 
   onClick () {
-    this.props.selectSort(this.props.index);
+    if (!this.props.new) {
+      this.props.selectSort(this.props.index);
+    }
   }
 
   onRemove (event) {
@@ -29,7 +31,10 @@ export default class Sort extends Component {
   render () {
     return (
       <div className='sort-item white-options'>
-        <div className='sort' onClick={::this.onClick}>
+        <div className='sort' onClick={::this.onClick} ref={(ref) => {
+          this.ref = ref;
+          !this.state.ready && this.setState({ready: true});
+        }}>
           {this.renderContent()}
           {!this.props.new && <div className='sort-remove' onClick={::this.onRemove}><i className='material-icons'>delete</i></div>}
         </div>
@@ -110,9 +115,9 @@ export default class Sort extends Component {
   }
 
   renderEditing () {
-    if (this.props.editing) {
+    if (this.props.editing && this.state.ready) {
       return (
-        <Balloon>
+        <Balloon element={this.ref}>
           <Edit {...this.props} />
         </Balloon>
       );

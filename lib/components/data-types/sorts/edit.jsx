@@ -28,7 +28,7 @@ export default class Edit extends Component {
     });
 
     return (
-      <div className='sort-edit'>
+      <div className='sort-picker-edit white-options'>
         <div className='sort-submit-wrapper'>
           <div className='sort-cancel' onClick={this.props.cancelEdit}>cancel</div>
           <div className='sort-submit' onClick={this.props.submitEdit}>{this.props.new ? 'Create new sort' : 'Ok'}</div>
