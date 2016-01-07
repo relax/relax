@@ -150,6 +150,7 @@ export default class Edit extends Component {
             changeEditingPoint={this.props.changeEditingPoint}
             pointPercChange={this.props.pointPercChange}
             changeCenter={this.props.changeCenter}
+            addPoint={this.props.addPoint}
           />
         }
       </div>

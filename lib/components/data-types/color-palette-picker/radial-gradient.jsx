@@ -16,6 +16,7 @@ export default class RadialGradient extends Component {
     colors: PropTypes.array.isRequired,
     changeEditingPoint: PropTypes.func.isRequired,
     pointPercChange: PropTypes.func.isRequired,
+    addPoint: PropTypes.func.isRequired,
     changeCenter: PropTypes.func.isRequired
   }
 
@@ -115,6 +116,27 @@ export default class RadialGradient extends Component {
     this.setState({
       dragging: false
     });
+  }
+
+  onLineClick (event) {
+    event.preventDefault();
+
+    const bounds = utils.getOffsetRect(this.refs.holder);
+    const point = {
+      x: utils.limitNumber((event.pageX - bounds.left) / bounds.width, 0, 1),
+      y: utils.limitNumber((event.pageY - bounds.top) / bounds.height, 0, 1)
+    };
+
+    const {pointA, pointB} = this.getRadialLine();
+    const newPoint = {
+      x: point.x * size,
+      y: point.y * size
+    };
+
+    const total = utils.pointsDistance(pointA, pointB);
+    const dist = utils.pointsDistance(pointA, newPoint);
+
+    this.props.addPoint(Math.round(dist / total * 100));
   }
 
   getRadialLine () {
@@ -224,6 +246,7 @@ export default class RadialGradient extends Component {
             y2={lastPointPosition.y}
             strokeWidth='2'
             stroke='#ffffff'
+            onClick={::this.onLineClick}
           />
         </svg>
         {this.props.value.points.map(this.renderPoint.bind(this, radialLine.pointA, radialLine.pointB))}
