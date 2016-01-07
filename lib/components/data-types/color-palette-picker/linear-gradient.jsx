@@ -13,6 +13,7 @@ export default class LinearGradient extends Component {
     colors: PropTypes.array.isRequired,
     changeEditingPoint: PropTypes.func.isRequired,
     pointPercChange: PropTypes.func.isRequired,
+    addPoint: PropTypes.func.isRequired,
     changeAngle: PropTypes.func.isRequired
   }
 
@@ -127,6 +128,31 @@ export default class LinearGradient extends Component {
     });
   }
 
+  onLineClick (event) {
+    event.preventDefault();
+
+    const bounds = utils.getOffsetRect(this.refs.holder);
+    const point = {
+      x: utils.limitNumber((event.pageX - bounds.left) / bounds.width, 0, 1),
+      y: 1 - utils.limitNumber((event.pageY - bounds.top) / bounds.height, 0, 1)
+    };
+
+    const pointA = this.getRectPoint(this.props.value.angle, 158);
+    const pointB = {
+      x: -pointA.x,
+      y: -pointA.y
+    };
+    const newPoint = {
+      x: ((point.x - 0.5) * 2) * 156,
+      y: ((point.y - 0.5) * 2) * 156
+    };
+
+    const total = utils.pointsDistance(pointA, pointB);
+    const dist = utils.pointsDistance(pointB, newPoint);
+
+    this.props.addPoint(Math.round(dist / total * 100));
+  }
+
   getLineAngle (pointA, pointB) {
     const dy = pointB.y - pointA.y;
     const dx = pointB.x - pointA.x;
@@ -204,6 +230,7 @@ export default class LinearGradient extends Component {
             y2={lastPointPosition.y}
             strokeWidth='2'
             stroke='#ffffff'
+            onClick={::this.onLineClick}
           />
         </svg>
         {this.props.value.points.map(this.renderPoint.bind(this, pointA, pointB))}

@@ -138,6 +138,7 @@ export default class Edit extends Component {
             changeEditingPoint={this.props.changeEditingPoint}
             pointPercChange={this.props.pointPercChange}
             changeAngle={this.props.changeAngle}
+            addPoint={this.props.addPoint}
           />
         }
         {type === 'radial' &&
