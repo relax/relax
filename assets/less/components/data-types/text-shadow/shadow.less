@@ -1,0 +1,48 @@
+.text-shadow-item {
+  position: relative;
+}
+
+.text-shadow {
+  position: relative;
+  border: 1px solid @pageBuilderChromeBorders;
+  padding: 12px;
+  font-size: 10px;
+  line-height: 14px;
+  color: #efefef;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 8px;
+
+  .highlight {
+    color: @adminPrimary;
+  }
+
+  .text-shadow-remove {
+    position: absolute;
+    right: 1px; top: 1px; bottom: 1px;
+    width: 30px;
+    text-align: center;
+    visibility: hidden;
+    background: -moz-linear-gradient(left, rgba(51,54,59,0) 0%, rgba(51,54,59,1) 23%, rgba(51,54,59,1) 100%);
+    background: -webkit-linear-gradient(left, rgba(51,54,59,0) 0%,rgba(51,54,59,1) 23%,rgba(51,54,59,1) 100%);
+    background: linear-gradient(to right, rgba(51,54,59,0) 0%,rgba(51,54,59,1) 23%,rgba(51,54,59,1) 100%);
+    i {
+      color: #999999;
+      line-height: 36px;
+      font-size: 12px;
+    }
+    &:hover {
+      i {
+        color: #ffffff;
+      }
+    }
+  }
+
+  &:hover {
+    border-color: @adminPrimary;
+
+    .text-shadow-remove {
+      visibility: visible;
+    }
+  }
+}
