@@ -197,8 +197,8 @@ export default class Droppable extends Component {
   showMarks () {
     let result = false;
     if (this.props.pageBuilder) {
-      const {linkingData, selectedParent, selectedId} = this.props.pageBuilder;
-      result = !linkingData && (selectedParent === this.props.dropInfo.id || (selectedId === this.props.dropInfo.id));
+      const {linkingData, selectedParent, selectedId, editing} = this.props.pageBuilder;
+      result = editing && !linkingData && (selectedParent === this.props.dropInfo.id || (selectedId === this.props.dropInfo.id));
     }
     return result;
   }
