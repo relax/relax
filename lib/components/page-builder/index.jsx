@@ -9,6 +9,7 @@ import Canvas from './canvas';
 import ElementsMenu from './elements-menu';
 import GeneralElementsMenu from './general-elements-menu';
 import Menu from './menu';
+import Portal from '../portal';
 import {Dragger} from '../dnd';
 
 export default class PageBuilder extends Component {
@@ -58,7 +59,9 @@ export default class PageBuilder extends Component {
     const {elementsMenuOpened} = this.props.pageBuilder;
     if (elementsMenuOpened) {
       return (
-        <ElementsMenu {...this.props} />
+        <Portal>
+          <ElementsMenu {...this.props} />
+        </Portal>
       );
     }
   }

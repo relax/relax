@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import Velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import {Component} from 'relax-framework';
