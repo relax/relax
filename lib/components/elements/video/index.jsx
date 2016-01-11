@@ -3,8 +3,8 @@ import {findDOMNode} from 'react-dom';
 
 import propsSchema from './props-schema';
 import settings from './settings';
-import Component from '../../component';
-import Element from '../../element';
+import Component from '../component';
+import Element from '../element';
 import Utils from '../../../utils';
 
 export default class Video extends Component {

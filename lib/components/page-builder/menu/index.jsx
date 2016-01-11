@@ -40,7 +40,6 @@ export default class PropsMenu extends Component {
         {!linkingData && this.renderTab()}
         {linkingData && this.renderDataLinking()}
         {this.renderBreadcrumbs()}
-        {this.renderButtons()}
       </div>
     );
   }

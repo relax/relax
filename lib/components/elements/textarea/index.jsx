@@ -4,8 +4,8 @@ import React, {PropTypes} from 'react';
 import classes from './classes';
 import propsSchema from './props-schema';
 import settings from './settings';
-import Component from '../../component';
-import Element from '../../element';
+import Component from '../component';
+import Element from '../element';
 
 export default class Textarea extends Component {
   static propTypes = {

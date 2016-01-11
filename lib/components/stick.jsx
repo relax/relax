@@ -4,7 +4,7 @@ import {Component} from 'relax-framework';
 
 import Animate from './animate';
 
-export default class Overlay extends Component {
+export default class Stick extends Component {
   static propTypes = {
     element: PropTypes.node.isRequired,
     children: PropTypes.node.isRequired,

@@ -5,8 +5,8 @@ import propsSchema from './props-schema';
 import settings from './settings';
 import style from './style';
 import BackgroundImage from '../../background-image';
-import Component from '../../component';
-import Element from '../../element';
+import Component from '../component';
+import Element from '../element';
 
 export default class Section extends Component {
   static propTypes = {

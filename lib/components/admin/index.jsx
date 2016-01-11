@@ -35,15 +35,13 @@ export default class Admin extends Component {
 
   render () {
     return (
-      <div>
-        <div className={cx('blurr', this.props.blurred && 'blurred', !this.props.editing && 'previewing', this.props.linkingData && 'pb-linking-data')}>
-          <div className='close-preview' onClick={this.props.pageBuilderActions.toggleEditing}>Close preview</div>
-          <TopMenu {...this.props} />
-          <div className='admin-holder'>
-            {this.props.activePanelType !== 'pageBuild' && <MenuBar user={this.props.user} activePanelType={this.props.activePanelType} breadcrumbs={this.props.breadcrumbs} />}
-            <div className='admin-content'>
-              {this.props.loading ? <Loading /> : this.props.children}
-            </div>
+      <div id='admin-holder' className={cx('blurr', this.props.blurred && 'blurred', !this.props.editing && 'previewing', this.props.linkingData && 'pb-linking-data')}>
+        <div className='close-preview' onClick={this.props.pageBuilderActions.toggleEditing}>Close preview</div>
+        <TopMenu {...this.props} />
+        <div className='admin-holder'>
+          {this.props.activePanelType !== 'pageBuild' && <MenuBar user={this.props.user} activePanelType={this.props.activePanelType} breadcrumbs={this.props.breadcrumbs} />}
+          <div className='admin-content'>
+            {this.props.loading ? <Loading /> : this.props.children}
           </div>
         </div>
       </div>

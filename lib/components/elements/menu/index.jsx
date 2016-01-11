@@ -8,8 +8,8 @@ import {buildQueryAndVariables} from 'relax-framework';
 import propsSchema from './props-schema';
 import settings from './settings';
 import style from './style';
-import Component from '../../component';
-import Element from '../../element';
+import Component from '../component';
+import Element from '../element';
 import Menu from './menu';
 
 const menuDataFragment = {

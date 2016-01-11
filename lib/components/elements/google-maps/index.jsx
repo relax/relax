@@ -3,8 +3,8 @@ import {GoogleMap, GoogleMapLoader, Marker} from 'react-google-maps';
 
 import propsSchema from './props-schema';
 import settings from './settings';
-import Component from '../../component';
-import Element from '../../element';
+import Component from '../component';
+import Element from '../element';
 import Utils from '../../../utils';
 
 export default class GoogleMapsElem extends Component {

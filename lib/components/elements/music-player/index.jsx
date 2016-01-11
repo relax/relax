@@ -3,8 +3,8 @@ import React from 'react';
 import propsSchema from './props-schema';
 import settings from './settings';
 import style from './style';
-import Component from '../../component';
-import Element from '../../element';
+import Component from '../component';
+import Element from '../element';
 import PlayerContainer from './container';
 
 export default class MusicPlayer extends Component {

@@ -4,8 +4,10 @@ import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import {Component} from 'relax-framework';
 
-import Utils from '../utils';
-import {Droppable, Draggable} from './dnd';
+import Highlight from './highlight';
+import Portal from '../portal';
+import Utils from '../../utils';
+import {Droppable, Draggable} from '../dnd';
 
 export default class Element extends Component {
   static propTypes = {
@@ -161,15 +163,8 @@ export default class Element extends Component {
     const editing = pageBuilder && pageBuilder.editing;
 
     if (editing && settings.drag) {
-      const {selectedParent} = pageBuilder;
-      const overed = this.isOvered();
       const selected = this.isSelected();
       const {dragging, dragInfo} = dnd;
-
-      if ((!dragging && (overed || selected)) || dragging || selectedParent === elementId) {
-        tagProps.style = tagProps.style || {};
-        tagProps.style.position = tagProps.style.position || 'relative';
-      }
 
       if (this.state.animatedEditing && this.state.animation && !this.state.animated) {
         tagProps.style = tagProps.style || {};
@@ -178,7 +173,7 @@ export default class Element extends Component {
 
       if (element.subComponent) {
         result = (
-          <this.props.htmlTag {...tagProps} onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)} onClick={this.onElementClick.bind(this)}>
+          <this.props.htmlTag {...tagProps} onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)} onClick={this.onElementClick.bind(this)} ref={(ref) => this.ref = ref}>
             {this.renderContent()}
             {this.renderHighlight()}
           </this.props.htmlTag>
@@ -217,7 +212,7 @@ export default class Element extends Component {
 
         result = (
           <Draggable {...draggableProps} dnd={dnd} dndActions={dndActions}>
-            <this.props.htmlTag {...tagProps} onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)} id={elementId}>
+            <this.props.htmlTag {...tagProps} onMouseOver={this.onMouseOver.bind(this)} onMouseOut={this.onMouseOut.bind(this)} id={elementId} ref={(ref) => this.ref = ref}>
               {this.renderContent()}
               {this.renderHighlight()}
             </this.props.htmlTag>
@@ -306,19 +301,12 @@ export default class Element extends Component {
       const overed = this.isOvered();
       const selected = this.isSelected();
 
-      if (!dragging && (overed || selected)) {
-        const elementType = element.tag;
-        const ElementClass = elements[elementType];
-        const inside = this.state.offset.top <= 65 || (this.props.style && this.props.style.overflow === 'hidden');
-        const subComponent = element.subComponent;
-
+      if (!dragging && (overed || selected) && this.ref) {
+        const ElementClass = elements[element.tag];
         return (
-          <div className={cx('element-highlight', selected && 'selected', inside && 'inside', subComponent && 'sub-component')}>
-            <div className='element-identifier'>
-              <i className={ElementClass.settings.icon.class}>{ElementClass.settings.icon.content}</i>
-              <span>{element.label || elementType}</span>
-            </div>
-          </div>
+          <Portal attachTo='admin-holder'>
+            <Highlight element={element} ElementClass={ElementClass} selected={selected} dom={this.ref} />
+          </Portal>
         );
       }
     }

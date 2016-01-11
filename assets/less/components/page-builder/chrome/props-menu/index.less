@@ -1,26 +1,24 @@
 @triggerButtonsSize: 35px;
 
 .previewing .advanced-menu {
-  right: -@pageBuilderAdvancedMenuWidth - @triggerButtonsSize;
+  transform: ~'translateX(@{pageBuilderAdvancedMenuWidth})';
 }
 
 .advanced-menu {
-  position: absolute;
+  position: fixed;
   z-index: 4;
 
-  top: ~'calc(50% - 37vh)';
-  right: -@pageBuilderAdvancedMenuWidth;
+  top: @pageBuilderTopMenuHeight;
+  right: 0;
+  bottom: 0;
   width: @pageBuilderAdvancedMenuWidth;
-  height: 75vh;
 
   background-color: @pageBuilderAdvancedMenu;
   color: @pageBuilderChromeText;
+  border-left: 1px solid @pageBuilderChromeBorders;
+  border-top: 1px solid @pageBuilderChromeBorders;
 
   .transition(0.4s);
-
-  &.opened {
-    right: 40px;
-  }
 
   &.linking {
     z-index: 99999;
@@ -53,7 +51,6 @@
       line-height: 50px;
       text-transform: uppercase;
       position: relative;
-      top: 1px;
       border-right: 1px solid @pageBuilderChromeBorders;
       border-bottom: 1px solid @pageBuilderChromeBorders;
 

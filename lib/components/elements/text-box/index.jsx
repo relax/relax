@@ -5,9 +5,9 @@ import classes from './classes';
 import propsSchema from './props-schema';
 import settings from './settings';
 import style from './style';
-import Component from '../../component';
+import Component from '../component';
 import Editor from '../../medium-editor';
-import Element from '../../element';
+import Element from '../element';
 
 export default class TextBox extends Component {
 

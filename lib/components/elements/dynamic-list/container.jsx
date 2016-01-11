@@ -7,8 +7,8 @@ import {buildQueryAndVariables} from 'relax-framework';
 
 import settings from './settings';
 import utils from '../../../utils';
-import Component from '../../component';
-import Element from '../../element';
+import Component from '../component';
+import Element from '../element';
 import List from './list';
 
 @connect(
