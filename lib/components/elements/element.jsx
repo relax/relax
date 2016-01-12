@@ -3,6 +3,7 @@ import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import {Component} from 'relax-framework';
 
+import getElementPosition from '../../helpers/get-element-position';
 import Highlight from './highlight';
 import Portal from '../portal';
 import Utils from '../../utils';
@@ -158,7 +159,7 @@ export default class Element extends Component {
   render () {
     let result;
     const {children, settings, info, onEnterScreen, htmlTag, ...tagProps} = this.props;
-    const {element, elementId, positionInParent, pageBuilder, dnd, dndActions} = info;
+    const {element, elementId, positionInParent, pageBuilder, dnd, dndActions, display} = info;
     const editing = pageBuilder && pageBuilder.editing;
 
     if (editing && settings.drag) {
@@ -203,7 +204,7 @@ export default class Element extends Component {
 
         if (element.position) {
           tagProps.style = tagProps.style || {};
-          Object.assign(tagProps.style, element.position);
+          Object.assign(tagProps.style, getElementPosition(element, display));
           if (tagProps.style.position === 'fixed' && tagProps.style.top !== 'auto') {
             tagProps.style.top = `calc(${tagProps.style.top} + 45px)`;
           }

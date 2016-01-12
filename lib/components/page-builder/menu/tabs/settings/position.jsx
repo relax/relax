@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
+import getElementPosition from '../../../../../helpers/get-element-position';
 import OptionsList from '../../../../options-list';
 import {Types} from '../../../../../data-types';
 
@@ -57,7 +58,8 @@ const positioningOptions = [
 export default class PositionSettings extends Component {
   static propTypes = {
     pageBuilder: PropTypes.object.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired
+    pageBuilderActions: PropTypes.object.isRequired,
+    display: PropTypes.string.isRequired
   }
 
   static options = [
@@ -85,7 +87,7 @@ export default class PositionSettings extends Component {
 
   render () {
     const {selectedElement} = this.props.pageBuilder;
-    const values = selectedElement.position || {
+    const values = selectedElement.position && getElementPosition(selectedElement, this.props.display) || {
       position: 'static'
     };
     return (
