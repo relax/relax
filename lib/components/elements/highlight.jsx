@@ -8,13 +8,14 @@ export default class Highlight extends Component {
     element: PropTypes.object.isRequired,
     children: PropTypes.node.isRequired,
     dom: PropTypes.node.isRequired,
-    selected: PropTypes.bool.isRequired
+    selected: PropTypes.bool.isRequired,
+    pageBuilder: PropTypes.object.isRequired,
+    pageBuilderActions: PropTypes.object.isRequired
   }
 
   getInitState () {
     return {
-      left: 0,
-      top: 0
+      context: false
     };
   }
 
@@ -55,6 +56,32 @@ export default class Highlight extends Component {
     };
   }
 
+  openContext () {
+    this.setState({
+      context: true
+    });
+  }
+
+  closeContext () {
+    this.setState({
+      context: false
+    });
+  }
+
+  duplicate (event) {
+    event.preventDefault();
+    const {duplicateElement} = this.props.pageBuilderActions;
+    const {selectedId} = this.props.pageBuilder;
+    duplicateElement(selectedId);
+  }
+
+  remove (event) {
+    event.preventDefault();
+    const {removeElement} = this.props.pageBuilderActions;
+    const {selectedId} = this.props.pageBuilder;
+    removeElement(selectedId);
+  }
+
   render () {
     const style = this.getPosition();
     return (
@@ -63,7 +90,28 @@ export default class Highlight extends Component {
           <i className={this.props.ElementClass.settings.icon.class}>{this.props.ElementClass.settings.icon.content}</i>
           <span>{this.props.element.label || this.props.element.tag}</span>
         </div>
+        {this.props.selected && style.height > 30 && this.renderContext()}
       </div>
     );
+  }
+
+  renderContext () {
+    let result;
+    if (this.state.context) {
+      result = (
+        <div className='element-context-menu' onMouseLeave={::this.closeContext}>
+          <div className='label'>{this.props.element.label || this.props.element.tag}</div>
+          <div className='element-context-action'>Add to symbol library</div>
+          <div className='element-context-action'>Make dynamic</div>
+          <div className='element-context-action' onClick={::this.duplicate}>Duplicate</div>
+          <div className='element-context-action' onClick={::this.remove}>Remove</div>
+        </div>
+      );
+    } else {
+      result = (
+        <div className='element-context-button' onClick={::this.openContext}>...</div>
+      );
+    }
+    return result;
   }
 }

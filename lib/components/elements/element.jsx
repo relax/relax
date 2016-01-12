@@ -305,7 +305,14 @@ export default class Element extends Component {
         const ElementClass = elements[element.tag];
         return (
           <Portal attachTo='admin-holder'>
-            <Highlight element={element} ElementClass={ElementClass} selected={selected} dom={this.ref} />
+            <Highlight
+              element={element}
+              ElementClass={ElementClass}
+              selected={selected}
+              dom={this.ref}
+              pageBuilder={this.props.info.pageBuilder}
+              pageBuilderActions={this.props.info.pageBuilderActions}
+            />
           </Portal>
         );
       }
