@@ -82,10 +82,12 @@ export default class Form extends Component {
 
   render () {
     return (
-      <Element info={this.props} htmlTag='form' settings={settings} onSubmit={::this.onSubmit}>
-        {this.props.children}
+      <form onSubmit={::this.onSubmit}>
+        <Element info={this.props} htmlTag='div' settings={settings}>
+          {this.props.children}
+        </Element>
         <input type='submit' hidden />
-      </Element>
+      </form>
     );
   }
 }
