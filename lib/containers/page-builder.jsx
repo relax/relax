@@ -78,7 +78,8 @@ function getPageBuilder (pageBuilder, draft) {
     pageBuilder: getPageBuilder(state.pageBuilder, state.draft),
     dnd: state.dnd,
     styles: state.styles.data,
-    display: state.display
+    display: state.display,
+    symbols: state.symbols
   }),
   (dispatch) => ({
     pageBuilderActions: bindActionCreators(pageBuilderActions, dispatch),

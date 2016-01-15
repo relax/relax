@@ -1,3 +1,22 @@
+.element-highlight.symbol {
+  border-color: #ff9f00;
+  .alphaColorToRgb(#ff9f00, 0.1);
+
+  .element-identifier {
+    background-color: #ff9f00;
+  }
+
+  &.selected {
+    border-color: #ff9f00;
+    &:before {
+      .border(2px, solid, #ff9f00, 10);
+    }
+    .element-identifier {
+      background-color: #ff9f00;
+    }
+  }
+}
+
 .element-highlight {
   @borderSize: 1px;
   position: absolute;
@@ -56,47 +75,6 @@
     cursor: pointer;
     pointer-events: all;
     background-color: transparent;
-  }
-
-  .element-context-menu {
-    display: inline-block;
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    pointer-events: all;
-    overflow: hidden;
-    padding-bottom: 7px;
-
-    width: 192px;
-    border-radius: 4px;
-    border: 1px solid @adminPrimary;
-    background-color: #ffffff;
-
-    -webkit-box-shadow: 0px 5px 9px 0px rgba(0,0,0,0.17);
-    -moz-box-shadow: 0px 5px 9px 0px rgba(0,0,0,0.17);
-    box-shadow: 0px 5px 9px 0px rgba(0,0,0,0.17);
-    text-align: center;
-
-    .label {
-      font-size: 10px;
-      line-height: 25px;
-      color: @adminPrimary;
-      padding-bottom: 3px;
-      text-transform: uppercase;
-    }
-
-    .element-context-action {
-      line-height: 26px;
-      font-size: 12px;
-      color: #999999;
-      cursor: pointer;
-      text-transform: uppercase;
-
-      &:hover {
-        background-color: #efefef;
-        color: #333333;
-      }
-    }
   }
 
   &.selected {

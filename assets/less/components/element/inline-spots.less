@@ -1,5 +1,5 @@
 .add-marker {
-  position: absolute;
+  position: relative;
   width: 100%;
   height: 0;
   z-index: 3;
@@ -95,7 +95,7 @@
       display: block;
       top: -1px;
       bottom: -1px;
-      left: 0; right: 0;
+      width: 100%;
       background-color: @adminPrimary;
     }
     .marker {
@@ -150,12 +150,14 @@
       height: 30px;
     }
 
-    &:hover {
+    &:hover, &.active {
       &:before {
-        top: 0px;
-        bottom: 0px;
+        top: auto;
+        bottom: auto;
+        height: 100%;
         left: -1px;
         right: -1px;
+        width: auto;
       }
     }
   }

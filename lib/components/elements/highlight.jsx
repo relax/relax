@@ -2,6 +2,8 @@ import cx from 'classnames';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
+import ContextMenu from './context-menu';
+
 export default class Highlight extends Component {
   static propTypes = {
     ElementClass: PropTypes.object.isRequired,
@@ -85,7 +87,7 @@ export default class Highlight extends Component {
   render () {
     const style = this.getPosition();
     return (
-      <div className={cx('element-highlight', this.props.selected && 'selected', this.props.element.subComponent && 'sub-component', style.top < 60 && 'inside')} style={style}>
+      <div className={cx('element-highlight', this.props.selected && 'selected', this.props.element.subComponent && 'sub-component', style.top < 60 && 'inside', this.props.element.tag === 'Symbol' && 'symbol')} style={style}>
         <div className='element-identifier'>
           <i className={this.props.ElementClass.settings.icon.class}>{this.props.ElementClass.settings.icon.content}</i>
           <span>{this.props.element.label || this.props.element.tag}</span>
@@ -98,14 +100,9 @@ export default class Highlight extends Component {
   renderContext () {
     let result;
     if (this.state.context) {
+      const {element, pageBuilder, pageBuilderActions} = this.props;
       result = (
-        <div className='element-context-menu' onMouseLeave={::this.closeContext}>
-          <div className='label'>{this.props.element.label || this.props.element.tag}</div>
-          <div className='element-context-action'>Add to symbol library</div>
-          <div className='element-context-action'>Make dynamic</div>
-          <div className='element-context-action' onClick={::this.duplicate}>Duplicate</div>
-          <div className='element-context-action' onClick={::this.remove}>Remove</div>
-        </div>
+        <ContextMenu element={element} pageBuilder={pageBuilder} pageBuilderActions={pageBuilderActions} onClose={::this.closeContext} />
       );
     } else {
       result = (

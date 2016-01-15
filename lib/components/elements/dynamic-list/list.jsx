@@ -83,7 +83,7 @@ export default class List extends Component {
     let result;
     const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
     const schemaEntry = this.props.entries && this.props.entries[key];
-    const content = this.props.children && this.props.renderChildren(this.props.element.children, this.props.elementsLinks, schemaEntry);
+    const content = this.props.children && this.props.renderChildren(this.props.element.children, {elementsLinks: this.props.elementsLinks, schemaEntry});
     const spaceThird = Math.round(parseInt(this.props.horizontalGutter, 10) / 3 * 100) / 100;
     const spaceSides = spaceThird * 2;
 

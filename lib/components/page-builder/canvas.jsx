@@ -7,6 +7,7 @@ import displays from '../../helpers/displays';
 import getElementProps from '../../helpers/get-element-props';
 import stylesManager from '../../helpers/styles-manager';
 import utils from '../../utils';
+import Symbol from '../elements/symbol';
 import {Droppable} from '../dnd';
 
 export default class Canvas extends Component {
@@ -16,7 +17,8 @@ export default class Canvas extends Component {
     pageBuilder: PropTypes.object.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
     display: PropTypes.string.isRequired,
-    styles: PropTypes.array.isRequired
+    styles: PropTypes.array.isRequired,
+    symbols: PropTypes.object.isRequired
   }
 
   static childContextTypes = {
@@ -61,7 +63,7 @@ export default class Canvas extends Component {
 
     // Process schema links if any
     const elementsLinks = {};
-    const elements = data && data.body && this.renderChildren(data.body.children, elementsLinks);
+    const elements = data && data.body && this.renderChildren(data.body.children, {elementsLinks});
 
     return (
       <div className='page-builder-canvas' ref='canvas'>
@@ -107,32 +109,38 @@ export default class Canvas extends Component {
     return styleTags;
   }
 
-  renderChildren (children, elementsLinks = false, schemaEntry = false) {
+  renderChildren (children, options) {
     let result;
     if ( children instanceof Array ) {
-      result = children.map(this.renderElement.bind(this, elementsLinks, schemaEntry));
+      result = children.map(this.renderElement.bind(this, options));
     } else {
       result = children;
     }
     return result;
   }
 
-  renderElement (elementsLinks = false, schemaEntry = false, elementId, positionInParent) {
+  renderElement (options, elementId, positionInParent) {
     const {display} = this.props;
     const {data, elements, selectedId} = this.props.pageBuilder;
-    let element = data[elementId];
+    let element = options.customData && options.customData[elementId] || data[elementId];
 
     const elementProps = getElementProps(element, display);
     const styleClassMap = stylesManager.processElement(element, elementProps, elements[element.tag], this.props.styles, elements, this.props.display);
 
     if ((!element.hide || !element.hide[this.props.display]) && element.display !== false) {
-      if (schemaEntry && elementsLinks && elementsLinks[element.id]) {
-        element = utils.alterSchemaElementProps(elementsLinks[element.id], element, schemaEntry);
+      if (options.schemaEntry && options.elementsLinks && options.elementsLinks[element.id]) {
+        element = utils.alterSchemaElementProps(options.elementsLinks[element.id], element, options.schemaEntry);
       }
 
       if (element.display !== false) {
-        const FactoredElement = elements[element.tag];
+        const FactoredElement = element.tag === 'Symbol' ? Symbol : elements[element.tag];
         const selected = selectedId === element.id;
+        let children = element.children && this.renderChildren(element.children, options);
+
+        if (element.tag === 'Symbol') {
+          const symbol = this.props.symbols[element.props.symbolId];
+          children = symbol && symbol.data && this.renderElement({customData: symbol.data}, 'base', 0);
+        }
 
         return (
           <FactoredElement
@@ -149,8 +157,9 @@ export default class Canvas extends Component {
             positionInParent={positionInParent}
             styleClassMap={styleClassMap}
             renderElement={this.renderElementBind}
-            renderChildren={this.renderChildrenBind}>
-            {element.children && this.renderChildren(element.children, elementsLinks, schemaEntry)}
+            renderChildren={this.renderChildrenBind}
+            insideSymbol={options.customData ? true : false}>
+            {children}
           </FactoredElement>
         );
       }

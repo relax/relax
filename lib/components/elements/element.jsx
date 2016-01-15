@@ -159,10 +159,10 @@ export default class Element extends Component {
   render () {
     let result;
     const {children, settings, info, onEnterScreen, htmlTag, ...tagProps} = this.props;
-    const {element, elementId, positionInParent, pageBuilder, dnd, dndActions, display} = info;
+    const {element, elementId, positionInParent, pageBuilder, dnd, dndActions, display, insideSymbol} = info;
     const editing = pageBuilder && pageBuilder.editing;
 
-    if (editing && settings.drag) {
+    if (editing && settings.drag && !insideSymbol) {
       const selected = this.isSelected();
       const {dragging, dragInfo} = dnd;
 
