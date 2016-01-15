@@ -4,9 +4,9 @@ import {findDOMNode} from 'react-dom';
 import {Component} from 'relax-framework';
 
 import getElementPosition from '../../helpers/get-element-position';
+import utils from '../../utils';
 import Highlight from './highlight';
 import Portal from '../portal';
-import Utils from '../../utils';
 import {Droppable, Draggable} from '../dnd';
 
 export default class Element extends Component {
@@ -117,7 +117,7 @@ export default class Element extends Component {
 
   getOffset () {
     const dom = findDOMNode(this);
-    return Utils.getOffsetRect(dom);
+    return utils.getOffsetRect(dom);
   }
 
   onMouseOver (event) {
@@ -205,8 +205,31 @@ export default class Element extends Component {
         if (element.position) {
           tagProps.style = tagProps.style || {};
           Object.assign(tagProps.style, getElementPosition(element, display));
-          if (tagProps.style.position === 'fixed' && tagProps.style.top !== 'auto') {
-            tagProps.style.top = `calc(${tagProps.style.top} + 45px)`;
+          if (tagProps.style.position === 'fixed') {
+            if (tagProps.style.top !== 'auto') {
+              if (utils.isPercentage(tagProps.style.top)) {
+                const value = (1 - parseInt(tagProps.style.top, 10) / 100) * 45;
+                tagProps.style.top = `calc(${tagProps.style.top} + ${value}px)`;
+              } else {
+                tagProps.style.top = `calc(${tagProps.style.top} + 45px)`;
+              }
+            }
+            if (tagProps.style.bottom !== 'auto' && utils.isPercentage(tagProps.style.bottom)) {
+              const value = parseInt(tagProps.style.bottom, 10) / 100 * 45;
+              tagProps.style.bottom = `calc(${tagProps.style.bottom} - ${value}px)`;
+            }
+            if (tagProps.style.right !== 'auto') {
+              if (utils.isPercentage(tagProps.style.right)) {
+                const value = (1 - parseInt(tagProps.style.right, 10) / 100) * 280;
+                tagProps.style.right = `calc(${tagProps.style.right} + ${value}px)`;
+              } else {
+                tagProps.style.right = `calc(${tagProps.style.right} + 280px)`;
+              }
+            }
+            if (tagProps.style.left !== 'auto' && utils.isPercentage(tagProps.style.left)) {
+              const value = parseInt(tagProps.style.left, 10) / 100 * 280;
+              tagProps.style.left = `calc(${tagProps.style.left} - ${value}px)`;
+            }
           }
         }
 
