@@ -9,7 +9,9 @@ export default class List extends Component {
     pageBuilder: PropTypes.object.isRequired,
     elementAcceptable: PropTypes.func.isRequired,
     addElement: PropTypes.func.isRequired,
-    toggleCategory: PropTypes.func.isRequired
+    addSymbol: PropTypes.func.isRequired,
+    toggleCategory: PropTypes.func.isRequired,
+    symbols: PropTypes.object.isRequired
   }
 
   toggleCategory (category, event) {
@@ -17,9 +19,13 @@ export default class List extends Component {
     this.props.toggleCategory(category);
   }
 
-  addElement (tag) {
+  addElement (tag, event) {
     event.preventDefault();
     this.props.addElement(tag);
+  }
+
+  addSymbol (symbolId) {
+    this.props.addSymbol(symbolId);
   }
 
   render () {
@@ -28,6 +34,7 @@ export default class List extends Component {
       <div className='categories-list'>
         <GeminiScrollbar autoshow className='gm-scrollbar-black'>
           {categories.map(this.renderCategory, this)}
+          {this.renderSymbolsCategory()}
         </GeminiScrollbar>
       </div>
     );
@@ -79,6 +86,39 @@ export default class List extends Component {
       <div className='element-entry' onClick={this.addElement.bind(this, label)} key={label}>
         <i className={icon.class}>{icon.content}</i>
         <span>{label}</span>
+      </div>
+    );
+  }
+
+  renderSymbolsCategory () {
+    if (Object.keys(this.props.symbols).length > 0) {
+      const {categoriesCollapsed} = this.props.pageBuilder;
+      const collapsedCategory = categoriesCollapsed.symbols;
+
+      const symbols = [];
+      forEach(this.props.symbols, (symbol) => {
+        symbols.push(this.renderSymbol(symbol));
+      });
+
+      return (
+        <div className={cx('category', collapsedCategory && 'collapsed')} key='symbols'>
+          <div className='category-info' onClick={this.toggleCategory.bind(this, 'symbols')}>
+            <i className='material-icons'>arrow_drop_down</i>
+            <span>Symbols</span>
+          </div>
+          <div className='category-list'>
+            {!collapsedCategory && symbols}
+          </div>
+        </div>
+      );
+    }
+  }
+
+  renderSymbol (symbol) {
+    return (
+      <div className='element-entry' onClick={this.addSymbol.bind(this, symbol._id)} key={symbol._id}>
+        <i className='material-icons'>extension</i>
+        <span>{symbol.title}</span>
       </div>
     );
   }

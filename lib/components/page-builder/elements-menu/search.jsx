@@ -11,10 +11,12 @@ export default class Search extends Component {
     pageBuilder: PropTypes.object.isRequired,
     elementAcceptable: PropTypes.func.isRequired,
     addElement: PropTypes.func.isRequired,
+    addSymbol: PropTypes.func.isRequired,
     onSearchChange: PropTypes.func.isRequired,
     suggestions: PropTypes.array.isRequired,
     suggestion: PropTypes.string.isRequired,
-    search: PropTypes.string.isRequired
+    search: PropTypes.string.isRequired,
+    symbols: PropTypes.object.isRequired
   }
 
   componentDidMount () {
@@ -42,15 +44,17 @@ export default class Search extends Component {
     let counter = 0;
     let added = false;
     forEach(categories, (category) => {
-      forEach(suggestions, (elementName) => {
-        const element = elements[elementName];
-        const elementCategory = element.settings && element.settings.category || 'other';
-        if (category === elementCategory) {
-          if (counter === num) {
-            this.props.addElement(elementName);
-            added = true;
-          } else {
-            counter++;
+      forEach(suggestions, (suggestion) => {
+        if (typeof suggestion === 'string') {
+          const element = elements[suggestion];
+          const elementCategory = element.settings && element.settings.category || 'other';
+          if (category === elementCategory) {
+            if (counter === num) {
+              this.props.addElement(suggestion);
+              added = true;
+            } else {
+              counter++;
+            }
           }
         }
         if (added) {
@@ -61,11 +65,31 @@ export default class Search extends Component {
         return false;
       }
     });
+
+    if (!added) {
+      forEach(suggestions, (suggestion) => {
+        if (typeof suggestion !== 'string') {
+          if (counter === num) {
+            this.props.addSymbol(suggestion.id);
+            added = true;
+          } else {
+            counter++;
+          }
+        }
+        if (added) {
+          return false;
+        }
+      });
+    }
   }
 
-  addElement (tag) {
+  addElement (tag, event) {
     event.preventDefault();
     this.props.addElement(tag);
+  }
+
+  addSymbol (symbolId) {
+    this.props.addSymbol(symbolId);
   }
 
   render () {
@@ -76,7 +100,7 @@ export default class Search extends Component {
         <Autocomplete
           value={this.props.search}
           onChange={this.props.onSearchChange}
-          suggestion={this.props.suggestion}
+          suggestion={this.props.suggestion.title || this.props.suggestion}
           focused
         />
         <div className='search-list'>
@@ -93,7 +117,12 @@ export default class Search extends Component {
 
     if (this.props.suggestions.length > 0) {
       const {categories} = this.props.pageBuilder;
-      result = categories.map(this.renderCategory, this);
+      result = (
+        <div>
+          {categories.map(this.renderCategory, this)}
+          {this.renderSymbols()}
+        </div>
+      );
     } else {
       result = <div className='no-results'>No results from your search</div>;
     }
@@ -107,19 +136,21 @@ export default class Search extends Component {
     const categoryElements = [];
 
     forEach(suggestions, (elementName) => {
-      const element = elements[elementName];
-      if (element.settings && element.settings.category) {
-        if (element.settings.category === category) {
+      if (typeof elementName === 'string') {
+        const element = elements[elementName];
+        if (element.settings && element.settings.category) {
+          if (element.settings.category === category) {
+            categoryElements.push({
+              label: elementName,
+              element
+            });
+          }
+        } else if (category === 'other') {
           categoryElements.push({
             label: elementName,
             element
           });
         }
-      } else if (category === 'other') {
-        categoryElements.push({
-          label: elementName,
-          element
-        });
       }
     });
 
@@ -150,6 +181,50 @@ export default class Search extends Component {
     return (
       <div className='element-entry' onClick={this.addElement.bind(this, label)} key={label}>
         <i className={icon.class}>{icon.content}</i>
+        <span>{before}</span>
+        <span className='searched'>{searched}</span>
+        <span>{after}</span>
+        {this.suggestionsCounter < 10 && <span className='hotkey'>{this.suggestionsCounter === 0 ? 'enter' : ('cmd+' + this.suggestionsCounter)}</span>}
+      </div>
+    );
+  }
+
+  renderSymbols () {
+    const {suggestions} = this.props;
+    const symbolsSuggestions = [];
+
+    forEach(suggestions, (suggestion) => {
+      if (typeof suggestion !== 'string') {
+        symbolsSuggestions.push(this.renderSymbol(suggestion.id));
+      }
+    });
+
+    if (symbolsSuggestions.length > 0) {
+      return (
+        <div className='suggestion-category' key='symbols'>
+          <div className='category-info'>Symbols</div>
+          <div className='category-elements'>
+            {symbolsSuggestions}
+          </div>
+        </div>
+      );
+    }
+  }
+
+  renderSymbol (id) {
+    const symbol = this.props.symbols[id];
+    const label = symbol.title;
+
+    const index = label.toLowerCase().indexOf(this.props.search.toLowerCase());
+    const before = index > 0 && label.slice(0, index);
+    const searched = label.slice(index, index + this.props.search.length);
+    const after = label.slice(index + this.props.search.length);
+
+    this.suggestionsCounter++;
+
+    return (
+      <div className='element-entry' onClick={this.addSymbol.bind(this, id)} key={id}>
+        <i className='material-icons'>extension</i>
         <span>{before}</span>
         <span className='searched'>{searched}</span>
         <span>{after}</span>

@@ -11,7 +11,8 @@ import Search from './search';
 export default class ElementsMenu extends Component {
   static propTypes = {
     pageBuilder: PropTypes.object.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired
+    pageBuilderActions: PropTypes.object.isRequired,
+    symbols: PropTypes.object.isRequired
   }
 
   getInitState () {
@@ -63,11 +64,12 @@ export default class ElementsMenu extends Component {
     if (search) {
       const {elements, categories} = this.props.pageBuilder;
       const suggestions = [];
+      const searchLowered = search.toLowerCase();
       let suggestion = false;
-      let suggestionweight = categories.length + 1;
+      let suggestionweight = categories.length + 2;
 
       forEach(elements, (element, name) => {
-        if (this.elementAcceptable(name, element) && name.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
+        if (this.elementAcceptable(name, element) && name.toLowerCase().indexOf(searchLowered) !== -1) {
           let weight = categories.length;
           forEach(categories, (category, ind) => {
             if (category === (element.settings && element.settings.category)) {
@@ -79,6 +81,24 @@ export default class ElementsMenu extends Component {
             suggestionweight = weight;
           }
           suggestions.push(name);
+        }
+      });
+
+      forEach(this.props.symbols, (symbol) => {
+        if (symbol.title.toLowerCase().indexOf(searchLowered) !== -1) {
+          const weight = categories.length + 1;
+          if (weight < suggestionweight) {
+            suggestion = {
+              type: 'symbol',
+              id: symbol._id,
+              title: symbol.title
+            };
+            suggestionweight = weight;
+          }
+          suggestions.push({
+            type: 'symbol',
+            id: symbol._id
+          });
         }
       });
 
@@ -162,6 +182,20 @@ export default class ElementsMenu extends Component {
     });
   }
 
+  addSymbol (symbolId) {
+    const {elementsMenuOptions} = this.props.pageBuilder;
+    this.props.pageBuilderActions.closeElementsMenu();
+    this.props.pageBuilderActions.addElementAt({
+      tag: 'Symbol',
+      props: {
+        symbolId
+      }
+    }, {
+      id: elementsMenuOptions.targetId,
+      position: elementsMenuOptions.targetPosition
+    });
+  }
+
   elementAcceptable (elementTag, element) {
     const {elementsMenuOptions} = this.props.pageBuilder;
     let is = true;
@@ -219,6 +253,7 @@ export default class ElementsMenu extends Component {
           elementAcceptable={::this.elementAcceptable}
           onSearchChange={::this.onSearchChange}
           addElement={::this.addElement}
+          addSymbol={::this.addSymbol}
         />
       );
     } else {
@@ -227,6 +262,7 @@ export default class ElementsMenu extends Component {
           {...this.props}
           elementAcceptable={::this.elementAcceptable}
           addElement={::this.addElement}
+          addSymbol={::this.addSymbol}
           toggleCategory={::this.toggleCategory}
         />
       );
