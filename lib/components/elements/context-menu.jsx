@@ -1,4 +1,3 @@
-import cx from 'classnames';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
@@ -6,7 +5,8 @@ export default class ContextMenu extends Component {
   static propTypes = {
     element: PropTypes.object.isRequired,
     pageBuilder: PropTypes.object.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired
+    pageBuilderActions: PropTypes.object.isRequired,
+    onClose: PropTypes.func.isRequired
   }
 
   getInitState () {
@@ -46,8 +46,11 @@ export default class ContextMenu extends Component {
     }
   }
 
-  makeDynamic () {
-
+  makeDynamic (event) {
+    event.preventDefault();
+    const {makeElementDynamic} = this.props.pageBuilderActions;
+    const {selectedId} = this.props.pageBuilder;
+    makeElementDynamic(selectedId);
   }
 
   duplicate (event) {
