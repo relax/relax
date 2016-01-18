@@ -7,7 +7,6 @@ import {Component as JSS} from 'relax-jss';
 import stylesheet from '../../helpers/stylesheet';
 import Canvas from './canvas';
 import ElementsMenu from './elements-menu';
-import GeneralElementsMenu from './general-elements-menu';
 import Menu from './menu';
 import Portal from '../portal';
 import {Dragger} from '../dnd';
@@ -48,7 +47,6 @@ export default class PageBuilder extends Component {
         <JSS stylesheet={stylesheet} />
         <Canvas {...this.props} />
         <Menu {...this.props} />
-        <GeneralElementsMenu {...this.props} />
         {this.renderElementsMenu()}
         {this.renderDragger()}
       </div>
