@@ -34,6 +34,7 @@ export default class Counter extends Component {
       settings,
       className: cx(classMap.text)
     };
+
     const format = this.props.format;
     const date = moment(parseInt(this.props.date, 10));
 

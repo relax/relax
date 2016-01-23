@@ -22,8 +22,10 @@ export default class DynamicListContainer extends Component {
     schemaList: {
       _id: 1,
       title: 1,
-      slug: 1,
       date: 1,
+      publishedDate: 1,
+      updatedDate: 1,
+      slug: 1,
       state: 1,
       properties: 1
     }

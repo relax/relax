@@ -31,7 +31,7 @@ forEach(dateFormats, (format) => {
 export default [
   {
     label: 'Date',
-    type: Types.Number,
+    type: Types.Date,
     id: 'date'
   },
   {
