@@ -71,46 +71,45 @@ export default class Page extends Component {
     );
   }
 
-  renderChildren (children, elementsLinks = false, schemaEntry = false) {
+  renderChildren (children, options = {}) {
     let result;
     if ( children instanceof Array ) {
-      result = children.map(this.renderElement.bind(this, elementsLinks, schemaEntry));
+      result = children.map(this.renderElement.bind(this, options));
     } else {
       result = children;
     }
     return result;
   }
 
-  renderElement (elementsLinks = false, schemaEntry = false, elementId) {
+  renderElement (options, elementId) {
     const {display} = this.state;
     const {elements, styles, page} = this.props;
     let element = page.data[elementId];
 
     const ElementClass = elements[element.tag];
     const elementProps = getElementProps(element, this.state.display);
+
+    if (options.schemaEntry && options.elementsLinks && options.elementsLinks[element.id]) {
+      element = utils.alterSchemaElementProps(options.elementsLinks[element.id], element, options.schemaEntry, elementProps);
+    }
+
     const styleClassMap = stylesManager.processElement(element, elementProps, ElementClass, styles, elements, this.state.display, true);
 
     if ((!element.hide || !element.hide[display]) && element.display !== false) {
-      if (schemaEntry && elementsLinks && elementsLinks[element.id]) {
-        element = utils.alterSchemaElementProps(elementsLinks[element.id], element, schemaEntry);
-      }
-
-      if (element.display !== false) {
-        return (
-          <ElementClass
-            {...elementProps}
-            key={elementId}
-            element={element}
-            elementId={elementId}
-            styleClassMap={styleClassMap}
-            display={this.state.display}
-            renderElement={this.renderElementBind}
-            renderChildren={this.renderChildrenBind}
-          >
-            {element.children && this.renderChildren(element.children, elementsLinks, schemaEntry)}
-          </ElementClass>
-        );
-      }
+      return (
+        <ElementClass
+          {...elementProps}
+          key={elementId}
+          element={element}
+          elementId={elementId}
+          styleClassMap={styleClassMap}
+          display={this.state.display}
+          renderElement={this.renderElementBind}
+          renderChildren={this.renderChildrenBind}
+        >
+          {element.children && this.renderChildren(element.children, options)}
+        </ElementClass>
+      );
     }
   }
 }

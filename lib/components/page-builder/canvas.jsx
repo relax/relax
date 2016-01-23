@@ -125,44 +125,43 @@ export default class Canvas extends Component {
     let element = options.customData && options.customData[elementId] || data[elementId];
 
     const elementProps = getElementProps(element, display);
+
+    if (options.schemaEntry && options.elementsLinks && options.elementsLinks[element.id]) {
+      element = utils.alterSchemaElementProps(options.elementsLinks[element.id], element, options.schemaEntry, elementProps);
+    }
+
     const styleClassMap = stylesManager.processElement(element, elementProps, elements[element.tag], this.props.styles, elements, this.props.display);
 
     if ((!element.hide || !element.hide[this.props.display]) && element.display !== false) {
-      if (options.schemaEntry && options.elementsLinks && options.elementsLinks[element.id]) {
-        element = utils.alterSchemaElementProps(options.elementsLinks[element.id], element, options.schemaEntry);
+      const FactoredElement = element.tag === 'Symbol' ? Symbol : elements[element.tag];
+      const selected = selectedId === element.id;
+      let children = element.children && this.renderChildren(element.children, options);
+
+      if (element.tag === 'Symbol') {
+        const symbol = this.props.symbols[element.props.symbolId];
+        children = symbol && symbol.data && this.renderElement({customData: symbol.data}, 'base', 0);
       }
 
-      if (element.display !== false) {
-        const FactoredElement = element.tag === 'Symbol' ? Symbol : elements[element.tag];
-        const selected = selectedId === element.id;
-        let children = element.children && this.renderChildren(element.children, options);
-
-        if (element.tag === 'Symbol') {
-          const symbol = this.props.symbols[element.props.symbolId];
-          children = symbol && symbol.data && this.renderElement({customData: symbol.data}, 'base', 0);
-        }
-
-        return (
-          <FactoredElement
-            {...elementProps}
-            dnd={this.props.dnd}
-            dndActions={this.props.dndActions}
-            pageBuilder={this.props.pageBuilder}
-            pageBuilderActions={this.props.pageBuilderActions}
-            display={this.props.display}
-            key={elementId}
-            selected={selected}
-            element={element}
-            elementId={elementId}
-            positionInParent={positionInParent}
-            styleClassMap={styleClassMap}
-            renderElement={this.renderElementBind}
-            renderChildren={this.renderChildrenBind}
-            insideSymbol={options.customData ? true : false}>
-            {children}
-          </FactoredElement>
-        );
-      }
+      return (
+        <FactoredElement
+          {...elementProps}
+          dnd={this.props.dnd}
+          dndActions={this.props.dndActions}
+          pageBuilder={this.props.pageBuilder}
+          pageBuilderActions={this.props.pageBuilderActions}
+          display={this.props.display}
+          key={elementId}
+          selected={selected}
+          element={element}
+          elementId={elementId}
+          positionInParent={positionInParent}
+          styleClassMap={styleClassMap}
+          renderElement={this.renderElementBind}
+          renderChildren={this.renderChildrenBind}
+          insideSymbol={options.customData ? true : false}>
+          {children}
+        </FactoredElement>
+      );
     }
   }
 }
