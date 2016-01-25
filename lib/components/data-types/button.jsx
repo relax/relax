@@ -20,6 +20,8 @@ export default class Button extends Component {
       });
     } else if (this.props.action === 'linkData') {
       this.props.pageBuilderActions.linkDataMode(this.props.pageBuilder.selectedId);
+    } else if (this.props.action === 'linkFormData') {
+      this.props.pageBuilderActions.linkFormDataMode(this.props.pageBuilder.selectedId);
     }
   }
 

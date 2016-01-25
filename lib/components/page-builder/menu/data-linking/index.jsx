@@ -59,10 +59,4 @@ export default class DataLinking extends Component {
     }
     return result;
   }
-
-  renderLinkage () {
-    return (
-      <div>Linkage</div>
-    );
-  }
 }

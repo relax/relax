@@ -46,12 +46,12 @@ function getPageBuilder (pageBuilder, draft) {
     userExpanded: draft.userExpanded
   };
 
-  if (pageBuilder.linkingData) {
+  if (pageBuilder.focusElementId) {
     // Check if inside the linking data holder
-    if (pageBuilder.overedId && !inPath(pageBuilder.overedId, pageBuilder.linkingDataElementId, data)) {
+    if (pageBuilder.overedId && !inPath(pageBuilder.overedId, pageBuilder.focusElementId, data)) {
       result.overedId = null;
     }
-    if (pageBuilder.selectedId && !inPath(pageBuilder.selectedId, pageBuilder.linkingDataElementId, data)) {
+    if (pageBuilder.selectedId && !inPath(pageBuilder.selectedId, pageBuilder.focusElementId, data)) {
       result.selectedId = null;
     }
   }

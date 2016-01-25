@@ -4,6 +4,7 @@ import {Component} from 'relax-framework';
 
 import Breadcrumbs from './breadcrumbs';
 import DataLinking from '../../../containers/data-linking';
+import FormDataLinking from '../../../containers/form-data-linking';
 import Tabs from './tabs';
 
 export default class PropsMenu extends Component {
@@ -36,12 +37,30 @@ export default class PropsMenu extends Component {
     const {menuOpened, menuSwitchSide, editing, linkingData} = this.props.pageBuilder;
     return (
       <div className={cx('advanced-menu', menuOpened && editing && 'opened', menuSwitchSide && 'left', linkingData && 'linking')}>
-        {!linkingData && this.renderTabs()}
-        {!linkingData && this.renderTab()}
-        {linkingData && this.renderDataLinking()}
+        {this.renderContent()}
         {this.renderBreadcrumbs()}
       </div>
     );
+  }
+
+  renderContent () {
+    const {linkingData, linkingFormData} = this.props.pageBuilder;
+    let result;
+
+    if (linkingData) {
+      result = this.renderDataLinking();
+    } else if (linkingFormData) {
+      result = this.renderFormDataLinking();
+    } else {
+      result = (
+        <div>
+          {this.renderTabs()}
+          {this.renderTab()}
+        </div>
+      );
+    }
+
+    return result;
   }
 
   renderTabs () {
@@ -64,6 +83,10 @@ export default class PropsMenu extends Component {
 
   renderDataLinking () {
     return <DataLinking {...this.props} />;
+  }
+
+  renderFormDataLinking () {
+    return <FormDataLinking {...this.props} />;
   }
 
   renderBreadcrumbs () {
