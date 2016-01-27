@@ -46,13 +46,13 @@ export default class List extends Component {
 
     forEach(elements, (element, index) => {
       if (element.settings && element.settings.category) {
-        if (element.settings.category === category && this.props.elementAcceptable(index, element)) {
+        if (element.settings.category === category && this.props.elementAcceptable(index, element) && index !== 'Symbol') {
           categoryElements.push({
             label: index,
             element
           });
         }
-      } else if (category === 'other' && this.props.elementAcceptable(index, element)) {
+      } else if (category === 'other' && this.props.elementAcceptable(index, element) && index !== 'Symbol') {
         categoryElements.push({
           label: index,
           element
