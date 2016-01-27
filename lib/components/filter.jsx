@@ -4,7 +4,7 @@ import React from 'react';
 import {Component} from 'relax-framework';
 
 import A from './a';
-import Utils from '../utils';
+import Utils from '../helpers/utils';
 
 export default class Filter extends Component {
   static propTypes = {

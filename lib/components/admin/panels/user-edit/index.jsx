@@ -3,7 +3,7 @@ import {Component} from 'relax-framework';
 import moment from 'moment';
 
 import Breadcrumbs from '../../../breadcrumbs';
-import {getGravatarImage} from '../../../../utils';
+import {getGravatarImage} from '../../../../helpers/utils';
 
 export default class UserEdit extends Component {
   static fragments = {

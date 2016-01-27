@@ -2,7 +2,7 @@ import cx from 'classnames';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
-import utils from '../../../utils';
+import utils from '../../../helpers/utils';
 import {applyBackground, getColorString} from '../../../helpers/colors';
 
 export default class GradientPoints extends Component {

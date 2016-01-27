@@ -4,7 +4,7 @@ import {findDOMNode} from 'react-dom';
 import {Component} from 'relax-framework';
 
 import getElementPosition from '../../helpers/get-element-position';
-import utils from '../../utils';
+import utils from '../../helpers/utils';
 import Highlight from './highlight';
 import Portal from '../portal';
 import {Droppable, Draggable} from '../dnd';

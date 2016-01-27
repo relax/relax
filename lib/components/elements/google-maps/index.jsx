@@ -5,7 +5,7 @@ import propsSchema from './props-schema';
 import settings from './settings';
 import Component from '../component';
 import Element from '../element';
-import Utils from '../../../utils';
+import Utils from '../../../helpers/utils';
 
 export default class GoogleMapsElem extends Component {
   static propTypes = {

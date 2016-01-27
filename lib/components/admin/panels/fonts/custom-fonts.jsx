@@ -4,7 +4,7 @@ import {Component} from 'relax-framework';
 
 import Font from './font';
 import Upload from '../../../upload';
-import Utils from '../../../../utils';
+import Utils from '../../../../helpers/utils';
 
 export default class CustomFonts extends Component {
   static propTypes = {

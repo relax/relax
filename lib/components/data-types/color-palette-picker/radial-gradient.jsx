@@ -4,7 +4,7 @@ import sortBy from 'lodash.sortby';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
-import utils from '../../../utils';
+import utils from '../../../helpers/utils';
 import {applyBackground, getColorString} from '../../../helpers/colors';
 
 const size = 316;

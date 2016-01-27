@@ -10,7 +10,7 @@ import Breadcrumbs from '../../../breadcrumbs';
 import OptionsList from '../../../options-list';
 import Spinner from '../../../spinner';
 import TitleSlug from '../../../title-slug';
-import Utils from '../../../../utils';
+import Utils from '../../../../helpers/utils';
 import {TypesOptionsMap, TypesOptionsDefaultProps} from '../../../../data-types/options-map';
 
 export default class SchemaEntry extends Component {

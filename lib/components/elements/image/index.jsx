@@ -8,7 +8,7 @@ import settings from './settings';
 import Component from '../component';
 import Element from '../element';
 import MediaImage from '../../image';
-import Utils from '../../../utils';
+import Utils from '../../../helpers/utils';
 import {getColorString} from '../../../helpers/colors';
 
 export default class Image extends Component {

@@ -7,62 +7,13 @@
 @import './add-overlay/index.less';
 @import './revisions-overlay/index.less';
 
-body{
-  background-color: #ffffff;
-  font-family: 'Open Sans';
-}
-
-p {
-  color: #666;
-  font-size: 15px;
-}
-
-.loading-bar {
-  position: fixed;
-  top: @pageBuilderTopMenuHeight;
-  left: 0;
-  right: 0;
-  height: 7px;
-  background-color: @adminPrimary;
-  z-index: 2;
-
-  &:after {
-    content: ' ';
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 30%;
-    background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,0.5))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,0.5) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,0.5) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,0.5) 100%); /* IE10+ */
-    background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,0.5) 100%); /* W3C */
-    -webkit-animation:loading-bar-frames 2s infinite linear;
-    animation:loading-bar-frames 2s infinite linear;
-  }
-}
-
-@-webkit-keyframes loading-bar-frames {.loading-bar-frames;}
-@keyframes loading-bar-frames {.loading-bar-frames;}
-
-.loading-bar-frames() {
-  0% {
-    left: -30%;
-  }
-  100% {
-    left: 100%;
-  }
-}
-
 .blurr {
   -webkit-filter: blur(0px);
   filter: blur(0px);
 }
 
 .blurred {
-  //.transition(0.4s);
+  // .transition(0.4s);
   -webkit-filter: blur(3px);
   filter: blur(3px);
 }

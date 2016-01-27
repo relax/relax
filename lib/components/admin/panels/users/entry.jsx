@@ -3,7 +3,7 @@ import {Component} from 'relax-framework';
 import moment from 'moment';
 import A from '../../../a';
 import Lightbox from '../../../lightbox';
-import Utils from '../../../../utils';
+import Utils from '../../../../helpers/utils';
 
 export default class Entry extends Component {
   static fragments = {

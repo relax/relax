@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import {Component} from 'relax-framework';
 
-import Utils from '../../utils';
+import Utils from '../../helpers/utils';
 
 const LEFT_BUTTON = 0;
 

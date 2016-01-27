@@ -6,7 +6,7 @@ import {Component as JSS} from 'relax-jss';
 import displays from '../../helpers/displays';
 import getElementProps from '../../helpers/get-element-props';
 import stylesManager from '../../helpers/styles-manager';
-import utils from '../../utils';
+import utils from '../../helpers/utils';
 import Symbol from '../elements/symbol';
 import {Droppable} from '../dnd';
 

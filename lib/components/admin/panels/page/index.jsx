@@ -9,7 +9,7 @@ import Breadcrumbs from '../../../breadcrumbs';
 import NotFound from '../not-found';
 import Spinner from '../../../spinner';
 import TitleSlug from '../../../title-slug';
-import Utils from '../../../../utils';
+import Utils from '../../../../helpers/utils';
 
 export default class Page extends Component {
   static fragments = {

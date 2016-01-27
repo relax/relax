@@ -3,7 +3,7 @@ import React from 'react';
 import forEach from 'lodash.foreach';
 import cx from 'classnames';
 import Font from './font';
-import Utils from '../../../../utils';
+import Utils from '../../../../helpers/utils';
 
 export default class Fonts extends Component {
   propTypes = {

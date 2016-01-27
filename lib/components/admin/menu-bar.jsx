@@ -2,7 +2,7 @@ import A from '../a';
 import React from 'react';
 import {Component} from 'relax-framework';
 import cx from 'classnames';
-import Utils from '../../utils';
+import Utils from '../../helpers/utils';
 
 export default class MenuBar extends Component {
   static propTypes = {

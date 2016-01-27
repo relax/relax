@@ -5,7 +5,7 @@ import propsSchema from './props-schema';
 import settings from './settings';
 import Component from '../component';
 import Element from '../element';
-import Utils from '../../../utils';
+import Utils from '../../../helpers/utils';
 import {Droppable} from '../../dnd';
 
 export default class Columns extends Component {

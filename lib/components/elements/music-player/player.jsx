@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import classes from './classes';
-import utils from '../../../utils';
+import utils from '../../../helpers/utils';
 import BackgroundImage from '../../background-image';
 
 export default class Player extends Component {

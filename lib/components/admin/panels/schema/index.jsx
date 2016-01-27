@@ -10,7 +10,7 @@ import Builder from './builder';
 import NotFound from '../not-found';
 import Spinner from '../../../spinner';
 import TitleSlug from '../../../title-slug';
-import {getGravatarImage} from '../../../../utils';
+import {getGravatarImage} from '../../../../helpers/utils';
 
 export default class SchemasManage extends Component {
   static fragments = {

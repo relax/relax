@@ -5,7 +5,7 @@ import {Component} from 'relax-framework';
 
 import Dropdown from './dropdown';
 import Font from '../../font';
-import Utils from '../../../utils';
+import Utils from '../../../helpers/utils';
 
 export default class FontPicker extends Component {
   static propTypes = {

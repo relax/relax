@@ -1,6 +1,6 @@
 import {Component} from 'relax-framework';
 import React, {PropTypes} from 'react';
-import Utils from '../../../../utils';
+import Utils from '../../../../helpers/utils';
 
 export default class Font extends Component {
   static propTypes = {

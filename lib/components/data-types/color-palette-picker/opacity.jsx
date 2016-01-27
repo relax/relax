@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
-import utils from '../../../utils';
+import utils from '../../../helpers/utils';
 
 export default class Opacity extends Component {
 

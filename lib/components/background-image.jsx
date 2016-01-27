@@ -3,7 +3,7 @@ import {findDOMNode} from 'react-dom';
 import {Component} from 'relax-framework';
 
 import MediaImage from './image';
-import Utils from '../utils';
+import Utils from '../helpers/utils';
 
 export default class BackgroundImage extends Component {
 

@@ -7,7 +7,7 @@ import displays from '../../helpers/displays';
 import getElementProps from '../../helpers/get-element-props';
 import stylesheet from '../../helpers/stylesheet';
 import stylesManager from '../../helpers/styles-manager';
-import utils from '../../utils';
+import utils from '../../helpers/utils';
 
 export default class Page extends Component {
   static fragments = {

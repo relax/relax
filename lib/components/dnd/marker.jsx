@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import {Component} from 'relax-framework';
 
-import utils from '../../utils';
+import utils from '../../helpers/utils';
 
 export default class Marker extends Component {
   static propTypes = {

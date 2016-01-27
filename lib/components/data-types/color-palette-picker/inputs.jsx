@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
-import utils from '../../../utils';
+import utils from '../../../helpers/utils';
 import Input from './input';
 import {hexIsValid} from '../../../helpers/colors';
 
