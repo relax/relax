@@ -1,12 +1,12 @@
 import * as elementsActions from 'actions/elements';
 
+import utils from 'helpers/utils';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {buildQueryAndVariables} from 'relax-framework';
 
 import settings from './settings';
-import utils from 'helpers/utils';
 import Component from '../component';
 import Element from '../element';
 import List from './list';
@@ -29,7 +29,7 @@ export default class DynamicListContainer extends Component {
       state: 1,
       properties: 1
     }
-  }
+  };
 
   static propTypes = {
     children: PropTypes.node,
@@ -49,7 +49,7 @@ export default class DynamicListContainer extends Component {
     getElementData: PropTypes.func.isRequired,
     elements: PropTypes.object.isRequired,
     schemaLinks: PropTypes.object
-  }
+  };
 
   getInitState () {
     this.fetchData(this.props);

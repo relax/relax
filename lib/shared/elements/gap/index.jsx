@@ -9,14 +9,14 @@ export default class Gap extends Component {
   static propTypes = {
     amount: React.PropTypes.number.isRequired,
     element: React.PropTypes.object.isRequired
-  }
+  };
 
   static defaultProps = {
     amount: '30px'
-  }
+  };
 
-  static propsSchema = propsSchema
-  static settings = settings
+  static propsSchema = propsSchema;
+  static settings = settings;
 
   render () {
     const style = {

@@ -19,7 +19,7 @@ export default class Edit extends Component {
     cancelEdit: PropTypes.func.isRequired,
     submitEdit: PropTypes.func.isRequired,
     schemaProperties: PropTypes.array.isRequired
-  }
+  };
 
   onOptionChange (key, value) {
     this.props.onOptionChange(key, value);

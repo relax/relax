@@ -1,11 +1,12 @@
 import React from 'react';
 import {Component} from 'relax-framework';
+
 import A from './a';
 
 export default class Breadcrumbs extends Component {
   static propTypes = {
     data: React.PropTypes.array.isRequired
-  }
+  };
 
   render () {
     return (

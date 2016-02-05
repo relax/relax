@@ -17,7 +17,7 @@ export default class Inputs extends Component {
     hsvChange: PropTypes.func.isRequired,
     rgbChange: PropTypes.func.isRequired,
     opacityChange: PropTypes.func.isRequired
-  }
+  };
 
   onHexChange (value) {
     if (hexIsValid(value)) {

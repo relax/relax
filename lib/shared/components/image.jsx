@@ -9,7 +9,7 @@ export default class Image extends Component {
     width: PropTypes.number.isRequired,
     height: PropTypes.number,
     editing: PropTypes.bool
-  }
+  };
 
   render () {
     if (this.props.id && this.props.id !== '') {

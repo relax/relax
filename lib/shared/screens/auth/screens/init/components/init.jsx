@@ -7,7 +7,7 @@ export default class Init extends Component {
     onSubmit: PropTypes.func.isRequired,
     user: PropTypes.object,
     error: PropTypes.string
-  }
+  };
 
   onChange (id, event) {
     this.props.onChange(id, event.target.value);

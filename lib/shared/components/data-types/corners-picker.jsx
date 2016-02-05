@@ -9,7 +9,7 @@ export default class CornersPicker extends Component {
     value: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired,
     type: React.PropTypes.string.isRequired
-  }
+  };
 
   getInitState () {
     return {

@@ -8,7 +8,7 @@ export default class Portal extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     attachTo: PropTypes.string
-  }
+  };
 
   componentDidMount () {
     this._target = this.props.attachTo ? document.getElementById(this.props.attachTo).appendChild(document.createElement('div')) : document.body.appendChild(document.createElement('div'));

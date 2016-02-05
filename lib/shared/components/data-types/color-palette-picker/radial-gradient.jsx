@@ -18,7 +18,7 @@ export default class RadialGradient extends Component {
     pointPercChange: PropTypes.func.isRequired,
     addPoint: PropTypes.func.isRequired,
     changeCenter: PropTypes.func.isRequired
-  }
+  };
 
   constructor (props, children) {
     super(props, children);

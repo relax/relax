@@ -6,7 +6,7 @@ export default class Section extends Component {
     value: React.PropTypes.bool.isRequired,
     label: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired
-  }
+  };
 
   toggle (event) {
     event.preventDefault();

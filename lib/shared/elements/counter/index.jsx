@@ -17,18 +17,18 @@ export default class Counter extends Component {
     begin: PropTypes.number.isRequired,
     end: PropTypes.number.isRequired,
     duration: PropTypes.number.isRequired
-  }
+  };
 
   static defaultProps = {
     begin: 0,
     end: 100,
     duration: 2000,
     align: 'center'
-  }
+  };
 
-  static propsSchema = propsSchema
-  static settings = settings
-  static style = 'text'
+  static propsSchema = propsSchema;
+  static settings = settings;
+  static style = 'text';
 
   getInitState () {
     return {

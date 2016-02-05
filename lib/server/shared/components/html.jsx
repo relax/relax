@@ -5,7 +5,7 @@ export default class Html extends React.Component {
     locals: PropTypes.object,
     props: PropTypes.any,
     body: PropTypes.any
-  }
+  };
 
   render () {
     return (

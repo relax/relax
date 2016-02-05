@@ -11,11 +11,11 @@ export default class MusicPlayer extends Component {
   static defaultProps = {
     type: 'local',
     defaultVolume: 50
-  }
+  };
 
-  static propsSchema = propsSchema
-  static settings = settings
-  static style = style
+  static propsSchema = propsSchema;
+  static settings = settings;
+  static style = style;
 
   render () {
     return (

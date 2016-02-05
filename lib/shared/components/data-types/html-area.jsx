@@ -9,7 +9,7 @@ export default class HtmlArea extends Component {
     value: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired,
     className: React.PropTypes.string
-  }
+  };
 
   render () {
     return (

@@ -13,15 +13,15 @@ export default class Column extends Component {
     right: PropTypes.number,
     bottom: PropTypes.number,
     layout: PropTypes.object
-  }
+  };
 
   static defaultProps = {
     padding: '15px',
     vertical: 'top'
-  }
+  };
 
-  static propsSchema = propsSchema
-  static settings = settings
+  static propsSchema = propsSchema;
+  static settings = settings;
 
   render () {
     const layout = this.props.layout || {

@@ -13,7 +13,7 @@ export default class Icon extends Component {
     icon: React.PropTypes.object.isRequired,
     align: React.PropTypes.string.isRequired,
     styleClassMap: React.PropTypes.object
-  }
+  };
 
   static defaultProps = {
     icon: {
@@ -21,10 +21,10 @@ export default class Icon extends Component {
       className: 'fa fa-beer'
     },
     align: 'center'
-  }
-  static propsSchema = propsSchema
-  static settings = settings
-  static style = style
+  };
+  static propsSchema = propsSchema;
+  static settings = settings;
+  static style = style;
 
   render () {
     const classMap = this.props.styleClassMap || {};

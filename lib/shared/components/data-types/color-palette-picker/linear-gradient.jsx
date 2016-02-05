@@ -15,7 +15,7 @@ export default class LinearGradient extends Component {
     pointPercChange: PropTypes.func.isRequired,
     addPoint: PropTypes.func.isRequired,
     changeAngle: PropTypes.func.isRequired
-  }
+  };
 
   constructor (props, children) {
     super(props, children);

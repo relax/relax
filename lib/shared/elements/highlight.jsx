@@ -13,7 +13,7 @@ export default class Highlight extends Component {
     selected: PropTypes.bool.isRequired,
     pageBuilder: PropTypes.object.isRequired,
     pageBuilderActions: PropTypes.object.isRequired
-  }
+  };
 
   getInitState () {
     return {

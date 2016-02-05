@@ -18,7 +18,7 @@ export default class Section extends Component {
     horizontal: PropTypes.number,
     navigation: PropTypes.string,
     styleClassMap: PropTypes.object
-  }
+  };
 
   static defaultProps = {
     backgroundImage: '',
@@ -26,11 +26,11 @@ export default class Section extends Component {
     vertical: '50%',
     horizontal: '50%',
     navigation: ''
-  }
+  };
 
-  static propsSchema = propsSchema
-  static settings = settings
-  static style = style
+  static propsSchema = propsSchema;
+  static settings = settings;
+  static style = style;
 
   render () {
     const classMap = this.props.styleClassMap || {};

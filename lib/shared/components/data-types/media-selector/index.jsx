@@ -7,7 +7,7 @@ import SearchBar from './search-bar';
 import Selected from './selected';
 
 export default class MediaSelector extends Component {
-  static fragments = mergeFragments(Content.fragments, Selected.fragments)
+  static fragments = mergeFragments(Content.fragments, Selected.fragments);
 
   static propTypes = {
     onClose: PropTypes.func.isRequired,
@@ -19,7 +19,7 @@ export default class MediaSelector extends Component {
     onAddMedia: PropTypes.func.isRequired,
     mimeTypes: PropTypes.array.isRequired,
     removeMediaItem: PropTypes.func.isRequired
-  }
+  };
 
   render () {
     return (

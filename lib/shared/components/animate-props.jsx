@@ -8,12 +8,12 @@ export default class AnimateProps extends Component {
     props: React.PropTypes.object,
     options: React.PropTypes.object,
     children: React.PropTypes.node
-  }
+  };
 
   static defaultProps = {
     props: {},
     options: {}
-  }
+  };
 
   componentDidMount () {
     var dom = findDOMNode(this);

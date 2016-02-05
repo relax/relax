@@ -21,13 +21,13 @@ export default class DynamicListContainer extends Component {
       title: 1,
       data: 1
     }
-  }
+  };
 
   static propTypes = {
     symbols: PropTypes.object.isRequired,
     symbolId: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired
-  }
+  };
 
   getInitState () {
     this.fetchSymbol(this.props);

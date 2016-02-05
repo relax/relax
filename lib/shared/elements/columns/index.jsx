@@ -20,19 +20,19 @@ export default class Columns extends Component {
     dndActions: PropTypes.object,
     pageBuilder: PropTypes.object,
     pageBuilderActions: PropTypes.object
-  }
+  };
 
   static defaultProps = {
     spacing: 10,
     spacingRows: 10,
     columnsDisplay: []
-  }
+  };
 
   static defaultChildren = [
     {tag: 'Column'}, {tag: 'Column'}
-  ]
-  static propsSchema = propsSchema
-  static settings = settings
+  ];
+  static propsSchema = propsSchema;
+  static settings = settings;
 
   render () {
     return (

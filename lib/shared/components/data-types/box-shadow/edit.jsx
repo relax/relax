@@ -7,7 +7,7 @@ export default class Edit extends Component {
   static propTypes = {
     shadow: PropTypes.object.isRequired,
     changeShadow: PropTypes.func.isRequired
-  }
+  };
 
   static options = [
     {
@@ -55,7 +55,7 @@ export default class Edit extends Component {
         }
       ]
     }
-  ]
+  ];
 
   render () {
     const {shadow} = this.props;

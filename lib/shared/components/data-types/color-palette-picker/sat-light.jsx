@@ -11,7 +11,7 @@ export default class SatLight extends Component {
     colr: PropTypes.object.isRequired,
     hsv: PropTypes.object.isRequired,
     hsvChange: PropTypes.func.isRequired
-  }
+  };
 
   constructor (props, children) {
     super(props, children);

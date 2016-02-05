@@ -11,11 +11,11 @@ export default class Container extends Component {
     styleClassMap: PropTypes.object,
     element: PropTypes.object.isRequired,
     children: PropTypes.node
-  }
+  };
 
-  static propsSchema = propsSchema
-  static settings = settings
-  static style = style
+  static propsSchema = propsSchema;
+  static settings = settings;
+  static style = style;
 
   render () {
     const classMap = this.props.styleClassMap || {};

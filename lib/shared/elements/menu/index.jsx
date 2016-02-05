@@ -41,18 +41,18 @@ export default class MenuContainer extends Component {
         }
       }
     }
-  }
+  };
   static propTypes = {
     menuId: PropTypes.string,
     elementId: PropTypes.string.isRequired,
     elements: PropTypes.object.isRequired,
     pageBuilder: PropTypes.object,
     element: PropTypes.object.isRequired
-  }
+  };
 
-  static propsSchema = propsSchema
-  static settings = settings
-  static style = style
+  static propsSchema = propsSchema;
+  static settings = settings;
+  static style = style;
 
   getInitState () {
     this.fetchData(this.props);

@@ -8,11 +8,11 @@ export default class BoxShadow extends Component {
   static propTypes = {
     value: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired
-  }
+  };
 
   static defaultProps = {
     value: []
-  }
+  };
 
   getInitState () {
     return {

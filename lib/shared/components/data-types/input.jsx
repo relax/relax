@@ -15,7 +15,7 @@ export default class Input extends Component {
     state: React.PropTypes.string,
     disabled: React.PropTypes.bool,
     focused: React.PropTypes.bool
-  }
+  };
 
   componentDidMount () {
     if (this.props.focused) {

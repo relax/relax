@@ -16,12 +16,12 @@ export default class Selected extends Component {
       },
       size: 1
     }
-  }
+  };
 
   static propTypes = {
     mediaItem: PropTypes.object,
     removeMediaItem: PropTypes.func.isRequired
-  }
+  };
 
   render () {
     const {mediaItem} = this.props;

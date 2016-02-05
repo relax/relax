@@ -10,7 +10,7 @@ export default class Dropdown extends Component {
     onChange: React.PropTypes.func.isRequired,
     tempChange: React.PropTypes.func.isRequired,
     tempRevert: React.PropTypes.func.isRequired
-  }
+  };
 
   getInitState () {
     return {

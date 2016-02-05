@@ -12,14 +12,14 @@ export default class Color extends Component {
       label: 1,
       value: 1
     }
-  }
+  };
 
   static propTypes = {
     color: PropTypes.object.isRequired,
     selectColor: PropTypes.func.isRequired,
     addOverlay: PropTypes.func.isRequired,
     closeOverlay: PropTypes.func.isRequired
-  }
+  };
 
   getInitState () {
     return {

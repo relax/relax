@@ -12,11 +12,11 @@ export default class LineDivider extends Component {
   static propTypes = {
     styleClassMap: PropTypes.object,
     element: PropTypes.object.isRequired
-  }
+  };
 
-  static propsSchema = propsSchema
-  static settings = settings
-  static style = style
+  static propsSchema = propsSchema;
+  static settings = settings;
+  static style = style;
 
   render () {
     const classMap = this.props.styleClassMap || {};

@@ -15,7 +15,7 @@ export default class Filter extends Component {
     selectFilter: PropTypes.func.isRequired,
     removeFilter: PropTypes.func.isRequired,
     new: PropTypes.bool
-  }
+  };
 
   componentDidMount () {
     this.setState({

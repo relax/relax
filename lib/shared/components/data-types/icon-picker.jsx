@@ -6,7 +6,7 @@ export default class IconPicker extends Component {
     value: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
     openSelector: PropTypes.func.isRequired
-  }
+  };
 
   render () {
     return (

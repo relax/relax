@@ -26,7 +26,7 @@ export default class ColumnsManager extends Component {
         ]
       }
     }
-  ]
+  ];
   static columnOptionsSingleRow = [
     {
       label: 'Width',
@@ -46,7 +46,7 @@ export default class ColumnsManager extends Component {
         ]
       }
     }
-  ]
+  ];
   static breakOptions = [
     {
       label: 'To next line',
@@ -54,17 +54,17 @@ export default class ColumnsManager extends Component {
       id: 'break',
       default: false
     }
-  ]
+  ];
   static propTypes = {
     value: React.PropTypes.array.isRequired,
     onChange: React.PropTypes.func.isRequired,
     OptionsList: React.PropTypes.any.isRequired,
     multiRows: React.PropTypes.bool,
     pageBuilder: React.PropTypes.any.isRequired
-  }
+  };
   static defaultProps = {
     multiRows: true
-  }
+  };
 
   getInitState () {
     return {

@@ -8,7 +8,7 @@ export default class Balloon extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     element: PropTypes.any.isRequired
-  }
+  };
 
   render () {
     return (

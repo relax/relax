@@ -6,7 +6,7 @@ export default class Optional extends Component {
     value: React.PropTypes.bool.isRequired,
     onChange: React.PropTypes.func.isRequired,
     label: React.PropTypes.string.isRequired
-  }
+  };
 
   toggle (event) {
     event.preventDefault();

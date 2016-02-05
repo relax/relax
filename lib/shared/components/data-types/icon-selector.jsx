@@ -13,7 +13,7 @@ export default class IconSelector extends Component {
     onClose: PropTypes.func.isRequired,
     search: PropTypes.string.isRequired,
     changeSearch: PropTypes.func.isRequired
-  }
+  };
 
   changeSelectedFamily (value, event) {
     event.preventDefault();

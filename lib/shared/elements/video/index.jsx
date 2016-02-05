@@ -1,3 +1,4 @@
+import Utils from 'helpers/utils';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
@@ -5,7 +6,6 @@ import propsSchema from './props-schema';
 import settings from './settings';
 import Component from '../component';
 import Element from '../element';
-import Utils from 'helpers/utils';
 
 export default class Video extends Component {
   static propTypes = {
@@ -14,7 +14,7 @@ export default class Video extends Component {
     videoHeight: PropTypes.number.isRequired,
     element: PropTypes.object.isRequired,
     pageBuilder: PropTypes.object
-  }
+  };
 
   static defaultProps = {
     type: 'youtube',
@@ -22,8 +22,8 @@ export default class Video extends Component {
     videoHeight: '56%'
   };
 
-  static propsSchema = propsSchema
-  static settings = settings
+  static propsSchema = propsSchema;
+  static settings = settings;
 
   getInitState () {
     this.onResizeBind = ::this.onResize;

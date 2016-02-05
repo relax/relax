@@ -12,7 +12,7 @@ export default class SearchBar extends Component {
     changeSearch: PropTypes.func.isRequired,
     onAddMedia: PropTypes.func.isRequired,
     mimeTypes: PropTypes.array.isRequired
-  }
+  };
 
   onChangeView (view) {
     this.props.changeView(view);

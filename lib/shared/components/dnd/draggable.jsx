@@ -1,8 +1,7 @@
+import Utils from 'helpers/utils';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import {Component} from 'relax-framework';
-
-import Utils from 'helpers/utils';
 
 const LEFT_BUTTON = 0;
 
@@ -16,7 +15,7 @@ export default class Draggable extends Component {
     onClick: PropTypes.func,
     disabled: PropTypes.bool,
     children: PropTypes.node
-  }
+  };
 
   constructor (props, children) {
     super(props, children);

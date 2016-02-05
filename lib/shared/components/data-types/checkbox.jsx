@@ -7,7 +7,7 @@ export default class Checkbox extends Component {
     value: React.PropTypes.bool.isRequired,
     onChange: React.PropTypes.func.isRequired,
     disabled: React.PropTypes.bool
-  }
+  };
 
   toggle (event) {
     event.preventDefault();

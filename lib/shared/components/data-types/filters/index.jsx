@@ -10,7 +10,7 @@ export default class Filters extends Component {
       title: 1,
       properties: 1
     }
-  }
+  };
 
   static propTypes = {
     value: PropTypes.string.isRequired,
@@ -20,7 +20,7 @@ export default class Filters extends Component {
     editingFilter: PropTypes.object,
     editOpened: PropTypes.bool,
     editIndex: PropTypes.number
-  }
+  };
 
   render () {
     return (

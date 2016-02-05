@@ -20,12 +20,12 @@ export default class Button extends Component {
     styleClassMap: PropTypes.object,
     children: PropTypes.node,
     element: PropTypes.object.isRequired
-  }
+  };
 
   static defaultProps = {
     layout: 'text',
     arrange: 'side'
-  }
+  };
 
   static defaultChildren = [
     {
@@ -33,11 +33,11 @@ export default class Button extends Component {
       children: 'Button text',
       subComponent: true
     }
-  ]
+  ];
 
-  static propsSchema = propsSchema
-  static settings = settings
-  static style = style
+  static propsSchema = propsSchema;
+  static settings = settings;
+  static style = style;
 
   componentWillReceiveProps (nextProps) {
     const editing = this.props.pageBuilder && this.props.pageBuilder.editing;

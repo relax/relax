@@ -6,7 +6,7 @@ export default class BorderStyle extends Component {
   static propTypes = {
     value: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired
-  }
+  };
 
   onClick (type, event) {
     event.preventDefault();

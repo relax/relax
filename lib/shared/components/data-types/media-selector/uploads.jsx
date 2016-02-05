@@ -12,7 +12,7 @@ export default class Uploads extends Component {
     closeUploads: PropTypes.func.isRequired,
     onItemClick: PropTypes.func.isRequired,
     selected: PropTypes.string
-  }
+  };
 
   imageClicked (id, event) {
     event.preventDefault();

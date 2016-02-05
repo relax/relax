@@ -11,9 +11,9 @@ export default class DynamicList extends Component {
     columns: 2,
     verticalGutter: '10px',
     horizontalGutter: '10px'
-  }
-  static propsSchema = propsSchema
-  static settings = settings
+  };
+  static propsSchema = propsSchema;
+  static settings = settings;
 
   render () {
     return <Container {...this.props} />;

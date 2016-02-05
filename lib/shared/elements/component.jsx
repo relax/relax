@@ -11,7 +11,7 @@ export default class ElementComponent extends Component {
     children: PropTypes.node,
     dnd: PropTypes.object,
     dndActions: PropTypes.object
-  }
+  };
 
   renderContent (customProps, children = this.props.children) {
     let result;

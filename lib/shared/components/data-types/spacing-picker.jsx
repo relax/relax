@@ -8,7 +8,7 @@ export default class SpacingPicker extends Component {
     value: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired,
     type: React.PropTypes.string.isRequired
-  }
+  };
 
   getInitState () {
     return {

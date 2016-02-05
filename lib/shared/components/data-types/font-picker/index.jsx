@@ -12,7 +12,7 @@ export default class FontPicker extends Component {
     value: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired,
     fonts: React.PropTypes.object.isRequired
-  }
+  };
 
   getChangedValue (key, value) {
     const newValue = clone(this.props.value || {});

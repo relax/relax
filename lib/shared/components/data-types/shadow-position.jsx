@@ -6,7 +6,7 @@ export default class ShadowPosition extends Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired
-  }
+  };
 
   onClick (to) {
     this.props.onChange(to);

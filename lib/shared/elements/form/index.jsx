@@ -16,10 +16,10 @@ export default class Form extends Component {
     schema: PropTypes.string,
     custom: PropTypes.string,
     children: PropTypes.node
-  }
+  };
 
-  static propsSchema = propsSchema
-  static settings = settings
+  static propsSchema = propsSchema;
+  static settings = settings;
 
   sendEmail (formData) {
     request

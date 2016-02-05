@@ -22,7 +22,7 @@ export default class List extends Component {
     element: PropTypes.object.isRequired,
     elementId: PropTypes.string.isRequired,
     elementsLinks: PropTypes.object.isRequired
-  }
+  };
 
   isLinkingData () {
     const {pageBuilder} = this.props;

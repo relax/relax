@@ -1,10 +1,10 @@
 import cx from 'classnames';
+import utils from 'helpers/utils';
+import BackgroundImage from 'components/background-image';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import classes from './classes';
-import utils from 'helpers/utils';
-import BackgroundImage from 'components/background-image';
 
 export default class Player extends Component {
   static propTypes = {
@@ -29,11 +29,11 @@ export default class Player extends Component {
     loadedPercentage: PropTypes.number.isRequired,
     playedPercentage: PropTypes.number.isRequired,
     editing: PropTypes.bool
-  }
+  };
 
   static defaultProps = {
     styleClassMap: {}
-  }
+  };
 
   togglePlay (event) {
     event.preventDefault();

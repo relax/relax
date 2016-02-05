@@ -43,7 +43,7 @@ export default class Edit extends Component {
     changeCenter: PropTypes.func.isRequired,
     addPoint: PropTypes.func.isRequired,
     removePoint: PropTypes.func.isRequired
-  }
+  };
 
   componentDidMount () {
     this.onCloseBind = ::this.onClose;

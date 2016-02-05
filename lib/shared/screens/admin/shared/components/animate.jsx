@@ -8,12 +8,12 @@ export default class Animate extends Component {
     transition: PropTypes.string,
     duration: PropTypes.number,
     children: PropTypes.node
-  }
+  };
 
   static defaultProps = {
     transition: 'slideUpIn',
     duration: 400
-  }
+  };
 
   componentDidMount () {
     const dom = findDOMNode(this);

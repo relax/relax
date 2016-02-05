@@ -9,7 +9,7 @@ export default class Dragger extends Component {
     dndActions: PropTypes.object.isRequired,
     onStopDrag: PropTypes.func.isRequired,
     offset: PropTypes.object
-  }
+  };
 
   getInitState () {
     const {draggingData} = this.props.dnd;

@@ -13,14 +13,14 @@ export default class Textarea extends Component {
     placeholder: PropTypes.string,
     rows: PropTypes.number,
     styleClassMap: PropTypes.object
-  }
+  };
   static defaultProps = {
     rows: 6
-  }
+  };
 
-  static propsSchema = propsSchema
-  static settings = settings
-  static style = 'input'
+  static propsSchema = propsSchema;
+  static settings = settings;
+  static style = 'input';
 
   render () {
     const classMap = this.props.styleClassMap || {};

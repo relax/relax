@@ -17,7 +17,7 @@ export default class Element extends Component {
     onEnterScreen: PropTypes.func,
     htmlTag: PropTypes.string.isRequired,
     settings: PropTypes.object.isRequired
-  }
+  };
 
   getInitState () {
     const editing = this.props.info.pageBuilder && this.props.info.pageBuilder.editing;

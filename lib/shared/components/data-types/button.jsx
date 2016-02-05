@@ -8,7 +8,7 @@ export default class Button extends Component {
     actionProps: React.PropTypes.object.isRequired,
     pageBuilder: React.PropTypes.object.isRequired,
     pageBuilderActions: React.PropTypes.object.isRequired
-  }
+  };
 
   onClick (event) {
     event.preventDefault();

@@ -13,7 +13,7 @@ export default class Entry extends Component {
     classMap: PropTypes.object,
     classes: PropTypes.object,
     pageBuilder: PropTypes.object
-  }
+  };
 
   getInitState () {
     return {

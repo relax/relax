@@ -15,7 +15,7 @@ export default class PlayerContainer extends Component {
     pageBuilder: PropTypes.object,
     elementId: PropTypes.string.isRequired,
     defaultVolume: PropTypes.number
-  }
+  };
 
   getInitState () {
     const editing = this.props.pageBuilder && this.props.pageBuilder.editing;

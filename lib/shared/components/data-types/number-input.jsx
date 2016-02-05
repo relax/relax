@@ -12,7 +12,7 @@ export default class NumberInput extends Component {
     inactive: React.PropTypes.bool,
     className: React.PropTypes.string,
     arrows: React.PropTypes.bool
-  }
+  };
 
   static defaultProps = {
     min: 0,
@@ -20,7 +20,7 @@ export default class NumberInput extends Component {
     allowed: [],
     inactive: false,
     arrows: true
-  }
+  };
 
   getInitState () {
     return {

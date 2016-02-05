@@ -10,10 +10,10 @@ export default class Menu extends Component {
     menu: PropTypes.object,
     styleClassMap: PropTypes.object,
     pageBuilder: PropTypes.object
-  }
+  };
   static defaultProps = {
     styleClassMap: {}
-  }
+  };
 
   render () {
     const classMap = this.props.styleClassMap;

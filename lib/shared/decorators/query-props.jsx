@@ -72,7 +72,7 @@ export default function queryProps (defaultQuery = _defaultQuery) {
       static propTypes = {
         query: PropTypes.object,
         location: PropTypes.object
-      }
+      };
 
       getInitState (props = this.props) {
         if (!props.location.query) {
@@ -116,7 +116,7 @@ export default function queryProps (defaultQuery = _defaultQuery) {
         this.setState(nextState);
       }
 
-      static defaultQuery = defaultQuery
+      static defaultQuery = defaultQuery;
 
       hasQueryChanged (newQuery) {
         const currentQuery = this.state.query;

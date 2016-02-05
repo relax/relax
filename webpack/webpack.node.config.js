@@ -36,24 +36,12 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         loader: 'babel',
+        exclude: /node_modules/,
         query: {
-          env: {
-            development: {
-              plugins: [
-                'react-transform'
-              ],
-              extra: {
-                'react-transform': {
-                  transforms: [{
-                    transform: 'react-transform-catch-errors',
-                    imports: ['react', 'redbox-react']
-                  }]
-                }
-              }
-            }
-          }
-        },
-        exclude: /node_modules/
+          cacheDirectory: true,
+          plugins: ['transform-decorators-legacy'],
+          presets: ['react', 'es2015', 'stage-0']
+        }
       }
     ]
   }

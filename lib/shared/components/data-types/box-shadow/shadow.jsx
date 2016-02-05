@@ -13,7 +13,7 @@ export default class Shadow extends Component {
     selectShadow: PropTypes.func.isRequired,
     removeShadow: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired
-  }
+  };
 
   onClick () {
     this.props.selectShadow(this.props.index);

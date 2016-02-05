@@ -28,23 +28,23 @@ export default class Droppable extends Component {
     hidePlaceholder: PropTypes.bool,
     selectionChildren: PropTypes.string,
     children: PropTypes.node
-  }
+  };
 
   static contextTypes = {
     dropBlock: PropTypes.bool
-  }
+  };
 
   static childContextTypes = {
     dropHighlight: PropTypes.string.isRequired,
     dropBlock: PropTypes.bool
-  }
+  };
 
   static defaultProps = {
     orientation: 'vertical',
     minHeight: 150,
     minWidth: 50,
     placeholder: false
-  }
+  };
 
   getInitState () {
     return {

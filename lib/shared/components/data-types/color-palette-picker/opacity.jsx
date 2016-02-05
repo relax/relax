@@ -9,7 +9,7 @@ export default class Opacity extends Component {
     opacity: PropTypes.number.isRequired,
     opacityChange: PropTypes.func.isRequired,
     colr: PropTypes.object.isRequired
-  }
+  };
 
   constructor (props, children) {
     super(props, children);

@@ -10,11 +10,11 @@ export default class MediumEditorElement extends Component {
     value: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired,
     options: React.PropTypes.obj
-  }
+  };
 
   static defaultProps = {
     tag: 'div'
-  }
+  };
 
   getInitState () {
     this.currentValue = this.props.value;

@@ -13,17 +13,17 @@ export default class Counter extends Component {
     date: PropTypes.number.isRequired,
     format: PropTypes.string.isRequired,
     customFormat: PropTypes.string
-  }
+  };
 
   static defaultProps = {
     date: Date.now(),
     format: 'LL',
     customFormat: 'MMMM Do YYYY, h:mm:ss a'
-  }
+  };
 
-  static propsSchema = propsSchema
-  static settings = settings
-  static style = 'text'
+  static propsSchema = propsSchema;
+  static settings = settings;
+  static style = 'text';
 
   render () {
     const classMap = this.props.styleClassMap || {};

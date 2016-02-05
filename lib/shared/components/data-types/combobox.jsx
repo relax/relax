@@ -11,7 +11,7 @@ export default class Combobox extends Component {
     onChange: React.PropTypes.func.isRequired,
     className: React.PropTypes.string,
     style: React.PropTypes.object
-  }
+  };
 
   getInitState () {
     return {

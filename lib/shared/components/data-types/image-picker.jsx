@@ -4,7 +4,7 @@ import {Component} from 'relax-framework';
 import MediaItem from '../media-item';
 
 export default class ImagePicker extends Component {
-  static fragments = MediaItem.fragments
+  static fragments = MediaItem.fragments;
 
   static propTypes = {
     width: React.PropTypes.any,
@@ -16,12 +16,12 @@ export default class ImagePicker extends Component {
     onMount: React.PropTypes.func.isRequired,
     mounted: React.PropTypes.bool.isRequired,
     mediaItem: React.PropTypes.object
-  }
+  };
 
   static defaultProps = {
     width: '100%',
     height: 135
-  }
+  };
 
   componentDidMount () {
     const dom = this.refs.imageHolder;

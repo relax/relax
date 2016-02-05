@@ -1,10 +1,10 @@
-import Component from 'relax-framework';
 import React, {PropTypes} from 'react';
+import {Component} from 'relax-framework';
 
 export default class Auth extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired
-  }
+  };
 
   render () {
     return (

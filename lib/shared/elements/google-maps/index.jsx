@@ -1,11 +1,11 @@
 import React from 'react';
+import Utils from 'helpers/utils';
 import {GoogleMap, GoogleMapLoader, Marker} from 'react-google-maps';
 
 import propsSchema from './props-schema';
 import settings from './settings';
 import Component from '../component';
 import Element from '../element';
-import Utils from 'helpers/utils';
 
 export default class GoogleMapsElem extends Component {
   static propTypes = {
@@ -20,7 +20,7 @@ export default class GoogleMapsElem extends Component {
     useMarker: React.PropTypes.bool.isRequired,
     selected: React.PropTypes.bool.isRequired,
     pageBuilder: React.PropTypes.object
-  }
+  };
 
   static defaultProps = {
     zoom: 0,
@@ -32,10 +32,10 @@ export default class GoogleMapsElem extends Component {
     mapTypeControl: false,
     streetViewControl: true,
     useMarker: true
-  }
+  };
 
-  static propsSchema = propsSchema
-  static settings = settings
+  static propsSchema = propsSchema;
+  static settings = settings;
 
   getInitState () {
     return {

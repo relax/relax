@@ -8,7 +8,7 @@ export default class ColorPicker extends Component {
 
   static propTypes = {
     colr: PropTypes.object.isRequired
-  }
+  };
 
   render () {
     const {colr} = this.props;

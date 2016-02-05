@@ -25,7 +25,7 @@ export default class Image extends Component {
     width: PropTypes.number.isRequired,
     horizontal: PropTypes.oneOf(['left', 'center', 'right']).isRequired,
     children: PropTypes.string
-  }
+  };
 
   static defaultProps = {
     color: {
@@ -39,10 +39,10 @@ export default class Image extends Component {
     useMaxWidth: false,
     width: '300px',
     horizontal: 'center'
-  }
+  };
 
-  static propsSchema = propsSchema
-  static settings = settings
+  static propsSchema = propsSchema;
+  static settings = settings;
 
   getInitState () {
     return {

@@ -7,11 +7,11 @@ export default class Autocomplete extends Component {
     value: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired,
     suggestion: React.PropTypes.string
-  }
+  };
 
   static defaultProps = {
     autoFocus: true
-  }
+  };
 
   componentDidMount () {
     if (this.props.autoFocus) {

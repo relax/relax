@@ -8,7 +8,7 @@ import Upload from '../../upload';
 import Uploads from './uploads';
 
 export default class Content extends Component {
-  static fragments = MediaItem.fragments
+  static fragments = MediaItem.fragments;
 
   static propTypes = {
     onAddMedia: PropTypes.func.isRequired,
@@ -21,7 +21,7 @@ export default class Content extends Component {
     mimeTypes: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
     closeUploads: PropTypes.func.isRequired
-  }
+  };
 
   imageClicked (id, event) {
     event.preventDefault();

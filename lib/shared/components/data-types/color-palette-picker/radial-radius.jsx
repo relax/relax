@@ -6,7 +6,7 @@ export default class RadialRadius extends Component {
   static propTypes = {
     radius: PropTypes.string.isRequired,
     changeRadius: PropTypes.func.isRequired
-  }
+  };
 
   onClick (radius, event) {
     event.preventDefault();

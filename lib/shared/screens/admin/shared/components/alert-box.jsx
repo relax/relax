@@ -6,7 +6,7 @@ export default class AlertBox extends Component {
   static propTypes = {
     children: PropTypes.node,
     level: PropTypes.string
-  }
+  };
 
   render () {
     return (

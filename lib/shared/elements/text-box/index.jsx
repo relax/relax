@@ -25,19 +25,19 @@ export default class TextBox extends Component {
     styleClassMap: PropTypes.object,
     useTrim: PropTypes.bool,
     maxWidth: PropTypes.number
-  }
+  };
 
   static defaultProps = {
     padding: '0px',
     textAlign: 'left',
     maxWidth: 200
-  }
+  };
 
-  static defaultChildren = 'Click to edit text'
+  static defaultChildren = 'Click to edit text';
 
-  static propsSchema = propsSchema
-  static settings = settings
-  static style = style
+  static propsSchema = propsSchema;
+  static settings = settings;
+  static style = style;
 
   getStyle () {
     const result = {};

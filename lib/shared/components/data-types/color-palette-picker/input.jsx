@@ -9,7 +9,7 @@ export default class Inputs extends Component {
     value: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired
-  }
+  };
 
   getInitState () {
     return {

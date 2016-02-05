@@ -10,7 +10,7 @@ export default class BorderPicker extends Component {
   static propTypes = {
     value: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired
-  }
+  };
 
   getInitState () {
     return {

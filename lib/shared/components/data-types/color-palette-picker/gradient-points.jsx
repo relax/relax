@@ -15,7 +15,7 @@ export default class GradientPoints extends Component {
     pointPercChange: PropTypes.func.isRequired,
     addPoint: PropTypes.func.isRequired,
     removePoint: PropTypes.func.isRequired
-  }
+  };
 
   constructor (props, children) {
     super(props, children);

@@ -14,7 +14,7 @@ export default class Sort extends Component {
     selectSort: PropTypes.func.isRequired,
     removeSort: PropTypes.func.isRequired,
     new: PropTypes.bool
-  }
+  };
 
   onClick () {
     if (!this.props.new) {

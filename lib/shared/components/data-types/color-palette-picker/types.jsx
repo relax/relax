@@ -9,7 +9,7 @@ export default class Types extends Component {
     changeToSolid: PropTypes.func.isRequired,
     changeToLinear: PropTypes.func.isRequired,
     changeToRadial: PropTypes.func.isRequired
-  }
+  };
 
   render () {
     const {type} = this.props;

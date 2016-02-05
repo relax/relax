@@ -1,9 +1,8 @@
 import cx from 'classnames';
+import utils from 'helpers/utils';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import {Component} from 'relax-framework';
-
-import utils from 'helpers/utils';
 
 export default class Marker extends Component {
   static propTypes = {
@@ -12,7 +11,7 @@ export default class Marker extends Component {
     report: PropTypes.object.isRequired,
     active: PropTypes.bool,
     orientation: PropTypes.string
-  }
+  };
 
   getInitState () {
     return {

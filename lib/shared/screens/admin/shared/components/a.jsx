@@ -9,7 +9,7 @@ export default class A extends Component {
     children: React.PropTypes.node,
     onClick: React.PropTypes.func,
     afterClick: React.PropTypes.func
-  }
+  };
 
   onClick (event) {
     if (this.props.onClick) {

@@ -12,7 +12,7 @@ export default class Filters extends Component {
     filterMime: PropTypes.string.isRequired,
     changeMime: PropTypes.func.isRequired,
     changeSort: PropTypes.func.isRequired
-  }
+  };
 
   sortChange (key, value) {
     this.props.changeSort(key, value);

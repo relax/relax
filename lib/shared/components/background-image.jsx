@@ -13,7 +13,7 @@ export default class BackgroundImage extends Component {
     vertical: PropTypes.number,
     horizontal: PropTypes.number,
     opacity: PropTypes.number
-  }
+  };
 
   static defaultProps = {
     backgroundImage: '',
@@ -21,7 +21,7 @@ export default class BackgroundImage extends Component {
     vertical: 50,
     horizontal: 50,
     opacity: 100
-  }
+  };
 
   getInitState () {
     return {

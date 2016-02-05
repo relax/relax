@@ -19,7 +19,7 @@ export default class ColorPicker extends Component {
     opened: PropTypes.bool.isRequired,
     label: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired
-  }
+  };
 
   toggleOpen (event) {
     event.preventDefault();

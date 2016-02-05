@@ -8,7 +8,7 @@ export default class Login extends Component {
     username: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,
     error: PropTypes.string
-  }
+  };
 
   onChange (id, event) {
     this.props.fieldChange(id, event.target.value);

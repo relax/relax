@@ -15,7 +15,7 @@ export default class ColorsCollection extends Component {
     changeAddingColor: PropTypes.func.isRequired,
     toggleAddingColor: PropTypes.func.isRequired,
     addColor: PropTypes.func.isRequired
-  }
+  };
 
   onSubmit (event) {
     event.preventDefault();

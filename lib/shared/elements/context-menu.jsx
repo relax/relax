@@ -7,7 +7,7 @@ export default class ContextMenu extends Component {
     pageBuilder: PropTypes.object.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
     onClose: PropTypes.func.isRequired
-  }
+  };
 
   getInitState () {
     return {
