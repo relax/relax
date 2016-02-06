@@ -1,6 +1,6 @@
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var config = require('./config');
+var config = require('../config');
 
 var NoErrorsPlugin = webpack.NoErrorsPlugin;
 var optimize = webpack.optimize;
@@ -17,9 +17,9 @@ var webpackConfig = module.exports = {
     publicPath: 'http://localhost:' + config.devPort + '/js/'
   },
   resolve: {
+    modulesDirectories: ['shared', 'node_modules'],
     extensions: ['', '.js', '.jsx', '.json']
   },
-  modulesDirectories: ['shared', 'node_modules'],
   plugins: [
     new optimize.OccurenceOrderPlugin(),
     new optimize.CommonsChunkPlugin('common.js', ['admin', 'auth', 'public'])
@@ -29,29 +29,27 @@ var webpackConfig = module.exports = {
       {
         test: /\.(js|jsx)$/,
         loader: 'babel',
+        exclude: /node_modules/,
         query: {
-          optional: ['runtime'],
-          env: {
-            development: {
-              plugins: [
-                'react-transform'
-              ],
-              extra: {
-                'react-transform': {
-                  transforms: [{
-                    transform: 'react-transform-hmr',
-                    imports: ['react'],
-                    locals: ['module']
-                  }, {
-                    transform: 'react-transform-catch-errors',
-                    imports: ['react', 'redbox-react']
-                  }]
+          cacheDirectory: true,
+          presets: ['react', 'es2015', 'stage-0'],
+          plugins: [
+            ['transform-decorators-legacy'],
+            ['react-transform', {
+              transforms: [
+                {
+                  transform: 'react-transform-hmr',
+                  imports: ['react'],
+                  locals: ['module']
+                },
+                {
+                  transform: 'react-transform-catch-errors',
+                  imports: ['react', 'redbox-react']
                 }
-              }
-            }
-          }
-        },
-        exclude: /node_modules/
+              ]
+            }]
+          ]
+        }
       },
       {
         test: /\.json$/,
