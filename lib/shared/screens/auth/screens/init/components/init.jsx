@@ -1,3 +1,5 @@
+import authStyles from 'styles/auth.less';
+import Button from 'components/button';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
@@ -18,9 +20,9 @@ export default class Init extends Component {
 
     return (
       <div>
-        <h1>Welcome to Relax!</h1>
-        <h3>Register the first user to start building your website in a breeze.</h3>
-        <form onSubmit={this.props.onSubmit}>
+        <div className={authStyles.title}>Welcome to Relax!</div>
+        <div className={authStyles.subTitle}>Register the first user to start building your website in a breeze.</div>
+        <form className={authStyles.form} onSubmit={this.props.onSubmit}>
           <label>
             <i className='material-icons'>person_outline</i>
             <input type='text' name='username' placeholder='Username' value={username} onChange={this.onChange.bind(this, 'username')} />
@@ -37,7 +39,7 @@ export default class Init extends Component {
             <i className='material-icons smaller'>email</i>
             <input type='text' name='email' placeholder='Email' value={email} onChange={this.onChange.bind(this, 'email')} />
           </label>
-          <a className='button button-primary full' href='#' onClick={this.props.onSubmit}>Let's get started</a>
+          <Button primary full big onClick={this.props.onSubmit} style={{marginTop: 40}}>Let's get started</Button>
           {<div className='error'>{this.props.error && this.props.error || ' '}</div>}
           <input type='submit' hidden />
         </form>

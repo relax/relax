@@ -1,0 +1,80 @@
+@import '~styles/colors.less';
+
+.title {
+  font-size: 34px;
+  line-height: 44px;
+  font-weight: 600;
+  margin: 0;
+  color: #454545;
+}
+
+.subTitle {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 300;
+  margin: 0;
+  color: #454545;
+}
+
+.form {
+  margin-top: 40px;
+  text-align: left;
+  width: 334px;
+  max-width: 100%;
+  display: inline-block;
+
+  :global {
+    label {
+      display: block;
+      margin-bottom: 21px;
+      border-bottom: 1px solid #e1e1e1;
+      padding: 0px 7px;
+
+      input {
+        font-size: 13px;
+        border: 0;
+        outline: 0;
+        font-weight: 300;
+        color: #454545;
+        width: 280px;
+
+        &::-webkit-input-placeholder {
+          color: #9b9b9b;
+        }
+        &:-moz-placeholder {
+          color: #9b9b9b;
+        }
+        &::-moz-placeholder {
+          color: #9b9b9b;
+        }
+        &:-ms-input-placeholder {
+          color: #9b9b9b;
+        }
+        &::-ms-input-placeholder {
+          color: #9b9b9b;
+        }
+        &:placeholder-shown {
+          color: #9b9b9b;
+        }
+        &:focus {
+          border-color: @primary;
+        }
+      }
+      i, input {
+        display: inline-block;
+        vertical-align: top;
+        line-height: 35px;
+        color: #9b9b9b;
+      }
+      i {
+        width: 20px;
+        text-align: center;
+        font-size: 20px;
+        margin-right: 18px;
+        &.smaller {
+          font-size: 18px;
+        }
+      }
+    }
+  }
+}

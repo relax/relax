@@ -1,6 +1,9 @@
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
+import styles from './index.css';
+import Logo from './components/logo';
+
 export default class Auth extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired
@@ -8,11 +11,8 @@ export default class Auth extends Component {
 
   render () {
     return (
-      <div className='page-init'>
-        <div className='logo'>
-          <img src='/images/admin/logo_big.png' width='150' />
-          <div className='version'>beta</div>
-        </div>
+      <div className={styles.content}>
+        <Logo />
         {this.props.children}
       </div>
     );
