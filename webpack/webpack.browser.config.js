@@ -106,8 +106,8 @@ if (process.env.NODE_ENV === 'production') {
   webpackConfig.devtool = 'source-map';
 } else {
   webpackConfig.module.loaders.push({
-    test: /\.(less|css)$/,
-    loader: 'style!css!less!autoprefixer'
+    test: /\.(css|less)$/,
+    loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!less'
   });
   webpackConfig.devtool = 'eval';
 }

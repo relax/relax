@@ -24,7 +24,6 @@ module.exports = {
   },
   externals: nodeModules,
   plugins: [
-    new webpack.IgnorePlugin(/\.(css|less)$/),
     new webpack.BannerPlugin('require("source-map-support").install();', {
       raw: true,
       entryOnly: false
@@ -42,6 +41,10 @@ module.exports = {
           plugins: ['transform-decorators-legacy'],
           presets: ['react', 'es2015', 'stage-0']
         }
+      },
+      {
+        test: /\.(css|less)$/,
+        loader: 'css-loader'
       }
     ]
   }
