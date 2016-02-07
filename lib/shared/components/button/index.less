@@ -1,0 +1,37 @@
+@import '~styles/colors.less';
+
+.button {
+  cursor: pointer;
+  padding: 8px 15px;
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 15px;
+  display: inline-block;
+  vertical-align: top;
+  border-radius: 3px;
+  outline: 0;
+  border: 0;
+}
+
+.full {
+  display: block;
+  text-align: center;
+  width: 100%;
+  margin-right: 0;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
+.primary {
+  background-color: @primary;
+  color: #ffffff;
+
+  &:hover {
+    background-color: @primaryDarker;
+  }
+}
+
+.big {
+  font-size: 12px;
+  padding: 15px;
+}
