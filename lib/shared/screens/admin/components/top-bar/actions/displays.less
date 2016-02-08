@@ -1,0 +1,60 @@
+@import '~styles/sizes.less';
+@import '~styles/colors.less';
+
+@numberDisplays: 3;
+
+.root {
+  position: absolute;
+  left: 0;
+  right: 0px;
+  height: @actionsHeight;
+  overflow: hidden;
+}
+
+.wrapper {
+  position: absolute;
+  left: 50%;
+  width: @actionsHeight;
+  height: @actionsHeight;
+  overflow: hidden;
+  transform: translateX(-(@actionsHeight / 2));
+  transition: all 0.2s ease-out;
+
+  &:hover {
+    width: @actionsHeight * @numberDisplays * 2;
+    @translate: @actionsHeight * @numberDisplays + @actionsHeight / 2;
+    transform: translateX(-@translate);
+    .slider {
+      transform: translateX(@actionsHeight * @numberDisplays);
+    }
+  }
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: @actionsHeight * @numberDisplays;
+  transition: all 0.2s ease-out;
+  transform: translateX(0);
+}
+
+.button {
+  :global {
+    i {
+      width: @actionsHeight;
+      font-size: 13px;
+      line-height: @actionsHeight;
+    }
+  }
+  &:nth-child(2) :global i {
+    font-size: 11px;
+  }
+  &:nth-child(3) :global i {
+    font-size: 10px;
+  }
+}
+
+.unfocus {
+
+}

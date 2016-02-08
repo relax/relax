@@ -38,8 +38,18 @@ module.exports = {
         exclude: /node_modules/,
         query: {
           cacheDirectory: true,
-          plugins: ['transform-decorators-legacy'],
-          presets: ['react', 'es2015', 'stage-0']
+          presets: ['react', 'es2015', 'stage-0'],
+          plugins: [
+            ['transform-decorators-legacy'],
+            ['react-transform', {
+              transforms: [
+                {
+                  transform: 'react-transform-catch-errors',
+                  imports: ['react', 'redbox-react']
+                }
+              ]
+            }]
+          ]
         }
       },
       {

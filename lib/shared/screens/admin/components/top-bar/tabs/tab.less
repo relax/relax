@@ -1,0 +1,65 @@
+@import '~styles/colors.less';
+@import '~styles/sizes.less';
+
+.tab {
+  height: @tabsHeight;
+  border-right: 1px solid @chromeBordersColor;
+  display: inline-block;
+  vertical-align: top;
+  text-decoration: none;
+  color: @chromeTextColor;
+
+  font-size: 10px;
+  line-height: @tabsHeight;
+  width: 200px;
+
+  margin: 0 -1px;
+  padding: 0 7.5px;
+  padding-right: 30px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+
+  i {
+    vertical-align: top;
+    font-size: 11px;
+    line-height: @tabsHeight;
+  }
+
+  &:hover{
+    color: @chromeTextColorHighlight;
+  }
+}
+
+.active {
+  z-index: 1;
+  background-color: #3f4249;
+  color: @chromeTextColorHighlight;
+}
+
+.close {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border-radius: 9px;
+  text-align: center;
+  top: 4px;
+  right: 10px;
+
+  i {
+    font-size: 11px;
+    line-height: 13px;
+    vertical-align: top;
+    color: #999999;
+  }
+
+  &:hover {
+    background-color: #DD6050;
+
+    i {
+      color: #ffffff;
+    }
+  }
+}
