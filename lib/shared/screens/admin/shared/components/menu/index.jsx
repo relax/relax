@@ -55,7 +55,9 @@ export default class Menu extends Component {
     return (
       <div className={styles.root}>
         <div className={styles.menu}>
-          {Menu.menuData.map(this.renderEntry, this)}
+          <div className={styles.menuContent}>
+            {Menu.menuData.map(this.renderEntry, this)}
+          </div>
           <User user={{name: 'Bruno Mota', email: 'bruno12mota@gmail.com'}} />
         </div>
         <div className={styles.list}>
