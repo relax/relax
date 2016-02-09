@@ -18,7 +18,7 @@ export default class Tabs extends Component {
       <div className={styles.root}>
         {this.props.tabs.map(this.renderTab, this)}
         <button className={styles.addButton} key='add'>
-          <i className='material-icons'>add</i>
+          <i className='nc-icon-mini ui-1_bold-add'></i>
         </button>
       </div>
     );

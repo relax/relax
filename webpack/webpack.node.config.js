@@ -55,6 +55,10 @@ module.exports = {
       {
         test: /\.(css|less)$/,
         loader: 'css-loader'
+      },
+      {
+        test: /\.(woff|woff2|ttf|eot|svg|png|jpg|jpeg|gif)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url'
       }
     ]
   }
