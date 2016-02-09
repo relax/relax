@@ -1,0 +1,57 @@
+@import '~styles/sizes.less';
+@import '~styles/colors.less';
+
+.root {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: @menuWidth;
+  border-right: 1px solid @adminBorders;
+}
+
+.menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.button {
+  display: block;
+  height: 60px;
+
+  font-size: 14px;
+  color: @adminText;
+
+  :global {
+    i, span {
+      display: inline-block;
+      vertical-align: top;
+      line-height: 60px;
+    }
+    i {
+      width: 60px;
+      text-align: center;
+      font-size: 22px;
+      color: @primary;
+    }
+    span {
+      font-weight: 600;
+    }
+  }
+
+  &:hover {
+    background-color: @primaryBack;
+  }
+}
+
+.sepperator {
+  display: block;
+  height: 0px;
+  width: 100%;
+  border-bottom: 1px solid @adminBorders;
+  margin: 0;
+  padding: 0;
+}
