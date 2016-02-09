@@ -1,0 +1,51 @@
+@import '~styles/sizes.less';
+@import '~styles/colors.less';
+
+.root {
+  float: right;
+  position: relative;
+  padding: 0 6px;
+}
+
+.button {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 10px;
+}
+
+.iconButton {
+  line-height: @actionsHeight;
+  height: @actionsHeight;
+
+  :global i {
+    width: @actionsHeight;
+    font-size: 12px;
+    line-height: @actionsHeight;
+    color: @chromeTextColor;
+  }
+
+  :hover :global i {
+    color: @chromeTextColorHighlight;
+  }
+}
+
+.textButton {
+  margin-top: 4px;
+  margin-left: 20px;
+  line-height: @actionsHeight - 9;
+  height: @actionsHeight - 9;
+  color: @chromeTextColor;
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.primaryButton {
+  background-color: @primary;
+  color: #ffffff;
+  border-radius: 3px;
+  padding: 0 15px;
+
+  &:hover{
+    background-color: @primaryDarker;
+  }
+}

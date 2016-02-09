@@ -1,0 +1,25 @@
+@import '~styles/sizes.less';
+@import '~styles/colors.less';
+
+.root {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  height: @actionsHeight;
+  padding: 0 16px;
+  line-height: @actionsHeight;
+}
+
+.text {
+  color: @primary;
+  font-size: 9px;
+}
+
+.button {
+  color: @chromeTextColor;
+  font-size: 9px;
+
+  &:hover {
+    color: @chromeTextColorHighlight;
+  }
+}

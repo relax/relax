@@ -18,15 +18,15 @@ export default class Displays extends Component {
   static displaysArr = [
     {
       display: 'desktop',
-      icon: 'computer'
+      icon: 'nc-icon-mini tech_desktop-screen'
     },
     {
       display: 'tablet',
-      icon: 'tablet_mac'
+      icon: 'nc-icon-mini tech_tablet-button'
     },
     {
       display: 'mobile',
-      icon: 'phone_iphone'
+      icon: 'nc-icon-mini tech_mobile-button'
     }
   ];
 
@@ -61,8 +61,9 @@ export default class Displays extends Component {
       <button
         className={cx(styles.button, this.props.display !== display && styles.unfocus)}
         onClick={this.changeDisplay.bind(this, display)}
+        key={display}
       >
-        <i className='material-icons'>{icon}</i>
+        <i className={icon}></i>
       </button>
     );
   }

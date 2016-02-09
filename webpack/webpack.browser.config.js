@@ -56,8 +56,12 @@ var webpackConfig = module.exports = {
         loader: 'json'
       },
       {
-        test: /\.(woff|woff2|ttf|eot|svg|png|jpg|jpeg|gif)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        test: /\.(png|jpg|jpeg|gif)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'url'
+      },
+      {
+        test: /\.(woff|woff2|ttf|eot|svg)$/,
+        loader: 'file-loader?name=fonts/[name].[ext]'
       }
     ]
   },

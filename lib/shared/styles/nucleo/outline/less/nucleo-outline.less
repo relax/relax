@@ -1,0 +1,38 @@
+/* --------------------------------
+
+Nucleo Outline Web Font - nucleoapp.com/
+License - nucleoapp.com/license/
+Created using IcoMoon - icomoon.io
+
+-------------------------------- */
+@import "./variables.less";
+
+@font-face {
+  font-family: 'Nucleo Outline';
+  src: url('/fonts/nucleo-outline.eot');
+  src:  url('/fonts/nucleo-outline.eot') format('embedded-opentype'),
+        url('/fonts/nucleo-outline.woff2') format('woff2'),
+        url('/fonts/nucleo-outline.woff') format('woff'),
+        url('/fonts/nucleo-outline.ttf') format('truetype'),
+        url('/fonts/nucleo-outline.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:global {
+  /*------------------------
+  base class definition
+  -------------------------*/
+  .nc-icon-outline {
+    display: inline-block;
+    font: normal normal normal @nc-font-size-base/1 'Nucleo Outline';
+    font-size: inherit;
+    speak: none;
+    text-transform: none;
+    /* Better Font Rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  @import "./icons.less";
+}

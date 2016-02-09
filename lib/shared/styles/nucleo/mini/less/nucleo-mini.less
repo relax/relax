@@ -1,0 +1,39 @@
+/* --------------------------------
+
+Nucleo Mini Web Font - nucleoapp.com/
+License - nucleoapp.com/license/
+Created using IcoMoon - icomoon.io
+
+-------------------------------- */
+@import "./variables.less";
+
+@font-face {
+  font-family: 'Nucleo Mini';
+  src: url('/fonts/nucleo-mini.eot');
+  src: url('/fonts/nucleo-mini.eot') format('embedded-opentype'),
+    url('/fonts/nucleo-mini.woff2') format('woff2'),
+    url('/fonts/nucleo-mini.woff') format('woff'),
+    url('/fonts/nucleo-mini.ttf') format('truetype'),
+    url('/fonts/nucleo-mini.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:global {
+  /*------------------------
+  	base class definition
+  -------------------------*/
+  .nc-icon-mini {
+    display: inline-block;
+    font: normal normal normal @nc-font-size-base/1 'Nucleo Mini';
+    font-size: inherit;
+    speak: none;
+    text-transform: none;
+    /* Better Font Rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+
+  @import "./icons.less";
+}
