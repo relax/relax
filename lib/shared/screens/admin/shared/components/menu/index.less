@@ -45,7 +45,7 @@
       width: 60px;
       text-align: center;
       font-size: 22px;
-      color: @primary;
+      color: @primarySub;
     }
     span {
       font-weight: 600;
@@ -54,6 +54,18 @@
 
   &:hover {
     background-color: @primaryBack;
+  }
+}
+
+.active {
+  background-color: @primary;
+  :global {
+    i, span {
+      color: #ffffff;
+    }
+  }
+  &:hover {
+    background-color: @primary;
   }
 }
 
