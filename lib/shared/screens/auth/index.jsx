@@ -1,3 +1,6 @@
+import 'styles/normalize.less';
+import 'styles/nucleo/index.less';
+
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
