@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import A from 'components/a';
 import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
@@ -6,6 +7,10 @@ import styles from './index.less';
 import User from './user';
 
 export default class Menu extends Component {
+  static propTypes = {
+    active: PropTypes.string
+  };
+
   static menuData = [
     {
       label: 'General Settings',
@@ -73,7 +78,7 @@ export default class Menu extends Component {
       result = <div className={styles.sepperator}/>;
     } else {
       result = (
-        <A href={entry.link} className={styles.button} key={key}>
+        <A href={entry.link} className={cx(styles.button, this.props.active === entry.label && styles.active)} key={key}>
           <i className={entry.icon}></i>
           <span>{entry.label}</span>
         </A>

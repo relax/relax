@@ -1,0 +1,36 @@
+@import '~styles/sizes.less';
+@import '~styles/colors.less';
+
+.holder {
+  position: absolute;
+  top: 0;
+  left: @menuWidth;
+  right: 0;
+  bottom: 0;
+}
+
+.empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  border-radius: 50%;
+  border: 1px dashed #efefef;
+  width: 200px;
+  height: 200px;
+  padding: 20px;
+
+  :global i {
+    font-size: 56px;
+    color: @adminTextSub;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+}
+
+.emptyText {
+  font-size: 15px;
+  font-weight: 300;
+  color: @adminTextSub;
+}
