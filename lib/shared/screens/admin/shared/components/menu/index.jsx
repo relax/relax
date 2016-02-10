@@ -4,6 +4,8 @@ import React, {PropTypes} from 'react';
 import {Component} from 'relax-framework';
 
 import styles from './index.less';
+import Button from './button';
+import ContentTypes from './content-types';
 import User from './user';
 
 export default class Menu extends Component {
@@ -62,6 +64,7 @@ export default class Menu extends Component {
         <div className={styles.menu}>
           <div className={styles.menuContent}>
             {Menu.menuData.map(this.renderEntry, this)}
+            <ContentTypes key='content-types' />
           </div>
           <User user={{name: 'Bruno Mota', email: 'bruno12mota@gmail.com'}} />
         </div>
@@ -78,10 +81,7 @@ export default class Menu extends Component {
       result = <div className={styles.sepperator}/>;
     } else {
       result = (
-        <A href={entry.link} className={cx(styles.button, this.props.active === entry.label && styles.active)} key={key}>
-          <i className={entry.icon}></i>
-          <span>{entry.label}</span>
-        </A>
+        <Button {...entry} active={this.props.active === entry.label} key={key} />
       );
     }
     return result;

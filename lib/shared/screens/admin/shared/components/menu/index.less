@@ -28,47 +28,6 @@
   overflow-y: auto;
 }
 
-.button {
-  display: block;
-  height: 60px;
-
-  font-size: 14px;
-  color: @adminText;
-
-  :global {
-    i, span {
-      display: inline-block;
-      vertical-align: top;
-      line-height: 60px;
-    }
-    i {
-      width: 60px;
-      text-align: center;
-      font-size: 22px;
-      color: @primarySub;
-    }
-    span {
-      font-weight: 600;
-    }
-  }
-
-  &:hover {
-    background-color: @primaryBack;
-  }
-}
-
-.active {
-  background-color: @primary;
-  :global {
-    i, span {
-      color: #ffffff;
-    }
-  }
-  &:hover {
-    background-color: @primary;
-  }
-}
-
 .sepperator {
   display: block;
   height: 0px;
