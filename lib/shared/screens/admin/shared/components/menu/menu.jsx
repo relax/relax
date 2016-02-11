@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import Component from 'components/component';
 import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
@@ -12,14 +13,20 @@ export default class Menu extends Component {
 
   static propTypes = {
     active: PropTypes.string,
+    opened: PropTypes.bool,
     menuData: PropTypes.array.isRequired,
-    schemas: PropTypes.array.isRequired
+    schemas: PropTypes.array.isRequired,
+    children: PropTypes.node
+  };
+
+  static defaultProps = {
+    opened: false
   };
 
   render () {
-    const {menuData, schemas} = this.props;
+    const {menuData, schemas, opened} = this.props;
     return (
-      <div className={styles.root}>
+      <div className={cx(styles.root, opened && styles.opened)}>
         <div className={styles.menu}>
           <Scrollable className={styles.menuContent}>
             {menuData.map(this.renderEntry, this)}
@@ -28,7 +35,7 @@ export default class Menu extends Component {
           <User user={{name: 'Bruno Mota', email: 'bruno12mota@gmail.com'}} />
         </div>
         <div className={styles.list}>
-
+          {this.props.children}
         </div>
       </div>
     );

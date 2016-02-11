@@ -1,0 +1,54 @@
+@import '~styles/colors.less';
+
+.header {
+  position: relative;
+  height: 70px;
+  border-bottom: 1px solid @adminBorders;
+}
+
+.backButton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0 7px;
+  :global {
+    i, span {
+      display: inline-block;
+      vertical-align: top;
+      line-height: 70px;
+    }
+    span {
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+    i {
+      font-size: 10px;
+      margin-right: 5px;
+    }
+  }
+}
+
+.newButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 10px;
+  :global {
+    i {
+      color: @adminText;
+      line-height: 70px;
+      font-size: 22px;
+    }
+  }
+  &:hover :global i {
+    color: @primary;
+  }
+}
+
+.title {
+  padding: 0 60px;
+  text-align: center;
+  line-height: 69px;
+  font-size: 22px;
+  color: @adminTextHighlight;
+}
