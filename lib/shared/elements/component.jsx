@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {Droppable} from 'components/dnd';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 export default class ElementComponent extends Component {
   static propTypes = {

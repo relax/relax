@@ -3,7 +3,7 @@ import forEach from 'lodash.foreach';
 import AnimateProps from 'components/animate-props';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import Marker from './marker';
 

@@ -1,7 +1,7 @@
 import qs from 'query-string';
 import React from 'react';
 import {Link} from 'react-router';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 export default class A extends Component {
   static propTypes = {

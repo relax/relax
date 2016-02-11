@@ -1,7 +1,7 @@
 import authStyles from 'styles/auth.less';
 import Button from 'components/button';
 import React, {PropTypes} from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 export default class Init extends Component {
   static propTypes = {

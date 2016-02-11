@@ -1,6 +1,6 @@
 import Menu from 'components/menu';
 import React, {PropTypes} from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import styles from './pages.less';
 

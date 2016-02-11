@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import forEach from 'lodash.foreach';
 import React from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 export default class Combobox extends Component {
   static propTypes = {

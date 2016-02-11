@@ -1,5 +1,5 @@
+import Component from 'components/component';
 import React, {PropTypes} from 'react';
-import {Component} from 'relax-framework';
 
 import styles from './index.less';
 import Loading from '../loading';

@@ -1,7 +1,7 @@
 import find from 'lodash.find';
 import forEach from 'lodash.foreach';
 import React, {PropTypes} from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import Combobox from '../combobox';
 

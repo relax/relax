@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash.clonedeep';
 import cx from 'classnames';
 import React from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import Utils from '../../helpers/utils';
 import {Types} from '../../data-types';

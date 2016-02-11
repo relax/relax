@@ -1,7 +1,7 @@
 import React from 'react';
 import Velocity from 'velocity-animate';
 import {findDOMNode} from 'react-dom';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 export default class AnimateProps extends Component {
   static propTypes = {

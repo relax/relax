@@ -1,5 +1,5 @@
 import React from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 export default class Button extends Component {
   static propTypes = {

@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import React from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import BorderStyle from './border-style';
 import ColorPicker from '../../containers/data-types/color-palette-picker';

@@ -2,7 +2,7 @@ import cx from 'classnames';
 import utils from 'helpers/utils';
 import BackgroundImage from 'components/background-image';
 import React, {PropTypes} from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import classes from './classes';
 

@@ -2,7 +2,7 @@ import cx from 'classnames';
 import forEach from 'lodash.foreach';
 import sortBy from 'lodash.sortby';
 import React, {PropTypes} from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import utils from '../../../helpers/utils';
 import {applyBackground, getColorString} from '../../../helpers/colors';

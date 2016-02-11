@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import Animate from '../../animate';
 import MediaItem from '../../media-item';

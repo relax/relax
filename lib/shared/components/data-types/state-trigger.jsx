@@ -1,4 +1,4 @@
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 import React from 'react';
 
 export default class StateTrigger extends Component {

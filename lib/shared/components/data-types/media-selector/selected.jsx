@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, {PropTypes} from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import MediaItem from '../../media-item';
 

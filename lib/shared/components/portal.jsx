@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import {PropTypes} from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 const renderSubtreeIntoContainer = ReactDOM.unstable_renderSubtreeIntoContainer;
 

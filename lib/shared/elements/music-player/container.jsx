@@ -1,6 +1,6 @@
 import request from 'superagent';
 import React, {PropTypes} from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 import {soundManager} from 'soundmanager2';
 
 import Player from './player';

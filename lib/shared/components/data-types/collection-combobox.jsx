@@ -1,5 +1,5 @@
 import React from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 import Combobox from './combobox';
 import forEach from 'lodash.foreach';
 

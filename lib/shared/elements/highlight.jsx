@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import ContextMenu from './context-menu';
 

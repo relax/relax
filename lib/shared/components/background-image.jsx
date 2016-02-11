@@ -1,7 +1,7 @@
 import Utils from 'helpers/utils';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import MediaImage from './image';
 

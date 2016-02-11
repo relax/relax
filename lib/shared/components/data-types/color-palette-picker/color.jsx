@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import Portal from '../../portal';
 import Stick from '../../stick';
