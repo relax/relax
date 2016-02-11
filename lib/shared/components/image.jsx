@@ -1,7 +1,7 @@
 import forEach from 'lodash.foreach';
 import React, {PropTypes} from 'react';
 import {getBestImageUrl} from 'helpers/utils';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 export default class Image extends Component {
   static propTypes = {

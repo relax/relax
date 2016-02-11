@@ -3,7 +3,7 @@ import * as elementsActions from 'actions/elements';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {buildQueryAndVariables} from 'relax-framework';
+import {buildQueryAndVariables} from 'relax-fragments';
 
 import propsSchema from './props-schema';
 import settings from './settings';

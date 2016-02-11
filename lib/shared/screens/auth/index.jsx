@@ -2,7 +2,7 @@ import 'styles/normalize.less';
 import 'styles/nucleo/index.less';
 
 import React, {PropTypes} from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import styles from './index.css';
 import Logo from './components/logo';

@@ -1,7 +1,7 @@
 import forEach from 'lodash.foreach';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import Combobox from '../combobox';
 

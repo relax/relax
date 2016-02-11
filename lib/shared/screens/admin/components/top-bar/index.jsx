@@ -1,5 +1,5 @@
 import React from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import styles from './index.less';
 import Actions from './actions';

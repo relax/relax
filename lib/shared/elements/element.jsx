@@ -5,7 +5,7 @@ import Velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 import {Droppable, Draggable} from 'components/dnd';
 import {findDOMNode} from 'react-dom';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import Highlight from './highlight';
 

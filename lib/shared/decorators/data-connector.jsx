@@ -3,18 +3,22 @@ import * as adminActions from 'actions/admin';
 import hoistStatics from 'hoist-non-react-statics';
 import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
-import {mergeFragments, buildQueryAndVariables} from 'relax-framework';
+import {mergeFragments, buildQueryAndVariables} from 'relax-fragments';
 
 export default function dataConnect () {
   return function wrapWithDataConnect (WrappedComponent) {
     class ConnectData extends Component {
+      static propTypes = {
+        fetchData: PropTypes.func
+      };
+
       static contextTypes = {
-        parentFetchData: PropTypes.func,
+        fetchData: PropTypes.func,
         store: PropTypes.any.isRequired
       };
 
       static childContextTypes = {
-        parentFetchData: PropTypes.func.isRequired
+        fetchData: PropTypes.func.isRequired
       };
 
       constructor (props, context) {
@@ -25,7 +29,7 @@ export default function dataConnect () {
 
       getChildContext () {
         return {
-          parentFetchData: this.childFetchDataBind
+          fetchData: this.childFetchDataBind
         };
       }
 
@@ -40,11 +44,14 @@ export default function dataConnect () {
           fragments: mergeFragments(this.bundle.fragments || {}, fragments || {}),
           variables: Object.assign(this.bundle.variables || {}, variables || {})
         };
+        // dispatch action to save bundle
       }
 
       fetchData (bundle) {
-        if (this.context.parentFetchData) {
-          this.context.parentFetchData(bundle);
+        if (this.props.fetchData) {
+          this.props.fetchData(bundle);
+        } else if (this.context.fetchData) {
+          this.context.fetchData(bundle);
         } else {
           // fetch it already
           const { dispatch } = this.context.store;

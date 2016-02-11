@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 export default class ShadowPosition extends Component {
   static propTypes = {

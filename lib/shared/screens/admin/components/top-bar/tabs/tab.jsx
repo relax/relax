@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import A from 'components/a';
 import React from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import styles from './tab.less';
 

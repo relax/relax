@@ -1,7 +1,7 @@
 import Colr from 'colr';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import utils from '../../../helpers/utils';
 

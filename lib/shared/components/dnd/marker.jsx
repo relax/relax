@@ -2,7 +2,7 @@ import cx from 'classnames';
 import utils from 'helpers/utils';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 export default class Marker extends Component {
   static propTypes = {

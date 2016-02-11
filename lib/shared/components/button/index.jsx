@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import forEach from 'lodash.foreach';
 import React, {PropTypes} from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import styles from './index.less';
 

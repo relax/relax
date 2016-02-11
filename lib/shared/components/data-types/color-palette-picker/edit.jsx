@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import ColorPicker from './color-picker';
 import ColorsCollection from './colors-collection';

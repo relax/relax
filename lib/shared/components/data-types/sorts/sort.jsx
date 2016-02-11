@@ -1,6 +1,6 @@
 import find from 'lodash.find';
 import React, {PropTypes} from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import Balloon from '../../balloon';
 import Edit from './edit';

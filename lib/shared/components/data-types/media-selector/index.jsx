@@ -1,5 +1,6 @@
+import Component from 'components/component';
 import React, {PropTypes} from 'react';
-import {Component, mergeFragments} from 'relax-framework';
+import {mergeFragments} from 'relax-fragments';
 
 import Content from './content';
 import Filters from './filters';

@@ -1,7 +1,7 @@
 import clone from 'lodash.clone';
 import forEach from 'lodash.foreach';
 import React from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import Dropdown from './dropdown';
 import Font from '../../font';

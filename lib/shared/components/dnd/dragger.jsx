@@ -1,7 +1,7 @@
 import Velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 export default class Dragger extends Component {
   static propTypes = {

@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import utils from '../../../helpers/utils';
 import Input from './input';

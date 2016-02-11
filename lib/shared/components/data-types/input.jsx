@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
-import {Component} from 'relax-framework';
+import Component from 'components/component';
 
 import Animate from '../animate';
 import Spinner from '../spinner';
