@@ -8,6 +8,7 @@
   bottom: 0;
   width: @menuWidth;
   border-right: 1px solid @adminBorders;
+  overflow: hidden;
 }
 
 .menu {
@@ -16,6 +17,25 @@
   left: 0;
   right: 0;
   bottom: 0px;
+  transition: transform 0.5s ease-in-out;
+}
+
+.list {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0px;
+  visibility: hidden;
+}
+
+.opened {
+  .menu {
+    visibility: hidden;
+  }
+  .list {
+    visibility: visible;
+  }
 }
 
 .menuContent {

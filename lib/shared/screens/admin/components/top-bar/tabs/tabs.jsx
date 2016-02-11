@@ -1,16 +1,16 @@
-import React, {PropTypes} from 'react';
 import Component from 'components/component';
+import React, {PropTypes} from 'react';
 
 import styles from './tabs.less';
 import Tab from './tab';
 
 export default class Tabs extends Component {
-  static propTypes = {
-    tabs: PropTypes.array.isRequired
+  static fragments = {
+    tabs: Tab.fragments.tab
   };
 
-  static defaultProps = {
-    tabs: []
+  static propTypes = {
+    tabs: PropTypes.array.isRequired
   };
 
   render () {

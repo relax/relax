@@ -8,10 +8,6 @@ import {mergeFragments, buildQueryAndVariables} from 'relax-fragments';
 export default function dataConnect () {
   return function wrapWithDataConnect (WrappedComponent) {
     class ConnectData extends Component {
-      static propTypes = {
-        fetchData: PropTypes.func
-      };
-
       static contextTypes = {
         fetchData: PropTypes.func,
         store: PropTypes.any.isRequired
@@ -48,12 +44,9 @@ export default function dataConnect () {
       }
 
       fetchData (bundle) {
-        if (this.props.fetchData) {
-          this.props.fetchData(bundle);
-        } else if (this.context.fetchData) {
+        if (this.context.fetchData) {
           this.context.fetchData(bundle);
         } else {
-          // fetch it already
           const { dispatch } = this.context.store;
           const actions = bindActionCreators(adminActions, dispatch);
           actions.getAdmin(buildQueryAndVariables(bundle.fragments, bundle.variables));
