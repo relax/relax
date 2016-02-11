@@ -15,15 +15,17 @@ export default class Pages extends Component {
     children: PropTypes.node,
     pages: PropTypes.array.isRequired,
     onBack: PropTypes.func.isRequired,
-    onNew: PropTypes.func.isRequired
+    onNew: PropTypes.func.isRequired,
+    opened: PropTypes.bool.isRequired,
+    onOpenList: PropTypes.func.isRequired
   };
 
   render () {
-    const {pages, onBack, onNew} = this.props;
+    const {pages, onBack, onOpenList, onNew, opened} = this.props;
 
     return (
       <div>
-        <Menu active='Pages' opened>
+        <Menu active='Pages' opened={opened} onOpen={onOpenList}>
           <ListHeader
             title='Pages'
             onBack={onBack}
