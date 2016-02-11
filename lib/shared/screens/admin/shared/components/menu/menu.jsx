@@ -1,5 +1,6 @@
-import React, {PropTypes} from 'react';
 import Component from 'components/component';
+import Scrollable from 'components/scrollable';
+import React, {PropTypes} from 'react';
 
 import styles from './menu.less';
 import Button from './button';
@@ -20,10 +21,10 @@ export default class Menu extends Component {
     return (
       <div className={styles.root}>
         <div className={styles.menu}>
-          <div className={styles.menuContent}>
+          <Scrollable className={styles.menuContent}>
             {menuData.map(this.renderEntry, this)}
             <ContentTypes schemas={schemas} key='content-types' />
-          </div>
+          </Scrollable>
           <User user={{name: 'Bruno Mota', email: 'bruno12mota@gmail.com'}} />
         </div>
         <div className={styles.list}>
