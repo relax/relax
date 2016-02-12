@@ -1,0 +1,106 @@
+@import '~styles/colors.less';
+
+.root {
+  width: 21.25%;
+  margin-right: 5%;
+  display: inline-block;
+  vertical-align: top;
+  margin-bottom: 60px;
+  border: 1px solid transparent;
+  text-align: center;
+}
+
+@media screen and (min-width: 1501px) {
+  .root {
+    width: 16%;
+    &:nth-child(5n+5) {
+      margin-right: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 1500px) and (min-width: 1101px) {
+  .root {
+    &:nth-child(4n+4) {
+      margin-right: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 1100px) and (min-width: 851px) {
+  .root {
+    width: 30%;
+    &:nth-child(3n+3) {
+      margin-right: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 850px) and (min-width: 751px) {
+  .root {
+    width: 45%;
+    margin-right: 10%;
+    &:nth-child(2n+2) {
+      margin-right: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .root {
+    width: 100%;
+    margin-right: 0%;
+  }
+}
+
+.user {
+  width: 125px;
+  height: 125px;
+  display: inline-block;
+  vertical-align: top;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.info {
+  padding: 15px;
+  height: 65px;
+  text-align: center;
+}
+
+.title {
+  color: @adminTextHighlight;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.value {
+  color: @adminText;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.actions {
+  visibility: hidden;
+  border-top: 1px solid @adminBorders;
+}
+
+.button {
+  height: 39px;
+  line-height: 39px;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: @adminText;
+}
+
+.remove {
+  color: @alert;
+}
+
+.root:hover {
+  border: 1px solid @adminBorders;
+  .actions {
+    visibility: visible;
+  }
+}
