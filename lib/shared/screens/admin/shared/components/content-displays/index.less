@@ -1,0 +1,26 @@
+@import '~styles/colors.less';
+
+.root {
+  display: inline-block;
+  vertical-align: top;
+  padding: 0 15px;
+}
+
+.button {
+  display: inline-block;
+  vertical-align: top;
+  width: 30px;
+  height: 30px;
+  margin: 0 5px;
+  :global i {
+    font-size: 22px;
+    line-height: 30px;
+    color: @adminText;
+  }
+}
+
+.active {
+  :global i {
+    color: @primary;
+  }
+}
