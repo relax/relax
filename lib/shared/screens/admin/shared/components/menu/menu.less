@@ -15,8 +15,11 @@
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0px;
+  right: -1px;
+  bottom: 80px;
+  transform: translateX(0%);
+  border-right: 1px solid @adminBorders;
+  z-index: 1;
 }
 
 .list {
@@ -24,17 +27,17 @@
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0px;
-  visibility: hidden;
+  bottom: 80px;
   background-color: #ffffff;
+  transform: translateX(100%);
 }
 
 .opened {
   .menu {
-    visibility: hidden;
+    transform: translateX(-100%);
   }
   .list {
-    visibility: visible;
+    transform: translateX(0%);
   }
 }
 
@@ -43,7 +46,7 @@
   top: 0;
   left: 0;
   right: 0;
-  bottom: 80px;
+  bottom: 0px;
   overflow-y: auto;
   overflow-x: hidden;
 }
