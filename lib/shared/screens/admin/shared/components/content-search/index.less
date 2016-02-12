@@ -1,0 +1,46 @@
+@import '~styles/colors.less';
+
+.root {
+  display: inline-block;
+  vertical-align: top;
+
+  :global i {
+    font-size: 24px;
+    line-height: 30px;
+    color: @adminTextSub;
+    margin-right: 10px;
+  }
+}
+
+.input {
+  display: inline-block;
+  vertical-align: top;
+  color: @adminTextSub;
+  font-size: 20px;
+  line-height: 30px;
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  padding: 0;
+  margin: 0;
+  width: 200px;
+
+  &::-webkit-input-placeholder {
+    color: @adminTextSub;
+  }
+  &:-moz-placeholder {
+    color: @adminTextSub;
+  }
+  &::-moz-placeholder {
+    color: @adminTextSub;
+  }
+  &:-ms-input-placeholder {
+    color: @adminTextSub;
+  }
+  &::-ms-input-placeholder {
+    color: @adminTextSub;
+  }
+  &:placeholder-shown {
+    color: @adminTextSub;
+  }
+}
