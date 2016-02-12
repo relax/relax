@@ -1,8 +1,8 @@
 import Component from 'components/component';
-import Menu from 'components/menu';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';
+import Menu from '../menu';
 import TopBar from '../top-bar';
 
 export default class Admin extends Component {
