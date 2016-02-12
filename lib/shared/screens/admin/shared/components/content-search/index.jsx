@@ -1,0 +1,20 @@
+import Component from 'components/component';
+import React, {PropTypes} from 'react';
+
+import styles from './index.less';
+
+export default class ContentHeader extends Component {
+  static propTypes = {
+    value: PropTypes.string.isRequired
+  };
+
+  render () {
+    const {value} = this.props;
+    return (
+      <label className={styles.root}>
+        <i className='nc-icon-outline ui-1_zoom'></i>
+        <input className={styles.input} type='text' value={value} placeholder='Search' />
+      </label>
+    );
+  }
+}
