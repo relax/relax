@@ -33,13 +33,17 @@ export default class Menu extends Component {
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.opened !== this.props.opened) {
-      const duration = 400;
+      const config = {
+        duration: 800,
+        display: null,
+        easing: 'easeOutExpo'
+      };
       if (nextProps.opened) {
-        Velocity(this.refs.menu, 'transition.expandOut', {duration, visibility: 'hidden', display: null});
-        Velocity(this.refs.list, 'transition.slideRightBigIn', {duration, visibility: 'visible', display: null});
+        Velocity(this.refs.menu, {translateX: '-100%'}, config);
+        Velocity(this.refs.list, {translateX: '0%'}, config);
       } else {
-        Velocity(this.refs.menu, 'transition.expandIn', {duration, visibility: 'visible', display: null});
-        Velocity(this.refs.list, 'transition.slideRightBigOut', {duration, visibility: 'hidden', display: null});
+        Velocity(this.refs.menu, {translateX: '0%'}, config);
+        Velocity(this.refs.list, {translateX: '100%'}, config);
       }
     }
   }
@@ -53,11 +57,11 @@ export default class Menu extends Component {
             {menuData.map(this.renderEntry, this)}
             <ContentTypes schemas={schemas} key='content-types' />
           </Scrollable>
-          <User user={{name: 'Bruno Mota', email: 'bruno12mota@gmail.com'}} />
         </div>
         <div className={styles.list} ref='list'>
           {this.props.children}
         </div>
+        <User user={{name: 'Bruno Mota', email: 'bruno12mota@gmail.com'}} />
       </div>
     );
   }
