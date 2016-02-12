@@ -1,14 +1,14 @@
 import Component from 'components/component';
+import Menu from 'components/menu';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';
-import Loading from '../loading';
 import TopBar from '../top-bar';
 
 export default class Admin extends Component {
   static propTypes = {
-    loading: PropTypes.bool.isRequired,
-    children: PropTypes.node
+    children: PropTypes.node,
+    routes: PropTypes.array.isRequired
   };
 
   render () {
@@ -16,9 +16,19 @@ export default class Admin extends Component {
       <div className={styles.root}>
         <TopBar />
         <div className={styles.content}>
-          {this.props.loading ? <Loading /> : this.props.children}
+          <Menu {...this.props}>
+            {this.renderMenuContent()}
+          </Menu>
+          {this.props.children}
         </div>
       </div>
     );
+  }
+
+  renderMenuContent () {
+    if (this.props.routes.length >= 2 && this.props.routes[1].menu) {
+      const MenuTag = this.props.routes[1].menu;
+      return <MenuTag />;
+    }
   }
 }

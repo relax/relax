@@ -22,7 +22,6 @@ export default class Menu extends Component {
     if (this.props.active) {
       event.preventDefault();
       event.stopPropagation();
-      console.log('here bro');
       this.props.onActiveClick();
     }
   }
