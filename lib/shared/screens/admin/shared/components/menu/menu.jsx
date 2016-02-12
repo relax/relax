@@ -17,8 +17,8 @@ export default class Menu extends Component {
     opened: PropTypes.bool,
     menuData: PropTypes.array.isRequired,
     schemas: PropTypes.array.isRequired,
-    children: PropTypes.node,
-    onOpen: PropTypes.func.isRequired
+    onActiveClick: PropTypes.func.isRequired,
+    children: PropTypes.node
   };
 
   static defaultProps = {
@@ -39,11 +39,15 @@ export default class Menu extends Component {
         easing: 'easeOutExpo'
       };
       if (nextProps.opened) {
+        Velocity.hook(this.refs.menu, 'translateX', '0%');
+        Velocity.hook(this.refs.content, 'translateX', '100%');
         Velocity(this.refs.menu, {translateX: '-100%'}, config);
-        Velocity(this.refs.list, {translateX: '0%'}, config);
+        Velocity(this.refs.content, {translateX: '0%'}, config);
       } else {
+        Velocity.hook(this.refs.menu, 'translateX', '-100%');
+        Velocity.hook(this.refs.content, 'translateX', '0%');
         Velocity(this.refs.menu, {translateX: '0%'}, config);
-        Velocity(this.refs.list, {translateX: '100%'}, config);
+        Velocity(this.refs.content, {translateX: '100%'}, config);
       }
     }
   }
@@ -58,7 +62,7 @@ export default class Menu extends Component {
             <ContentTypes schemas={schemas} key='content-types' />
           </Scrollable>
         </div>
-        <div className={styles.list} ref='list'>
+        <div className={styles.content} ref='content'>
           {this.props.children}
         </div>
         <User user={{name: 'Bruno Mota', email: 'bruno12mota@gmail.com'}} />
@@ -72,7 +76,7 @@ export default class Menu extends Component {
       result = <div className={styles.sepperator}/>;
     } else {
       result = (
-        <Button {...entry} active={this.props.active === entry.label} key={key} onActiveClick={this.props.onOpen} />
+        <Button {...entry} active={this.props.active === entry.label} key={key} onActiveClick={this.props.onActiveClick} />
       );
     }
     return result;

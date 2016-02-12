@@ -22,13 +22,12 @@
   z-index: 1;
 }
 
-.list {
+.content {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
+  right: -1px;
   bottom: 80px;
-  background-color: #ffffff;
   transform: translateX(100%);
 }
 
@@ -36,7 +35,7 @@
   .menu {
     transform: translateX(-100%);
   }
-  .list {
+  .content {
     transform: translateX(0%);
   }
 }
