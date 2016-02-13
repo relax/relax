@@ -1,0 +1,89 @@
+@import '~styles/colors.less';
+
+.root {
+  width: 21.25%;
+  margin-right: 5%;
+  display: inline-block;
+  vertical-align: top;
+  margin-bottom: 60px;
+  border: 1px solid transparent;
+}
+
+@media screen and (min-width: 1501px) {
+  .root {
+    width: 12.5%;
+    &:nth-child(6n+6) {
+      margin-right: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 1500px) and (min-width: 1301px) {
+  .root {
+    width: 16%;
+    &:nth-child(5n+5) {
+      margin-right: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 1300px) and (min-width: 1051px) {
+  .root {
+    &:nth-child(4n+4) {
+      margin-right: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 1050px) and (min-width: 851px) {
+  .root {
+    width: 30%;
+    &:nth-child(3n+3) {
+      margin-right: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 850px) and (min-width: 751px) {
+  .root {
+    width: 45%;
+    margin-right: 10%;
+    &:nth-child(2n+2) {
+      margin-right: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .root {
+    width: 100%;
+    margin-right: 0%;
+  }
+}
+
+.text {
+  margin-top: 10px;
+  line-height: 125px;
+  font-size: 90px;
+  text-align: center;
+  color: @adminTextHighlight;
+}
+
+.info {
+  padding: 15px;
+  height: 65px;
+  text-align: center;
+}
+
+.title {
+  color: @adminText;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.value {
+  color: @adminText;
+  font-size: 14px;
+  font-weight: 300;
+  text-transform: uppercase;
+}
