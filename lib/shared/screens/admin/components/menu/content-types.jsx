@@ -1,8 +1,8 @@
-import React, {PropTypes} from 'react';
+import Button from 'components/menu-button';
 import Component from 'components/component';
+import React, {PropTypes} from 'react';
 
 import styles from './content-types.less';
-import Button from './button';
 
 export default class ContentTypes extends Component {
   static fragments = {
@@ -34,7 +34,7 @@ export default class ContentTypes extends Component {
   renderSchema (schema) {
     // design_webpage or files_single-copy-04
     return (
-      <Button link='#' label={schema.title} icon='nc-icon-outline files_single-copy-04' />
+      <Button link='#' label={schema.title} icon='nc-icon-outline files_single-copy-04' dark />
     );
   }
 }
