@@ -3,7 +3,7 @@ import A from 'components/a';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
-import styles from './button.less';
+import styles from './index.less';
 
 export default class Menu extends Component {
   static propTypes = {
@@ -11,7 +11,7 @@ export default class Menu extends Component {
     label: PropTypes.string.isRequired,
     icon: PropTypes.string.isRequired,
     active: PropTypes.bool,
-    onActiveClick: PropTypes.func.isRequired
+    onActiveClick: PropTypes.func
   };
 
   static defaultProps = {
@@ -19,7 +19,7 @@ export default class Menu extends Component {
   };
 
   onClick (event) {
-    if (this.props.active) {
+    if (this.props.active && this.props.onActiveClick) {
       event.preventDefault();
       event.stopPropagation();
       this.props.onActiveClick();

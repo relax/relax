@@ -1,11 +1,11 @@
 import cx from 'classnames';
+import Button from 'components/menu-button';
 import Component from 'components/component';
 import Scrollable from 'components/scrollable';
 import Velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 
 import styles from './menu.less';
-import Button from './button';
 import ContentTypes from './content-types';
 import User from './user';
 
