@@ -11,7 +11,8 @@ export default class Menu extends Component {
     label: PropTypes.string.isRequired,
     icon: PropTypes.string.isRequired,
     active: PropTypes.bool,
-    onActiveClick: PropTypes.func
+    onActiveClick: PropTypes.func,
+    dark: PropTypes.bool
   };
 
   static defaultProps = {
@@ -27,9 +28,9 @@ export default class Menu extends Component {
   }
 
   render () {
-    const {link, label, icon, active} = this.props;
+    const {link, label, icon, active, dark} = this.props;
     return (
-      <A href={link} className={cx(styles.button, active && styles.active)} onClick={::this.onClick}>
+      <A href={link} className={cx(styles.button, active && styles.active, dark && styles.dark)} onClick={::this.onClick}>
         <i className={icon}></i>
         <span>{label}</span>
       </A>
