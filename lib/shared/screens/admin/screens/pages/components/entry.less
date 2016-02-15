@@ -42,3 +42,21 @@
   color: @adminText;
   font-weight: 300;
 }
+
+.active {
+  background-color: @primary;
+
+  .status.published {
+    background-color: #ffffff;
+  }
+  .title {
+    color: #ffffff;
+  }
+  .date {
+    color: #ffffff;
+  }
+
+  &:hover {
+    background-color: @primary;
+  }
+}

@@ -1,0 +1,41 @@
+@import '~styles/colors.less';
+
+.info {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.title {
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 26px;
+  color: @adminTextHighlight;
+}
+
+.slug {
+  font-size: 12px;
+  line-height: 25px;
+  color: @adminText;
+}
+
+.actionButton {
+  display: inline-block;
+  vertical-align: top;
+  width: 30px;
+  height: 30px;
+  margin: 10px 5px;
+  :global i {
+    font-size: 22px;
+    line-height: 30px;
+    color: @adminText;
+  }
+}
+
+.content {
+  position: absolute;
+  top: 70px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}

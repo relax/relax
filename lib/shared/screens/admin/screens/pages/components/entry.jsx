@@ -17,16 +17,17 @@ export default class PagesEntry extends Component {
   };
 
   static propTypes = {
-    page: PropTypes.object.isRequired
+    page: PropTypes.object.isRequired,
+    active: PropTypes.bool.isRequired
   };
 
   render () {
-    const {page} = this.props;
+    const {page, active} = this.props;
     const date = moment(page.date).fromNow();
     const editLink = '/admin/pages/' + page._id;
 
     return (
-      <A href={editLink} className={styles.root}>
+      <A href={editLink} className={cx(styles.root, active && styles.active)}>
         <div className={cx(styles.status, page.state === 'published' && styles.published)}></div>
         <div className={styles.info}>
           <div className={styles.title}>{page.title}</div>
