@@ -14,11 +14,12 @@ export default class Pages extends Component {
     children: PropTypes.node,
     pages: PropTypes.array.isRequired,
     onBack: PropTypes.func.isRequired,
-    onNew: PropTypes.func.isRequired
+    onNew: PropTypes.func.isRequired,
+    activePageId: PropTypes.string
   };
 
   render () {
-    const {pages, onBack, onNew} = this.props;
+    const {pages, onBack, onNew, activePageId} = this.props;
 
     return (
       <div>
@@ -30,7 +31,7 @@ export default class Pages extends Component {
         />
         <ListSearchFilter />
         <Scrollable className={styles.list}>
-          <List pages={pages} />
+          <List pages={pages} activePageId={activePageId} />
         </Scrollable>
       </div>
     );
