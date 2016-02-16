@@ -41,8 +41,42 @@
 }
 
 .cover {
+  cursor: pointer;
+  display: block;
   position: absolute;
   left: 0; top: 0; right: 0; bottom: 0;
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 10;
+  transition: background-color 0.4s ease-out;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+}
+
+.coverContent {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  border: 2px dotted #ffffff;
+  width: 176px;
+  height: 176px;
+  border-radius: 50%;
+  padding: 35px 0;
+
+  :global {
+    i, div {
+      display: block;
+      color: #ffffff;
+    }
+    i {
+      font-size: 60px;
+    }
+    div {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+  }
 }
