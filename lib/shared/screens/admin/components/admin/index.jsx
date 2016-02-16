@@ -1,4 +1,5 @@
 import Component from 'components/component';
+import PageBuilderMenu from 'components/page-builder-menu';
 import Velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 
@@ -41,6 +42,7 @@ export default class Admin extends Component {
             {this.renderMenuContent()}
           </Menu>
           {this.props.children}
+          <PageBuilderMenu />
         </div>
       </div>
     );
