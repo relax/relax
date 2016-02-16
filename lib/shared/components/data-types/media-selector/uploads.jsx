@@ -3,7 +3,7 @@ import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react';
 import Component from 'components/component';
 
-import Animate from '../../animate';
+import Animate from 'components/animate';
 import MediaItem from '../../media-item';
 
 export default class Uploads extends Component {

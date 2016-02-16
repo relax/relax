@@ -1,7 +1,7 @@
 import forEach from 'lodash.foreach';
 import moment from 'moment';
 
-import {Types} from 'helpers/data-types';
+
 
 const momentDate = moment();
 const dateFormats = [
@@ -31,12 +31,12 @@ forEach(dateFormats, (format) => {
 export default [
   {
     label: 'Date',
-    type: Types.Date,
+    type: 'Date',
     id: 'date'
   },
   {
     label: 'Format',
-    type: Types.Select,
+    type: 'Select',
     id: 'format',
     props: {
       values: dateFormats,
@@ -46,7 +46,7 @@ export default [
       custom: [
         {
           label: 'Custom Format',
-          type: Types.String,
+          type: 'String',
           id: 'customFormat'
         }
       ]

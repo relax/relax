@@ -1,6 +1,6 @@
+import Droppable from 'components/dnd/droppable';
 import Utils from 'helpers/utils';
 import React, {PropTypes} from 'react';
-import {Droppable} from 'components/dnd';
 
 import classes from './classes';
 import propsSchema from './props-schema';

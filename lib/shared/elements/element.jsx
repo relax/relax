@@ -1,11 +1,12 @@
 import getElementPosition from 'helpers/get-element-position';
 import utils from 'helpers/utils';
+import Component from 'components/component';
+import Draggable from 'components/dnd/draggable';
+import Droppable from 'components/dnd/droppable';
 import Portal from 'components/portal';
 import Velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
-import {Droppable, Draggable} from 'components/dnd';
 import {findDOMNode} from 'react-dom';
-import Component from 'components/component';
 
 import Highlight from './highlight';
 
@@ -327,7 +328,7 @@ export default class Element extends Component {
       if (!dragging && (overed || selected) && this.ref) {
         const ElementClass = elements[element.tag];
         return (
-          <Portal attachTo='admin-holder'>
+          <Portal>
             <Highlight
               element={element}
               ElementClass={ElementClass}

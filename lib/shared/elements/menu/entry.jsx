@@ -2,8 +2,8 @@ import cx from 'classnames';
 import React, {PropTypes} from 'react';
 import Component from 'components/component';
 
-import A from '../../a';
-import Animate from '../../animate';
+import A from 'components/a';
+import Animate from 'components/animate';
 
 export default class Entry extends Component {
 

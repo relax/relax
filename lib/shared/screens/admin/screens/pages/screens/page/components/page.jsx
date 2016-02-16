@@ -1,6 +1,7 @@
 import Component from 'components/component';
 import ContentHeader from 'components/content-header';
 import ContentHeaderActions from 'components/content-header-actions';
+import PageBuilder from 'components/page-builder';
 import React, {PropTypes} from 'react';
 
 import styles from './page.less';
@@ -38,7 +39,8 @@ export default class Page extends Component {
           </ContentHeaderActions>
         </ContentHeader>
         <div className={styles.content}>
-
+          <PageBuilder />
+          <div className={styles.cover}></div>
         </div>
       </div>
     );

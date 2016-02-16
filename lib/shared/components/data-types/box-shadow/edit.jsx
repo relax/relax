@@ -1,7 +1,5 @@
-import React, {PropTypes} from 'react';
 import Component from 'components/component';
-
-import {Types} from '../../../data-types';
+import React, {PropTypes} from 'react';
 
 export default class Edit extends Component {
   static propTypes = {
@@ -15,12 +13,12 @@ export default class Edit extends Component {
       options: [
         {
           label: 'Color',
-          type: Types.Color,
+          type: 'Color',
           id: 'color'
         },
         {
           label: 'Blur',
-          type: Types.Pixels,
+          type: 'Pixels',
           id: 'blur'
         }
       ]
@@ -30,12 +28,12 @@ export default class Edit extends Component {
       options: [
         {
           label: 'X',
-          type: Types.Pixels,
+          type: 'Pixels',
           id: 'x'
         },
         {
           label: 'Y',
-          type: Types.Pixels,
+          type: 'Pixels',
           id: 'y'
         }
       ]
@@ -45,12 +43,12 @@ export default class Edit extends Component {
       options: [
         {
           label: 'Spread',
-          type: Types.Pixels,
+          type: 'Pixels',
           id: 'spread'
         },
         {
           label: 'Inset/Outset',
-          type: Types.ShadowPosition,
+          type: 'ShadowPosition',
           id: 'type'
         }
       ]

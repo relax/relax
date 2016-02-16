@@ -1,6 +1,6 @@
-import React, {PropTypes} from 'react';
-import {Droppable} from 'components/dnd';
 import Component from 'components/component';
+import Droppable from 'components/dnd/droppable';
+import React, {PropTypes} from 'react';
 
 export default class ElementComponent extends Component {
   static propTypes = {
