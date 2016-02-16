@@ -1,7 +1,7 @@
 import forEach from 'lodash.foreach';
-import React, {PropTypes} from 'react';
-import {getBestImageUrl} from 'helpers/utils';
+import utils from 'helpers/utils';
 import Component from 'components/component';
+import React, {PropTypes} from 'react';
 
 export default class Image extends Component {
   static propTypes = {
@@ -13,7 +13,7 @@ export default class Image extends Component {
 
   render () {
     if (this.props.id && this.props.id !== '') {
-      const url = getBestImageUrl(this.props.id, this.props.width);
+      const url = utils.getBestImageUrl(this.props.id, this.props.width);
       var extraProps = {};
 
       forEach(this.props, (value, key) => {

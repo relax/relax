@@ -1,10 +1,10 @@
 import cx from 'classnames';
-import React, {PropTypes} from 'react';
 import Component from 'components/component';
+import Droppable from 'components/dnd/droppable';
+import React, {PropTypes} from 'react';
 
 import classes from './classes';
 import settings from './settings';
-import {Droppable} from '../../dnd';
 
 export default class List extends Component {
   static propTypes = {

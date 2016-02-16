@@ -1,9 +1,9 @@
 import cx from 'classnames';
 import forEach from 'lodash.foreach';
 import AnimateProps from 'components/animate-props';
+import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
-import Component from 'components/component';
 
 import Marker from './marker';
 
@@ -183,7 +183,7 @@ export default class Droppable extends Component {
 
   hasChildren () {
     const children = this.props.children;
-    var _hasChildren = false;
+    let _hasChildren = false;
     if (children) {
       if (children instanceof Array) {
         _hasChildren = children.length > 0;

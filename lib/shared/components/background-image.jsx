@@ -1,7 +1,7 @@
-import Utils from 'helpers/utils';
+import utils from 'helpers/utils';
+import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
-import Component from 'components/component';
 
 import MediaImage from './image';
 
@@ -71,7 +71,7 @@ export default class BackgroundImage extends Component {
         };
         imageStyle.top = this.state.height * (this.props.vertical / 100);
         imageStyle.left = this.state.width * (this.props.horizontal / 100);
-        Utils.translate(imageStyle, (-this.props.horizontal) + '%', (-this.props.vertical) + '%');
+        utils.translate(imageStyle, (-this.props.horizontal) + '%', (-this.props.vertical) + '%');
 
         result = (
           <div style={style}>
@@ -79,7 +79,7 @@ export default class BackgroundImage extends Component {
           </div>
         );
       } else {
-        style.backgroundImage = 'url("' + Utils.getBestImageUrl(this.props.backgroundImage) + '")';
+        style.backgroundImage = 'url("' + utils.getBestImageUrl(this.props.backgroundImage) + '")';
         style.backgroundRepeat = this.props.repeat;
         style.backgroundPosition = (-this.props.horizontal) + '% ' + (-this.props.vertical) + '%';
         result = <div style={style}></div>;

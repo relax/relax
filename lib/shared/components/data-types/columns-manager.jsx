@@ -1,16 +1,15 @@
 import cloneDeep from 'lodash.clonedeep';
 import cx from 'classnames';
-import React from 'react';
 import Component from 'components/component';
+import React from 'react';
 
 import Utils from '../../helpers/utils';
-import {Types} from '../../data-types';
 
 export default class ColumnsManager extends Component {
   static columnOptions = [
     {
       label: 'Width',
-      type: Types.Select,
+      type: 'Select',
       id: 'width',
       props: {
         labels: ['Block', 'Column auto', 'Column custom'],
@@ -20,7 +19,7 @@ export default class ColumnsManager extends Component {
         custom: [
           {
             label: 'Width (%)',
-            type: Types.Percentage,
+            type: 'Percentage',
             id: 'widthPerc'
           }
         ]
@@ -30,7 +29,7 @@ export default class ColumnsManager extends Component {
   static columnOptionsSingleRow = [
     {
       label: 'Width',
-      type: Types.Select,
+      type: 'Select',
       id: 'width',
       props: {
         labels: ['Column auto', 'Column custom'],
@@ -40,7 +39,7 @@ export default class ColumnsManager extends Component {
         custom: [
           {
             label: 'Width (%)',
-            type: Types.Percentage,
+            type: 'Percentage',
             id: 'widthPerc'
           }
         ]
@@ -50,7 +49,7 @@ export default class ColumnsManager extends Component {
   static breakOptions = [
     {
       label: 'To next line',
-      type: Types.Boolean,
+      type: 'Boolean',
       id: 'break',
       default: false
     }

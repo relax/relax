@@ -2,7 +2,7 @@ import cx from 'classnames';
 import React, {PropTypes} from 'react';
 import Component from 'components/component';
 
-import Animate from '../../animate';
+import Animate from 'components/animate';
 import MediaItem from '../../media-item';
 import Upload from '../../upload';
 import Uploads from './uploads';
