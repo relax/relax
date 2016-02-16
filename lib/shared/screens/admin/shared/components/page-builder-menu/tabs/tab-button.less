@@ -1,0 +1,21 @@
+@import '~styles/colors.less';
+
+.root {
+  display: inline-block;
+  vertical-align: top;
+  width: 33.3332%;
+  color: @chromeTextColor;
+  text-align: center;
+  font-size: 12px;
+  line-height: 50px;
+  text-transform: uppercase;
+  border-right: 1px solid @chromeBordersColor;
+
+  &:last-child {
+    border-right: 0;
+  }
+}
+
+.selected {
+  background-color: @chromeBackgroundActive;
+}
