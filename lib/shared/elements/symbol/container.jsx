@@ -44,7 +44,7 @@ export default class DynamicListContainer extends Component {
   render () {
     const props = {
       htmlTag: 'div',
-      info: this.props,
+      ...this.props.info,
       settings: settings,
       className: 'symbol'
     };

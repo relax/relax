@@ -83,7 +83,7 @@ export default class Form extends Component {
   render () {
     return (
       <form onSubmit={::this.onSubmit}>
-        <Element info={this.props} htmlTag='div' settings={settings}>
+        <Element {...this.props.info} htmlTag='div' settings={settings}>
           {this.props.children}
         </Element>
         <input type='submit' hidden />

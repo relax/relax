@@ -2,11 +2,13 @@ import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
 import styles from './tabs.less';
+import Style from './style';
 import TabButton from './tab-button';
 
 export default class Tabs extends Component {
   static propTypes = {
-    menuTab: PropTypes.string.isRequired
+    menuTab: PropTypes.string.isRequired,
+    setMenuTab: PropTypes.func.isRequired
   };
 
   render () {
@@ -14,11 +16,25 @@ export default class Tabs extends Component {
     return (
       <div>
         <div className={styles.tabs}>
-          <TabButton tab='style' active={menuTab === 'style'} />
-          <TabButton tab='settings' active={menuTab === 'settings'} />
-          <TabButton tab='layers' active={menuTab === 'layers'} />
+          <TabButton tab='style' active={menuTab === 'style'} onClick={this.props.setMenuTab} />
+          <TabButton tab='settings' active={menuTab === 'settings'} onClick={this.props.setMenuTab} />
+          <TabButton tab='layers' active={menuTab === 'layers'} onClick={this.props.setMenuTab} />
+        </div>
+        <div className={styles.content}>
+          {this.renderContent()}
         </div>
       </div>
     );
+  }
+
+  renderContent () {
+    const {menuTab} = this.props;
+    let result;
+
+    if (menuTab === 'style') {
+      result = <Style />;
+    }
+
+    return result;
   }
 }

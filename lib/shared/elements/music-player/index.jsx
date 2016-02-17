@@ -19,7 +19,7 @@ export default class MusicPlayer extends Component {
 
   render () {
     return (
-      <Element info={this.props} htmlTag='div' settings={settings}>
+      <Element {...this.props.info} htmlTag='div' settings={settings}>
         <PlayerContainer {...this.props} />
       </Element>
     );

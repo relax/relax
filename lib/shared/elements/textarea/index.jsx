@@ -26,7 +26,7 @@ export default class Textarea extends Component {
     const classMap = this.props.styleClassMap || {};
     const props = {
       htmlTag: 'div',
-      info: this.props,
+      ...this.props.info,
       settings,
       className: cx(classes.holder, classMap.holder)
     };

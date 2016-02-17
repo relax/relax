@@ -54,7 +54,7 @@ export default class TextBox extends Component {
 
   render () {
     const props = {
-      info: this.props,
+      ...this.props.info,
       htmlTag: 'div',
       settings: settings,
       style: this.getStyle()

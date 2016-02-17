@@ -12,7 +12,8 @@ export default class Counter extends Component {
     styleClassMap: PropTypes.object.isRequired,
     date: PropTypes.number.isRequired,
     format: PropTypes.string.isRequired,
-    customFormat: PropTypes.string
+    customFormat: PropTypes.string,
+    info: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -29,7 +30,7 @@ export default class Counter extends Component {
     const classMap = this.props.styleClassMap || {};
 
     const props = {
-      info: this.props,
+      ...this.props.info,
       htmlTag: 'div',
       settings,
       className: cx(classMap.text)

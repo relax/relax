@@ -16,10 +16,7 @@ export default class Columns extends Component {
     children: PropTypes.node,
     element: PropTypes.object.isRequired,
     display: PropTypes.string.isRequired,
-    dnd: PropTypes.object,
-    dndActions: PropTypes.object,
-    pageBuilder: PropTypes.object,
-    pageBuilderActions: PropTypes.object
+    info: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -36,7 +33,7 @@ export default class Columns extends Component {
 
   render () {
     return (
-      <Element info={this.props} htmlTag='div' settings={settings}>
+      <Element {...this.props.info} htmlTag='div' settings={settings}>
         {this.renderChildren()}
       </Element>
     );
