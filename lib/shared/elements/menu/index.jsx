@@ -85,7 +85,7 @@ export default class MenuContainer extends Component {
     const {elements, elementId} = this.props;
     const menu = elements[elementId] && elements[elementId].menu;
     return (
-      <Element htmlTag='div' settings={settings} info={this.props}>
+      <Element htmlTag='div' settings={settings} {...this.props.info}>
         <Menu {...this.props} menu={menu} />
       </Element>
     );

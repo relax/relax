@@ -144,20 +144,19 @@ export default class Canvas extends Component {
       return (
         <FactoredElement
           {...elementProps}
-          dnd={this.props.dnd}
-          dndActions={this.props.dndActions}
-          pageBuilder={this.props.pageBuilder}
-          pageBuilderActions={this.props.pageBuilderActions}
-          display={this.props.display}
-          key={elementId}
-          selected={selected}
-          element={element}
-          elementId={elementId}
-          positionInParent={positionInParent}
           styleClassMap={styleClassMap}
-          renderElement={this.renderElementBind}
-          renderChildren={this.renderChildrenBind}
-          insideSymbol={options.customData ? true : false}>
+          key={elementId}
+          info={{
+            editing: this.props.pageBuilder.editing,
+            display: this.props.display,
+            selected,
+            element,
+            positionInParent,
+            renderElement: this.renderElementBind,
+            renderChildren: this.renderChildrenBind,
+            insideSymbol: options.customData ? true : false
+          }}
+        >
           {children}
         </FactoredElement>
       );

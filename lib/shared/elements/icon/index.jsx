@@ -30,7 +30,7 @@ export default class Icon extends Component {
     const classMap = this.props.styleClassMap || {};
     const props = {
       htmlTag: 'div',
-      info: this.props,
+      ...this.props.info,
       settings,
       style: {
         textAlign: this.props.align

@@ -21,7 +21,7 @@ export default class Container extends Component {
     const classMap = this.props.styleClassMap || {};
 
     const props = {
-      info: this.props,
+      ...this.props.info,
       htmlTag: 'div',
       style: {
         position: 'relative'

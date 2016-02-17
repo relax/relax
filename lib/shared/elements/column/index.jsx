@@ -12,7 +12,8 @@ export default class Column extends Component {
     left: PropTypes.number,
     right: PropTypes.number,
     bottom: PropTypes.number,
-    layout: PropTypes.object
+    layout: PropTypes.object,
+    info: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -50,7 +51,7 @@ export default class Column extends Component {
 
     return (
       <div className='column' style={style}>
-        <Element info={this.props} htmlTag='div' style={contentStyle} settings={settings}>
+        <Element {...this.props.info} htmlTag='div' style={contentStyle} settings={settings}>
           {this.renderContent()}
         </Element>
       </div>

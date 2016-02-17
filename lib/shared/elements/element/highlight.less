@@ -1,0 +1,89 @@
+@import '~styles/colors.less';
+@borderSize: 1px;
+
+.root {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  border: @borderSize solid @primary;
+  background-color: fade(@primary, 10%);
+  border-radius: 1px;
+  z-index: 1;
+  color: #ffffff;
+}
+
+.selected {
+  border: 1px solid @primary;
+  background-color: transparent;
+
+  &:before {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 0px; right: 0px; bottom: 0px; left: 0px;
+    border: 2px solid fade(@primary, 10%);
+  }
+
+  .identifier {
+    background-color: @primary;
+  }
+}
+
+.inside {
+  bottom: auto;
+  top: 0px;
+  left: 0px;
+  border-radius: 0px 0px 1px 0;
+}
+
+.symbol {
+  border-color: #ff9f00;
+  background-color: fade(#ff9f00, 10%);
+
+  .element-identifier {
+    background-color: #ff9f00;
+  }
+
+  &.selected {
+    border-color: #ff9f00;
+
+    &:before {
+      border: 2px solid fade(#ff9f00, 10%);
+    }
+
+    .identifier {
+      background-color: #ff9f00;
+    }
+  }
+}
+
+.identifier {
+  display: inline-block;
+  position: absolute;
+  top: -14px - @borderSize;
+  left: 0 - @borderSize;
+  font-size: 11px;
+  line-height: 15px;
+  padding: 0px 3px;
+  background-color: @adminPrimary;
+  border-radius: 1px 1px 0 0;
+
+  :global {
+    i, span {
+      display: inline-block;
+      vertical-align: top;
+    }
+    i {
+      margin-right: 3px;
+      font-size: 12px;
+      line-height: 15px;
+      color: #ffffff;
+    }
+    span {
+      line-height: 15px;
+      color: #ffffff;
+      font-size: 10px;
+      letter-spacing: 0.3px;
+    }
+  }
+}

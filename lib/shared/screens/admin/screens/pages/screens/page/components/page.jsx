@@ -36,12 +36,12 @@ export default class Page extends Component {
       };
       if (currentBuild) {
         Velocity(this.refs.content, {top: '0px'}, config);
-        Velocity(findDOMNode(this.refs.header), {translateY: '-70px'}, config);
-        Velocity(findDOMNode(this.refs.cover), {opacity: 0}, config);
+        // Velocity(findDOMNode(this.refs.header), {translateY: '-70px'}, config);
+        Velocity(findDOMNode(this.refs.cover), {opacity: 0}, Object.assign({}, config, {display: 'none'}));
       } else {
         Velocity(this.refs.content, {top: '70px'}, config);
-        Velocity(findDOMNode(this.refs.header), {translateY: '0px'}, config);
-        Velocity(findDOMNode(this.refs.cover), {opacity: 100}, config);
+        // Velocity(findDOMNode(this.refs.header), {translateY: '0px'}, config);
+        Velocity(findDOMNode(this.refs.cover), {opacity: 1}, Object.assign({}, config, {display: 'block'}));
       }
     }
   }
