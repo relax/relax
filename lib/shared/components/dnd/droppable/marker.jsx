@@ -4,6 +4,8 @@ import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
+import styles from './marker.less';
+
 export default class Marker extends Component {
   static propTypes = {
     dndActions: PropTypes.object.isRequired,
@@ -54,7 +56,7 @@ export default class Marker extends Component {
 
     return (
       <div
-        className={cx('dnd-marker', this.props.active && 'active', orientation, this.state.visible && 'visible')}
+        className={cx(styles.marker, this.props.active && styles.active, styles[orientation], this.state.visible && styles.visible)}
         onMouseEnter={::this.onMouseEnter}
         onMouseLeave={::this.onMouseLeave}
       />
