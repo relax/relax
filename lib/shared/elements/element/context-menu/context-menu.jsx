@@ -61,7 +61,9 @@ export default class ContextMenu extends Component {
 
   renderClosed () {
     return (
-      <button className={styles.closed} onClick={this.props.open}>...</button>
+      <button className={styles.closed} onClick={this.props.open}>
+        <i className='nc-icon-mini ui-2_menu-dots'></i>
+      </button>
     );
   }
 
