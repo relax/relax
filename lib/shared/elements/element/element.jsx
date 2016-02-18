@@ -86,9 +86,7 @@ export default class Element extends Component {
       event.stopPropagation();
       clearTimeout(this.outTimeout);
       if (!overed && !selected) {
-        const offset = this.getOffset();
         overElement(element.id);
-        this.state.offset = offset;
       }
     }
   }
@@ -188,7 +186,7 @@ export default class Element extends Component {
 
   renderHighlight () {
     const {editing, selected, overed, dragging, element, settings} = this.props;
-    if (editing && (selected || overed) && dragging && this.ref) {
+    if (editing && (selected || overed) && !dragging && this.ref) {
       return (
         <Highlight
           element={element}
