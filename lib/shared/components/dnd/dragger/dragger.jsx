@@ -1,18 +1,18 @@
+import Component from 'components/component';
 import Velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
-import Component from 'components/component';
 
 export default class Dragger extends Component {
   static propTypes = {
-    dnd: PropTypes.object.isRequired,
     dndActions: PropTypes.object.isRequired,
     onStopDrag: PropTypes.func.isRequired,
-    offset: PropTypes.object
+    offset: PropTypes.object,
+    draggingData: PropTypes.object
   };
 
   getInitState () {
-    const {draggingData} = this.props.dnd;
+    const {draggingData} = this.props;
     return {
       top: draggingData.elementOffset.top + (this.props.offset && this.props.offset.top ? this.props.offset.top : 0),
       left: draggingData.elementOffset.left + (this.props.offset && this.props.offset.left ? this.props.offset.left : 0)
@@ -20,7 +20,7 @@ export default class Dragger extends Component {
   }
 
   componentDidMount () {
-    const {draggingData} = this.props.dnd;
+    const {draggingData} = this.props;
 
     this.onMouseUpListener = this.onMouseUp.bind(this);
     this.onMouseMoveListener = this.onMouseMove.bind(this);
@@ -50,7 +50,7 @@ export default class Dragger extends Component {
   }
 
   onMouseMove (event) {
-    const {draggingData} = this.props.dnd;
+    const {draggingData} = this.props;
     event.preventDefault();
 
     const deltaX = event.pageX - draggingData.mouseX + draggingData.elementOffset.left;
@@ -63,7 +63,7 @@ export default class Dragger extends Component {
   }
 
   render () {
-    const {draggingData} = this.props.dnd;
+    const {draggingData} = this.props;
     const style = {
       position: 'fixed',
       width: draggingData.elementWidth + 'px',
