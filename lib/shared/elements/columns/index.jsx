@@ -1,5 +1,5 @@
+import utils from 'helpers/utils';
 import Droppable from 'components/dnd/droppable';
-import Utils from 'helpers/utils';
 import React, {PropTypes} from 'react';
 
 import classes from './classes';
@@ -41,7 +41,7 @@ export default class Columns extends Component {
     const {columnsDisplay, relax, spacing} = this.props;
     const children = [];
     const numChildren = this.props.children && this.props.children.length || 0;
-    const layout = Utils.parseColumnsDisplay(columnsDisplay, numChildren, relax.display !== 'desktop');
+    const layout = utils.parseColumnsDisplay(columnsDisplay, numChildren, relax.display !== 'desktop');
     const editing = relax.editing;
 
     const spaceThird = Math.round(spacing / 3 * 100) / 100;
