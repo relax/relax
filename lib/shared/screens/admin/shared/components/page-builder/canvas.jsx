@@ -9,6 +9,8 @@ import Symbol from 'elements/symbol';
 import React, {PropTypes} from 'react';
 import {Component as JSS} from 'relax-jss';
 
+import styles from './canvas.less';
+
 export default class Canvas extends Component {
   static propTypes = {
     dnd: PropTypes.object.isRequired,
@@ -69,18 +71,14 @@ export default class Canvas extends Component {
     const elements = data && data.body && this.renderChildren(data.body.children, {elementsLinks});
 
     return (
-      <div className='page-builder-canvas' ref='canvas'>
-        <div className='body-element' style={bodyStyle} ref='body'>
+      <div className={styles.canvas} ref='canvas'>
+        <div className={styles.content} style={bodyStyle} ref='body'>
           <Droppable
             type='body'
             placeholderOverlap={this.renderEmpty}
             dropInfo={dropInfo}
             accepts='Section'
             placeholder
-            dnd={this.props.dnd}
-            dndActions={this.props.dndActions}
-            pageBuilder={this.props.pageBuilder}
-            pageBuilderActions={this.props.pageBuilderActions}
             minHeight='100%'>
             {elements}
           </Droppable>
