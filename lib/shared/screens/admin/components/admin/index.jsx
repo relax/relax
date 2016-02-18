@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import Component from 'components/component';
 import PageBuilderMenu from 'components/page-builder-menu';
 import Velocity from 'velocity-animate';
@@ -14,6 +15,13 @@ export default class Admin extends Component {
     location: PropTypes.object.isRequired
   };
 
+  getInitState () {
+    const {location} = this.props;
+    return {
+      build: location.query.build && true
+    };
+  }
+
   componentWillReceiveProps (nextProps) {
     const {location} = this.props;
     const oldBuild = location.query.build;
@@ -26,8 +34,10 @@ export default class Admin extends Component {
         easing: 'easeOutExpo'
       };
       if (currentBuild) {
+        Velocity.hook(this.refs.content, 'translateX', '0px');
         Velocity(this.refs.content, {translateX: '-290px'}, config);
       } else {
+        Velocity.hook(this.refs.content, 'translateX', '-290px');
         Velocity(this.refs.content, {translateX: '0px'}, config);
       }
     }
@@ -37,7 +47,7 @@ export default class Admin extends Component {
     return (
       <div className={styles.root}>
         <TopBar />
-        <div className={styles.content} ref='content'>
+        <div className={cx(styles.content, this.state.build && styles.build)} ref='content'>
           <Menu>
             {this.renderMenuContent()}
           </Menu>
