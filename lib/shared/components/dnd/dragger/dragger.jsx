@@ -3,6 +3,8 @@ import Velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
+import styles from './dragger.less';
+
 export default class Dragger extends Component {
   static propTypes = {
     dndActions: PropTypes.object.isRequired,
@@ -65,17 +67,13 @@ export default class Dragger extends Component {
   render () {
     const {draggingData} = this.props;
     const style = {
-      position: 'fixed',
       width: draggingData.elementWidth + 'px',
       top: this.state.top + 'px',
-      left: this.state.left + 'px',
-      pointerEvents: 'none',
-      boxShadow: '0px 0px 20px 0px rgba(0, 0, 0, 0.5)',
-      zIndex: 20
+      left: this.state.left + 'px'
     };
 
     return (
-      <div className='dragger' draggable='false' style={style}>
+      <div className={styles.root} draggable='false' style={style}>
         {draggingData.children}
       </div>
     );
