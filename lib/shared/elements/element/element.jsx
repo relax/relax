@@ -3,7 +3,9 @@ import utils from 'helpers/utils';
 import Component from 'components/component';
 import Draggable from 'components/dnd/draggable';
 import Droppable from 'components/dnd/droppable';
+import Velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 
 import Highlight from './highlight';
 
@@ -25,13 +27,81 @@ export default class Element extends Component {
     children: PropTypes.node,
     dragging: PropTypes.bool.isRequired,
     overElement: PropTypes.func.isRequired,
-    outElement: PropTypes.func.isRequired
+    outElement: PropTypes.func.isRequired,
+    onEnterScreen: PropTypes.func.isRequired,
+    startAnimation: PropTypes.func.isRequired,
+    resetAnimation: PropTypes.func.isRequired
   };
 
   static defaultProps = {
     style: {},
     className: ''
   };
+
+  componentDidMount () {
+    const {editing, animation, onEnterScreen} = this.props;
+
+    if ((!editing && animation) || onEnterScreen) {
+      this.onScrollBind = ::this.onScroll;
+      window.addEventListener('scroll', this.onScrollBind);
+      this.onScroll();
+    }
+    if (editing) {
+      this.animationEditingBind = ::this.animationEditing;
+      window.addEventListener('animateElements', this.animationEditingBind);
+    }
+  }
+
+  componentWillUnmount () {
+    if (this.onScrollBind) {
+      window.removeEventListener('scroll', this.onScrollBind);
+    }
+    if (this.animationEditingBind) {
+      window.removeEventListener('animateElements', this.animationEditingBind);
+    }
+    if (this.animationTimeout) {
+      clearTimeout(this.animationTimeout);
+    }
+  }
+
+  animate () {
+    const dom = findDOMNode(this);
+    const {animation, startAnimation} = this.props;
+    startAnimation();
+    Velocity(dom, animation.effect, {
+      duration: animation.duration,
+      display: null
+    });
+  }
+
+  animationInit () {
+    const animation = this.props.animation;
+    if (animation) {
+      this.animationTimeout = setTimeout(::this.animate, animation.delay);
+    }
+  }
+
+  animationEditing () {
+    if (this.props.animation) {
+      this.props.resetAnimation();
+      this.animationInit();
+    }
+  }
+
+  onScroll () {
+    const dom = findDOMNode(this);
+    const rect = dom.getBoundingClientRect();
+
+    if ((rect.top <= 0 && rect.bottom >= 0) || (rect.top > 0 && rect.top < window.outerHeight)) {
+      if (this.state.animation) {
+        this.animationInit();
+      }
+      if (this.props.onEnterScreen) {
+        this.props.onEnterScreen();
+      }
+      window.removeEventListener('scroll', this.onScrollBind);
+    }
+  }
 
   onElementClick (event) {
     const {selectElement, element} = this.props;
@@ -40,15 +110,15 @@ export default class Element extends Component {
   }
 
   processAnimationStyle (style) {
-    const {animation, animated} = this.props;
-    if (animation && !animated) {
+    const {editing, animation, animated, animatedEditing} = this.props;
+    if ((editing && animatedEditing) || (!editing && animation && !animated)) {
       style.opacity = 0;
     }
   }
 
   processPosition (style) {
     const {element, display, editing} = this.props;
-    Object.assign({}, style, getElementPosition(element, display));
+    Object.assign(style, getElementPosition(element, display));
 
     if (editing) {
       if (style.position === 'fixed') {
@@ -136,11 +206,12 @@ export default class Element extends Component {
     const HtmlTag = this.props.htmlTag;
     const {style, className, editing, element} = this.props;
 
-    this.processAnimationStyle(style);
-    this.processPosition(style);
+    const calcStyle = Object.assign({}, style);
+    this.processAnimationStyle(calcStyle);
+    this.processPosition(calcStyle);
 
     const tagProps = {
-      style,
+      style: calcStyle,
       className
     };
 

@@ -31,6 +31,14 @@ export default class PageBuilder extends Component {
     key.unbind('⌘+y, ctrl+y');
   }
 
+  draggedComponent () {
+    const {dragInfo, dropInfo} = this.props.dnd;
+
+    if (dropInfo && dragInfo) {
+      this.props.pageBuilderActions.draggedComponent(dragInfo, dropInfo);
+    }
+  }
+
   render () {
     return (
       <div className={cx(styles.root)}>
