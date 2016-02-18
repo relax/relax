@@ -13,8 +13,6 @@ import Element from '../element';
 
 export default class Image extends Component {
   static propTypes = {
-    element: PropTypes.object.isRequired,
-    pageBuilder: PropTypes.object,
     color: PropTypes.object.isRequired,
     useOver: PropTypes.bool.isRequired,
     imageOver: PropTypes.string,
@@ -24,7 +22,8 @@ export default class Image extends Component {
     useMaxWidth: PropTypes.bool.isRequired,
     width: PropTypes.number.isRequired,
     horizontal: PropTypes.oneOf(['left', 'center', 'right']).isRequired,
-    children: PropTypes.string
+    children: PropTypes.string,
+    relax: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -83,7 +82,7 @@ export default class Image extends Component {
     }
 
     return (
-      <Element {...this.props.info} htmlTag='div' className={cx(this.props.useOver && classes.overable)} style={style} settings={settings}>
+      <Element {...this.props.relax} htmlTag='div' className={cx(this.props.useOver && classes.overable)} style={style} settings={settings}>
         {this.renderImage(imageStyle)}
       </Element>
     );
@@ -95,7 +94,7 @@ export default class Image extends Component {
         <div>
           <MediaImage
             className='normal-image'
-            editing={this.props.pageBuilder && this.props.pageBuilder.editing}
+            editing={this.props.relax.editing}
             id={this.props.children}
             width={this.state.width}
             style={imageStyle}

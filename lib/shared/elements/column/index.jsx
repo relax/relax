@@ -13,7 +13,7 @@ export default class Column extends Component {
     right: PropTypes.number,
     bottom: PropTypes.number,
     layout: PropTypes.object,
-    info: PropTypes.object.isRequired
+    relax: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -51,7 +51,7 @@ export default class Column extends Component {
 
     return (
       <div className='column' style={style}>
-        <Element {...this.props.info} htmlTag='div' style={contentStyle} settings={settings}>
+        <Element {...this.props.relax} htmlTag='div' style={contentStyle} settings={settings}>
           {this.renderContent()}
         </Element>
       </div>

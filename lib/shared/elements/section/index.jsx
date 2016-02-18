@@ -10,14 +10,14 @@ import Element from '../element';
 
 export default class Section extends Component {
   static propTypes = {
-    element: PropTypes.object.isRequired,
     useBackgroundImage: PropTypes.bool,
     backgroundImage: PropTypes.string,
     repeat: PropTypes.string,
     vertical: PropTypes.number,
     horizontal: PropTypes.number,
     navigation: PropTypes.string,
-    styleClassMap: PropTypes.object
+    styleClassMap: PropTypes.object,
+    relax: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -36,7 +36,7 @@ export default class Section extends Component {
     const classMap = this.props.styleClassMap || {};
 
     const props = {
-      ...this.props.info,
+      ...this.props.relax,
       htmlTag: 'div',
       style: {
         position: 'relative'

@@ -12,7 +12,8 @@ export default class Textarea extends Component {
     name: PropTypes.string,
     placeholder: PropTypes.string,
     rows: PropTypes.number,
-    styleClassMap: PropTypes.object
+    styleClassMap: PropTypes.object,
+    relax: PropTypes.object.isRequired
   };
   static defaultProps = {
     rows: 6
@@ -26,7 +27,7 @@ export default class Textarea extends Component {
     const classMap = this.props.styleClassMap || {};
     const props = {
       htmlTag: 'div',
-      ...this.props.info,
+      ...this.props.relax,
       settings,
       className: cx(classes.holder, classMap.holder)
     };

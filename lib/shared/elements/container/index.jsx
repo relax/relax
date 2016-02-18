@@ -9,8 +9,8 @@ import Element from '../element';
 export default class Container extends Component {
   static propTypes = {
     styleClassMap: PropTypes.object,
-    element: PropTypes.object.isRequired,
-    children: PropTypes.node
+    children: PropTypes.node,
+    relax: PropTypes.object.isRequired
   };
 
   static propsSchema = propsSchema;
@@ -21,7 +21,7 @@ export default class Container extends Component {
     const classMap = this.props.styleClassMap || {};
 
     const props = {
-      ...this.props.info,
+      ...this.props.relax,
       htmlTag: 'div',
       style: {
         position: 'relative'

@@ -12,8 +12,7 @@ export default class Video extends Component {
     type: PropTypes.string.isRequired,
     videoId: PropTypes.string.isRequired,
     videoHeight: PropTypes.number.isRequired,
-    element: PropTypes.object.isRequired,
-    pageBuilder: PropTypes.object
+    relax: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -53,7 +52,7 @@ export default class Video extends Component {
 
   render () {
     return (
-      <Element {...this.props.info} htmlTag='div' settings={settings}>
+      <Element {...this.props.relax} htmlTag='div' settings={settings}>
         {this.renderIframe()}
       </Element>
     );
@@ -81,7 +80,7 @@ export default class Video extends Component {
 
       const iframe = <iframe src={src} width='100%' height={height} frameBorder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>;
 
-      if (this.props.pageBuilder && this.props.pageBuilder.editing) {
+      if (this.props.relax.editing) {
         result = (
           <div className='editing-wrapper'>
             {iframe}

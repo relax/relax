@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import propsSchema from './props-schema';
 import settings from './settings';
@@ -8,6 +8,10 @@ import Element from '../element';
 import PlayerContainer from './container';
 
 export default class MusicPlayer extends Component {
+  static propTypes = {
+    relax: PropTypes.object.isRequired
+  };
+
   static defaultProps = {
     type: 'local',
     defaultVolume: 50
@@ -19,7 +23,7 @@ export default class MusicPlayer extends Component {
 
   render () {
     return (
-      <Element {...this.props.info} htmlTag='div' settings={settings}>
+      <Element {...this.props.relax} htmlTag='div' settings={settings}>
         <PlayerContainer {...this.props} />
       </Element>
     );

@@ -26,7 +26,8 @@ export default class DynamicListContainer extends Component {
   static propTypes = {
     symbols: PropTypes.object.isRequired,
     symbolId: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    relax: PropTypes.object.isRequired
   };
 
   getInitState () {
@@ -44,7 +45,7 @@ export default class DynamicListContainer extends Component {
   render () {
     const props = {
       htmlTag: 'div',
-      ...this.props.info,
+      ...this.props.relax,
       settings: settings,
       className: 'symbol'
     };

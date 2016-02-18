@@ -1,6 +1,7 @@
 import cx from 'classnames';
 import Editor from 'components/medium-editor';
 import React, {PropTypes} from 'react';
+import {changeElementContent} from 'actions/page-builder';
 
 import classes from './classes';
 import propsSchema from './props-schema';
@@ -12,19 +13,15 @@ import Element from '../element';
 export default class TextBox extends Component {
 
   static propTypes = {
-    selected: PropTypes.bool,
     usePadding: PropTypes.bool,
     padding: PropTypes.string,
     useAlign: PropTypes.bool,
     textAlign: PropTypes.string,
     children: PropTypes.node,
-    pageBuilder: PropTypes.object,
-    pageBuilderActions: PropTypes.object,
-    element: PropTypes.object,
-    elementId: PropTypes.string,
     styleClassMap: PropTypes.object,
     useTrim: PropTypes.bool,
-    maxWidth: PropTypes.number
+    maxWidth: PropTypes.number,
+    relax: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -52,9 +49,14 @@ export default class TextBox extends Component {
     return result;
   }
 
+  onChange (value) {
+    const {relax} = this.props;
+    relax.dispatch(changeElementContent(relax.element.id, value));
+  }
+
   render () {
     const props = {
-      ...this.props.info,
+      ...this.props.relax,
       htmlTag: 'div',
       settings: settings,
       style: this.getStyle()
@@ -70,12 +72,12 @@ export default class TextBox extends Component {
   renderContent () {
     let result;
     const classMap = this.props.styleClassMap || {};
-    const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
+    const {editing, selected} = this.props.relax;
     const styles = {};
     const className = cx(classes.text, classMap.text);
 
     let html = '';
-    if ((!this.props.children || this.props.children === '') && editing && !this.props.selected) {
+    if ((!this.props.children || this.props.children === '') && editing && !selected) {
       html = 'Double click to edit text';
     } else {
       html = this.props.children;
@@ -85,12 +87,12 @@ export default class TextBox extends Component {
       styles.maxWidth = this.props.maxWidth;
     }
 
-    if (editing && this.props.selected) {
+    if (editing && selected) {
       result = (
         <Editor
           tag='div'
           className={className}
-          onChange={this.props.pageBuilderActions.changeElementContent.bind(this, this.props.elementId)}
+          onChange={::this.onChange}
           value={html}
           options={{
             toolbar: {

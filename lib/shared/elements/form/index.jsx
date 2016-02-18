@@ -15,7 +15,8 @@ export default class Form extends Component {
     action: PropTypes.string,
     schema: PropTypes.string,
     custom: PropTypes.string,
-    children: PropTypes.node
+    children: PropTypes.node,
+    relax: PropTypes.object.isRequired
   };
 
   static propsSchema = propsSchema;
@@ -83,7 +84,7 @@ export default class Form extends Component {
   render () {
     return (
       <form onSubmit={::this.onSubmit}>
-        <Element {...this.props.info} htmlTag='div' settings={settings}>
+        <Element {...this.props.relax} htmlTag='div' settings={settings}>
           {this.props.children}
         </Element>
         <input type='submit' hidden />

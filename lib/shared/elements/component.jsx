@@ -4,34 +4,27 @@ import React, {PropTypes} from 'react';
 
 export default class ElementComponent extends Component {
   static propTypes = {
-    pageBuilder: PropTypes.object,
-    pageBuilderActions: PropTypes.object,
-    element: PropTypes.object.isRequired,
-    elementId: PropTypes.string.isRequired,
     children: PropTypes.node,
-    dnd: PropTypes.object,
-    dndActions: PropTypes.object
+    relax: PropTypes.object.isRequired
   };
 
   renderContent (customProps, children = this.props.children) {
+    const {relax} = this.props;
     let result;
-    const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
+    const editing = relax.editing;
     if (editing) {
       const dropInfo = {
-        id: this.props.elementId
+        id: relax.element.id
       };
 
       result = (
         <Droppable
-          type={this.props.element.tag}
+          type={relax.element.tag}
           dropInfo={dropInfo}
           {...this.constructor.settings.drop}
           {...customProps}
           placeholder
-          pageBuilder={this.props.pageBuilder}
-          pageBuilderActions={this.props.pageBuilderActions}
-          dnd={this.props.dnd}
-          dndActions={this.props.dndActions}>
+        >
           {children}
         </Droppable>
       );

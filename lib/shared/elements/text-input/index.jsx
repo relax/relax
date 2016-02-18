@@ -12,7 +12,8 @@ export default class TextInput extends Component {
   static propTypes = {
     name: PropTypes.string,
     placeholder: PropTypes.string,
-    styleClassMap: PropTypes.object
+    styleClassMap: PropTypes.object,
+    relax: PropTypes.object.isRequired
   };
 
   static propsSchema = propsSchema;
@@ -23,7 +24,7 @@ export default class TextInput extends Component {
     const classMap = this.props.styleClassMap || {};
     const props = {
       htmlTag: 'div',
-      ...this.props.info,
+      ...this.props.relax,
       settings,
       className: cx(classes.holder, classMap.holder)
     };
