@@ -15,18 +15,15 @@ export default class List extends Component {
     renderChildren: PropTypes.func.isRequired,
     verticalGutter: PropTypes.number.isRequired,
     horizontalGutter: PropTypes.number.isRequired,
-    pageBuilder: PropTypes.object,
-    pageBuilderActions: PropTypes.object,
-    dnd: PropTypes.object,
-    dndActions: PropTypes.object,
-    element: PropTypes.object.isRequired,
-    elementId: PropTypes.string.isRequired,
-    elementsLinks: PropTypes.object.isRequired
+    elementsLinks: PropTypes.object.isRequired,
+    linkingData: PropTypes.bool.isRequired,
+    linkingDataElementId: PropTypes.string.isRequired,
+    relax: PropTypes.object.isRequired
   };
 
   isLinkingData () {
-    const {pageBuilder} = this.props;
-    return pageBuilder && pageBuilder.linkingData && pageBuilder.linkingDataElementId === this.props.elementId;
+    const {relax, linkingData, linkingDataElementId} = this.props;
+    return linkingData && linkingDataElementId === relax.element.id;
   }
 
   render () {
@@ -81,10 +78,14 @@ export default class List extends Component {
 
   renderItem (key, isFirst, isLast, dummy = false) {
     let result;
-    const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
-    const schemaEntry = this.props.entries && this.props.entries[key];
-    const content = this.props.children && this.props.renderChildren(this.props.element.children, {elementsLinks: this.props.elementsLinks, schemaEntry});
-    const spaceThird = Math.round(parseInt(this.props.horizontalGutter, 10) / 3 * 100) / 100;
+    const {relax, entries, elementsLinks, children, horizontalGutter, columns} = this.props;
+    const editing = relax.editing;
+    const schemaEntry = entries && entries[key];
+    const content = children && relax.renderChildren(relax.element.children, {
+      elementsLinks: elementsLinks,
+      schemaEntry
+    });
+    const spaceThird = Math.round(parseInt(horizontalGutter, 10) / 3 * 100) / 100;
     const spaceSides = spaceThird * 2;
 
     if (!dummy) {
@@ -92,14 +93,10 @@ export default class List extends Component {
         result = (
           <Droppable
             key={key}
-            type={this.props.element.tag}
-            dropInfo={{id: this.props.elementId}}
+            type={relax.element.tag}
+            dropInfo={{id: relax.element.id}}
             {...settings.drop}
             placeholder
-            pageBuilder={this.props.pageBuilder}
-            pageBuilderActions={this.props.pageBuilderActions}
-            dnd={this.props.dnd}
-            dndActions={this.props.dndActions}
             style={{position: 'relative'}}
           >
             {content}
@@ -111,8 +108,8 @@ export default class List extends Component {
     }
 
     const style = {};
-    if (this.props.columns > 1) {
-      style.width = (100 / this.props.columns) + '%';
+    if (columns > 1) {
+      style.width = (100 / columns) + '%';
 
       const isLinkingData = this.isLinkingData();
       const property = !dummy && isLinkingData && 'border' || 'padding';
@@ -132,7 +129,7 @@ export default class List extends Component {
     }
 
     return (
-      <div className={cx(this.props.columns > 1 && classes.column)} style={style}>
+      <div className={cx(columns > 1 && classes.column)} style={style}>
         {result}
       </div>
     );

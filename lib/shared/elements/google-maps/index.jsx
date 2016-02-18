@@ -1,5 +1,5 @@
-import React from 'react';
 import Utils from 'helpers/utils';
+import React, {PropTypes} from 'react';
 import {GoogleMap, GoogleMapLoader, Marker} from 'react-google-maps';
 
 import propsSchema from './props-schema';
@@ -9,17 +9,16 @@ import Element from '../element';
 
 export default class GoogleMapsElem extends Component {
   static propTypes = {
-    zoom: React.PropTypes.number.isRequired,
-    lat: React.PropTypes.string.isRequired,
-    lng: React.PropTypes.string.isRequired,
-    height: React.PropTypes.number.isRequired,
-    scrollwheel: React.PropTypes.bool.isRequired,
-    zoomControls: React.PropTypes.bool.isRequired,
-    mapTypeControl: React.PropTypes.bool.isRequired,
-    streetViewControl: React.PropTypes.bool.isRequired,
-    useMarker: React.PropTypes.bool.isRequired,
-    selected: React.PropTypes.bool.isRequired,
-    pageBuilder: React.PropTypes.object
+    zoom: PropTypes.number.isRequired,
+    lat: PropTypes.string.isRequired,
+    lng: PropTypes.string.isRequired,
+    height: PropTypes.number.isRequired,
+    scrollwheel: PropTypes.bool.isRequired,
+    zoomControls: PropTypes.bool.isRequired,
+    mapTypeControl: PropTypes.bool.isRequired,
+    streetViewControl: PropTypes.bool.isRequired,
+    useMarker: PropTypes.bool.isRequired,
+    relax: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -44,7 +43,7 @@ export default class GoogleMapsElem extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.pageBuilder && this.props.pageBuilder.editing && this.state.ready && prevProps.height !== this.props.height && this._map) {
+    if (this.props.relax.editing && this.state.ready && prevProps.height !== this.props.height && this._map) {
       window.google.maps.event.trigger(this._map, 'resize');
     }
   }
@@ -86,7 +85,7 @@ export default class GoogleMapsElem extends Component {
 
   render () {
     return (
-      <Element {...this.props.info} htmlTag='div' settings={settings}>
+      <Element {...this.props.relax} htmlTag='div' settings={settings}>
         {this.renderMap()}
       </Element>
     );
@@ -95,7 +94,7 @@ export default class GoogleMapsElem extends Component {
   renderMap () {
     if (this.state.ready) {
       let result;
-      const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
+      const editing = this.props.relax.editing;
       const key = this.props.zoom + this.props.scrollwheel + this.props.zoomControls + this.props.streetViewControl + this.props.mapTypeControl + this.props.lat + this.props.lng + this.props.height;
 
       const gmap = (

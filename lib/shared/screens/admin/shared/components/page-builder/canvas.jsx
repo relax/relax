@@ -20,6 +20,10 @@ export default class Canvas extends Component {
     symbols: PropTypes.object.isRequired
   };
 
+  static contextTypes = {
+    store: PropTypes.object.isRequired
+  };
+
   static childContextTypes = {
     dropHighlight: PropTypes.string.isRequired
   };
@@ -146,7 +150,7 @@ export default class Canvas extends Component {
           {...elementProps}
           styleClassMap={styleClassMap}
           key={elementId}
-          info={{
+          relax={{
             editing: this.props.pageBuilder.editing,
             display: this.props.display,
             selected,
@@ -154,7 +158,8 @@ export default class Canvas extends Component {
             positionInParent,
             renderElement: this.renderElementBind,
             renderChildren: this.renderChildrenBind,
-            insideSymbol: options.customData ? true : false
+            insideSymbol: options.customData ? true : false,
+            dispatch: this.context.store.dispatch
           }}
         >
           {children}

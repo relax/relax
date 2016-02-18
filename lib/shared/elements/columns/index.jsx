@@ -14,9 +14,7 @@ export default class Columns extends Component {
     spacingRows: PropTypes.number.isRequired,
     columnsDisplay: PropTypes.array.isRequired,
     children: PropTypes.node,
-    element: PropTypes.object.isRequired,
-    display: PropTypes.string.isRequired,
-    info: PropTypes.object.isRequired
+    relax: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -33,24 +31,25 @@ export default class Columns extends Component {
 
   render () {
     return (
-      <Element {...this.props.info} htmlTag='div' settings={settings}>
+      <Element {...this.props.relax} htmlTag='div' settings={settings}>
         {this.renderChildren()}
       </Element>
     );
   }
 
   renderChildren () {
+    const {columnsDisplay, relax, spacing} = this.props;
     const children = [];
     const numChildren = this.props.children && this.props.children.length || 0;
-    const layout = Utils.parseColumnsDisplay(this.props.columnsDisplay, numChildren, this.props.display !== 'desktop');
-    const editing = this.props.pageBuilder && this.props.pageBuilder.editing;
+    const layout = Utils.parseColumnsDisplay(columnsDisplay, numChildren, relax.display !== 'desktop');
+    const editing = relax.editing;
 
-    const spaceThird = Math.round(this.props.spacing / 3 * 100) / 100;
+    const spaceThird = Math.round(spacing / 3 * 100) / 100;
     const spaceSides = spaceThird * 2;
     let result;
 
     var dropInfo = {
-      id: this.props.element.id
+      id: relax.element.id
     };
 
     if (numChildren > 0) {
@@ -83,18 +82,15 @@ export default class Columns extends Component {
             }
           }
 
-          if (editing && this.props.display === 'desktop') {
+          if (editing && relax.display === 'desktop') {
             result = (
               <Droppable
-                type={this.props.element.tag}
+                type={relax.element.tag}
                 dropInfo={dropInfo}
                 {...settings.drop}
                 className={classes.row}
                 placeholder
-                dnd={this.props.dnd}
-                dndActions={this.props.dndActions}
-                pageBuilder={this.props.pageBuilder}
-                pageBuilderActions={this.props.pageBuilderActions}>
+              >
                 {columns}
               </Droppable>
             );
@@ -117,15 +113,11 @@ export default class Columns extends Component {
     } else if (editing) {
       result = (
         <Droppable
-          type={this.props.element.tag}
+          type={relax.element.tag}
           dropInfo={dropInfo}
           {...settings.drop}
           className={classes.row}
           placeholder
-          dnd={this.props.dnd}
-          dndActions={this.props.dndActions}
-          pageBuilder={this.props.pageBuilder}
-          pageBuilderActions={this.props.pageBuilderActions}
         />
       );
     }

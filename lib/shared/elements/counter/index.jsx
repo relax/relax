@@ -11,12 +11,12 @@ export default class Counter extends Component {
   static propTypes = {
     icon: PropTypes.string.isRequired,
     style: PropTypes.any.isRequired,
-    element: PropTypes.object.isRequired,
     styleClassMap: PropTypes.object,
     align: PropTypes.string.isRequired,
     begin: PropTypes.number.isRequired,
     end: PropTypes.number.isRequired,
-    duration: PropTypes.number.isRequired
+    duration: PropTypes.number.isRequired,
+    relax: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -46,7 +46,7 @@ export default class Counter extends Component {
     const classMap = this.props.styleClassMap || {};
 
     var props = {
-      ...this.props.info,
+      ...this.props.relax,
       htmlTag: 'div',
       settings: settings,
       onEnterScreen: this.onEnterScreen.bind(this),

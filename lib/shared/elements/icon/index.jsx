@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import classes from './classes';
 import propsSchema from './props-schema';
@@ -10,9 +10,10 @@ import Element from '../element';
 
 export default class Icon extends Component {
   static propTypes = {
-    icon: React.PropTypes.object.isRequired,
-    align: React.PropTypes.string.isRequired,
-    styleClassMap: React.PropTypes.object
+    icon: PropTypes.object.isRequired,
+    align: PropTypes.string.isRequired,
+    styleClassMap: PropTypes.object,
+    relax: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -30,7 +31,7 @@ export default class Icon extends Component {
     const classMap = this.props.styleClassMap || {};
     const props = {
       htmlTag: 'div',
-      ...this.props.info,
+      ...this.props.relax,
       settings,
       style: {
         textAlign: this.props.align

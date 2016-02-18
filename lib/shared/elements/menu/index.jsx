@@ -44,10 +44,8 @@ export default class MenuContainer extends Component {
   };
   static propTypes = {
     menuId: PropTypes.string,
-    elementId: PropTypes.string.isRequired,
-    elements: PropTypes.object.isRequired,
-    pageBuilder: PropTypes.object,
-    element: PropTypes.object.isRequired
+    relax: PropTypes.object.isRequired,
+    elements: PropTypes.object.isRequired
   };
 
   static propsSchema = propsSchema;
@@ -60,7 +58,7 @@ export default class MenuContainer extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.props.pageBuilder && this.props.pageBuilder.editing && nextProps.menuId !== this.props.menuId) {
+    if (this.props.relax.editing && nextProps.menuId !== this.props.menuId) {
       this.fetchData(nextProps);
     }
   }
@@ -82,10 +80,10 @@ export default class MenuContainer extends Component {
   }
 
   render () {
-    const {elements, elementId} = this.props;
-    const menu = elements[elementId] && elements[elementId].menu;
+    const {elements, relax} = this.props;
+    const menu = elements[relax.element.id] && elements[relax.element.id].menu;
     return (
-      <Element htmlTag='div' settings={settings} {...this.props.info}>
+      <Element htmlTag='div' settings={settings} {...this.props.relax}>
         <Menu {...this.props} menu={menu} />
       </Element>
     );

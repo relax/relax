@@ -1,6 +1,7 @@
 import cx from 'classnames';
 import forEach from 'lodash.foreach';
 import React, {PropTypes} from 'react';
+import {changeElementChildren} from 'actions/page-builder';
 
 import classes from './classes';
 import propsSchema from './props-schema';
@@ -16,7 +17,7 @@ export default class Button extends Component {
     arrange: PropTypes.string.isRequired,
     styleClassMap: PropTypes.object,
     children: PropTypes.node,
-    info: PropTypes.object.isRequired
+    relax: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -37,66 +38,67 @@ export default class Button extends Component {
   static style = style;
 
   componentWillReceiveProps (nextProps) {
-    // const editing = this.props.info.editing;
-    // if (editing && this.props.info.selected) {
-    //   // Check if layout changed
-    //   if (nextProps.layout !== this.props.layout) {
-    //     // 'text', 'icontext', 'texticon', 'icon'
-    //     const newChildren = [];
-    //
-    //     let textChild = false;
-    //     let iconChild = false;
-    //
-    //     if (nextProps.layout === 'text' || nextProps.layout === 'texticon' || nextProps.layout === 'icontext') {
-    //       forEach(this.props.element.children, (child) => {
-    //         if (child.tag === 'TextBox') {
-    //           textChild = child;
-    //         }
-    //       });
-    //
-    //       if (!textChild) {
-    //         textChild = {
-    //           tag: 'TextBox',
-    //           children: 'Button text',
-    //           subComponent: true
-    //         };
-    //       }
-    //     }
-    //
-    //     if (nextProps.layout === 'icon' || nextProps.layout === 'texticon' || nextProps.layout === 'icontext') {
-    //       forEach(this.props.element.children, (child) => {
-    //         if (child.tag === 'Icon') {
-    //           iconChild = child;
-    //         }
-    //       });
-    //
-    //       if (!iconChild) {
-    //         iconChild = {
-    //           tag: 'Icon',
-    //           subComponent: true
-    //         };
-    //       }
-    //     }
-    //
-    //     if (iconChild && textChild) {
-    //       if (nextProps.layout === 'icon' || nextProps.layout === 'icontext') {
-    //         newChildren.push(iconChild);
-    //         if (nextProps.layout === 'icontext') {
-    //           newChildren.push(textChild);
-    //         }
-    //       } else if (nextProps.layout === 'text' || nextProps.layout === 'texticon') {
-    //         newChildren.push(textChild);
-    //         if (nextProps.layout === 'texticon') {
-    //           newChildren.push(iconChild);
-    //         }
-    //       }
-    //     } else {
-    //       newChildren.push(iconChild || textChild);
-    //     }
-    //
-    //     this.props.pageBuilderActions.changeElementChildren(this.props.element.id, newChildren);
-    //   }
-    // }
+    const {relax} = this.props;
+    const editing = relax.editing;
+    if (editing && relax.selected) {
+      // Check if layout changed
+      if (nextProps.layout !== this.props.layout) {
+        // 'text', 'icontext', 'texticon', 'icon'
+        const newChildren = [];
+
+        let textChild = false;
+        let iconChild = false;
+
+        if (nextProps.layout === 'text' || nextProps.layout === 'texticon' || nextProps.layout === 'icontext') {
+          forEach(relax.element.children, (child) => {
+            if (child.tag === 'TextBox') {
+              textChild = child;
+            }
+          });
+
+          if (!textChild) {
+            textChild = {
+              tag: 'TextBox',
+              children: 'Button text',
+              subComponent: true
+            };
+          }
+        }
+
+        if (nextProps.layout === 'icon' || nextProps.layout === 'texticon' || nextProps.layout === 'icontext') {
+          forEach(relax.element.children, (child) => {
+            if (child.tag === 'Icon') {
+              iconChild = child;
+            }
+          });
+
+          if (!iconChild) {
+            iconChild = {
+              tag: 'Icon',
+              subComponent: true
+            };
+          }
+        }
+
+        if (iconChild && textChild) {
+          if (nextProps.layout === 'icon' || nextProps.layout === 'icontext') {
+            newChildren.push(iconChild);
+            if (nextProps.layout === 'icontext') {
+              newChildren.push(textChild);
+            }
+          } else if (nextProps.layout === 'text' || nextProps.layout === 'texticon') {
+            newChildren.push(textChild);
+            if (nextProps.layout === 'texticon') {
+              newChildren.push(iconChild);
+            }
+          }
+        } else {
+          newChildren.push(iconChild || textChild);
+        }
+
+        relax.dispatch(changeElementChildren(relax.element.id, newChildren));
+      }
+    }
   }
 
   render () {
@@ -104,7 +106,7 @@ export default class Button extends Component {
 
     const props = {
       htmlTag: 'div',
-      ...this.props.info,
+      ...this.props.relax,
       settings,
       className: cx(classes.holder, classMap.holder)
     };

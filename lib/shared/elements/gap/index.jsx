@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import propsSchema from './props-schema';
 import settings from './settings';
@@ -7,8 +7,8 @@ import Element from '../element';
 
 export default class Gap extends Component {
   static propTypes = {
-    amount: React.PropTypes.number.isRequired,
-    element: React.PropTypes.object.isRequired
+    amount: PropTypes.number.isRequired,
+    relax: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -24,7 +24,7 @@ export default class Gap extends Component {
     };
 
     return (
-      <Element {...this.props.info} htmlTag='div' style={style} settings={settings} />
+      <Element {...this.props.relax} htmlTag='div' style={style} settings={settings} />
     );
   }
 }

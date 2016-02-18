@@ -13,7 +13,9 @@ import List from './list';
 
 @connect(
   (state) => ({
-    elements: state.elements
+    elements: state.elements,
+    linkingData: state.pageBuilder.linkingData,
+    linkingDataElementId: state.pageBuilder.linkingDataElementId
   }),
   (dispatch) => bindActionCreators(elementsActions, dispatch)
 )
@@ -37,18 +39,13 @@ export default class DynamicListContainer extends Component {
     dataLinking: PropTypes.object,
     limit: PropTypes.number,
     columns: PropTypes.number,
-    pageBuilder: PropTypes.object,
-    pageBuilderActions: PropTypes.object,
-    dnd: PropTypes.object,
-    dndActions: PropTypes.object,
-    element: PropTypes.object.isRequired,
-    elementId: PropTypes.string.isRequired,
     renderChildren: PropTypes.func.isRequired,
     verticalGutter: PropTypes.number.isRequired,
     horizontalGutter: PropTypes.number.isRequired,
     getElementData: PropTypes.func.isRequired,
     elements: PropTypes.object.isRequired,
-    schemaLinks: PropTypes.object
+    schemaLinks: PropTypes.object,
+    relax: PropTypes.object.isRequired
   };
 
   getInitState () {
@@ -87,12 +84,12 @@ export default class DynamicListContainer extends Component {
   render () {
     const props = {
       htmlTag: 'div',
-      ...this.props.info,
+      ...this.props.relax,
       settings: settings
     };
-    const {elements, elementId} = this.props;
+    const {elements, relax} = this.props;
 
-    const entries = elements[elementId] && elements[elementId].schemaList || [];
+    const entries = elements[relax.element.id] && elements[relax.element.id].schemaList || [];
     const elementsLinks = utils.getElementsSchemaLinks(this.props.schemaLinks);
 
     return (

@@ -11,7 +11,7 @@ import Element from '../element';
 export default class LineDivider extends Component {
   static propTypes = {
     styleClassMap: PropTypes.object,
-    element: PropTypes.object.isRequired
+    relax: PropTypes.object.isRequired
   };
 
   static propsSchema = propsSchema;
@@ -22,7 +22,7 @@ export default class LineDivider extends Component {
     const classMap = this.props.styleClassMap || {};
 
     return (
-      <Element {...this.props.info} htmlTag='div' className={cx(classes.holder, classMap.holder)} settings={settings}>
+      <Element {...this.props.relax} htmlTag='div' className={cx(classes.holder, classMap.holder)} settings={settings}>
         <div className={cx(classes.line, classMap.line)}></div>
       </Element>
     );
