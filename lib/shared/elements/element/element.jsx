@@ -48,7 +48,7 @@ export default class Element extends Component {
 
   processPosition (style) {
     const {element, display, editing} = this.props;
-    Object.assign(style, getElementPosition(element, display));
+    Object.assign({}, style, getElementPosition(element, display));
 
     if (editing) {
       if (style.position === 'fixed') {

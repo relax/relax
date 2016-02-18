@@ -12,8 +12,8 @@ export default class Droppable extends Component {
   static propTypes = {
     dndActions: PropTypes.object.isRequired,
     dragging: PropTypes.bool.isRequired,
-    activeDropInfo: PropTypes.object.isRequired,
-    activeDragInfo: PropTypes.object.isRequired,
+    activeDropInfo: PropTypes.any.isRequired,
+    activeDragInfo: PropTypes.any.isRequired,
     dropInfo: PropTypes.object.isRequired,
     minHeight: PropTypes.number.isRequired,
     minWidth: PropTypes.number.isRequired,
@@ -27,12 +27,21 @@ export default class Droppable extends Component {
     showMarks: PropTypes.bool.isRequired,
     isActive: PropTypes.bool.isRequired,
     orientation: PropTypes.string.isRequired,
-    elementsMenuSpot: PropTypes.string.isRequired,
-    selectedId: PropTypes.string.isRequired,
+    elementsMenuSpot: PropTypes.string,
+    selectedId: PropTypes.string,
     openElementsMenu: PropTypes.func.isRequired,
     placeholder: PropTypes.bool,
     hidePlaceholder: PropTypes.bool,
     Placeholder: PropTypes.object
+  };
+
+  static contextTypes = {
+    dropBlock: PropTypes.bool
+  };
+
+  static childContextTypes = {
+    dropHighlight: PropTypes.string.isRequired,
+    dropBlock: PropTypes.bool
   };
 
   static defaultProps = {
@@ -305,7 +314,7 @@ export default class Droppable extends Component {
   renderDefaultPlaceholder () {
     let result;
 
-    if (this.isActive()) {
+    if (this.props.isActive) {
       const props = {
         scaleX: '150%',
         scaleY: '150%'
