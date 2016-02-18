@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import A from 'components/a';
 import Component from 'components/component';
 import ContentHeader from 'components/content-header';
@@ -22,6 +23,13 @@ export default class Page extends Component {
     page: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired
   };
+
+  getInitState () {
+    const {location} = this.props;
+    return {
+      build: location.query.build && true
+    };
+  }
 
   componentWillReceiveProps (nextProps) {
     const {location} = this.props;
@@ -50,7 +58,7 @@ export default class Page extends Component {
     const {page, location} = this.props;
 
     return (
-      <div>
+      <div className={cx(this.state.build && styles.build)}>
         <ContentHeader smallPadding ref='header'>
           <div className={styles.info}>
             <div className={styles.title}>{page.title}</div>
