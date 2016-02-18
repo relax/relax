@@ -6,6 +6,7 @@ import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
 import styles from './droppable.less';
+import AddBallon from './add-ballon';
 import Marker from './marker';
 
 export default class Droppable extends Component {
@@ -279,18 +280,14 @@ export default class Droppable extends Component {
     const active = elementsMenuSpot === position && selectedId === dropInfo.id;
 
     return (
-      <div
+      <AddBallon
         key={'mark' + position}
-        className={cx('add-marker', vertical && 'vertical', !vertical && this.state.closeToMargin && 'inverted', active && 'active')}
-        onClick={this.addSpotClick.bind(this, position)}
-      >
-        <span className='marker' ref={'spot' + position}>
-          <span className='triangle'></span>
-          <span className='circle'>
-            <i className='material-icons'>add</i>
-          </span>
-        </span>
-      </div>
+        position={position}
+        onClick={::this.addSpotClick}
+        vertical={vertical}
+        active={active}
+        ref={'spot' + position}
+      />
     );
   }
 
