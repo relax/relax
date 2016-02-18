@@ -1,12 +1,11 @@
 import cx from 'classnames';
 import utils from 'helpers/utils';
+import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
-import Component from 'components/component';
 
 export default class Marker extends Component {
   static propTypes = {
-    dnd: PropTypes.object.isRequired,
     dndActions: PropTypes.object.isRequired,
     report: PropTypes.object.isRequired,
     active: PropTypes.bool,
