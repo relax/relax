@@ -1,4 +1,5 @@
 import Component from 'components/component';
+import Portal from 'components/portal';
 import Velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
@@ -29,7 +30,7 @@ export default class Dragger extends Component {
     this.onMouseUpListener = this.onMouseUp.bind(this);
     this.onMouseMoveListener = this.onMouseMove.bind(this);
 
-    const node = findDOMNode(this);
+    const node = findDOMNode(this.refs.dragger);
 
     const relativeX = draggingData.mouseX - draggingData.elementOffset.left;
     const relativeY = draggingData.mouseY - draggingData.elementOffset.top;
@@ -51,7 +52,7 @@ export default class Dragger extends Component {
     document.removeEventListener('mouseup', this.onMouseUpListener);
     document.removeEventListener('mousemove', this.onMouseMoveListener);
 
-    onStopDrag && onStopDrag(dragInfo, dropInfo);
+    onStopDrag && dragInfo && dropInfo && onStopDrag(dragInfo, dropInfo);
     dndActions.stopDragging();
   }
 
@@ -77,9 +78,11 @@ export default class Dragger extends Component {
     };
 
     return (
-      <div className={styles.root} draggable='false' style={style}>
-        {draggingData.children}
-      </div>
+      <Portal>
+        <div className={styles.root} draggable='false' style={style} ref='dragger'>
+          {draggingData.children}
+        </div>
+      </Portal>
     );
   }
 }

@@ -250,6 +250,7 @@ export default class Droppable extends Component {
         tempChildren.push((
           <Marker
             key={'marker' + index}
+            dndActions={dndActions}
             orientation={orientation}
             active={isActive && dropInfo.position === index + 1}
             report={{...this.props.dropInfo, position: index + 1}}

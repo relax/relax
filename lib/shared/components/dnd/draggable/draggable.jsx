@@ -34,8 +34,8 @@ export default class Draggable extends Component {
     this.onMouseUp();
 
     const element = findDOMNode(this);
-    const elementOffset = Utils.getOffsetRect(element);
-    const width = elementOffset.width;
+    const elementOffset = element.getBoundingClientRect();
+    const width = Math.round(elementOffset.right - elementOffset.left);
     const {startDragging} = this.props.dndActions;
 
     // Dragging data
