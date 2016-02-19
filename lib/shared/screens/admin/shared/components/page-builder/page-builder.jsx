@@ -13,9 +13,8 @@ import ElementsMenu from './elements-menu';
 
 export default class PageBuilder extends Component {
   static propTypes = {
-    dnd: PropTypes.object.isRequired,
-    dndActions: PropTypes.object.isRequired,
-    pageBuilder: PropTypes.object.isRequired,
+    dragging: PropTypes.bool.isRequired,
+    elementsMenuOpened: PropTypes.bool.isRequired,
     pageBuilderActions: PropTypes.object.isRequired
   };
 
@@ -31,19 +30,11 @@ export default class PageBuilder extends Component {
     key.unbind('⌘+y, ctrl+y');
   }
 
-  draggedComponent () {
-    const {dragInfo, dropInfo} = this.props.dnd;
-
-    if (dropInfo && dragInfo) {
-      this.props.pageBuilderActions.draggedComponent(dragInfo, dropInfo);
-    }
-  }
-
   render () {
     return (
       <div className={cx(styles.root)}>
         <JSS stylesheet={stylesheet} />
-        <Canvas {...this.props} />
+        <Canvas />
         {this.renderElementsMenu()}
         {this.renderDragger()}
       </div>
@@ -51,25 +42,21 @@ export default class PageBuilder extends Component {
   }
 
   renderElementsMenu () {
-    const {elementsMenuOpened} = this.props.pageBuilder;
+    const {elementsMenuOpened} = this.props;
     if (elementsMenuOpened) {
       return (
         <Portal>
-          <ElementsMenu {...this.props} />
+          <ElementsMenu />
         </Portal>
       );
     }
   }
 
   renderDragger () {
-    const {dragging} = this.props.dnd;
+    const {dragging, pageBuilderActions} = this.props;
     if (dragging) {
       return (
-        <Dragger
-          onStopDrag={::this.draggedComponent}
-          dnd={this.props.dnd}
-          dndActions={this.props.dndActions}
-        />
+        <Dragger onStopDrag={pageBuilderActions.draggedComponent} />
       );
     }
   }

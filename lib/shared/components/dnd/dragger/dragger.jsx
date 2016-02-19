@@ -10,7 +10,9 @@ export default class Dragger extends Component {
     dndActions: PropTypes.object.isRequired,
     onStopDrag: PropTypes.func.isRequired,
     offset: PropTypes.object,
-    draggingData: PropTypes.object
+    draggingData: PropTypes.object,
+    dragInfo: PropTypes.object,
+    dropInfo: PropTypes.object
   };
 
   getInitState () {
@@ -44,11 +46,13 @@ export default class Dragger extends Component {
   }
 
   onMouseUp (event) {
+    const {dragInfo, dropInfo, onStopDrag, dndActions} = this.props;
+
     document.removeEventListener('mouseup', this.onMouseUpListener);
     document.removeEventListener('mousemove', this.onMouseMoveListener);
 
-    this.props.onStopDrag && this.props.onStopDrag();
-    this.props.dndActions.stopDragging();
+    onStopDrag && onStopDrag(dragInfo, dropInfo);
+    dndActions.stopDragging();
   }
 
   onMouseMove (event) {
