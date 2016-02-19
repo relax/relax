@@ -20,11 +20,14 @@ export default class Highlight extends Component {
     this.resizeBind = ::this.onResize;
     document.body.addEventListener(this.mousewheelevt, this.scrollBind, false);
     window.addEventListener('resize', this.resizeBind, false);
+    this.updateTimeoutInterval = setInterval(::this.updatePosition, 30);
   }
 
   componentWillUnmount () {
     document.body.removeEventListener(this.mousewheelevt, this.scrollBind);
     window.removeEventListener('resize', this.resizeBind);
+    clearInterval(this.updateTimeoutInterval);
+    clearTimeout(this.updateTimeout);
   }
 
   onScroll () {
