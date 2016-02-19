@@ -5,6 +5,7 @@ import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
+import styles from './elements-menu.less';
 import List from './list';
 import Search from './search';
 
@@ -17,7 +18,11 @@ export default class ElementsMenu extends Component {
   };
 
   static propTypes = {
-    symbols: PropTypes.object.isRequired
+    symbols: PropTypes.object.isRequired,
+    pageBuilderActions: PropTypes.object.isRequired,
+    elementsMenuOptions: PropTypes.object.isRequired,
+    elements: PropTypes.object.isRequired,
+    categories: PropTypes.object.isRequired
   };
 
   getInitState () {
@@ -67,7 +72,7 @@ export default class ElementsMenu extends Component {
 
   onSearchChange (search) {
     if (search) {
-      const {elements, categories} = this.props.pageBuilder;
+      const {elements, categories} = this.props;
       const suggestions = [];
       const searchLowered = search.toLowerCase();
       let suggestion = false;
@@ -132,7 +137,7 @@ export default class ElementsMenu extends Component {
   }
 
   updatePosition (event = null, props = this.props) {
-    const containerRect = props.pageBuilder.elementsMenuOptions.container.getBoundingClientRect();
+    const containerRect = props.elementsMenuOptions.container.getBoundingClientRect();
 
     const top = containerRect.top + containerRect.height / 2 - 105;
     let left = containerRect.right + 10;
@@ -179,7 +184,7 @@ export default class ElementsMenu extends Component {
   }
 
   addElement (tag) {
-    const {elementsMenuOptions} = this.props.pageBuilder;
+    const {elementsMenuOptions} = this.props;
     this.props.pageBuilderActions.closeElementsMenu();
     this.props.pageBuilderActions.addElementAt({tag}, {
       id: elementsMenuOptions.targetId,
@@ -188,7 +193,7 @@ export default class ElementsMenu extends Component {
   }
 
   addSymbol (symbolId) {
-    const {elementsMenuOptions} = this.props.pageBuilder;
+    const {elementsMenuOptions} = this.props;
     this.props.pageBuilderActions.closeElementsMenu();
     this.props.pageBuilderActions.addElementAt({
       tag: 'Symbol',
@@ -202,7 +207,7 @@ export default class ElementsMenu extends Component {
   }
 
   elementAcceptable (elementTag, element) {
-    const {elementsMenuOptions} = this.props.pageBuilder;
+    const {elementsMenuOptions} = this.props;
     let is = true;
 
     if (elementsMenuOptions.accepts) {
@@ -236,9 +241,9 @@ export default class ElementsMenu extends Component {
 
     return (
       <Animate transition='slideLeftIn'>
-        <div className={cx('elements-menu', this.state.side, this.state.angleTriangle && 'angled', this.state.searchOpened && 'searching')} style={style}>
-          <div className='arrow-left'></div>
-          <div className='ballon' style={ballonStyle}>
+        <div className={cx(styles.root, styles[this.state.side], this.state.angleTriangle && styles.angled)} style={style}>
+          <div className={styles.arrowLeft}></div>
+          <div className={styles.ballon} style={ballonStyle}>
             {this.renderContent()}
           </div>
         </div>

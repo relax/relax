@@ -1,14 +1,14 @@
 import forEach from 'lodash.foreach';
 import key from 'keymaster';
 import Component from 'components/component';
-import GeminiScrollbar from 'react-gemini-scrollbar';
+import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
 
+import styles from './search.less';
 import Autocomplete from './autocomplete';
 
 export default class Search extends Component {
   static propTypes = {
-    pageBuilder: PropTypes.object.isRequired,
     elementAcceptable: PropTypes.func.isRequired,
     addElement: PropTypes.func.isRequired,
     addSymbol: PropTypes.func.isRequired,
@@ -16,7 +16,9 @@ export default class Search extends Component {
     suggestions: PropTypes.array.isRequired,
     suggestion: PropTypes.string.isRequired,
     search: PropTypes.string.isRequired,
-    symbols: PropTypes.object.isRequired
+    symbols: PropTypes.object.isRequired,
+    categories: PropTypes.object.isRequired,
+    elements: PropTypes.object.isRequired
   };
 
   componentDidMount () {
@@ -39,7 +41,7 @@ export default class Search extends Component {
     event.preventDefault();
     event.stopPropagation();
     const {suggestions} = this.props;
-    const {categories, elements} = this.props.pageBuilder;
+    const {categories, elements} = this.props;
 
     let counter = 0;
     let added = false;
@@ -96,17 +98,17 @@ export default class Search extends Component {
     this.suggestionsCounter = -1;
 
     return (
-      <div className='search'>
+      <div>
         <Autocomplete
           value={this.props.search}
           onChange={this.props.onSearchChange}
           suggestion={this.props.suggestion.title || this.props.suggestion}
           focused
         />
-        <div className='search-list'>
-          <GeminiScrollbar autoshow className='gm-scrollbar-black'>
+      <div className={styles.searchList}>
+          <Scrollable>
             {this.renderContent()}
-          </GeminiScrollbar>
+          </Scrollable>
         </div>
       </div>
     );
@@ -116,7 +118,7 @@ export default class Search extends Component {
     let result;
 
     if (this.props.suggestions.length > 0) {
-      const {categories} = this.props.pageBuilder;
+      const {categories} = this.props;
       result = (
         <div>
           {categories.map(this.renderCategory, this)}
@@ -124,15 +126,14 @@ export default class Search extends Component {
         </div>
       );
     } else {
-      result = <div className='no-results'>No results from your search</div>;
+      result = <div className={styles.noResults}>No results from your search</div>;
     }
 
     return result;
   }
 
   renderCategory (category) {
-    const {suggestions, pageBuilder} = this.props;
-    const {elements} = pageBuilder;
+    const {suggestions, elements} = this.props;
     const categoryElements = [];
 
     forEach(suggestions, (elementName) => {
@@ -156,9 +157,9 @@ export default class Search extends Component {
 
     if (categoryElements.length > 0) {
       return (
-        <div className='suggestion-category' key={category}>
-          <div className='category-info'>{category}</div>
-          <div className='category-elements'>
+        <div className={styles.suggestionCategory} key={category}>
+          <div className={styles.categoryInfo}>{category}</div>
+          <div>
             {categoryElements.map(this.renderElement, this)}
           </div>
         </div>
@@ -179,12 +180,12 @@ export default class Search extends Component {
     this.suggestionsCounter++;
 
     return (
-      <div className='element-entry' onClick={this.addElement.bind(this, label)} key={label}>
+      <div className={styles.elementEntry} onClick={this.addElement.bind(this, label)} key={label}>
         <i className={icon.class}>{icon.content}</i>
         <span>{before}</span>
-        <span className='searched'>{searched}</span>
+        <span className={styles.searched}>{searched}</span>
         <span>{after}</span>
-        {this.suggestionsCounter < 10 && <span className='hotkey'>{this.suggestionsCounter === 0 ? 'enter' : ('cmd+' + this.suggestionsCounter)}</span>}
+        {this.suggestionsCounter < 10 && <span className={styles.hotkey}>{this.suggestionsCounter === 0 ? 'enter' : ('cmd+' + this.suggestionsCounter)}</span>}
       </div>
     );
   }
@@ -201,9 +202,9 @@ export default class Search extends Component {
 
     if (symbolsSuggestions.length > 0) {
       return (
-        <div className='suggestion-category' key='symbols'>
-          <div className='category-info'>Symbols</div>
-          <div className='category-elements'>
+        <div className={styles.suggestionCategory} key='symbols'>
+          <div className={styles.categoryInfo}>Symbols</div>
+          <div>
             {symbolsSuggestions}
           </div>
         </div>
@@ -223,12 +224,12 @@ export default class Search extends Component {
     this.suggestionsCounter++;
 
     return (
-      <div className='element-entry' onClick={this.addSymbol.bind(this, id)} key={id}>
-        <i className='material-icons'>extension</i>
+      <div className={styles.elementEntry} onClick={this.addSymbol.bind(this, id)} key={id}>
+        <i className='nc-icon-mini objects_puzzle-10'></i>
         <span>{before}</span>
-        <span className='searched'>{searched}</span>
+        <span className={styles.searched}>{searched}</span>
         <span>{after}</span>
-        {this.suggestionsCounter < 10 && <span className='hotkey'>{this.suggestionsCounter === 0 ? 'enter' : ('cmd+' + this.suggestionsCounter)}</span>}
+        {this.suggestionsCounter < 10 && <span className={styles.hotkey}>{this.suggestionsCounter === 0 ? 'enter' : ('cmd+' + this.suggestionsCounter)}</span>}
       </div>
     );
   }

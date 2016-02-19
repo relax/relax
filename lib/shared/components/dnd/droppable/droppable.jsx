@@ -185,13 +185,12 @@ export default class Droppable extends Component {
     }
   }
 
-  addSpotClick (position, event) {
-    event.preventDefault();
+  addSpotClick (position, dom) {
     this.props.openElementsMenu({
       targetId: this.props.dropInfo.id || 'body',
       targetType: this.props.type,
       targetPosition: position,
-      container: findDOMNode(this.refs['spot' + position]),
+      container: dom || this.refs.spot0,
       accepts: this.props.accepts,
       rejects: this.props.rejects
     });
@@ -330,7 +329,7 @@ export default class Droppable extends Component {
       result = (
         <div>
           <span>Drop elements here or </span>
-          <span className='link' onClick={this.addSpotClick.bind(this, 0)} ref='spot0'>
+          <span className='link' onClick={this.addSpotClick.bind(this, 0, null)} ref='spot0'>
             <span>click to add</span>
           </span>
         </div>

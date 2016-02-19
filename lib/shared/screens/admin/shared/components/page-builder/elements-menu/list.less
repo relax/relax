@@ -1,0 +1,80 @@
+@import '~styles/colors.less';
+
+.root {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.category {
+  margin-top: -1px;
+}
+
+.collapsed {
+  .categoryInfo :global i {
+    transform: rotate(-90deg);
+  }
+}
+
+.categoryInfo {
+  background-color: @chromeBackgroundColor;
+  color: #efefef;
+  padding-right: 5px;
+  font-size: 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+  line-height: 30px;
+  border-top: 1px solid @chromeBordersColor;
+  border-bottom: 1px solid @chromeBordersColor;
+
+  :global {
+    i, span {
+      vertical-align: top;
+      display: inline-block;
+    }
+    i {
+      color: #efefef;
+      line-height: 30px;
+      font-size: 14px;
+      width: 30px;
+      text-align: center;
+      transition: all 0.3s fade-out;
+    }
+  }
+
+  &:hover {
+    background-color: #3f4249;
+  }
+}
+
+.elementEntry {
+  height: 30px;
+  cursor: pointer;
+  padding-left: 25px;
+
+  :global {
+    i, span {
+      color: #efefef;
+      line-height: 30px;
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    span {
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+
+    i {
+      width: 35px;
+      font-size: 13px;
+      text-align: center;
+    }
+  }
+
+  &:hover, &.active {
+    background-color: #3f4249;
+  }
+}

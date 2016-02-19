@@ -1,0 +1,61 @@
+@import '~styles/colors.less';
+
+.searchList {
+  position: absolute;
+  top: 40px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.noResults {
+  padding: 30px 15px;
+  text-align: center;
+  font-size: 10px;
+  color: #efefef;
+}
+
+.suggestionCategory {
+  margin-top: 5px;
+}
+
+.categoryInfo {
+  color: #efefef;
+  font-size: 10px;
+  text-transform: uppercase;
+  padding: 12px;
+}
+
+.elementEntry {
+  padding: 0 18px;
+  cursor: pointer;
+
+  .searched {
+    color: @primary;
+    font-weight: 800;
+  }
+  .hotkey {
+    float: right;
+    color: #999999;
+    font-size: 8px;
+    text-transform: uppercase;
+  }
+
+  :global {
+    span, i {
+      display: inline-block;
+      vertical-align: top;
+      color: #efefef;
+      line-height: 30px;
+      font-size: 12px;
+    }
+    i {
+      font-size: 13px;
+      padding-right: 10px;
+    }
+  }
+
+  &:hover, &.active {
+    background-color: #3f4249;
+  }
+}

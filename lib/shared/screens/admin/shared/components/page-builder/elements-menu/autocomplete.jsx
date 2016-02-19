@@ -1,6 +1,8 @@
 import Component from 'components/component';
 import React from 'react';
 
+import styles from './autocomplete.less';
+
 export default class Autocomplete extends Component {
   static propTypes = {
     autoFocus: React.PropTypes.bool,
@@ -52,9 +54,9 @@ export default class Autocomplete extends Component {
     }
 
     return (
-      <div className='autocomplete'>
+      <div className={styles.autocomplete}>
         <span onClick={::this.focus}>{before}</span>
-        <span ref='editable' className='editable' onInput={::this.onInput} contentEditable>{this.props.value}</span>
+        <span ref='editable' className={styles.editable} onInput={::this.onInput} contentEditable>{this.props.value}</span>
         <span onClick={::this.focus}>{after}</span>
       </div>
     );
