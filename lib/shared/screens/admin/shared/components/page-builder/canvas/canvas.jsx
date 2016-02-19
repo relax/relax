@@ -9,17 +9,19 @@ import Symbol from 'elements/symbol';
 import React, {PropTypes} from 'react';
 import {Component as JSS} from 'relax-jss';
 
-import styles from './canvas.less';
+import classes from './canvas.less';
 
 export default class Canvas extends Component {
   static propTypes = {
-    dnd: PropTypes.object.isRequired,
-    dndActions: PropTypes.object.isRequired,
-    pageBuilder: PropTypes.object.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
     display: PropTypes.string.isRequired,
     styles: PropTypes.array.isRequired,
-    symbols: PropTypes.object.isRequired
+    symbols: PropTypes.object.isRequired,
+    dragging: PropTypes.bool.isRequired,
+    pageData: PropTypes.object.isRequired,
+    elements: PropTypes.object.isRequired,
+    selectedId: PropTypes.string,
+    editing: PropTypes.bool.isRequired
   };
 
   static contextTypes = {
@@ -37,8 +39,9 @@ export default class Canvas extends Component {
   }
 
   getChildContext () {
+    const {dragging} = this.props;
     return {
-      dropHighlight: this.props.pageBuilder.dragging ? 'vertical' : 'none'
+      dropHighlight: dragging ? 'vertical' : 'none'
     };
   }
 
@@ -50,35 +53,30 @@ export default class Canvas extends Component {
     window.dispatchEvent(new Event('scroll'));
   }
 
-  onElementClick (id, event) {
-    event.preventDefault();
-    this.props.pageBuilderActions.selectElement(id);
-  }
-
   render () {
-    const {data} = this.props.pageBuilder;
+    const {pageData, display} = this.props;
     const dropInfo = {
       id: 'body',
       type: 'body'
     };
     const bodyStyle = {
       margin: '0 auto',
-      maxWidth: displays[this.props.display]
+      maxWidth: displays[display]
     };
 
     // Process schema links if any
     const elementsLinks = {};
-    const elements = data && data.body && this.renderChildren(data.body.children, {elementsLinks});
+    const elements = pageData && pageData.body && this.renderChildren(pageData.body.children, {elementsLinks});
 
     return (
-      <div className={styles.canvas} ref='canvas'>
-        <div className={styles.content} style={bodyStyle} ref='body'>
+      <div className={classes.canvas} ref='canvas'>
+        <div className={classes.content} style={bodyStyle} ref='body'>
           <Droppable
             type='body'
+            placeholder
             placeholderOverlap={this.renderEmpty}
             dropInfo={dropInfo}
             accepts='Section'
-            placeholder
             minHeight='100%'>
             {elements}
           </Droppable>
@@ -121,9 +119,8 @@ export default class Canvas extends Component {
   }
 
   renderElement (options, elementId, positionInParent) {
-    const {display} = this.props;
-    const {data, elements, selectedId} = this.props.pageBuilder;
-    let element = options.customData && options.customData[elementId] || data[elementId];
+    const {display, editing, pageData, elements, selectedId, styles} = this.props;
+    let element = options.customData && options.customData[elementId] || pageData[elementId];
 
     const elementProps = getElementProps(element, display);
 
@@ -131,9 +128,9 @@ export default class Canvas extends Component {
       element = utils.alterSchemaElementProps(options.elementsLinks[element.id], element, options.schemaEntry, elementProps);
     }
 
-    const styleClassMap = stylesManager.processElement(element, elementProps, elements[element.tag], this.props.styles, elements, this.props.display);
+    const styleClassMap = stylesManager.processElement(element, elementProps, elements[element.tag], styles, elements, display);
 
-    if ((!element.hide || !element.hide[this.props.display]) && element.display !== false) {
+    if ((!element.hide || !element.hide[display]) && element.display !== false) {
       const FactoredElement = element.tag === 'Symbol' ? Symbol : elements[element.tag];
       const selected = selectedId === element.id;
       let children = element.children && this.renderChildren(element.children, options);
@@ -149,8 +146,8 @@ export default class Canvas extends Component {
           styleClassMap={styleClassMap}
           key={elementId}
           relax={{
-            editing: this.props.pageBuilder.editing,
-            display: this.props.display,
+            editing,
+            display,
             selected,
             element,
             positionInParent,
