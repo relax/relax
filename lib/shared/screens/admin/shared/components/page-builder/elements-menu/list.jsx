@@ -1,17 +1,21 @@
 import cx from 'classnames';
 import forEach from 'lodash.foreach';
 import Component from 'components/component';
-import GeminiScrollbar from 'react-gemini-scrollbar';
+import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
+
+import styles from './list.less';
 
 export default class List extends Component {
   static propTypes = {
-    pageBuilder: PropTypes.object.isRequired,
     elementAcceptable: PropTypes.func.isRequired,
     addElement: PropTypes.func.isRequired,
     addSymbol: PropTypes.func.isRequired,
     toggleCategory: PropTypes.func.isRequired,
-    symbols: PropTypes.object.isRequired
+    symbols: PropTypes.object.isRequired,
+    categories: PropTypes.object.isRequired,
+    categoriesCollapsed: PropTypes.object.isRequired,
+    elements: PropTypes.object.isRequired
   };
 
   toggleCategory (category, event) {
@@ -29,19 +33,19 @@ export default class List extends Component {
   }
 
   render () {
-    const {categories} = this.props.pageBuilder;
+    const {categories} = this.props;
     return (
-      <div className='categories-list'>
-        <GeminiScrollbar autoshow className='gm-scrollbar-black'>
+      <div className={styles.root}>
+        <Scrollable>
           {categories.map(this.renderCategory, this)}
           {this.renderSymbolsCategory()}
-        </GeminiScrollbar>
+        </Scrollable>
       </div>
     );
   }
 
   renderCategory (category) {
-    const {elements, categoriesCollapsed} = this.props.pageBuilder;
+    const {elements, categoriesCollapsed} = this.props;
     const categoryElements = [];
 
     forEach(elements, (element, index) => {
@@ -64,12 +68,12 @@ export default class List extends Component {
       const collapsedCategory = categoriesCollapsed[category];
 
       return (
-        <div className={cx('category', collapsedCategory && 'collapsed')} key={category}>
-          <div className='category-info' onClick={this.toggleCategory.bind(this, category)}>
-            <i className='material-icons'>arrow_drop_down</i>
+        <div className={cx(styles.category, collapsedCategory && styles.collapsed)} key={category}>
+          <div className={styles.categoryInfo} onClick={this.toggleCategory.bind(this, category)}>
+            <i className='nc-icon-mini arrows-1_small-triangle-down'></i>
             <span>{category}</span>
           </div>
-          <div className='category-list'>
+          <div>
             {!collapsedCategory && categoryElements.map(this.renderElement, this)}
           </div>
         </div>
@@ -83,7 +87,7 @@ export default class List extends Component {
     const label = elementObj.label;
 
     return (
-      <div className='element-entry' onClick={this.addElement.bind(this, label)} key={label}>
+      <div className={styles.elementEntry} onClick={this.addElement.bind(this, label)} key={label}>
         <i className={icon.class}>{icon.content}</i>
         <span>{label}</span>
       </div>
@@ -92,7 +96,7 @@ export default class List extends Component {
 
   renderSymbolsCategory () {
     if (Object.keys(this.props.symbols).length > 0) {
-      const {categoriesCollapsed} = this.props.pageBuilder;
+      const {categoriesCollapsed} = this.props;
       const collapsedCategory = categoriesCollapsed.symbols;
 
       const symbols = [];
@@ -101,12 +105,12 @@ export default class List extends Component {
       });
 
       return (
-        <div className={cx('category', collapsedCategory && 'collapsed')} key='symbols'>
-          <div className='category-info' onClick={this.toggleCategory.bind(this, 'symbols')}>
-            <i className='material-icons'>arrow_drop_down</i>
+        <div className={cx(styles.category, collapsedCategory && styles.collapsed)} key='symbols'>
+          <div className={styles.categoryInfo} onClick={this.toggleCategory.bind(this, 'symbols')}>
+            <i className='nc-icon-mini arrows-1_small-triangle-down'></i>
             <span>Symbols</span>
           </div>
-          <div className='category-list'>
+          <div>
             {!collapsedCategory && symbols}
           </div>
         </div>
@@ -116,8 +120,8 @@ export default class List extends Component {
 
   renderSymbol (symbol) {
     return (
-      <div className='element-entry' onClick={this.addSymbol.bind(this, symbol._id)} key={symbol._id}>
-        <i className='material-icons'>extension</i>
+      <div className={styles.elementEntry} onClick={this.addSymbol.bind(this, symbol._id)} key={symbol._id}>
+        <i className='nc-icon-mini objects_puzzle-10'></i>
         <span>{symbol.title}</span>
       </div>
     );

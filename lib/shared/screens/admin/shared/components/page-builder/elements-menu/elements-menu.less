@@ -1,0 +1,50 @@
+@import '~styles/colors.less';
+
+.root {
+  width: 280px;
+  height: 400px;
+  text-align: left;
+  text-decoration: none;
+  z-index: 4;
+  position: fixed;
+}
+
+.angled {
+  .arrowLeft {
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+    border-right: 17px solid @chromeBordersColor;
+    transform: translate(5px, 10px) rotate(45deg);
+  }
+}
+
+.left {
+  .arrowLeft {
+    left: auto;
+    right: -8px;
+    border-left: 8px solid @chromeBordersColor;
+    border-right: 0;
+  }
+}
+
+.arrowLeft {
+  position: absolute;
+  top: 96px;
+  left: -10px;
+  width: 0;
+  height: 0;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-right: 11px solid #2b2d31;
+  z-index: 1;
+}
+
+.ballon {
+  width: 100%;
+  height: 100%;
+  border: 1px solid @chromeBordersColor;
+  background-color: #2b2d31;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
