@@ -52,11 +52,11 @@ export default class Marker extends Component {
   }
 
   render () {
-    const {orientation} = this.props;
+    const {orientation, active} = this.props;
 
     return (
       <div
-        className={cx(styles.marker, this.props.active && styles.active, styles[orientation], this.state.visible && styles.visible)}
+        className={cx(styles.marker, active && styles.active, styles[orientation], this.state.visible && styles.visible)}
         onMouseEnter={::this.onMouseEnter}
         onMouseLeave={::this.onMouseLeave}
       />

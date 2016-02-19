@@ -226,7 +226,7 @@ export default class Droppable extends Component {
   }
 
   renderDropMarkers (children) {
-    const {isActive, dropInfo, activeDragInfo, orientation, dndActions} = this.props;
+    const {isActive, activeDropInfo, dropInfo, activeDragInfo, orientation, dndActions} = this.props;
     const isDraggingParent = activeDragInfo.parentId === dropInfo.id;
 
     const tempChildren = [];
@@ -237,7 +237,7 @@ export default class Droppable extends Component {
           key='marker'
           dndActions={dndActions}
           orientation={orientation}
-          active={isActive && dropInfo.position === 0}
+          active={isActive && activeDropInfo.position === 0}
           report={{...this.props.dropInfo, position: 0}}
         />
       );
@@ -252,7 +252,7 @@ export default class Droppable extends Component {
             key={'marker' + index}
             dndActions={dndActions}
             orientation={orientation}
-            active={isActive && dropInfo.position === index + 1}
+            active={isActive && activeDropInfo.position === index + 1}
             report={{...this.props.dropInfo, position: index + 1}}
           />
         ));
