@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
@@ -71,11 +72,11 @@ export default class ContextMenu extends Component {
     const {closeAddingSymbol, symbolTitle, onSymbolChange} = this.props;
     return (
       <div className={styles.opened}>
-        <div className='label back' onClick={closeAddingSymbol}>
-          <i className='material-icons'>chevron_left</i>
+        <button className={styles.label} onClick={closeAddingSymbol}>
+          <i className='nc-icon-mini arrows-1_minimal-left'></i>
           <span>Add to symbol library</span>
-        </div>
-        <form onSubmit={::this.saveSymbol}>
+        </button>
+        <form className={styles.form} onSubmit={::this.saveSymbol}>
           <input className={styles.input} type='text' value={symbolTitle} onChange={onSymbolChange} placeholder='Name Symbol' ref='titleInput' />
           <div className={styles.saveButton} onClick={::this.saveSymbol}>Save</div>
           <input type='submit' hidden />
@@ -87,12 +88,12 @@ export default class ContextMenu extends Component {
   renderActions () {
     const {close, element, openAddingSymbol} = this.props;
     return (
-      <div className='element-context-menu' onMouseLeave={close}>
-        <div className='label'>{element.label || element.tag}</div>
-        <div className='element-context-action' onClick={openAddingSymbol}>Add to symbol library</div>
-        <div className='element-context-action' onClick={::this.makeDynamic}>Make dynamic</div>
-        <div className='element-context-action' onClick={::this.duplicate}>Duplicate</div>
-        <div className='element-context-action' onClick={::this.remove}>Remove</div>
+      <div className={styles.opened} onMouseLeave={close}>
+        <div className={styles.label}>{element.label || element.tag}</div>
+        <div className={styles.action} onClick={openAddingSymbol}>Add to symbol library</div>
+        <div className={styles.action} onClick={::this.makeDynamic}>Make dynamic</div>
+        <div className={styles.action} onClick={::this.duplicate}>Duplicate</div>
+        <div className={styles.action} onClick={::this.remove}>Remove</div>
       </div>
     );
   }
