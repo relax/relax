@@ -7,6 +7,7 @@ import Velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
+import Empty from './empty';
 import Highlight from './highlight';
 
 export default class Element extends Component {
@@ -24,6 +25,7 @@ export default class Element extends Component {
     style: PropTypes.object,
     animation: PropTypes.bool.isRequired,
     animated: PropTypes.bool.isRequired,
+    animatedEditing: PropTypes.bool.isRequired,
     children: PropTypes.node,
     dragging: PropTypes.bool.isRequired,
     overElement: PropTypes.func.isRequired,
@@ -240,7 +242,8 @@ export default class Element extends Component {
           id: element.id
         },
         type: element.tag,
-        placeholder: true
+        placeholder: true,
+        placeholderRender: ::this.renderPlaceholder
       }, settings.drop);
 
       result = (
@@ -253,6 +256,13 @@ export default class Element extends Component {
     }
 
     return result;
+  }
+
+  renderPlaceholder (options) {
+    const {settings, element} = this.props;
+    return (
+      <Empty {...options} settings={settings} element={element} />
+    );
   }
 
   renderHighlight () {
