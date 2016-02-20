@@ -69,6 +69,22 @@ up to date.
 
 To build your assets ready to go for production run `npm run build` and `npm start` to start the application.
 
+##### with Docker
+
+```bash
+# Build relax docker image locally
+docker build -t relax .
+
+# Start up a mongo db container on background
+docker run -d mongo
+
+# Start up a relax container, based on the previously built image, linked to the
+# mongodb container
+docker run -d -p 80:8080 -l mongodb:database relax
+
+# Visit your docker endpoint
+open http://localhost
+```
 
 License
 -------
