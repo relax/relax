@@ -1,0 +1,38 @@
+@import '~styles/colors.less';
+
+.root {
+  text-align: center;
+  border: 1px solid #efefef;
+  min-height: 150px;
+}
+
+.info {
+  margin-top: 35px;
+  :global {
+    i, span {
+      display: inline-block;
+      vertical-align: top;
+      line-height: 36px;
+    }
+    i {
+      font-size: 14px;
+      color: @primary;
+      margin-right: 10px;
+    }
+    span {
+      font-size: 14px;
+      text-transform: uppercase;
+      color: @primary;
+    }
+  }
+}
+
+.actions {
+  font-size: 12px;
+  color: @adminText;
+}
+
+.addButton {
+  color: @primary;
+  text-decoration: underline;
+}
