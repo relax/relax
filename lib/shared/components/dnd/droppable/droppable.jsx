@@ -33,7 +33,8 @@ export default class Droppable extends Component {
     openElementsMenu: PropTypes.func.isRequired,
     placeholder: PropTypes.bool,
     hidePlaceholder: PropTypes.bool,
-    Placeholder: PropTypes.object
+    Placeholder: PropTypes.object,
+    placeholderRender: PropTypes.func
   };
 
   static contextTypes = {
@@ -292,14 +293,20 @@ export default class Droppable extends Component {
   }
 
   renderPlaceholder () {
-    const {placeholder, hidePlaceholder, Placeholder, isActive} = this.props;
+    const {placeholder, hidePlaceholder, Placeholder, isActive, placeholderRender} = this.props;
     if (placeholder && (!hidePlaceholder || hidePlaceholder && this.droppableHere())) {
       let result;
+      const customProps = {
+        spotClick: ::this.addSpotClick,
+        isActive
+      };
 
       if (Placeholder) {
         result = (
-          <Placeholder spotClick={::this.addSpotClick} isActive={isActive} />
+          <Placeholder {...customProps} />
         );
+      } else if (placeholderRender) {
+        result = placeholderRender(customProps);
       } else {
         result = this.renderDefaultPlaceholder();
       }

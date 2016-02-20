@@ -10,6 +10,7 @@ import React, {PropTypes} from 'react';
 import {Component as JSS} from 'relax-jss';
 
 import classes from './canvas.less';
+import Empty from './empty';
 
 export default class Canvas extends Component {
   static propTypes = {
@@ -74,7 +75,7 @@ export default class Canvas extends Component {
           <Droppable
             type='body'
             placeholder
-            placeholderOverlap={this.renderEmpty}
+            placeholderRender={::this.placeholderRender}
             dropInfo={dropInfo}
             accepts='Section'
             minHeight='100%'>
@@ -86,15 +87,10 @@ export default class Canvas extends Component {
     );
   }
 
-  renderEmpty (renderMark) {
+  placeholderRender () {
+    const {pageBuilderActions} = this.props;
     return (
-      <div className='pb-empty-placeholder'>
-        <div className='pb-empty-placeholder-wrapper'>
-          <div className='title'>Let's get you started</div>
-          <div className='sub-title'>Click the blue dot below to add your first section</div>
-          {renderMark()}
-        </div>
-      </div>
+      <Empty pageBuilderActions={pageBuilderActions} />
     );
   }
 

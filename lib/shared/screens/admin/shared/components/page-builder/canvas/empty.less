@@ -1,0 +1,61 @@
+@import '~styles/colors.less';
+
+.root {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.wrapper {
+  position: absolute;
+  top: 30%;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.title {
+  font-weight: 300;
+  font-size: 26px;
+  line-height: 36px;
+  color: @adminText;
+}
+
+.subTitle {
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 34px;
+  color: @primary;
+}
+
+.button {
+  display: inline-block;
+  vertical-align: top;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: @primary;
+  position: relative;
+  text-align: center;
+  margin-top: 15px;
+  transform: scale(0.5);
+  transition: all 0.2s ease-out;
+
+  :global i {
+    font-size: 14px;
+    color: #ffffff;
+    line-height: 40px;
+    opacity: 0;
+    transition: all 0.2s ease-out;
+  }
+
+  &:hover {
+    transform: scale(1);
+
+    :global i {
+      opacity: 1;
+    }
+  }
+}
