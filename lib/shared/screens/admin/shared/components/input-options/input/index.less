@@ -1,0 +1,97 @@
+@import '~styles/colors.less';
+
+.input {
+  border-radius: 2px;
+  max-width: 480px;
+  position: relative;
+
+  :global input {
+    border: 0;
+    background: #2c2f34;
+    box-shadow: none;
+    width: 100%;
+    max-width: 480px;
+    display: block;
+    outline: none;
+    border: 1px solid @chromeBordersColor;
+    border-radius: 3px;
+    padding: 0px 12px;
+    font-size: 10px;
+    line-height: 38px;
+    color: @chromeTextColor;
+    transition: all 0.3s ease-out;
+
+    &:focus {
+      border-color: @primary;
+    }
+
+    &.valid {
+      border: 1px solid @success;
+    }
+    &.invalid {
+      border: 1px solid @alert;
+    }
+  }
+}
+
+.block {
+  max-width: none;
+  display: block;
+
+  :global input {
+    max-width: none;
+  }
+}
+
+.big {
+  :global input {
+    font-size: 17px;
+  }
+}
+
+.white {
+  :global input {
+    background: transparent;
+    border-color: @adminBorders;
+    color: @adminText;
+
+    &:focus {
+      border-color: @primary;
+    }
+  }
+}
+
+.disabled {
+  opacity: 0.5;
+}
+
+.withState {
+  :global input {
+    padding-right: 34px;
+  }
+}
+
+.state {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 35px;
+
+ .stateContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    line-height: 21px;
+    height: 21px;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+  }
+
+  &.valid .stateContent {
+    color: @success;
+  }
+  &.invalid .stateContent {
+    color: @alert;
+  }
+}
