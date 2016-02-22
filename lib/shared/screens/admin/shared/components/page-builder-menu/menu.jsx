@@ -2,6 +2,7 @@ import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
 import styles from './menu.less';
+import Breadcrumbs from './breadcrumbs';
 import Tabs from './tabs';
 
 export default class PageBuilderMenu extends Component {
@@ -14,7 +15,10 @@ export default class PageBuilderMenu extends Component {
   render () {
     return (
       <div className={styles.root}>
-        {this.renderContent()}
+        <div className={styles.content}>
+          {this.renderContent()}
+        </div>
+        <Breadcrumbs className={styles.breadcrumbs} />
       </div>
     );
   }
