@@ -1,6 +1,8 @@
+import utils from 'helpers/utils';
 import Component from 'components/component';
 import React from 'react';
-import Utils from 'helpers/utils';
+
+import styles from './font.less';
 
 export default class Font extends Component {
   static propTypes = {
@@ -13,18 +15,17 @@ export default class Font extends Component {
   };
 
   render () {
-    const style = this.props.style || {};
+    const style = Object.assign({}, this.props.style);
     style.fontFamily = this.props.family;
-    Utils.processFVD(style, this.props.fvd);
+    utils.processFVD(style, this.props.fvd);
 
-    let content = '';
-
-    if (this.props.input) {
-      content = <input className='font' style={style} value={this.props.text} onChange={this.props.onChange}></input>;
-    } else {
-      content = <div className='font' style={style}>{this.props.text}</div>;
-    }
-
-    return content;
+    return (
+      <div
+        className={styles.font}
+        style={style}
+      >
+        {this.props.text}
+      </div>
+    );
   }
 }
