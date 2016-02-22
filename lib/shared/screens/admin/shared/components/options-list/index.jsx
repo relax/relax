@@ -3,6 +3,8 @@ import Component from 'components/component';
 import React from 'react';
 import {TypesOptionsMap, TypesOptionsDefaultProps} from 'helpers/input-options-map';
 
+import styles from './index.less';
+
 export default class OptionsList extends Component {
   static propTypes = {
     options: React.PropTypes.array.isRequired,
@@ -29,7 +31,7 @@ export default class OptionsList extends Component {
 
   renderOptions (options) {
     return (
-      <div className='options-group'>
+      <div className={styles.group}>
         {options.map(this.renderOption, this)}
       </div>
     );
@@ -37,7 +39,7 @@ export default class OptionsList extends Component {
 
   renderColumn (option, index) {
     return (
-      <div className='option-column'>
+      <div className={styles.column}>
         {this.renderOption(option)}
       </div>
     );
@@ -48,7 +50,7 @@ export default class OptionsList extends Component {
 
     if (option.type === 'Columns') {
       result = (
-        <div className='option-columns' key={index}>
+        <div className={styles.columns} key={index}>
           {option.options.map(this.renderColumn, this)}
         </div>
       );
@@ -71,7 +73,7 @@ export default class OptionsList extends Component {
           extraProps.label = option.label;
         } else if (option.type === 'Section') {
           if (value) {
-            unlockedContent = <div className='section-options'>{this.renderOptions(option.unlocks)}</div>;
+            unlockedContent = <div className={styles.section}>{this.renderOptions(option.unlocks)}</div>;
           }
           extraProps.label = option.label;
         } else if (option.unlocks.constructor === Array) {
@@ -90,7 +92,7 @@ export default class OptionsList extends Component {
         );
       } else {
         result = (
-          <div className='option' key={option.id}>
+          <div className={styles.option} key={option.id}>
             {this.renderLabel(option.type !== 'Optional' && option.label)}
             <Option onChange={this.onChange.bind(this, option.id)} value={value} {...extraProps} OptionsList={OptionsList} {...this.props.passToOptions} />
             {unlockedContent}
@@ -106,7 +108,7 @@ export default class OptionsList extends Component {
   renderLabel (label) {
     if (label) {
       return (
-        <div className='label'>{label}</div>
+        <div className={styles.label}>{label}</div>
       );
     }
   }
