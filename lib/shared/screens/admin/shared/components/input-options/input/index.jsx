@@ -1,8 +1,11 @@
 import classNames from 'classnames';
+import cx from 'classnames';
 import Animate from 'components/animate';
 import Component from 'components/component';
 import React from 'react';
 import Spinner from 'components/spinner';
+
+import styles from './index.less';
 
 export default class Input extends Component {
   static propTypes = {
@@ -27,37 +30,46 @@ export default class Input extends Component {
   }
 
   render () {
+    const {disabled, className, state, password} = this.props;
     return (
-      <div className={classNames('input', this.props.disabled && 'disabled', this.props.className, this.props.state && 'with-state')}>
-        <input type={this.props.password ? 'password' : 'text'} value={this.props.value} disabled={this.props.disabled} onChange={this.onChange.bind(this)} ref='input' placeholder={this.props.placeholder || ''} />
+      <div className={classNames(styles.input, disabled && styles.disabled, className, state && styles.withState)}>
+        <input
+          type={password ? 'password' : 'text'}
+          value={this.props.value}
+          disabled={this.props.disabled}
+          onChange={::this.onChange}
+          ref='input'
+          placeholder={this.props.placeholder || ''}
+        />
         {this.renderState()}
       </div>
     );
   }
 
   renderState () {
-    if (this.props.state) {
-      if (this.props.state === 'valid') {
+    const {state} = this.props;
+    if (state) {
+      if (state === 'valid') {
         return (
           <Animate transition='fadeIn' key='valid'>
-            <div className='state valid'>
-              <i className='material-icons'>check</i>
+            <div className={cx(styles.state, styles.valid)}>
+              <i className={cx(styles.stateContent, 'nc-icon-mini ui-1_check')}></i>
             </div>
           </Animate>
         );
-      } else if (this.props.state === 'invalid') {
+      } else if (state === 'invalid') {
         return (
           <Animate transition='fadeIn' key='invalid'>
-            <div className='state invalid'>
-              <i className='material-icons'>close</i>
+            <div className={cx(styles.state, styles.invalid)}>
+              <i className={cx(styles.stateContent, 'nc-icon-mini ui-1_simple-remove')}></i>
             </div>
           </Animate>
         );
-      } else if (this.props.state === 'loading') {
+      } else if (state === 'loading') {
         return (
           <Animate transition='fadeIn' key='loading'>
-            <div className='state'>
-              <div>
+            <div className={styles.state}>
+              <div className={styles.stateContent}>
                 <Spinner />
               </div>
             </div>
