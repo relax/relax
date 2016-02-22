@@ -4,6 +4,8 @@ import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {applyBackground, getColorString} from 'helpers/colors';
 
+import styles from './gradient-points.less';
+
 export default class GradientPoints extends Component {
   static propTypes = {
     editingPoint: PropTypes.number.isRequired,
@@ -83,9 +85,9 @@ export default class GradientPoints extends Component {
     applyBackground(gradStyle, Object.assign({}, this.props.value, {angle: 0, type: 'linear'}), this.props.colors);
 
     return (
-      <div className='gradient-points-wraper'>
-        <div className='gradient-points' ref='bar' onClick={::this.addPoint}>
-          <div className='color-grad' style={gradStyle} />
+      <div className={styles.root}>
+        <div className={styles.points} ref='bar' onClick={::this.addPoint}>
+          <div className={styles.gradient} style={gradStyle} />
           {this.props.value.points.map(this.renderPoint, this)}
         </div>
       </div>
@@ -107,7 +109,7 @@ export default class GradientPoints extends Component {
 
     return (
       <span
-        className={cx('marker', selected && 'selected')}
+        className={cx(styles.marker, selected && styles.selected)}
         style={markerStyle}
         key={index}
         onClick={this.markerClicked.bind(this, index)}

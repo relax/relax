@@ -4,6 +4,8 @@ import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
+import styles from './sat-light.less';
+
 export default class SatLight extends Component {
   static propTypes = {
     colr: PropTypes.object.isRequired,
@@ -67,9 +69,9 @@ export default class SatLight extends Component {
     }
 
     return (
-      <div className='sat-light' style={backStyle} onMouseDown={::this.onMouseDown} >
-        <span className='border' />
-        <span className='marker' style={markerStyle} />
+      <div className={styles.root} style={backStyle} onMouseDown={::this.onMouseDown} >
+        <span className={styles.border} />
+        <span className={styles.marker} style={markerStyle} />
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
+import styles from './color-picker.less';
 import Hue from './hue';
 import SatLight from './sat-light';
 
@@ -14,7 +15,7 @@ export default class ColorPicker extends Component {
     const hsv = colr.toHsvObject();
 
     return (
-      <div className='color-picker'>
+      <div className={styles.root}>
         <SatLight {...this.props} hsv={hsv} />
         <Hue {...this.props} hsv={hsv} />
       </div>

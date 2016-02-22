@@ -1,0 +1,67 @@
+@import '~styles/colors.less';
+
+.root {
+  border-top: 2px solid #dbdbdb;
+  padding-top: 12px;
+}
+
+.label {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #999999;
+  line-height: 13px;
+  margin-bottom: 4px;
+}
+
+.addButton {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 6px;
+  margin-top: 6px;
+  cursor: pointer;
+
+  :global i {
+    font-size: 18px;
+    line-height: 20px;
+    text-align: center;
+    color: #999999;
+  }
+
+  &:hover :global i {
+    color: @primary;
+  }
+}
+
+.adding {
+  margin: 0;
+  display: block;
+  margin-top: 6px;
+}
+
+.input {
+  display: inline-block;
+  width: 75%;
+
+  :global input {
+    line-height: 28px;
+  }
+}
+
+.saveButton {
+  display: inline-block;
+  vertical-align: top;
+  width: 25%;
+  line-height: 30px;
+  color: @primary;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 800;
+  text-align: center;
+  cursor: pointer;
+
+  &:hover {
+    color: #333333;
+  }
+}

@@ -6,6 +6,8 @@ import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {applyBackground, getColorString} from 'helpers/colors';
 
+import styles from './radial-gradient.less';
+
 const size = 316;
 
 export default class RadialGradient extends Component {
@@ -218,7 +220,7 @@ export default class RadialGradient extends Component {
 
   render () {
     return (
-      <div className='radial-gradient' ref='holder'>
+      <div className={styles.root} ref='holder'>
         {this.renderContent()}
       </div>
     );
@@ -235,10 +237,10 @@ export default class RadialGradient extends Component {
     const lastPointPosition = utils.getPointInLineByPerc(radialLine.pointA, radialLine.pointB, orderedPoints[orderedPoints.length - 1].perc);
 
     return (
-      <div className='lg-content' style={gradStyle} key={this.props.value.radius}>
-        <svg className='line-svg' key='lineSvg'>
+      <div className={styles.content} style={gradStyle} key={this.props.value.radius}>
+        <svg className={styles.lineSVG} key='lineSvg'>
           <line
-            className='line'
+            className={styles.line}
             x1={firstPointPosition.x}
             y1={firstPointPosition.y}
             x2={lastPointPosition.x}
@@ -264,7 +266,7 @@ export default class RadialGradient extends Component {
     return (
       <div
         key={index}
-        className={cx('point', selected && 'selected')}
+        className={cx(styles.point, selected && styles.selected)}
         style={style}
         onClick={this.markerClicked.bind(this, index)}
         onMouseDown={this.onMouseDown.bind(this, index)}

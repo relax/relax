@@ -1,0 +1,32 @@
+@import '~styles/colors.less';
+
+.input {
+  display: inline-block;
+  width: 70px;
+  margin: 0 4.5px;
+}
+
+.small {
+  width: 38px;
+}
+
+.inputField {
+  width: 100%;
+  text-align: center;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 3.5px;
+  font-size: 12px;
+  line-height: 15px;
+  color: #999999;
+
+  &:focus {
+    border-color: @primary;
+  }
+}
+
+.label {
+  font-size: 8px;
+  color: #999999;
+  line-height: 17px;
+}

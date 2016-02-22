@@ -2,6 +2,7 @@ import Component from 'components/component';
 import Input from 'components/input-options/input';
 import React, {PropTypes} from 'react';
 
+import styles from './colors-collection.less';
 import Color from './color';
 
 export default class ColorsCollection extends Component {
@@ -24,12 +25,12 @@ export default class ColorsCollection extends Component {
 
   render () {
     return (
-      <div className='colors-collection'>
-        <div className='lab'>Color Collection</div>
-        <div className='colors'>
+      <div className={styles.root}>
+        <div className={styles.label}>Color Collection</div>
+        <div>
           {this.props.colors.map(this.renderColor, this)}
-          <span className='add' key='add' onClick={this.props.toggleAddingColor}>
-            <i className='material-icons'>add</i>
+          <span className={styles.addButton} key='add' onClick={this.props.toggleAddingColor}>
+            <i className='nc-icon-mini ui-1_simple-add'></i>
           </span>
         </div>
         {this.renderAdding()}
@@ -52,9 +53,9 @@ export default class ColorsCollection extends Component {
   renderAdding () {
     if (this.props.addingColor) {
       return (
-        <form className='adding-color white-options' onSubmit={::this.onSubmit}>
-          <Input placeholder='Color name' value={this.props.addingColorName} onChange={this.props.changeAddingColor} focused />
-          <div className='save-btn' onClick={::this.onSubmit}>Save</div>
+        <form className={styles.adding} onSubmit={::this.onSubmit}>
+          <Input className={styles.input} placeholder='Color name' white value={this.props.addingColorName} onChange={this.props.changeAddingColor} focused />
+          <div className={styles.saveButton} onClick={::this.onSubmit}>Save</div>
         </form>
       );
     }

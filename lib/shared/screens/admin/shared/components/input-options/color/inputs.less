@@ -1,0 +1,36 @@
+.root {
+  position: relative;
+  padding-top: 12px;
+  padding-bottom: 4px;
+}
+
+.previous, .next {
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+
+  :global i {
+    font-size: 12px;
+    color: #999999;
+    line-height: 12px;
+  }
+
+  &:hover :global i {
+    color: #333333;
+  }
+}
+.previous {
+  left: 0;
+}
+.next {
+  right: 0;
+}
+
+.inputs {
+  padding: 0 12px;
+  text-align: center;
+}

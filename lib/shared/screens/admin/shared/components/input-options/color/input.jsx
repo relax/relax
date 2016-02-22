@@ -2,6 +2,8 @@ import cx from 'classnames';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
+import styles from './input.less';
+
 export default class Inputs extends Component {
   static propTypes = {
     small: PropTypes.bool,
@@ -39,9 +41,9 @@ export default class Inputs extends Component {
   render () {
     const {small, value, label} = this.props;
     return (
-      <div className={cx('input', small && 'small')} onFocus={::this.onFocus} onBlur={::this.onBlur} onChange={::this.onChange}>
-        <input type='text' value={this.state.focused ? this.state.value : value} />
-        <div className='lab'>{label}</div>
+      <div className={cx(styles.input, small && styles.small)} onFocus={::this.onFocus} onBlur={::this.onBlur} onChange={::this.onChange}>
+        <input className={styles.inputField} type='text' value={this.state.focused ? this.state.value : value} />
+        <div className={styles.label}>{label}</div>
       </div>
     );
   }
