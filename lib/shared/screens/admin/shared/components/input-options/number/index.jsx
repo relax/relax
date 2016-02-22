@@ -1,17 +1,21 @@
 import cx from 'classnames';
 import Component from 'components/component';
-import React from 'react';
+import React, {PropTypes} from 'react';
+
+import styles from './index.less';
 
 export default class NumberInput extends Component {
   static propTypes = {
-    value: React.PropTypes.number.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    allowed: React.PropTypes.array,
-    min: React.PropTypes.number,
-    max: React.PropTypes.number,
-    inactive: React.PropTypes.bool,
-    className: React.PropTypes.string,
-    arrows: React.PropTypes.bool
+    value: PropTypes.number.isRequired,
+    onChange: PropTypes.func.isRequired,
+    allowed: PropTypes.array,
+    min: PropTypes.number,
+    max: PropTypes.number,
+    inactive: PropTypes.bool,
+    className: PropTypes.string,
+    arrows: PropTypes.bool,
+    white: PropTypes.bool,
+    small: PropTypes.bool
   };
 
   static defaultProps = {
@@ -125,20 +129,39 @@ export default class NumberInput extends Component {
   }
 
   render () {
+    const {className, white, small} = this.props;
+    const {focused} = this.state;
     const value = this.props.inactive ? '--' : this.props.value;
 
     return (
-      <div className={cx('number-input', this.state.focused && 'focused', this.props.className)}>
-        <input type='text' value={this.state.focused ? this.state.value : value} onChange={::this.onInput} ref='input' onBlur={::this.onBlur} onFocus={::this.onFocus} />
-        {this.props.arrows && <div className='arrows'>
-          <a href='#' onClick={::this.up}>
-            <i className='fa fa-angle-up'></i>
-          </a>
-          <a href='#' onClick={::this.down}>
-            <i className='fa fa-angle-down'></i>
-          </a>
-        </div>}
+      <div className={cx(styles.root, focused && styles.focused, white && styles.white, small && styles.small, className)}>
+        <input
+          className={styles.input}
+          type='text'
+          value={focused ? this.state.value : value}
+          onChange={::this.onInput}
+          ref='input'
+          onBlur={::this.onBlur}
+          onFocus={::this.onFocus}
+        />
+        {this.renderArrows()}
       </div>
     );
+  }
+
+  renderArrows () {
+    const {arrows} = this.props;
+    if (arrows) {
+      return (
+        <div className={styles.arrows}>
+          <button className={styles.arrow} onClick={::this.up}>
+            <i className='nc-icon-mini arrows-1_minimal-up'></i>
+          </button>
+          <button className={styles.arrow} onClick={::this.down}>
+            <i className='nc-icon-mini arrows-1_minimal-down'></i>
+          </button>
+        </div>
+      );
+    }
   }
 }
