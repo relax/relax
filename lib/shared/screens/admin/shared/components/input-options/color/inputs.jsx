@@ -3,6 +3,7 @@ import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {hexIsValid} from 'helpers/colors';
 
+import styles from './inputs.less';
 import Input from './input';
 
 export default class Inputs extends Component {
@@ -58,13 +59,13 @@ export default class Inputs extends Component {
 
   render () {
     return (
-      <div className='inputs'>
-        <span className='previous' onClick={this.props.previousInputType}>
-          <i className='material-icons'>keyboard_arrow_left</i>
+      <div className={styles.root}>
+        <span className={styles.previous} onClick={this.props.previousInputType}>
+          <i className='nc-icon-mini arrows-2_small-left'></i>
         </span>
         {this.renderInputs()}
-        <span className='next' onClick={this.props.nextInputType}>
-          <i className='material-icons'>keyboard_arrow_right</i>
+        <span className={styles.next} onClick={this.props.nextInputType}>
+          <i className='nc-icon-mini arrows-2_small-right'></i>
         </span>
       </div>
     );
@@ -76,7 +77,7 @@ export default class Inputs extends Component {
     if (inputType === 'hex') {
       const hex = colr.toHex();
       return (
-        <div className='current-inputs'>
+        <div className={styles.inputs}>
           <Input value={hex} label='HEX' onChange={::this.onHexChange} />
           <Input small value={opacity} label='A' onChange={::this.onOpacityChange} />
         </div>
@@ -84,7 +85,7 @@ export default class Inputs extends Component {
     } else if (inputType === 'rgba') {
       const rgb = colr.toRgbObject();
       return (
-        <div className='current-inputs'>
+        <div className={styles.inputs}>
           <Input small value={rgb.r} label='R' onChange={this.onRGBChange.bind(this, 'r')} />
           <Input small value={rgb.g} label='G' onChange={this.onRGBChange.bind(this, 'g')} />
           <Input small value={rgb.b} label='B' onChange={this.onRGBChange.bind(this, 'b')} />
@@ -94,7 +95,7 @@ export default class Inputs extends Component {
     } else if (inputType === 'hsva') {
       const hsv = colr.toHsvObject();
       return (
-        <div className='current-inputs'>
+        <div className={styles.inputs}>
           <Input small value={hsv.h} label='H' onChange={this.onHSVChange.bind(this, 'h')} />
           <Input small value={hsv.s} label='S' onChange={this.onHSVChange.bind(this, 's')} />
           <Input small value={hsv.v} label='V' onChange={this.onHSVChange.bind(this, 'v')} />

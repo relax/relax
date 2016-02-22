@@ -2,6 +2,8 @@ import cx from 'classnames';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
+import styles from './types.less';
+
 export default class Types extends Component {
   static propTypes = {
     type: PropTypes.string.isRequired,
@@ -14,10 +16,10 @@ export default class Types extends Component {
     const {type} = this.props;
 
     return (
-      <div className='types'>
-        <div className={cx('type solid', type !== 'linear' && type !== 'radial' && 'active')} onClick={this.props.changeToSolid}></div>
-        <div className={cx('type linear', type === 'linear' && 'active')} onClick={this.props.changeToLinear}></div>
-        <div className={cx('type radial', type === 'radial' && 'active')} onClick={this.props.changeToRadial}></div>
+      <div className={styles.types}>
+        <div className={cx(styles.type, styles.solid, type !== 'linear' && type !== 'radial' && styles.active)} onClick={this.props.changeToSolid}></div>
+        <div className={cx(styles.type, styles.linear, type === 'linear' && styles.active)} onClick={this.props.changeToLinear}></div>
+        <div className={cx(styles.type, styles.radial, type === 'radial' && styles.active)} onClick={this.props.changeToRadial}></div>
       </div>
     );
   }

@@ -1,0 +1,59 @@
+.root {
+  width: 100%;
+  height: 10px;
+  margin-top: 4px;
+  position: relative;
+}
+
+.opacity {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 14px;
+  border-radius: 4px;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    opacity: 0.5;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAChJREFUeNpiPHPmDAMMGBsbw9lMDDgA6RKM%2F%2F%2F%2Fh3POnj1LCzsAAgwAQtYIcFfEyzkAAAAASUVORK5CYII%3D');
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    display: block;
+    border-radius: 4px;
+    top: 0px; right: 0px; bottom: 0px; left: 0px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+}
+
+.gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  border-radius: 4px;
+  background: -moz-linear-gradient(left, rgba(255,0,0,0) 0%, rgba(255,0,0,1) 100%);
+  background: -webkit-linear-gradient(left, rgba(255,0,0,0) 0%,rgba(255,0,0,1) 100%);
+  background: linear-gradient(to right, rgba(255,0,0,0) 0%,rgba(255,0,0,1) 100%);
+}
+
+.marker {
+  position: absolute;
+  display: inline-block;
+  width: 8px;
+  height: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  background-color: #ffffff;
+  border-radius: 2px;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  cursor: pointer;
+}

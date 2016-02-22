@@ -3,6 +3,7 @@ import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
+import styles from './edit.less';
 import ColorPicker from './color-picker';
 import ColorsCollection from './colors-collection';
 import GradientPoints from './gradient-points';
@@ -87,8 +88,8 @@ export default class Edit extends Component {
     const isGradient = (type === 'linear' || type === 'radial');
 
     return (
-      <div className='color-picker-modal' ref='holder'>
-        <span className={cx('triangle', this.props.side)} />
+      <div className={styles.root} ref='holder'>
+        <span className={cx(styles.triangle, this.props.side)} />
         {gradients &&
           <Types
             type={type}

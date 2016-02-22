@@ -2,6 +2,8 @@ import utils from 'helpers/utils';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
+import styles from './opacity.less';
+
 export default class Opacity extends Component {
   static propTypes = {
     opacity: PropTypes.number.isRequired,
@@ -57,10 +59,10 @@ export default class Opacity extends Component {
     };
 
     return (
-      <div className='opacity-wraper'>
-        <div className='opacity' onMouseDown={::this.onMouseDown} ref='bar'>
-          <span className='color-grad' style={gradStyle} />
-          <span className='marker' style={markerStyle} />
+      <div className={styles.root}>
+        <div className={styles.opacity} onMouseDown={::this.onMouseDown} ref='bar'>
+          <span className={styles.gradient} style={gradStyle} />
+          <span className={styles.marker} style={markerStyle} />
         </div>
       </div>
     );

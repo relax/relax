@@ -5,6 +5,8 @@ import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {applyBackground, getColorString} from 'helpers/colors';
 
+import styles from './linear-gradient.less';
+
 export default class LinearGradient extends Component {
   static propTypes = {
     editingPoint: PropTypes.number.isRequired,
@@ -198,7 +200,7 @@ export default class LinearGradient extends Component {
 
   render () {
     return (
-      <div className='linear-gradient' ref='holder'>
+      <div className={styles.root} ref='holder'>
         {this.renderContent()}
       </div>
     );
@@ -226,10 +228,10 @@ export default class LinearGradient extends Component {
     const lastPointPosition = utils.getPointInLineByPerc(pointB, pointA, orderedPoints[orderedPoints.length - 1].perc);
 
     return (
-      <div className='lg-content' style={gradStyle}>
-        <svg className='line-svg' key='lineSvg'>
+      <div className={styles.content} style={gradStyle}>
+        <svg className={styles.lineSVG} key='lineSvg'>
           <line
-            className='line'
+            className={styles.line}
             x1={firstPointPosition.x}
             y1={firstPointPosition.y}
             x2={lastPointPosition.x}
@@ -240,7 +242,7 @@ export default class LinearGradient extends Component {
           />
         </svg>
         {this.props.value.points.map(this.renderPoint.bind(this, pointA, pointB))}
-        {this.state.dragging && (this.activeFirst || this.activeLast) && <div className='angle-info' key='angle'>{angle + 'º'}</div>}
+        {this.state.dragging && (this.activeFirst || this.activeLast) && <div className={styles.angleInfo} key='angle'>{angle + 'º'}</div>}
       </div>
     );
   }
@@ -253,10 +255,11 @@ export default class LinearGradient extends Component {
       top: pointPosition.y,
       backgroundColor: getColorString(colorObj, this.props.colors)
     };
+
     return (
       <div
         key={index}
-        className={cx('point', selected && 'selected')}
+        className={cx(style.point, selected && style.selected)}
         style={style}
         onClick={this.markerClicked.bind(this, index)}
         onMouseDown={this.onMouseDown.bind(this, index)}

@@ -1,10 +1,11 @@
 import cx from 'classnames';
+import Component from 'components/component';
 import Portal from 'components/portal';
 import Stick from 'components/stick';
 import React, {PropTypes} from 'react';
 import {applyBackground} from 'helpers/colors';
-import Component from 'components/component';
 
+import styles from './color-palette-picker.less';
 import Edit from './edit';
 
 export default class ColorPicker extends Component {
@@ -40,12 +41,12 @@ export default class ColorPicker extends Component {
     }
 
     return (
-      <div className={cx('color-picker', this.props.className)}>
-        <div className='color-picker-info' onClick={::this.toggleOpen} ref={(ref) => this.ref = ref}>
-          <div className='color-preview'>
-            <span style={colorStyle} />
+      <div className={cx(this.props.className)}>
+        <div className={styles.info} onClick={::this.toggleOpen} ref={(ref) => this.ref = ref}>
+          <div className={styles.preview}>
+            <span className={styles.color} style={colorStyle} />
           </div>
-          <span>{label}</span>
+          <span className={styles.label}>{label}</span>
         </div>
         {this.renderContent()}
       </div>

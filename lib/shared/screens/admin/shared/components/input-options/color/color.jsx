@@ -4,6 +4,8 @@ import Stick from 'components/stick';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
+import styles from './color.less';
+
 export default class Color extends Component {
   static fragments = {
     color: {
@@ -49,7 +51,7 @@ export default class Color extends Component {
     };
 
     return (
-      <div className='color' style={style} onClick={::this.onClick} onMouseEnter={::this.onMouseEnter} onMouseLeave={::this.onMouseLeave}>
+      <div className={styles.color} style={style} onClick={::this.onClick} onMouseEnter={::this.onMouseEnter} onMouseLeave={::this.onMouseLeave}>
         {this.renderInfo()}
       </div>
     );
@@ -60,10 +62,10 @@ export default class Color extends Component {
     if (this.state.overed) {
       return (
         <Portal>
-          <Stick element={this.state.element} verticalPosition='top' horizontalPosition='center' verticalOffset={3} className='color-title-balloon-wrapper'>
-            <div className='color-title-balloon'>
-              <span className='triangle'/>
-              <span>{color.label}</span>
+          <Stick element={this.state.element} verticalPosition='top' horizontalPosition='center' verticalOffset={3} className={styles.colorTitleBallon}>
+            <div className={styles.colorTitle}>
+              <span className={styles.triangle} />
+              <span className={styles.label}>{color.label}</span>
             </div>
           </Stick>
         </Portal>

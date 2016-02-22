@@ -3,6 +3,8 @@ import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
+import styles from './hue.less';
+
 export default class Hue extends Component {
   static propTypes = {
     colr: PropTypes.object.isRequired,
@@ -59,8 +61,8 @@ export default class Hue extends Component {
     };
 
     return (
-      <div className='hue' onMouseDown={::this.onMouseDown}>
-        <span className='marker' style={markerStyle} />
+      <div className={styles.root} onMouseDown={::this.onMouseDown}>
+        <span className={styles.marker} style={markerStyle} />
       </div>
     );
   }
