@@ -1,6 +1,9 @@
+import cx from 'classnames';
 import Component from 'components/component';
 import OptionsMenu from 'components/options-menu';
 import React, {PropTypes} from 'react';
+
+import styles from './entry.less';
 
 export default class Entry extends Component {
   static propTypes = {
@@ -48,9 +51,9 @@ export default class Entry extends Component {
 
   render () {
     return (
-      <div className='entry' onClick={::this.onClick} onMouseLeave={::this.onMouseLeave}>
-        <div className='info-holder'>
-          <span className='title'>{this.props.entry.title}</span>
+      <div className={styles.root} onClick={::this.onClick} onMouseLeave={::this.onMouseLeave}>
+        <div className={styles.holder}>
+          <span className={cx(styles.column, styles.title)}>{this.props.entry.title}</span>
           {this.renderOptionsButton()}
           {this.renderInfo()}
         </div>
@@ -61,8 +64,8 @@ export default class Entry extends Component {
   renderOptionsButton () {
     if (this.props.entry._id !== 'no_style') {
       return (
-        <span className='options-btn' onClick={::this.openOptions}>
-          <i className='material-icons'>more_horiz</i>
+        <span className={cx(styles.column, styles.optionsButton)} onClick={::this.openOptions}>
+          <i className={cx('nc-icon-outline ui-2_menu-dots', styles.icon)}></i>
           {this.renderOptionsMenu()}
         </span>
       );
@@ -73,17 +76,20 @@ export default class Entry extends Component {
     if (this.state.options) {
       return (
         <OptionsMenu options={[
-          {label: 'Duplicate', action: ::this.duplicate, icon: 'fa fa-copy'},
-          {label: 'Remove', action: ::this.remove, icon: 'fa fa-trash-o'}
+          {label: 'Duplicate', action: ::this.duplicate, icon: 'nc-icon-mini files_single-copy-04'},
+          {label: 'Remove', action: ::this.remove, icon: 'nc-icon-mini ui-1_trash'}
         ]} />
       );
     }
   }
 
   renderInfo () {
-    if (this.props.styleOptions.getIdentifierLabel && this.props.entry._id !== 'no_style') {
+    const {styleOptions, entry} = this.props;
+    if (styleOptions.getIdentifierLabel && entry._id !== 'no_style') {
       return (
-        <span className='info'>{this.props.styleOptions.getIdentifierLabel(Object.assign({}, this.props.styleOptions.defaults, this.props.entry.options))}</span>
+        <span className={cx(styles.column, styles.info)}>
+          {styleOptions.getIdentifierLabel(Object.assign({}, styleOptions.defaults, entry.options))}
+        </span>
       );
     }
   }

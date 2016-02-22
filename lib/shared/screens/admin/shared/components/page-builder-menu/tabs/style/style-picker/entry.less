@@ -1,0 +1,57 @@
+@import '~styles/colors.less';
+
+.root {
+  position: relative;
+  cursor: pointer;
+  padding: 0px 11px;
+  border-bottom: 1px solid @chromeBordersColor;
+
+  &:hover, &.selected {
+    background-color: @chromeBackgroundActive;
+  }
+}
+
+.holder {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.column {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.title {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: @chromeTextColor;
+  line-height: 60px;
+}
+
+.info {
+  font-size: 9px;
+  color: @chromeTextColor;
+  float: right;
+  line-height: 60px;
+}
+
+.optionsButton {
+  float: right;
+  position: relative;
+  margin-top: 10px;
+  margin-left: 10px;
+  text-align: center;
+  width: 25px;
+  cursor: pointer;
+
+  .icon {
+    color: @chromeTextColor;
+    font-size: 14px;
+    line-height: 40px;
+  }
+
+  &:hover .icon {
+    color: @primary;
+  }
+}

@@ -3,6 +3,8 @@ import Component from 'components/component';
 import OptionsList from 'components/options-list';
 import React from 'react';
 
+import styles from './edit.less';
+
 export default class Edit extends Component {
   static propTypes = {
     display: React.PropTypes.string.isRequired,
@@ -13,7 +15,7 @@ export default class Edit extends Component {
 
   render () {
     return (
-      <div className='style-picker-options'>
+      <div className={styles.root}>
         {this.renderOptions()}
       </div>
     );
