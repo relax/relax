@@ -65,7 +65,7 @@ export default class Entry extends Component {
     if (this.props.entry._id !== 'no_style') {
       return (
         <span className={cx(styles.column, styles.optionsButton)} onClick={::this.openOptions}>
-          <i className={cx('nc-icon-outline ui-2_menu-dots', styles.icon)}></i>
+          <i className={cx('nc-icon-mini ui-2_menu-dots', styles.icon)}></i>
           {this.renderOptionsMenu()}
         </span>
       );
