@@ -1,10 +1,12 @@
 import cx from 'classnames';
 import Animate from 'components/animate';
+import Button from 'components/button';
 import Component from 'components/component';
 import Input from 'components/input-options/input';
 import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
 
+import classes from './style-picker.less';
 import Edit from './edit';
 import Entry from './entry';
 
@@ -44,17 +46,16 @@ export default class StylePicker extends Component {
   }
 
   render () {
+    const {selectedStyle, toggleEditing, editing} = this.props;
     return (
-      <div className='style-picker'>
-        <div className='selected-style' onClick={this.props.toggleEditing}>
-          <span>{this.props.selectedStyle.title}</span>
-          <i className='material-icons'>{this.props.editing ? 'expand_less' : 'expand_more'}</i>
+      <div>
+        <div className={classes.selected} onClick={toggleEditing}>
+          <span>{selectedStyle.title}</span>
+          <i className={cx('nc-icon-outline', editing ? 'arrows-1_minimal-up' : 'arrows-1_minimal-down')}></i>
         </div>
-        <div className={cx('content-scrollable', this.props.selectedStyle._id === 'no_style' && this.props.editing && 'no_style')}>
-          <Scrollable>
-            {this.renderContent()}
-          </Scrollable>
-        </div>
+        <Scrollable className={cx(classes.content, selectedStyle._id === 'no_style' && editing && classes.noStyle)}>
+          {this.renderContent()}
+        </Scrollable>
         {this.renderSaveStyle()}
       </div>
     );
@@ -107,16 +108,17 @@ export default class StylePicker extends Component {
   }
 
   renderSaveStyle () {
-    if (this.props.editing && this.props.selectedStyle._id === 'no_style') {
+    const {editing, selectedStyle, editingTitle, titleValue, changeTitleValue, saveStyle, toggleEditingTitle} = this.props;
+    if (editing && selectedStyle._id === 'no_style') {
       let result;
-      if (this.props.editingTitle) {
+      if (editingTitle) {
         result = (
-          <div className='save-style'>
+          <div className={classes.saveStyle}>
             <Animate transition='slideRightIn' duration={300}>
               <form onSubmit={::this.onSubmit}>
-                <Input placeholder='Style title' value={this.props.titleValue} onChange={this.props.changeTitleValue} focused />
-                <div className='submit-button' onClick={this.props.saveStyle}>
-                  <i className='material-icons'>arrow_forward</i>
+                <Input className={classes.input} placeholder='Style title' value={titleValue} onChange={changeTitleValue} focused />
+                <div className={classes.submitButton} onClick={saveStyle}>
+                  <i className='nc-icon-outline arrows-1_tail-right'></i>
                 </div>
                 <input type='submit' hidden />
               </form>
@@ -125,10 +127,10 @@ export default class StylePicker extends Component {
         );
       } else {
         result = (
-          <div className='save-style'>
-            <div className='button button-primary' onClick={this.props.toggleEditingTitle}>
+          <div className={classes.saveStyle}>
+            <Button primary full onClick={toggleEditingTitle}>
               Save style
-            </div>
+            </Button>
           </div>
         );
       }
