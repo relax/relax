@@ -5,7 +5,7 @@ import getFilterDefaultOptions from 'helpers/schema-filter-default-options';
 import Combobox from 'components/input-options/combobox';
 import Component from 'components/component';
 import Input from 'components/input-options/input';
-import NumberInput from 'components/input-options/number-input';
+import NumberInput from 'components/input-options/number';
 import React, {PropTypes} from 'react';
 
 export default class Edit extends Component {

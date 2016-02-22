@@ -1,12 +1,12 @@
 import cx from 'classnames';
 import Animate from 'components/animate';
+import Component from 'components/component';
+import Input from 'components/input-options/input';
 import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
-import Component from 'components/component';
 
 import Edit from './edit';
 import Entry from './entry';
-import Input from '../data-types/input';
 
 export default class StylePicker extends Component {
   static fragments = {
