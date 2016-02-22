@@ -1,0 +1,92 @@
+@import '~styles/colors.less';
+
+.root {
+  width: 100%;
+  max-width: 150px;
+  height: 38px;
+  display: block;
+  position: relative;
+  outline: none;
+  background-color: @chromeBackgroundDarkerColor;
+  border: 1px solid @chromeBordersColor;
+  border-radius: 3px;
+  overflow: hidden;
+  transition: all 0.3s ease-out;
+}
+
+.focused {
+  border: 1px solid @primary;
+}
+
+.small {
+  width: 80px;
+}
+
+.input {
+  display: inline-block;
+  vertical-align: top;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  box-shadow: none;
+  line-height: 36px;
+  padding: 0 12px;
+  padding-right: 40px;
+  width: 100%;
+  font-size: 10px;
+  color: @chromeTextColor;
+}
+
+.arrows {
+  display: inline-block;
+  vertical-align: top;
+  position: absolute;
+  width: 20px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.arrow {
+  display: inline-block;
+  color: @chromeTextSubColor;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 19px;
+  width: 20px;
+  text-align: center;
+  font-size: 12px;
+
+  :global i {
+    line-height: 18px;
+    font-size: 7px;
+    color: @chromeTextSubColor;
+  }
+
+  &:last-child {
+    top: auto;
+    bottom: 0;
+  }
+
+  &:hover {
+    background-color: @chromeBackgroundActive;
+  }
+}
+
+.white {
+  border-color: #cccccc;
+  background-color: transparent;
+
+  .input {
+    color: @adminText;
+  }
+  .arrow {
+    color: @adminText;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}
