@@ -1,5 +1,5 @@
 import Component from 'components/component';
-import NumberInput from 'components/input-options/number-input';
+import NumberInput from 'components/input-options/number';
 import React from 'react';
 
 export default class SpacingPicker extends Component {

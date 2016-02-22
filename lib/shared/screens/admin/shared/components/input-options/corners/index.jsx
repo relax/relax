@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import Component from 'componenets/component';
+import Component from 'components/component';
 import NumberInput from 'components/input-options/number';
 import React from 'react';
 
