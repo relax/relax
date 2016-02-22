@@ -1,5 +1,8 @@
+import cx from 'classnames';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
+
+import styles from './dropdown.less';
 
 export default class Dropdown extends Component {
   static propTypes = {
@@ -8,7 +11,8 @@ export default class Dropdown extends Component {
     entries: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
     tempChange: PropTypes.func.isRequired,
-    tempRevert: PropTypes.func.isRequired
+    tempRevert: PropTypes.func.isRequired,
+    className: PropTypes.string
   };
 
   getInitState () {
@@ -29,12 +33,13 @@ export default class Dropdown extends Component {
   }
 
   render () {
+    const {className, label} = this.props;
     return (
-      <div className='font-picker-dropdown' onClick={this.toggle.bind(this)}>
+      <div className={cx(styles.root, className)} onClick={::this.toggle}>
         {this.renderCollapsable()}
-        <span>
-          {this.props.label}
-          <i className='fa fa-caret-down'></i>
+        <span className={styles.info}>
+          {label}
+          <i className='nc-icon-mini arrows-1_small-triangle-down'></i>
         </span>
       </div>
     );
@@ -43,7 +48,7 @@ export default class Dropdown extends Component {
   renderCollapsable () {
     if (this.state.opened) {
       return (
-        <div className='collapsable'>
+        <div className={styles.collapsable}>
           {this.props.entries.map(this.renderEntry, this)}
         </div>
       );
@@ -52,9 +57,9 @@ export default class Dropdown extends Component {
 
   renderEntry (entry) {
     return (
-      <a href='#' onClick={this.onEntryClick.bind(this, entry.value)}>
+      <button className={styles.entry} onClick={this.onEntryClick.bind(this, entry.value)}>
         {entry.label}
-      </a>
+      </button>
     );
   }
 }

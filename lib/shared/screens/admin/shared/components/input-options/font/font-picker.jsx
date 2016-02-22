@@ -4,6 +4,7 @@ import Component from 'components/component';
 import Utils from 'helpers/utils';
 import React, {PropTypes} from 'react';
 
+import styles from './font-picker.less';
 import Dropdown from './dropdown';
 import Font from './font';
 
@@ -39,7 +40,7 @@ export default class FontPicker extends Component {
 
   render () {
     return (
-      <div className='font-picker'>
+      <div className={styles.root}>
         {this.renderFont()}
         {this.renderOptions()}
       </div>
@@ -70,19 +71,21 @@ export default class FontPicker extends Component {
     }
 
     return (
-      <div className='font-picker-options'>
+      <div className={styles.options}>
         <Dropdown
           entries={families}
           value={value.family}
           label={Utils.filterFontFamily(value.family || '')}
           onChange={this.onChange.bind(this, 'family')}
+          className={styles.fontsDropdown}
         />
-        <span className='sep'></span>
+      <span className={styles.sep}></span>
         <Dropdown
           entries={fvds}
           value={value.fvd}
           label={value.fvd}
           onChange={this.onChange.bind(this, 'fvd')}
+          className={styles.typeDropdown}
         />
       </div>
     );
@@ -101,7 +104,7 @@ export default class FontPicker extends Component {
       );
     } else {
       result = (
-        <p className='warning'>No font selected yet</p>
+        <div className={styles.warning}>No font selected yet</div>
       );
     }
 
