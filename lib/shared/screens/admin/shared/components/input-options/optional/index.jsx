@@ -1,6 +1,8 @@
 import Component from 'components/component';
 import React from 'react';
 
+import styles from './index.less';
+
 export default class Optional extends Component {
   static propTypes = {
     value: React.PropTypes.bool.isRequired,
@@ -15,10 +17,10 @@ export default class Optional extends Component {
 
   render () {
     return (
-      <div className='optional' onClick={this.toggle.bind(this)}>
-        <span className='label'>{this.props.label}</span>
-        <span className='box'>
-          {this.props.value && <i className='material-icons'>check</i>}
+      <div className={styles.root} onClick={::this.toggle}>
+        <span className={styles.label}>{this.props.label}</span>
+        <span className={styles.box}>
+          {this.props.value && <i className='nc-icon-mini ui-1_check'></i>}
         </span>
       </div>
     );

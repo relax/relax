@@ -1,0 +1,55 @@
+@import '~styles/colors.less';
+
+@size: 15px;
+
+.root {
+  position: relative;
+  cursor: pointer;
+  padding: 0 3px;
+  margin-bottom: 8px;
+
+  &:hover {
+    .label {
+      color: @chromeTextColor;
+    }
+    .box {
+      border-color: @primary;
+    }
+  }
+}
+
+.box, .label {
+  vertical-align: top;
+  line-height: 17px;
+  transition: all 0.3s ease-out;
+}
+
+.label {
+  text-transform: uppercase;
+  font-size: 10px;
+  color: @chromeTextColor;
+  line-height: 16px;
+  padding-right: @size + 5px;
+
+  &.white {
+    color: @adminText;
+  }
+}
+
+.box {
+  position: absolute;
+  right: 3px;
+  top: 1px;
+  display: inline-block;
+  width: @size;
+  height: @size;
+  text-align: center;
+  border: 1px solid @chromeTextSubColor;
+  border-radius: 3px;
+
+  :global i {
+    font-size: 9px;
+    color: #ffffff;
+    line-height: 14px;
+  }
+}
