@@ -132,14 +132,16 @@ export default class Stick extends Component {
   }
 
   render () {
+    const {transition, className} = this.props;
+    // const {vertical, horizontal} = this.state;
     const style = {
       left: this.state.left,
       top: this.state.top
     };
 
     return (
-      <Animate transition={this.props.transition} duration={300}>
-        <div className={cx(styles.stick, this.props.className, this.state.vertical, this.state.horizontal)} style={style} ref='holder'>
+      <Animate transition={transition} duration={300}>
+        <div className={cx(styles.stick, className)} style={style} ref='holder'>
           {this.props.children}
         </div>
       </Animate>

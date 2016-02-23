@@ -1,5 +1,8 @@
+import cx from 'classnames';
 import Component from 'components/component';
 import React from 'react';
+
+import styles from './index.less';
 
 export default class Section extends Component {
   static propTypes = {
@@ -14,10 +17,11 @@ export default class Section extends Component {
   }
 
   render () {
+    const {value, label} = this.props;
     return (
-      <div className='options-section' onClick={this.toggle.bind(this)}>
-        <i className='material-icons'>{this.props.value ? 'keyboard_arrow_down' : 'chevron_right'}</i>
-        <span>{this.props.label}</span>
+      <div className={styles.root} onClick={::this.toggle}>
+        <i className={cx('nc-icon-mini', value ? 'arrows-1_minimal-down' : 'arrows-1_minimal-right')}></i>
+        <span>{label}</span>
       </div>
     );
   }
