@@ -1,0 +1,38 @@
+@import '~styles/colors.less';
+
+.root {
+  padding-top: 5px;
+}
+
+.outset, .inset {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-color: #ffffff;
+  margin-right: 9px;
+  border-radius: 4px;
+}
+
+.outset {
+  -webkit-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.3);
+  box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.3);
+
+  &.active {
+    -webkit-box-shadow: 0px 0px 3px 1px @primary;
+    -moz-box-shadow: 0px 0px 3px 1px @primary;
+    box-shadow: 0px 0px 3px 1px @primary;
+  }
+}
+
+.inset {
+  -webkit-box-shadow: inset 0px 0px 2px 1px rgba(0,0,0,0.3);
+  -moz-box-shadow: inset 0px 0px 2px 1px rgba(0,0,0,0.3);
+  box-shadow: inset 0px 0px 2px 1px rgba(0,0,0,0.3);
+
+  &.active {
+    -webkit-box-shadow: inset 0px 0px 3px 1px @primary;
+    -moz-box-shadow: inset 0px 0px 3px 1px @primary;
+    box-shadow: inset 0px 0px 3px 1px @primary;
+  }
+}

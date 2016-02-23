@@ -3,6 +3,7 @@ import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {getColor} from 'helpers/colors';
 
+import styles from './shadow.less';
 import Edit from './edit';
 
 export default class Shadow extends Component {
@@ -29,14 +30,14 @@ export default class Shadow extends Component {
     const {shadow} = this.props;
 
     return (
-      <div className='box-shadow-item'>
-        <div className='box-shadow' onClick={::this.onClick} ref={(ref) => {
+      <div className={styles.root}>
+        <div className={styles.content} onClick={::this.onClick} ref={(ref) => {
           this.ref = ref;
           !this.state.ready && this.setState({ready: true});
         }}>
           <div>{`${shadow.type}, ${getColor(shadow.color).label}, ${shadow.x} ${shadow.y}, ${shadow.blur}, ${shadow.spread}`}</div>
-          <div className='box-shadow-remove' onClick={::this.onRemove}>
-            <i className='material-icons'>delete</i>
+          <div className={styles.removeButton} onClick={::this.onRemove}>
+            <i className='nc-icon-mini ui-1_trash-simple'></i>
           </div>
         </div>
         {this.renderEditing()}

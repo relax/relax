@@ -2,6 +2,8 @@ import cx from 'classnames';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
+import styles from './index.less';
+
 export default class ShadowPosition extends Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
@@ -13,10 +15,11 @@ export default class ShadowPosition extends Component {
   }
 
   render () {
+    const {value} = this.props;
     return (
-      <div className='shadow-position'>
-        <div className={cx('outset', this.props.value === 'outset' && 'active')} onClick={this.onClick.bind(this, 'outset')}></div>
-        <div className={cx('inset', this.props.value === 'inset' && 'active')} onClick={this.onClick.bind(this, 'inset')}></div>
+      <div className={styles.root}>
+        <button className={cx(styles.outset, value === 'outset' && styles.active)} onClick={this.onClick.bind(this, 'outset')} />
+        <button className={cx(styles.inset, value === 'inset' && styles.active)} onClick={this.onClick.bind(this, 'inset')} />
       </div>
     );
   }
