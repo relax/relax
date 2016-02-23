@@ -1,0 +1,201 @@
+@import '~styles/colors.less';
+
+@btnsSize: 25px;
+@btnsSpacing: 3px;
+@total: @btnsSize * 3 + @btnsSpacing * 2;
+
+.root {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  margin-top: 10px;
+}
+
+// Parts
+.toggles, .inputs {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.toggles {
+  position: relative;
+  height: @total;
+  width: @total;
+}
+
+.inputs {
+  padding-left: 25px;
+  padding-bottom: 13px;
+
+  .subLabel {
+    font-size: 9px;
+    color: #616363;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+}
+
+// Toggle buttons
+.toggle {
+  position: absolute;
+  width: @btnsSize;
+  height: @btnsSize;
+  border: 1px solid @chromeBordersColor;
+  text-align: center;
+  cursor: pointer;
+
+  :global i {
+    color: #cccccc;
+    font-size: 9px;
+    line-height: 23px;
+    position: relative;
+  }
+
+  @center: @total / 2 - @btnsSize / 2;
+
+  &.top {
+    left: @center;
+    top: 0;
+  }
+  &.left {
+    left: 0;
+    top: @center;
+  }
+  &.center {
+    left: @center;
+    top: @center;
+  }
+  &.right {
+    right: 0;
+    top: @center;
+  }
+  &.bottom {
+    left: @center;
+    bottom: 0;
+  }
+
+  &:before {
+    content: " ";
+    position: absolute;
+    background-color: #cccccc;
+  }
+
+  &.top:before, &.bottom:before {
+    height: 1px;
+    width: 9px;
+    left: @btnsSize / 2 - 6px;
+  }
+
+  &.left:before, &.right:before {
+    height: 9px;
+    width: 1px;
+    top: @btnsSize / 2 - 6px;
+  }
+
+  &:hover {
+    background-color: #3f4249;
+
+    :global i {
+      color: #ffffff;
+    }
+
+    &:before {
+      background-color: #ffffff;
+    }
+  }
+
+  &.selected {
+    border-color: @primary;
+    background-color: #3f4249;
+
+    :global i {
+      color: #ffffff;
+    }
+
+    &:before {
+      background-color: #ffffff;
+    }
+  }
+
+  &.active {
+    :global i {
+      color: @primary;
+    }
+
+    &:before {
+      background-color: @primary;
+    }
+  }
+}
+
+// Type
+.padding {
+  .top {
+    &:before {
+      top: 7px;
+    }
+    :global i {
+      top: 3px;
+    }
+  }
+  .bottom {
+    &:before {
+      bottom: 7px;
+    }
+    :global i {
+      top: -3px;
+    }
+  }
+  .left {
+    &:before {
+      left: 7px;
+    }
+    :global i {
+      left: 3px;
+    }
+  }
+  .right {
+    &:before {
+      right: 7px;
+    }
+    :global i {
+      left: -3px;
+    }
+  }
+}
+
+.margin {
+  .top {
+    &:before {
+      bottom: 7px;
+    }
+    :global i {
+      top: -3px;
+    }
+  }
+  .bottom {
+    &:before {
+      top: 7px;
+    }
+    :global i {
+      top: 3px;
+    }
+  }
+  .left {
+    &:before {
+      right: 7px;
+    }
+    :global i {
+      left: -3px;
+    }
+  }
+  .right {
+    &:before {
+      left: 7px;
+    }
+    :global i {
+      left: 3px;
+    }
+
+  }
+}

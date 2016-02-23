@@ -1,6 +1,9 @@
+import cx from 'classnames';
 import Component from 'components/component';
 import NumberInput from 'components/input-options/number';
 import React from 'react';
+
+import styles from './index.less';
 
 export default class SpacingPicker extends Component {
   static propTypes = {
@@ -83,7 +86,6 @@ export default class SpacingPicker extends Component {
   }
 
   render () {
-    var className = 'spacing-picker type-' + this.props.type;
     var values = this.state.values;
     var value = 0;
     var inactive = false;
@@ -96,36 +98,26 @@ export default class SpacingPicker extends Component {
     }
 
     return (
-      <div className={className}>
-        <div className='toggles'>
-          {this.renderToggleButton('top', 'expand_less', !values.equal)}
-          {this.renderToggleButton('left', 'chevron_left', !values.equal)}
-          {this.renderToggleButton('center', 'link', values.equal)}
-          {this.renderToggleButton('right', 'chevron_right', !values.equal)}
-          {this.renderToggleButton('bottom', 'expand_more', !values.equal)}
+      <div className={cx(styles.root, styles[this.props.type])}>
+        <div className={styles.toggles}>
+          {this.renderToggleButton('top', 'arrows-1_minimal-up', !values.equal)}
+          {this.renderToggleButton('left', 'arrows-1_minimal-left', !values.equal)}
+          {this.renderToggleButton('center', 'ui-2_link-68', values.equal)}
+          {this.renderToggleButton('right', 'arrows-1_minimal-right', !values.equal)}
+          {this.renderToggleButton('bottom', 'arrows-1_minimal-down', !values.equal)}
         </div>
-        <div className='inputs'>
-          <div className='sub-label'>Value</div>
-          <NumberInput value={value} onChange={this.onInputChange.bind(this)} inactive={inactive} />
+        <div className={styles.inputs}>
+          <div className={styles.subLabel}>Value</div>
+          <NumberInput value={value} onChange={::this.onInputChange} inactive={inactive} />
         </div>
       </div>
     );
   }
 
   renderToggleButton (pos, icon, active) {
-    var className = 'toggle ' + pos;
-
-    if (this.state.selected === pos) {
-      className += ' selected';
-    }
-
-    if (active) {
-      className += ' active';
-    }
-
     return (
-      <div className={className} onClick={this.changeSelected.bind(this, pos)}>
-        <i className='material-icons'>{icon}</i>
+      <div className={cx(styles.toggle, styles[pos], this.state.selected === pos && styles.selected, active && styles.active)} onClick={this.changeSelected.bind(this, pos)}>
+        <i className={cx('nc-icon-mini', icon)}></i>
       </div>
     );
   }
