@@ -4,7 +4,8 @@ import React, {PropTypes} from 'react';
 export default class Edit extends Component {
   static propTypes = {
     shadow: PropTypes.object.isRequired,
-    changeShadow: PropTypes.func.isRequired
+    changeShadow: PropTypes.func.isRequired,
+    OptionsList: PropTypes.object.isRequired
   };
 
   static options = [
@@ -41,11 +42,11 @@ export default class Edit extends Component {
   ];
 
   render () {
-    const {shadow} = this.props;
+    const {shadow, OptionsList, changeShadow} = this.props;
 
     return (
-      <div className='text-shadow-edit white-options'>
-        <this.props.OptionsList options={Edit.options} values={shadow} onChange={this.props.changeShadow} />
+      <div>
+        <OptionsList white tight options={Edit.options} values={shadow} onChange={changeShadow} />
       </div>
     );
   }

@@ -2,6 +2,7 @@ import cloneDeep from 'lodash.clonedeep';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
+import styles from './index.less';
 import Shadow from './shadow';
 
 export default class TextShadow extends Component {
@@ -60,9 +61,9 @@ export default class TextShadow extends Component {
 
   render () {
     return (
-      <div className='text-shadow-picker'>
+      <div>
         {this.props.value.map(this.renderEntry, this)}
-        <div className='add-new' onClick={::this.addNewClick}>Add new shadow</div>
+        <div className={styles.addButton} onClick={::this.addNewClick}>Add new shadow</div>
       </div>
     );
   }

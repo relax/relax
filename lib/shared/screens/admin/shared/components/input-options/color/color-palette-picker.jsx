@@ -19,7 +19,8 @@ export default class ColorPicker extends Component {
     colors: PropTypes.array.isRequired,
     opened: PropTypes.bool.isRequired,
     label: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired
+    type: PropTypes.string.isRequired,
+    white: PropTypes.bool
   };
 
   toggleOpen (event) {
@@ -29,7 +30,7 @@ export default class ColorPicker extends Component {
   }
 
   render () {
-    const {colors, value, type} = this.props;
+    const {colors, value, type, white} = this.props;
     const colorStyle = {};
     applyBackground(colorStyle, value, colors);
 
@@ -41,7 +42,7 @@ export default class ColorPicker extends Component {
     }
 
     return (
-      <div className={cx(this.props.className)}>
+      <div className={cx(white && styles.white, this.props.className)}>
         <div className={styles.info} onClick={::this.toggleOpen} ref={(ref) => this.ref = ref}>
           <div className={styles.preview}>
             <span className={styles.color} style={colorStyle} />

@@ -3,6 +3,8 @@ import Animate from 'components/animate';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
+import styles from './index.less';
+
 export default class Stick extends Component {
   static propTypes = {
     element: PropTypes.node.isRequired,
@@ -137,7 +139,7 @@ export default class Stick extends Component {
 
     return (
       <Animate transition={this.props.transition} duration={300}>
-        <div className={cx('stick', this.props.className, this.state.vertical, this.state.horizontal)} style={style} ref='holder'>
+        <div className={cx(styles.stick, this.props.className, this.state.vertical, this.state.horizontal)} style={style} ref='holder'>
           {this.props.children}
         </div>
       </Animate>

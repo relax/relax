@@ -1,16 +1,19 @@
+import cx from 'classnames';
 import merge from 'lodash.merge';
 import Component from 'components/component';
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {TypesOptionsMap, TypesOptionsDefaultProps} from 'helpers/input-options-map';
 
 import styles from './index.less';
 
 export default class OptionsList extends Component {
   static propTypes = {
-    options: React.PropTypes.array.isRequired,
-    values: React.PropTypes.object.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    passToOptions: React.PropTypes.object
+    options: PropTypes.array.isRequired,
+    values: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired,
+    passToOptions: PropTypes.object,
+    white: PropTypes.bool,
+    tight: PropTypes.bool
   };
 
   static defaultProps = {
@@ -92,9 +95,9 @@ export default class OptionsList extends Component {
         );
       } else {
         result = (
-          <div className={styles.option} key={option.id}>
+          <div className={cx(styles.option, this.props.tight && styles.tight)} key={option.id}>
             {this.renderLabel(option.type !== 'Optional' && option.label)}
-            <Option onChange={this.onChange.bind(this, option.id)} value={value} {...extraProps} OptionsList={OptionsList} {...this.props.passToOptions} />
+            <Option white={this.props.white} onChange={this.onChange.bind(this, option.id)} value={value} {...extraProps} OptionsList={OptionsList} {...this.props.passToOptions} />
             {unlockedContent}
           </div>
         );
@@ -107,8 +110,9 @@ export default class OptionsList extends Component {
 
   renderLabel (label) {
     if (label) {
+      const {white} = this.props;
       return (
-        <div className={styles.label}>{label}</div>
+        <div className={cx(styles.label, white && styles.white)}>{label}</div>
       );
     }
   }
