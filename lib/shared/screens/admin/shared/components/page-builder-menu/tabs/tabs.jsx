@@ -2,6 +2,7 @@ import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
 import styles from './tabs.less';
+import Settings from './settings';
 import Style from './style';
 import TabButton from './tab-button';
 
@@ -33,6 +34,8 @@ export default class Tabs extends Component {
 
     if (menuTab === 'style') {
       result = <Style />;
+    } else if (menuTab === 'settings') {
+      result = <Settings />;
     }
 
     return result;

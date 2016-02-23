@@ -1,0 +1,41 @@
+@import '~styles/colors.less';
+
+.root {
+  padding: 15px;
+  padding-top: 20px;
+}
+
+.displayButton {
+  text-decoration: none;
+  display: inline-block;
+  color: #ffffff;
+  border: 1px solid @chromeBordersColor;
+  border-right-width: 0;
+  background-color: @chromeBackgroundDarkerColor;
+  width: 33.332%;
+  height: 38px;
+  text-align: center;
+
+  :global i {
+    font-size: 10px;
+    line-height: 38px;
+  }
+
+  &:first-child {
+    border-radius: 3px 0 0 3px;
+  }
+
+  &:last-child {
+    border-radius: 0 3px 3px 0;
+    border-right-width: 1px;
+  }
+
+  &:hover {
+    background-color: @chromeBackgroundActive;
+  }
+
+  &.selected {
+    background-color: #7a222d;
+    border-color: #7a222d;
+  }
+}

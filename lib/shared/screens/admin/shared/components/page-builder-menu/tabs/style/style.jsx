@@ -17,7 +17,7 @@ export default class Style extends Component {
     const {selectedElement, elements} = this.props;
     let result;
 
-    if (selectedElement) {
+    if (selectedElement && selectedElement.id !== 'body') {
       const Element = elements[selectedElement.tag];
 
       if (Element && Element.style) {
