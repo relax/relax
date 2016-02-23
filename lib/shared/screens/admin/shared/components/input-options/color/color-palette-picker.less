@@ -6,7 +6,7 @@
   border: 1px solid @chromeBordersColor;
   border-radius: 3px;
   overflow: hidden;
-  background-color: #2c2f34;
+  background-color: @chromeBackgroundDarkerColor;
   cursor: pointer;
 
   &:hover {
@@ -43,4 +43,19 @@
   padding: 0 14px;
   font-size: 10px;
   color: @chromeTextColor;
+}
+
+.white {
+  .info {
+    background-color: transparent;
+    border-color: @adminInputBorders;
+
+    &:hover {
+      border-color: @primary;
+    }
+  }
+
+  .label {
+    color: @adminText;
+  }
 }
