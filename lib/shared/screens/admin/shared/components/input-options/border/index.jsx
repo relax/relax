@@ -5,6 +5,8 @@ import Component from 'components/component';
 import NumberInput from 'components/input-options/number';
 import React from 'react';
 
+import styles from './index.less';
+
 export default class BorderPicker extends Component {
   static propTypes = {
     value: React.PropTypes.object.isRequired,
@@ -124,18 +126,16 @@ export default class BorderPicker extends Component {
 
     return (
       <div>
-        <div className='border-picker'>
-          <div className='toggles'>
-            {this.renderToggleButton('top', !values.equal)}
-            {this.renderToggleButton('left', !values.equal)}
-            {this.renderToggleButton('right', !values.equal)}
-            {this.renderToggleButton('bottom', !values.equal)}
-            {this.renderToggleButton('center', values.equal)}
-          </div>
-          <NumberInput className='micro' value={value.width} onChange={this.onInputChange.bind(this, 'width')} inactive={inactive} />
-          <ColorPicker value={value.color} onChange={this.onInputChange.bind(this, 'color')} side='right' />
-          <BorderStyle value={value.style} onChange={this.onInputChange.bind(this, 'style')} />
+        <div className={styles.toggles}>
+          {this.renderToggleButton('top', !values.equal)}
+          {this.renderToggleButton('left', !values.equal)}
+          {this.renderToggleButton('right', !values.equal)}
+          {this.renderToggleButton('bottom', !values.equal)}
+          {this.renderToggleButton('center', values.equal)}
         </div>
+        <NumberInput className={styles.option} small value={value.width} onChange={this.onInputChange.bind(this, 'width')} inactive={inactive} />
+        <ColorPicker className={cx(styles.option, styles.colorPicker)} value={value.color} onChange={this.onInputChange.bind(this, 'color')} side='right' />
+        <BorderStyle className={styles.borderStyle} value={value.style} onChange={this.onInputChange.bind(this, 'style')} />
       </div>
     );
   }
@@ -143,7 +143,7 @@ export default class BorderPicker extends Component {
   renderToggleButton (pos, active) {
     return (
       <div
-        className={cx('toggle', pos, this.state.selected === pos && 'selected', active && 'active')}
+        className={cx(styles.toggle, styles[pos], this.state.selected === pos && styles.selected, active && styles.active)}
         onClick={this.changeSelected.bind(this, pos)}
       />
     );

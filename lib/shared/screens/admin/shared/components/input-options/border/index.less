@@ -1,0 +1,80 @@
+@import '~styles/colors.less';
+
+@total: 42px;
+@btnSize: 20px;
+@nonActive: #979797;
+
+.toggles {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.toggles {
+  position: relative;
+  height: @total;
+  width: @total;
+}
+
+.option {
+  display: inline-block;
+  vertical-align: right;
+  margin-left: 10px;
+}
+.colorPicker {
+  width: 110px;
+}
+
+.borderStyle {
+  margin-top: 15px;
+  text-align: right;
+}
+
+// Toggle buttons
+.toggle {
+  position: absolute;
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+  width: @btnSize;
+  height: @btnSize;
+
+  @center: 11px;
+
+  &.top {
+    left: @center;
+    top: 0;
+    border-top: 2px solid @nonActive;
+  }
+  &.left {
+    left: 0;
+    top: @center;
+    border-left: 2px solid @nonActive;
+  }
+  &.center {
+    left: @center + 3px;
+    top: @center + 3px;
+    width: 14px;
+    height: 14px;
+    border: 2px solid @nonActive;
+  }
+  &.right {
+    right: 0;
+    top: @center;
+    border-right: 2px solid @nonActive;
+  }
+  &.bottom {
+    left: @center;
+    bottom: 0;
+    border-bottom: 2px solid @nonActive;
+  }
+
+  &.selected {
+    border-color: @primary;
+  }
+  &.active {
+    border-color: #ffffff;
+  }
+  &.selected.active {
+    border-color: @primary;
+  }
+}
