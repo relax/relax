@@ -2,6 +2,7 @@ import getElementProps from 'helpers/get-element-props';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
+import styles from './style.less';
 import StylePicker from './style-picker';
 
 export default class Style extends Component {
@@ -45,18 +46,18 @@ export default class Style extends Component {
 
   renderNoneSelected () {
     return (
-      <div>
-        <i className='material-icons'></i>
-        <div>No element selected, select an element first.</div>
+      <div className={styles.info}>
+        <i className='nc-icon-outline media-1_touch'></i>
+        <div className={styles.label}>Relax, you have to select an element first!</div>
       </div>
     );
   }
 
   renderNotStylable () {
     return (
-      <div>
-        <i className='material-icons'></i>
-        <div>Current selected element has no style options, head to settings tab to edit its properties.</div>
+      <div className={styles.info}>
+        <i className='nc-icon-outline media-1_edit-color'></i>
+        <div className={styles.label}>Current selected element has no style options.</div>
       </div>
     );
   }
