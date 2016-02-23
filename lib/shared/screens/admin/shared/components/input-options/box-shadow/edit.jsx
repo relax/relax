@@ -57,11 +57,11 @@ export default class Edit extends Component {
   ];
 
   render () {
-    const {shadow, OptionsList} = this.props;
+    const {shadow, OptionsList, changeShadow} = this.props;
 
     return (
-      <div className='box-shadow-edit white-options'>
-        <OptionsList options={Edit.options} values={shadow} onChange={this.props.changeShadow} />
+      <div>
+        <OptionsList white tight options={Edit.options} values={shadow} onChange={changeShadow} />
       </div>
     );
   }
