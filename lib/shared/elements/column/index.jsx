@@ -46,7 +46,7 @@ export default class Column extends Component {
     };
 
     if (layout.width !== 'block') {
-      style.width = layout.widthPerc;
+      style.width = layout.widthPerc + '%';
     }
 
     return (
