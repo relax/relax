@@ -1,11 +1,14 @@
 import cx from 'classnames';
 import Component from 'components/component';
-import React from 'react';
+import React, {PropTypes} from 'react';
+
+import styles from './index.less';
 
 export default class BorderStyle extends Component {
   static propTypes = {
-    value: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    className: PropTypes.string
   };
 
   onClick (type, event) {
@@ -15,7 +18,7 @@ export default class BorderStyle extends Component {
 
   render () {
     return (
-      <div className='border-style'>
+      <div className={this.props.className}>
         {this.renderOption('solid')}
         {this.renderOption('dashed')}
         {this.renderOption('dotted')}
@@ -25,8 +28,9 @@ export default class BorderStyle extends Component {
   }
 
   renderOption (type) {
+    const {value} = this.props;
     return (
-      <div className={cx(type, this.props.value === type && 'active')} onClick={this.onClick.bind(this, type)} />
+      <div className={cx(styles.option, styles[type], value === type && styles.active)} onClick={this.onClick.bind(this, type)} />
     );
   }
 }

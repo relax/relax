@@ -1,0 +1,42 @@
+@import '~styles/colors.less';
+@btnsSize: 16px;
+@btnsSpacing: 14px;
+@nonActive: #979797;
+@active: #ffffff;
+
+.option {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: @btnsSize;
+  height: @btnsSize;
+  margin-right: @btnsSpacing;
+  border: 1px solid @chromeBordersColor;
+  cursor: pointer;
+  text-align: center;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:hover {
+    border-color: @active;
+  }
+}
+
+.dashed {
+  border-style: dashed;
+}
+
+.dotted {
+  border-style: dotted;
+}
+
+.double {
+  border-width: 3px;
+  border-style: double;
+}
+
+.active {
+  border-color: @active;
+}
