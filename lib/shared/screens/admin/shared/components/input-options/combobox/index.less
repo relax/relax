@@ -1,0 +1,137 @@
+@import '~styles/colors.less';
+
+@comboboxHeight: 38px;
+
+.combobox {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  width: 100%;
+  max-width: 480px;
+  font-size: 10px;
+
+  &:hover {
+    .holder {
+      border-color: @primary;
+    }
+  }
+
+  &.small {
+    max-width: 120px;
+  }
+}
+
+.holder {
+  height: @comboboxHeight;
+  position: relative;
+  border: solid 1px @chromeBordersColor;
+  background-color: @chromeBackgroundDarkerColor;
+  overflow: hidden;
+
+  border-radius: 3px;
+  transition: all 0.3s ease-out;
+
+  .button {
+    color: @chromeTextColor;
+    text-align: center;
+  }
+
+  &.opened {
+    height: auto;
+  }
+}
+
+.header {
+  overflow: hidden;
+
+  .selectedText {
+    position: relative;
+    padding: 0px 12px;
+    line-height: @comboboxHeight;
+    font-size: 10px;
+    display: inline-block;
+    float: left;
+    color: @chromeTextColor;
+  }
+
+  .button {
+    display: inline-block;
+    float: right;
+    width: @comboboxHeight;
+    height: @comboboxHeight;
+
+    :global i {
+      line-height: @comboboxHeight;
+      font-size: 11px;
+    }
+  }
+}
+
+.options {
+  position: relative;
+  left: 0;
+  display: block;
+  max-height: 155px;
+  overflow-y: auto;
+  border-top: solid 1px @chromeBordersColor;
+}
+
+.option {
+  color: @chromeTextColor;
+  padding: 6px 12px;
+  display: block;
+  font-size: 10px;
+  transition: all 0.2s ease-out;
+
+  &:hover {
+    background-color: @primary;
+    color: @chromeTextColorHighlight;
+  }
+}
+
+// White areas
+.white {
+  .holder {
+    background-color: transparent;
+    border-color: @adminInputBorders;
+    color: @adminText;
+  }
+
+  .header {
+    .selectedText {
+      color: @adminText;
+    }
+    .button {
+      color: @adminText;
+      border-color: @adminInputBorders;
+    }
+  }
+
+  .options {
+    border-color: @adminInputBorders;
+  }
+
+  .option {
+    color: @adminText;
+
+    &:hover {
+      color: @adminTextHighlight;
+    }
+  }
+
+  &:hover {
+    .combobox-holder {
+      border-color: @primary;
+
+      .button {
+        color: @adminText;
+      }
+    }
+
+    .header {
+      .button {
+        background-color: transparent;
+      }
+    }
+  }
+}
