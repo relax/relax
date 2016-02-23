@@ -1,0 +1,22 @@
+@import '~styles/colors.less';
+@size: 15px;
+
+.checkbox {
+  display: inline-block;
+  width: @size;
+  height: @size;
+  text-align: center;
+  border: 1px solid @chromeTextSubColor;
+  border-radius: 3px;
+  cursor: pointer;
+
+  :global i {
+    font-size: 9px;
+    color: #ffffff;
+    line-height: @size - 2px;
+  }
+
+  &:hover {
+    border-color: @primary;
+  }
+}

@@ -2,6 +2,8 @@ import cx from 'classnames';
 import Component from 'components/component';
 import React from 'react';
 
+import styles from './index.less';
+
 export default class Checkbox extends Component {
   static propTypes = {
     value: React.PropTypes.bool.isRequired,
@@ -18,9 +20,10 @@ export default class Checkbox extends Component {
   }
 
   render () {
+    const {disabled, value} = this.props;
     return (
-      <span className={cx('checkbox', this.props.disabled && 'disabled')} onClick={::this.toggle}>
-        {this.props.value && <i className='material-icons'>check</i>}
+      <span className={cx(styles.checkbox, disabled && styles.disabled)} onClick={::this.toggle}>
+        {value && <i className='nc-icon-mini ui-1_check'></i>}
       </span>
     );
   }
