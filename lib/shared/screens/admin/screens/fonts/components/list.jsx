@@ -6,11 +6,12 @@ import Entry from './entry';
 
 export default class List extends Component {
   static propTypes = {
-    fonts: PropTypes.object.isRequired
+    fonts: PropTypes.object.isRequired,
+    previewText: PropTypes.string.isRequired
   };
 
   render () {
-    const {fonts} = this.props;
+    const {fonts, previewText} = this.props;
     const list = [];
     let result;
 
@@ -23,7 +24,7 @@ export default class List extends Component {
               key={key}
               family={family}
               fvd={fvd}
-              text='Abc'
+              text={previewText || 'Abc'}
             />
           );
         }, this);
