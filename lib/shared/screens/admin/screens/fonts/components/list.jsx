@@ -7,11 +7,12 @@ import Entry from './entry';
 export default class List extends Component {
   static propTypes = {
     fonts: PropTypes.object.isRequired,
-    previewText: PropTypes.string.isRequired
+    previewText: PropTypes.string.isRequired,
+    display: PropTypes.oneOf(['grid', 'list']).isRequired
   };
 
   render () {
-    const {fonts, previewText} = this.props;
+    const {fonts, previewText, display} = this.props;
     const list = [];
     let result;
 
@@ -24,7 +25,8 @@ export default class List extends Component {
               key={key}
               family={family}
               fvd={fvd}
-              text={previewText || 'Abc'}
+              text={previewText || (display === 'grid' ? 'Abc' : 'Relax the fonts up')}
+              display={display}
             />
           );
         }, this);

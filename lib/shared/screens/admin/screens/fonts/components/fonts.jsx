@@ -16,23 +16,25 @@ export default class Fonts extends Component {
   static propTypes = {
     fonts: PropTypes.object.isRequired,
     previewText: PropTypes.string.isRequired,
-    changePreviewText: PropTypes.string.isRequired
+    changePreviewText: PropTypes.string.isRequired,
+    changeDisplay: PropTypes.func.isRequired,
+    display: PropTypes.string.isRequired
   };
 
   render () {
-    const {fonts, previewText, changePreviewText} = this.props;
+    const {fonts, previewText, changePreviewText, changeDisplay, display} = this.props;
 
     return (
       <div className={styles.holder}>
         <ContentHeader>
           <PreviewText value={previewText} onChange={changePreviewText} />
           <ContentHeaderActions>
-            <ContentDisplays display='grid' />
+            <ContentDisplays display={display} onChange={changeDisplay} />
             <ContentNew>Manage fonts</ContentNew>
           </ContentHeaderActions>
         </ContentHeader>
         <Content>
-          <List fonts={fonts} previewText={previewText} />
+          <List fonts={fonts} previewText={previewText} display={display} />
         </Content>
       </div>
     );
