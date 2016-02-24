@@ -1,4 +1,4 @@
-import * as adminActions from 'actions/admin';
+import * as adminActions from 'actions/graphql';
 
 import debounce from 'lodash.debounce';
 import hoistStatics from 'hoist-non-react-statics';
@@ -48,7 +48,7 @@ export default function rootDataConnect () {
       fetchData () {
         const { dispatch } = this.context.store;
         const actions = bindActionCreators(adminActions, dispatch);
-        actions.getAdmin(buildQueryAndVariables(this.bundle.fragments, this.bundle.variables));
+        actions.graphql(buildQueryAndVariables(this.bundle.fragments, this.bundle.variables));
         this.bundle = {};
       }
 
