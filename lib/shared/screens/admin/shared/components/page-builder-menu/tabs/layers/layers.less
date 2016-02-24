@@ -1,0 +1,34 @@
+@import '~styles/colors.less';
+
+.filterDisplay {
+  padding: 0 10px;
+}
+
+.trigger {
+  display: inline-block;
+  vertical-align: top;
+  text-decoration: none;
+  font-size: 10px;
+  color: @chromeTextColor;
+  margin-right: 10px;
+  opacity: 0.7;
+  line-height: 30px;
+
+  &:hover, &.active {
+    opacity: 1;
+  }
+}
+
+.structureList {
+  border-top: 1px solid @chromeBordersColor;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+
+  .list {
+    padding-left: 15px;
+  }
+}
