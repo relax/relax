@@ -10,7 +10,7 @@
 }
 
 @media screen and (min-width: 1501px) {
-  .root {
+  .grid.root {
     width: 12.5%;
     &:nth-child(6n+6) {
       margin-right: 0;
@@ -19,7 +19,7 @@
 }
 
 @media screen and (max-width: 1500px) and (min-width: 1301px) {
-  .root {
+  .grid.root {
     width: 16%;
     &:nth-child(5n+5) {
       margin-right: 0;
@@ -28,7 +28,7 @@
 }
 
 @media screen and (max-width: 1300px) and (min-width: 1051px) {
-  .root {
+  .grid.root {
     &:nth-child(4n+4) {
       margin-right: 0;
     }
@@ -36,7 +36,7 @@
 }
 
 @media screen and (max-width: 1050px) and (min-width: 851px) {
-  .root {
+  .grid.root {
     width: 30%;
     &:nth-child(3n+3) {
       margin-right: 0;
@@ -45,7 +45,7 @@
 }
 
 @media screen and (max-width: 850px) and (min-width: 751px) {
-  .root {
+  .grid.root {
     width: 45%;
     margin-right: 10%;
     &:nth-child(2n+2) {
@@ -55,7 +55,7 @@
 }
 
 @media screen and (max-width: 750px) {
-  .root {
+  .grid.root {
     width: 100%;
     margin-right: 0%;
   }
@@ -89,4 +89,18 @@
   font-size: 14px;
   font-weight: 300;
   text-transform: uppercase;
+}
+
+.list {
+  width: 100%;
+  margin-right: 0%;
+
+  .text {
+    text-align: left;
+  }
+
+  .info {
+    padding: 15px 0;
+    text-align: left;
+  }
 }
