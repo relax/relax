@@ -1,0 +1,112 @@
+@import '~styles/colors.less';
+
+@height: 30px;
+
+.entry {
+  display: block;
+  text-align: left;
+  text-decoration: none;
+
+  color: @chromeTextColor;
+  font-size: 11px;
+  line-height: @height;
+  padding-right: 25px;
+  margin-top: 1px;
+
+  height: @height;
+
+  &.subComponent {
+    opacity: 0.6;
+  }
+
+  &:not(.hasChildren) {
+    .info {
+      padding-left: @height;
+    }
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: @height;
+    border-bottom: 1px solid @chromeBordersColor;
+  }
+
+  &.overed {
+    &:before {
+      background-color: @chromeBackgroundActive;
+    }
+    .options  {
+      visibility: visible;
+    }
+  }
+
+  &.selected {
+    &:before {
+      background-color: @primary;
+    }
+    color: @chromeTextColorHighlight;
+  }
+}
+
+.part {
+  position: relative;
+  vertical-align: top;
+  display: inline-block;
+}
+
+.caret {
+  width: @height;
+  height: @height;
+  text-align: center;
+  cursor: pointer;
+
+  :global i {
+    color: @chromeTextColor;
+    font-size: 13px;
+    line-height: @height;
+    transition: all 0.2s ease-out;
+  }
+
+  &.collapsed {
+    :global i {
+      transform: rotate(-90deg);
+    }
+  }
+}
+
+.info {
+  cursor: default;
+
+  :global {
+    i, span {
+      display: inline-block;
+      vertical-align: top;
+      line-height: @height;
+      color: @chromeTextColor;
+    }
+
+    i {
+      font-size: 13px;
+      padding-right: 10px;
+    }
+
+    span {
+      font-size: 11px;
+    }
+  }
+}
+
+.options {
+  position: absolute;
+  right: 0;
+  height: @height;
+  width: @height;
+  text-align: center;
+  cursor: pointer;
+
+  :global i {
+    line-height: @height;
+  }
+}
