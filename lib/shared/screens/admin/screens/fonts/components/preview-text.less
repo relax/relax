@@ -1,0 +1,36 @@
+@import '~styles/colors.less';
+
+.root {
+  display: inline-block;
+  vertical-align: top;
+
+  color: @adminText;
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 300;
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  padding: 0;
+  margin: 0;
+  width: 200px;
+
+  &::-webkit-input-placeholder {
+    color: @adminTextSub;
+  }
+  &:-moz-placeholder {
+    color: @adminTextSub;
+  }
+  &::-moz-placeholder {
+    color: @adminTextSub;
+  }
+  &:-ms-input-placeholder {
+    color: @adminTextSub;
+  }
+  &::-ms-input-placeholder {
+    color: @adminTextSub;
+  }
+  &:placeholder-shown {
+    color: @adminTextSub;
+  }
+}
