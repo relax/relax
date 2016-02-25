@@ -14,11 +14,12 @@ export default class Menu extends Component {
     children: PropTypes.node,
     menus: PropTypes.array.isRequired,
     onBack: PropTypes.func.isRequired,
-    onNew: PropTypes.func.isRequired
+    onNew: PropTypes.func.isRequired,
+    activeId: PropTypes.string
   };
 
   render () {
-    const {menus, onBack, onNew} = this.props;
+    const {menus, onBack, onNew, activeId} = this.props;
 
     return (
       <div>
@@ -30,7 +31,7 @@ export default class Menu extends Component {
         />
         <ListSearchFilter />
         <Scrollable className={styles.list}>
-          <List menus={menus} />
+          <List menus={menus} activeId={activeId} />
         </Scrollable>
       </div>
     );

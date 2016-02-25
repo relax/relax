@@ -9,7 +9,8 @@ export default class MenusList extends Component {
   };
 
   static propTypes = {
-    menus: PropTypes.array.isRequired
+    menus: PropTypes.array.isRequired,
+    activeId: PropTypes.string
   };
 
   render () {
@@ -21,8 +22,9 @@ export default class MenusList extends Component {
   }
 
   renderEntry (menu, key) {
+    const {activeId} = this.props;
     return (
-      <Entry menu={menu} key={key} />
+      <Entry menu={menu} key={key} active={activeId === menu._id} />
     );
   }
 }
