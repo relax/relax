@@ -7,7 +7,8 @@ export default class ListHeader extends Component {
   static propTypes = {
     onBack: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
-    newIcon: PropTypes.string
+    newIcon: PropTypes.string,
+    onNew: PropTypes.func
   };
 
   render () {

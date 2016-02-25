@@ -14,7 +14,15 @@
   left: 0; right: 0;
 }
 
+.wrapper {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  pointer-events: none;
+}
+
 .content {
+  pointer-events: all;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -24,6 +32,10 @@
   width: 725px;
   max-width: 90%;
   border-radius: 4px;
+
+  &.small {
+    width: 430px;
+  }
 }
 
 .titles {

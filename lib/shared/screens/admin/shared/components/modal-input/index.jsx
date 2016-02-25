@@ -1,6 +1,7 @@
 import cx from 'classnames';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 
 import styles from './index.less';
 
@@ -9,8 +10,13 @@ export default class ModalInput extends Component {
     invalid: PropTypes.bool,
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    focus: PropTypes.bool
   };
+
+  componentDidMount () {
+    findDOMNode(this).focus();
+  }
 
   onChange (event) {
     this.props.onChange(event.target.value);
