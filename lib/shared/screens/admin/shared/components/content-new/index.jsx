@@ -5,13 +5,15 @@ import styles from './index.less';
 
 export default class ContentNew extends Component {
   static propTypes = {
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    onClick: PropTypes.func.isRequired
   };
 
   render () {
+    const {children, onClick} = this.props;
     return (
-      <button className={styles.button}>
-        {this.props.children}
+      <button className={styles.button} onClick={onClick}>
+        {children}
       </button>
     );
   }
