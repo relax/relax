@@ -75,7 +75,7 @@ export default class Canvas extends Component {
           <Droppable
             type='body'
             placeholder
-            placeholderRender={::this.placeholderRender}
+            placeholderRender={::this.renderPlaceholder}
             dropInfo={dropInfo}
             accepts='Section'
             minHeight='100%'>
@@ -87,7 +87,7 @@ export default class Canvas extends Component {
     );
   }
 
-  placeholderRender () {
+  renderPlaceholder () {
     const {pageBuilderActions} = this.props;
     return (
       <Empty pageBuilderActions={pageBuilderActions} />
