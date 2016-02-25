@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import key from 'keymaster';
 import Animate from 'components/animate';
 import Component from 'components/component';
 import Portal from 'components/portal';
@@ -14,6 +15,27 @@ export default class Modal extends Component {
     title: PropTypes.string,
     small: PropTypes.bool
   };
+
+  componentDidMount () {
+    const {onClose} = this.props;
+    if (onClose) {
+      this.keyDownBind = ::this.keyDown;
+      document.addEventListener('keydown', this.keyDownBind);
+    }
+  }
+
+  componentWillUnmount () {
+    this.keyDownBind && document.removeEventListener('keydown', this.keyDownBind);
+  }
+
+  keyDown (evt) {
+    const event = evt || window.event;
+
+    // Check if escape key pressed (code: 27)
+    if (event.keyCode === 27) {
+      this.props.onClose();
+    }
+  }
 
   onClose () {
     const {onClose} = this.props;
