@@ -1,3 +1,5 @@
+import cx from 'classnames';
+import Animate from 'components/animate';
 import Component from 'components/component';
 import Portal from 'components/portal';
 import React, {PropTypes} from 'react';
@@ -9,7 +11,8 @@ export default class Modal extends Component {
     children: PropTypes.node.isRequired,
     onClose: PropTypes.func,
     subTitle: PropTypes.string,
-    title: PropTypes.string
+    title: PropTypes.string,
+    small: PropTypes.bool
   };
 
   onClose () {
@@ -18,15 +21,22 @@ export default class Modal extends Component {
   }
 
   render () {
-    const {children} = this.props;
+    const {children, small} = this.props;
+
     return (
       <Portal>
         <div className={styles.root}>
-          <div className={styles.background} onClick={::this.onClose}></div>
-          <div className={styles.content}>
-            {this.renderTitles()}
-            {children}
-          </div>
+          <Animate transition='fadeIn'>
+            <div className={styles.background} onClick={::this.onClose}></div>
+          </Animate>
+          <Animate transition='slideUpIn'>
+            <div className={styles.wrapper}>
+              <div className={cx(styles.content, small && styles.small)}>
+                {this.renderTitles()}
+                {children}
+              </div>
+            </div>
+          </Animate>
         </div>
       </Portal>
     );

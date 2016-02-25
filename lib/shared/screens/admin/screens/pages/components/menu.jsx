@@ -1,11 +1,13 @@
 import Component from 'components/component';
 import ListHeader from 'components/list-header';
 import ListSearchFilter from 'components/list-search-filter';
+import Modal from 'components/modal';
 import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
 
 import styles from './menu.less';
 import List from './list';
+import New from './new';
 
 export default class Pages extends Component {
   static fragments = List.fragments;
@@ -15,7 +17,9 @@ export default class Pages extends Component {
     pages: PropTypes.array.isRequired,
     onBack: PropTypes.func.isRequired,
     onNew: PropTypes.func.isRequired,
-    activePageId: PropTypes.string
+    closeNew: PropTypes.func.isRequired,
+    activePageId: PropTypes.string,
+    newOpened: PropTypes.bool.isRequired
   };
 
   render () {
@@ -33,7 +37,19 @@ export default class Pages extends Component {
         <Scrollable className={styles.list}>
           <List pages={pages} activePageId={activePageId} />
         </Scrollable>
+        {this.renderNew()}
       </div>
     );
+  }
+
+  renderNew () {
+    const {newOpened, closeNew} = this.props;
+    if (newOpened) {
+      return (
+        <Modal small subTitle='New Page' title='What should we call it?' onClose={closeNew}>
+          <New />
+        </Modal>
+      );
+    }
   }
 }

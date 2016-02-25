@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import forEach from 'lodash.foreach';
-import React, {PropTypes} from 'react';
 import Component from 'components/component';
+import React, {PropTypes} from 'react';
 
 import styles from './index.less';
 
@@ -9,30 +9,33 @@ export default class Button extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     onClick: PropTypes.func.isRequired,
+    className: PropTypes.string,
     style: PropTypes.object,
     primary: PropTypes.boolean,
     full: PropTypes.boolean,
-    big: PropTypes.boolean
+    big: PropTypes.boolean,
+    noBackground: PropTypes.boolean
   };
 
   static defaultProps = {
     primary: true,
     full: false,
-    big: false
+    big: false,
+    noBackground: false
   };
 
   render () {
-    const {onClick, ...classes} = this.props;
+    const {onClick, className, ...classes} = this.props;
 
-    let className = styles.button;
+    let resultClassName = cx(styles.button, className);
     forEach(classes, (value, key) => {
       if (styles[key] && value) {
-        className = cx(className, styles[key]);
+        resultClassName = cx(resultClassName, styles[key]);
       }
     });
 
     return (
-      <button className={className} onClick={onClick} style={this.props.style}>
+      <button className={resultClassName} onClick={onClick} style={this.props.style}>
         {this.props.children}
       </button>
     );
