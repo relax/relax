@@ -20,12 +20,12 @@ export default class Entry extends Component {
   render () {
     const {color} = this.props;
     const colorStyle = {
-      backgroundColor: this.props.color.value
+      backgroundColor: color.value
     };
 
     return (
       <div className={styles.root}>
-        <div className={styles.color} style={colorStyle}></div>
+        <div className={cx(styles.color, color.value === '#ffffff' && styles.white)} style={colorStyle}></div>
         <div className={styles.info}>
           <div className={styles.title}>{color.label}</div>
           <div className={styles.value}>{color.value}</div>

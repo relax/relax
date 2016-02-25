@@ -56,6 +56,17 @@
   height: 125px;
   margin: -1px;
   margin-bottom: 0;
+  position: relative;
+
+  &.white:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 0; right: 0;
+    border: 1px solid @adminBorders;
+    z-index: 1;
+  }
 }
 
 .info {
