@@ -1,0 +1,48 @@
+@import '~styles/colors.less';
+
+.root {
+  position: fixed;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  z-index: 10;
+}
+
+.background {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.6);
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+}
+
+.content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+
+  width: 725px;
+  max-width: 90%;
+  border-radius: 4px;
+}
+
+.titles {
+  padding: 20px 20px;
+}
+
+.subTitle {
+  font-size: 12px;
+  color: @adminText;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 18px;
+  margin-bottom: 5px;
+}
+
+.title {
+  font-size: 26px;
+  color: @adminText;
+  text-align: center;
+  line-height: 34px;
+  font-weight: 300;
+}
