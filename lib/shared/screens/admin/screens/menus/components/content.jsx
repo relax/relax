@@ -31,7 +31,7 @@ export default class Content extends Component {
   renderEmpty () {
     return (
       <div className={styles.empty}>
-        <i className='nc-icon-outline design_bullet-list-67'></i>
+        <i className='nc-icon-outline media-1_touch'></i>
         <div className={styles.emptyText}>Relax, select a menu first!</div>
       </div>
     );

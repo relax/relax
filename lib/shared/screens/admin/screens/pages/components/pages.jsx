@@ -31,7 +31,7 @@ export default class Pages extends Component {
   renderEmpty () {
     return (
       <div className={styles.empty}>
-        <i className='nc-icon-outline design_window-paragraph'></i>
+        <i className='nc-icon-outline media-1_touch'></i>
         <div className={styles.emptyText}>Relax, select a page first!</div>
       </div>
     );
