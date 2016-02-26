@@ -11,10 +11,10 @@ export default class Button extends Component {
     onClick: PropTypes.func.isRequired,
     className: PropTypes.string,
     style: PropTypes.object,
-    primary: PropTypes.boolean,
-    full: PropTypes.boolean,
-    big: PropTypes.boolean,
-    noBackground: PropTypes.boolean
+    primary: PropTypes.bool,
+    full: PropTypes.bool,
+    big: PropTypes.bool,
+    noBackground: PropTypes.bool
   };
 
   static defaultProps = {
