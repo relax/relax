@@ -3,6 +3,7 @@ import A from 'components/a';
 import Component from 'components/component';
 import ContentHeader from 'components/content-header';
 import ContentHeaderActions from 'components/content-header-actions';
+import EditableTitle from 'components/editable-title';
 import PageBuilder from 'components/page-builder';
 import Velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
@@ -61,8 +62,8 @@ export default class Page extends Component {
       <div className={cx(this.state.build && styles.build)}>
         <ContentHeader smallPadding ref='header'>
           <div className={styles.info}>
-            <div className={styles.title}>{page.title}</div>
-            <div className={styles.slug}>/{page.slug}</div>
+            <EditableTitle value={page.title} />
+            <EditableTitle sub value={page.slug} />
           </div>
           <ContentHeaderActions>
             <button className={styles.actionButton}>
