@@ -8,8 +8,10 @@
     "url": "https://github.com/relax/relax.git"
   },
   "scripts": {
-    "build": "NODE_ENV=production ./node_modules/.bin/webpack --output-public-path /public/js/ && cp -r assets/images/* public/images",
-    "start": "NODE_ENV=production ./node_modules/.bin/babel-node app",
+    "build": "npm run build-frontend && npm run build-server",
+    "build-browser": "NODE_ENV=production ./node_modules/.bin/webpack --output-public-path /public/js/ && cp -r assets/images/* public/images",
+    "build-server": "NODE_ENV=production babel lib/ app.js config.js -d build/server --compact --minified",
+    "start": "[ ! -d build/server ] && { echo 'Please use \"npm run build\" before starting.'; exit 1; }; NODE_ENV=production build/server/app",
     "dev": "./node_modules/.bin/parallelshell 'npm run webpackServer' 'npm run watchServer'",
     "watchServer": "./node_modules/.bin/nodemon -e js,jsx,json -w app.js -w lib -i lib/client -x node_modules/.bin/babel-node app",
     "webpackServer": "./node_modules/.bin/babel-node node_modules/.bin/webpack-dev-server --inline --hot"
