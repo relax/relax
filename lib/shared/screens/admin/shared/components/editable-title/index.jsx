@@ -17,6 +17,14 @@ export default class EditableTitle extends Component {
     };
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (this.state.editing && nextProps.value !== this.props.value) {
+      this.setState({
+        editing: false
+      });
+    }
+  }
+
   componentDidUpdate (prevProps, prevState) {
     if (!prevState.editing && this.state.editing) {
       const input = this.refs.input;
