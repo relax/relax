@@ -22,7 +22,9 @@ export default class Page extends Component {
 
   static propTypes = {
     page: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired
+    location: PropTypes.object.isRequired,
+    updateTitle: PropTypes.func.isRequired,
+    updateSlug: PropTypes.func.isRequired
   };
 
   getInitState () {
@@ -56,14 +58,14 @@ export default class Page extends Component {
   }
 
   render () {
-    const {page, location} = this.props;
+    const {page, location, updateTitle, updateSlug} = this.props;
 
     return (
       <div className={cx(this.state.build && styles.build)}>
         <ContentHeader smallPadding ref='header'>
           <div className={styles.info}>
-            <EditableTitle value={page.title} />
-            <EditableTitle sub value={page.slug} />
+            <EditableTitle value={page.title} onSubmit={updateTitle} />
+            <EditableTitle sub value={page.slug} onSubmit={updateSlug} />
           </div>
           <ContentHeaderActions>
             <button className={styles.actionButton}>
