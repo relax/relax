@@ -2,6 +2,7 @@ import * as adminActions from 'actions/graphql';
 
 import debounce from 'lodash.debounce';
 import hoistStatics from 'hoist-non-react-statics';
+import Q from 'q';
 import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {mergeFragments, buildQueryAndVariables} from 'relax-fragments';
@@ -42,13 +43,22 @@ export default function rootDataConnect () {
           fragments: mergeFragments(this.bundle.fragments || {}, fragments || {}),
           variables: Object.assign(this.bundle.variables || {}, variables || {})
         };
+
         this.mounted && this.fetchDebounce();
+        this.deferred = this.deferred || Q.defer();
+
+        return this.deferred.promise;
       }
 
       fetchData () {
         const { dispatch } = this.context.store;
         const actions = bindActionCreators(adminActions, dispatch);
-        actions.graphql(buildQueryAndVariables(this.bundle.fragments, this.bundle.variables));
+        actions
+          .graphql(buildQueryAndVariables(this.bundle.fragments, this.bundle.variables))
+          .then(() => {
+            this.deferred.resolve();
+            this.deferred = null;
+          });
         this.bundle = {};
       }
 
