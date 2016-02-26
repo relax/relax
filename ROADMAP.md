@@ -20,7 +20,7 @@ reach the beta release, there are of course other minor issues that can be found
 [here](https://github.com/relax/relax/milestones/1.0.0-Beta).
 
 **What must be done:**
-- [ ] Dashboard (*ongoing*)
+- [ ] Dashboard (*ongoing*) (#214)
   - [ ] Settings
   - [ ] Pages
   - [ ] Menus
