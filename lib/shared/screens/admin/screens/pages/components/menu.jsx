@@ -9,7 +9,7 @@ import styles from './menu.less';
 import List from './list';
 import New from './new';
 
-export default class Pages extends Component {
+export default class PagesMenu extends Component {
   static fragments = List.fragments;
 
   static propTypes = {
@@ -47,7 +47,7 @@ export default class Pages extends Component {
     if (newOpened) {
       return (
         <Modal small subTitle='New Page' title='What should we call it?' onClose={closeNew}>
-          <New />
+          <New fragments={PagesMenu.fragments} onClose={closeNew} />
         </Modal>
       );
     }
