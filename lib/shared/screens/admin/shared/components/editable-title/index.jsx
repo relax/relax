@@ -7,7 +7,8 @@ import styles from './index.less';
 export default class EditableTitle extends Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
-    sub: PropTypes.bool
+    sub: PropTypes.bool,
+    onSubmit: PropTypes.func.isRequired
   };
 
   getInitState () {
@@ -51,6 +52,13 @@ export default class EditableTitle extends Component {
 
   onSubmit (event) {
     event.preventDefault();
+    this.props
+      .onSubmit(this.state.editValue)
+      .then(() => {
+        this.setState({
+          editing: false
+        });
+      });
   }
 
   render () {
