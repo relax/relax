@@ -11,14 +11,26 @@ export default function dataConnect () {
       constructor (props, context) {
         super(props, context);
         this.childFetchDataBind = ::this.childFetchData;
+        this.state = {
+          loading: true
+        };
       }
 
       childFetchData (data) {
-        this.context.fetchData && this.context.fetchData(data);
+        const {fetchData} = this.context;
+
+        if (fetchData) {
+          fetchData(data).then(() => {
+            this.setState({
+              loading: false
+            });
+          });
+
+        }
       }
 
       render () {
-        return <WrappedComponent {...this.props} fetchData={this.childFetchDataBind} />;
+        return <WrappedComponent {...this.props} fetchData={this.childFetchDataBind} loading={this.state.loading} />;
       }
     }
 
