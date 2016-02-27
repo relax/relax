@@ -10,6 +10,7 @@
 .searchLabel {
   display: inline-block;
   vertical-align: top;
+
   :global i {
     font-size: 16px;
     color: @adminTextSub;
@@ -22,33 +23,55 @@
 .search {
   border: 0;
   outline: 0;
-  color: @adminTextSub;
+  color: @adminTextHighlight;
   font-size: 12px;
+  font-weight: 300;
   display: inline-block;
   vertical-align: top;
   background-color: transparent;
   line-height: 40px;
   padding: 0px 7px;
+
+  &::-webkit-input-placeholder {
+    color: #b4b4b4;
+  }
+  &:-moz-placeholder {
+    color: #b4b4b4;
+  }
+  &::-moz-placeholder {
+    color: #b4b4b4;
+  }
+  &:-ms-input-placeholder {
+    color: #b4b4b4;
+  }
+  &::-ms-input-placeholder {
+    color: #b4b4b4;
+  }
+  &:placeholder-shown {
+    color: #b4b4b4;
+  }
 }
 
 .filter {
   float: right;
   display: inline-block;
   vertical-align: top;
+  cursor: pointer;
 
   :global {
     i, span {
       display: inline-block;
       vertical-align: top;
       line-height: 40px;
-      color: @adminTextSub;
+      color: #b4b4b4;
     }
     i {
-      font-size: 9px;
-      margin-left: 5px;
+      font-size: 7px;
+      margin-left: 6px;
     }
     span {
       font-size: 12px;
+      font-weight: 300;
     }
   }
 }
