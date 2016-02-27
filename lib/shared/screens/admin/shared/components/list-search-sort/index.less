@@ -52,7 +52,7 @@
   }
 }
 
-.filter {
+.sort {
   float: right;
   display: inline-block;
   vertical-align: top;
@@ -73,5 +73,24 @@
       font-size: 12px;
       font-weight: 300;
     }
+  }
+}
+
+.sortOption {
+  display: block;
+  width: 100%;
+  color: @adminText;
+  line-height: 30px;
+  font-size: 12px;
+  text-align: left;
+  padding: 0 15px;
+
+  &:hover {
+    background-color: @adminBorders;
+  }
+
+  &.active {
+    background-color: @primary;
+    color: #ffffff;
   }
 }

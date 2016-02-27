@@ -1,6 +1,6 @@
 import Component from 'components/component';
 import ListHeader from 'components/list-header';
-import ListSearchFilter from 'components/list-search-filter';
+import ListSearchSort from 'components/list-search-sort';
 import Modal from 'components/modal';
 import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
@@ -8,6 +8,39 @@ import React, {PropTypes} from 'react';
 import styles from './menu.less';
 import List from './list';
 import New from './new';
+
+const sorts = [
+  {
+    label: 'Date desc',
+    property: '_id',
+    order: 'desc'
+  },
+  {
+    label: 'Date asc',
+    property: '_id',
+    order: 'asc'
+  },
+  {
+    label: 'Title A-Z',
+    property: 'title',
+    order: 'asc'
+  },
+  {
+    label: 'Title Z-A',
+    property: 'title',
+    order: 'desc'
+  },
+  {
+    label: 'Updated desc',
+    property: 'updatedDate',
+    order: 'desc'
+  },
+  {
+    label: 'Updated asc',
+    property: 'updatedDate',
+    order: 'asc'
+  }
+];
 
 export default class PagesMenu extends Component {
   static fragments = List.fragments;
@@ -33,7 +66,7 @@ export default class PagesMenu extends Component {
           newIcon='nc-icon-outline ui-2_window-add'
           onNew={onNew}
         />
-        <ListSearchFilter />
+      <ListSearchSort sorts={sorts} />
         <Scrollable className={styles.list}>
           <List pages={pages} activePageId={activePageId} />
         </Scrollable>
