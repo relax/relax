@@ -1,6 +1,6 @@
 import Component from 'components/component';
 import ListHeader from 'components/list-header';
-import ListSearchFilter from 'components/list-search-filter';
+import ListSearchSort from 'components/list-search-sort';
 import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
 
@@ -29,7 +29,7 @@ export default class Menu extends Component {
           newIcon='nc-icon-outline ui-1_circle-add'
           onNew={onNew}
         />
-        <ListSearchFilter />
+        <ListSearchSort />
         <Scrollable className={styles.list}>
           <List menus={menus} activeId={activeId} />
         </Scrollable>
