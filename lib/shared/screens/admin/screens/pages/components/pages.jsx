@@ -2,10 +2,13 @@ import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
 import styles from './pages.less';
+import Menu from './menu';
+import New from './new';
 
 export default class Pages extends Component {
   static propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
+    count: PropTypes.number.isRequired
   };
 
   render () {
@@ -19,7 +22,9 @@ export default class Pages extends Component {
   renderContent () {
     let result;
 
-    if (this.props.children) {
+    if (this.props.count === 0) {
+      result = this.renderNoPages();
+    } else if (this.props.children) {
       result = this.props.children;
     } else {
       result = this.renderEmpty();
@@ -33,6 +38,18 @@ export default class Pages extends Component {
       <div className={styles.empty}>
         <i className='nc-icon-outline media-1_touch'></i>
         <div className={styles.emptyText}>Relax, select a page first!</div>
+      </div>
+    );
+  }
+
+  renderNoPages () {
+    return (
+      <div className={styles.noPages}>
+        <div className={styles.noTitle}>Oh my!</div>
+        <div className={styles.noText}>
+          You don’t have any pages yet!<br/>Lets change that
+        </div>
+        <New fragments={Menu.fragments} />
       </div>
     );
   }

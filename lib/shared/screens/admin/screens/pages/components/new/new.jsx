@@ -21,7 +21,7 @@ export default class NewPage extends Component {
   }
 
   render () {
-    const {title, changeTitle, submit} = this.props;
+    const {title, changeTitle} = this.props;
     return (
       <div className={styles.root}>
         <form onSubmit={::this.onSubmit}>
