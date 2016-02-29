@@ -1,3 +1,5 @@
+import * as adminActions from 'actions/graphql';
+
 import forEach from 'lodash.foreach';
 import hoistStatics from 'hoist-non-react-statics';
 import React, {Component, PropTypes} from 'react';
@@ -18,7 +20,8 @@ export default function dataConnect () {
       };
 
       static contextTypes = {
-        fetchData: PropTypes.func.isRequired
+        fetchData: PropTypes.func.isRequired,
+        store: PropTypes.any.isRequired
       };
 
       constructor (props, context) {
@@ -94,6 +97,10 @@ export default function dataConnect () {
         return result;
       }
 
+      componentWillUnmount () {
+        this.context.store.dispatch(adminActions.removeConnector(this.ID));
+      }
+
       childFetchData (data) {
         const {fetchData} = this.context;
 
@@ -112,10 +119,10 @@ export default function dataConnect () {
         const {graphql} = this.props;
         const dataNeeds = graphql[this.ID];
 
-        // dataNeeds should have e.g.
+        // dataNeeds has e.g.
         // {
-        //   pages[query]: [id, id1, id2],
-        //   page[query]: id3
+        //   pages: [id, id1, id2],
+        //   page: id3
         // }
         const dataToInject = {};
         forEach(dataNeeds, (data, queryName) => {
@@ -128,7 +135,6 @@ export default function dataConnect () {
             dataToInject[queryName] = graphql[data];
           }
         });
-        console.log(dataToInject);
 
         return <WrappedComponent {...this.props} {...dataToInject} fetchData={this.childFetchDataBind} loading={this.state.loading} />;
       }
