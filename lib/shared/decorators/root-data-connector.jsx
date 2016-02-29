@@ -38,10 +38,13 @@ export default function rootDataConnect () {
         }
       }
 
-      childFetchData ({fragments, variables}) {
+      childFetchData ({fragments, variables}, ID) {
         this.bundle = {
           fragments: mergeFragments(this.bundle.fragments || {}, fragments || {}),
-          variables: Object.assign(this.bundle.variables || {}, variables || {})
+          variables: Object.assign(this.bundle.variables || {}, variables || {}),
+          connectors: Object.assign(this.bundle.connectors || {}, {
+            [ID]: {fragments, variables}
+          })
         };
 
         this.mounted && this.fetchDebounce();
@@ -54,7 +57,7 @@ export default function rootDataConnect () {
         const { dispatch } = this.context.store;
         const actions = bindActionCreators(adminActions, dispatch);
         actions
-          .graphql(buildQueryAndVariables(this.bundle.fragments, this.bundle.variables))
+          .graphql(buildQueryAndVariables(this.bundle.fragments, this.bundle.variables), this.bundle.connectors)
           .then(() => {
             this.deferred.resolve();
             this.deferred = null;
