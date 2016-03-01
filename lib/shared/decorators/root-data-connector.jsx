@@ -38,12 +38,14 @@ export default function rootDataConnect () {
         }
       }
 
-      childFetchData ({fragments, variables}, ID) {
+      childFetchData ({fragments, variables, ID, mutations}) {
+        // TODO check if same query with different variables (will need to batch more than one fetch)
+
         this.bundle = {
           fragments: mergeFragments(this.bundle.fragments || {}, fragments || {}),
           variables: Object.assign(this.bundle.variables || {}, variables || {}),
           connectors: Object.assign(this.bundle.connectors || {}, {
-            [ID]: {fragments, variables}
+            [ID]: {fragments, mutations}
           })
         };
 
@@ -56,9 +58,6 @@ export default function rootDataConnect () {
       fetchData () {
         const { dispatch } = this.context.store;
         const actions = bindActionCreators(adminActions, dispatch);
-        console.log(this.bundle.fragments);
-        console.log(this.bundle.variables);
-        console.log(buildQueryAndVariables(this.bundle.fragments, this.bundle.variables));
         actions
           .graphql(buildQueryAndVariables(this.bundle.fragments, this.bundle.variables), this.bundle.connectors)
           .then(() => {

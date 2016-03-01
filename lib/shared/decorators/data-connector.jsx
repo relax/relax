@@ -36,7 +36,7 @@ export default function dataConnect (getReduxState, getReduxDispatches, getBundl
       constructor (props, context) {
         super(props, context);
 
-        warning(getBundle, `Relent warning: Data connector data info not configured in ${WrappedComponent.displayName || 'a component'}, use Redux connect instead!`);
+        warning(getBundle, `Relent: Data connector data info not configured in ${WrappedComponent.displayName || 'a component'}, use Redux connect instead!`);
 
         const initialBundle = getBundle && getBundle(this.props);
 
@@ -49,7 +49,11 @@ export default function dataConnect (getReduxState, getReduxDispatches, getBundl
         };
 
         // Fetch data
-        initialBundle && this.fetchData(initialBundle.fragments, initialBundle.initialVariables);
+        initialBundle && this.fetchData({
+          fragments: initialBundle.fragments,
+          variables: initialBundle.initialVariables,
+          mutations: initialBundle.mutations
+        });
 
         // Set initial state
         this.state = {
@@ -67,6 +71,8 @@ export default function dataConnect (getReduxState, getReduxDispatches, getBundl
 
         const bHasOwnProperty = Object.prototype.hasOwnProperty.bind(nextProps);
         let result = false;
+
+        // TODO: Improve this loop
         forEach(keysA, (key) => {
           if (!bHasOwnProperty(key)) {
             result = true;
@@ -159,14 +165,16 @@ export default function dataConnect (getReduxState, getReduxDispatches, getBundl
         return resultVariables;
       }
 
-      fetchData (fragments, variables) {
+      fetchData ({fragments, variables, mutations}) {
         const {fetchData} = this.context;
 
         if (fetchData) {
           fetchData({
             fragments,
-            variables: this.getVariables(variables)
-          }, this.ID)
+            variables: this.getVariables(variables),
+            ID: this.ID,
+            mutations
+          })
             .then(() => {
               this.setState({
                 loading: false
