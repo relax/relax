@@ -2,17 +2,26 @@ import * as adminActions from 'actions/graphql';
 
 import forEach from 'lodash.foreach';
 import hoistStatics from 'hoist-non-react-statics';
+import invariant from 'invariant';
+import warning from 'warning';
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
 var ID = 0;
 
-export default function dataConnect () {
+export default function dataConnect (getReduxState, getReduxDispatches, getBundle) {
   return function wrapWithDataConnect (WrappedComponent) {
     @connect(
-      (state) => ({
-        graphql: state.graphql
-      })
+      (state, props) => {
+        return Object.assign(getReduxState && getReduxState(state, props) || {}, {
+          graphql: state.graphql
+        });
+      },
+      (dispatch) => {
+        return Object.assign(getReduxDispatches && getReduxDispatches(dispatch) || {}, {
+          removeConnector: dispatch(adminActions.removeConnector)
+        });
+      }
     )
     class ConnectData extends Component {
       static propTypes = {
@@ -26,11 +35,26 @@ export default function dataConnect () {
 
       constructor (props, context) {
         super(props, context);
-        this.childFetchDataBind = ::this.childFetchData;
+
+        warning(getBundle, `Relent warning: Data connector data info not configured in ${WrappedComponent.displayName || 'a component'}, use Redux connect instead!`);
+
+        const initialBundle = getBundle && getBundle(this.props);
+
+        // Relent connector info
+        this.ID = 'connector_' + ID++;
+        this.variablesTypes = initialBundle && initialBundle.variablesTypes || {};
+        this.relent = {
+          setVariables: ::this.setVariables,
+          variables: initialBundle && initialBundle.initialVariables
+        };
+
+        // Fetch data
+        initialBundle && this.fetchData(initialBundle.fragments, initialBundle.initialVariables);
+
+        // Set initial state
         this.state = {
           loading: true
         };
-        this.ID = 'connector_' + ID++;
       }
 
       shouldComponentUpdate (nextProps) {
@@ -101,15 +125,53 @@ export default function dataConnect () {
         this.context.store.dispatch(adminActions.removeConnector(this.ID));
       }
 
-      childFetchData (data) {
+      setVariables (variables) {
+
+      }
+
+      getVariables (variables) {
+        const resultVariables = {};
+        if (variables) {
+          forEach(variables, (vars, queryName) => {
+            resultVariables[queryName] = {};
+            const queryVariablesTypes = this.variablesTypes[queryName];
+
+            // No variables types defined for this query
+            invariant(queryVariablesTypes, `Relent Error: Query to ${queryName} doesn't have variables types defined in ${WrappedComponent.displayName || 'a component'}!`);
+
+            // Check if every variable has a type
+            forEach(vars, (value, variable) => {
+              invariant(queryVariablesTypes[variable], `Relent Error: Query to ${queryName} doesn't have variable '${variable}' type defined in ${WrappedComponent.displayName || 'a component'}!`);
+
+              // add variable prepared for query e.g. {type: 'String', value: 'something'}
+              resultVariables[queryName][variable] = {
+                type: queryVariablesTypes[variable],
+                value
+              };
+            });
+
+            // Check if every required variable type is met
+            forEach(queryVariablesTypes, (type, variable) => {
+              invariant(type.slice(-1) !== '!' || vars[variable], `Relent Error: Query to ${queryName} requires the variable '${variable}' in ${WrappedComponent.displayName || 'a component'}!`);
+            });
+          });
+        }
+        return resultVariables;
+      }
+
+      fetchData (fragments, variables) {
         const {fetchData} = this.context;
 
         if (fetchData) {
-          fetchData(data, this.ID).then(() => {
-            this.setState({
-              loading: false
+          fetchData({
+            fragments,
+            variables: this.getVariables(variables)
+          }, this.ID)
+            .then(() => {
+              this.setState({
+                loading: false
+              });
             });
-          });
         }
       }
 
@@ -125,18 +187,20 @@ export default function dataConnect () {
         //   page: id3
         // }
         const dataToInject = {};
-        forEach(dataNeeds, (data, queryName) => {
-          if (data.constructor === Array) {
-            dataToInject[queryName] = [];
-            forEach(data, (id) => {
-              dataToInject[queryName].push(graphql[id]);
-            });
-          } else {
-            dataToInject[queryName] = graphql[data];
-          }
-        });
+        if (dataNeeds) {
+          forEach(dataNeeds, (data, queryName) => {
+            if (data.constructor === Array) {
+              dataToInject[queryName] = [];
+              forEach(data, (id) => {
+                dataToInject[queryName].push(graphql[id]);
+              });
+            } else {
+              dataToInject[queryName] = graphql[data];
+            }
+          });
+        }
 
-        return <WrappedComponent {...this.props} {...dataToInject} fetchData={this.childFetchDataBind} loading={this.state.loading} />;
+        return <WrappedComponent {...this.props} {...dataToInject} relent={this.relent} loading={this.state.loading} />;
       }
     }
 
