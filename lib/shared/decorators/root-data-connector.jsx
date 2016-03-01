@@ -56,6 +56,9 @@ export default function rootDataConnect () {
       fetchData () {
         const { dispatch } = this.context.store;
         const actions = bindActionCreators(adminActions, dispatch);
+        console.log(this.bundle.fragments);
+        console.log(this.bundle.variables);
+        console.log(buildQueryAndVariables(this.bundle.fragments, this.bundle.variables));
         actions
           .graphql(buildQueryAndVariables(this.bundle.fragments, this.bundle.variables), this.bundle.connectors)
           .then(() => {
