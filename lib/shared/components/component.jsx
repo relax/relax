@@ -4,7 +4,6 @@ export default class BaseComponent extends React.Component {
   constructor (props, context) {
     super(props, context);
     this.state = this.getInitState ? this.getInitState() : {};
-    this.initialize && this.initialize();
   }
 
   isClient () {
