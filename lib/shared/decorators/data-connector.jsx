@@ -132,7 +132,15 @@ export default function dataConnect (getReduxState, getReduxDispatches, getBundl
       }
 
       setVariables (variables) {
+        const bundle = getBundle && getBundle(this.props);
+        this.relent.variables = variables;
 
+        // Fetch data
+        bundle && this.fetchData({
+          fragments: bundle.fragments,
+          variables: variables,
+          mutations: bundle.mutations
+        });
       }
 
       getVariables (variables) {
