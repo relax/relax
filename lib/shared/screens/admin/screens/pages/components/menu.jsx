@@ -74,7 +74,7 @@ export default class PagesMenu extends Component {
           search={search}
           sorts={sorts}
           sort={sort}
-          order={order} 
+          order={order}
           location={location}
         />
         <Scrollable className={styles.list}>

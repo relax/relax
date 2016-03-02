@@ -10,7 +10,6 @@ import {connect} from 'react-redux';
 var ID = 0;
 
 export default function dataConnect (getReduxState, getReduxDispatches, _getBundle) {
-
   // let not defining redux functions
   let getBundle = _getBundle;
   if (arguments.length === 1) {
