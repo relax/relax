@@ -87,7 +87,7 @@ export default class ListSearchSort extends Component {
           />
         </label>
         <div className={styles.sort} onClick={::this.toggleSorts} ref='sort'>
-          <span>{selected.label}</span>
+          <span>{selected && selected.label}</span>
           <i className='nc-icon-mini arrows-1_minimal-down'></i>
         </div>
         {this.renderSorts()}
