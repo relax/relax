@@ -12,32 +12,32 @@ import New from './new';
 const sorts = [
   {
     label: 'Date desc',
-    property: '_id',
+    sort: '_id',
     order: 'desc'
   },
   {
     label: 'Date asc',
-    property: '_id',
+    sort: '_id',
     order: 'asc'
   },
   {
     label: 'Title A-Z',
-    property: 'title',
+    sort: 'title',
     order: 'asc'
   },
   {
     label: 'Title Z-A',
-    property: 'title',
+    sort: 'title',
     order: 'desc'
   },
   {
     label: 'Updated desc',
-    property: 'updatedDate',
+    sort: 'updatedDate',
     order: 'desc'
   },
   {
     label: 'Updated asc',
-    property: 'updatedDate',
+    sort: 'updatedDate',
     order: 'asc'
   }
 ];
@@ -52,11 +52,13 @@ export default class PagesMenu extends Component {
     onNew: PropTypes.func.isRequired,
     closeNew: PropTypes.func.isRequired,
     activePageId: PropTypes.string,
-    newOpened: PropTypes.bool.isRequired
+    newOpened: PropTypes.bool.isRequired,
+    sort: PropTypes.string.isRequired,
+    order: PropTypes.string.isRequired
   };
 
   render () {
-    const {pages, onBack, onNew, activePageId} = this.props;
+    const {pages, onBack, onNew, activePageId, sort, order} = this.props;
 
     return (
       <div>
@@ -66,7 +68,7 @@ export default class PagesMenu extends Component {
           newIcon='nc-icon-outline ui-2_window-add'
           onNew={onNew}
         />
-      <ListSearchSort sorts={sorts} />
+        <ListSearchSort sorts={sorts} sort={sort} order={order} />
         <Scrollable className={styles.list}>
           <List pages={pages} activePageId={activePageId} />
         </Scrollable>
