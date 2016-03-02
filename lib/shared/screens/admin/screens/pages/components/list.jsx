@@ -11,7 +11,7 @@ export default class PagesList extends Component {
   static propTypes = {
     pages: PropTypes.array.isRequired,
     activePageId: PropTypes.string,
-    location: PropTypes.object.isRequired
+    query: PropTypes.object.isRequired
   };
 
   render () {
@@ -23,9 +23,9 @@ export default class PagesList extends Component {
   }
 
   renderEntry (page, key) {
-    const {activePageId, location} = this.props;
+    const {activePageId, query} = this.props;
     return (
-      <Entry page={page} key={key} active={activePageId === page._id} location={location} />
+      <Entry page={page} key={key} active={activePageId === page._id} query={query} />
     );
   }
 }

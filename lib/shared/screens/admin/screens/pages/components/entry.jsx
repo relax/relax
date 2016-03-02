@@ -19,14 +19,13 @@ export default class PagesEntry extends Component {
   static propTypes = {
     page: PropTypes.object.isRequired,
     active: PropTypes.bool.isRequired,
-    location: PropTypes.object.isRequired
+    query: PropTypes.object.isRequired
   };
 
   render () {
-    const {page, active, location} = this.props;
+    const {page, active, query} = this.props;
     const date = moment(page.date).fromNow();
     const editLink = '/admin/pages/' + page._id;
-    const query = location.query;
 
     return (
       <Link to={editLink} query={query} className={cx(styles.root, active && styles.active)}>
