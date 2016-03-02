@@ -55,11 +55,12 @@ export default class PagesMenu extends Component {
     newOpened: PropTypes.bool.isRequired,
     sort: PropTypes.string.isRequired,
     order: PropTypes.string.isRequired,
+    search: PropTypes.string.isRequired,
     location: PropTypes.object.isRequired
   };
 
   render () {
-    const {pages, onBack, onNew, activePageId, sort, order, location} = this.props;
+    const {pages, onBack, onNew, activePageId, sort, order, location, search} = this.props;
 
     return (
       <div>
@@ -69,7 +70,13 @@ export default class PagesMenu extends Component {
           newIcon='nc-icon-outline ui-2_window-add'
           onNew={onNew}
         />
-      <ListSearchSort sorts={sorts} sort={sort} order={order} location={location} />
+        <ListSearchSort
+          search={search}
+          sorts={sorts}
+          sort={sort}
+          order={order} 
+          location={location}
+        />
         <Scrollable className={styles.list}>
           <List pages={pages} activePageId={activePageId} location={location} />
         </Scrollable>

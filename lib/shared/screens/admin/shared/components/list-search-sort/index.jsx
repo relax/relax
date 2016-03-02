@@ -1,9 +1,11 @@
 import cx from 'classnames';
+import debounce from 'lodash.debounce';
 import find from 'lodash.find';
 import Balloon from 'components/balloon';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
+import {pushState} from 'redux-router';
 
 import styles from './index.less';
 
@@ -11,13 +13,20 @@ export default class ListSearchSort extends Component {
   static propTypes = {
     sorts: PropTypes.array.isRequired,
     sort: PropTypes.string.isRequired,
+    search: PropTypes.string,
     order: PropTypes.string.isRequired,
     location: PropTypes.object.isRequired
   };
 
+  static contextTypes = {
+    store: PropTypes.object.isRequired
+  };
+
   getInitState () {
+    this.searchDebounce = debounce(::this.changeSearch, 300);
     return {
-      opened: false
+      opened: false,
+      focused: false
     };
   }
 
@@ -27,7 +36,39 @@ export default class ListSearchSort extends Component {
     });
   }
 
+  changeSearch () {
+    const {location} = this.props;
+    const query = Object.assign({}, location.query, {
+      s: this.state.search
+    });
+    this.context.store.dispatch(pushState(null, location, query));
+  }
+
+  onFocus () {
+    this.setState({
+      focused: true,
+      search: this.props.search
+    });
+  }
+
+  onBlur () {
+    if (this.state.search !== this.props.search) {
+      this.changeSearch();
+    }
+    this.setState({
+      focused: false
+    });
+  }
+
+  updateSearch (event) {
+    this.setState({
+      search: event.target.value
+    });
+    this.searchDebounce();
+  }
+
   render () {
+    const {focused} = this.state;
     const {sort, order, sorts} = this.props;
     const selected = find(sorts, (obj) => obj.sort === sort && obj.order === order);
 
@@ -35,7 +76,15 @@ export default class ListSearchSort extends Component {
       <div className={styles.root}>
         <label className={styles.searchLabel}>
           <i className='nc-icon-mini ui-1_zoom'></i>
-          <input type='text' className={styles.search} placeholder='Search..' />
+          <input
+            type='text'
+            value={focused ? this.state.search : this.props.search}
+            className={styles.search}
+            placeholder='Search..'
+            onFocus={::this.onFocus}
+            onBlur={::this.onBlur}
+            onChange={::this.updateSearch}
+          />
         </label>
         <div className={styles.sort} onClick={::this.toggleSorts} ref='sort'>
           <span>{selected.label}</span>
