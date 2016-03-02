@@ -14,8 +14,20 @@ export default class Entry extends Component {
   };
 
   static propTypes = {
-    color: PropTypes.object.isRequired
+    color: PropTypes.object.isRequired,
+    duplicateColor: PropTypes.func.isRequired,
+    removeColor: PropTypes.func.isRequired
   };
+
+  duplicate () {
+    const {duplicateColor, color} = this.props;
+    duplicateColor(color._id);
+  }
+
+  remove () {
+    const {removeColor, color} = this.props;
+    removeColor(color._id);
+  }
 
   render () {
     const {color} = this.props;
@@ -31,8 +43,8 @@ export default class Entry extends Component {
           <div className={styles.value}>{color.value}</div>
         </div>
         <div className={styles.actions}>
-          <button className={styles.button}>Duplicate</button>
-          <button className={cx(styles.button, styles.remove)}>Delete Color</button>
+          <button className={styles.button} onClick={::this.duplicate}>Duplicate</button>
+          <button className={cx(styles.button, styles.remove)} onClick={::this.remove}>Delete Color</button>
         </div>
       </div>
     );

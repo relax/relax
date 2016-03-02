@@ -16,7 +16,9 @@ export default class List extends Component {
 
   static propTypes = {
     colors: PropTypes.array.isRequired,
-    search: PropTypes.string
+    search: PropTypes.string,
+    duplicateColor: PropTypes.func.isRequired,
+    removeColor: PropTypes.func.isRequired
   };
 
   render () {
@@ -29,7 +31,7 @@ export default class List extends Component {
   }
 
   renderEntry (color) {
-    const {search} = this.props;
+    const {search, duplicateColor, removeColor} = this.props;
     let valid = true;
 
     if (search) {
@@ -38,7 +40,7 @@ export default class List extends Component {
 
     if (valid) {
       return (
-        <Entry color={color} key={color._id} />
+        <Entry color={color} key={color._id} duplicateColor={duplicateColor} removeColor={removeColor} />
       );
     }
   }
