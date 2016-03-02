@@ -3,16 +3,10 @@ import find from 'lodash.find';
 import Balloon from 'components/balloon';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
-import {connect} from 'react-redux';
 import {Link} from 'react-router';
 
 import styles from './index.less';
 
-@connect(
-  (state) => ({
-    location: state.router.location
-  })
-)
 export default class ListSearchSort extends Component {
   static propTypes = {
     sorts: PropTypes.array.isRequired,
@@ -77,7 +71,7 @@ export default class ListSearchSort extends Component {
       order: sort.order
     });
     return (
-      <Link to={location.pathname} query={query} className={cx(styles.sortOption, active && styles.active)} key={key}>
+      <Link to={location.pathname} query={query} className={cx(styles.sortOption, active && styles.active)} key={key} onClick={::this.toggleSorts}>
         {sort.label}
       </Link>
     );

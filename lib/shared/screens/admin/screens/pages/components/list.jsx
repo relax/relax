@@ -10,7 +10,8 @@ export default class PagesList extends Component {
 
   static propTypes = {
     pages: PropTypes.array.isRequired,
-    activePageId: PropTypes.string
+    activePageId: PropTypes.string,
+    location: PropTypes.object.isRequired
   };
 
   render () {
@@ -22,9 +23,9 @@ export default class PagesList extends Component {
   }
 
   renderEntry (page, key) {
-    const {activePageId} = this.props;
+    const {activePageId, location} = this.props;
     return (
-      <Entry page={page} key={key} active={activePageId === page._id} />
+      <Entry page={page} key={key} active={activePageId === page._id} location={location} />
     );
   }
 }
