@@ -3,7 +3,7 @@ import ModalInput from 'components/modal-input';
 import ModalNew from 'components/modal-new';
 import React, {PropTypes} from 'react';
 
-export default class NewPage extends Component {
+export default class NewMenu extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     changeTitle: PropTypes.func.isRequired,
@@ -18,7 +18,7 @@ export default class NewPage extends Component {
         <ModalInput
           focus
           value={title}
-          placeholder='Name your page. e.g. Homepage'
+          placeholder='Name your menu. e.g. Main Navigation'
           onChange={changeTitle}
         />
       </ModalNew>
