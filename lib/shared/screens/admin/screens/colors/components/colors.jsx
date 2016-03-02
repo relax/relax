@@ -14,23 +14,25 @@ export default class Colors extends Component {
   static fragments = List.fragments;
 
   static propTypes = {
-    colors: PropTypes.array.isRequired
+    colors: PropTypes.array.isRequired,
+    search: PropTypes.string.isRequired,
+    searchChange: PropTypes.func.isRequired
   };
 
   render () {
-    const {colors} = this.props;
+    const {colors, search, searchChange} = this.props;
 
     return (
       <div className={styles.holder}>
         <ContentHeader>
-          <ContentSearch value='' />
+          <ContentSearch value={search} onChange={searchChange} />
           <ContentHeaderActions>
             <ContentDisplays display='grid' />
             <ContentNew>Add new color</ContentNew>
           </ContentHeaderActions>
         </ContentHeader>
         <Content>
-          <List colors={colors} />
+          <List colors={colors} search={search} />
         </Content>
       </div>
     );
