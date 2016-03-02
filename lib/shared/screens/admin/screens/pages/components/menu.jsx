@@ -78,7 +78,7 @@ export default class PagesMenu extends Component {
           location={location}
         />
         <Scrollable className={styles.list}>
-          <List pages={pages} activePageId={activePageId} location={location} />
+          <List pages={pages} activePageId={activePageId} query={location.query} />
         </Scrollable>
         {this.renderNew()}
       </div>
