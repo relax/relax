@@ -16,11 +16,13 @@ export default class Colors extends Component {
   static propTypes = {
     colors: PropTypes.array.isRequired,
     search: PropTypes.string.isRequired,
-    searchChange: PropTypes.func.isRequired
+    searchChange: PropTypes.func.isRequired,
+    duplicateColor: PropTypes.func.isRequired,
+    removeColor: PropTypes.func.isRequired
   };
 
   render () {
-    const {colors, search, searchChange} = this.props;
+    const {colors, search, searchChange, duplicateColor, removeColor} = this.props;
 
     return (
       <div className={styles.holder}>
@@ -32,7 +34,12 @@ export default class Colors extends Component {
           </ContentHeaderActions>
         </ContentHeader>
         <Content>
-          <List colors={colors} search={search} />
+          <List
+            colors={colors}
+            search={search}
+            duplicateColor={duplicateColor}
+            removeColor={removeColor}
+          />
         </Content>
       </div>
     );

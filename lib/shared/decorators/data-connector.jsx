@@ -214,7 +214,10 @@ export default function dataConnect (getReduxState, getReduxDispatches, _getBund
             if (data.constructor === Array) {
               dataToInject[queryName] = [];
               forEach(data, (id) => {
-                dataToInject[queryName].push(graphql[id]);
+                const node = graphql[id];
+                if (node) {
+                  dataToInject[queryName].push(node);
+                }
               });
             } else {
               dataToInject[queryName] = graphql[data];
