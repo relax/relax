@@ -68,7 +68,7 @@
     "redux-logger": "^2.0.4",
     "redux-router": "1.0.0-beta5",
     "redux-thunk": "^1.0.0",
-    "relax-fragments": "0.0.3",
+    "relax-fragments": "0.1.0",
     "relax-jss": "0.2.0",
     "rimraf": "^2.4.3",
     "semver": "^5.0.3",
