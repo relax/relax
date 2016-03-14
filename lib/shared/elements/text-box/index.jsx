@@ -99,7 +99,6 @@ export default class TextBox extends Component {
               buttons: ['bold', 'italic', 'underline', 'anchor']
             },
             placeholder: false,
-            buttonLabels: 'fontawesome',
             imageDragging: false
           }}
         />
