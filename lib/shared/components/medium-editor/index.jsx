@@ -1,7 +1,9 @@
+import Component from 'components/component';
 import MediumEditor from 'medium-editor';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import Component from 'components/component';
+
+import styles from './index.less';
 
 export default class MediumEditorElement extends Component {
   static propTypes = {

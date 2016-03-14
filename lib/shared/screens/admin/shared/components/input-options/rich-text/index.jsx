@@ -23,7 +23,6 @@ export default class HtmlArea extends Component {
               buttons: ['bold', 'italic', 'underline', 'anchor']
             },
             placeholder: false,
-            buttonLabels: 'fontawesome',
             imageDragging: false
           }}
         />
