@@ -3,7 +3,7 @@ import utils from 'helpers/utils';
 import Component from 'components/component';
 import Draggable from 'components/dnd/draggable';
 import Droppable from 'components/dnd/droppable';
-import Velocity from 'velocity-animate';
+import velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
@@ -70,7 +70,7 @@ export default class Element extends Component {
     const dom = findDOMNode(this);
     const {animation, startAnimation} = this.props;
     startAnimation();
-    Velocity(dom, animation.effect, {
+    velocity(dom, animation.effect, {
       duration: animation.duration,
       display: null
     });

@@ -1,6 +1,6 @@
 import Component from 'components/component';
 import Portal from 'components/portal';
-import Velocity from 'velocity-animate';
+import velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
@@ -36,7 +36,7 @@ export default class Dragger extends Component {
     const relativeY = draggingData.mouseY - draggingData.elementOffset.top;
     node.style.transformOrigin = relativeX + 'px ' + relativeY + 'px';
 
-    Velocity(node, {
+    velocity(node, {
       scaleX: '0.5',
       scaleY: '0.5',
       opacity: '0.7'
