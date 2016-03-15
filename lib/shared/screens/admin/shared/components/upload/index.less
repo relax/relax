@@ -1,0 +1,47 @@
+@import '~styles/colors.less';
+
+.canDrop, .cannotDrop {
+  visibility: hidden;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 3px;
+  pointer-events: none;
+  border: 1px solid @primary;
+  background-color: rgba(17, 164, 255, 0.75);
+  color: #ffffff;
+  font-size: 12px;
+  line-height: 28px;
+  text-align: center;
+  width: 280px;
+  z-index: 1;
+}
+.cannotDrop {
+  border-color: #F55151;
+  background-color: rgba(255, 17, 17, 0.75);
+}
+
+.active {
+  .canDrop {
+    visibility: visible;
+  }
+  &:after {
+    content: ' ';
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    border: 5px solid @primary;
+  }
+}
+
+.reject {
+  .cannotDrop {
+    visibility: visible;
+  }
+  &:after {
+    content: ' ';
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    border: 5px solid #F55151;
+  }
+}

@@ -3,6 +3,8 @@ import Component from 'components/component';
 import ReactDropzone from 'react-dropzone';
 import React, {PropTypes} from 'react';
 
+import styles from './index.less';
+
 export default class Upload extends Component {
   static propTypes = {
     accept: PropTypes.string,
@@ -41,8 +43,8 @@ export default class Upload extends Component {
     return (
       <ReactDropzone
         className={cx(className || 'dropzone')}
-        activeClassName={cx(activeClassName || 'dropzone-active')}
-        rejectClassName={cx(rejectClassName || 'dropzone-reject')}
+        activeClassName={cx(activeClassName || styles.active)}
+        rejectClassName={cx(rejectClassName || styles.reject)}
         onDropAccepted={::this.onDrop}
         disableClick={!this.props.clickable}
         accept={this.props.accept}
@@ -57,8 +59,8 @@ export default class Upload extends Component {
     if (this.props.showInfos) {
       return (
         <div>
-          <div className='dropzone-info'>Release your file(s) to upload</div>
-          <div className='dropzone-error'>You're dragging invalid files</div>
+          <div className={styles.canDrop}>Release your file(s) to upload</div>
+          <div className={styles.cannotDrop}>You're dragging invalid files</div>
         </div>
       );
     }
