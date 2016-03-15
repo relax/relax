@@ -12,6 +12,46 @@
     "no-unused-expressions": [2, { allowShortCircuit: true }],
     "no-use-before-define": [2, { "functions": false, "classes": true }],
     'react/prefer-stateless-function': 0,
-    "jsx-quotes": 0
+    "consistent-return": 0,
+    "jsx-quotes": 0,
+    "react/sort-comp": [2, {         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/sort-comp.md
+      "order": [
+        'lifecycle',
+        'everything-else',
+        'renderstuff'
+      ],
+      "groups": {
+        lifecycle: [
+          "displayName",
+          "fragments",
+          "panelSettings",
+          "propTypes",
+          "contextTypes",
+          "childContextTypes",
+          "mixins",
+          "statics",
+          "defaultProps",
+          "defaultChildren",
+          "propsSchema",
+          "settings",
+          "style",
+          "constructor",
+          "getDefaultProps",
+          "getInitState",
+          "getChildContext",
+          "componentWillMount",
+          "componentDidMount",
+          "componentWillReceiveProps",
+          "shouldComponentUpdate",
+          "componentWillUpdate",
+          "componentDidUpdate",
+          "componentWillUnmount"
+        ],
+        renderstuff: [
+          "render",
+          "/^render.+$/"
+        ]
+      }
+    }]
   }
 }
