@@ -45,25 +45,25 @@ export default class Media extends Component {
 
   renderNoContent () {
     return (
-      <div className={styles.none}>
-        <div className={styles.noneContent}>
-          <div className={styles.noneTitle}>
-            You haven’t uploaded any media!
-          </div>
-          <div className={styles.noneText}>
-            Just drag it into this window or click the upload button bellow.
-          </div>
-          <div className={styles.noneText}>
-            Just worry about the upload, we’ll take care of categorizing it for you.
-          </div>
-          <Upload showInfos={false}>
-            <button className={styles.uploadButton}>
+      <Upload clickable={false} infos>
+        <div className={styles.none}>
+          <div className={styles.noneContent}>
+            <div className={styles.noneTitle}>
+              You haven’t uploaded any media!
+            </div>
+            <div className={styles.noneText}>
+              Just drag it into this window or click the upload button bellow.
+            </div>
+            <div className={styles.noneText}>
+              Just worry about the upload, we’ll take care of categorizing it for you.
+            </div>
+            <Upload showInfos={false} className={styles.uploadButton}>
               <i className='nc-icon-outline arrows-1_cloud-upload-94'></i>
               <span>Upload</span>
-            </button>
-          </Upload>
+            </Upload>
+          </div>
         </div>
-      </div>
+      </Upload>
     );
   }
 
