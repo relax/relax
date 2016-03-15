@@ -8,3 +8,54 @@
   right: 0;
   bottom: 0;
 }
+
+.none {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.noneContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  text-align: center;
+}
+
+.noneTitle {
+  font-size: 31px;
+  color: @adminText;
+  font-weight: 300;
+  line-height: 50px;
+}
+
+.noneText {
+  font-size: 15px;
+  color: @adminText;
+  font-weight: 300;
+}
+
+.uploadButton {
+  display: inline-block;
+  margin-top: 30px;
+
+  :global {
+    i, span {
+      display: inline-block;
+      vertical-align: top;
+      color: @primary;
+      line-height: 25px;
+    }
+    span {
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+    i {
+      font-size: 22px;
+      margin-right: 7px;
+    }
+  }
+}

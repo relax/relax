@@ -12,12 +12,11 @@ export default class MediaMenu extends Component {
   static propTypes = {
     children: PropTypes.node,
     pages: PropTypes.array.isRequired,
-    onBack: PropTypes.func.isRequired,
-    onNew: PropTypes.func.isRequired
+    onBack: PropTypes.func.isRequired
   };
 
   render () {
-    const {onBack, onNew} = this.props;
+    const {onBack} = this.props;
 
     return (
       <div>
@@ -26,7 +25,7 @@ export default class MediaMenu extends Component {
           onBack={onBack}
         >
           <Upload showInfos={false}>
-            <button className={styles.uploadButton} onClick={onNew}>
+            <button className={styles.uploadButton}>
               <i className='nc-icon-outline arrows-1_cloud-upload-94'></i>
             </button>
           </Upload>
