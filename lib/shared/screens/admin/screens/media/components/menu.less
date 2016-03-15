@@ -1,5 +1,24 @@
+@import '~styles/colors.less';
+
 .list {
   position: absolute;
   top: 70px;
   bottom: 0; left: 0; right: 0;
+}
+
+.uploadButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 10px;
+  :global {
+    i {
+      color: @adminText;
+      line-height: 70px;
+      font-size: 22px;
+    }
+  }
+  &:hover :global i {
+    color: @primary;
+  }
 }

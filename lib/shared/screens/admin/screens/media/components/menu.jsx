@@ -3,6 +3,7 @@ import Component from 'components/component';
 import ListHeader from 'components/list-header';
 import Scrollable from 'components/scrollable';
 import SubButton from 'components/menu-sub-button';
+import Upload from 'components/upload';
 import React, {PropTypes} from 'react';
 
 import styles from './menu.less';
@@ -23,9 +24,13 @@ export default class MediaMenu extends Component {
         <ListHeader
           title='Media'
           onBack={onBack}
-          newIcon='nc-icon-outline arrows-1_cloud-upload-94'
-          onNew={onNew}
-        />
+        >
+          <Upload showInfos={false}>
+            <button className={styles.uploadButton} onClick={onNew}>
+              <i className='nc-icon-outline arrows-1_cloud-upload-94'></i>
+            </button>
+          </Upload>
+        </ListHeader>
         <Scrollable className={styles.list}>
           <div>
             <Button link='#' label='All' icon='nc-icon-outline files_single-copies' active />
