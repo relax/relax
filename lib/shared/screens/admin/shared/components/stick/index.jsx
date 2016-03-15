@@ -54,8 +54,10 @@ export default class Stick extends Component {
     const rect = this.props.element.getBoundingClientRect();
     const thisRect = this.refs.holder.getBoundingClientRect();
 
-    const outOfElement = (event.pageX < rect.left || event.pageX > rect.left + rect.width) || (event.pageY < rect.top || event.pageY > rect.top + rect.height);
-    const outOfThis = (event.pageX < thisRect.left || event.pageX > thisRect.left + thisRect.width) || (event.pageY < thisRect.top || event.pageY > thisRect.top + thisRect.height);
+    const outOfElement = (event.pageX < rect.left || event.pageX > rect.left + rect.width) ||
+                         (event.pageY < rect.top || event.pageY > rect.top + rect.height);
+    const outOfThis = (event.pageX < thisRect.left || event.pageX > thisRect.left + thisRect.width) ||
+                      (event.pageY < thisRect.top || event.pageY > thisRect.top + thisRect.height);
 
     if (outOfElement && outOfThis) {
       this.props.onClose();
