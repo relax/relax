@@ -1,3 +1,17 @@
 {
-  "extends": "eslint-config-relax"
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "rules": {
+    "object-curly-spacing": [2, "never"],
+    "space-before-function-paren": [2, "always"],
+    "comma-dangle": [2, "never"],
+    'max-len': [2, 110, 2, {
+      'ignoreUrls': true,
+      'ignoreComments': false
+    }],
+    "no-unused-expressions": [2, { allowShortCircuit: true }],
+    "no-use-before-define": [2, { "functions": false, "classes": true }],
+    'react/prefer-stateless-function': 0,
+    "jsx-quotes": 0
+  }
 }
