@@ -2,7 +2,7 @@ import cx from 'classnames';
 import Button from 'components/menu-button';
 import Component from 'components/component';
 import Scrollable from 'components/scrollable';
-import Velocity from 'velocity-animate';
+import velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 
 import styles from './menu.less';
@@ -39,15 +39,15 @@ export default class Menu extends Component {
         easing: 'easeOutExpo'
       };
       if (nextProps.opened) {
-        Velocity.hook(this.refs.menu, 'translateX', '0%');
-        Velocity.hook(this.refs.content, 'translateX', '100%');
-        Velocity(this.refs.menu, {translateX: '-100%'}, config);
-        Velocity(this.refs.content, {translateX: '0%'}, config);
+        velocity.hook(this.refs.menu, 'translateX', '0%');
+        velocity.hook(this.refs.content, 'translateX', '100%');
+        velocity(this.refs.menu, {translateX: '-100%'}, config);
+        velocity(this.refs.content, {translateX: '0%'}, config);
       } else {
-        Velocity.hook(this.refs.menu, 'translateX', '-100%');
-        Velocity.hook(this.refs.content, 'translateX', '0%');
-        Velocity(this.refs.menu, {translateX: '0%'}, config);
-        Velocity(this.refs.content, {translateX: '100%'}, config);
+        velocity.hook(this.refs.menu, 'translateX', '-100%');
+        velocity.hook(this.refs.content, 'translateX', '0%');
+        velocity(this.refs.menu, {translateX: '0%'}, config);
+        velocity(this.refs.content, {translateX: '100%'}, config);
       }
     }
   }

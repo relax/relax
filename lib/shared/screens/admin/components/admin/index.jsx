@@ -1,7 +1,7 @@
 import cx from 'classnames';
+import velocity from 'velocity-animate';
 import Component from 'components/component';
 import PageBuilderMenu from 'components/page-builder-menu';
-import Velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';
@@ -34,11 +34,11 @@ export default class Admin extends Component {
         easing: 'easeOutExpo'
       };
       if (currentBuild) {
-        Velocity.hook(this.refs.content, 'translateX', '0px');
-        Velocity(this.refs.content, {translateX: '-290px'}, config);
+        velocity.hook(this.refs.content, 'translateX', '0px');
+        velocity(this.refs.content, {translateX: '-290px'}, config);
       } else {
-        Velocity.hook(this.refs.content, 'translateX', '-290px');
-        Velocity(this.refs.content, {translateX: '0px'}, config);
+        velocity.hook(this.refs.content, 'translateX', '-290px');
+        velocity(this.refs.content, {translateX: '0px'}, config);
       }
     }
   }

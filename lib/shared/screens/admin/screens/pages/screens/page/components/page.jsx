@@ -5,7 +5,7 @@ import ContentHeader from 'components/content-header';
 import ContentHeaderActions from 'components/content-header-actions';
 import EditableTitle from 'components/editable-title';
 import PageBuilder from 'components/page-builder';
-import Velocity from 'velocity-animate';
+import velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
@@ -46,13 +46,13 @@ export default class Page extends Component {
         easing: 'easeOutExpo'
       };
       if (currentBuild) {
-        Velocity(this.refs.content, {top: '0px'}, config);
-        // Velocity(findDOMNode(this.refs.header), {translateY: '-70px'}, config);
-        Velocity(findDOMNode(this.refs.cover), {opacity: 0}, Object.assign({}, config, {display: 'none'}));
+        velocity(this.refs.content, {top: '0px'}, config);
+        // velocity(findDOMNode(this.refs.header), {translateY: '-70px'}, config);
+        velocity(findDOMNode(this.refs.cover), {opacity: 0}, Object.assign({}, config, {display: 'none'}));
       } else {
-        Velocity(this.refs.content, {top: '70px'}, config);
-        // Velocity(findDOMNode(this.refs.header), {translateY: '0px'}, config);
-        Velocity(findDOMNode(this.refs.cover), {opacity: 1}, Object.assign({}, config, {display: 'block'}));
+        velocity(this.refs.content, {top: '70px'}, config);
+        // velocity(findDOMNode(this.refs.header), {translateY: '0px'}, config);
+        velocity(findDOMNode(this.refs.cover), {opacity: 1}, Object.assign({}, config, {display: 'block'}));
       }
     }
   }

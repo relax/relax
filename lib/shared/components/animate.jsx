@@ -1,5 +1,5 @@
 import Component from 'components/component';
-import Velocity from 'velocity-animate';
+import velocity from 'velocity-animate';
 import {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
@@ -34,7 +34,7 @@ export default class Animate extends Component {
   makeTransition (props) {
     const dom = findDOMNode(this);
     const transition = 'transition.' + props.transition;
-    Velocity(dom, transition, Object.assign({
+    velocity(dom, transition, Object.assign({
       duration: props.duration,
       display: null
     }, props.options));
