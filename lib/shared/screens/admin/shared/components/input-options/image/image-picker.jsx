@@ -1,5 +1,5 @@
 import Component from 'components/component';
-import MediaItem from 'components/media-item';
+import MediaItem from 'components/media-item-preview';
 import React from 'react';
 
 export default class ImagePicker extends Component {

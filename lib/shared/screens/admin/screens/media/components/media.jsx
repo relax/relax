@@ -7,9 +7,18 @@ import ContentSearch from 'components/content-search';
 import React, {PropTypes} from 'react';
 
 import styles from './media.less';
+import List from './list';
 
 export default class Media extends Component {
+  static fragments = List.fragments;
+
+  static propTypes = {
+    media: PropTypes.array.isRequired
+  };
+
   render () {
+    const {media} = this.props;
+
     return (
       <div className={styles.holder}>
         <ContentHeader>
@@ -19,7 +28,7 @@ export default class Media extends Component {
           </ContentHeaderActions>
         </ContentHeader>
         <Content>
-          Media list
+          <List media={media} />
         </Content>
       </div>
     );
