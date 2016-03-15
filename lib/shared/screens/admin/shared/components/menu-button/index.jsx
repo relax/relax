@@ -12,12 +12,26 @@ export default class Menu extends Component {
     icon: PropTypes.string.isRequired,
     active: PropTypes.bool,
     onActiveClick: PropTypes.func,
-    dark: PropTypes.bool
+    dark: PropTypes.bool,
+    children: PropTypes.node
   };
 
   static defaultProps = {
     active: false
   };
+
+  getInitState () {
+    this.caretToggle = ::this.caretToggle;
+    return {
+      opened: true
+    };
+  }
+
+  caretToggle () {
+    this.setState({
+      opened: !this.state.opened
+    });
+  }
 
   onClick (event) {
     if (this.props.active && this.props.onActiveClick) {
@@ -30,10 +44,43 @@ export default class Menu extends Component {
   render () {
     const {link, label, icon, active, dark} = this.props;
     return (
-      <A href={link} className={cx(styles.button, active && styles.active, dark && styles.dark)} onClick={::this.onClick}>
-        <i className={icon}></i>
-        <span>{label}</span>
-      </A>
+      <div>
+        <div className={styles.buttonHolder}>
+          <A
+            href={link}
+            className={cx(styles.button, active && styles.active, dark && styles.dark)}
+            onClick={::this.onClick}
+          >
+            <i className={icon}></i>
+            <span>{label}</span>
+          </A>
+          {this.renderCaret()}
+        </div>
+        {this.renderChildren()}
+      </div>
     );
+  }
+
+  renderChildren () {
+    const {children} = this.props;
+    if (children && this.state.opened) {
+      return (
+        <div>
+          {children}
+        </div>
+      );
+    }
+  }
+
+  renderCaret () {
+    const {children} = this.props;
+    if (children) {
+      const {opened} = this.state;
+      return (
+        <button className={styles.caret} onClick={this.caretToggle}>
+          <i className={cx('nc-icon-outline', opened ? 'arrows-1_small-triangle-up' : 'arrows-1_small-triangle-down')} />
+        </button>
+      );
+    }
   }
 }

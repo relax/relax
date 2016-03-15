@@ -35,13 +35,47 @@
   }
 }
 
+.buttonHolder {
+  position: relative;
+}
+
+.caret {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 60px;
+  width: 60px;
+  text-align: center;
+  display: inline-block;
+
+  :global i {
+    color: @adminText;
+    font-size: 22px;
+    line-height: 60px;
+  }
+
+  &:hover {
+    :global i {
+      color: @adminTextHighlight;
+    }
+  }
+}
+
 .active {
   background-color: @primary;
+
   :global {
     i, span {
       color: #ffffff;
     }
   }
+
+  .caret {
+    :global {
+      color: #ffffff;
+    }
+  }
+
   &:hover {
     background-color: @primary;
   }
