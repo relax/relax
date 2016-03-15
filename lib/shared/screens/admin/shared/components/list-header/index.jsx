@@ -8,7 +8,8 @@ export default class ListHeader extends Component {
     onBack: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     newIcon: PropTypes.string,
-    onNew: PropTypes.func
+    onNew: PropTypes.func,
+    children: PropTypes.node
   };
 
   render () {
@@ -22,6 +23,7 @@ export default class ListHeader extends Component {
         </button>
         <div className={styles.title}>{title}</div>
         {this.renderNewButton()}
+        {this.props.children}
       </div>
     );
   }
