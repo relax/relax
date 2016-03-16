@@ -35,18 +35,18 @@ export default class Column extends Component {
     };
 
     if (this.props.left || this.props.right) {
-      style.padding = '0px ' + this.props.right + 'px 0px ' + this.props.left + 'px';
+      style.padding = `0px ${this.props.right}px 0px ${this.props.left}px`;
     }
     if (this.props.bottom) {
       style.marginBottom = this.props.bottom;
     }
 
-    var contentStyle = {
+    const contentStyle = {
       padding: this.props.padding
     };
 
     if (layout.width !== 'block') {
-      style.width = layout.widthPerc + '%';
+      style.width = `${layout.widthPerc}%`;
     }
 
     return (

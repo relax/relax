@@ -48,19 +48,26 @@ export default class Columns extends Component {
     const spaceSides = spaceThird * 2;
     let result;
 
-    var dropInfo = {
+    const dropInfo = {
       id: relax.element.id
     };
 
     if (numChildren > 0) {
       for (let i = 0; i < numChildren; i++) {
         if (layout[i].width === 'block') {
-          children.push(this.renderBlock(this.props.children[i], layout[i], i !== numChildren - 1 ? this.props.spacing : 0));
+          children.push(this.renderBlock(
+            this.props.children[i],
+            layout[i],
+            i !== numChildren - 1 ? this.props.spacing : 0
+          ));
         } else {
           const columns = [];
           for (i; i < numChildren; i++) {
             if (layout[i].width !== 'block' && !(columns.length > 0 && layout[i].break)) {
-              const isLastColumn = (columns.length !== 0 && (i === numChildren - 1 || (layout[i + 1].width === 'block' || layout[i + 1].break)));
+              const isLastColumn = (
+                columns.length !== 0 &&
+                (i === numChildren - 1 || (layout[i + 1].width === 'block' || layout[i + 1].break))
+              );
               let left;
               let right;
 

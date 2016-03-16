@@ -34,7 +34,12 @@ export default class Textarea extends Component {
 
     return (
       <Element {...props}>
-        <textarea name={this.props.name} placeholder={this.props.placeholder} className={cx(classes.input, classMap.input)} rows={this.props.rows}></textarea>
+        <textarea
+          name={this.props.name}
+          placeholder={this.props.placeholder}
+          className={cx(classes.input, classMap.input)}
+          rows={this.props.rows}
+        ></textarea>
       </Element>
     );
   }

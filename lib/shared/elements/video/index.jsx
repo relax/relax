@@ -69,16 +69,26 @@ export default class Video extends Component {
       let src = '';
       if (this.props.type === 'youtube') {
         const parsedID = Utils.parseYoutubeURL(this.props.videoId);
-        src = 'http://www.youtube.com/embed/' + (parsedID || this.props.videoId);
+        src = `http://www.youtube.com/embed/${parsedID || this.props.videoId}`;
       } else if (this.props.type === 'vimeo') {
         const parsedID = Utils.parseVimeoURL(this.props.videoId);
-        src = 'http://player.vimeo.com/video/' + (parsedID || this.props.videoId);
+        src = `http://player.vimeo.com/video/${parsedID || this.props.videoId}`;
       } else if (this.props.type === 'dailymotion') {
         const parsedID = Utils.parseDailymotionURL(this.props.videoId);
-        src = 'http://www.dailymotion.com/embed/video/' + (parsedID || this.props.videoId);
+        src = `http://www.dailymotion.com/embed/video/${parsedID || this.props.videoId}`;
       }
 
-      const iframe = <iframe src={src} width='100%' height={height} frameBorder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>;
+      const iframe = (
+        <iframe
+          src={src}
+          width='100%'
+          height={height}
+          frameBorder='0'
+          webkitAllowFullScreen
+          mozallowfullscreen
+          allowFullScreen
+        ></iframe>
+      );
 
       if (this.props.relax.editing) {
         result = (

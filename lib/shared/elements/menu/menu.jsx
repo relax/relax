@@ -1,6 +1,6 @@
 import cx from 'classnames';
-import React, {PropTypes} from 'react';
 import Component from 'components/component';
+import React, {PropTypes} from 'react';
 
 import classes from './classes';
 import Entry from './entry';

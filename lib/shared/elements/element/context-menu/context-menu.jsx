@@ -1,4 +1,3 @@
-import cx from 'classnames';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
@@ -77,7 +76,14 @@ export default class ContextMenu extends Component {
           <span>Add to symbol library</span>
         </button>
         <form className={styles.form} onSubmit={::this.saveSymbol}>
-          <input className={styles.input} type='text' value={symbolTitle} onChange={onSymbolChange} placeholder='Name Symbol' ref='titleInput' />
+          <input
+            className={styles.input}
+            type='text'
+            value={symbolTitle}
+            onChange={onSymbolChange}
+            placeholder='Name Symbol'
+            ref='titleInput'
+          />
           <div className={styles.saveButton} onClick={::this.saveSymbol}>Save</div>
           <input type='submit' hidden />
         </form>

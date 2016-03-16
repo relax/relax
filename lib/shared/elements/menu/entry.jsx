@@ -1,9 +1,8 @@
 import cx from 'classnames';
-import React, {PropTypes} from 'react';
-import Component from 'components/component';
-
 import A from 'components/a';
 import Animate from 'components/animate';
+import Component from 'components/component';
+import React, {PropTypes} from 'react';
 
 export default class Entry extends Component {
 
@@ -25,14 +24,14 @@ export default class Entry extends Component {
     clearTimeout(this.closeTimeout);
   }
 
-  onMouseOver (event) {
+  onMouseOver () {
     clearTimeout(this.closeTimeout);
     this.setState({
       opened: true
     });
   }
 
-  onMouseOut (event) {
+  onMouseOut () {
     this.closeTimeout = setTimeout(::this.close, 400);
   }
 
@@ -48,7 +47,7 @@ export default class Entry extends Component {
 
     if (this.props.entry.type === 'page') {
       label = this.props.entry.page && this.props.entry.page.title;
-      href = '/' + (this.props.entry.page && this.props.entry.page.slug);
+      href = `/${this.props.entry.page && this.props.entry.page.slug}`;
     } else if (this.props.entry.type === 'link') {
       label = this.props.entry.link.label;
       href = this.props.entry.link.url;
@@ -60,7 +59,11 @@ export default class Entry extends Component {
     );
 
     return (
-      <li className={className} onMouseEnter={this.onMouseOver.bind(this)} onMouseLeave={this.onMouseOut.bind(this)}>
+      <li
+        className={className}
+        onMouseEnter={::this.onMouseOver}
+        onMouseLeave={::this.onMouseOut}
+      >
         {this.renderEntryLink(href, label)}
         {this.renderEntryChildren()}
       </li>
@@ -69,7 +72,10 @@ export default class Entry extends Component {
 
   renderEntryChildren () {
     // This menu only supports 2 levels
-    if (!this.props.subitem && this.props.entry.children && this.props.entry.children.length > 0 && this.state.opened) {
+    if (!this.props.subitem &&
+        this.props.entry.children &&
+        this.props.entry.children.length > 0 &&
+        this.state.opened) {
       return (
         <Animate transition='fadeIn'>
           <ul className={cx(this.props.classes.submenu, this.props.classMap.submenu)}>
@@ -103,7 +109,7 @@ export default class Entry extends Component {
 
     if (this.props.pageBuilder && this.props.pageBuilder.editing) {
       result = (
-        <a className={linkClasses} href='' onClick={(event) => event.preventDefault()}>
+        <a className={linkClasses}>
           {label}
         </a>
       );

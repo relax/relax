@@ -1,8 +1,6 @@
 import forEach from 'lodash.foreach';
 import moment from 'moment';
 
-
-
 const momentDate = moment();
 const dateFormats = [
   'fromNow',

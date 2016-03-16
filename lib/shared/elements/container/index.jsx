@@ -27,7 +27,7 @@ export default class Container extends Component {
         position: 'relative'
       },
       className: classMap.container,
-      settings: settings
+      settings
     };
 
     return (

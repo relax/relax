@@ -1,6 +1,6 @@
 import request from 'superagent';
-import React, {PropTypes} from 'react';
 import Component from 'components/component';
+import React, {PropTypes} from 'react';
 import {soundManager} from 'soundmanager2';
 
 import Player from './player';
@@ -36,7 +36,7 @@ export default class PlayerContainer extends Component {
     };
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate () {
     // if (!this.props.pageBuilder.editing && !prevState.sound && this.state.sound) {
     //   this.url = this.state.sound.url;
     //   soundManager.onready(this.createSound.bind(this));
@@ -51,7 +51,7 @@ export default class PlayerContainer extends Component {
 
   loadSoundcloud () {
     request
-      .get('http://api.soundcloud.com/resolve?url=' + this.props.soundcloud + '&format=json&consumer_key=' + CONSUMER_KEY + '&callback=?')
+      .get(`http://api.soundcloud.com/resolve?url=${this.props.soundcloud}&format=json&consumer_key=${CONSUMER_KEY}&callback=?`)
       .set('Accept', 'application/json')
       .end(::this.soundcloudLoaded);
   }
@@ -66,14 +66,14 @@ export default class PlayerContainer extends Component {
         this.url += '&';
       }
 
-      this.url += 'consumer_key=' + CONSUMER_KEY;
+      this.url += `consumer_key=${CONSUMER_KEY}`;
       soundManager.onready(::this.createSound);
     }
   }
 
   createSound () {
     this.sound = soundManager.createSound({
-      id: 'sound_' + this.props.elementId,
+      id: `sound_${this.props.elementId}`,
       url: this.url,
       autoLoad: false,
       autoPlay: false,
@@ -87,15 +87,17 @@ export default class PlayerContainer extends Component {
   }
 
   whileLoading () {
-    var loadedPercentage = this.sound.bytesLoaded / this.sound.bytesTotal;
+    const loadedPercentage = this.sound.bytesLoaded / this.sound.bytesTotal;
 
-    var secondsPassed = Math.round(this.sound.duration / 1000);
-    var minutesPassed = 0;
+    let secondsPassed = Math.round(this.sound.duration / 1000);
+    let minutesPassed = 0;
     if (secondsPassed >= 60) {
       minutesPassed = Math.floor(secondsPassed / 60);
       secondsPassed = secondsPassed - minutesPassed * 60;
     }
-    var loadedLabel = (minutesPassed < 10 ? '0' + minutesPassed : minutesPassed) + ':' + (secondsPassed < 10 ? '0' + secondsPassed : secondsPassed);
+    const minutesLabel = (minutesPassed < 10 ? `0${minutesPassed}` : minutesPassed);
+    const secondsLabel = (secondsPassed < 10 ? `0${secondsPassed}` : secondsPassed);
+    const loadedLabel = `${minutesLabel}:${secondsLabel}`;
 
     this.setState({
       loadedPercentage,
@@ -117,7 +119,9 @@ export default class PlayerContainer extends Component {
       minutesPassed = Math.floor(secondsPassed / 60);
       secondsPassed = secondsPassed - minutesPassed * 60;
     }
-    const playedLabel = (minutesPassed < 10 ? '0' + minutesPassed : minutesPassed) + ':' + (secondsPassed < 10 ? '0' + secondsPassed : secondsPassed);
+    const minutesLabel = (minutesPassed < 10 ? `0${minutesPassed}` : minutesPassed);
+    const secondsLabel = (secondsPassed < 10 ? `0${secondsPassed}` : secondsPassed);
+    const playedLabel = `${minutesLabel}:${secondsLabel}`;
 
     this.setState({
       playedPercentage,

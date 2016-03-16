@@ -42,7 +42,7 @@ export default class Section extends Component {
         position: 'relative'
       },
       className: cx(classMap && classMap.section),
-      settings: settings
+      settings
     };
 
     if (this.props.navigation && this.props.navigation !== '') {
