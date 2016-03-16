@@ -36,12 +36,12 @@ export default class Html extends React.Component {
   }
 
   renderTag (tag) {
-    tag.props = tag.props || {};
+    const tagProps = Object.assign({}, tag.props || {});
     if (tag.content) {
-      tag.props.dangerouslySetInnerHTML = {__html: tag.content};
+      tagProps.dangerouslySetInnerHTML = {__html: tag.content};
     }
     return (
-      <tag.tag {...tag.props} />
+      <tag.tag {...tagProps} />
     );
   }
 }
