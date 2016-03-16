@@ -34,9 +34,15 @@ export default class Sort extends Component {
         <div className='sort' onClick={::this.onClick} ref={(ref) => {
           this.ref = ref;
           !this.state.ready && this.setState({ready: true});
-        }}>
+        }}
+        >
           {this.renderContent()}
-          {!this.props.new && <div className='sort-remove' onClick={::this.onRemove}><i className='material-icons'>delete</i></div>}
+          {
+            !this.props.new &&
+            <div className='sort-remove' onClick={::this.onRemove}>
+              <i className='material-icons'>delete</i>
+            </div>
+          }
         </div>
         {this.renderEditing()}
       </div>

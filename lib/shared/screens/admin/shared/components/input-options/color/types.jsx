@@ -17,9 +17,18 @@ export default class Types extends Component {
 
     return (
       <div className={styles.types}>
-        <div className={cx(styles.type, styles.solid, type !== 'linear' && type !== 'radial' && styles.active)} onClick={this.props.changeToSolid}></div>
-        <div className={cx(styles.type, styles.linear, type === 'linear' && styles.active)} onClick={this.props.changeToLinear}></div>
-        <div className={cx(styles.type, styles.radial, type === 'radial' && styles.active)} onClick={this.props.changeToRadial}></div>
+        <div
+          className={cx(styles.type, styles.solid, type !== 'linear' && type !== 'radial' && styles.active)}
+          onClick={this.props.changeToSolid}
+        />
+        <div
+          className={cx(styles.type, styles.linear, type === 'linear' && styles.active)}
+          onClick={this.props.changeToLinear}
+        />
+        <div
+          className={cx(styles.type, styles.radial, type === 'radial' && styles.active)}
+          onClick={this.props.changeToRadial}
+        />
       </div>
     );
   }

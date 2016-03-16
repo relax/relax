@@ -1,5 +1,5 @@
+import cx from 'classnames';
 import Component from 'components/component';
-import Utils from 'helpers/utils';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
@@ -41,7 +41,7 @@ export default class Draggable extends Component {
     // Dragging data
     const draggingData = {
       children: this.props.children,
-      elementOffset: elementOffset,
+      elementOffset,
       elementWidth: width,
       mouseX: event.pageX,
       mouseY: event.pageY,
@@ -69,7 +69,7 @@ export default class Draggable extends Component {
 
   render () {
     const props = {
-      className: (this.props.children.props.className || '') + ' draggable',
+      className: cx(this.props.children.props.className, 'draggable'),
       draggable: 'false',
       onMouseDown: this.onMouseDown.bind(this)
     };

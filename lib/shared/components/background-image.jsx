@@ -55,7 +55,7 @@ export default class BackgroundImage extends Component {
   render () {
     if (this.state.mounted && this.props.backgroundImage && this.props.backgroundImage !== '') {
       let result;
-      var style = {
+      const style = {
         position: 'absolute',
         top: 0, left: 0, right: 0, bottom: 0,
         overflow: 'hidden',
@@ -63,7 +63,7 @@ export default class BackgroundImage extends Component {
       };
 
       if (this.props.repeat === 'no-repeat') {
-        var imageStyle = {
+        const imageStyle = {
           position: 'relative',
           minWidth: '100%',
           minHeight: '100%',
@@ -71,23 +71,28 @@ export default class BackgroundImage extends Component {
         };
         imageStyle.top = this.state.height * (this.props.vertical / 100);
         imageStyle.left = this.state.width * (this.props.horizontal / 100);
-        utils.translate(imageStyle, (-this.props.horizontal) + '%', (-this.props.vertical) + '%');
+        utils.translate(imageStyle, `${-this.props.horizontal}%`, `${-this.props.vertical}%`);
 
         result = (
           <div style={style}>
-            <MediaImage id={this.props.backgroundImage} width={this.state.width} height={this.state.height} style={imageStyle} />
+            <MediaImage
+              id={this.props.backgroundImage}
+              width={this.state.width}
+              height={this.state.height}
+              style={imageStyle}
+            />
           </div>
         );
       } else {
-        style.backgroundImage = 'url("' + utils.getBestImageUrl(this.props.backgroundImage) + '")';
+        style.backgroundImage = `url("${utils.getBestImageUrl(this.props.backgroundImage)}")`;
         style.backgroundRepeat = this.props.repeat;
-        style.backgroundPosition = (-this.props.horizontal) + '% ' + (-this.props.vertical) + '%';
+        style.backgroundPosition = `${-this.props.horizontal}% ${-this.props.vertical}%`;
         result = <div style={style}></div>;
       }
 
       return result;
     }
 
-    return <span/>;
+    return <span />;
   }
 }

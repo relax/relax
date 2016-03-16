@@ -101,7 +101,9 @@ export default class LinearGradient extends Component {
 
     const xDelta = pointA.x - pointB.x;
     const yDelta = pointA.y - pointB.y;
-    const u = ((newPoint.x - pointB.x) * xDelta + (newPoint.y - pointB.y) * yDelta) / (xDelta * xDelta + yDelta * yDelta);
+    const u =
+      ((newPoint.x - pointB.x) * xDelta + (newPoint.y - pointB.y) * yDelta) /
+      (xDelta * xDelta + yDelta * yDelta);
 
     let closestPoint;
     if (u < 0) {
@@ -224,8 +226,16 @@ export default class LinearGradient extends Component {
     pointB.y = 158 - pointB.y;
 
     const orderedPoints = sortBy(this.props.value.points, 'perc');
-    const firstPointPosition = utils.getPointInLineByPerc(pointB, pointA, orderedPoints[0].perc);
-    const lastPointPosition = utils.getPointInLineByPerc(pointB, pointA, orderedPoints[orderedPoints.length - 1].perc);
+    const firstPointPosition = utils.getPointInLineByPerc(
+      pointB,
+      pointA,
+      orderedPoints[0].perc
+    );
+    const lastPointPosition = utils.getPointInLineByPerc(
+      pointB,
+      pointA,
+      orderedPoints[orderedPoints.length - 1].perc
+    );
 
     return (
       <div className={styles.content} style={gradStyle}>
@@ -242,7 +252,7 @@ export default class LinearGradient extends Component {
           />
         </svg>
         {this.props.value.points.map(this.renderPoint.bind(this, pointA, pointB))}
-        {this.state.dragging && (this.activeFirst || this.activeLast) && <div className={styles.angleInfo} key='angle'>{angle + 'º'}</div>}
+        {this.renderAngle()}
       </div>
     );
   }
@@ -255,15 +265,28 @@ export default class LinearGradient extends Component {
       top: pointPosition.y,
       backgroundColor: getColorString(colorObj, this.props.colors)
     };
+    const onClick = this.markerClicked.bind(this, index);
+    const onMouseDown = this.onMouseDown.bind(this, index);
 
     return (
       <div
         key={index}
         className={cx(style.point, selected && style.selected)}
         style={style}
-        onClick={this.markerClicked.bind(this, index)}
-        onMouseDown={this.onMouseDown.bind(this, index)}
+        onClick={onClick}
+        onMouseDown={onMouseDown}
       />
     );
+  }
+
+  renderAngle () {
+    if (this.state.dragging && (this.activeFirst || this.activeLast)) {
+      const angle = this.props.value.angle;
+      return (
+        <div className={styles.angleInfo} key='angle'>
+          {`${angle}º`}
+        </div>
+      );
+    }
   }
 }

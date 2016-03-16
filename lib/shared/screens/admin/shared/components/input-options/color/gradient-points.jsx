@@ -96,7 +96,7 @@ export default class GradientPoints extends Component {
 
   renderPoint (colorObj, index) {
     const markerStyle = {
-      left: colorObj.perc + '%',
+      left: `${colorObj.perc}%`,
       transform: `translate(${-colorObj.perc}%, -50%)`
     };
     const selected = this.props.editingPoint === index;
@@ -106,14 +106,16 @@ export default class GradientPoints extends Component {
     if (this.activePoint === index && this.activePointDelete) {
       markerStyle.visibility = 'hidden';
     }
+    const onClick = this.markerClicked.bind(this, index);
+    const onMouseDown = this.onMouseDown.bind(this, index);
 
     return (
       <span
         className={cx(styles.marker, selected && styles.selected)}
         style={markerStyle}
         key={index}
-        onClick={this.markerClicked.bind(this, index)}
-        onMouseDown={this.onMouseDown.bind(this, index)}
+        onClick={onClick}
+        onMouseDown={onMouseDown}
       />
     );
   }

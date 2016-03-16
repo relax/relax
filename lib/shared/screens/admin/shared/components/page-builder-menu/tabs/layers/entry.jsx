@@ -29,7 +29,7 @@ export default class Entry extends Component {
     pageBuilderActions.selectElement(element.id);
   }
 
-  onMouseOver (event) {
+  onMouseOver () {
     const {dragging, pageBuilderActions, element, hasChildren, isExpanded} = this.props;
     if (!dragging) {
       pageBuilderActions.overElement(element.id);
@@ -116,10 +116,12 @@ export default class Entry extends Component {
   renderOptionsMenu () {
     if (this.state.options) {
       return (
-        <OptionsMenu options={[
-          {label: 'Duplicate', action: ::this.duplicate, icon: 'nc-icon-mini files_single-copy-04'},
-          {label: 'Remove', action: ::this.remove, icon: 'nc-icon-mini ui-1_trash'}
-        ]} />
+        <OptionsMenu
+          options={[
+            {label: 'Duplicate', action: ::this.duplicate, icon: 'nc-icon-mini files_single-copy-04'},
+            {label: 'Remove', action: ::this.remove, icon: 'nc-icon-mini ui-1_trash'}
+          ]}
+        />
       );
     }
   }
@@ -133,8 +135,14 @@ export default class Entry extends Component {
 
     return (
       <div
-        className={cx(styles.entry, selected && styles.selected, overed && styles.overed, hasChildren && styles.hasChildren, subComponent && styles.subComponent)}
-        onClick={this.onClick.bind(this)}
+        className={cx(
+          styles.entry,
+          selected && styles.selected,
+          overed && styles.overed,
+          hasChildren && styles.hasChildren,
+          subComponent && styles.subComponent
+        )}
+        onClick={::this.onClick}
         onMouseEnter={::this.onMouseOver}
         onMouseLeave={::this.onMouseOut}
       >
@@ -152,7 +160,10 @@ export default class Entry extends Component {
     const {hasChildren, isExpanded} = this.props;
     if (hasChildren) {
       return (
-        <span className={cx(styles.part, styles.caret, !isExpanded && styles.collapsed)} onClick={::this.toggleExpand}>
+        <span
+          className={cx(styles.part, styles.caret, !isExpanded && styles.collapsed)}
+          onClick={::this.toggleExpand}
+        >
           <i className='nc-icon-mini arrows-1_small-triangle-down'></i>
         </span>
       );

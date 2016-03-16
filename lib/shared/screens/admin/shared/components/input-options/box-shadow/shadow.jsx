@@ -28,14 +28,18 @@ export default class Shadow extends Component {
 
   render () {
     const {shadow} = this.props;
+    const colorLabel = getColor(shadow.color).label;
 
     return (
       <div className={styles.root}>
         <div className={styles.content} onClick={::this.onClick} ref={(ref) => {
           this.ref = ref;
           !this.state.ready && this.setState({ready: true});
-        }}>
-          <div>{`${shadow.type}, ${getColor(shadow.color).label}, ${shadow.x} ${shadow.y}, ${shadow.blur}, ${shadow.spread}`}</div>
+        }}
+        >
+          <div>
+            {`${shadow.type}, ${colorLabel}, ${shadow.x} ${shadow.y}, ${shadow.blur}, ${shadow.spread}`}
+          </div>
           <div className={styles.removeButton} onClick={::this.onRemove}>
             <i className='nc-icon-mini ui-1_trash-simple'></i>
           </div>

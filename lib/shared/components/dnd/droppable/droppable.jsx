@@ -80,7 +80,7 @@ export default class Droppable extends Component {
     return childContext;
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps () {
     const containerRect = findDOMNode(this).getBoundingClientRect();
     if (containerRect.left < 40) {
       if (!this.state.closeToMargin) {
@@ -95,7 +95,7 @@ export default class Droppable extends Component {
     }
   }
 
-  onMouseEnter (event) {
+  onMouseEnter () {
     if (this.state.entered) {
       return;
     }
@@ -104,7 +104,7 @@ export default class Droppable extends Component {
 
     this.setState({
       entered: true,
-      order: order,
+      order,
       overed: !order
     });
 
@@ -114,7 +114,7 @@ export default class Droppable extends Component {
     }
   }
 
-  onMouseLeave (event) {
+  onMouseLeave () {
     const {activeDropInfo, dropInfo} = this.props;
     const {outDroppable} = this.props.dndActions;
 
@@ -219,7 +219,12 @@ export default class Droppable extends Component {
     }
 
     return (
-      <div className={cx(styles.droppable, className, isActive && styles.active)} draggable='false' style={inlineStyle} {...this.getEvents(droppableHere)}>
+      <div
+        className={cx(styles.droppable, className, isActive && styles.active)}
+        draggable='false'
+        style={inlineStyle}
+        {...this.getEvents(droppableHere)}
+      >
         {hasChildren ? children : this.renderPlaceholder()}
       </div>
     );
@@ -246,10 +251,12 @@ export default class Droppable extends Component {
     forEach(children, (child, index) => {
       tempChildren.push(child);
 
-      if (!isDraggingParent || activeDragInfo.positionInParent !== index && activeDragInfo.positionInParent !== index + 1) {
+      if (!isDraggingParent ||
+          activeDragInfo.positionInParent !== index &&
+          activeDragInfo.positionInParent !== index + 1) {
         tempChildren.push((
           <Marker
-            key={'marker' + index}
+            key={`marker${index}`}
             dndActions={dndActions}
             orientation={orientation}
             active={isActive && activeDropInfo.position === index + 1}
@@ -282,12 +289,12 @@ export default class Droppable extends Component {
 
     return (
       <AddBallon
-        key={'mark' + position}
+        key={`mark${position}`}
         position={position}
         onClick={::this.addSpotClick}
         vertical={vertical}
         active={active}
-        ref={'spot' + position}
+        ref={`spot${position}`}
       />
     );
   }
@@ -333,10 +340,11 @@ export default class Droppable extends Component {
         </AnimateProps>
       );
     } else {
+      const addSpotClick = this.addSpotClick.bind(this, 0, null);
       result = (
         <div>
           <span>Drop elements here or </span>
-          <span className='link' onClick={this.addSpotClick.bind(this, 0, null)} ref='spot0'>
+          <span className='link' onClick={addSpotClick} ref='spot0'>
             <span>click to add</span>
           </span>
         </div>

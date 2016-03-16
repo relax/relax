@@ -61,7 +61,7 @@ export default class ElementsMenu extends Component {
     window.removeEventListener('resize', this.updatePositionBind);
   }
 
-  focusSearch (event) {
+  focusSearch () {
     if (!this.state.searchOpened) {
       document.removeEventListener('keydown', this.keyDownBind);
       this.setState({
@@ -132,7 +132,7 @@ export default class ElementsMenu extends Component {
     toggleCategory(category);
   }
 
-  stopPropagation (event) {
+  stopPropagation () {
     this.clickedInside = true;
   }
 
@@ -241,7 +241,10 @@ export default class ElementsMenu extends Component {
 
     return (
       <Animate transition='slideLeftIn'>
-        <div className={cx(styles.root, styles[this.state.side], this.state.angleTriangle && styles.angled)} style={style}>
+        <div
+          className={cx(styles.root, styles[this.state.side], this.state.angleTriangle && styles.angled)}
+          style={style}
+        >
           <div className={styles.arrowLeft}></div>
           <div className={styles.ballon} style={ballonStyle}>
             {this.renderContent()}

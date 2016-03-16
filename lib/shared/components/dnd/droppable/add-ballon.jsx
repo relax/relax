@@ -22,7 +22,12 @@ export default class AddBallon extends Component {
     const {vertical, active} = this.props;
     return (
       <div
-        className={cx(styles.root, vertical && styles.vertical, !vertical && this.state.closeToMargin && styles.inverted, active && styles.active)}
+        className={cx(
+          styles.root,
+          vertical && styles.vertical,
+          !vertical && this.state.closeToMargin && styles.inverted,
+          active && styles.active
+        )}
         onClick={::this.onClick}
       >
         <span className={styles.marker} ref='marker'>

@@ -1,5 +1,6 @@
 import cx from 'classnames';
 import merge from 'lodash.merge';
+import warning from 'warning';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {TypesOptionsMap, TypesOptionsDefaultProps} from 'helpers/input-options-map';
@@ -42,7 +43,7 @@ export default class OptionsList extends Component {
 
   renderColumn (option, index) {
     return (
-      <div className={styles.column}>
+      <div className={styles.column} key={index}>
         {this.renderOption(option)}
       </div>
     );
@@ -63,7 +64,7 @@ export default class OptionsList extends Component {
       const extraProps = merge({}, TypesOptionsDefaultProps[option.type] || {});
       merge(extraProps, option.props || {});
 
-      var unlockedContent = null;
+      let unlockedContent = null;
       if (option.unlocks && value !== '') {
         if (option.type === 'Optional') {
           if (value && option.unlocks.length > 1) {
@@ -86,10 +87,16 @@ export default class OptionsList extends Component {
         }
       }
 
+      const onChange = this.onChange.bind(this, option.id);
       if (option.type === 'Section') {
         result = (
           <div key={option.id}>
-            <Option onChange={this.onChange.bind(this, option.id)} value={value} {...extraProps} OptionsList={OptionsList} />
+            <Option
+              onChange={onChange}
+              value={value}
+              {...extraProps}
+              OptionsList={OptionsList}
+            />
             {unlockedContent}
           </div>
         );
@@ -97,13 +104,20 @@ export default class OptionsList extends Component {
         result = (
           <div className={cx(styles.option, this.props.tight && styles.tight)} key={option.id}>
             {this.renderLabel(option.type !== 'Optional' && option.label)}
-            <Option white={this.props.white} onChange={this.onChange.bind(this, option.id)} value={value} {...extraProps} OptionsList={OptionsList} {...this.props.passToOptions} />
+            <Option
+              white={this.props.white}
+              onChange={onChange}
+              value={value}
+              {...extraProps}
+              OptionsList={OptionsList}
+              {...this.props.passToOptions}
+            />
             {unlockedContent}
           </div>
         );
       }
     } else {
-      console.log('Element option type not valid');
+      warning(false, 'Element option type not valid');
     }
     return result;
   }

@@ -50,7 +50,9 @@ export default class List extends Component {
 
     forEach(elements, (element, index) => {
       if (element.settings && element.settings.category) {
-        if (element.settings.category === category && this.props.elementAcceptable(index, element) && index !== 'Symbol') {
+        if (element.settings.category === category &&
+            this.props.elementAcceptable(index, element) &&
+            index !== 'Symbol') {
           categoryElements.push({
             label: index,
             element
@@ -66,10 +68,11 @@ export default class List extends Component {
 
     if (categoryElements.length > 0) {
       const collapsedCategory = categoriesCollapsed[category];
+      const onClick = this.toggleCategory.bind(this, category);
 
       return (
         <div className={cx(styles.category, collapsedCategory && styles.collapsed)} key={category}>
-          <div className={styles.categoryInfo} onClick={this.toggleCategory.bind(this, category)}>
+          <div className={styles.categoryInfo} onClick={onClick}>
             <i className='nc-icon-mini arrows-1_small-triangle-down'></i>
             <span>{category}</span>
           </div>
@@ -85,9 +88,10 @@ export default class List extends Component {
     const element = elementObj.element;
     const icon = element.settings.icon;
     const label = elementObj.label;
+    const addElement = this.addElement.bind(this, label);
 
     return (
-      <div className={styles.elementEntry} onClick={this.addElement.bind(this, label)} key={label}>
+      <div className={styles.elementEntry} onClick={addElement} key={label}>
         <i className={icon.class}>{icon.content}</i>
         <span>{label}</span>
       </div>
@@ -103,10 +107,11 @@ export default class List extends Component {
       forEach(this.props.symbols, (symbol) => {
         symbols.push(this.renderSymbol(symbol));
       });
+      const onClick = this.toggleCategory.bind(this, 'symbols');
 
       return (
         <div className={cx(styles.category, collapsedCategory && styles.collapsed)} key='symbols'>
-          <div className={styles.categoryInfo} onClick={this.toggleCategory.bind(this, 'symbols')}>
+          <div className={styles.categoryInfo} onClick={onClick}>
             <i className='nc-icon-mini arrows-1_small-triangle-down'></i>
             <span>Symbols</span>
           </div>
@@ -119,8 +124,9 @@ export default class List extends Component {
   }
 
   renderSymbol (symbol) {
+    const onClick = this.addSymbol.bind(this, symbol._id);
     return (
-      <div className={styles.elementEntry} onClick={this.addSymbol.bind(this, symbol._id)} key={symbol._id}>
+      <div className={styles.elementEntry} onClick={onClick} key={symbol._id}>
         <i className='nc-icon-mini objects_puzzle-10'></i>
         <span>{symbol.title}</span>
       </div>

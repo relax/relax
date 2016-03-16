@@ -1,6 +1,6 @@
+import velocity from 'velocity-animate';
 import Component from 'components/component';
 import React from 'react';
-import velocity from 'velocity-animate';
 import {findDOMNode} from 'react-dom';
 
 export default class AnimateProps extends Component {
@@ -16,7 +16,7 @@ export default class AnimateProps extends Component {
   };
 
   componentDidMount () {
-    var dom = findDOMNode(this);
+    const dom = findDOMNode(this);
     velocity(dom, this.props.props, this.props.options);
   }
 

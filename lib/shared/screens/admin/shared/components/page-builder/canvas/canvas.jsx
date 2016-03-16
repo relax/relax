@@ -78,7 +78,8 @@ export default class Canvas extends Component {
             placeholderRender={::this.renderPlaceholder}
             dropInfo={dropInfo}
             accepts='Section'
-            minHeight='100%'>
+            minHeight='100%'
+          >
             {elements}
           </Droppable>
         </div>
@@ -106,7 +107,7 @@ export default class Canvas extends Component {
 
   renderChildren (children, options) {
     let result;
-    if ( children instanceof Array ) {
+    if (children instanceof Array) {
       result = children.map(this.renderElement.bind(this, options));
     } else {
       result = children;
@@ -121,10 +122,22 @@ export default class Canvas extends Component {
     const elementProps = getElementProps(element, display);
 
     if (options.schemaEntry && options.elementsLinks && options.elementsLinks[element.id]) {
-      element = utils.alterSchemaElementProps(options.elementsLinks[element.id], element, options.schemaEntry, elementProps);
+      element = utils.alterSchemaElementProps(
+        options.elementsLinks[element.id],
+        element,
+        options.schemaEntry,
+        elementProps
+      );
     }
 
-    const styleClassMap = stylesManager.processElement(element, elementProps, elements[element.tag], styles, elements, display);
+    const styleClassMap = stylesManager.processElement(
+      element,
+      elementProps,
+      elements[element.tag],
+      styles,
+      elements,
+      display
+    );
 
     if ((!element.hide || !element.hide[display]) && element.display !== false) {
       const FactoredElement = element.tag === 'Symbol' ? Symbol : elements[element.tag];
@@ -149,7 +162,7 @@ export default class Canvas extends Component {
             positionInParent,
             renderElement: this.renderElementBind,
             renderChildren: this.renderChildrenBind,
-            insideSymbol: options.customData ? true : false,
+            insideSymbol: options.customData && true,
             dispatch: this.context.store.dispatch
           }}
         >

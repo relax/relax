@@ -27,7 +27,7 @@ export default class Combobox extends Component {
     });
   }
 
-  optionClicked ( value, event ) {
+  optionClicked (value, event) {
     event.preventDefault();
 
     if (this.props.onChange) {
@@ -51,10 +51,14 @@ export default class Combobox extends Component {
     return (
       <div className={cx(styles.combobox, className)} style={style}>
         <div className={cx(styles.holder, this.state.opened && styles.opened)}>
-          <div className={styles.header} onClick={this.toggle.bind(this)}>
+          <div className={styles.header} onClick={::this.toggle}>
             <div className={styles.selectedText}>{label}</div>
             <div className={styles.button}>
-              <i className={cx('nc-icon-mini', this.state.opened ? 'arrows-1_minimal-up' : 'arrows-1_minimal-down')}></i>
+              <i className={cx(
+                  'nc-icon-mini',
+                  this.state.opened ? 'arrows-1_minimal-up' : 'arrows-1_minimal-down'
+                )}
+              />
             </div>
           </div>
           <div className={styles.options}>
@@ -66,11 +70,13 @@ export default class Combobox extends Component {
   }
 
   renderOption (option, i) {
+    const onClick = this.optionClicked.bind(this, this.props.values[i]);
     return (
       <div
         key={i}
         className={styles.option}
-        onClick={this.optionClicked.bind(this, this.props.values[i])}>
+        onClick={onClick}
+      >
         {option}
       </div>
     );

@@ -56,8 +56,12 @@ export default class Dropdown extends Component {
   }
 
   renderEntry (entry) {
+    const onClick = this.onEntryClick.bind(this, entry.value);
     return (
-      <button className={styles.entry} onClick={this.onEntryClick.bind(this, entry.value)}>
+      <button
+        className={styles.entry}
+        onClick={onClick}
+      >
         {entry.label}
       </button>
     );

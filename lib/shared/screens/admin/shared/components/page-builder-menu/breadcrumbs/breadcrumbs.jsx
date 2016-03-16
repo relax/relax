@@ -18,7 +18,12 @@ export default class Breadcrumbs extends Component {
     return (
       <div className={cx(styles.root, className)}>
         {selectedPath && selectedPath.map(this.renderEntry, this)}
-        <span className={styles.current} key='current'>{(selectedElement && (selectedElement.label || selectedElement.tag)) || 'body'}</span>
+        <span
+          className={styles.current}
+          key='current'
+        >
+          {(selectedElement && (selectedElement.label || selectedElement.tag)) || 'body'}
+        </span>
       </div>
     );
   }

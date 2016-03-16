@@ -83,7 +83,10 @@ export default class RadialGradient extends Component {
 
       const xDelta = pointA.x - pointB.x;
       const yDelta = pointA.y - pointB.y;
-      const u = 1 - ((newPoint.x - pointB.x) * xDelta + (newPoint.y - pointB.y) * yDelta) / (xDelta * xDelta + yDelta * yDelta);
+      const u =
+        1 -
+        ((newPoint.x - pointB.x) * xDelta + (newPoint.y - pointB.y) * yDelta) /
+        (xDelta * xDelta + yDelta * yDelta);
 
       let closestPoint;
       if (u < 0) {
@@ -233,8 +236,16 @@ export default class RadialGradient extends Component {
     const radialLine = this.getRadialLine();
 
     const orderedPoints = sortBy(this.props.value.points, 'perc');
-    const firstPointPosition = utils.getPointInLineByPerc(radialLine.pointA, radialLine.pointB, orderedPoints[0].perc);
-    const lastPointPosition = utils.getPointInLineByPerc(radialLine.pointA, radialLine.pointB, orderedPoints[orderedPoints.length - 1].perc);
+    const firstPointPosition = utils.getPointInLineByPerc(
+      radialLine.pointA,
+      radialLine.pointB,
+      orderedPoints[0].perc
+    );
+    const lastPointPosition = utils.getPointInLineByPerc(
+      radialLine.pointA,
+      radialLine.pointB,
+      orderedPoints[orderedPoints.length - 1].perc
+    );
 
     return (
       <div className={styles.content} style={gradStyle} key={this.props.value.radius}>
@@ -263,13 +274,15 @@ export default class RadialGradient extends Component {
       top: pointPosition.y,
       backgroundColor: getColorString(colorObj, this.props.colors)
     };
+    const onClick = this.markerClicked.bind(this, index);
+    const onMouseDown = this.onMouseDown.bind(this, index);
     return (
       <div
         key={index}
         className={cx(styles.point, selected && styles.selected)}
         style={style}
-        onClick={this.markerClicked.bind(this, index)}
-        onMouseDown={this.onMouseDown.bind(this, index)}
+        onClick={onClick}
+        onMouseDown={onMouseDown}
       />
     );
   }

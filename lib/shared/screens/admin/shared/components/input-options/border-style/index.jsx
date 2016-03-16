@@ -29,8 +29,12 @@ export default class BorderStyle extends Component {
 
   renderOption (type) {
     const {value} = this.props;
+    const onClick = this.onClick.bind(this, type);
     return (
-      <div className={cx(styles.option, styles[type], value === type && styles.active)} onClick={this.onClick.bind(this, type)} />
+      <div
+        className={cx(styles.option, styles[type], value === type && styles.active)}
+        onClick={onClick}
+      />
     );
   }
 }

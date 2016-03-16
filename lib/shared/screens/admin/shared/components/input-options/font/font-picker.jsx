@@ -15,6 +15,11 @@ export default class FontPicker extends Component {
     fonts: PropTypes.object.isRequired
   };
 
+  init () {
+    this.onFamilyChange = this.onChange.bind(this, 'family');
+    this.onFVDChange = this.onChange.bind(this, 'fvd');
+  }
+
   getChangedValue (key, value) {
     const newValue = clone(this.props.value || {});
 
@@ -76,7 +81,7 @@ export default class FontPicker extends Component {
           entries={families}
           value={value.family}
           label={Utils.filterFontFamily(value.family || '')}
-          onChange={this.onChange.bind(this, 'family')}
+          onChange={this.onFamilyChange}
           className={styles.fontsDropdown}
         />
       <span className={styles.sep}></span>
@@ -84,7 +89,7 @@ export default class FontPicker extends Component {
           entries={fvds}
           value={value.fvd}
           label={value.fvd}
-          onChange={this.onChange.bind(this, 'fvd')}
+          onChange={this.onFVDChange}
           className={styles.typeDropdown}
         />
       </div>

@@ -21,7 +21,7 @@ export default class Autocomplete extends Component {
     }
   }
 
-  onInput (e) {
+  onInput () {
     const str = this.refs.editable.innerText;
     this.props.onChange(str);
   }
@@ -56,7 +56,14 @@ export default class Autocomplete extends Component {
     return (
       <div className={styles.autocomplete}>
         <span onClick={::this.focus}>{before}</span>
-        <span ref='editable' className={styles.editable} onInput={::this.onInput} contentEditable>{this.props.value}</span>
+        <span
+          ref='editable'
+          className={styles.editable}
+          onInput={::this.onInput}
+          contentEditable
+        >
+          {this.props.value}
+        </span>
         <span onClick={::this.focus}>{after}</span>
       </div>
     );

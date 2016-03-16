@@ -110,7 +110,11 @@ export default class AnimationTab extends Component {
   renderContent () {
     const {selectedElement} = this.props;
     return (
-      <OptionsList options={AnimationTab.options} onChange={this.onChange.bind(this)} values={selectedElement.animation || {}} />
+      <OptionsList
+        options={AnimationTab.options}
+        onChange={::this.onChange}
+        values={selectedElement.animation || {}}
+      />
     );
   }
 }

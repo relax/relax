@@ -96,14 +96,15 @@ export default class ColumnsManager extends Component {
     const style = {};
 
     if (value.width === 'custom') {
-      style.width = value.widthPerc + '%';
+      style.width = `${value.widthPerc}%`;
     }
+    const onClick = this.onClick.bind(this, id);
 
     return (
       <div
         style={style}
         className={cx('column', this.state.selected === id && 'active')}
-        onClick={this.onClick.bind(this, id)}
+        onClick={onClick}
         key={id}
       />
     );
@@ -125,7 +126,11 @@ export default class ColumnsManager extends Component {
 
       return (
         <div className='columns-manager-options'>
-          <OptionsList options={multiRows ? columnOptions : columnOptionsSingleRow} values={values} onChange={::this.onChange} />
+          <OptionsList
+            options={multiRows ? columnOptions : columnOptionsSingleRow}
+            values={values}
+            onChange={::this.onChange}
+          />
           {breakable && <OptionsList options={breakOptions} values={values} onChange={::this.onChange} />}
         </div>
       );

@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import key from 'keymaster';
 import Animate from 'components/animate';
 import Component from 'components/component';
 import Portal from 'components/portal';

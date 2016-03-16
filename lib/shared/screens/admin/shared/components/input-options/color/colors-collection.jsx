@@ -54,7 +54,14 @@ export default class ColorsCollection extends Component {
     if (this.props.addingColor) {
       return (
         <form className={styles.adding} onSubmit={::this.onSubmit}>
-          <Input className={styles.input} placeholder='Color name' white value={this.props.addingColorName} onChange={this.props.changeAddingColor} focused />
+          <Input
+            className={styles.input}
+            placeholder='Color name'
+            white
+            value={this.props.addingColorName}
+            onChange={this.props.changeAddingColor}
+            focused
+          />
           <div className={styles.saveButton} onClick={::this.onSubmit}>Save</div>
         </form>
       );

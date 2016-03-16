@@ -57,8 +57,8 @@ export default class SatLight extends Component {
   render () {
     const {hsv} = this.props;
     const markerStyle = {
-      top: (100 - hsv.v) + '%',
-      left: hsv.s + '%'
+      top: `${100 - hsv.v}%`,
+      left: `${hsv.s}%`
     };
     const backStyle = {
       backgroundColor: Colr.fromHsv(hsv.h, 100, 100).toHex()

@@ -53,7 +53,9 @@ export default class StylePicker extends Component {
           <span>{selectedStyle.title}</span>
           <i className={cx('nc-icon-outline', editing ? 'arrows-1_minimal-up' : 'arrows-1_minimal-down')}></i>
         </div>
-        <Scrollable className={cx(classes.content, selectedStyle._id === 'no_style' && editing && classes.noStyle)}>
+        <Scrollable
+          className={cx(classes.content, selectedStyle._id === 'no_style' && editing && classes.noStyle)}
+        >
           {this.renderContent()}
         </Scrollable>
         {this.renderSaveStyle()}
@@ -108,7 +110,15 @@ export default class StylePicker extends Component {
   }
 
   renderSaveStyle () {
-    const {editing, selectedStyle, editingTitle, titleValue, changeTitleValue, saveStyle, toggleEditingTitle} = this.props;
+    const {
+      editing,
+      selectedStyle,
+      editingTitle,
+      titleValue,
+      changeTitleValue,
+      saveStyle,
+      toggleEditingTitle
+    } = this.props;
     if (editing && selectedStyle._id === 'no_style') {
       let result;
       if (editingTitle) {
@@ -116,7 +126,13 @@ export default class StylePicker extends Component {
           <div className={classes.saveStyle}>
             <Animate transition='slideRightIn' duration={300}>
               <form onSubmit={::this.onSubmit}>
-                <Input className={classes.input} placeholder='Style title' value={titleValue} onChange={changeTitleValue} focused />
+                <Input
+                  className={classes.input}
+                  placeholder='Style title'
+                  value={titleValue}
+                  onChange={changeTitleValue}
+                  focused
+                />
                 <div className={classes.submitButton} onClick={saveStyle}>
                   <i className='nc-icon-outline arrows-1_tail-right'></i>
                 </div>

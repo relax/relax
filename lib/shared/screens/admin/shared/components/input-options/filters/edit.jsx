@@ -38,7 +38,9 @@ export default class Edit extends Component {
       <div className='filter-picker-edit white-options'>
         <div className='filter-submit-wrapper'>
           <div className='filter-cancel' onClick={this.props.cancelEdit}>cancel</div>
-          <div className='filter-submit' onClick={this.props.submitEdit}>{this.props.new ? 'Create new filter' : 'Ok'}</div>
+          <div className='filter-submit' onClick={this.props.submitEdit}>
+            {this.props.new ? 'Create new filter' : 'Ok'}
+          </div>
         </div>
         <Combobox labels={labels} values={values} value={filter.prop} onChange={this.props.onPropertyChange} />
         {this.renderOptions()}
@@ -60,7 +62,11 @@ export default class Edit extends Component {
           result = ([
             <div className='filter-option' key='operation'>
               <div className='filter-label'>From</div>
-              <NumberInput className='micro inline-block' value={options.fromValue} onChange={this.onOptionChange.bind(this, 'fromValue')} />
+              <NumberInput
+                className='micro inline-block'
+                value={options.fromValue}
+                onChange={this.onOptionChange.bind(this, 'fromValue')}
+              />
               <Combobox
                 className='small'
                 labels={['Days', 'Weeks', 'Months']}
@@ -75,7 +81,14 @@ export default class Edit extends Component {
             </div>,
             <div className='filter-option' key='value'>
               <div className='filter-label'>To</div>
-              {options.toGran !== 'present' && <NumberInput className='micro inline-block' value={options.toValue} onChange={this.onOptionChange.bind(this, 'toValue')} />}
+              {
+                options.toGran !== 'present' &&
+                <NumberInput
+                  className='micro inline-block'
+                  value={options.toValue}
+                  onChange={this.onOptionChange.bind(this, 'toValue')}
+                />
+              }
               <Combobox
                 className={cx(options.toGran !== 'present' && 'small')}
                 labels={['Present', 'Days', 'Weeks', 'Months']}

@@ -33,24 +33,39 @@ export default class EditProps extends Component {
       <div className={styles.root}>
         <div className={optionsStyles.option}>
           <div className={optionsStyles.label}>Label</div>
-          <Input value={selectedElement.label || selectedElement.tag} onChange={changeElementLabel.bind(this, selectedElement.id)} />
+          <Input
+            value={selectedElement.label || selectedElement.tag}
+            onChange={changeElementLabel.bind(this, selectedElement.id)}
+          />
         </div>
         <div className={optionsStyles.option}>
           <div className={optionsStyles.label}>Visible on</div>
           <div>
             <button
-              className={cx(styles.displayButton, selectedElement.hide && selectedElement.hide.desktop && styles.selected)}
-              onClick={this.displayToggleElement.bind(this, selectedElement.id, 'desktop')}>
+              className={cx(
+                styles.displayButton,
+                selectedElement.hide && selectedElement.hide.desktop && styles.selected
+              )}
+              onClick={this.displayToggleElement.bind(this, selectedElement.id, 'desktop')}
+            >
               <i className='nc-icon-mini tech_desktop-screen'></i>
             </button>
             <button
-              className={cx(styles.displayButton, selectedElement.hide && selectedElement.hide.tablet && styles.selected)}
-              onClick={this.displayToggleElement.bind(this, selectedElement.id, 'tablet')}>
+              className={cx(
+                styles.displayButton,
+                selectedElement.hide && selectedElement.hide.tablet && styles.selected
+              )}
+              onClick={this.displayToggleElement.bind(this, selectedElement.id, 'tablet')}
+            >
               <i className='nc-icon-mini tech_tablet-button'></i>
             </button>
             <button
-              className={cx(styles.displayButton, selectedElement.hide && selectedElement.hide.mobile && styles.selected)}
-              onClick={this.displayToggleElement.bind(this, selectedElement.id, 'mobile')}>
+              className={cx(
+                styles.displayButton,
+                selectedElement.hide && selectedElement.hide.mobile && styles.selected
+              )}
+              onClick={this.displayToggleElement.bind(this, selectedElement.id, 'mobile')}
+            >
               <i className='nc-icon-mini tech_mobile-button'></i>
             </button>
           </div>
@@ -69,7 +84,11 @@ export default class EditProps extends Component {
     if (ElementClass.propsSchema) {
       const values = Object.assign({}, ElementClass.defaultProps, getElementProps(selectedElement, display));
       return (
-        <OptionsList options={ElementClass.propsSchema} values={values} onChange={changeElementProperty.bind(this, selectedId)} />
+        <OptionsList
+          options={ElementClass.propsSchema}
+          values={values}
+          onChange={changeElementProperty.bind(this, selectedId)}
+        />
       );
     }
   }

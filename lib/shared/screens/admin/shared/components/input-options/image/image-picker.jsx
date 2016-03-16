@@ -31,7 +31,7 @@ export default class ImagePicker extends Component {
     this.props.onMount(width);
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate (nextProps) {
     return (
       this.props.value !== nextProps.value ||
       this.props.mounted !== nextProps.mounted ||
@@ -53,7 +53,7 @@ export default class ImagePicker extends Component {
     return (
       <div className='image-picker-wrapper'>
         <div className='image-picker' style={style}>
-          <div className='image-selected' onClick={this.onClick.bind(this)} ref='imageHolder'>
+          <div className='image-selected' onClick={::this.onClick} ref='imageHolder'>
             {this.renderSelected()}
             <div className='image-change'>Choose Image</div>
           </div>
@@ -69,7 +69,8 @@ export default class ImagePicker extends Component {
         <div
           className='button button-faded-grey full vmargined'
           style={{width: this.props.width}}
-          onClick={this.props.onChange.bind(this, '')}>
+          onClick={this.props.onChange.bind(this, '')}
+        >
           Unselect Image
         </div>
       );
@@ -78,7 +79,14 @@ export default class ImagePicker extends Component {
 
   renderSelected () {
     if (this.props.mounted && this.props.mediaItem && this.props.mediaItem._id) {
-      return <MediaItem item={this.props.mediaItem} width={this.props.calcWidth} height={this.props.height} useThumbnail={false} />;
+      return (
+        <MediaItem
+          item={this.props.mediaItem}
+          width={this.props.calcWidth}
+          height={this.props.height}
+          useThumbnail={false}
+        />
+      );
     }
   }
 }

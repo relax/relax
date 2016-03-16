@@ -14,6 +14,10 @@ export default class BorderPicker extends Component {
   };
 
   getInitState () {
+    this.onWidhtChange = this.onInputChange.bind(this, 'width');
+    this.onColorChange = this.onInputChange.bind(this, 'color');
+    this.onStyleChange = this.onInputChange.bind(this, 'style');
+
     return {
       selected: 'center',
       values: this.parseValue(this.props.value)
@@ -83,7 +87,9 @@ export default class BorderPicker extends Component {
       result.bottom = value.bottom || result.bottom;
     }
 
-    if (this.equal(result.top, result.right) && this.equal(result.top, result.bottom) && this.equal(result.top, result.left)) {
+    if (this.equal(result.top, result.right) &&
+        this.equal(result.top, result.bottom) &&
+        this.equal(result.top, result.left)) {
       result.equal = true;
     } else {
       result.equal = false;
@@ -109,9 +115,9 @@ export default class BorderPicker extends Component {
   }
 
   render () {
-    var values = this.state.values;
-    var value = 0;
-    var inactive = false;
+    const values = this.state.values;
+    let value = 0;
+    let inactive = false;
 
     if (this.state.selected !== 'center') {
       value = values[this.state.selected];
@@ -133,18 +139,39 @@ export default class BorderPicker extends Component {
           {this.renderToggleButton('bottom', !values.equal)}
           {this.renderToggleButton('center', values.equal)}
         </div>
-        <NumberInput className={styles.option} small value={value.width} onChange={this.onInputChange.bind(this, 'width')} inactive={inactive} />
-        <ColorPicker className={cx(styles.option, styles.colorPicker)} value={value.color} onChange={this.onInputChange.bind(this, 'color')} side='right' />
-        <BorderStyle className={styles.borderStyle} value={value.style} onChange={this.onInputChange.bind(this, 'style')} />
+        <NumberInput
+          className={styles.option}
+          small
+          value={value.width}
+          onChange={this.onWidhtChange}
+          inactive={inactive}
+        />
+        <ColorPicker
+          className={cx(styles.option, styles.colorPicker)}
+          value={value.color}
+          onChange={this.onColorChange}
+          side='right'
+        />
+        <BorderStyle
+          className={styles.borderStyle}
+          value={value.style}
+          onChange={this.onStyleChange}
+        />
       </div>
     );
   }
 
   renderToggleButton (pos, active) {
+    const changeSelected = this.changeSelected.bind(this, pos);
     return (
       <div
-        className={cx(styles.toggle, styles[pos], this.state.selected === pos && styles.selected, active && styles.active)}
-        onClick={this.changeSelected.bind(this, pos)}
+        className={cx(
+          styles.toggle,
+          styles[pos],
+          this.state.selected === pos && styles.selected,
+          active && styles.active
+        )}
+        onClick={changeSelected}
       />
     );
   }
