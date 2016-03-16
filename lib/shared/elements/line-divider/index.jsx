@@ -22,7 +22,12 @@ export default class LineDivider extends Component {
     const classMap = this.props.styleClassMap || {};
 
     return (
-      <Element {...this.props.relax} htmlTag='div' className={cx(classes.holder, classMap.holder)} settings={settings}>
+      <Element
+        {...this.props.relax}
+        htmlTag='div'
+        className={cx(classes.holder, classMap.holder)}
+        settings={settings}
+      >
         <div className={cx(classes.line, classMap.line)}></div>
       </Element>
     );

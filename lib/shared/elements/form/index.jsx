@@ -1,5 +1,6 @@
 import forEach from 'lodash.foreach';
 import request from 'superagent';
+import warning from 'warning';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
@@ -29,12 +30,13 @@ export default class Form extends Component {
       .type('json')
       .send(formData)
       .end((error, res) => {
-        console.log(error);
-        console.log(res);
+        warning(false, error);
+        warning(false, res);
       });
   }
 
-  addToSchema (formData) {
+  addToSchema () {
+    // arg: formData
     // let actions = schemaEntriesActionsFactory(this.props.schema);
     //
     // // Check required fields
@@ -52,7 +54,8 @@ export default class Form extends Component {
     //   });
   }
 
-  sendCustom (formData) {
+  sendCustom () {
+    // arg: formData
     // $
     //   .post(this.props.custom, formData)
     //   .done((response) => {

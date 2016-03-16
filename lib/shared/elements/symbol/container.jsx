@@ -36,7 +36,9 @@ export default class DynamicListContainer extends Component {
   }
 
   fetchSymbol (props) {
-    if (props.symbolId && (!props.symbols[props.symbolId] || !props.symbols[props.symbolId].data) && !this.fething) {
+    if (props.symbolId &&
+        (!props.symbols[props.symbolId] || !props.symbols[props.symbolId].data) &&
+        !this.fething) {
       this.fething = true;
       props.getSymbol(props.symbolId, this.constructor.fragments);
     }
@@ -46,7 +48,7 @@ export default class DynamicListContainer extends Component {
     const props = {
       htmlTag: 'div',
       ...this.props.relax,
-      settings: settings,
+      settings,
       className: 'symbol'
     };
 

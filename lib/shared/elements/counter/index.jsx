@@ -45,10 +45,10 @@ export default class Counter extends Component {
   render () {
     const classMap = this.props.styleClassMap || {};
 
-    var props = {
+    const props = {
       ...this.props.relax,
       htmlTag: 'div',
-      settings: settings,
+      settings,
       onEnterScreen: this.onEnterScreen.bind(this),
       className: cx(classMap.text),
       style: {

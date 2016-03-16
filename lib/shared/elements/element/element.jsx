@@ -1,9 +1,9 @@
 import getElementPosition from 'helpers/get-element-position';
 import utils from 'helpers/utils';
+import velocity from 'velocity-animate';
 import Component from 'components/component';
 import Draggable from 'components/dnd/draggable';
 import Droppable from 'components/dnd/droppable';
-import velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
@@ -220,7 +220,7 @@ export default class Element extends Component {
     if (editing) {
       tagProps.onMouseOver = ::this.onMouseOver;
       tagProps.onMouseOut = ::this.onMouseOut;
-      tagProps.ref = (ref) => this.ref = ref;
+      tagProps.ref = (ref) => {this.ref = ref;};
       tagProps.id = element.id;
     }
 

@@ -60,7 +60,12 @@ export default class Highlight extends Component {
     return (
       <Portal>
         <div
-          className={cx(styles.root, selected && styles.selected, style.top < 60 && styles.inside, element.tag === 'Symbol' && styles.symbol)}
+          className={cx(
+            styles.root,
+            selected && styles.selected,
+            style.top < 60 && styles.inside,
+            element.tag === 'Symbol' && styles.symbol
+          )}
           style={style}
         >
           <div className={styles.identifier}>

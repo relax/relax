@@ -85,7 +85,7 @@ export default class DynamicListContainer extends Component {
     const props = {
       htmlTag: 'div',
       ...this.props.relax,
-      settings: settings
+      settings
     };
     const {elements, relax} = this.props;
 

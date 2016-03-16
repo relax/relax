@@ -82,7 +82,7 @@ export default class List extends Component {
     const editing = relax.editing;
     const schemaEntry = entries && entries[key];
     const content = children && relax.renderChildren(relax.element.children, {
-      elementsLinks: elementsLinks,
+      elementsLinks,
       schemaEntry
     });
     const spaceThird = Math.round(parseInt(horizontalGutter, 10) / 3 * 100) / 100;
@@ -109,18 +109,18 @@ export default class List extends Component {
 
     const style = {};
     if (columns > 1) {
-      style.width = (100 / columns) + '%';
+      style.width = `${100 / columns}%`;
 
       const isLinkingData = this.isLinkingData();
       const property = !dummy && isLinkingData && 'border' || 'padding';
 
       if (isFirst) {
-        style[property + 'Right'] = cx(spaceSides + 'px', property === 'border' && 'solid rgba(0, 0, 0, 0.8)');
+        style[`${property}Right`] = cx(`${spaceSides}px`, property === 'border' && 'solid rgba(0, 0, 0, 0.8)');
       } else if (isLast) {
-        style[property + 'Left'] = cx(spaceSides + 'px', property === 'border' && 'solid rgba(0, 0, 0, 0.8)');
+        style[`${property}Left`] = cx(`${spaceSides}px`, property === 'border' && 'solid rgba(0, 0, 0, 0.8)');
       } else {
-        style[property + 'Right'] = cx(spaceThird + 'px', property === 'border' && 'solid rgba(0, 0, 0, 0.8)');
-        style[property + 'Left'] = cx(spaceThird + 'px', property === 'border' && 'solid rgba(0, 0, 0, 0.8)');
+        style[`${property}Right`] = cx(`${spaceThird}px`, property === 'border' && 'solid rgba(0, 0, 0, 0.8)');
+        style[`${property}Left`] = cx(`${spaceThird}px`, property === 'border' && 'solid rgba(0, 0, 0, 0.8)');
       }
 
       if (dummy && isLinkingData) {

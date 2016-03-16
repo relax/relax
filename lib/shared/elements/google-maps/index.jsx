@@ -51,10 +51,11 @@ export default class GoogleMapsElem extends Component {
   loadAPI () {
     let result = false;
     if (typeof document !== 'undefined') {
-      if (!Utils.hasClass(document.body, 'googleMapsInitiated') && !Utils.hasClass(document.body, 'googleMapsLoading')) {
+      if (!Utils.hasClass(document.body, 'googleMapsInitiated') &&
+          !Utils.hasClass(document.body, 'googleMapsLoading')) {
         Utils.addClass(document.body, 'googleMapsLoading');
 
-        window.googleMapsInitiated = function () {
+        window.googleMapsInitiated = () => {
           Utils.removeClass(document.body, 'googleMapsLoading');
           Utils.addClass(document.body, 'googleMapsInitiated');
           /* jshint ignore:start */
@@ -95,7 +96,15 @@ export default class GoogleMapsElem extends Component {
     if (this.state.ready) {
       let result;
       const editing = this.props.relax.editing;
-      const key = this.props.zoom + this.props.scrollwheel + this.props.zoomControls + this.props.streetViewControl + this.props.mapTypeControl + this.props.lat + this.props.lng + this.props.height;
+      const key =
+        this.props.zoom +
+        this.props.scrollwheel +
+        this.props.zoomControls +
+        this.props.streetViewControl +
+        this.props.mapTypeControl +
+        this.props.lat +
+        this.props.lng +
+        this.props.height;
 
       const gmap = (
         <GoogleMapLoader
@@ -109,7 +118,7 @@ export default class GoogleMapsElem extends Component {
           }
           googleMapElement={
             <GoogleMap
-              ref={(map) => this._map = map}
+              ref={(map) => {this._map = map;}}
               containerProps={{
                 style: {
                   height: this.props.height

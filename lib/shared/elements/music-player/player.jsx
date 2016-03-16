@@ -1,8 +1,8 @@
 import cx from 'classnames';
 import utils from 'helpers/utils';
 import BackgroundImage from 'components/background-image';
-import React, {PropTypes} from 'react';
 import Component from 'components/component';
+import React, {PropTypes} from 'react';
 
 import classes from './classes';
 
@@ -105,7 +105,7 @@ export default class Player extends Component {
       <div className={cx(classes.part, classes.fit, classes.volume, classMap.volume)}>
         <div className={cx(classes.table)}>
           <div className={cx(classes.part, classes.fit)}>
-            <a href='#' onClick={this.toggleMute.bind(this)}>
+            <a href='#' onClick={::this.toggleMute}>
               <i className='material-icons'>{this.props.muted ? 'volume_mute' : 'volume_up'}</i>
             </a>
           </div>
@@ -120,10 +120,14 @@ export default class Player extends Component {
   renderVolumeBar (classMap) {
     const volume = this.props.editing ? this.props.defaultVolume : this.props.volume;
     const activeStyle = {
-      width: volume + '%'
+      width: `${volume}%`
     };
     return (
-      <div ref='volume' className={cx(classes.bar, classMap.bars, classes.volumeBar)} onClick={this.onVolumeClick.bind(this)}>
+      <div
+        ref='volume'
+        className={cx(classes.bar, classMap.bars, classes.volumeBar)}
+        onClick={::this.onVolumeClick}
+      >
         <div className={cx(classes.streamBars, classMap.active)} style={activeStyle}></div>
       </div>
     );
@@ -151,15 +155,23 @@ export default class Player extends Component {
 
   renderProgressBar (classMap) {
     const streamStyle = {
-      width: (this.props.loadedPercentage * 100) + '%'
+      width: `${this.props.loadedPercentage * 100}%`
     };
     const activeStyle = {
-      width: (this.props.playedPercentage * 100) + '%'
+      width: `${this.props.playedPercentage * 100}%`
     };
     return (
       <div ref='bars' className={cx(classes.bar, classMap.bars)}>
-        <div className={cx(classes.streamBars, classMap.stream)} style={streamStyle} onClick={::this.onProgressClick}></div>
-        <div className={cx(classes.streamBars, classMap.active)} style={activeStyle} onClick={::this.onProgressClick}></div>
+        <div
+          className={cx(classes.streamBars, classMap.stream)}
+          style={streamStyle}
+          onClick={::this.onProgressClick}
+        />
+        <div
+          className={cx(classes.streamBars, classMap.active)}
+          style={activeStyle}
+          onClick={::this.onProgressClick}
+        />
       </div>
     );
   }

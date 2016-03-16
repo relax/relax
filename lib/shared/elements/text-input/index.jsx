@@ -31,7 +31,12 @@ export default class TextInput extends Component {
 
     return (
       <Element {...props}>
-        <input type='text' name={this.props.name} placeholder={this.props.placeholder} className={cx(classes.input, classMap.input)}></input>
+        <input
+          type='text'
+          name={this.props.name}
+          placeholder={this.props.placeholder}
+          className={cx(classes.input, classMap.input)}
+        />
       </Element>
     );
   }

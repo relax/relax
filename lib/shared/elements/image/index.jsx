@@ -69,7 +69,7 @@ export default class Image extends Component {
       style.height = this.props.height;
       style.overflow = 'hidden';
 
-      Utils.translate(imageStyle, 0, '-' + this.props.vertical);
+      Utils.translate(imageStyle, 0, `-${this.props.vertical}`);
       imageStyle.top = parseInt(this.props.height, 10) * (parseInt(this.props.vertical, 10) / 100);
       imageStyle.position = 'relative';
     }
@@ -82,7 +82,13 @@ export default class Image extends Component {
     }
 
     return (
-      <Element {...this.props.relax} htmlTag='div' className={cx(this.props.useOver && classes.overable)} style={style} settings={settings}>
+      <Element
+        {...this.props.relax}
+        htmlTag='div'
+        className={cx(this.props.useOver && classes.overable)}
+        style={style}
+        settings={settings}
+      >
         {this.renderImage(imageStyle)}
       </Element>
     );
