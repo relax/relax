@@ -13,7 +13,7 @@
     "dev": "./node_modules/.bin/parallelshell 'npm run webpackServer' 'npm run watchServer'",
     "watchServer": "./node_modules/.bin/nodemon -e js,jsx,json -w app.js -w lib -i lib/client -x './node_modules/webpack/bin/webpack.js --config ./webpack/webpack.node.config.js --progress && node build/app'",
     "webpackServer": "node_modules/.bin/webpack-dev-server --config ./webpack/webpack.browser.config.js --inline --hot --progress --display-error-details",
-    "lint": "node_modules/.bin/eslint lib/**"
+    "lint": "node_modules/.bin/eslint lib/** --quiet"
   },
   "dependencies": {
     "babel-polyfill": "^6.3.14",

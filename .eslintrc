@@ -5,7 +5,7 @@
     "object-curly-spacing": [2, "never"],
     "space-before-function-paren": [2, "always"],
     "comma-dangle": [2, "never"],
-    'max-len': [2, 115, 2, {
+    'max-len': [1, 115, 2, {
       'ignoreUrls': true,
       'ignoreComments': false
     }],
@@ -14,6 +14,7 @@
     "no-param-reassign": [2, {"props": false}],
     'react/prefer-stateless-function': 0,
     "consistent-return": 0,
+    new-cap: [2, {"capIsNewExceptions": ["ObjectId"]}],
     "jsx-quotes": 0,
     'react/jsx-no-bind': [2, {
       'ignoreRefs': true,
