@@ -23,7 +23,12 @@ export default class Edit extends Component {
 
   renderOptions () {
     const {styleOptions, selectedStyle, display} = this.props;
-    const values = getElementStyleValues(styleOptions.defaults, selectedStyle.options, selectedStyle.displayOptions, display);
+    const values = getElementStyleValues(
+      styleOptions.defaults,
+      selectedStyle.options,
+      selectedStyle.displayOptions,
+      display
+    );
 
     return (
       <OptionsList

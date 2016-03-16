@@ -17,12 +17,6 @@ export default class Filter extends Component {
     new: PropTypes.bool
   };
 
-  componentDidMount () {
-    this.setState({
-      ready: true
-    });
-  }
-
   getDateString (gran, value) {
     let str;
     if (gran === 'present') {
@@ -51,9 +45,15 @@ export default class Filter extends Component {
         <div className='filter' onClick={::this.onClick} ref={(ref) => {
           this.ref = ref;
           !this.state.ready && this.setState({ready: true});
-        }}>
+        }}
+        >
           {this.renderContent()}
-          {!this.props.new && <div className='filter-remove' onClick={::this.onRemove}><i className='material-icons'>delete</i></div>}
+          {
+            !this.props.new &&
+            <div className='filter-remove' onClick={::this.onRemove}>
+              <i className='material-icons'>delete</i>
+            </div>
+          }
         </div>
         {this.renderEditing()}
       </div>

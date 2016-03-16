@@ -28,8 +28,14 @@ export default class Balloon extends Component {
     return (
       <Portal>
         <Stick element={this.props.element} {...stickProps}>
-          <div className={cx(styles.balloon, white && styles.white, small && styles.small, unpadded && styles.unpadded)}>
-            <span className={styles.triangle}/>
+          <div className={cx(
+            styles.balloon,
+            white && styles.white,
+            small && styles.small,
+            unpadded && styles.unpadded
+          )}
+          >
+            <span className={styles.triangle} />
             <div>
               {this.props.children}
             </div>

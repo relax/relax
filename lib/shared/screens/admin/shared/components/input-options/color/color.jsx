@@ -51,7 +51,13 @@ export default class Color extends Component {
     };
 
     return (
-      <div className={styles.color} style={style} onClick={::this.onClick} onMouseEnter={::this.onMouseEnter} onMouseLeave={::this.onMouseLeave}>
+      <div
+        className={styles.color}
+        style={style}
+        onClick={::this.onClick}
+        onMouseEnter={::this.onMouseEnter}
+        onMouseLeave={::this.onMouseLeave}
+      >
         {this.renderInfo()}
       </div>
     );
@@ -62,7 +68,13 @@ export default class Color extends Component {
     if (this.state.overed) {
       return (
         <Portal>
-          <Stick element={this.state.element} verticalPosition='top' horizontalPosition='center' verticalOffset={3} className={styles.colorTitleBallon}>
+          <Stick
+            element={this.state.element}
+            verticalPosition='top'
+            horizontalPosition='center'
+            verticalOffset={3}
+            className={styles.colorTitleBallon}
+          >
             <div className={styles.colorTitle}>
               <span className={styles.triangle} />
               <span className={styles.label}>{color.label}</span>

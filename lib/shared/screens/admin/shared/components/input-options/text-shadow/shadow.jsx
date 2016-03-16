@@ -34,7 +34,8 @@ export default class Shadow extends Component {
         <div className={styles.content} onClick={::this.onClick} ref={(ref) => {
           this.ref = ref;
           !this.state.ready && this.setState({ready: true});
-        }}>
+        }}
+        >
           <div>{`${getColor(shadow.color).label}, ${shadow.x} ${shadow.y}, ${shadow.blur}`}</div>
           <div className={styles.removeButton} onClick={::this.onRemove}>
             <i className='nc-icon-mini ui-1_trash-simple'></i>

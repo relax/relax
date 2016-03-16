@@ -50,12 +50,13 @@ export default class Opacity extends Component {
   render () {
     const {opacity, colr} = this.props;
     const markerStyle = {
-      left: opacity + '%',
+      left: `${opacity}%`,
       transform: `translate(${-opacity}%, -50%)`
     };
     const rgb = colr.toRgbObject();
     const gradStyle = {
-      background: `linear-gradient(to right, rgba(${rgb.r},${rgb.g},${rgb.b},0) 0%,rgba(${rgb.r},${rgb.g},${rgb.b},1) 100%)`
+      background:
+        `linear-gradient(to right, rgba(${rgb.r},${rgb.g},${rgb.b},0) 0%,rgba(${rgb.r},${rgb.g},${rgb.b},1) 100%)`
     };
 
     return (

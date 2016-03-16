@@ -56,24 +56,32 @@ export default class Edit extends Component {
 
   onClose (event) {
     const holderRect = findDOMNode(this.refs.holder).getBoundingClientRect();
-    const outOfHolder = (event.pageX < holderRect.left || event.pageX > holderRect.left + holderRect.width) || (event.pageY < holderRect.top || event.pageY > holderRect.top + holderRect.height);
+    const outOfHolder =
+      (event.pageX < holderRect.left || event.pageX > holderRect.left + holderRect.width) ||
+      (event.pageY < holderRect.top || event.pageY > holderRect.top + holderRect.height);
 
     let outOfGradient = true;
     if (this.refs.linearGradient) {
       const gradientRect = findDOMNode(this.refs.linearGradient).getBoundingClientRect();
-      outOfGradient = (event.pageX < gradientRect.left - 10 || event.pageX > gradientRect.left + gradientRect.width + 10) || (event.pageY < gradientRect.top - 10 || event.pageY > gradientRect.top + gradientRect.height + 10);
+      outOfGradient =
+        (event.pageX < gradientRect.left - 10 || event.pageX > gradientRect.left + gradientRect.width + 10) ||
+        (event.pageY < gradientRect.top - 10 || event.pageY > gradientRect.top + gradientRect.height + 10);
     }
 
     let outOfRadial = true;
     if (this.refs.radialGradient) {
       const gradientRect = findDOMNode(this.refs.radialGradient).getBoundingClientRect();
-      outOfRadial = (event.pageX < gradientRect.left - 10 || event.pageX > gradientRect.left + gradientRect.width + 10) || (event.pageY < gradientRect.top - 10 || event.pageY > gradientRect.top + gradientRect.height + 10);
+      outOfRadial =
+        (event.pageX < gradientRect.left - 10 || event.pageX > gradientRect.left + gradientRect.width + 10) ||
+        (event.pageY < gradientRect.top - 10 || event.pageY > gradientRect.top + gradientRect.height + 10);
     }
 
     let outOfInfo = true;
     if (this.props.infoElement) {
       const infoRect = findDOMNode(this.props.infoElement).getBoundingClientRect();
-      outOfInfo = (event.pageX < infoRect.left || event.pageX > infoRect.left + infoRect.width) || (event.pageY < infoRect.top || event.pageY > infoRect.top + infoRect.height);
+      outOfInfo =
+        (event.pageX < infoRect.left || event.pageX > infoRect.left + infoRect.width) ||
+        (event.pageY < infoRect.top || event.pageY > infoRect.top + infoRect.height);
     }
 
     if (outOfHolder && outOfGradient && outOfInfo && outOfRadial) {
@@ -84,7 +92,20 @@ export default class Edit extends Component {
   }
 
   render () {
-    const {type, colr, opacity, gradients, hsvChange, rgbChange, hexChange, opacityChange, inputType, previousInputType, nextInputType, editingPoint} = this.props;
+    const {
+      type,
+      colr,
+      opacity,
+      gradients,
+      hsvChange,
+      rgbChange,
+      hexChange,
+      opacityChange,
+      inputType,
+      previousInputType,
+      nextInputType,
+      editingPoint
+    } = this.props;
     const isGradient = (type === 'linear' || type === 'radial');
 
     return (

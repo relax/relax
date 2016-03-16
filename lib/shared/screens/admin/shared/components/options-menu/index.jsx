@@ -14,7 +14,7 @@ export default class OptionsMenu extends Component {
       </div>
     );
   }
-  
+
   renderOption (option, key) {
     return (
       <button onClick={option.action || 'return false;'} key={key}>

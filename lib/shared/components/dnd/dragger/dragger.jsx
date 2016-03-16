@@ -1,6 +1,6 @@
+import velocity from 'velocity-animate';
 import Component from 'components/component';
 import Portal from 'components/portal';
-import velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
@@ -17,10 +17,10 @@ export default class Dragger extends Component {
   };
 
   getInitState () {
-    const {draggingData} = this.props;
+    const {draggingData, offset} = this.props;
     return {
-      top: draggingData.elementOffset.top + (this.props.offset && this.props.offset.top ? this.props.offset.top : 0),
-      left: draggingData.elementOffset.left + (this.props.offset && this.props.offset.left ? this.props.offset.left : 0)
+      top: draggingData.elementOffset.top + (offset && offset.top ? offset.top : 0),
+      left: draggingData.elementOffset.left + (offset && offset.left ? offset.left : 0)
     };
   }
 
@@ -34,19 +34,19 @@ export default class Dragger extends Component {
 
     const relativeX = draggingData.mouseX - draggingData.elementOffset.left;
     const relativeY = draggingData.mouseY - draggingData.elementOffset.top;
-    node.style.transformOrigin = relativeX + 'px ' + relativeY + 'px';
+    node.style.transformOrigin = `${relativeX}px ${relativeY}px`;
 
     velocity(node, {
       scaleX: '0.5',
       scaleY: '0.5',
       opacity: '0.7'
-    }, { duration: 500, easing: 'easeOutExpo' });
+    }, {duration: 500, easing: 'easeOutExpo'});
 
     document.addEventListener('mouseup', this.onMouseUpListener);
     document.addEventListener('mousemove', this.onMouseMoveListener);
   }
 
-  onMouseUp (event) {
+  onMouseUp () {
     const {dragInfo, dropInfo, onStopDrag, dndActions} = this.props;
 
     document.removeEventListener('mouseup', this.onMouseUpListener);
@@ -72,9 +72,9 @@ export default class Dragger extends Component {
   render () {
     const {draggingData} = this.props;
     const style = {
-      width: draggingData.elementWidth + 'px',
-      top: this.state.top + 'px',
-      left: this.state.left + 'px'
+      width: `${draggingData.elementWidth}px`,
+      top: `${this.state.top}px`,
+      left: `${this.state.left}px`
     };
 
     return (

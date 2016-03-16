@@ -78,7 +78,12 @@ export default class Menu extends Component {
       const {opened} = this.state;
       return (
         <button className={styles.caret} onClick={this.caretToggle}>
-          <i className={cx('nc-icon-outline', opened ? 'arrows-1_small-triangle-up' : 'arrows-1_small-triangle-down')} />
+          <i
+            className={cx(
+              'nc-icon-outline',
+              opened ? 'arrows-1_small-triangle-up' : 'arrows-1_small-triangle-down'
+            )}
+          />
         </button>
       );
     }

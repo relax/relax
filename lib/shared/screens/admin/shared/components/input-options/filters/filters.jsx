@@ -35,7 +35,12 @@ export default class Filters extends Component {
   renderFilter (filter, index) {
     const editing = this.props.editOpened && this.props.editIndex === index;
     return (
-      <Filter editing={editing} {...this.props} index={index} filter={editing ? this.props.editingFilter : filter} />
+      <Filter
+        editing={editing}
+        {...this.props}
+        index={index}
+        filter={editing ? this.props.editingFilter : filter}
+      />
     );
   }
 

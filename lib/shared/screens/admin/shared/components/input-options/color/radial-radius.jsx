@@ -10,6 +10,13 @@ export default class RadialRadius extends Component {
     changeRadius: PropTypes.func.isRequired
   };
 
+  init () {
+    this.onCCClick = this.onClick.bind(this, 'cc');
+    this.onFCClick = this.onClick.bind(this, 'fc');
+    this.onCSClick = this.onClick.bind(this, 'cs');
+    this.onFSClick = this.onClick.bind(this, 'fs');
+  }
+
   onClick (radius, event) {
     event.preventDefault();
     this.props.changeRadius(radius);
@@ -23,7 +30,10 @@ export default class RadialRadius extends Component {
     return (
       <div className={styles.root}>
         <div className={styles.label}>Radius</div>
-        <div className={cx(styles.option, styles.cc, radius === 'cc' && styles.active)} onClick={this.onClick.bind(this, 'cc')}>
+        <div
+          className={cx(styles.option, styles.cc, radius === 'cc' && styles.active)}
+          onClick={this.onCCClick}
+        >
           <svg>
             <line
               x1={radialCenterX}
@@ -47,7 +57,10 @@ export default class RadialRadius extends Component {
             />
           </svg>
         </div>
-        <div className={cx(styles.option, styles.fc, radius === 'fc' && styles.active)} onClick={this.onClick.bind(this, 'fc')}>
+        <div
+          className={cx(styles.option, styles.fc, radius === 'fc' && styles.active)}
+          onClick={this.onFCClick}
+        >
           <svg>
             <line
               x1={radialCenterX}
@@ -71,7 +84,10 @@ export default class RadialRadius extends Component {
             />
           </svg>
         </div>
-        <div className={cx(styles.option, styles.cs, radius === 'cs' && styles.active)} onClick={this.onClick.bind(this, 'cs')}>
+        <div
+          className={cx(styles.option, styles.cs, radius === 'cs' && styles.active)}
+          onClick={this.onCSClick}
+        >
           <svg>
             <line
               x1={radialCenterX}
@@ -95,7 +111,10 @@ export default class RadialRadius extends Component {
             />
           </svg>
         </div>
-        <div className={cx(styles.option, styles.fs, radius === 'fs' && styles.active)} onClick={this.onClick.bind(this, 'fs')}>
+        <div
+          className={cx(styles.option, styles.fs, radius === 'fs' && styles.active)}
+          onClick={this.onFSClick}
+        >
           <svg>
             <line
               x1={radialCenterX}

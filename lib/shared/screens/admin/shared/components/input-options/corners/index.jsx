@@ -40,8 +40,8 @@ export default class CornersPicker extends Component {
   }
 
   parseValue (value) {
-    var values = value.split(' ');
-    var result = {
+    const values = value.split(' ');
+    const result = {
       tl: 0,
       bl: 0,
       tr: 0,
@@ -50,7 +50,7 @@ export default class CornersPicker extends Component {
     };
 
     if (values.length === 1) {
-      var parsedValue = parseInt(values[0], 10);
+      const parsedValue = parseInt(values[0], 10);
       result.tl = parsedValue;
       result.br = parsedValue;
       result.bl = parsedValue;
@@ -105,17 +105,24 @@ export default class CornersPicker extends Component {
           {this.renderToggleButton('center', values.equal)}
         </div>
         <div className='inputs'>
-          <NumberInput className='micro' value={value} onChange={this.onInputChange.bind(this)} inactive={inactive} label='px' />
+          <NumberInput
+            className='micro'
+            value={value}
+            onChange={::this.onInputChange}
+            inactive={inactive}
+            label='px'
+          />
         </div>
       </div>
     );
   }
 
   renderToggleButton (pos, active) {
+    const onClick = this.changeSelected.bind(this, pos);
     return (
       <div
         className={cx('toggle', pos, this.state.selected === pos && 'selected', active && 'active')}
-        onClick={this.changeSelected.bind(this, pos)}
+        onClick={onClick}
       />
     );
   }

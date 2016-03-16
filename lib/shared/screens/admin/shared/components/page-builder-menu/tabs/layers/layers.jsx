@@ -27,7 +27,16 @@ export default class Layers extends Component {
           <button className={styles.trigger} onClick={pageBuilderActions.collapseAll}>Collapse all</button>
         </div>
         <div className={styles.structureList}>
-          {data.body && data.body.children && this.renderList(data.body.children, {type: 'body', id: 'body'}, {accepts: 'Section'}, {tag: 'body'})}
+          {
+            data.body &&
+            data.body.children &&
+            this.renderList(
+              data.body.children,
+              {type: 'body', id: 'body'},
+              {accepts: 'Section'},
+              {tag: 'body'}
+            )
+          }
         </div>
       </Scrollable>
     );
@@ -54,13 +63,22 @@ export default class Layers extends Component {
   }
 
   renderListEntry (elementId) {
-    const {elements, data, expanded, userExpanded, dragging, pageBuilderActions, selectedId, overedId} = this.props;
+    const {
+      elements,
+      data,
+      expanded,
+      userExpanded,
+      dragging,
+      pageBuilderActions,
+      selectedId,
+      overedId
+    } = this.props;
     const element = data[elementId];
     const hasChildren = element.children instanceof Array && element.children.length > 0;
     const ElementClass = elements[element.tag];
     const dropInfo = {id: element.id};
     let dropSettings = ElementClass.settings.drop;
-    const isExpanded = hasChildren && (expanded[elementId] || userExpanded[elementId]) ? true : false;
+    const isExpanded = hasChildren && (expanded[elementId] || userExpanded[elementId]) && true;
 
     if (dropSettings !== false) {
       dropSettings = Object.assign({}, ElementClass.settings.drop, {

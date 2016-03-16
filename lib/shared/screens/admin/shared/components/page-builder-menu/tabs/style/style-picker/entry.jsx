@@ -75,10 +75,12 @@ export default class Entry extends Component {
   renderOptionsMenu () {
     if (this.state.options) {
       return (
-        <OptionsMenu options={[
-          {label: 'Duplicate', action: ::this.duplicate, icon: 'nc-icon-mini files_single-copy-04'},
-          {label: 'Remove', action: ::this.remove, icon: 'nc-icon-mini ui-1_trash'}
-        ]} />
+        <OptionsMenu
+          options={[
+            {label: 'Duplicate', action: ::this.duplicate, icon: 'nc-icon-mini files_single-copy-04'},
+            {label: 'Remove', action: ::this.remove, icon: 'nc-icon-mini ui-1_trash'}
+          ]}
+        />
       );
     }
   }

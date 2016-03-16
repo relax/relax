@@ -43,7 +43,7 @@ export default class ColorPicker extends Component {
 
     return (
       <div className={cx(white && styles.white, this.props.className)}>
-        <div className={styles.info} onClick={::this.toggleOpen} ref={(ref) => this.ref = ref}>
+        <div className={styles.info} onClick={::this.toggleOpen} ref={(ref) => {this.ref = ref;}}>
           <div className={styles.preview}>
             <span className={styles.color} style={colorStyle} />
           </div>
@@ -58,7 +58,13 @@ export default class ColorPicker extends Component {
     if (this.props.opened) {
       return (
         <Portal>
-          <Stick element={this.ref} verticalPosition='bottom' horizontalPosition='left' transition='slideUpIn' horizontalOffset={-9}>
+          <Stick
+            element={this.ref}
+            verticalPosition='bottom'
+            horizontalPosition='left'
+            transition='slideUpIn'
+            horizontalOffset={-9}
+          >
             <Edit {...this.props} infoElement={this.ref} />
           </Stick>
         </Portal>

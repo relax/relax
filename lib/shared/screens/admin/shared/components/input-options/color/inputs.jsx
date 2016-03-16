@@ -19,6 +19,15 @@ export default class Inputs extends Component {
     opacityChange: PropTypes.func.isRequired
   };
 
+  init () {
+    this.onRChange = this.onRGBChange.bind(this, 'r');
+    this.onGChange = this.onRGBChange.bind(this, 'g');
+    this.onBChange = this.onRGBChange.bind(this, 'b');
+    this.onHChange = this.onHSVChange.bind(this, 'h');
+    this.onSChange = this.onHSVChange.bind(this, 's');
+    this.onVChange = this.onHSVChange.bind(this, 'v');
+  }
+
   onHexChange (value) {
     if (hexIsValid(value)) {
       this.props.hexChange(value);
@@ -86,9 +95,9 @@ export default class Inputs extends Component {
       const rgb = colr.toRgbObject();
       return (
         <div className={styles.inputs}>
-          <Input small value={rgb.r} label='R' onChange={this.onRGBChange.bind(this, 'r')} />
-          <Input small value={rgb.g} label='G' onChange={this.onRGBChange.bind(this, 'g')} />
-          <Input small value={rgb.b} label='B' onChange={this.onRGBChange.bind(this, 'b')} />
+          <Input small value={rgb.r} label='R' onChange={this.onRChange} />
+          <Input small value={rgb.g} label='G' onChange={this.onGChange} />
+          <Input small value={rgb.b} label='B' onChange={this.onBChange} />
           <Input small value={opacity} label='A' onChange={::this.onOpacityChange} />
         </div>
       );
@@ -96,9 +105,9 @@ export default class Inputs extends Component {
       const hsv = colr.toHsvObject();
       return (
         <div className={styles.inputs}>
-          <Input small value={hsv.h} label='H' onChange={this.onHSVChange.bind(this, 'h')} />
-          <Input small value={hsv.s} label='S' onChange={this.onHSVChange.bind(this, 's')} />
-          <Input small value={hsv.v} label='V' onChange={this.onHSVChange.bind(this, 'v')} />
+          <Input small value={hsv.h} label='H' onChange={this.onHChange} />
+          <Input small value={hsv.s} label='S' onChange={this.onSChange} />
+          <Input small value={hsv.v} label='V' onChange={this.onVChange} />
           <Input small value={opacity} label='A' onChange={::this.onOpacityChange} />
         </div>
       );

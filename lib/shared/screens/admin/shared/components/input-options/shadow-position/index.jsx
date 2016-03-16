@@ -10,6 +10,11 @@ export default class ShadowPosition extends Component {
     onChange: PropTypes.func.isRequired
   };
 
+  init () {
+    this.onOutset = this.onClick.bind(this, 'outset');
+    this.onInset = this.onClick.bind(this, 'inset');
+  }
+
   onClick (to) {
     this.props.onChange(to);
   }
@@ -18,8 +23,14 @@ export default class ShadowPosition extends Component {
     const {value} = this.props;
     return (
       <div className={styles.root}>
-        <button className={cx(styles.outset, value === 'outset' && styles.active)} onClick={this.onClick.bind(this, 'outset')} />
-        <button className={cx(styles.inset, value === 'inset' && styles.active)} onClick={this.onClick.bind(this, 'inset')} />
+        <button
+          className={cx(styles.outset, value === 'outset' && styles.active)}
+          onClick={this.onOutset}
+        />
+        <button
+          className={cx(styles.inset, value === 'inset' && styles.active)}
+          onClick={this.onInset}
+        />
       </div>
     );
   }

@@ -41,7 +41,12 @@ export default class Inputs extends Component {
   render () {
     const {small, value, label} = this.props;
     return (
-      <div className={cx(styles.input, small && styles.small)} onFocus={::this.onFocus} onBlur={::this.onBlur} onChange={::this.onChange}>
+      <div
+        className={cx(styles.input, small && styles.small)}
+        onFocus={::this.onFocus}
+        onBlur={::this.onBlur}
+        onChange={::this.onChange}
+      >
         <input className={styles.inputField} type='text' value={this.state.focused ? this.state.value : value} />
         <div className={styles.label}>{label}</div>
       </div>

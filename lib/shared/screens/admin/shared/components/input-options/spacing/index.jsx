@@ -42,8 +42,8 @@ export default class SpacingPicker extends Component {
   }
 
   parseValue (value) {
-    var values = value.split(' ');
-    var result = {
+    const values = value.split(' ');
+    const result = {
       top: 0,
       left: 0,
       right: 0,
@@ -52,7 +52,7 @@ export default class SpacingPicker extends Component {
     };
 
     if (values.length === 1) {
-      var parsedValue = parseInt(values[0], 10);
+      const parsedValue = parseInt(values[0], 10);
       result.top = parsedValue;
       result.bottom = parsedValue;
       result.left = parsedValue;
@@ -86,15 +86,18 @@ export default class SpacingPicker extends Component {
   }
 
   render () {
-    var values = this.state.values;
-    var value = 0;
-    var inactive = false;
+    const values = this.state.values;
+    let value = 0;
+    let inactive = false;
 
     if (this.state.selected !== 'center') {
       value = values[this.state.selected];
     } else {
       inactive = !values.equal;
-      value = values.equal ? values.top : Math.round((values.top + values.right + values.bottom + values.left) / 4);
+      value =
+        values.equal ?
+        values.top :
+        Math.round((values.top + values.right + values.bottom + values.left) / 4);
     }
 
     return (
@@ -115,8 +118,17 @@ export default class SpacingPicker extends Component {
   }
 
   renderToggleButton (pos, icon, active) {
+    const onClick = this.changeSelected.bind(this, pos);
     return (
-      <div className={cx(styles.toggle, styles[pos], this.state.selected === pos && styles.selected, active && styles.active)} onClick={this.changeSelected.bind(this, pos)}>
+      <div
+        className={cx(
+          styles.toggle,
+          styles[pos],
+          this.state.selected === pos && styles.selected,
+          active && styles.active
+        )}
+        onClick={onClick}
+      >
         <i className={cx('nc-icon-mini', icon)}></i>
       </div>
     );

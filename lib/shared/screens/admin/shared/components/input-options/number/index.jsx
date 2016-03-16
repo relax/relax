@@ -63,7 +63,7 @@ export default class NumberInput extends Component {
       value = (value === false || isNaN(value)) ? this.limitValue(0) : value;
 
       let unit = defaultUnit;
-      const valueLength = (value + '').length;
+      const valueLength = (value.toString()).length;
 
       if (valueLength < str.length && this.props.allowed.indexOf(str.substr(valueLength)) > -1) {
         unit = str.substr(valueLength);
@@ -134,7 +134,14 @@ export default class NumberInput extends Component {
     const value = this.props.inactive ? '--' : this.props.value;
 
     return (
-      <div className={cx(styles.root, focused && styles.focused, white && styles.white, small && styles.small, className)}>
+      <div className={cx(
+          styles.root,
+          focused && styles.focused,
+          white && styles.white,
+          small && styles.small,
+          className
+        )}
+      >
         <input
           className={styles.input}
           type='text'

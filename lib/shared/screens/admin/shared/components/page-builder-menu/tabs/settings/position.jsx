@@ -90,7 +90,7 @@ export default class PositionSettings extends Component {
       position: 'static'
     };
     return (
-      <OptionsList options={PositionSettings.options} onChange={this.onChange.bind(this)} values={values} />
+      <OptionsList options={PositionSettings.options} onChange={::this.onChange} values={values} />
     );
   }
 }

@@ -11,7 +11,10 @@ export default class Portal extends Component {
   };
 
   componentDidMount () {
-    this._target = this.props.attachTo ? document.getElementById(this.props.attachTo).appendChild(document.createElement('div')) : document.body.appendChild(document.createElement('div'));
+    this._target =
+      this.props.attachTo ?
+      document.getElementById(this.props.attachTo).appendChild(document.createElement('div')) :
+      document.body.appendChild(document.createElement('div'));
     this._portal = renderSubtreeIntoContainer(this, this.props.children, this._target);
   }
 
@@ -21,7 +24,11 @@ export default class Portal extends Component {
 
   componentWillUnmount () {
     ReactDOM.unmountComponentAtNode(this._target);
-    this.props.attachTo ? document.getElementById(this.props.attachTo).removeChild(this._target) : document.body.removeChild(this._target);
+    if (this.props.attachTo) {
+      document.getElementById(this.props.attachTo).removeChild(this._target);
+    } else {
+      document.body.removeChild(this._target);
+    }
   }
 
   render () {

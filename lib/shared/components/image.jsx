@@ -14,7 +14,7 @@ export default class Image extends Component {
   render () {
     if (this.props.id && this.props.id !== '') {
       const url = utils.getBestImageUrl(this.props.id, this.props.width);
-      var extraProps = {};
+      const extraProps = {};
 
       forEach(this.props, (value, key) => {
         if (key !== 'id' && key !== 'width' && key !== 'height') {
