@@ -10,6 +10,7 @@ import {mergeFragments} from 'relate-js';
 
 import styles from './media.less';
 import List from './list';
+import Uploading from './uploading';
 
 export default class Media extends Component {
   static fragments = mergeFragments(
@@ -21,13 +22,15 @@ export default class Media extends Component {
 
   static propTypes = {
     media: PropTypes.array.isRequired,
-    mediaCount: PropTypes.number
+    mediaCount: PropTypes.number,
+    uploadMediaFiles: PropTypes.func.isRequired
   };
 
   render () {
     return (
       <div className={styles.holder}>
         {this.renderContent()}
+        <Uploading />
       </div>
     );
   }
@@ -44,8 +47,9 @@ export default class Media extends Component {
   }
 
   renderNoContent () {
+    const {uploadMediaFiles} = this.props;
     return (
-      <Upload clickable={false} infos>
+      <Upload clickable={false} infos onFiles={uploadMediaFiles}>
         <div className={styles.none}>
           <div className={styles.noneContent}>
             <div className={styles.noneTitle}>
@@ -57,7 +61,7 @@ export default class Media extends Component {
             <div className={styles.noneText}>
               Just worry about the upload, we’ll take care of categorizing it for you.
             </div>
-            <Upload showInfos={false} className={styles.uploadButton}>
+            <Upload showInfos={false} className={styles.uploadButton} onFiles={uploadMediaFiles}>
               <i className='nc-icon-outline arrows-1_cloud-upload-94'></i>
               <span>Upload</span>
             </Upload>
