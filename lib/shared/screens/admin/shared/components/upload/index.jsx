@@ -10,7 +10,7 @@ export default class Upload extends Component {
     accept: PropTypes.string,
     clickable: PropTypes.bool,
     children: PropTypes.node,
-    onFile: PropTypes.func.isRequired,
+    onFiles: PropTypes.func.isRequired,
     className: PropTypes.string,
     activeClassName: PropTypes.string,
     rejectClassName: PropTypes.string,
@@ -25,16 +25,17 @@ export default class Upload extends Component {
   };
 
   onDrop (files) {
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        this.props.onFile({
-          file: event.target.result,
-          filename: file.name
-        }, file);
-      };
-      reader.readAsDataURL(file);
-    });
+    this.props.onFiles(files);
+    // files.forEach((file) => {
+    //   const reader = new FileReader();
+    //   reader.onload = (event) => {
+    //     this.props.onFile({
+    //       file: event.target.result,
+    //       filename: file.name
+    //     }, file);
+    //   };
+    //   reader.readAsDataURL(file);
+    // });
   }
 
   render () {

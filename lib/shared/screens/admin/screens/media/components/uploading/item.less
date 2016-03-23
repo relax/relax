@@ -1,0 +1,49 @@
+@import '~styles/colors.less';
+@height: 40px;
+
+.root {
+  height: @height;
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.name, .status {
+  display: table-cell;
+  vertical-align: top;
+  line-height: @height;
+}
+
+.name {
+  color: @adminText;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.status {
+  text-align: right;
+  width: 35px;
+
+  :global i {
+    font-size: 14px;
+    line-height: @height;
+  }
+}
+
+.uploading {
+  padding-top: 8px;
+}
+
+.success {
+  :global i {
+    color: @success;
+  }
+}
+
+.error {
+  :global i {
+    color: @alert;
+  }
+}
