@@ -4,6 +4,16 @@ import React, {PropTypes} from 'react';
 import {getMediaType} from 'helpers/mime-types';
 
 export default class MediaItemPreview extends Component {
+  static fragments = {
+    mediaItem: {
+      _id: 1,
+      type: 1,
+      thumbnail: 1,
+      url: 1,
+      name: 1
+    }
+  };
+
   static propTypes = {
     mediaItem: PropTypes.object.isRequired,
     useThumbnail: PropTypes.bool,
@@ -39,14 +49,7 @@ export default class MediaItemPreview extends Component {
     const {mediaItem, width, height, useThumbnail} = this.props;
     let result;
 
-    if (mediaItem.preview) {
-      result = (
-        <img
-          src={`${mediaItem.preview}`}
-          style={{minWidth: width, minHeight: height}}
-        />
-      );
-    } else if (useThumbnail) {
+    if (useThumbnail) {
       result = (
         <img
           src={`/${mediaItem.thumbnail}`}
@@ -71,7 +74,7 @@ export default class MediaItemPreview extends Component {
     const {mediaItem} = this.props;
     return (
       <img
-        src={`/${mediaItem.url || mediaItem.preview}`}
+        src={`/${mediaItem.url}`}
         style={{
           top: '50%',
           left: '50%',
