@@ -23,14 +23,16 @@ export default class Media extends Component {
   static propTypes = {
     media: PropTypes.array.isRequired,
     mediaCount: PropTypes.number,
-    uploadMediaFiles: PropTypes.func.isRequired
+    uploadMediaFiles: PropTypes.func.isRequired,
+    uploadsVisible: PropTypes.bool.isRequired
   };
 
   render () {
+    const {uploadsVisible} = this.props;
     return (
       <div className={styles.holder}>
         {this.renderContent()}
-        <Uploading />
+        {uploadsVisible && <Uploading />}
       </div>
     );
   }
@@ -72,9 +74,9 @@ export default class Media extends Component {
   }
 
   renderHasContent () {
-    const {media} = this.props;
+    const {media, uploadMediaFiles} = this.props;
     return (
-      <div>
+      <Upload clickable={false} infos onFiles={uploadMediaFiles}>
         <ContentHeader>
           <ContentSearch value='' />
           <ContentHeaderActions>
@@ -84,7 +86,7 @@ export default class Media extends Component {
         <Content>
           <List media={media} />
         </Content>
-      </div>
+      </Upload>
     );
   }
 }
