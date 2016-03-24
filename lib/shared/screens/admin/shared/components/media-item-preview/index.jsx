@@ -69,6 +69,7 @@ export default class MediaItemPreview extends Component {
           id={mediaItem._id}
           width={width}
           height={height}
+          className={styles.cover}
         />
       );
     }
@@ -79,15 +80,7 @@ export default class MediaItemPreview extends Component {
   renderFaviconType () {
     const {mediaItem} = this.props;
     return (
-      <img
-        src={`/${mediaItem.url}`}
-        style={{
-          top: '50%',
-          left: '50%',
-          position: 'absolute',
-          transform: 'translate(-50%, -50%)'
-        }}
-      />
+      <img src={`/${mediaItem.url}`} className={styles.limit} />
     );
   }
 
