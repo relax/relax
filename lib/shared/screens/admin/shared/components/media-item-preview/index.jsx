@@ -3,6 +3,8 @@ import Image from 'components/image';
 import React, {PropTypes} from 'react';
 import {getMediaType} from 'helpers/mime-types';
 
+import styles from './index.less';
+
 export default class MediaItemPreview extends Component {
   static fragments = {
     mediaItem: {
@@ -42,7 +44,11 @@ export default class MediaItemPreview extends Component {
       result = this.renderAudioType();
     }
 
-    return result;
+    return (
+      <div className={styles.root}>
+        {result}
+      </div>
+    );
   }
 
   renderImageType () {
