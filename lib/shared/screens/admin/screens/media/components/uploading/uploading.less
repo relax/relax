@@ -1,21 +1,48 @@
 @import '~styles/colors.less';
 
+@headerHeight: 45px;
+@contentHeight: 280px;
+
 .root {
   position: absolute;
-  top: 0;
-  left: 0;
+  right: 7%;
   bottom: 0;
-  width: 270px;
-  border-right: 1px solid @adminBorders;
-  padding: 20px;
+  width: 370px;
+  border: 1px solid @adminBorders;
+  background-color: #fff;
+}
+
+.header {
+  height: @headerHeight;
+  padding: 0 20px;
+  position: absolute;
+  top: -@headerHeight;
+  left: -1px; right: -1px;
+  border: 1px solid @adminBorders;
+  cursor: pointer;
+  background-color: #f8f8f8;
+  border-radius: 3px 3px 0 0;
 }
 
 .title {
-  font-size: 18px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   color: @adminText;
+  line-height: @headerHeight;
+}
+
+.progress {
+  float: right;
+  font-size: 13px;
+  font-weight: 400;
+  color: @primary;
+  line-height: @headerHeight;
 }
 
 .list {
-  margin-top: 30px;
+  height: @contentHeight;
+}
+
+.listContent {
+  padding: 20px 30px;
 }
