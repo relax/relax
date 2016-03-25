@@ -12,11 +12,12 @@ export default class MediaMenu extends Component {
   static propTypes = {
     children: PropTypes.node,
     pages: PropTypes.array.isRequired,
-    onBack: PropTypes.func.isRequired
+    onBack: PropTypes.func.isRequired,
+    uploadMediaFiles: PropTypes.func.isRequired
   };
 
   render () {
-    const {onBack} = this.props;
+    const {onBack, uploadMediaFiles} = this.props;
 
     return (
       <div>
@@ -24,7 +25,7 @@ export default class MediaMenu extends Component {
           title='Media'
           onBack={onBack}
         >
-          <Upload showInfos={false}>
+          <Upload showInfos={false} onFiles={uploadMediaFiles}>
             <button className={styles.uploadButton}>
               <i className='nc-icon-outline arrows-1_cloud-upload-94'></i>
             </button>
