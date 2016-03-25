@@ -11,8 +11,7 @@ export default class MediaItemPreview extends Component {
       _id: 1,
       type: 1,
       thumbnail: 1,
-      url: 1,
-      name: 1
+      url: 1
     }
   };
 
@@ -85,22 +84,14 @@ export default class MediaItemPreview extends Component {
   }
 
   renderVideoType () {
-    const {mediaItem} = this.props;
     return (
-      <div>
-        <i className='nc-icon-outline media-1_play-69'></i>
-        <span>{mediaItem.name}</span>
-      </div>
+      <i className='nc-icon-outline media-1_play-69'></i>
     );
   }
 
   renderAudioType () {
-    const {mediaItem} = this.props;
     return (
-      <div>
-        <i className='nc-icon-outline media-1_volume-98'></i>
-        <span>{mediaItem.name}</span>
-      </div>
+      <i className='nc-icon-outline media-1_volume-98'></i>
     );
   }
 }
