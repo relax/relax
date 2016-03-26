@@ -1,3 +1,5 @@
+import bind from 'decorators/bind';
+import cx from 'classnames';
 import moment from 'moment';
 import Component from 'components/component';
 import MediaItemPreview from 'components/media-item-preview';
@@ -16,15 +18,23 @@ export default class MediaEntry extends Component {
   }, MediaItemPreview.fragments);
 
   static propTypes = {
-    mediaItem: PropTypes.object.isRequired
+    onClick: PropTypes.func.isRequired,
+    mediaItem: PropTypes.object.isRequired,
+    selected: PropTypes.bool.isRequired
   };
 
+  @bind
+  onClick () {
+    const {onClick, mediaItem} = this.props;
+    onClick(mediaItem._id);
+  }
+
   render () {
-    const {mediaItem} = this.props;
+    const {mediaItem, selected} = this.props;
     const momentDate = moment(mediaItem.date);
 
     return (
-      <div className={styles.entry}>
+      <div className={cx(styles.entry, selected && styles.selected)} onClick={this.onClick}>
         <div className={styles.preview}>
           <MediaItemPreview mediaItem={mediaItem} width={250} height={125} />
         </div>

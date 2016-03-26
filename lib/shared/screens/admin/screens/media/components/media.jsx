@@ -30,7 +30,9 @@ export default class Media extends Component {
     searchChange: PropTypes.func.isRequired,
     sort: PropTypes.string.isRequired,
     order: PropTypes.string.isRequired,
-    location: PropTypes.object.isRequired
+    location: PropTypes.object.isRequired,
+    toggleMediaSelection: PropTypes.func.isRequired,
+    selected: PropTypes.array.isRequired
   };
 
   render () {
@@ -80,7 +82,17 @@ export default class Media extends Component {
   }
 
   renderHasContent () {
-    const {media, uploadMediaFiles, search, searchChange, location, sort, order} = this.props;
+    const {
+      media,
+      uploadMediaFiles,
+      search,
+      searchChange,
+      location,
+      sort,
+      order,
+      toggleMediaSelection,
+      selected
+    } = this.props;
     return (
       <Upload clickable={false} infos onFiles={uploadMediaFiles}>
         <ContentHeader>
@@ -95,7 +107,7 @@ export default class Media extends Component {
           </ContentHeaderActions>
         </ContentHeader>
         <Content>
-          <List media={media} />
+          <List media={media} toggleMediaSelection={toggleMediaSelection} selected={selected} />
         </Content>
       </Upload>
     );
