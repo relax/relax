@@ -1,7 +1,7 @@
 import cx from 'classnames';
-import A from 'components/a';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
+import {Link} from 'react-router';
 
 import styles from './index.less';
 
@@ -9,7 +9,8 @@ export default class MenuSubButton extends Component {
   static propTypes = {
     link: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
-    active: PropTypes.bool
+    active: PropTypes.bool,
+    query: PropTypes.object
   };
 
   static defaultProps = {
@@ -17,14 +18,15 @@ export default class MenuSubButton extends Component {
   };
 
   render () {
-    const {link, label, active} = this.props;
+    const {link, label, active, query} = this.props;
     return (
-      <A
-        href={link}
+      <Link
+        to={link}
+        query={query}
         className={cx(styles.button, active && styles.active)}
       >
         {label}
-      </A>
+      </Link>
     );
   }
 }

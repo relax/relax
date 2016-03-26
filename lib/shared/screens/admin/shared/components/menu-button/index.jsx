@@ -1,7 +1,7 @@
 import cx from 'classnames';
-import A from 'components/a';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
+import {Link} from 'react-router';
 
 import styles from './index.less';
 
@@ -13,7 +13,8 @@ export default class Menu extends Component {
     active: PropTypes.bool,
     onActiveClick: PropTypes.func,
     dark: PropTypes.bool,
-    children: PropTypes.node
+    children: PropTypes.node,
+    query: PropTypes.object
   };
 
   static defaultProps = {
@@ -42,18 +43,19 @@ export default class Menu extends Component {
   }
 
   render () {
-    const {link, label, icon, active, dark} = this.props;
+    const {link, label, icon, active, dark, query} = this.props;
     return (
       <div>
         <div className={styles.buttonHolder}>
-          <A
-            href={link}
+          <Link
+            to={link}
+            query={query}
             className={cx(styles.button, active && styles.active, dark && styles.dark)}
             onClick={::this.onClick}
           >
             <i className={icon}></i>
             <span>{label}</span>
-          </A>
+          </Link>
           {this.renderCaret()}
         </div>
         {this.renderChildren()}

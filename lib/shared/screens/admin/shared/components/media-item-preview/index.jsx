@@ -33,10 +33,10 @@ export default class MediaItemPreview extends Component {
     const type = getMediaType(mediaItem.type);
     let result;
 
-    if (type === 'image') {
-      result = this.renderImageType();
-    } else if (type === 'favicon') {
+    if (type === 'favicon') {
       result = this.renderFaviconType();
+    } else if (type === 'image') {
+      result = this.renderImageType();
     } else if (type === 'video') {
       result = this.renderVideoType();
     } else if (type === 'audio') {
