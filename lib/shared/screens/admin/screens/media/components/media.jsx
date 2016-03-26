@@ -10,6 +10,7 @@ import {mergeFragments} from 'relate-js';
 
 import styles from './media.less';
 import List from './list';
+import Sorting from './sorting';
 import Uploading from './uploading';
 
 export default class Media extends Component {
@@ -26,7 +27,10 @@ export default class Media extends Component {
     uploadMediaFiles: PropTypes.func.isRequired,
     uploadsVisible: PropTypes.bool.isRequired,
     search: PropTypes.string.isRequired,
-    searchChange: PropTypes.func.isRequired
+    searchChange: PropTypes.func.isRequired,
+    sort: PropTypes.string.isRequired,
+    order: PropTypes.string.isRequired,
+    location: PropTypes.object.isRequired
   };
 
   render () {
@@ -76,12 +80,17 @@ export default class Media extends Component {
   }
 
   renderHasContent () {
-    const {media, uploadMediaFiles, search, searchChange} = this.props;
+    const {media, uploadMediaFiles, search, searchChange, location, sort, order} = this.props;
     return (
       <Upload clickable={false} infos onFiles={uploadMediaFiles}>
         <ContentHeader>
           <ContentSearch value={search} onChange={searchChange} />
           <ContentHeaderActions>
+            <Sorting
+              location={location}
+              sort={sort}
+              order={order}
+            />
             <ContentDisplays display='grid' />
           </ContentHeaderActions>
         </ContentHeader>

@@ -1,0 +1,43 @@
+@import '~styles/colors.less';
+
+.root {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.label {
+  display: inline-block;
+  vertical-align: top;
+  color: @adminText;
+  font-size: 12px;
+  margin-right: 20px;
+  line-height: 30px;
+}
+
+.button {
+  display: inline-block;
+  vertical-align: top;
+  color: @adminText;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-right: 25px;
+  line-height: 30px;
+  border: 0;
+  outline: 0;
+
+  :global {
+    i, span {
+      display: inline-block;
+      vertical-align: top;
+      line-height: 30px;
+    }
+    i {
+      margin-left: 5px;
+    }
+  }
+
+  &.active {
+    color: @primary;
+  }
+}
