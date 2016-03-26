@@ -24,7 +24,9 @@ export default class Media extends Component {
     media: PropTypes.array.isRequired,
     mediaCount: PropTypes.number,
     uploadMediaFiles: PropTypes.func.isRequired,
-    uploadsVisible: PropTypes.bool.isRequired
+    uploadsVisible: PropTypes.bool.isRequired,
+    search: PropTypes.string.isRequired,
+    searchChange: PropTypes.func.isRequired
   };
 
   render () {
@@ -74,11 +76,11 @@ export default class Media extends Component {
   }
 
   renderHasContent () {
-    const {media, uploadMediaFiles} = this.props;
+    const {media, uploadMediaFiles, search, searchChange} = this.props;
     return (
       <Upload clickable={false} infos onFiles={uploadMediaFiles}>
         <ContentHeader>
-          <ContentSearch value='' />
+          <ContentSearch value={search} onChange={searchChange} />
           <ContentHeaderActions>
             <ContentDisplays display='grid' />
           </ContentHeaderActions>

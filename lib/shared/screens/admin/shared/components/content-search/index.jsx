@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 
 import styles from './index.less';
 
-export default class ContentHeader extends Component {
+export default class ContentSearch extends Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired
