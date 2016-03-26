@@ -13,11 +13,24 @@ export default class MediaMenu extends Component {
     children: PropTypes.node,
     pages: PropTypes.array.isRequired,
     onBack: PropTypes.func.isRequired,
-    uploadMediaFiles: PropTypes.func.isRequired
+    uploadMediaFiles: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired
   };
 
+  getQuery (type) {
+    const {location} = this.props;
+    return Object.assign(
+      {},
+      location.query,
+      {
+        filter: type
+      }
+    );
+  }
+
   render () {
-    const {onBack, uploadMediaFiles} = this.props;
+    const {onBack, uploadMediaFiles, location} = this.props;
+    const {filter = 'all'} = location.query;
 
     return (
       <div>
@@ -33,14 +46,53 @@ export default class MediaMenu extends Component {
         </ListHeader>
         <Scrollable className={styles.list}>
           <div>
-            <Button link='#' label='All' icon='nc-icon-outline files_single-copies' active />
-            <Button link='#' label='Images' icon='nc-icon-outline media-1_image-02'>
-              <SubButton link='#' label='JPEG' />
-              <SubButton link='#' label='PNG' />
-              <SubButton link='#' label='ICO' />
+            <Button
+              link={location}
+              query={this.getQuery('all')}
+              label='All'
+              icon='nc-icon-outline files_single-copies'
+              active={filter === 'all'}
+            />
+            <Button
+              link={location}
+              query={this.getQuery('image')}
+              label='Images'
+              icon='nc-icon-outline media-1_image-02'
+              active={filter.indexOf('image') !== -1 || filter === 'favicon'}
+            >
+              <SubButton
+                link={location}
+                query={this.getQuery('image/jpeg')}
+                label='JPEG'
+                active={filter === 'image/jpeg'}
+              />
+              <SubButton
+                link={location}
+                query={this.getQuery('image/png')}
+                label='PNG'
+                active={filter === 'image/png'}
+              />
+              <SubButton
+                link={location}
+                query={this.getQuery('favicon')}
+                label='ICO'
+                active={filter === 'favicon'}
+              />
             </Button>
-            <Button link='#' label='Video' icon='nc-icon-outline media-1_play-69' />
-            <Button link='#' label='Audio' icon='nc-icon-outline media-1_volume-98' />
+            <Button
+              link={location}
+              query={this.getQuery('video')}
+              label='Video'
+              icon='nc-icon-outline media-1_play-69'
+              active={filter === 'video'}
+            />
+            <Button
+              link={location}
+              query={this.getQuery('audio')}
+              label='Audio'
+              icon='nc-icon-outline media-1_volume-98'
+              active={filter === 'audio'}
+            />
           </div>
         </Scrollable>
       </div>
