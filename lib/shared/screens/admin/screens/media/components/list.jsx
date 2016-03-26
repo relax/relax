@@ -9,7 +9,9 @@ export default class MediaList extends Component {
   };
 
   static propTypes = {
-    media: PropTypes.array.isRequired
+    media: PropTypes.array.isRequired,
+    toggleMediaSelection: PropTypes.func.isRequired,
+    selected: PropTypes.array.isRequired
   };
 
   render () {
@@ -23,9 +25,12 @@ export default class MediaList extends Component {
   }
 
   renderEntry (mediaItem) {
+    const {toggleMediaSelection, selected} = this.props;
     return (
       <Entry
         mediaItem={mediaItem}
+        onClick={toggleMediaSelection}
+        selected={selected.indexOf(mediaItem._id) !== -1}
         key={mediaItem._id}
       />
     );
