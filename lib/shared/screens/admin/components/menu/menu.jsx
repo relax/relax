@@ -1,8 +1,8 @@
 import cx from 'classnames';
+import velocity from 'velocity-animate';
 import Button from 'components/menu-button';
 import Component from 'components/component';
 import Scrollable from 'components/scrollable';
-import velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 
 import styles from './menu.less';
@@ -73,10 +73,15 @@ export default class Menu extends Component {
   renderEntry (entry, key) {
     let result;
     if (entry === 'sep') {
-      result = <div className={styles.sepperator}/>;
+      result = <div className={styles.sepperator} />;
     } else {
       result = (
-        <Button {...entry} active={this.props.active === entry.label} key={key} onActiveClick={this.props.onActiveClick} />
+        <Button
+          {...entry}
+          active={this.props.active === entry.label}
+          key={key}
+          onActiveClick={this.props.onActiveClick}
+        />
       );
     }
     return result;

@@ -1,3 +1,4 @@
+import A from 'components/a';
 import Button from 'components/menu-button';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
@@ -22,9 +23,9 @@ export default class ContentTypes extends Component {
       <div className={styles.contentTypes}>
         <div className={styles.header}>
           <span className={styles.text}>Content Types</span>
-          <button className={styles.button}>
+          <A href='/admin/schemas/new' className={styles.button}>
             <i className='nc-icon-mini ui-1_circle-bold-add'></i>
-          </button>
+          </A>
         </div>
         {schemas.map(this.renderSchema, this)}
       </div>
