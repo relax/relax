@@ -1,6 +1,5 @@
 import Component from 'components/component';
 import Content from 'components/content';
-import ContentDisplays from 'components/content-displays';
 import ContentHeader from 'components/content-header';
 import ContentHeaderActions from 'components/content-header-actions';
 import ContentNew from 'components/content-new';
@@ -29,7 +28,6 @@ export default class Colors extends Component {
         <ContentHeader>
           <ContentSearch value={search} onChange={searchChange} />
           <ContentHeaderActions>
-            <ContentDisplays display='grid' />
             <ContentNew>Add new color</ContentNew>
           </ContentHeaderActions>
         </ContentHeader>
