@@ -9,11 +9,12 @@ export default class SchemaName extends Component {
   static propTypes = {
     schema: PropTypes.object.isRequired,
     schemaStepBack: PropTypes.func.isRequired,
+    schemaStepForward: PropTypes.func.isRequired,
     changeSchemaTitle: PropTypes.func.isRequired
   };
 
   render () {
-    const {schema, schemaStepBack, changeSchemaTitle} = this.props;
+    const {schema, schemaStepBack, schemaStepForward, changeSchemaTitle} = this.props;
     return (
       <div className={styles.root}>
         <div>
@@ -21,10 +22,19 @@ export default class SchemaName extends Component {
         </div>
         <div className={styles.holder}>
           <div className={styles.header}>Let's give it a name!</div>
-          <Input value={schema.title} onChange={changeSchemaTitle} focus placeholder='Content type name' />
+          <Input
+            value={schema.title}
+            onChange={changeSchemaTitle}
+            focus
+            placeholder='Content type name'
+          />
           <div className={styles.buttons}>
-            <button className={styles.button} onClick={schemaStepBack}>Back</button>
-            <button className={cx(styles.button, styles.primary)}>Next</button>
+            <button className={styles.button} onClick={schemaStepBack}>
+              Back
+            </button>
+            <button className={cx(styles.button, styles.primary)} onClick={schemaStepForward}>
+              Next
+            </button>
           </div>
         </div>
       </div>
