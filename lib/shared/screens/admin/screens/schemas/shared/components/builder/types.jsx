@@ -1,26 +1,36 @@
 import Component from 'components/component';
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import styles from './types.less';
+import Type from './type';
 
-export default class SchemaBuilder extends Component {
+export default class SchemaTypes extends Component {
+  static propTypes = {
+    changeSchemaType: PropTypes.func.isRequired
+  };
+
   render () {
+    const {changeSchemaType} = this.props;
     return (
       <div className={styles.root}>
         <div className={styles.subHeader}>Let's create some new content types!</div>
         <div className={styles.header}>What type of content is this?</div>
         <div className={styles.options}>
-          <button className={styles.option}>
-            <img className={styles.icon} src='/images/admin/url-schema-icon.png' width='64' />
-            <div className={styles.title}>With URL</div>
-            <div className={styles.subTitle}>Single Page</div>
-          </button>
+          <Type
+            changeSchemaType={changeSchemaType}
+            image='/images/admin/url-schema-icon.png'
+            title='With URL'
+            subTitle='Single Page'
+            type='single'
+          />
           <div className={styles.or}>or</div>
-          <button className={styles.option}>
-            <img className={styles.icon} src='/images/admin/data-schema-icon.png' width='64' />
-            <div className={styles.title}>Without URL</div>
-            <div className={styles.subTitle}>Multiple Table Entries</div>
-          </button>
+          <Type
+            changeSchemaType={changeSchemaType}
+            image='/images/admin/data-schema-icon.png'
+            title='Without URL'
+            subTitle='Multiple Table Entries'
+            type='data'
+          />
         </div>
       </div>
     );

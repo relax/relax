@@ -2,10 +2,12 @@ import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
 import styles from './builder.less';
+import Name from './name';
 import Types from './types';
 
 const steps = [
-  Types
+  Types,
+  Name
 ];
 
 export default class SchemaBuilder extends Component {
