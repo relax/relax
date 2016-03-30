@@ -33,25 +33,29 @@
 .or {
   line-height: 320px;
   font-size: 26px;
+  font-weight: 600;
   color: @adminText;
-  padding: 0 30px;
+  padding: 0 50px;
 }
 
 .option {
   width: 320px;
   height: 320px;
   border-radius: 50%;
-  border: 1px solid @adminBorders;
+  border: 1px solid @adminTextSub;
 
-  :global i {
-    display: block;
-    font-size: 60px;
-    color: @adminText;
+  &:hover {
+    border-color: @primary;
   }
+}
+
+.icon {
+  margin-bottom: 20px;
 }
 
 .title {
   font-size: 36px;
+  font-weight: 600;
   color: @adminText;
 }
 
