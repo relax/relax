@@ -11,13 +11,13 @@ export default class SchemaBuilder extends Component {
         <div className={styles.header}>What type of content is this?</div>
         <div className={styles.options}>
           <button className={styles.option}>
-            <i className='nc-icon-outline design_webpage'></i>
+            <img className={styles.icon} src='/images/admin/url-schema-icon.png' width='64' />
             <div className={styles.title}>With URL</div>
             <div className={styles.subTitle}>Single Page</div>
           </button>
           <div className={styles.or}>or</div>
           <button className={styles.option}>
-            <i className='nc-icon-outline files_single-copy-04'></i>
+            <img className={styles.icon} src='/images/admin/data-schema-icon.png' width='64' />
             <div className={styles.title}>Without URL</div>
             <div className={styles.subTitle}>Multiple Table Entries</div>
           </button>
