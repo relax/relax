@@ -1,5 +1,6 @@
 import cx from 'classnames';
 import Component from 'components/component';
+import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
 
 import styles from './model.less';
@@ -15,22 +16,24 @@ export default class SchemaModel extends Component {
   render () {
     const {schema, schemaStepBack, schemaStepForward} = this.props;
     return (
-      <div className={styles.root}>
-        <div>
-          {this.renderSchemaType(schema.type)}
+      <Scrollable>
+        <div className={styles.root}>
+          <div>
+            {this.renderSchemaType(schema.type)}
+          </div>
+          <div className={styles.header}>...and now create the content model.</div>
+          <div className={styles.subHeader}>{`What properties will ${schema.title} single contain?`}</div>
+          <Properties schema={schema} />
+          <div className={styles.buttons}>
+            <button className={styles.button} onClick={schemaStepBack}>
+              Back
+            </button>
+            <button className={cx(styles.button, styles.primary)} onClick={schemaStepForward}>
+              Next
+            </button>
+          </div>
         </div>
-        <div className={styles.header}>...and now create the content model.</div>
-        <div className={styles.subHeader}>{`What properties will ${schema.title} single contain?`}</div>
-        <Properties schema={schema} />
-        <div className={styles.buttons}>
-          <button className={styles.button} onClick={schemaStepBack}>
-            Back
-          </button>
-          <button className={cx(styles.button, styles.primary)} onClick={schemaStepForward}>
-            Next
-          </button>
-        </div>
-      </div>
+      </Scrollable>
     );
   }
 
