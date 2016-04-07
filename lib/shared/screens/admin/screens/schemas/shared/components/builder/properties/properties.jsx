@@ -27,7 +27,7 @@ export default class SchemaProperties extends Component {
     );
   }
 
-  renderProperty (property) {
+  renderProperty (property, key) {
     const {openedProperties, toggleProperty, changePropertySetting} = this.props;
     return (
       <Property
@@ -35,7 +35,7 @@ export default class SchemaProperties extends Component {
         opened={openedProperties.indexOf(property.id) !== -1}
         toggleProperty={toggleProperty}
         changePropertySetting={changePropertySetting}
-        key={property.id}
+        key={key}
       />
     );
   }
