@@ -23,7 +23,7 @@ export default class SchemaModel extends Component {
           </div>
           <div className={styles.header}>...and now create the content model.</div>
           <div className={styles.subHeader}>{`What properties will ${schema.title} single contain?`}</div>
-          <Properties schema={schema} />
+          <Properties />
           <div className={styles.buttons}>
             <button className={styles.button} onClick={schemaStepBack}>
               Back
