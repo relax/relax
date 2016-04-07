@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import A from 'components/a';
 import Button from 'components/menu-button';
 import Component from 'components/component';
@@ -9,7 +10,8 @@ export default class ContentTypes extends Component {
   static fragments = {
     schemas: {
       _id: 1,
-      title: 1
+      title: 1,
+      type: 1
     }
   };
 
@@ -35,7 +37,15 @@ export default class ContentTypes extends Component {
   renderSchema (schema) {
     // design_webpage or files_single-copy-04
     return (
-      <Button link='#' label={schema.title} icon='nc-icon-outline files_single-copy-04' dark />
+      <Button
+        link='#'
+        label={schema.title}
+        icon={cx(
+          'nc-icon-outline',
+          schema.type === 'single' ? 'design_webpage' : 'files_single-copy-04'
+        )}
+        dark
+      />
     );
   }
 }
