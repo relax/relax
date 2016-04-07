@@ -9,6 +9,18 @@
   padding: 15px 25px;
   height: 70px;
   text-align: left;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #fefefe;
+  }
+}
+
+.locked .header {
+  cursor: default;
+  &:hover {
+    background-color: fadeout(@alert, 99%);
+  }
 }
 
 .info {
@@ -44,6 +56,10 @@
   color: @adminText;
   font-size: 10px;
   margin-left: 10px;
+}
+
+.locked .icon {
+  color: fadeout(@alert, 60%);
 }
 
 .type {
