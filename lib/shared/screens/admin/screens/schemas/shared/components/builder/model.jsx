@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import Component from 'components/component';
 import Scrollable from 'components/scrollable';
@@ -10,11 +11,18 @@ export default class SchemaModel extends Component {
   static propTypes = {
     schema: PropTypes.object.isRequired,
     schemaStepBack: PropTypes.func.isRequired,
-    schemaStepForward: PropTypes.func.isRequired
+    schemaStepForward: PropTypes.func.isRequired,
+    addSchema: PropTypes.func.isRequired
   };
 
+  @bind
+  onDone () {
+    const {schema, addSchema} = this.props;
+    addSchema(schema);
+  }
+
   render () {
-    const {schema, schemaStepBack, schemaStepForward} = this.props;
+    const {schema, schemaStepBack} = this.props;
     return (
       <Scrollable>
         <div className={styles.root}>
@@ -28,8 +36,8 @@ export default class SchemaModel extends Component {
             <button className={styles.button} onClick={schemaStepBack}>
               Back
             </button>
-            <button className={cx(styles.button, styles.primary)} onClick={schemaStepForward}>
-              Next
+            <button className={cx(styles.button, styles.primary)} onClick={this.onDone}>
+              Done
             </button>
           </div>
         </div>
