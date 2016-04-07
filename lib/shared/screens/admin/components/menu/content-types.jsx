@@ -35,10 +35,9 @@ export default class ContentTypes extends Component {
   }
 
   renderSchema (schema) {
-    // design_webpage or files_single-copy-04
     return (
       <Button
-        link='#'
+        link={`/admin/schemas/${schema._id}`}
         label={schema.title}
         icon={cx(
           'nc-icon-outline',
