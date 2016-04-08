@@ -3,6 +3,7 @@ import ListHeader from 'components/list-header';
 import ListSearchSort from 'components/list-search-sort';
 import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
+import {mergeFragments} from 'relate-js';
 
 import styles from './menu.less';
 import List from './list';
@@ -41,10 +42,19 @@ const sorts = [
 ];
 
 export default class SchemaMenu extends Component {
-  static fragments = List.fragments;
+  static fragments = mergeFragments(
+    List.fragments,
+    {
+      schema: {
+        _id: 1,
+        title: 1
+      }
+    }
+  );
 
   static propTypes = {
     schemaList: PropTypes.array.isRequired,
+    schema: PropTypes.object.isRequired,
     onBack: PropTypes.func.isRequired,
     onNew: PropTypes.func.isRequired,
     closeNew: PropTypes.func.isRequired,
@@ -57,12 +67,12 @@ export default class SchemaMenu extends Component {
   };
 
   render () {
-    const {schemaList, onBack, onNew, activeSchemaEntryId, sort, order, location, search} = this.props;
+    const {schemaList, schema, onBack, onNew, activeSchemaEntryId, sort, order, location, search} = this.props;
 
     return (
       <div>
         <ListHeader
-          title='Blog'
+          title={schema.title}
           onBack={onBack}
           newIcon='nc-icon-outline ui-2_window-add'
           onNew={onNew}
