@@ -103,7 +103,7 @@ export default class SchemaMenu extends Component {
     if (newOpened) {
       return (
         <Modal small subTitle={`New ${schema.title} entry`} title='What should we call it?' onClose={closeNew}>
-          <New onClose={closeNew} />
+          <New onClose={closeNew} schemaId={schema._id} />
         </Modal>
       );
     }
