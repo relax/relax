@@ -9,14 +9,6 @@ export default class Content extends Component {
   };
 
   render () {
-    return (
-      <div className={styles.holder}>
-        {this.renderContent()}
-      </div>
-    );
-  }
-
-  renderContent () {
     let result;
 
     if (this.props.children) {
