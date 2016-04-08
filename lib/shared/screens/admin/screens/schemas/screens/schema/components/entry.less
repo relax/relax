@@ -1,0 +1,65 @@
+@import '~styles/colors.less';
+
+.root {
+  height: 70px;
+  border-bottom: 1px solid @adminBorders;
+  padding: 13px;
+  position: relative;
+  display: block;
+  text-decoration: none;
+
+  &:hover {
+    background-color: @primaryBack;
+  }
+}
+
+.status {
+  position: absolute;
+  left: 13px;
+  top: 30px;
+  width: 10px;
+  height: 10px;
+  background-color: #F7CF00;
+  border-radius: 50%;
+}
+
+.published {
+  background-color: @primary;
+}
+
+.info {
+  padding-left: 25px;
+  padding-top: 3px;
+}
+
+.title {
+  font-size: 15px;
+  color: @adminTextHighlight;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.date {
+  font-size: 12px;
+  color: @adminText;
+  font-weight: 300;
+}
+
+.active {
+  background-color: @primary;
+
+  .status.published {
+    background-color: #ffffff;
+  }
+  .title {
+    color: #ffffff;
+  }
+  .date {
+    color: #ffffff;
+  }
+
+  &:hover {
+    background-color: @primary;
+  }
+}

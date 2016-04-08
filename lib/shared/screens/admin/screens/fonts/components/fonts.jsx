@@ -7,7 +7,6 @@ import ContentNew from 'components/content-new';
 import Modal from 'components/modal';
 import React, {PropTypes} from 'react';
 
-import styles from './fonts.less';
 import List from './list';
 import Manage from './manage';
 import PreviewText from './preview-text';
@@ -31,7 +30,7 @@ export default class Fonts extends Component {
     const {fonts, previewText, changePreviewText, changeDisplay, display, openManage} = this.props;
 
     return (
-      <div className={styles.holder}>
+      <div>
         <ContentHeader>
           <PreviewText value={previewText} onChange={changePreviewText} />
           <ContentHeaderActions>
