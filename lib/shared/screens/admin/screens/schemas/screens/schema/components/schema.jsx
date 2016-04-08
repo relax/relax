@@ -7,7 +7,8 @@ import New from './new';
 export default class Schema extends Component {
   static propTypes = {
     children: PropTypes.node,
-    count: PropTypes.number.isRequired
+    count: PropTypes.number.isRequired,
+    schemaId: PropTypes.string.isRequired
   };
 
   render () {
@@ -34,6 +35,7 @@ export default class Schema extends Component {
   }
 
   renderNoPages () {
+    const {schemaId} = this.props;
     return (
       <div className={styles.noEntries}>
         <div className={styles.noTitle}>Oh my!</div>
@@ -42,7 +44,7 @@ export default class Schema extends Component {
           <br />
           <span>Lets change that</span>
         </div>
-        <New />
+        <New schemaId={schemaId} />
       </div>
     );
   }
