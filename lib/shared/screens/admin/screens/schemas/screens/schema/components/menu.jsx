@@ -1,12 +1,14 @@
 import Component from 'components/component';
 import ListHeader from 'components/list-header';
 import ListSearchSort from 'components/list-search-sort';
+import Modal from 'components/modal';
 import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
 import {mergeFragments} from 'relate-js';
 
 import styles from './menu.less';
 import List from './list';
+import New from './new';
 
 const sorts = [
   {
@@ -91,7 +93,19 @@ export default class SchemaMenu extends Component {
             query={location.query}
           />
         </Scrollable>
+        {this.renderNew()}
       </div>
     );
+  }
+
+  renderNew () {
+    const {newOpened, closeNew, schema} = this.props;
+    if (newOpened) {
+      return (
+        <Modal small subTitle={`New ${schema.title} entry`} title='What should we call it?' onClose={closeNew}>
+          <New onClose={closeNew} />
+        </Modal>
+      );
+    }
   }
 }
