@@ -38,7 +38,7 @@ export default class Media extends Component {
   render () {
     const {uploadsVisible} = this.props;
     return (
-      <div className={styles.holder}>
+      <div>
         {this.renderContent()}
         {uploadsVisible && <Uploading />}
       </div>

@@ -8,7 +8,6 @@ import ContentSearch from 'components/content-search';
 import Modal from 'components/modal';
 import React, {PropTypes} from 'react';
 
-import styles from './users.less';
 import List from './list';
 import New from './new';
 
@@ -26,7 +25,7 @@ export default class Users extends Component {
     const {users, openNew} = this.props;
 
     return (
-      <div className={styles.holder}>
+      <div>
         <ContentHeader>
           <ContentSearch value='' />
           <ContentHeaderActions>
