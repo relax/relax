@@ -6,7 +6,6 @@ import ContentNew from 'components/content-new';
 import ContentSearch from 'components/content-search';
 import React, {PropTypes} from 'react';
 
-import styles from './colors.less';
 import List from './list';
 
 export default class Colors extends Component {
@@ -24,7 +23,7 @@ export default class Colors extends Component {
     const {colors, search, searchChange, duplicateColor, removeColor} = this.props;
 
     return (
-      <div className={styles.holder}>
+      <div>
         <ContentHeader>
           <ContentSearch value={search} onChange={searchChange} />
           <ContentHeaderActions>

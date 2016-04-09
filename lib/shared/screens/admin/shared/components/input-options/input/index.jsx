@@ -1,22 +1,24 @@
+import bind from 'decorators/bind';
 import classNames from 'classnames';
 import cx from 'classnames';
 import Animate from 'components/animate';
 import Component from 'components/component';
-import React from 'react';
 import Spinner from 'components/spinner';
+import React, {PropTypes} from 'react';
 
 import styles from './index.less';
 
 export default class Input extends Component {
   static propTypes = {
-    value: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    className: React.PropTypes.string,
-    placeholder: React.PropTypes.string,
-    password: React.PropTypes.bool,
-    state: React.PropTypes.string,
-    disabled: React.PropTypes.bool,
-    focused: React.PropTypes.bool
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    className: PropTypes.string,
+    placeholder: PropTypes.string,
+    password: PropTypes.bool,
+    state: PropTypes.string,
+    disabled: PropTypes.bool,
+    focused: PropTypes.bool,
+    white: PropTypes.bool
   };
 
   componentDidMount () {
@@ -25,19 +27,27 @@ export default class Input extends Component {
     }
   }
 
+  @bind
   onChange (event) {
     this.props.onChange(event.target.value);
   }
 
   render () {
-    const {disabled, className, state, password} = this.props;
+    const {disabled, className, state, password, white} = this.props;
     return (
-      <div className={classNames(styles.input, disabled && styles.disabled, className, state && styles.withState)}>
+      <div className={classNames(
+          styles.input,
+          white && styles.white,
+          disabled && styles.disabled,
+          className,
+          state && styles.withState
+        )}
+      >
         <input
           type={password ? 'password' : 'text'}
           value={this.props.value}
           disabled={this.props.disabled}
-          onChange={::this.onChange}
+          onChange={this.onChange}
           ref='input'
           placeholder={this.props.placeholder || ''}
         />

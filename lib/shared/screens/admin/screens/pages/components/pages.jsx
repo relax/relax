@@ -12,14 +12,6 @@ export default class Pages extends Component {
   };
 
   render () {
-    return (
-      <div className={styles.holder}>
-        {this.renderContent()}
-      </div>
-    );
-  }
-
-  renderContent () {
     let result;
 
     if (this.props.count === 0) {
@@ -47,7 +39,9 @@ export default class Pages extends Component {
       <div className={styles.noPages}>
         <div className={styles.noTitle}>Oh my!</div>
         <div className={styles.noText}>
-          You don’t have any pages yet!<br/>Lets change that
+          <span>You don’t have any pages yet!</span>
+          <br />
+          <span>Lets change that</span>
         </div>
         <New fragments={Menu.fragments} />
       </div>

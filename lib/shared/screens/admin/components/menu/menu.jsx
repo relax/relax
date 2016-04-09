@@ -53,13 +53,18 @@ export default class Menu extends Component {
   }
 
   render () {
-    const {menuData, schemas} = this.props;
+    const {menuData, schemas, active, onActiveClick} = this.props;
     return (
       <div className={cx(styles.root, this.state.opened && styles.opened)}>
         <div className={styles.menu} ref='menu'>
           <Scrollable className={styles.menuContent}>
             {menuData.map(this.renderEntry, this)}
-            <ContentTypes schemas={schemas} key='content-types' />
+            <ContentTypes
+              schemas={schemas}
+              key='content-types'
+              active={active}
+              onActiveClick={onActiveClick}
+            />
           </Scrollable>
         </div>
         <div className={styles.content} ref='content'>
@@ -75,12 +80,13 @@ export default class Menu extends Component {
     if (entry === 'sep') {
       result = <div className={styles.sepperator} />;
     } else {
+      const {active, onActiveClick} = this.props;
       result = (
         <Button
           {...entry}
-          active={this.props.active === entry.label}
+          active={active === entry.label}
           key={key}
-          onActiveClick={this.props.onActiveClick}
+          onActiveClick={onActiveClick}
         />
       );
     }
