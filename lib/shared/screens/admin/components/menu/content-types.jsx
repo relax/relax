@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import A from 'components/a';
 import Button from 'components/menu-button';
 import Component from 'components/component';
@@ -9,11 +10,14 @@ export default class ContentTypes extends Component {
   static fragments = {
     schemas: {
       _id: 1,
-      title: 1
+      title: 1,
+      type: 1
     }
   };
 
   static propTypes = {
+    active: PropTypes.string,
+    onActiveClick: PropTypes.func.isRequired,
     schemas: PropTypes.array.isRequired
   };
 
@@ -33,9 +37,19 @@ export default class ContentTypes extends Component {
   }
 
   renderSchema (schema) {
-    // design_webpage or files_single-copy-04
+    const {active, onActiveClick} = this.props;
     return (
-      <Button link='#' label={schema.title} icon='nc-icon-outline files_single-copy-04' dark />
+      <Button
+        link={`/admin/schemas/${schema._id}`}
+        label={schema.title}
+        icon={cx(
+          'nc-icon-outline',
+          schema.type === 'single' ? 'design_webpage' : 'files_single-copy-04'
+        )}
+        active={active === schema._id}
+        onActiveClick={onActiveClick}
+        dark
+      />
     );
   }
 }

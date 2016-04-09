@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import forEach from 'lodash.foreach';
 import velocity from 'velocity-animate';
 import Component from 'components/component';
 import PageBuilderMenu from 'components/page-builder-menu';
@@ -51,7 +52,9 @@ export default class Admin extends Component {
           <Menu>
             {this.renderMenuContent()}
           </Menu>
-          {this.props.children}
+          <div className={styles.pageContent}>
+            {this.props.children}
+          </div>
           <PageBuilderMenu />
         </div>
       </div>
@@ -59,9 +62,18 @@ export default class Admin extends Component {
   }
 
   renderMenuContent () {
-    if (this.props.routes.length >= 2 && this.props.routes[1].menu) {
-      const MenuTag = this.props.routes[1].menu;
-      return <MenuTag />;
+    const {routes} = this.props;
+    if (routes.length >= 2) {
+      let MenuTag = false;
+      forEach(routes, route => {
+        if (route.menu) {
+          MenuTag = route.menu;
+        }
+      });
+
+      if (MenuTag) {
+        return <MenuTag />;
+      }
     }
   }
 }

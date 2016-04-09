@@ -20,7 +20,9 @@ export default class ModalInput extends Component {
   };
 
   componentDidMount () {
-    findDOMNode(this).focus();
+    if (this.props.focus) {
+      findDOMNode(this).focus();
+    }
   }
 
   onChange (event) {
