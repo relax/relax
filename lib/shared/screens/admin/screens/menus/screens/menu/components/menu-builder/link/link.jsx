@@ -15,6 +15,11 @@ export default class Link extends Component {
 
   render () {
     const {changeLabel, changeUrl, label, url} = this.props;
+    const item = {
+      type: 'url',
+      url,
+      label
+    };
     return (
       <div>
         <label className={styles.option}>
@@ -25,7 +30,7 @@ export default class Link extends Component {
           <div className={styles.label}>Link</div>
           <Input value={url} onChange={changeUrl} white />
         </label>
-        <Entry label={label} type='url' />
+        <Entry item={item} />
       </div>
     );
   }

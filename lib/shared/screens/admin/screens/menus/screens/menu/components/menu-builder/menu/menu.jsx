@@ -7,6 +7,7 @@ import Droppable from 'components/dnd/droppable';
 import React, {PropTypes} from 'react';
 
 import styles from './menu.less';
+import Entry from '../entry';
 
 export default class Menu extends Component {
   static fragments = {
@@ -17,10 +18,13 @@ export default class Menu extends Component {
   };
 
   static propTypes = {
-    dragging: PropTypes.bool.isRequired
+    dragging: PropTypes.bool.isRequired,
+    draggedMenuItem: PropTypes.func.isRequired,
+    menuData: PropTypes.object.isRequired
   };
 
   render () {
+    const {menuData} = this.props;
     return (
       <div>
         <Droppable
@@ -30,9 +34,24 @@ export default class Menu extends Component {
             id: 'root'
           }}
           minHeight='100%'
-        />
+        >
+          {menuData && menuData.root && this.renderChildren(menuData.root.children)}
+        </Droppable>
         {this.renderDragger()}
       </div>
+    );
+  }
+
+  renderChildren (children) {
+    return children.map(this.renderEntry, this);
+  }
+
+  renderEntry (id) {
+    const {menuData} = this.props;
+    const item = menuData[id];
+
+    return (
+      <Entry item={item} />
     );
   }
 
@@ -73,10 +92,10 @@ export default class Menu extends Component {
   }
 
   renderDragger () {
-    const {dragging} = this.props;
+    const {dragging, draggedMenuItem} = this.props;
     if (dragging) {
       return (
-        <Dragger shadow={false} />
+        <Dragger shadow={false} onStopDrag={draggedMenuItem} />
       );
     }
   }

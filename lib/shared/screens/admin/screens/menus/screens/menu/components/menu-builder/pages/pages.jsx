@@ -25,8 +25,15 @@ export default class PagesList extends Component {
   }
 
   renderPage (page) {
+    const item = {
+      type: 'page',
+      typeProps: {
+        pageId: page._id
+      },
+      label: page.title
+    };
     return (
-      <Entry label={page.title} type='page' key={page._id} />
+      <Entry item={item} key={page._id} />
     );
   }
 }

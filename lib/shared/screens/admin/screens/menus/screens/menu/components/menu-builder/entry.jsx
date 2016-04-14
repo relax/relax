@@ -7,15 +7,20 @@ import styles from './entry.less';
 
 export default class MenuEntry extends Component {
   static propTypes = {
-    label: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(['url', 'page', 'schema']).isRequired
+    item: PropTypes.object.isRequired
+  };
+
+  static defaultProps = {
+    item: {}
   };
 
   render () {
-    const {label, type} = this.props;
+    const {item} = this.props;
+    const {label, type} = item;
 
     const dragInfo = {
-      type: 'new'
+      type: 'new',
+      item
     };
 
     return (
