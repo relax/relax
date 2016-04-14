@@ -1,5 +1,6 @@
 import cx from 'classnames';
 import Component from 'components/component';
+import Draggable from 'components/dnd/draggable';
 import React, {PropTypes} from 'react';
 
 import styles from './entry.less';
@@ -12,10 +13,17 @@ export default class MenuEntry extends Component {
 
   render () {
     const {label, type} = this.props;
+
+    const dragInfo = {
+      type: 'new'
+    };
+
     return (
-      <div className={cx(styles.root, styles[type])}>
-        {label || type === 'url' && 'Where Link appears to be dragged'}
-      </div>
+      <Draggable dragInfo={dragInfo}>
+        <div className={cx(styles.root, styles[type])}>
+          {label || type === 'url' && 'Where Link appears to be dragged'}
+        </div>
+      </Draggable>
     );
   }
 }
