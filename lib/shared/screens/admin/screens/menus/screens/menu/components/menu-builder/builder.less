@@ -8,17 +8,51 @@
 .part {
   display: inline-block;
   vertical-align: top;
+  position: absolute;
+  top: 0;
+  bottom: 0;
 }
 
 .left, .right {
-  width: 250px;
+  width: 50%;
+}
+
+.left {
+  left: 0;
+  margin-right: 50px;
+}
+.leftContent {
+  position: absolute;
+  top: 0;
+  right: 70px;
+  left: 0;
+  bottom: 0;
+
+  .innerScroll {
+    width: 270px;
+    float: right;
+  }
+}
+
+.innerScroll {
+  padding-right: 20px;
+}
+
+.right {
+  right: 0;
+  padding-left: 70px;
+}
+.rightContent {
+  position: absolute;
+  top: 0;
+  left: 70px;
+  right: 0;
+  bottom: 0;
 }
 
 .center {
-  position: relative;
-  margin: 0 70px;
+  left: 50%;
   width: 2px;
-  height: 100%;
   background-color: @adminBorders;
 }
 

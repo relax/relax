@@ -1,6 +1,5 @@
 import cx from 'classnames';
 import Component from 'components/component';
-import Content from 'components/content';
 import ContentHeader from 'components/content-header';
 import ContentHeaderActions from 'components/content-header-actions';
 import React, {PropTypes} from 'react';
@@ -34,9 +33,9 @@ export default class Menu extends Component {
             </button>
           </ContentHeaderActions>
         </ContentHeader>
-        <Content>
+        <div className={styles.content}>
           <MenuBuilder />
-        </Content>
+        </div>
       </div>
     );
   }

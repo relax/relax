@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import velocity from 'velocity-animate';
 import Component from 'components/component';
 import Portal from 'components/portal';
@@ -13,7 +14,12 @@ export default class Dragger extends Component {
     offset: PropTypes.object,
     draggingData: PropTypes.object,
     dragInfo: PropTypes.object,
-    dropInfo: PropTypes.object
+    dropInfo: PropTypes.object,
+    shadow: PropTypes.bool
+  };
+
+  static defaultProps = {
+    shadow: true
   };
 
   getInitState () {
@@ -70,7 +76,7 @@ export default class Dragger extends Component {
   }
 
   render () {
-    const {draggingData} = this.props;
+    const {draggingData, shadow} = this.props;
     const style = {
       width: `${draggingData.elementWidth}px`,
       top: `${this.state.top}px`,
@@ -79,7 +85,7 @@ export default class Dragger extends Component {
 
     return (
       <Portal>
-        <div className={styles.root} draggable='false' style={style} ref='dragger'>
+        <div className={cx(styles.root, shadow && styles.shadow)} draggable='false' style={style} ref='dragger'>
           {draggingData.children}
         </div>
       </Portal>
