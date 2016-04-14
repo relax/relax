@@ -1,0 +1,43 @@
+@import '~styles/colors.less';
+
+.root {
+  max-width: 672px;
+  margin: 0 auto;
+}
+
+.part {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.left, .right {
+  width: 250px;
+}
+
+.center {
+  position: relative;
+  margin: 0 70px;
+  width: 2px;
+  height: 100%;
+  background-color: @adminBorders;
+}
+
+.icon {
+  position: absolute;
+  top: 200px;
+  left: -20px;
+  font-size: 46px;
+  color: @adminBorders;
+
+  &:before {
+    z-index: 1;
+    position: relative;
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; top: 50%;
+    height: 7px;
+    background-color: #ffffff;
+  }
+}
