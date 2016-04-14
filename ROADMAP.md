@@ -29,7 +29,7 @@ reach the beta release, there are of course other minor issues that can be found
   - [ ] Users
   - [ ] Media
   - [ ] Symbols
-- [ ] Link Element
+- [ ] Link Element
   - [ ] Allow to navigate to another page
   - [ ] Allow to go an absolute URL
   - [ ] Allow anchoring (with sections)
