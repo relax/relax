@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import debounce from 'lodash.debounce';
 import find from 'lodash.find';
@@ -41,9 +42,10 @@ export default class ListSearchSort extends Component {
     const query = Object.assign({}, location.query, {
       s: this.state.search
     });
-    this.context.store.dispatch(pushState(null, location, query));
+    this.context.store.dispatch(pushState(null, location.pathname, query));
   }
 
+  @bind
   onFocus () {
     this.setState({
       focused: true,
@@ -51,6 +53,7 @@ export default class ListSearchSort extends Component {
     });
   }
 
+  @bind
   onBlur () {
     if (this.state.search !== this.props.search) {
       this.changeSearch();
@@ -60,6 +63,7 @@ export default class ListSearchSort extends Component {
     });
   }
 
+  @bind
   updateSearch (event) {
     this.setState({
       search: event.target.value
@@ -81,9 +85,9 @@ export default class ListSearchSort extends Component {
             value={focused ? this.state.search : this.props.search}
             className={styles.search}
             placeholder='Search..'
-            onFocus={::this.onFocus}
-            onBlur={::this.onBlur}
-            onChange={::this.updateSearch}
+            onFocus={this.onFocus}
+            onBlur={this.onBlur}
+            onChange={this.updateSearch}
           />
         </label>
         <div className={styles.sort} onClick={::this.toggleSorts} ref='sort'>
