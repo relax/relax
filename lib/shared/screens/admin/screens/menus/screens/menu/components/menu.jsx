@@ -2,6 +2,7 @@ import cx from 'classnames';
 import Component from 'components/component';
 import ContentHeader from 'components/content-header';
 import ContentHeaderActions from 'components/content-header-actions';
+import ModalDelete from 'components/modal-delete';
 import React, {PropTypes} from 'react';
 import {mergeFragments} from 'relax-fragments';
 
@@ -17,18 +18,22 @@ export default class Menu extends Component {
   });
 
   static propTypes = {
-    menu: PropTypes.object.isRequired
+    menu: PropTypes.object.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    cancelDelete: PropTypes.func.isRequired,
+    deleteConfirm: PropTypes.bool.isRequired,
+    confirmDelete: PropTypes.func.isRequired
   };
 
   render () {
-    const {menu} = this.props;
+    const {menu, onDelete} = this.props;
 
     return (
       <div className={cx(this.state.build && styles.build)}>
         <ContentHeader>
           <div className={styles.title}>{menu.title}</div>
           <ContentHeaderActions>
-            <button className={styles.actionButton}>
+            <button className={styles.actionButton} onClick={onDelete}>
               Delete Menu
             </button>
           </ContentHeaderActions>
@@ -36,7 +41,21 @@ export default class Menu extends Component {
         <div className={styles.content}>
           <MenuBuilder />
         </div>
+        {this.renderDeleteConfirm()}
       </div>
     );
+  }
+
+  renderDeleteConfirm () {
+    const {deleteConfirm, cancelDelete, confirmDelete, menu} = this.props;
+    if (deleteConfirm) {
+      return (
+        <ModalDelete
+          title={`Are you sure you want to remove "${menu.title}" menu?`}
+          cancel={cancelDelete}
+          submit={confirmDelete}
+        />
+      );
+    }
   }
 }
