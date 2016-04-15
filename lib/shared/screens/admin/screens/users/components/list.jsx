@@ -9,7 +9,8 @@ export default class List extends Component {
   };
 
   static propTypes = {
-    users: PropTypes.array.isRequired
+    users: PropTypes.array.isRequired,
+    onDelete: PropTypes.func.isRequired
   };
 
   render () {
@@ -22,8 +23,9 @@ export default class List extends Component {
   }
 
   renderEntry (user) {
+    const {onDelete} = this.props;
     return (
-      <Entry user={user} key={user._id} />
+      <Entry user={user} onDelete={onDelete} key={user._id} />
     );
   }
 }
