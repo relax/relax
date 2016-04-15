@@ -33,7 +33,9 @@ export default class Menu extends Component {
     return (
       <div className={cx(this.state.build && styles.build)}>
         <ContentHeader>
-          <EditableTitle value={menu.title} onSubmit={updateTitle} />
+          <div className={styles.info}>
+            <EditableTitle value={menu.title} onSubmit={updateTitle} />
+          </div>
           <ContentHeaderActions>
             <button className={styles.actionButton} onClick={onDelete}>
               Delete Menu
