@@ -25,23 +25,25 @@ export default class Users extends Component {
     deleteConfirmUser: PropTypes.object,
     cancelDelete: PropTypes.func.isRequired,
     confirmDelete: PropTypes.func.isRequired,
-    deletingUser: PropTypes.bool
+    deletingUser: PropTypes.bool,
+    search: PropTypes.string.isRequired,
+    searchChange: PropTypes.func.isRequired
   };
 
   render () {
-    const {users, openNew, onDelete} = this.props;
+    const {users, openNew, onDelete, search, searchChange} = this.props;
 
     return (
       <div>
         <ContentHeader>
-          <ContentSearch value='' />
+          <ContentSearch value={search} onChange={searchChange} />
           <ContentHeaderActions>
             <ContentDisplays display='grid' />
             <ContentNew onClick={openNew}>Add new user</ContentNew>
           </ContentHeaderActions>
         </ContentHeader>
         <Content>
-          <List users={users} onDelete={onDelete} />
+          <List users={users} onDelete={onDelete} search={search} />
         </Content>
         {this.renderNew()}
         {this.renderDeleteConfirm()}

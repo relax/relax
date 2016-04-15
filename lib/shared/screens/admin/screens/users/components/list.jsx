@@ -10,7 +10,8 @@ export default class List extends Component {
 
   static propTypes = {
     users: PropTypes.array.isRequired,
-    onDelete: PropTypes.func.isRequired
+    onDelete: PropTypes.func.isRequired,
+    search: PropTypes.string.isRequired
   };
 
   render () {
@@ -23,9 +24,12 @@ export default class List extends Component {
   }
 
   renderEntry (user) {
-    const {onDelete} = this.props;
-    return (
-      <Entry user={user} onDelete={onDelete} key={user._id} />
-    );
+    const {onDelete, search} = this.props;
+    const inSearch = !search || user.name.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+    if (inSearch) {
+      return (
+        <Entry user={user} onDelete={onDelete} key={user._id} />
+      );
+    }
   }
 }
