@@ -198,7 +198,7 @@ export default class Droppable extends Component {
   }
 
   render () {
-    const {dragging, minHeight, minWidth, className, style, showMarks, isActive} = this.props;
+    const {dragging, minHeight, minWidth, className, style, showMarks, isActive, hidePlaceholder} = this.props;
     const droppableHere = this.droppableHere();
 
     let children = this.props.children;
@@ -206,7 +206,7 @@ export default class Droppable extends Component {
 
     // style
     const inlineStyle = Object.assign({}, style || {});
-    if (!hasChildren) {
+    if (!hasChildren && (!hidePlaceholder || hidePlaceholder && this.droppableHere())) {
       inlineStyle.minHeight = minHeight;
       inlineStyle.minWidth = minWidth;
     }

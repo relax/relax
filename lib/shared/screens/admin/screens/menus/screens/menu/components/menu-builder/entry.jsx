@@ -13,7 +13,9 @@ export default class MenuEntry extends Component {
     item: PropTypes.object.isRequired,
     children: PropTypes.node,
     dragging: PropTypes.bool,
-    draggedMenuItem: PropTypes.func
+    draggedMenuItem: PropTypes.func,
+    positionInParent: PropTypes.number,
+    draggingSelf: PropTypes.bool
   };
 
   static defaultProps = {
@@ -21,18 +23,21 @@ export default class MenuEntry extends Component {
   };
 
   render () {
-    const {item} = this.props;
+    const {item, positionInParent, draggingSelf} = this.props;
     const {label, type} = item;
     const isNew = !(item.id && true);
 
     const dragInfo = {
       type: isNew ? 'new' : 'move',
-      item
+      item,
+      id: item.id,
+      parentId: item.parent,
+      positionInParent
     };
 
     return (
       <Draggable dragInfo={dragInfo}>
-        <div className={styles.root}>
+        <div className={cx(styles.root, draggingSelf && styles.draggingSelf)}>
           <div className={cx(styles.info, styles[type])}>
             {label || type === 'url' && isNew && 'Where Link appears to be dragged'}
           </div>
