@@ -6,6 +6,7 @@ import ContentHeaderActions from 'components/content-header-actions';
 import ContentNew from 'components/content-new';
 import ContentSearch from 'components/content-search';
 import Modal from 'components/modal';
+import ModalDelete from 'components/modal-delete';
 import React, {PropTypes} from 'react';
 
 import List from './list';
@@ -18,11 +19,17 @@ export default class Users extends Component {
     users: PropTypes.array.isRequired,
     openNew: PropTypes.func.isRequired,
     newOpened: PropTypes.bool.isRequired,
-    closeNew: PropTypes.func.isRequired
+    closeNew: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    deleteConfirm: PropTypes.bool,
+    deleteConfirmUser: PropTypes.object,
+    cancelDelete: PropTypes.func.isRequired,
+    confirmDelete: PropTypes.func.isRequired,
+    deletingUser: PropTypes.bool
   };
 
   render () {
-    const {users, openNew} = this.props;
+    const {users, openNew, onDelete} = this.props;
 
     return (
       <div>
@@ -34,9 +41,10 @@ export default class Users extends Component {
           </ContentHeaderActions>
         </ContentHeader>
         <Content>
-          <List users={users} />
+          <List users={users} onDelete={onDelete} />
         </Content>
         {this.renderNew()}
+        {this.renderDeleteConfirm()}
       </div>
     );
   }
@@ -48,6 +56,20 @@ export default class Users extends Component {
         <Modal small subTitle='New User' title='Make the introductions!' onClose={closeNew}>
           <New fragments={Users.fragments} onClose={closeNew} />
         </Modal>
+      );
+    }
+  }
+
+  renderDeleteConfirm () {
+    const {deleteConfirm, deleteConfirmUser, cancelDelete, confirmDelete, deletingUser} = this.props;
+    if (deleteConfirm) {
+      return (
+        <ModalDelete
+          title={`Are you sure you want to remove the user "${deleteConfirmUser.name}"?`}
+          cancel={cancelDelete}
+          submit={confirmDelete}
+          loading={deletingUser}
+        />
       );
     }
   }

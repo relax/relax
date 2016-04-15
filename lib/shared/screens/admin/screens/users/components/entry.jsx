@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import utils from 'helpers/utils';
 import Component from 'components/component';
@@ -15,8 +16,15 @@ export default class Entry extends Component {
   };
 
   static propTypes = {
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    onDelete: PropTypes.func.isRequired
   };
+
+  @bind
+  onDeleteClick () {
+    const {user, onDelete} = this.props;
+    onDelete(user);
+  }
 
   render () {
     const {user} = this.props;
@@ -32,7 +40,7 @@ export default class Entry extends Component {
           <div className={styles.value}>{user.email}</div>
         </div>
         <div className={styles.actions}>
-          <button className={cx(styles.button, styles.remove)}>Delete User</button>
+          <button className={cx(styles.button, styles.remove)} onClick={this.onDeleteClick}>Delete User</button>
         </div>
       </div>
     );
