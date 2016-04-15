@@ -2,6 +2,7 @@ import cx from 'classnames';
 import Component from 'components/component';
 import ContentHeader from 'components/content-header';
 import ContentHeaderActions from 'components/content-header-actions';
+import EditableTitle from 'components/editable-title';
 import ModalDelete from 'components/modal-delete';
 import React, {PropTypes} from 'react';
 import {mergeFragments} from 'relax-fragments';
@@ -22,16 +23,17 @@ export default class Menu extends Component {
     onDelete: PropTypes.func.isRequired,
     cancelDelete: PropTypes.func.isRequired,
     deleteConfirm: PropTypes.bool.isRequired,
-    confirmDelete: PropTypes.func.isRequired
+    confirmDelete: PropTypes.func.isRequired,
+    updateTitle: PropTypes.func.isRequired
   };
 
   render () {
-    const {menu, onDelete} = this.props;
+    const {menu, onDelete, updateTitle} = this.props;
 
     return (
       <div className={cx(this.state.build && styles.build)}>
         <ContentHeader>
-          <div className={styles.title}>{menu.title}</div>
+          <EditableTitle value={menu.title} onSubmit={updateTitle} />
           <ContentHeaderActions>
             <button className={styles.actionButton} onClick={onDelete}>
               Delete Menu
