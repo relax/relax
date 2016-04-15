@@ -1,6 +1,8 @@
 import Component from 'components/component';
+import Spinner from 'components/spinner';
 import React, {PropTypes} from 'react';
 
+import styles from './pages.less';
 import Entry from '../entry';
 
 export default class PagesList extends Component {
@@ -12,16 +14,37 @@ export default class PagesList extends Component {
   };
 
   static propTypes = {
-    pages: PropTypes.array.isRequired
+    pages: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired
   };
 
   render () {
-    const {pages} = this.props;
     return (
       <div>
-        {pages.map(this.renderPage, this)}
+        {this.renderPages()}
       </div>
     );
+  }
+
+  renderPages () {
+    const {pages} = this.props;
+    let result;
+
+    if (this.props.loading) {
+      result = (
+        <div className={styles.loading}>
+          <Spinner />
+        </div>
+      );
+    } else if (this.props.pages.length > 0) {
+      result = pages.map(this.renderPage, this);
+    } else {
+      result = (
+        <div className={styles.no}>No pages to show</div>
+      );
+    }
+
+    return result;
   }
 
   renderPage (page) {
