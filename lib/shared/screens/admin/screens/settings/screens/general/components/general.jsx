@@ -1,12 +1,21 @@
 import Component from 'components/component';
+import OptionsList from 'components/options-list';
+import SettingsContent from 'components/settings-content';
 import React, {PropTypes} from 'react';
 
 export default class GeneralSettings extends Component {
-  static propTypes = {};
+  static propTypes = {
+    options: PropTypes.array.isRequired
+  };
 
   render () {
+    const {options} = this.props;
     return (
-      <div>Settings</div>
+      <div>
+        <SettingsContent>
+          <OptionsList options={options} values={{}} white />
+        </SettingsContent>
+      </div>
     );
   }
 }
