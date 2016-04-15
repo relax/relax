@@ -19,6 +19,7 @@ export default class Menu extends Component {
 
   static propTypes = {
     dragging: PropTypes.bool.isRequired,
+    draggingId: PropTypes.number,
     draggedMenuItem: PropTypes.func.isRequired,
     menuData: PropTypes.object.isRequired
   };
@@ -51,15 +52,17 @@ export default class Menu extends Component {
     return children.map(this.renderEntry, this);
   }
 
-  renderEntry (id) {
-    const {menuData, dragging, draggedMenuItem} = this.props;
+  renderEntry (id, index) {
+    const {menuData, dragging, draggingId, draggedMenuItem} = this.props;
     const item = menuData[id];
 
     return (
       <Entry
         item={item}
         dragging={dragging}
+        draggingSelf={draggingId === id}
         draggedMenuItem={draggedMenuItem}
+        positionInParent={index}
         key={id}
       >
         {item.children && this.renderChildren(item.children)}
