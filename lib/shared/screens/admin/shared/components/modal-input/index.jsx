@@ -11,7 +11,12 @@ export default class ModalInput extends Component {
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
-    focus: PropTypes.bool
+    focus: PropTypes.bool,
+    type: PropTypes.string
+  };
+
+  static defaultProps = {
+    type: 'text'
   };
 
   componentDidMount () {
@@ -25,10 +30,10 @@ export default class ModalInput extends Component {
   }
 
   render () {
-    const {placeholder, value, invalid} = this.props;
+    const {placeholder, value, invalid, type} = this.props;
     return (
       <input
-        type='text'
+        type={type}
         className={cx(styles.input, invalid === true && styles.invalid, invalid === false && styles.valid)}
         value={value}
         placeholder={placeholder}

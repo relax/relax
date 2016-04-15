@@ -31,6 +31,7 @@ export default class NewUser extends Component {
         <ModalInput
           focus
           value={password}
+          type='password'
           placeholder='Password'
           onChange={this.changeField.bind(this, 'password')}
         />
