@@ -34,10 +34,25 @@ export default class Menu extends Component {
             id: 'root'
           }}
           minHeight='100%'
+          className={styles.dropArea}
         >
-          {menuData && menuData.root && this.renderChildren(menuData.root.children)}
+          {
+            menuData &&
+            menuData.root &&
+            menuData.root.children.length &&
+            this.renderRoot()
+          }
         </Droppable>
         {this.renderDragger()}
+      </div>
+    );
+  }
+
+  renderRoot () {
+    const {menuData} = this.props;
+    return (
+      <div className={styles.items}>
+        {this.renderChildren(menuData.root.children)}
       </div>
     );
   }
@@ -51,7 +66,7 @@ export default class Menu extends Component {
     const item = menuData[id];
 
     return (
-      <Entry item={item} />
+      <Entry item={item} key={id} />
     );
   }
 
