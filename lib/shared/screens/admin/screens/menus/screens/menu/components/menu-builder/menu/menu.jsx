@@ -25,6 +25,7 @@ export default class Menu extends Component {
 
   render () {
     const {menuData} = this.props;
+    const hasChildren = menuData && menuData.root && menuData.root.children.length > 0;
     return (
       <div>
         <Droppable
@@ -34,25 +35,14 @@ export default class Menu extends Component {
             id: 'root'
           }}
           minHeight='100%'
-          className={styles.dropArea}
+          className={cx(styles.dropArea, hasChildren && styles.items)}
         >
           {
-            menuData &&
-            menuData.root &&
-            menuData.root.children.length &&
-            this.renderRoot()
+            hasChildren &&
+            this.renderChildren(menuData.root.children)
           }
         </Droppable>
         {this.renderDragger()}
-      </div>
-    );
-  }
-
-  renderRoot () {
-    const {menuData} = this.props;
-    return (
-      <div className={styles.items}>
-        {this.renderChildren(menuData.root.children)}
       </div>
     );
   }
@@ -62,11 +52,18 @@ export default class Menu extends Component {
   }
 
   renderEntry (id) {
-    const {menuData} = this.props;
+    const {menuData, dragging, draggedMenuItem} = this.props;
     const item = menuData[id];
 
     return (
-      <Entry item={item} key={id} />
+      <Entry
+        item={item}
+        dragging={dragging}
+        draggedMenuItem={draggedMenuItem}
+        key={id}
+      >
+        {item.children && this.renderChildren(item.children)}
+      </Entry>
     );
   }
 

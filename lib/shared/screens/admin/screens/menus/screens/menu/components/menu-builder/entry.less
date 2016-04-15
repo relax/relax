@@ -1,11 +1,14 @@
 @import '~styles/colors.less';
 
 .root {
-  border-radius: 4px;
-  padding: 0 7px;
-  line-height: 30px;
-  margin: 7px 0;
+}
+
+.info {
   font-size: 14px;
+  padding: 3px 7px;
+  line-height: 24px;
+  border-radius: 4px;
+  margin: 7px 0;
   cursor: move;
 }
 
@@ -17,4 +20,35 @@
 .url {
   background-color: #FFFBBD;
   color: #C09F00;
+}
+
+.sub {
+  margin-left: 30px;
+  margin-bottom: 7px;
+}
+
+.empty {
+  display: block;
+  border: 1px solid @adminBorders;
+  border-radius: 2px;
+  line-height: 30px;
+  height: 30px;
+  padding: 0px 7px;
+}
+
+.emptyText {
+  color: @adminText;
+  font-size: 12px;
+}
+
+.dropIcon {
+  font-size: 18px;
+  line-height: 28px;
+  color: @dropSuccess;
+}
+
+.active {
+  background-color: @dropSuccessBack;
+  border-color: @dropSuccess;
+  text-align: center;
 }
