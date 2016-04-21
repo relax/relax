@@ -1,7 +1,7 @@
 @import '~styles/colors.less';
 
 .root {
-  padding: 30px 30px;
+  padding: 30px 25px;
 }
 
 .actionButton {
@@ -20,4 +20,53 @@
   padding: 15px 20px;
   text-align: center;
   border-top: 1px solid @adminBorders;
+}
+
+.draft {
+  margin-bottom: 45px;
+  text-align: center;
+}
+
+.publishButton {
+  display: inline-block;
+  :global {
+    i, span {
+      display: inline-block;
+      vertical-align: top;
+      color: @primary;
+      line-height: 22px;
+      font-size: 16px;
+    }
+    i {
+      margin-right: 5px;
+    }
+    span {
+      text-transform: uppercase;
+    }
+  }
+}
+
+.unpublishButton {
+  display: inline-block;
+  :global {
+    i, span {
+      display: inline-block;
+      vertical-align: top;
+      color: @draft;
+      line-height: 22px;
+      font-size: 16px;
+    }
+    i {
+      margin-right: 5px;
+    }
+    span {
+      text-transform: uppercase;
+    }
+  }
+}
+
+.label {
+  font-size: 13px;
+  color: @adminText;
+  margin-top: 12px;
 }

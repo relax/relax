@@ -25,7 +25,7 @@ export default class PagesEntry extends Component {
   render () {
     const {page, active, query} = this.props;
     const date = moment(page.date).fromNow();
-    const editLink = '/admin/pages/' + page._id;
+    const editLink = `/admin/pages/${page._id}`;
 
     return (
       <Link to={editLink} query={query} className={cx(styles.root, active && styles.active)}>
