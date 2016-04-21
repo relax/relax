@@ -28,7 +28,9 @@ export default class PageInfo extends Component {
 
   static propTypes = {
     page: PropTypes.object,
-    onDelete: PropTypes.func.isRequired
+    onDelete: PropTypes.func.isRequired,
+    publishPage: PropTypes.func.isRequired,
+    unpublishPage: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -75,14 +77,28 @@ export default class PageInfo extends Component {
   }
 
   renderDraftStatus () {
+    const {publishPage} = this.props;
     return (
-      <div>Draft</div>
+      <div className={styles.draft}>
+        <button className={styles.publishButton} onClick={publishPage}>
+          <i className='nc-icon-mini travel_world' />
+          <span>Publish</span>
+        </button>
+        <div className={styles.label}>This page is still a draft</div>
+      </div>
     );
   }
 
   renderPublishedStatus () {
+    const {unpublishPage} = this.props;
     return (
-      <div>Published</div>
+      <div className={styles.draft}>
+        <button className={styles.unpublishButton} onClick={unpublishPage}>
+          <i className='nc-icon-mini arrows-1_back-78' />
+          <span>Unpublish</span>
+        </button>
+        <div className={styles.label}>This page is published</div>
+      </div>
     );
   }
 }

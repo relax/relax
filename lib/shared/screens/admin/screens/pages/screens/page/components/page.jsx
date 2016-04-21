@@ -88,7 +88,7 @@ export default class Page extends Component {
   }
 
   renderContent () {
-    const {page, location, updateTitle, updateSlug, togglePageInfo, togglePageRevisions} = this.props;
+    const {page, location, updateTitle, updateSlug, togglePageInfo, togglePageRevisions, sidebar} = this.props;
 
     return (
       <Animate transition='fadeIn'>
@@ -99,10 +99,16 @@ export default class Page extends Component {
               <EditableTitle sub value={page.slug} onSubmit={updateSlug} />
             </div>
             <ContentHeaderActions>
-              <button className={styles.actionButton} onClick={togglePageRevisions}>
+              <button
+                className={cx(styles.actionButton, sidebar === 'revisions' && styles.active)}
+                onClick={togglePageRevisions}
+              >
                 <i className='nc-icon-outline ui-2_time'></i>
               </button>
-              <button className={styles.actionButton} onClick={togglePageInfo}>
+              <button
+                className={cx(styles.actionButton, sidebar === 'info' && styles.active)}
+                onClick={togglePageInfo}
+              >
                 <i className='nc-icon-outline travel_info'></i>
               </button>
             </ContentHeaderActions>
