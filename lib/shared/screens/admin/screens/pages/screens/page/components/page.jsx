@@ -121,8 +121,6 @@ export default class Page extends Component {
                 <div>Click to Build</div>
               </div>
             </A>
-          </div>
-          <div className={styles.content}>
             {this.renderSidebar()}
           </div>
         </div>
@@ -132,7 +130,7 @@ export default class Page extends Component {
 
   renderSidebar () {
     const {sidebar} = this.props;
-    const opened = sidebar !== null;
+    const opened = sidebar !== null && !this.props.location.query.build;
     return (
       <ContentSidebar opened={opened}>
         {this.renderSidebarContent()}
