@@ -6,12 +6,15 @@ import Component from 'components/component';
 import ContentHeader from 'components/content-header';
 import ContentHeaderActions from 'components/content-header-actions';
 import ContentLoading from 'components/content-loading';
+import ContentSidebar from 'components/content-sidebar';
 import EditableTitle from 'components/editable-title';
 import PageBuilder from 'components/page-builder';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
 import styles from './page.less';
+import Info from './info';
+import Revisions from './revisions';
 
 export default class Page extends Component {
   static fragments = {
@@ -27,7 +30,14 @@ export default class Page extends Component {
     location: PropTypes.object.isRequired,
     updateTitle: PropTypes.func.isRequired,
     updateSlug: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired
+    loading: PropTypes.bool.isRequired,
+    togglePageInfo: PropTypes.func.isRequired,
+    togglePageRevisions: PropTypes.func.isRequired,
+    sidebar: PropTypes.string
+  };
+
+  static defaultProps = {
+    page: {}
   };
 
   getInitState () {
@@ -61,22 +71,24 @@ export default class Page extends Component {
   }
 
   render () {
-    const {loading} = this.props;
+    const {loading, page} = this.props;
     let result;
 
     if (loading) {
       result = (
         <ContentLoading />
       );
-    } else {
+    } else if (page) {
       result = this.renderContent();
+    } else {
+      result = <span></span>;
     }
 
     return result;
   }
 
   renderContent () {
-    const {page, location, updateTitle, updateSlug} = this.props;
+    const {page, location, updateTitle, updateSlug, togglePageInfo, togglePageRevisions} = this.props;
 
     return (
       <Animate transition='fadeIn'>
@@ -87,10 +99,10 @@ export default class Page extends Component {
               <EditableTitle sub value={page.slug} onSubmit={updateSlug} />
             </div>
             <ContentHeaderActions>
-              <button className={styles.actionButton}>
+              <button className={styles.actionButton} onClick={togglePageRevisions}>
                 <i className='nc-icon-outline ui-2_time'></i>
               </button>
-              <button className={styles.actionButton}>
+              <button className={styles.actionButton} onClick={togglePageInfo}>
                 <i className='nc-icon-outline travel_info'></i>
               </button>
             </ContentHeaderActions>
@@ -104,8 +116,38 @@ export default class Page extends Component {
               </div>
             </A>
           </div>
+          <div className={styles.content}>
+            {this.renderSidebar()}
+          </div>
         </div>
       </Animate>
     );
+  }
+
+  renderSidebar () {
+    const {sidebar} = this.props;
+    const opened = sidebar !== null;
+    return (
+      <ContentSidebar opened={opened}>
+        {this.renderSidebarContent()}
+      </ContentSidebar>
+    );
+  }
+
+  renderSidebarContent () {
+    const {sidebar} = this.props;
+    let result;
+
+    if (sidebar === 'info') {
+      result = (
+        <Info />
+      );
+    } else if (sidebar === 'revisions') {
+      result = (
+        <Revisions />
+      );
+    }
+
+    return result;
   }
 }

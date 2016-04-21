@@ -1,6 +1,6 @@
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import utils from 'helpers/utils';
+import getGravatarImage from 'helpers/get-gravatar-image';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
@@ -28,12 +28,12 @@ export default class Entry extends Component {
 
   render () {
     const {user} = this.props;
-    const url = utils.getGravatarImage(user.email, 125);
+    const url = getGravatarImage(user.email, 125);
 
     return (
       <div className={styles.root}>
         <div className={styles.user}>
-          <img src={url} />
+          <img src={url} role='presentation' />
         </div>
         <div className={styles.info}>
           <div className={styles.title}>{user.name}</div>

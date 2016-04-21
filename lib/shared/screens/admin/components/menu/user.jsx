@@ -1,7 +1,7 @@
 import cx from 'classnames';
-import utils from 'helpers/utils';
-import React, {PropTypes} from 'react';
+import getGravatarImage from 'helpers/get-gravatar-image';
 import Component from 'components/component';
+import React, {PropTypes} from 'react';
 
 import styles from './user.less';
 
@@ -25,16 +25,16 @@ export default class User extends Component {
   render () {
     const {email, name} = this.props.user;
     const {opened} = this.state;
-    const url = utils.getGravatarImage(email, 50);
+    const url = getGravatarImage(email, 50);
 
     return (
       <div className={styles.root}>
         <div className={styles.thumbnail}>
           <div className={styles.blurred}>
-            <img src={url} />
+            <img src={url} role='presentation' />
           </div>
           <div className={styles.image}>
-            <img src={url} />
+            <img src={url} role='presentation' />
           </div>
         </div>
         <div className={styles.info}>
