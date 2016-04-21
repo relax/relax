@@ -1,11 +1,13 @@
 import cx from 'classnames';
+import velocity from 'velocity-animate';
 import A from 'components/a';
+import Animate from 'components/animate';
 import Component from 'components/component';
 import ContentHeader from 'components/content-header';
 import ContentHeaderActions from 'components/content-header-actions';
+import ContentLoading from 'components/content-loading';
 import EditableTitle from 'components/editable-title';
 import PageBuilder from 'components/page-builder';
-import velocity from 'velocity-animate';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
@@ -24,7 +26,8 @@ export default class Page extends Component {
     page: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     updateTitle: PropTypes.func.isRequired,
-    updateSlug: PropTypes.func.isRequired
+    updateSlug: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired
   };
 
   getInitState () {
@@ -58,34 +61,51 @@ export default class Page extends Component {
   }
 
   render () {
+    const {loading} = this.props;
+    let result;
+
+    if (loading) {
+      result = (
+        <ContentLoading />
+      );
+    } else {
+      result = this.renderContent();
+    }
+
+    return result;
+  }
+
+  renderContent () {
     const {page, location, updateTitle, updateSlug} = this.props;
 
     return (
-      <div className={cx(this.state.build && styles.build)}>
-        <ContentHeader smallPadding ref='header'>
-          <div className={styles.info}>
-            <EditableTitle value={page.title} onSubmit={updateTitle} />
-            <EditableTitle sub value={page.slug} onSubmit={updateSlug} />
-          </div>
-          <ContentHeaderActions>
-            <button className={styles.actionButton}>
-              <i className='nc-icon-outline ui-2_time'></i>
-            </button>
-            <button className={styles.actionButton}>
-              <i className='nc-icon-outline travel_info'></i>
-            </button>
-          </ContentHeaderActions>
-        </ContentHeader>
-        <div className={styles.content} ref='content'>
-          <PageBuilder />
-          <A href={location.pathname} query={{build: 1}} className={styles.cover} ref='cover'>
-            <div className={styles.coverContent}>
-              <i className='nc-icon-outline design_design'></i>
-              <div>Click to Build</div>
+      <Animate transition='fadeIn'>
+        <div className={cx(this.state.build && styles.build)}>
+          <ContentHeader smallPadding ref='header'>
+            <div className={styles.info}>
+              <EditableTitle value={page.title} onSubmit={updateTitle} />
+              <EditableTitle sub value={page.slug} onSubmit={updateSlug} />
             </div>
-          </A>
+            <ContentHeaderActions>
+              <button className={styles.actionButton}>
+                <i className='nc-icon-outline ui-2_time'></i>
+              </button>
+              <button className={styles.actionButton}>
+                <i className='nc-icon-outline travel_info'></i>
+              </button>
+            </ContentHeaderActions>
+          </ContentHeader>
+          <div className={styles.content} ref='content'>
+            <PageBuilder />
+            <A href={location.pathname} query={{build: 1}} className={styles.cover} ref='cover'>
+              <div className={styles.coverContent}>
+                <i className='nc-icon-outline design_design'></i>
+                <div>Click to Build</div>
+              </div>
+            </A>
+          </div>
         </div>
-      </div>
+      </Animate>
     );
   }
 }
