@@ -1,6 +1,7 @@
 import Component from 'components/component';
 import Modal from 'components/modal';
 import Scrollable from 'components/scrollable';
+import Upload from 'components/upload';
 import React, {PropTypes} from 'react';
 
 import styles from './media-selector.less';
@@ -21,21 +22,24 @@ export default class MediasSelector extends Component {
     sort: PropTypes.string.isRequired,
     order: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    allowedType: PropTypes.string.isRequired
+    allowedType: PropTypes.string.isRequired,
+    uploadMediaFiles: PropTypes.func.isRequired
   };
 
   render () {
-    const {media, selected, onClose, onChange} = this.props;
+    const {media, selected, onClose, onChange, uploadMediaFiles} = this.props;
     return (
       <Modal big onClose={onClose}>
-        {this.renderSidebar()}
-        <Scrollable className={styles.wrapper}>
-          <List
-            media={media}
-            selected={selected}
-            onChange={onChange}
-          />
-        </Scrollable>
+        <Upload clickable={false} infos onFiles={uploadMediaFiles}>
+          {this.renderSidebar()}
+          <Scrollable className={styles.wrapper}>
+            <List
+              media={media}
+              selected={selected}
+              onChange={onChange}
+            />
+          </Scrollable>
+        </Upload>
       </Modal>
     );
   }
