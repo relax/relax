@@ -14,16 +14,21 @@ export default class MediasSelector extends Component {
     media: PropTypes.array.isRequired,
     selected: PropTypes.string,
     onClose: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    changeSort: PropTypes.func.isRequired,
+    changeOrder: PropTypes.func.isRequired,
+    changeType: PropTypes.func.isRequired,
+    sort: PropTypes.string.isRequired,
+    order: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    allowedType: PropTypes.string.isRequired
   };
 
   render () {
     const {media, selected, onClose, onChange} = this.props;
     return (
       <Modal big onClose={onClose}>
-        <div className={styles.sidebar}>
-          <Sidebar selected={selected} />
-        </div>
+        {this.renderSidebar()}
         <Scrollable className={styles.wrapper}>
           <List
             media={media}
@@ -32,6 +37,24 @@ export default class MediasSelector extends Component {
           />
         </Scrollable>
       </Modal>
+    );
+  }
+
+  renderSidebar () {
+    const {selected, changeSort, changeOrder, changeType, sort, order, type, allowedType} = this.props;
+    return (
+      <div className={styles.sidebar}>
+        <Sidebar
+          selected={selected}
+          changeSort={changeSort}
+          changeOrder={changeOrder}
+          changeType={changeType}
+          sort={sort}
+          order={order}
+          type={type}
+          allowedType={allowedType}
+        />
+      </div>
     );
   }
 }

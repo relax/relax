@@ -58,7 +58,18 @@ export default class MediaSelectorSelected extends Component {
       );
     } else {
       result = (
-        <span></span>
+        <div className={styles.root}>
+          <div className={styles.wrapper}>
+            <div className={styles.imagePart}>
+              <div className={styles.dummyImage}></div>
+            </div>
+            <div className={styles.infoPart}>
+              <div className={styles.underTitle}>
+                Nothing selected
+              </div>
+            </div>
+          </div>
+        </div>
       );
     }
 

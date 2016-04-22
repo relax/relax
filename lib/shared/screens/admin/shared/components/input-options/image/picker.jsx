@@ -20,7 +20,8 @@ export default class ImagePicker extends Component {
     closeSelector: PropTypes.func.isRequired,
     onMount: PropTypes.func.isRequired,
     mounted: PropTypes.bool.isRequired,
-    mediaItem: PropTypes.object
+    mediaItem: PropTypes.object,
+    allowedType: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -92,10 +93,15 @@ export default class ImagePicker extends Component {
   }
 
   renderMediaSelector () {
-    const {selector, value, closeSelector, onChange} = this.props;
+    const {selector, value, closeSelector, onChange, allowedType} = this.props;
     if (selector) {
       return (
-        <MediaSelector selected={value} onClose={closeSelector} onChange={onChange} />
+        <MediaSelector
+          selected={value}
+          onClose={closeSelector}
+          onChange={onChange}
+          allowedType={allowedType}
+        />
       );
     }
   }
