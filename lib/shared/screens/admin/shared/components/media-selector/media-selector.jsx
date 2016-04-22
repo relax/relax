@@ -23,11 +23,12 @@ export default class MediasSelector extends Component {
     order: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     allowedType: PropTypes.string.isRequired,
-    uploadMediaFiles: PropTypes.func.isRequired
+    uploadMediaFiles: PropTypes.func.isRequired,
+    uploads: PropTypes.array.isRequired
   };
 
   render () {
-    const {media, selected, onClose, onChange, uploadMediaFiles} = this.props;
+    const {media, selected, onClose, onChange, uploadMediaFiles, uploads} = this.props;
     return (
       <Modal big onClose={onClose}>
         <Upload clickable={false} infos onFiles={uploadMediaFiles}>
@@ -37,6 +38,7 @@ export default class MediasSelector extends Component {
               media={media}
               selected={selected}
               onChange={onChange}
+              uploads={uploads}
             />
           </Scrollable>
         </Upload>
