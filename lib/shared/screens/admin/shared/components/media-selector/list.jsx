@@ -13,7 +13,8 @@ export default class MediaSelectorList extends Component {
   static propTypes = {
     media: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
-    uploads: PropTypes.array.isRequired
+    uploads: PropTypes.array.isRequired,
+    selected: PropTypes.string
   };
 
   render () {
@@ -32,9 +33,9 @@ export default class MediaSelectorList extends Component {
   }
 
   renderItem (mediaItem) {
-    const {onChange} = this.props;
+    const {onChange, selected} = this.props;
     return (
-      <Entry mediaItem={mediaItem} onClick={onChange} key={mediaItem._id} />
+      <Entry mediaItem={mediaItem} onClick={onChange} selected={selected === mediaItem._id} key={mediaItem._id} />
     );
   }
 
