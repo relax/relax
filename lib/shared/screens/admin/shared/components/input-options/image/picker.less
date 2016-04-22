@@ -1,9 +1,11 @@
+@import '~styles/colors.less';
+
 .picker {
   display: inline-block;
 }
 
 .selected {
-  background-color: #cccccc;
+  background-color: @chromeBordersColor;
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -30,4 +32,17 @@
 
 .selected:hover .changeCover {
   opacity: 1;
+}
+
+.unselect {
+  color: @chromeTextColor;
+  font-size: 12px;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 10px 0;
+  cursor: pointer;
+
+  &:hover {
+    color: @alert;
+  }
 }
