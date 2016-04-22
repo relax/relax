@@ -25,7 +25,8 @@ export default class MediaItemPreview extends Component {
   static defaultProps = {
     useThumbnail: false,
     width: 100,
-    height: 100
+    height: 100,
+    mediaItem: {}
   };
 
   render () {
