@@ -1,5 +1,4 @@
 import bind from 'decorators/bind';
-import Button from 'components/button';
 import Component from 'components/component';
 import MediaItem from 'components/media-item-preview';
 import MediaSelector from 'components/media-selector';
@@ -68,14 +67,13 @@ export default class ImagePicker extends Component {
     const {value, width} = this.props;
     if (value) {
       return (
-        <Button
-          grey
-          full
+        <div
+          className={styles.unselect}
           style={{width}}
           onClick={this.unselect}
         >
           Unselect Image
-        </Button>
+        </div>
       );
     }
   }
