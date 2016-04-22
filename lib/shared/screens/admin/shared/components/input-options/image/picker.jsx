@@ -80,7 +80,7 @@ export default class ImagePicker extends Component {
   }
 
   renderSelected () {
-    if (this.props.mounted && this.props.mediaItem && this.props.mediaItem._id) {
+    if (this.props.mounted && this.props.value && this.props.mediaItem && this.props.mediaItem._id) {
       return (
         <MediaItem
           mediaItem={this.props.mediaItem}
