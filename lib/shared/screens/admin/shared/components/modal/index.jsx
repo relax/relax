@@ -12,7 +12,8 @@ export default class Modal extends Component {
     onClose: PropTypes.func,
     subTitle: PropTypes.string,
     title: PropTypes.string,
-    small: PropTypes.bool
+    small: PropTypes.bool,
+    big: PropTypes.bool
   };
 
   componentDidMount () {
@@ -42,7 +43,7 @@ export default class Modal extends Component {
   }
 
   render () {
-    const {children, small} = this.props;
+    const {children, small, big} = this.props;
 
     return (
       <Portal>
@@ -52,7 +53,7 @@ export default class Modal extends Component {
           </Animate>
           <Animate transition='slideUpIn'>
             <div className={styles.wrapper}>
-              <div className={cx(styles.content, small && styles.small)}>
+              <div className={cx(styles.content, small && styles.small, big && styles.big)}>
                 {this.renderTitles()}
                 {children}
               </div>

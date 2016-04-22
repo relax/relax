@@ -1,0 +1,41 @@
+@import '~styles/colors.less';
+
+.root {
+  position: absolute;
+  padding: 12px;
+  bottom: 52px;
+  left: 0;
+  right: 0;
+  height: 124px;
+  border-top: 1px solid @chromeBordersColor;
+}
+
+.wrapper {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.imagePart {
+  display: table-cell;
+  vertical-align: middle;
+  width: 100px;
+  height: 100px;
+}
+.infoPart {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 5px 10px;
+  padding-right: 0;
+}
+
+.title {
+  color: @chromeTextColor;
+  font-size: 11px;
+  margin-bottom: 5px;
+  word-break: break-word;
+}
+.underTitle {
+  font-size: 10px;
+  color: @chromeTextSubColor;
+}
