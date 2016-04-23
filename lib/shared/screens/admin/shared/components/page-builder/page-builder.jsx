@@ -5,7 +5,7 @@ import Component from 'components/component';
 import Dragger from 'components/dnd/dragger';
 import Portal from 'components/portal';
 import React, {PropTypes} from 'react';
-import {Component as JSS} from 'relax-jss';
+import {Component as Jss} from 'relax-jss';
 
 import styles from './page-builder.less';
 import Canvas from './canvas';
@@ -33,7 +33,7 @@ export default class PageBuilder extends Component {
   render () {
     return (
       <div className={cx(styles.root)}>
-        <JSS stylesheet={stylesheet} />
+        <Jss stylesheet={stylesheet} />
         <Canvas />
         {this.renderElementsMenu()}
         {this.renderDragger()}
