@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import forEach from 'lodash.foreach';
 import AnimateProps from 'components/animate-props';
@@ -54,7 +55,6 @@ export default class Droppable extends Component {
 
   getInitState () {
     return {
-      overed: false,
       closeToMargin: false
     };
   }
@@ -95,37 +95,30 @@ export default class Droppable extends Component {
     }
   }
 
+  @bind
   onMouseEnter () {
-    if (this.state.entered) {
-      return;
-    }
+    if (!this.props.isActive) {
+      const order = this.hasChildren();
 
-    const order = this.props.children && (this.props.children instanceof Array && this.props.children.length > 0);
+      this.setState({
+        order
+      });
 
-    this.setState({
-      entered: true,
-      order,
-      overed: !order
-    });
-
-    if (!order) {
-      const {onDroppable} = this.props.dndActions;
-      onDroppable(this.props.dropInfo);
+      if (!order) {
+        const {onDroppable} = this.props.dndActions;
+        onDroppable(this.props.dropInfo);
+      }
     }
   }
 
+  @bind
   onMouseLeave () {
-    const {activeDropInfo, dropInfo} = this.props;
-    const {outDroppable} = this.props.dndActions;
+    if (this.props.isActive) {
+      const {dropInfo} = this.props;
+      const {outDroppable} = this.props.dndActions;
 
-    if (activeDropInfo && activeDropInfo.id === dropInfo.id) {
       outDroppable(dropInfo.id);
     }
-
-    this.setState({
-      entered: false,
-      overed: false
-    });
   }
 
   hasChildren () {
@@ -180,8 +173,8 @@ export default class Droppable extends Component {
     const {dragging} = this.props;
     if (dragging && droppableHere) {
       return {
-        onMouseOver: ::this.onMouseEnter,
-        onMouseLeave: ::this.onMouseLeave
+        onMouseOver: this.onMouseEnter,
+        onMouseLeave: this.onMouseLeave
       };
     }
   }
@@ -352,7 +345,7 @@ export default class Droppable extends Component {
     }
 
     return (
-      <div className={cx('drop-placeholder', this.state.overed && 'active')}>
+      <div className={cx('drop-placeholder', this.props.isActive && 'active')}>
         {result}
       </div>
     );
