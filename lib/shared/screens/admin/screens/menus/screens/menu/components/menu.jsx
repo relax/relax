@@ -9,6 +9,7 @@ import {mergeFragments} from 'relax-fragments';
 
 import styles from './menu.less';
 import MenuBuilder from './menu-builder';
+import State from './state';
 
 export default class Menu extends Component {
   static fragments = mergeFragments({
@@ -25,7 +26,8 @@ export default class Menu extends Component {
     deleteConfirm: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
     updateTitle: PropTypes.func.isRequired,
-    saveMenu: PropTypes.func.isRequired
+    saveMenu: PropTypes.func.isRequired,
+    state: PropTypes.string
   };
 
   render () {
@@ -53,14 +55,8 @@ export default class Menu extends Component {
   }
 
   renderState () {
-    const {saveMenu} = this.props;
-    return (
-      <div className={styles.state}>
-        <button className={cx(styles.actionButton, styles.save)} onClick={saveMenu}>
-          Save Menu
-        </button>
-      </div>
-    );
+    const {saveMenu, state} = this.props;
+    return <State saveMenu={saveMenu} state={state} />;
   }
 
   renderDeleteConfirm () {
