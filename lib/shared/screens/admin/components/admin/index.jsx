@@ -13,7 +13,9 @@ export default class Admin extends Component {
   static propTypes = {
     children: PropTypes.node,
     routes: PropTypes.array.isRequired,
-    location: PropTypes.object.isRequired
+    location: PropTypes.object.isRequired,
+    previewing: PropTypes.bool.isRequired,
+    toggleEditing: PropTypes.func.isRequired
   };
 
   getInitState () {
@@ -27,13 +29,13 @@ export default class Admin extends Component {
     const {location} = this.props;
     const oldBuild = location.query.build;
     const currentBuild = nextProps.location.query.build;
+    const config = {
+      duration: 800,
+      display: null,
+      easing: 'easeOutExpo'
+    };
 
     if (oldBuild !== currentBuild) {
-      const config = {
-        duration: 800,
-        display: null,
-        easing: 'easeOutExpo'
-      };
       if (currentBuild) {
         velocity.hook(this.refs.content, 'translateX', '0px');
         velocity(this.refs.content, {translateX: '-290px'}, config);
@@ -42,20 +44,29 @@ export default class Admin extends Component {
         velocity(this.refs.content, {translateX: '0px'}, config);
       }
     }
+
+    if (nextProps.previewing !== this.props.previewing) {
+      if (nextProps.previewing) {
+        velocity(this.refs.content, {top: '0px'}, config);
+      } else {
+        velocity(this.refs.content, {top: '45px'}, config);
+      }
+    }
   }
 
   render () {
+    const {previewing, toggleEditing} = this.props;
     return (
       <div className={styles.root}>
-        <TopBar />
+        <TopBar previewing={previewing} toggleEditing={toggleEditing} />
         <div className={cx(styles.content, this.state.build && styles.build)} ref='content'>
           <Menu>
             {this.renderMenuContent()}
           </Menu>
-          <div className={styles.pageContent}>
+          <div className={cx(styles.pageContent, previewing && styles.pagePreviewing)}>
             {this.props.children}
           </div>
-          <PageBuilderMenu />
+          <PageBuilderMenu previewing={previewing} />
         </div>
       </div>
     );

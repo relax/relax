@@ -8,6 +8,22 @@
   height: @topMenuHeight;
   background-color: @chromeBackgroundColor;
   border-bottom: 1px solid @chromeBordersColor;
-  
+
   z-index: 2;
+}
+
+.closePreview {
+  position: absolute;
+  display: inline-block;
+  background-color: @chromeBackgroundColor;
+  border-radius: 3px;
+  color: @chromeTextColor;
+  left: 100%;
+  top: 5px;
+  font-size: 11px;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  z-index: 1000;
+  white-space: nowrap;
+  cursor: pointer;
 }

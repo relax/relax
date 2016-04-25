@@ -1,11 +1,17 @@
 import cx from 'classnames';
-import React, {PropTypes} from 'react';
 import Component from 'components/component';
+import React, {PropTypes} from 'react';
 
 import styles from './right-menu.less';
 
 export default class RightMenu extends Component {
+  static propTypes = {
+    toggleEditing: PropTypes.func.isRequired
+  };
+
   render () {
+    const {toggleEditing} = this.props;
+
     return (
       <div className={styles.root}>
         <button className={cx(styles.button, styles.iconButton)}>
@@ -14,7 +20,7 @@ export default class RightMenu extends Component {
         <button className={cx(styles.button, styles.iconButton)}>
           <i className='nc-icon-mini ui-1_settings-gear-64'></i>
         </button>
-        <button className={cx(styles.button, styles.textButton)}>
+        <button className={cx(styles.button, styles.textButton)} onClick={toggleEditing}>
           Preview
         </button>
         <button className={cx(styles.button, styles.textButton, styles.primaryButton)}>

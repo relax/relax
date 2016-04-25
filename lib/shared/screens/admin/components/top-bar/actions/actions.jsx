@@ -14,7 +14,8 @@ export default class Actions extends Component {
     changeDisplay: PropTypes.func.isRequired,
     draftHasChanges: PropTypes.bool.isRequired,
     state: PropTypes.string,
-    stateMessage: PropTypes.string
+    stateMessage: PropTypes.string,
+    toggleEditing: PropTypes.func.isRequired
   };
 
   render () {
@@ -24,7 +25,7 @@ export default class Actions extends Component {
         {this.renderDisplay()}
         <Back link={location.pathname} />
         {this.renderStatuses()}
-        <RightMenu />
+        {this.renderRightMenu()}
       </div>
     );
   }
@@ -44,6 +45,13 @@ export default class Actions extends Component {
         state={state}
         stateMessage={stateMessage}
       />
+    );
+  }
+
+  renderRightMenu () {
+    const {toggleEditing} = this.props;
+    return (
+      <RightMenu toggleEditing={toggleEditing} />
     );
   }
 }
