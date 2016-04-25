@@ -1,6 +1,6 @@
 import A from 'components/a';
-import React, {PropTypes} from 'react';
 import Component from 'components/component';
+import React, {PropTypes} from 'react';
 
 import styles from './back.less';
 
@@ -16,8 +16,8 @@ export default class Back extends Component {
   render () {
     return (
       <A href={this.props.link} className={styles.root}>
-        <img src='/images/admin/logo@2x.png' className={styles.logo} />
-        <img src='/images/admin/relax@2x.png' className={styles.lettering} />
+        <img src='/images/admin/logo@2x.png' className={styles.logo} role='presentation' />
+        <img src='/images/admin/relax@2x.png' className={styles.lettering} role='presentation' />
       </A>
     );
   }
