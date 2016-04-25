@@ -7,7 +7,7 @@ import Component from 'components/component';
 import Droppable from 'components/dnd/droppable';
 import Symbol from 'elements/symbol';
 import React, {PropTypes} from 'react';
-import {Component as JSS} from 'relax-jss';
+import {Component as Jss} from 'relax-jss';
 
 import classes from './canvas.less';
 import Empty from './empty';
@@ -99,7 +99,7 @@ export default class Canvas extends Component {
     const styleTags = [];
     forEach(stylesManager.stylesMap, (styleMap, key) => {
       styleTags.push(
-        <JSS stylesheet={styleMap.stylesheet} key={key} />
+        <Jss stylesheet={styleMap.stylesheet} key={key} />
       );
     });
     return styleTags;
