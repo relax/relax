@@ -144,7 +144,7 @@ export default class StylePicker extends Component {
       } else {
         result = (
           <div className={classes.saveStyle}>
-            <Button primary full onClick={toggleEditingTitle}>
+            <Button primary full big onClick={toggleEditingTitle}>
               Save style
             </Button>
           </div>
