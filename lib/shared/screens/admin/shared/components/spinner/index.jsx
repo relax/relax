@@ -6,13 +6,14 @@ import styles from './index.less';
 
 export default class Spinner extends Component {
   static propTypes = {
-    className: PropTypes.string
+    className: PropTypes.string,
+    small: PropTypes.bool
   };
 
   render () {
-    const {className} = this.props;
+    const {className, small} = this.props;
     return (
-      <div className={cx(styles.spinner, className)}></div>
+      <div className={cx(styles.spinner, small && styles.small, className)}></div>
     );
   }
 }
