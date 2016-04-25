@@ -26,11 +26,7 @@ export default class OptionsList extends Component {
   }
 
   render () {
-    return (
-      <div>
-        {this.renderOptions(this.props.options)}
-      </div>
-    );
+    return this.renderOptions(this.props.options);
   }
 
   renderOptions (options) {
