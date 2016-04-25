@@ -9,17 +9,26 @@ import Statuses from './statuses';
 
 export default class Actions extends Component {
   static propTypes = {
-    location: PropTypes.object.isRequired
+    location: PropTypes.object.isRequired,
+    display: PropTypes.string.isRequired,
+    changeDisplay: PropTypes.func.isRequired
   };
 
   render () {
     return (
       <div className={styles.root}>
-        <Displays />
+        {this.renderDisplay()}
         <Back link={this.props.location.pathname} />
         <Statuses />
         <RightMenu />
       </div>
+    );
+  }
+
+  renderDisplay () {
+    const {display, changeDisplay} = this.props;
+    return (
+      <Displays display={display} onChange={changeDisplay} />
     );
   }
 }

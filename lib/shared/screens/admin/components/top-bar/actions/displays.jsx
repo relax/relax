@@ -1,8 +1,9 @@
 import cx from 'classnames';
-import React, {PropTypes} from 'react';
 import Component from 'components/component';
+import React, {PropTypes} from 'react';
 
 import styles from './displays.less';
+import Display from './display';
 
 export default class Displays extends Component {
   static propTypes = {
@@ -30,10 +31,6 @@ export default class Displays extends Component {
     }
   ];
 
-  changeDisplay (display) {
-    this.props.onChange(display);
-  }
-
   render () {
     const {display, disabled} = this.props;
     const positions = {
@@ -57,14 +54,15 @@ export default class Displays extends Component {
   }
 
   renderButton ({display, icon}) {
+    const {onChange} = this.props;
     return (
-      <button
-        className={cx(styles.button, this.props.display !== display && styles.unfocus)}
-        onClick={this.changeDisplay.bind(this, display)}
+      <Display
+        onChange={onChange}
+        icon={icon}
+        display={display}
+        active={this.props.display === display}
         key={display}
-      >
-        <i className={icon}></i>
-      </button>
+      />
     );
   }
 }
