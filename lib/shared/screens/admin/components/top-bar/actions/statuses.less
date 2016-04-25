@@ -23,3 +23,47 @@
     color: @chromeTextColorHighlight;
   }
 }
+
+.state {
+  display: inline-block;
+  vertical-align: top;
+  padding: 0 16px;
+  line-height: @actionsHeight;
+  height: @actionsHeight;
+
+  :global {
+    i, span {
+      display: inline-block;
+      vertical-align: top;
+      line-height: @actionsHeight;
+    }
+    i {
+      font-size: 20px;
+    }
+    span {
+      margin-left: 7px;
+      color: @primary;
+      font-size: 9px;
+    }
+  }
+}
+
+.spinner {
+  margin-top: 5px;
+}
+
+.success {
+  :global {
+    i, span {
+      color: @success;
+    }
+  }
+}
+
+.error {
+  :global {
+    i, span {
+      color: @alert;
+    }
+  }
+}

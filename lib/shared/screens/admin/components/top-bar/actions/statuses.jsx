@@ -1,5 +1,7 @@
+import cx from 'classnames';
 import Animate from 'components/animate';
 import Component from 'components/component';
+import Spinner from 'components/spinner';
 import React, {PropTypes} from 'react';
 
 import styles from './statuses.less';
@@ -30,7 +32,39 @@ export default class Statuses extends Component {
   }
 
   renderState () {
-    return (<div></div>);
+    const {state, stateMessage} = this.props;
+    let result;
+
+    if (state === 'loading') {
+      result = (
+        <Animate transition='slideDownIn' key='loading'>
+          <div className={cx(styles.state, styles.loading)}>
+            <Spinner small className={styles.spinner} />
+            <span>{stateMessage}</span>
+          </div>
+        </Animate>
+      );
+    } else if (state === 'success') {
+      result = (
+        <Animate transition='slideDownIn' key='success'>
+          <div className={cx(styles.state, styles.success)}>
+            <i className='nc-icon-outline ui-1_check-small' />
+            <span>{stateMessage}</span>
+          </div>
+        </Animate>
+      );
+    } else if (state === 'error') {
+      result = (
+        <Animate transition='slideDownIn' key='error'>
+          <div className={cx(styles.state, styles.error)}>
+            <i className='nc-icon-outline ui-2_small-remove' />
+            <span>{stateMessage}</span>
+          </div>
+        </Animate>
+      );
+    }
+
+    return result;
   }
 
   renderBehind () {

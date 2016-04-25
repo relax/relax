@@ -12,7 +12,9 @@ export default class Actions extends Component {
     location: PropTypes.object.isRequired,
     display: PropTypes.string.isRequired,
     changeDisplay: PropTypes.func.isRequired,
-    draftHasChanges: PropTypes.bool.isRequired
+    draftHasChanges: PropTypes.bool.isRequired,
+    state: PropTypes.string,
+    stateMessage: PropTypes.string
   };
 
   render () {
@@ -35,9 +37,13 @@ export default class Actions extends Component {
   }
 
   renderStatuses () {
-    const {draftHasChanges} = this.props;
+    const {draftHasChanges, state, stateMessage} = this.props;
     return (
-      <Statuses draftHasChanges={draftHasChanges} />
+      <Statuses
+        draftHasChanges={draftHasChanges}
+        state={state}
+        stateMessage={stateMessage}
+      />
     );
   }
 }
