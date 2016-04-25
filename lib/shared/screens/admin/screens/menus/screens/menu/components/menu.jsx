@@ -24,7 +24,8 @@ export default class Menu extends Component {
     cancelDelete: PropTypes.func.isRequired,
     deleteConfirm: PropTypes.bool.isRequired,
     confirmDelete: PropTypes.func.isRequired,
-    updateTitle: PropTypes.func.isRequired
+    updateTitle: PropTypes.func.isRequired,
+    saveMenu: PropTypes.func.isRequired
   };
 
   render () {
@@ -37,6 +38,7 @@ export default class Menu extends Component {
             <EditableTitle value={menu.title} onSubmit={updateTitle} />
           </div>
           <ContentHeaderActions>
+            {this.renderState()}
             <button className={styles.actionButton} onClick={onDelete}>
               Delete Menu
             </button>
@@ -46,6 +48,17 @@ export default class Menu extends Component {
           <MenuBuilder />
         </div>
         {this.renderDeleteConfirm()}
+      </div>
+    );
+  }
+
+  renderState () {
+    const {saveMenu} = this.props;
+    return (
+      <div className={styles.state}>
+        <button className={cx(styles.actionButton, styles.save)} onClick={saveMenu}>
+          Save Menu
+        </button>
       </div>
     );
   }
