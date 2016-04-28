@@ -11,7 +11,8 @@ export default class MediaList extends Component {
   static propTypes = {
     media: PropTypes.array.isRequired,
     toggleMediaSelection: PropTypes.func.isRequired,
-    selected: PropTypes.array.isRequired
+    selected: PropTypes.array.isRequired,
+    display: PropTypes.string.isRequired
   };
 
   render () {
@@ -25,12 +26,13 @@ export default class MediaList extends Component {
   }
 
   renderEntry (mediaItem) {
-    const {toggleMediaSelection, selected} = this.props;
+    const {toggleMediaSelection, selected, display} = this.props;
     return (
       <Entry
         mediaItem={mediaItem}
         onClick={toggleMediaSelection}
         selected={selected.indexOf(mediaItem._id) !== -1}
+        display={display}
         key={mediaItem._id}
       />
     );

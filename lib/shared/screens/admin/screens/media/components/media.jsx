@@ -32,7 +32,9 @@ export default class Media extends Component {
     order: PropTypes.string.isRequired,
     location: PropTypes.object.isRequired,
     toggleMediaSelection: PropTypes.func.isRequired,
-    selected: PropTypes.array.isRequired
+    selected: PropTypes.array.isRequired,
+    display: PropTypes.string.isRequired,
+    changeMediaDisplay: PropTypes.func.isRequired
   };
 
   render () {
@@ -91,7 +93,9 @@ export default class Media extends Component {
       sort,
       order,
       toggleMediaSelection,
-      selected
+      selected,
+      display,
+      changeMediaDisplay
     } = this.props;
     return (
       <Upload clickable={false} infos onFiles={uploadMediaFiles}>
@@ -103,11 +107,11 @@ export default class Media extends Component {
               sort={sort}
               order={order}
             />
-            <ContentDisplays display='grid' />
+          <ContentDisplays display={display} onChange={changeMediaDisplay} />
           </ContentHeaderActions>
         </ContentHeader>
         <Content>
-          <List media={media} toggleMediaSelection={toggleMediaSelection} selected={selected} />
+          <List media={media} toggleMediaSelection={toggleMediaSelection} selected={selected} display={display} />
         </Content>
       </Upload>
     );
