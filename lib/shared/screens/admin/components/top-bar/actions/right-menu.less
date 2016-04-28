@@ -7,6 +7,17 @@
   padding: 0 6px;
 }
 
+.disabled {
+  opacity: 0.3;
+  &:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: transparent;
+  }
+}
+
 .button {
   display: inline-block;
   vertical-align: top;

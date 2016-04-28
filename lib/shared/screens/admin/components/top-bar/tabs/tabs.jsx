@@ -10,7 +10,9 @@ export default class Tabs extends Component {
   };
 
   static propTypes = {
-    tabs: PropTypes.array.isRequired
+    tabs: PropTypes.array.isRequired,
+    removeTab: PropTypes.func.isRequired,
+    pathname: PropTypes.string.isRequired
   };
 
   render () {
@@ -25,10 +27,13 @@ export default class Tabs extends Component {
   }
 
   renderTab (tab, key) {
+    const {removeTab, pathname} = this.props;
     return (
       <Tab
         tab={tab}
         tabsCount={this.props.tabs.length}
+        removeTab={removeTab}
+        pathname={pathname}
         key={key}
       />
     );

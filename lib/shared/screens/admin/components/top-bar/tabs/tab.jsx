@@ -1,17 +1,17 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
-import A from 'components/a';
-import React from 'react';
 import Component from 'components/component';
+import React, {PropTypes} from 'react';
+import {Link} from 'react-router';
 
 import styles from './tab.less';
 
 export default class Tab extends Component {
   static fragments = {
     tab: {
-      _id: {
-        _id: 1
-      },
-      page: {
+      _id: 1,
+      type: 1,
+      item: {
         _id: 1,
         title: 1
       }
@@ -19,51 +19,61 @@ export default class Tab extends Component {
   };
 
   static propTypes = {
-    activePanelType: React.PropTypes.string,
-    tab: React.PropTypes.object,
-    tabsCount: React.PropTypes.number,
-    removeTab: React.PropTypes.func
+    activePanelType: PropTypes.string,
+    tab: PropTypes.object,
+    tabsCount: PropTypes.number,
+    removeTab: PropTypes.func,
+    pathname: PropTypes.string.isRequired
   };
 
-  onCloseTab (_id, active, event) {
+  @bind
+  onCloseTab (event) {
     event.preventDefault();
     event.stopPropagation();
-    this.props.removeTab(this.constructor.fragments, _id, active);
+    const {tab = {}, pathname, removeTab} = this.props;
+    const to = this.getLink();
+    const active = pathname === to;
+
+    removeTab(tab._id, active && to);
+  }
+
+  getLink () {
+    const {tab = {}} = this.props;
+    const {item = {}} = tab;
+
+    let to;
+    switch (tab.type) {
+      case 'page':
+        to = `/admin/pages/${item._id}`;
+        break;
+      case 'schema':
+        to = `/admin/schemas/${item._id}`;
+        break;
+      default:
+        to = '#';
+    }
+
+    return to;
   }
 
   render () {
-    const {tab} = this.props;
-    const active = tab.selected;
+    const {tab = {}, pathname} = this.props;
+    const {item = {}} = tab;
+    const to = this.getLink();
 
-    let _id;
-    let title;
-    let link;
-    if (tab.page) {
-      _id = tab.page._id;
-      title = tab.page.title;
-      link = '/admin/page/' + _id;
-    } else if (tab.userSchema) {
-      _id = tab.userSchema._id;
-      title = tab.userSchema.title + ' (template)';
-      link = '/admin/schemas/' + _id + '/template';
-    } else if (tab.schemaEntry) {
-      _id = tab.schemaEntry._id;
-      title = tab.schemaEntry.title;
-      link = '/admin/schema/' + tab.schemaEntry.schemaSlug + '/' + _id + '/single';
-    }
-
+    const active = pathname === to;
     const deduct = 35 / this.props.tabsCount;
     const style = {
-      maxWidth: 'calc(' + (100 / this.props.tabsCount) + '% - ' + deduct + 'px)'
+      maxWidth: `calc(${100 / this.props.tabsCount}% - ${deduct}px)`
     };
 
     return (
-      <A href={link} className={cx(styles.tab, active && styles.active)} style={style}>
-        <span>{title}</span>
-        <span className={styles.close} onClick={this.onCloseTab.bind(this, tab._id, active)}>
-          <i className='material-icons'>close</i>
+      <Link to={to} query={{build: 1}} className={cx(styles.tab, active && styles.active)} style={style}>
+        <span>{item.title}</span>
+        <span className={styles.close} onClick={this.onCloseTab}>
+          <i className='nc-icon-mini ui-1_simple-remove'></i>
         </span>
-      </A>
+      </Link>
     );
   }
 }
