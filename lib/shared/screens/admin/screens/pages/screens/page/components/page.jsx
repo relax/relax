@@ -33,6 +33,7 @@ export default class Page extends Component {
     loading: PropTypes.bool.isRequired,
     togglePageInfo: PropTypes.func.isRequired,
     togglePageRevisions: PropTypes.func.isRequired,
+    pageId: PropTypes.string.isRequired,
     sidebar: PropTypes.string
   };
 
@@ -51,6 +52,12 @@ export default class Page extends Component {
     const {location} = this.props;
     const oldBuild = location.query.build;
     const currentBuild = nextProps.location.query.build;
+
+    if (this.props.pageId !== nextProps.pageId) {
+      this.setState({
+        build: location.query.build && true
+      });
+    }
 
     if (oldBuild !== currentBuild) {
       const config = {

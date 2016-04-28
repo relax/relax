@@ -6,14 +6,15 @@ import styles from './right-menu.less';
 
 export default class RightMenu extends Component {
   static propTypes = {
-    toggleEditing: PropTypes.func.isRequired
+    toggleEditing: PropTypes.func.isRequired,
+    building: PropTypes.bool.isRequired
   };
 
   render () {
-    const {toggleEditing} = this.props;
+    const {toggleEditing, building} = this.props;
 
     return (
-      <div className={styles.root}>
+      <div className={cx(styles.root, !building && styles.disabled)}>
         <button className={cx(styles.button, styles.iconButton)}>
           <i className='nc-icon-mini ui-2_time-clock'></i>
         </button>
