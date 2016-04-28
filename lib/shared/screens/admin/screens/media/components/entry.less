@@ -1,6 +1,6 @@
 @import '~styles/colors.less';
 
-.entry {
+.grid {
   display: inline-block;
   vertical-align: top;
 
@@ -14,7 +14,7 @@
 }
 
 @media screen and (min-width: 1501px) {
-  .entry {
+  .grid {
     width: 16%;
     &:nth-child(5n+5) {
       margin-right: 0;
@@ -23,7 +23,7 @@
 }
 
 @media screen and (max-width: 1500px) and (min-width: 1101px) {
-  .entry {
+  .grid {
     &:nth-child(4n+4) {
       margin-right: 0;
     }
@@ -31,7 +31,7 @@
 }
 
 @media screen and (max-width: 1100px) and (min-width: 851px) {
-  .entry {
+  .grid {
     width: 30%;
     &:nth-child(3n+3) {
       margin-right: 0;
@@ -40,7 +40,7 @@
 }
 
 @media screen and (max-width: 850px) and (min-width: 751px) {
-  .entry {
+  .grid {
     width: 45%;
     margin-right: 10%;
     &:nth-child(2n+2) {
@@ -50,12 +50,11 @@
 }
 
 @media screen and (max-width: 750px) {
-  .entry {
+  .grid {
     width: 100%;
     margin-right: 0%;
   }
 }
-
 
 .preview {
   width: 100%;
@@ -85,10 +84,43 @@
   text-transform: uppercase;
 }
 
-.entry:hover {
+.extras {
+  margin-top: 10px;
+}
+
+.extra {
+  color: @adminText;
+  font-size: 12px;
+}
+
+.grid:hover, .list:hover {
   border: 1px solid @adminBorders;
 }
 
-.entry.selected {
+.grid.selected, .list.selected {
   border: 1px solid @primary;
+}
+
+.list {
+  display: block;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  cursor: pointer;
+
+  .preview {
+    display: table-cell;
+    vertical-align: top;
+    width: 300px;
+    height: 150px;
+  }
+  .info {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: left;
+    padding: 10px 30px;
+  }
+  .title {
+    font-size: 18px;
+    line-height: 24px;
+  }
 }
