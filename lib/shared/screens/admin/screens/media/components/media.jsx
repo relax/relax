@@ -1,9 +1,11 @@
+import Animate from 'components/animate';
 import Component from 'components/component';
 import Content from 'components/content';
 import ContentDisplays from 'components/content-displays';
 import ContentHeader from 'components/content-header';
 import ContentHeaderActions from 'components/content-header-actions';
 import ContentSearch from 'components/content-search';
+import ModalDelete from 'components/modal-delete';
 import Upload from 'components/upload';
 import React, {PropTypes} from 'react';
 import {mergeFragments} from 'relate-js';
@@ -34,7 +36,12 @@ export default class Media extends Component {
     toggleMediaSelection: PropTypes.func.isRequired,
     selected: PropTypes.array.isRequired,
     display: PropTypes.string.isRequired,
-    changeMediaDisplay: PropTypes.func.isRequired
+    changeMediaDisplay: PropTypes.func.isRequired,
+    unselectAll: PropTypes.func.isRequired,
+    onRemoveSelected: PropTypes.func.isRequired,
+    deleteConfirm: PropTypes.bool.isRequired,
+    cancelRemoveSelected: PropTypes.func.isRequired,
+    removeSelected: PropTypes.func.isRequired
   };
 
   render () {
@@ -87,8 +94,6 @@ export default class Media extends Component {
     const {
       media,
       uploadMediaFiles,
-      search,
-      searchChange,
       location,
       sort,
       order,
@@ -100,7 +105,7 @@ export default class Media extends Component {
     return (
       <Upload clickable={false} infos onFiles={uploadMediaFiles}>
         <ContentHeader>
-          <ContentSearch value={search} onChange={searchChange} />
+          {this.renderSearchOrSelect()}
           <ContentHeaderActions>
             <Sorting
               location={location}
@@ -113,7 +118,47 @@ export default class Media extends Component {
         <Content>
           <List media={media} toggleMediaSelection={toggleMediaSelection} selected={selected} display={display} />
         </Content>
+        {this.renderDeleteConfirm()}
       </Upload>
     );
+  }
+
+  renderSearchOrSelect () {
+    const {selected, search, searchChange, unselectAll, onRemoveSelected} = this.props;
+    const len = selected.length;
+    let result;
+
+    if (len) {
+      result = (
+        <Animate key='selected'>
+          <div className={styles.selected}>
+            <span className={styles.selectedText}>{`You've selected ${len} items`}</span>
+            <button className={styles.unselect} onClick={unselectAll}>Unselect</button>
+            <button className={styles.remove} onClick={onRemoveSelected}>Remove</button>
+          </div>
+        </Animate>
+      );
+    } else {
+      result = (
+        <Animate key='nonselected'>
+          <ContentSearch value={search} onChange={searchChange} />
+        </Animate>
+      );
+    }
+
+    return result;
+  }
+
+  renderDeleteConfirm () {
+    const {deleteConfirm, cancelRemoveSelected, removeSelected, selected} = this.props;
+    if (deleteConfirm) {
+      return (
+        <ModalDelete
+          title={`Are you sure you want to remove the ${selected.length} selected items?`}
+          cancel={cancelRemoveSelected}
+          submit={removeSelected}
+        />
+      );
+    }
   }
 }
