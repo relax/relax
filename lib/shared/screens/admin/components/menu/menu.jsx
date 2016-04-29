@@ -4,13 +4,17 @@ import Button from 'components/menu-button';
 import Component from 'components/component';
 import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
+import {mergeFragments} from 'relate-js';
 
 import styles from './menu.less';
 import ContentTypes from './content-types';
 import User from './user';
 
 export default class Menu extends Component {
-  static fragments = ContentTypes.fragments;
+  static fragments = mergeFragments(
+    ContentTypes.fragments,
+    User.fragments
+  );
 
   static propTypes = {
     active: PropTypes.string,
@@ -53,7 +57,7 @@ export default class Menu extends Component {
   }
 
   render () {
-    const {menuData, schemas, active, onActiveClick} = this.props;
+    const {menuData, schemas, active, onActiveClick, user} = this.props;
     return (
       <div className={cx(styles.root, this.state.opened && styles.opened)}>
         <div className={styles.menu} ref='menu'>
@@ -70,7 +74,7 @@ export default class Menu extends Component {
         <div className={styles.content} ref='content'>
           {this.props.children}
         </div>
-        <User user={{name: 'Bruno Mota', email: 'bruno12mota@gmail.com'}} />
+        <User user={user} />
       </div>
     );
   }

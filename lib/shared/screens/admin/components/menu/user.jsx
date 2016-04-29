@@ -6,6 +6,14 @@ import React, {PropTypes} from 'react';
 import styles from './user.less';
 
 export default class User extends Component {
+  static fragments = {
+    user: {
+      _id: 1,
+      email: 1,
+      name: 1
+    }
+  };
+
   static propTypes = {
     user: PropTypes.object.isRequired
   };
@@ -23,7 +31,7 @@ export default class User extends Component {
   }
 
   render () {
-    const {email, name} = this.props.user;
+    const {email, name} = this.props.user || {};
     const {opened} = this.state;
     const url = getGravatarImage(email, 50);
 
