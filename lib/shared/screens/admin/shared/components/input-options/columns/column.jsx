@@ -26,7 +26,7 @@ export default class Column extends Component {
 
     const style = {};
     if (width === 'custom') {
-      style.width = `${widthPerc}%`;
+      style.width = `${widthPerc}`;
     }
 
     return (
