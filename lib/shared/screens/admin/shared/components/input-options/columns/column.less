@@ -1,0 +1,30 @@
+@import '~styles/colors.less';
+
+.root {
+  position: relative;
+  cursor: pointer;
+  height: 22px;
+
+  &:after {
+    content: " ";
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    bottom: 2px;
+    left: 2px;
+    background-color: @chromeBackgroundDarkerColor;
+    border: 1px solid @chromeBordersColor;
+    border-radius: 3px;
+  }
+
+  &:hover {
+    &:after {
+      background-color: #ccc;
+    }
+  }
+  &.active {
+    &:after {
+      background-color: @primary;
+    }
+  }
+}
