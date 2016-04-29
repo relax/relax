@@ -1,8 +1,11 @@
+import bind from 'decorators/bind';
 import cloneDeep from 'lodash.clonedeep';
-import cx from 'classnames';
 import utils from 'helpers/utils';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
+
+import styles from './columns-manager.less';
+import Column from './column';
 
 export default class ColumnsManager extends Component {
   static propTypes = {
@@ -31,9 +34,8 @@ export default class ColumnsManager extends Component {
     return utils.parseColumnsDisplay(value, selectedElement.children.length, multiRows, idChanged);
   }
 
-  onClick (key, event) {
-    event.preventDefault();
-
+  @bind
+  onClick (key) {
     if (this.state.selected === key) {
       this.setState({
         selected: false
@@ -54,7 +56,7 @@ export default class ColumnsManager extends Component {
 
   render () {
     return (
-      <div className='columns-manager'>
+      <div>
         {this.renderChildren()}
         {this.renderOptions()}
       </div>
@@ -82,7 +84,7 @@ export default class ColumnsManager extends Component {
           }
         }
         children.push(
-          <div className='row' key={i}>
+          <div className={styles.row} key={i}>
             {columns}
           </div>
         );
@@ -93,18 +95,14 @@ export default class ColumnsManager extends Component {
   }
 
   renderColumn (id, value) {
-    const style = {};
-
-    if (value.width === 'custom') {
-      style.width = `${value.widthPerc}%`;
-    }
-    const onClick = this.onClick.bind(this, id);
-
     return (
-      <div
-        style={style}
-        className={cx('column', this.state.selected === id && 'active')}
-        onClick={onClick}
+      <Column
+        id={id}
+        width={value.width}
+        widthPerc={value.widthPerc}
+        onClick={this.onClick}
+        selected={this.state.selected === id}
+        className={styles.column}
         key={id}
       />
     );
@@ -125,7 +123,7 @@ export default class ColumnsManager extends Component {
       );
 
       return (
-        <div className='columns-manager-options'>
+        <div className={styles.options}>
           <OptionsList
             options={multiRows ? columnOptions : columnOptionsSingleRow}
             values={values}
