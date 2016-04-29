@@ -1,3 +1,4 @@
+import elementStyles from 'styles/element.less';
 import Utils from 'helpers/utils';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
@@ -92,9 +93,9 @@ export default class Video extends Component {
 
       if (this.props.relax.editing) {
         result = (
-          <div className='editing-wrapper'>
+          <div className={elementStyles.editingWrapper}>
             {iframe}
-            <div className='editing-cover'></div>
+            <div className={elementStyles.editingCover}></div>
           </div>
         );
       } else {
@@ -105,8 +106,8 @@ export default class Video extends Component {
         height
       };
       result = (
-        <div style={style} className='dummy-placeholder'>
-          <i className='fa fa-video-camera'></i>
+        <div style={style} className={elementStyles.dummy}>
+          <i className='nc-icon-outline media-1_video-66'></i>
         </div>
       );
     }
