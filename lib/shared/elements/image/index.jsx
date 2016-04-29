@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import elementStyles from 'styles/element.less';
 import MediaImage from 'components/image';
 import Utils from 'helpers/utils';
 import React, {PropTypes} from 'react';
@@ -95,8 +96,9 @@ export default class Image extends Component {
   }
 
   renderImage (imageStyle) {
-    if (this.state.mounted) {
-      return (
+    let result;
+    if (this.state.mounted && this.props.children) {
+      result = (
         <div>
           <MediaImage
             className='normal-image'
@@ -109,7 +111,14 @@ export default class Image extends Component {
           {this.renderOverImage(imageStyle)}
         </div>
       );
+    } else if (this.props.relax.editing) {
+      result = (
+        <div className={elementStyles.dummy}>
+          <i className='nc-icon-outline media-1_image-02'></i>
+        </div>
+      );
     }
+    return result;
   }
 
   renderOverImage (imageStyle) {
