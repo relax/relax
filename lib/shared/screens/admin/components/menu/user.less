@@ -10,8 +10,19 @@
   height: @height;
   overflow: hidden;
   border-top: 1px solid @adminBorders;
-  padding: 17px;
+  background-color: #ffffff;
   z-index: 1;
+  transition: height 0.2s ease-out;
+}
+
+.head {
+  height: @height;
+  cursor: pointer;
+  padding: 17px;
+}
+
+.opened {
+  height: @height + 100px;
 }
 
 .thumbnail {
@@ -76,7 +87,6 @@
   display: inline-block;
   height: @height;
   text-align: center;
-  line-height: @height;
   position: absolute;
   top: 0;
   right: 0;
@@ -85,5 +95,31 @@
   :global i {
     color: @adminText;
     font-size: 12px;
+    line-height: @height;
+  }
+}
+
+.actions {
+  padding: 0px 20px;
+  padding-left: 73px;
+  padding-bottom: 20px;
+}
+
+.action {
+  display: block;
+  text-decoration: none;
+  margin-bottom: 7px;
+
+  :global {
+    i, span {
+      display: inline-block;
+      vertical-align: top;
+      font-size: 12px;
+      color: @primary;
+      line-height: 20px;
+    }
+    i {
+      margin-right: 7px;
+    }
   }
 }
