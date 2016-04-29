@@ -10,16 +10,16 @@ import Element from '../element';
 
 export default class Columns extends Component {
   static propTypes = {
-    spacing: PropTypes.number.isRequired,
-    spacingRows: PropTypes.number.isRequired,
+    spacing: PropTypes.string,
+    spacingRows: PropTypes.string,
     columnsDisplay: PropTypes.array.isRequired,
     children: PropTypes.node,
     relax: PropTypes.object.isRequired
   };
 
   static defaultProps = {
-    spacing: 10,
-    spacingRows: 10,
+    spacing: '10px',
+    spacingRows: '10px',
     columnsDisplay: []
   };
 
@@ -44,7 +44,8 @@ export default class Columns extends Component {
     const layout = utils.parseColumnsDisplay(columnsDisplay, numChildren, relax.display !== 'desktop');
     const editing = relax.editing;
 
-    const spaceThird = Math.round(spacing / 3 * 100) / 100;
+    const spacingNum = parseFloat(spacing, 10);
+    const spaceThird = Math.round(spacingNum / 3 * 100) / 100;
     const spaceSides = spaceThird * 2;
     let result;
 
@@ -58,7 +59,7 @@ export default class Columns extends Component {
           children.push(this.renderBlock(
             this.props.children[i],
             layout[i],
-            i !== numChildren - 1 ? this.props.spacing : 0
+            i !== numChildren - 1 ? spacingNum : 0
           ));
         } else {
           const columns = [];
