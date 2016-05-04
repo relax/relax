@@ -8,12 +8,13 @@
     "url": "https://github.com/relax/relax.git"
   },
   "scripts": {
-    "build": "NODE_ENV=production ./node_modules/.bin/webpack --output-public-path /public/js/ && cp -r assets/images/* public/images",
-    "start": "NODE_ENV=production ./node_modules/.bin/babel-node app",
-    "dev": "./node_modules/.bin/parallelshell 'npm run webpackServer' 'npm run watchServer'",
-    "watchServer": "./node_modules/.bin/nodemon -e js,jsx,json -w app.js -w lib -i lib/client -x './node_modules/webpack/bin/webpack.js --config ./webpack/webpack.node.config.js --progress && node build/app'",
-    "webpackServer": "node_modules/.bin/webpack-dev-server --config ./webpack/webpack.browser.config.js --inline --hot --progress --display-error-details",
-    "lint": "node_modules/.bin/eslint lib/** --quiet"
+    "build": "npm run env NODE_ENV=production && webpack --config ./webpack/webpack.browser.config.js && cp -r assets/images/* public/images",
+    "start": "npm run env NODE_ENV=production && node build/app",
+    "startDev": "node build/app",
+    "dev": "parallelshell \"npm run webpackServer\" \"npm run watchServer\"",
+    "watchServer": "nodemon -e js,jsx,json -w app.js -w lib -i lib/client -x \"webpack --config ./webpack/webpack.node.config.js && npm run startDev\"",
+    "webpackServer": "webpack-dev-server --config ./webpack/webpack.browser.config.js --inline --hot --quiet --display-error-details",
+    "lint": "eslint lib/** --quiet"
   },
   "dependencies": {
     "babel-polyfill": "^6.3.14",
@@ -98,6 +99,7 @@
     "css-loader": "^0.23.1",
     "eslint": "^2.8.0",
     "eslint-config-airbnb": "^7.0.0",
+    "eslint-plugin-jsx-a11y": "^0.6.2",
     "eslint-plugin-react": "^4.2.2",
     "extract-text-webpack-plugin": "^0.9.1",
     "file-loader": "^0.8.4",
