@@ -9,41 +9,55 @@ export default class Menu extends Component {
   static propTypes = {
     menu: PropTypes.object,
     styleClassMap: PropTypes.object,
-    pageBuilder: PropTypes.object
+    editing: PropTypes.bool.isRequired
   };
+
   static defaultProps = {
-    styleClassMap: {}
+    styleClassMap: {},
+    editing: false
   };
 
   render () {
-    const classMap = this.props.styleClassMap;
-    let result;
-    if (this.props.menu && this.props.menu.data) {
-      result = (
-        <ul className={cx(classes.menu, classMap.menu)}>
-          {this.props.menu.data.map(this.renderEntry, this)}
-        </ul>
-      );
-    } else if (this.context.editing) {
-      result = (
-        <div>Choose a menu on settings</div>
-      );
-    } else {
-      result = <div></div>;
+    const {menu, editing} = this.props;
+    let result = null;
+
+    if (menu && menu.data) {
+      result = this.renderMenu(menu.data);
+    } else if (editing) {
+      result = this.renderEmpty();
     }
+
     return result;
   }
 
+  renderMenu (data) {
+    const {styleClassMap} = this.props;
+
+    return (
+      <ul className={cx(classes.menu, styleClassMap.menu)}>
+        {/* data.map(this.renderEntry, this) */}
+      </ul>
+    );
+  }
+
   renderEntry (entry) {
+    const {styleClassMap, editing} = this.props;
+
     return (
       <Entry
         entry={entry}
         subitem={false}
-        classMap={this.props.styleClassMap}
+        styleClassMap={styleClassMap}
         classes={classes}
+        editing={editing}
         key={entry.id}
-        pageBuilder={this.props.pageBuilder}
       />
+    );
+  }
+
+  renderEmpty () {
+    return (
+      <div>Choose a menu on settings</div>
     );
   }
 }

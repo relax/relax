@@ -9,9 +9,8 @@ export default class Entry extends Component {
   static propTypes = {
     entry: PropTypes.object.isRequired,
     subitem: PropTypes.bool.isRequired,
-    classMap: PropTypes.object,
-    classes: PropTypes.object,
-    pageBuilder: PropTypes.object
+    styleClassMap: PropTypes.object,
+    classes: PropTypes.object
   };
 
   getInitState () {
@@ -55,7 +54,7 @@ export default class Entry extends Component {
 
     const className = cx(
       !this.props.subitem ? this.props.classes.menuItem : this.props.classes.submenuItem,
-      !this.props.subitem ? this.props.classMap.entry : this.props.classMap.submenuEntry
+      !this.props.subitem ? this.props.styleClassMap.entry : this.props.styleClassMap.submenuEntry
     );
 
     return (
@@ -78,7 +77,7 @@ export default class Entry extends Component {
         this.state.opened) {
       return (
         <Animate transition='fadeIn'>
-          <ul className={cx(this.props.classes.submenu, this.props.classMap.submenu)}>
+          <ul className={cx(this.props.classes.submenu, this.props.styleClassMap.submenu)}>
             {this.props.entry.children.map(this.renderEntry, this)}
           </ul>
         </Animate>
@@ -91,7 +90,7 @@ export default class Entry extends Component {
       <Entry
         entry={entry}
         subitem
-        classMap={this.props.classMap}
+        styleClassMap={this.props.styleClassMap}
         classes={this.props.classes}
         key={entry.id}
         pageBuilder={this.props.pageBuilder}
@@ -104,7 +103,7 @@ export default class Entry extends Component {
 
     const linkClasses = cx(
       !this.props.subitem ? this.props.classes.button : this.props.classes.submenuButton,
-      !this.props.subitem ? this.props.classMap.button : this.props.classMap.submenuButton
+      !this.props.subitem ? this.props.styleClassMap.button : this.props.styleClassMap.submenuButton
     );
 
     if (this.props.pageBuilder && this.props.pageBuilder.editing) {
