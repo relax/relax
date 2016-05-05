@@ -15,6 +15,7 @@ export default class Textarea extends Component {
     styleClassMap: PropTypes.object,
     relax: PropTypes.object.isRequired
   };
+
   static defaultProps = {
     rows: 6
   };
@@ -24,21 +25,20 @@ export default class Textarea extends Component {
   static style = 'input';
 
   render () {
-    const classMap = this.props.styleClassMap || {};
-    const props = {
-      htmlTag: 'div',
-      ...this.props.relax,
-      settings,
-      className: cx(classes.holder, classMap.holder)
-    };
+    const {styleClassMap, relax, name, placeholder, rows} = this.props;
 
     return (
-      <Element {...props}>
+      <Element
+        htmlTag='div'
+        {...relax}
+        settings={settings}
+        className={cx(classes.holder, styleClassMap.holder)}
+      >
         <textarea
-          name={this.props.name}
-          placeholder={this.props.placeholder}
-          className={cx(classes.input, classMap.input)}
-          rows={this.props.rows}
+          name={name}
+          placeholder={placeholder}
+          className={cx(classes.input, styleClassMap.input)}
+          rows={rows}
         ></textarea>
       </Element>
     );

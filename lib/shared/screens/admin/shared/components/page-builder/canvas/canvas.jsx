@@ -152,7 +152,7 @@ export default class Canvas extends Component {
       return (
         <FactoredElement
           {...elementProps}
-          styleClassMap={styleClassMap}
+          styleClassMap={styleClassMap || {}}
           key={elementId}
           relax={{
             editing,
