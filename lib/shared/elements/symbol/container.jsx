@@ -1,8 +1,5 @@
-import * as symbolsActions from 'actions/symbols';
-
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 
 import settings from './settings';
 import Component from '../component';
@@ -11,8 +8,7 @@ import Element from '../element';
 @connect(
   (state) => ({
     symbols: state.symbols
-  }),
-  (dispatch) => bindActionCreators(symbolsActions, dispatch)
+  })
 )
 export default class DynamicListContainer extends Component {
   static fragments = {
