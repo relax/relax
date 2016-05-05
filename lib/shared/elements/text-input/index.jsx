@@ -21,21 +21,20 @@ export default class TextInput extends Component {
   static style = style;
 
   render () {
-    const classMap = this.props.styleClassMap || {};
-    const props = {
-      htmlTag: 'div',
-      ...this.props.relax,
-      settings,
-      className: cx(classes.holder, classMap.holder)
-    };
+    const {styleClassMap, relax, name, placeholder} = this.props;
 
     return (
-      <Element {...props}>
+      <Element
+        htmlTag='div'
+        {...relax}
+        settings={settings}
+        className={cx(classes.holder, styleClassMap.holder)}
+      >
         <input
           type='text'
-          name={this.props.name}
-          placeholder={this.props.placeholder}
-          className={cx(classes.input, classMap.input)}
+          name={name}
+          placeholder={placeholder}
+          className={cx(classes.input, styleClassMap.input)}
         />
       </Element>
     );

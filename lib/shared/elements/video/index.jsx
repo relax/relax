@@ -60,23 +60,24 @@ export default class Video extends Component {
   }
 
   renderIframe () {
+    const {videoId, type, relax, videoHeight} = this.props;
     let result;
     let height = 300;
     if (this.state.width) {
-      height = Math.round(this.state.width * (parseInt(this.props.videoHeight, 10) / 100));
+      height = Math.round(this.state.width * (parseInt(videoHeight, 10) / 100));
     }
 
-    if (this.props.videoId && this.props.videoId !== '') {
+    if (videoId) {
       let src = '';
-      if (this.props.type === 'youtube') {
-        const parsedID = Utils.parseYoutubeURL(this.props.videoId);
-        src = `http://www.youtube.com/embed/${parsedID || this.props.videoId}`;
-      } else if (this.props.type === 'vimeo') {
-        const parsedID = Utils.parseVimeoURL(this.props.videoId);
-        src = `http://player.vimeo.com/video/${parsedID || this.props.videoId}`;
-      } else if (this.props.type === 'dailymotion') {
-        const parsedID = Utils.parseDailymotionURL(this.props.videoId);
-        src = `http://www.dailymotion.com/embed/video/${parsedID || this.props.videoId}`;
+      if (type === 'youtube') {
+        const parsedID = Utils.parseYoutubeURL(videoId);
+        src = `http://www.youtube.com/embed/${parsedID || videoId}`;
+      } else if (type === 'vimeo') {
+        const parsedID = Utils.parseVimeoURL(videoId);
+        src = `http://player.vimeo.com/video/${parsedID || videoId}`;
+      } else if (type === 'dailymotion') {
+        const parsedID = Utils.parseDailymotionURL(videoId);
+        src = `http://www.dailymotion.com/embed/video/${parsedID || videoId}`;
       }
 
       const iframe = (
@@ -91,7 +92,7 @@ export default class Video extends Component {
         ></iframe>
       );
 
-      if (this.props.relax.editing) {
+      if (relax.editing) {
         result = (
           <div className={elementStyles.editingWrapper}>
             {iframe}
@@ -101,7 +102,7 @@ export default class Video extends Component {
       } else {
         result = iframe;
       }
-    } else {
+    } else if (relax.editing) {
       const style = {
         height
       };
@@ -111,6 +112,7 @@ export default class Video extends Component {
         </div>
       );
     }
+
     return result;
   }
 }

@@ -55,15 +55,15 @@ export default class TextBox extends Component {
   }
 
   render () {
-    const props = {
-      ...this.props.relax,
-      htmlTag: 'div',
-      settings,
-      style: this.getStyle()
-    };
+    const {relax} = this.props;
 
     return (
-      <Element {...props}>
+      <Element
+        {...relax}
+        htmlTag='div'
+        settings={settings}
+        style={this.getStyle()}
+      >
         {this.renderContent()}
       </Element>
     );
@@ -71,7 +71,7 @@ export default class TextBox extends Component {
 
   renderContent () {
     let result;
-    const classMap = this.props.styleClassMap || {};
+    const classMap = this.props.styleClassMap;
     const {editing, selected} = this.props.relax;
     const styles = {};
     const className = cx(classes.text, classMap.text);
