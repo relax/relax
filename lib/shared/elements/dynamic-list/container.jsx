@@ -1,9 +1,6 @@
-import * as elementsActions from 'actions/elements';
-
 import utils from 'helpers/utils';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import {buildQueryAndVariables} from 'relax-fragments';
 
 import settings from './settings';
@@ -16,8 +13,7 @@ import List from './list';
     elements: state.elements,
     linkingData: state.pageBuilder.linkingData,
     linkingDataElementId: state.pageBuilder.linkingDataElementId
-  }),
-  (dispatch) => bindActionCreators(elementsActions, dispatch)
+  })
 )
 export default class DynamicListContainer extends Component {
   static fragments = {
