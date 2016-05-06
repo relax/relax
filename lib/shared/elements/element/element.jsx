@@ -243,7 +243,7 @@ export default class Element extends Component {
         },
         type: element.tag,
         placeholder: true,
-        placeholderRender: ::this.renderPlaceholder
+        placeholderRender: this.renderPlaceholder
       }, settings.drop);
 
       result = (
