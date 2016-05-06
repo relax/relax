@@ -17,7 +17,7 @@ export default class Actions extends Component {
     stateMessage: PropTypes.string,
     toggleEditing: PropTypes.func.isRequired,
     building: PropTypes.bool.isRequired,
-    savePage: PropTypes.func.isRequired
+    save: PropTypes.func.isRequired
   };
 
   render () {
@@ -51,9 +51,9 @@ export default class Actions extends Component {
   }
 
   renderRightMenu () {
-    const {toggleEditing, building, savePage} = this.props;
+    const {toggleEditing, building, save} = this.props;
     return (
-      <RightMenu toggleEditing={toggleEditing} savePage={savePage} building={building} />
+      <RightMenu toggleEditing={toggleEditing} save={save} building={building} />
     );
   }
 }
