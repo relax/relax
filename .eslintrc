@@ -45,6 +45,7 @@
           "constructor",
           "getDefaultProps",
           "getInitState",
+          "init",
           "getChildContext",
           "componentWillMount",
           "componentDidMount",

@@ -7,11 +7,12 @@ import styles from './right-menu.less';
 export default class RightMenu extends Component {
   static propTypes = {
     toggleEditing: PropTypes.func.isRequired,
-    building: PropTypes.bool.isRequired
+    building: PropTypes.bool.isRequired,
+    savePage: PropTypes.func.isRequired
   };
 
   render () {
-    const {toggleEditing, building} = this.props;
+    const {toggleEditing, building, savePage} = this.props;
 
     return (
       <div className={cx(styles.root, !building && styles.disabled)}>
@@ -21,7 +22,7 @@ export default class RightMenu extends Component {
         <button className={cx(styles.button, styles.textButton)} onClick={toggleEditing}>
           Preview
         </button>
-        <button className={cx(styles.button, styles.textButton, styles.primaryButton)}>
+        <button className={cx(styles.button, styles.textButton, styles.primaryButton)} onClick={savePage}>
           Save
         </button>
       </div>
