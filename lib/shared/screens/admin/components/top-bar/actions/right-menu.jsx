@@ -16,9 +16,6 @@ export default class RightMenu extends Component {
     return (
       <div className={cx(styles.root, !building && styles.disabled)}>
         <button className={cx(styles.button, styles.iconButton)}>
-          <i className='nc-icon-mini ui-2_time-clock'></i>
-        </button>
-        <button className={cx(styles.button, styles.iconButton)}>
           <i className='nc-icon-mini ui-1_settings-gear-64'></i>
         </button>
         <button className={cx(styles.button, styles.textButton)} onClick={toggleEditing}>
