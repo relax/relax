@@ -6,6 +6,8 @@ var config = require('../config');
 var NoErrorsPlugin = webpack.NoErrorsPlugin;
 var optimize = webpack.optimize;
 
+var PRODUCTION = process.env.NODE_ENV === 'production'
+
 var webpackConfig = module.exports = {
   entry: {
     admin: ['./lib/client/admin.js'],
@@ -15,7 +17,7 @@ var webpackConfig = module.exports = {
   output: {
     path: './public/js',
     filename: '[name].js',
-    publicPath: 'http://localhost:' + config.devPort + '/js/'
+    publicPath: 'http://localhost:' + config[PRODUCTION ? 'port' : 'devPort'] + '/js/'
   },
   resolve: {
     modulesDirectories: ['shared', 'node_modules'],
@@ -37,22 +39,24 @@ var webpackConfig = module.exports = {
         query: {
           cacheDirectory: true,
           presets: ['react', 'es2015', 'stage-0'],
-          plugins: [
-            ['transform-decorators-legacy'],
-            ['react-transform', {
-              transforms: [
-                {
-                  transform: 'react-transform-hmr',
-                  imports: ['react'],
-                  locals: ['module']
-                },
-                {
-                  transform: 'react-transform-catch-errors',
-                  imports: ['react', 'redbox-react']
-                }
-              ]
-            }]
-          ]
+          plugins: ['transform-decorators-legacy'],
+          env: {
+            development: [
+              ['react-transform', {
+                transforms: [
+                  {
+                    transform: 'react-transform-hmr',
+                    imports: ['react'],
+                    locals: ['module']
+                  },
+                  {
+                    transform: 'react-transform-catch-errors',
+                    imports: ['react', 'redbox-react']
+                  }
+                ]
+              }]
+            ]
+          }
         }
       },
       {
@@ -79,10 +83,10 @@ var webpackConfig = module.exports = {
 if (process.env.NODE_ENV === 'production') {
   webpackConfig.plugins.push(new ExtractTextPlugin('../css/[name].css'));
   webpackConfig.module.loaders.push({
-    test: /\.(css)$/,
+    test: /\.(css|less)$/,
     loader: ExtractTextPlugin.extract(
       'style-loader',
-      'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!autoprefixer!postcss-loader',
+      'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!autoprefixer!postcss-loader!less',
       {
         publicPath: '../css/'
       }
