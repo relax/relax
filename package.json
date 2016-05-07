@@ -8,7 +8,7 @@
     "url": "https://github.com/relax/relax.git"
   },
   "scripts": {
-    "build": "npm run env NODE_ENV=production && webpack --config ./webpack/webpack.browser.config.js && cp -r assets/images/* public/images",
+    "build": "npm run env NODE_ENV=production && webpack --config ./webpack/webpack.browser.config.js && webpack --config ./webpack/webpack.node.config.js",
     "start": "npm run env NODE_ENV=production && node build/app",
     "startDev": "node build/app",
     "dev": "parallelshell \"npm run webpackServer\" \"npm run watchServer\"",
@@ -96,6 +96,7 @@
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
+    "copy-webpack-plugin": "^2.1.3",
     "css-loader": "^0.23.1",
     "eslint": "^2.8.0",
     "eslint-config-airbnb": "^7.0.0",
