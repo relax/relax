@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 var config = require('../config');
 
 var NoErrorsPlugin = webpack.NoErrorsPlugin;
@@ -22,7 +23,10 @@ var webpackConfig = module.exports = {
   },
   plugins: [
     new optimize.OccurenceOrderPlugin(),
-    new optimize.CommonsChunkPlugin('common.js', ['admin', 'auth', 'public'])
+    new optimize.CommonsChunkPlugin('common.js', ['admin', 'auth', 'public']),
+    new CopyWebpackPlugin([
+      { context: 'assets', from: '**/*', to: '../' } // `to` is relative to output.path
+    ])
   ],
   module: {
     loaders: [
@@ -67,7 +71,8 @@ var webpackConfig = module.exports = {
   },
   devServer: {
     port: config.devPort,
-    contentBase: 'http://localhost:' + config.port
+    contentBase: 'http://localhost:' + config.port,
+    outputPath: 'public/js'
   }
 };
 
