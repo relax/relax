@@ -13,7 +13,6 @@ fs.readdirSync('node_modules')
 
 module.exports = {
   entry: './app.js',
-  target: 'node',
   output: {
     path: path.join(__dirname, '..', 'build'),
     filename: 'app.js'
@@ -29,6 +28,16 @@ module.exports = {
       entryOnly: false
     })
   ],
+  target: 'node',
+  node: { // webpack strangely doesn't do this when you set `target: 'node'`
+    console: false,
+    global: false,
+    process: false,
+    Buffer: false,
+    __filename: false,
+    __dirname: false,
+    setImmediate: false
+  },
   devtool: 'sourcemap',
   module: {
     loaders: [
@@ -39,17 +48,21 @@ module.exports = {
         query: {
           cacheDirectory: true,
           presets: ['react', 'es2015', 'stage-0'],
-          plugins: [
-            ['transform-decorators-legacy'],
-            ['react-transform', {
-              transforms: [
-                {
-                  transform: 'react-transform-catch-errors',
-                  imports: ['react', 'redbox-react']
-                }
+          plugins: ['transform-decorators-legacy'],
+          env: {
+            development: {
+              plugins: [
+                ['react-transform', {
+                  transforms: [
+                    {
+                      transform: 'react-transform-catch-errors',
+                      imports: ['react', 'redbox-react']
+                    }
+                  ]
+                }]
               ]
-            }]
-          ]
+            }
+          }
         }
       },
       {
