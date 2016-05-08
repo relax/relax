@@ -1,9 +1,12 @@
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 var config = require('../config');
 
 var NoErrorsPlugin = webpack.NoErrorsPlugin;
 var optimize = webpack.optimize;
+
+var PRODUCTION = process.env.NODE_ENV === 'production'
 
 var webpackConfig = module.exports = {
   entry: {
@@ -14,7 +17,7 @@ var webpackConfig = module.exports = {
   output: {
     path: './public/js',
     filename: '[name].js',
-    publicPath: 'http://localhost:' + config.devPort + '/js/'
+    publicPath: 'http://localhost:' + config[PRODUCTION ? 'port' : 'devPort'] + '/js/'
   },
   resolve: {
     modulesDirectories: ['shared', 'node_modules'],
@@ -22,7 +25,10 @@ var webpackConfig = module.exports = {
   },
   plugins: [
     new optimize.OccurenceOrderPlugin(),
-    new optimize.CommonsChunkPlugin('common.js', ['admin', 'auth', 'public'])
+    new optimize.CommonsChunkPlugin('common.js', ['admin', 'auth', 'public']),
+    new CopyWebpackPlugin([
+      { context: 'assets', from: '**/*', to: '../' } // `to` is relative to output.path
+    ])
   ],
   module: {
     loaders: [
@@ -33,22 +39,24 @@ var webpackConfig = module.exports = {
         query: {
           cacheDirectory: true,
           presets: ['react', 'es2015', 'stage-0'],
-          plugins: [
-            ['transform-decorators-legacy'],
-            ['react-transform', {
-              transforms: [
-                {
-                  transform: 'react-transform-hmr',
-                  imports: ['react'],
-                  locals: ['module']
-                },
-                {
-                  transform: 'react-transform-catch-errors',
-                  imports: ['react', 'redbox-react']
-                }
-              ]
-            }]
-          ]
+          plugins: ['transform-decorators-legacy'],
+          env: {
+            development: [
+              ['react-transform', {
+                transforms: [
+                  {
+                    transform: 'react-transform-hmr',
+                    imports: ['react'],
+                    locals: ['module']
+                  },
+                  {
+                    transform: 'react-transform-catch-errors',
+                    imports: ['react', 'redbox-react']
+                  }
+                ]
+              }]
+            ]
+          }
         }
       },
       {
@@ -67,17 +75,18 @@ var webpackConfig = module.exports = {
   },
   devServer: {
     port: config.devPort,
-    contentBase: 'http://localhost:' + config.port
+    contentBase: 'http://localhost:' + config.port,
+    outputPath: 'public/js'
   }
 };
 
 if (process.env.NODE_ENV === 'production') {
   webpackConfig.plugins.push(new ExtractTextPlugin('../css/[name].css'));
   webpackConfig.module.loaders.push({
-    test: /\.(css)$/,
+    test: /\.(css|less)$/,
     loader: ExtractTextPlugin.extract(
       'style-loader',
-      'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!autoprefixer!postcss-loader',
+      'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!autoprefixer!postcss-loader!less',
       {
         publicPath: '../css/'
       }
