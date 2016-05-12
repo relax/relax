@@ -1,3 +1,4 @@
+/* eslint-disable */
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -6,7 +7,7 @@ var config = require('../config');
 var NoErrorsPlugin = webpack.NoErrorsPlugin;
 var optimize = webpack.optimize;
 
-var PRODUCTION = process.env.NODE_ENV === 'production'
+var PRODUCTION = process.env.NODE_ENV === 'production';
 
 var webpackConfig = module.exports = {
   entry: {
@@ -41,21 +42,23 @@ var webpackConfig = module.exports = {
           presets: ['react', 'es2015', 'stage-0'],
           plugins: ['transform-decorators-legacy'],
           env: {
-            development: [
-              ['react-transform', {
-                transforms: [
-                  {
-                    transform: 'react-transform-hmr',
-                    imports: ['react'],
-                    locals: ['module']
-                  },
-                  {
-                    transform: 'react-transform-catch-errors',
-                    imports: ['react', 'redbox-react']
-                  }
-                ]
-              }]
-            ]
+            development: {
+              plugins: [
+                ['react-transform', {
+                  transforms: [
+                    {
+                      transform: 'react-transform-hmr',
+                      imports: ['react'],
+                      locals: ['module']
+                    },
+                    {
+                      transform: 'react-transform-catch-errors',
+                      imports: ['react', 'redbox-react']
+                    }
+                  ]
+                }]
+              ]
+            }
           }
         }
       },
