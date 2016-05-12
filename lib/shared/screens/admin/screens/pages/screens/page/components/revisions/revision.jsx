@@ -4,10 +4,9 @@ import React, {PropTypes} from 'react';
 export default class Revision extends Component {
   static fragments = {
     revision: {
-      _id: {
-        _id: 1,
-        __v: 1
-      },
+      _id: 1,
+      version: 1,
+      itemId: 1,
       user: {
         _id: 1,
         name: 1,
