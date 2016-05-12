@@ -1,0 +1,103 @@
+@import '~styles/colors.less';
+
+.root {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  padding-bottom: 50px;
+  position: relative;
+}
+
+.imageHolder {
+  display: table-cell;
+  vertical-align: middle;
+
+  width: 44px;
+  height: 44px;
+  text-align: center;
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    display: inline-block;
+    top: 25px;
+    left: 21px;
+    height: 80px;
+    width: 2px;
+    background-color: @primary;
+    z-index: -1;
+  }
+}
+
+.root:last-child .imageHolder:before {
+  display: none;
+}
+
+.imageCircle {
+  display: inline-block;
+  width: 34px;
+  height: 34px;
+  border: 2px solid @primary;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.image {
+  width: 30px;
+  height: 30px;
+}
+
+.root:first-child {
+  .imageCircle {
+    width: 44px;
+    height: 44px;
+  }
+  .image {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.info {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 0px 10px;
+  padding-right: 30px;
+}
+
+.title {
+  color: @adminTextHighlight;
+  font-size: 13px;
+  line-height: 22px;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sub {
+  color: @adminText;
+  font-size: 11px;
+}
+
+.revert {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 44px;
+  width: 25px;
+
+  :global i {
+    color: @adminText;
+    font-size: 14px;
+    line-height: 44px;
+  }
+
+  &:hover {
+    :global i {
+      color: @adminTextHighlight;
+    }
+  }
+}
