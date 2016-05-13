@@ -12,7 +12,8 @@ export default class Revisions extends Component {
 
   static propTypes = {
     revisions: PropTypes.array,
-    current: PropTypes.object
+    current: PropTypes.object,
+    restore: PropTypes.func.isRequired
   };
 
   render () {
@@ -31,11 +32,13 @@ export default class Revisions extends Component {
   }
 
   renderRevision (revision, index) {
+    const {restore} = this.props;
     return (
       <Revision
         revision={revision}
         key={revision._id}
         isInitial={this.len - 1 === index}
+        restore={restore}
       />
     );
   }
@@ -49,7 +52,7 @@ export default class Revisions extends Component {
         }}
         current
         isInitial={!this.len}
-        key='current'
+        key={`current${this.len}`}
       />
     );
   }

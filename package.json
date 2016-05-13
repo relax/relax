@@ -41,6 +41,7 @@
     "lodash.find": "^3.2.1",
     "lodash.findindex": "^4.2.0",
     "lodash.foreach": "^3.0.3",
+    "lodash.intersection": "^4.2.0",
     "lodash.merge": "^3.3.2",
     "lodash.omit": "^3.1.0",
     "lodash.sortby": "^3.1.5",
