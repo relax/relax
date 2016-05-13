@@ -16,7 +16,8 @@ export default class Inputs extends Component {
     hexChange: PropTypes.func.isRequired,
     hsvChange: PropTypes.func.isRequired,
     rgbChange: PropTypes.func.isRequired,
-    opacityChange: PropTypes.func.isRequired
+    opacityChange: PropTypes.func.isRequired,
+    showOpacity: PropTypes.bool.isRequired
   };
 
   init () {
@@ -81,14 +82,14 @@ export default class Inputs extends Component {
   }
 
   renderInputs () {
-    const {inputType, opacity, colr} = this.props;
+    const {inputType, opacity, colr, showOpacity} = this.props;
 
     if (inputType === 'hex') {
       const hex = colr.toHex();
       return (
         <div className={styles.inputs}>
           <Input value={hex} label='HEX' onChange={::this.onHexChange} />
-          <Input small value={opacity} label='A' onChange={::this.onOpacityChange} />
+          {showOpacity && <Input small value={opacity} label='A' onChange={::this.onOpacityChange} />}
         </div>
       );
     } else if (inputType === 'rgba') {
@@ -98,7 +99,7 @@ export default class Inputs extends Component {
           <Input small value={rgb.r} label='R' onChange={this.onRChange} />
           <Input small value={rgb.g} label='G' onChange={this.onGChange} />
           <Input small value={rgb.b} label='B' onChange={this.onBChange} />
-          <Input small value={opacity} label='A' onChange={::this.onOpacityChange} />
+          {showOpacity && <Input small value={opacity} label='A' onChange={::this.onOpacityChange} />}
         </div>
       );
     } else if (inputType === 'hsva') {
@@ -108,7 +109,7 @@ export default class Inputs extends Component {
           <Input small value={hsv.h} label='H' onChange={this.onHChange} />
           <Input small value={hsv.s} label='S' onChange={this.onSChange} />
           <Input small value={hsv.v} label='V' onChange={this.onVChange} />
-          <Input small value={opacity} label='A' onChange={::this.onOpacityChange} />
+          {showOpacity && <Input small value={opacity} label='A' onChange={::this.onOpacityChange} />}
         </div>
       );
     }

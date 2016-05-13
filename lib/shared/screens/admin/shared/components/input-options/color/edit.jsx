@@ -42,7 +42,9 @@ export default class Edit extends Component {
     changeRadius: PropTypes.func.isRequired,
     changeCenter: PropTypes.func.isRequired,
     addPoint: PropTypes.func.isRequired,
-    removePoint: PropTypes.func.isRequired
+    removePoint: PropTypes.func.isRequired,
+    showCollection: PropTypes.func.isRequired,
+    showOpacity: PropTypes.func.isRequired
   };
 
   componentDidMount () {
@@ -104,7 +106,9 @@ export default class Edit extends Component {
       inputType,
       previousInputType,
       nextInputType,
-      editingPoint
+      editingPoint,
+      showOpacity,
+      showCollection
     } = this.props;
     const isGradient = (type === 'linear' || type === 'radial');
 
@@ -131,7 +135,7 @@ export default class Edit extends Component {
           />
         }
         <ColorPicker colr={colr} hsvChange={hsvChange} />
-        <Opacity colr={colr} opacity={opacity} opacityChange={opacityChange} />
+        {showOpacity && <Opacity colr={colr} opacity={opacity} opacityChange={opacityChange} />}
         <Inputs
           colr={colr}
           opacity={opacity}
@@ -142,6 +146,7 @@ export default class Edit extends Component {
           rgbChange={rgbChange}
           hexChange={hexChange}
           opacityChange={opacityChange}
+          showOpacity={showOpacity}
         />
         {type === 'radial' &&
           <RadialRadius
@@ -149,7 +154,7 @@ export default class Edit extends Component {
             changeRadius={this.props.changeRadius}
           />
         }
-        <ColorsCollection {...this.props} />
+        {showCollection && <ColorsCollection {...this.props} />}
         {type === 'linear' &&
           <LinearGradient
             ref='linearGradient'
