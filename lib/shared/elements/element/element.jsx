@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import getElementPosition from 'helpers/get-element-position';
 import utils from 'helpers/utils';
 import velocity from 'velocity-animate';
@@ -258,6 +259,7 @@ export default class Element extends Component {
     return result;
   }
 
+  @bind
   renderPlaceholder (options) {
     const {settings, element} = this.props;
     return (
