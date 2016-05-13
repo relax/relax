@@ -55,7 +55,7 @@ export default class Page extends Component {
 
     if (this.props.pageId !== nextProps.pageId) {
       this.setState({
-        build: location.query.build && true
+        build: currentBuild && true
       });
     }
 
