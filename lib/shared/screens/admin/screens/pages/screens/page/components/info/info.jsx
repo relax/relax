@@ -1,6 +1,7 @@
 import getGravatarImage from 'helpers/get-gravatar-image';
 import moment from 'moment';
 import Component from 'components/component';
+import ModalDelete from 'components/modal-delete';
 import React, {PropTypes} from 'react';
 
 import styles from './info.less';
@@ -10,6 +11,7 @@ export default class PageInfo extends Component {
   static fragments = {
     page: {
       _id: 1,
+      title: 1,
       state: 1,
       date: 1,
       updatedDate: 1,
@@ -28,7 +30,10 @@ export default class PageInfo extends Component {
 
   static propTypes = {
     page: PropTypes.object,
+    removeConfirm: PropTypes.bool.isRequired,
     onDelete: PropTypes.func.isRequired,
+    cancelDelete: PropTypes.func.isRequired,
+    confirmRemovePage: PropTypes.func.isRequired,
     publishPage: PropTypes.func.isRequired,
     unpublishPage: PropTypes.func.isRequired
   };
@@ -59,6 +64,7 @@ export default class PageInfo extends Component {
             Delete Page
           </button>
         </div>
+        {this.renderDeleteConfirm()}
       </div>
     );
   }
@@ -100,5 +106,18 @@ export default class PageInfo extends Component {
         <div className={styles.label}>This page is published</div>
       </div>
     );
+  }
+
+  renderDeleteConfirm () {
+    if (this.props.removeConfirm) {
+      const {cancelDelete, confirmRemovePage, page} = this.props;
+      return (
+        <ModalDelete
+          title={`Are you sure you want to remove "${page.title}" page?`}
+          cancel={cancelDelete}
+          submit={confirmRemovePage}
+        />
+      );
+    }
   }
 }
