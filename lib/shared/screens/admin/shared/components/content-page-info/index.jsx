@@ -24,29 +24,37 @@ export default class PageInfo extends Component {
 
   render () {
     const {item, onDelete} = this.props;
-    const date = item.date && moment(item.date).format('LL');
-    const updatedDate = item.updatedDate && moment(item.updatedDate).format('LL');
+    let result;
 
-    const createdByUserImage = getGravatarImage(item.createdBy && item.createdBy.email || 'default', 20);
-    const udpatedByUserImage = getGravatarImage(item.updatedBy && item.updatedBy.email || 'default', 20);
+    if (item) {
+      const date = item.date && moment(item.date).format('LL');
+      const updatedDate = item.updatedDate && moment(item.updatedDate).format('LL');
 
-    return (
-      <div className={styles.root}>
-        {this.renderStatus()}
-        <div className={styles.infoList}>
-          <Item label='Created at' value={date} icon='nc-icon-mini ui-1_calendar-60' />
-          <Item label='Updated at' value={updatedDate} icon='nc-icon-mini ui-1_calendar-60' />
-          <Item label='Created by' value={item.createdBy && item.createdBy.name} image={createdByUserImage} />
-          <Item label='Updated by' value={item.updatedBy && item.updatedBy.name} image={udpatedByUserImage} />
+      const createdByUserImage = getGravatarImage(item.createdBy && item.createdBy.email || 'default', 20);
+      const udpatedByUserImage = getGravatarImage(item.updatedBy && item.updatedBy.email || 'default', 20);
+
+      result = (
+        <div className={styles.root}>
+          {this.renderStatus()}
+          <div className={styles.infoList}>
+            <Item label='Created at' value={date} icon='nc-icon-mini ui-1_calendar-60' />
+            <Item label='Updated at' value={updatedDate} icon='nc-icon-mini ui-1_calendar-60' />
+            <Item label='Created by' value={item.createdBy && item.createdBy.name} image={createdByUserImage} />
+            <Item label='Updated by' value={item.updatedBy && item.updatedBy.name} image={udpatedByUserImage} />
+          </div>
+          <div className={styles.bottom}>
+            <button className={styles.actionButton} onClick={onDelete}>
+              Delete Page
+            </button>
+          </div>
+          {this.renderDeleteConfirm()}
         </div>
-        <div className={styles.bottom}>
-          <button className={styles.actionButton} onClick={onDelete}>
-            Delete Page
-          </button>
-        </div>
-        {this.renderDeleteConfirm()}
-      </div>
-    );
+      );
+    } else {
+      result = <div />;
+    }
+
+    return result;
   }
 
   renderStatus () {
