@@ -28,7 +28,32 @@ export default class SchemaPropertyOptions extends Component {
           onChange={this.onChange}
           white
         />
+        {this.renderDefault()}
       </div>
     );
+  }
+
+  renderDefault () {
+    const {property} = this.props;
+
+    if (property.type) {
+      const options = [{
+        id: 'default',
+        label: 'Default',
+        type: property.type
+      }];
+      const values = {
+        default: property.default
+      };
+
+      return (
+        <OptionsList
+          options={options}
+          values={values}
+          onChange={this.onChange}
+          white
+        />
+      );
+    }
   }
 }
