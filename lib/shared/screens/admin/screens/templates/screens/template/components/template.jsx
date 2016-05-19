@@ -5,59 +5,54 @@ import React, {PropTypes} from 'react';
 import Info from './info';
 import Revisions from './revisions';
 
-export default class Page extends Component {
+export default class Template extends Component {
   static fragments = {
-    page: {
+    template: {
       _id: 1,
-      title: 1,
-      slug: 1
+      title: 1
     }
   };
 
   static propTypes = {
-    page: PropTypes.object.isRequired,
+    template: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     updateTitle: PropTypes.func.isRequired,
-    updateSlug: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
-    togglePageInfo: PropTypes.func.isRequired,
-    togglePageRevisions: PropTypes.func.isRequired,
-    pageId: PropTypes.string.isRequired,
+    toggleTemplateInfo: PropTypes.func.isRequired,
+    toggleTemplateRevisions: PropTypes.func.isRequired,
+    templateId: PropTypes.string.isRequired,
     sidebar: PropTypes.string
   };
 
   static defaultProps = {
-    page: {}
+    template: {}
   };
 
   render () {
     const {
       loading,
-      page,
-      pageId,
+      template,
+      templateId,
       updateTitle,
-      updateSlug,
       sidebar,
       location,
-      togglePageRevisions,
-      togglePageInfo
+      toggleTemplateRevisions,
+      toggleTemplateInfo
     } = this.props;
 
     return (
       <ContentPageBuilder
-        itemId={pageId}
+        itemId={templateId}
         loading={loading}
-        title={page && page.title}
-        slug={page && page.slug}
+        title={template && template.title}
         updateTitle={updateTitle}
-        updateSlug={updateSlug}
         sidebar={sidebar}
         location={location}
-        toggleRevisions={togglePageRevisions}
-        toggleInfo={togglePageInfo}
+        toggleRevisions={toggleTemplateRevisions}
+        toggleInfo={toggleTemplateInfo}
         Info={Info}
         Revisions={Revisions}
-        type='page'
+        type='template'
       />
     );
   }

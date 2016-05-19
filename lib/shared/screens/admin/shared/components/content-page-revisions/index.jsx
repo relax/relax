@@ -2,7 +2,7 @@ import Component from 'components/component';
 import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
 
-import styles from './revisions.less';
+import styles from './index.less';
 import Revision from './revision';
 
 export default class Revisions extends Component {
