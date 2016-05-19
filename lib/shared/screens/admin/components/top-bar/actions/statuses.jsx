@@ -11,7 +11,8 @@ export default class Statuses extends Component {
     state: PropTypes.string,
     stateMessage: PropTypes.string,
     behindVersion: PropTypes.bool.isRequired,
-    draftHasChanges: PropTypes.bool.isRequired
+    draftHasChanges: PropTypes.bool.isRequired,
+    drop: PropTypes.func.isRequired
   };
 
   render () {
@@ -79,11 +80,12 @@ export default class Statuses extends Component {
   }
 
   renderEditing () {
+    const {drop} = this.props;
     return (
       <Animate transition='slideDownIn' key='editing'>
         <div className={styles.root}>
           <span className={styles.text}>Editing your draft - </span>
-          <button className={styles.button}> Drop changes</button>
+          <button className={styles.button} onClick={drop}> Drop changes</button>
         </div>
       </Animate>
     );

@@ -17,7 +17,8 @@ export default class Actions extends Component {
     stateMessage: PropTypes.string,
     toggleEditing: PropTypes.func.isRequired,
     building: PropTypes.bool.isRequired,
-    save: PropTypes.func.isRequired
+    save: PropTypes.func.isRequired,
+    drop: PropTypes.func.isRequired
   };
 
   render () {
@@ -40,12 +41,13 @@ export default class Actions extends Component {
   }
 
   renderStatuses () {
-    const {draftHasChanges, state, stateMessage} = this.props;
+    const {draftHasChanges, state, stateMessage, drop} = this.props;
     return (
       <Statuses
         draftHasChanges={draftHasChanges}
         state={state}
         stateMessage={stateMessage}
+        drop={drop}
       />
     );
   }
