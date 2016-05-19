@@ -13,6 +13,10 @@
 
   &:hover {
     background-color: #fefefe;
+
+    .delete {
+      visibility: visible;
+    }
   }
 }
 
@@ -44,6 +48,20 @@
   display: inline-block;
   vertical-align: top;
   float: right;
+}
+
+.delete {
+  visibility: hidden;
+  display: inline-block;
+  vertical-align: top;
+  line-height: 40px;
+  color: @adminText;
+  font-size: 11px;
+  margin-right: 20px;
+
+  &:hover {
+    color: @alert;
+  }
 }
 
 .icon, .type {

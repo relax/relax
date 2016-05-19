@@ -11,13 +11,20 @@ export default class SchemaProperty extends Component {
     property: PropTypes.object.isRequired,
     opened: PropTypes.bool.isRequired,
     toggleProperty: PropTypes.func.isRequired,
-    changePropertySetting: PropTypes.func.isRequired
+    changePropertySetting: PropTypes.func.isRequired,
+    removeProperty: PropTypes.func.isRequired
   };
 
   @bind
   onToggle () {
     const {toggleProperty, property} = this.props;
     toggleProperty(property.id);
+  }
+
+  @bind
+  delete () {
+    const {removeProperty, property} = this.props;
+    removeProperty(property.id);
   }
 
   render () {
@@ -30,6 +37,7 @@ export default class SchemaProperty extends Component {
             <div className={styles.id}>{property.id}</div>
           </div>
           <div className={styles.right}>
+            {this.renderDelete()}
             <div className={styles.type}>{property.type}</div>
             {this.renderIcon()}
           </div>
@@ -37,6 +45,16 @@ export default class SchemaProperty extends Component {
         {this.renderOpened()}
       </div>
     );
+  }
+
+  renderDelete () {
+    const {property} = this.props;
+
+    if (!property.locked) {
+      return (
+        <i className={cx('nc-icon-mini ui-1_trash-simple', styles.delete)} onClick={this.delete} />
+      );
+    }
   }
 
   renderIcon () {
