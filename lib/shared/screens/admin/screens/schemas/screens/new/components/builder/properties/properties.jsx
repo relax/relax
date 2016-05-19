@@ -11,6 +11,7 @@ export default class SchemaProperties extends Component {
     properties: PropTypes.array.isRequired,
     addProperty: PropTypes.func.isRequired,
     toggleProperty: PropTypes.func.isRequired,
+    removeProperty: PropTypes.func.isRequired,
     changePropertySetting: PropTypes.func.isRequired,
     type: PropTypes.string.isRequired
   };
@@ -29,13 +30,14 @@ export default class SchemaProperties extends Component {
   }
 
   renderProperty (property, key) {
-    const {openedProperties, toggleProperty, changePropertySetting} = this.props;
+    const {openedProperties, toggleProperty, changePropertySetting, removeProperty} = this.props;
     return (
       <Property
         property={property}
         opened={openedProperties.indexOf(property.id) !== -1}
         toggleProperty={toggleProperty}
         changePropertySetting={changePropertySetting}
+        removeProperty={removeProperty}
         key={key}
       />
     );
