@@ -110,7 +110,7 @@ export default class ContentPageBuilder extends Component {
     return (
       <ContentHeader smallPadding ref='header'>
         <div className={styles.info}>
-          <EditableTitle value={title} onSubmit={updateTitle} />
+          <EditableTitle value={title} onSubmit={updateTitle} big={!slug} />
           {slug && <EditableTitle sub value={slug} onSubmit={updateSlug} />}
         </div>
         <ContentHeaderActions>

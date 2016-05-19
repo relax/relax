@@ -8,7 +8,8 @@ export default class EditableTitle extends Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
     sub: PropTypes.bool,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    big: PropTypes.bool
   };
 
   getInitState () {
@@ -70,9 +71,9 @@ export default class EditableTitle extends Component {
   }
 
   render () {
-    const {sub} = this.props;
+    const {sub, big} = this.props;
     return (
-      <div className={sub && styles.sub}>
+      <div className={cx(sub && styles.sub, big && styles.big)}>
         {this.renderContent()}
       </div>
     );
