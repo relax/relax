@@ -5,6 +5,8 @@
 }
 
 .selected {
+  border-radius: 2px;
+  border: 1px solid @chromeBordersColor;
   background-color: @chromeBordersColor;
   position: relative;
   overflow: hidden;
@@ -18,26 +20,24 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
+
+  &:hover {
+    border-color: @primary;
+  }
 }
 
-.changeCover {
-  background-color: rgba(0, 0, 0, 0.6);
-  text-align: center;
-  padding: 50px 20px;
+.icon {
   position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
-  opacity: 0;
-  transition: all 0.3s ease-out;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
   color: @chromeTextColor;
-}
-
-.selected:hover .changeCover {
-  opacity: 1;
 }
 
 .unselect {
   color: @chromeTextColor;
-  font-size: 12px;
+  font-size: 11px;
   text-transform: uppercase;
   text-align: center;
   padding: 10px 0;
@@ -45,5 +45,29 @@
 
   &:hover {
     color: @alert;
+  }
+}
+
+.white {
+  .selected {
+    border: 1px solid @adminInputBorders;
+    background-color: transparent;
+
+    &:hover {
+      border-color: @primary;
+    }
+  }
+  .icon {
+    color: @adminText;
+  }
+  .changeCover {
+    opacity: 0;
+  }
+  .unselect {
+    color: @adminText;
+
+    &:hover {
+      color: @alert;
+    }
   }
 }

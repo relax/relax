@@ -1,4 +1,5 @@
 import bind from 'decorators/bind';
+import cx from 'classnames';
 import Component from 'components/component';
 import MediaItem from 'components/media-item-preview';
 import MediaSelector from 'components/media-selector';
@@ -21,7 +22,8 @@ export default class ImagePicker extends Component {
     onMount: PropTypes.func.isRequired,
     mounted: PropTypes.bool.isRequired,
     mediaItem: PropTypes.object,
-    allowedType: PropTypes.string.isRequired
+    allowedType: PropTypes.string.isRequired,
+    white: PropTypes.bool
   };
 
   static defaultProps = {
@@ -44,18 +46,17 @@ export default class ImagePicker extends Component {
   }
 
   render () {
-    const {openSelector} = this.props;
+    const {openSelector, white} = this.props;
     const style = {
       width: this.props.width,
       height: this.props.height
     };
 
     return (
-      <div>
+      <div className={white && styles.white}>
         <div className={styles.picker} style={style} onClick={openSelector}>
           <div className={styles.selected} ref='imageHolder'>
             {this.renderSelected()}
-            <div className={styles.changeCover}>Choose Image</div>
           </div>
         </div>
         {this.renderUnselect()}
@@ -80,8 +81,10 @@ export default class ImagePicker extends Component {
   }
 
   renderSelected () {
+    let result;
+
     if (this.props.mounted && this.props.value && this.props.mediaItem && this.props.mediaItem._id) {
-      return (
+      result = (
         <MediaItem
           mediaItem={this.props.mediaItem}
           width={this.props.calcWidth}
@@ -89,7 +92,13 @@ export default class ImagePicker extends Component {
           useThumbnail={false}
         />
       );
+    } else {
+      result = (
+        <i className={cx('nc-icon-mini media-1_image-02', styles.icon)} />
+      );
     }
+
+    return result;
   }
 
   renderMediaSelector () {

@@ -1,5 +1,4 @@
 import bind from 'decorators/bind';
-import classNames from 'classnames';
 import cx from 'classnames';
 import Animate from 'components/animate';
 import Component from 'components/component';
@@ -35,7 +34,7 @@ export default class Input extends Component {
   render () {
     const {disabled, className, state, password, white} = this.props;
     return (
-      <div className={classNames(
+      <div className={cx(
           styles.input,
           white && styles.white,
           disabled && styles.disabled,
