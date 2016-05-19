@@ -11,14 +11,15 @@ export default class SchemaProperties extends Component {
     properties: PropTypes.array.isRequired,
     addProperty: PropTypes.func.isRequired,
     toggleProperty: PropTypes.func.isRequired,
-    changePropertySetting: PropTypes.func.isRequired
+    changePropertySetting: PropTypes.func.isRequired,
+    type: PropTypes.string.isRequired
   };
 
   render () {
-    const {properties, addProperty} = this.props;
+    const {properties, addProperty, type} = this.props;
     return (
       <div className={styles.root}>
-        {singleFixedProperties.map(this.renderProperty, this)}
+        {type === 'single' && singleFixedProperties.map(this.renderProperty, this)}
         {properties.map(this.renderProperty, this)}
         <button className={styles.addNew} onClick={addProperty}>
           Add new property
