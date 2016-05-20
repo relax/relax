@@ -1,0 +1,23 @@
+@import '~styles/colors.less';
+
+.editor {
+  outline: 0px;
+  border: 0px;
+  background-color: @chromeBackgroundDarkerColor;
+  border: 1px solid @chromeBordersColor;
+  color: @chromeTextColor;
+  padding: 15px 20px;
+  border-radius: 2px;
+
+  &[data-medium-focused="true"] {
+    border-color: @primary;
+  }
+}
+
+.white {
+  .editor {
+    background-color: transparent;
+    border-color: @adminInputBorders;
+    color: @adminText;
+  }
+}
