@@ -1,23 +1,28 @@
-import classNames from 'classnames';
+import cx from 'classnames';
 import Component from 'components/component';
 import Editor from 'components/medium-editor';
 import React, {PropTypes} from 'react';
+
+import styles from './index.less';
 
 export default class HtmlArea extends Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
+    white: PropTypes.bool
   };
 
   render () {
+    const {className, value, onChange, white} = this.props;
+
     return (
-      <div className={classNames('html-area', this.props.className)}>
+      <div className={cx(styles.root, white && styles.white, className)}>
         <Editor
           tag='div'
-          className='html-editor'
-          value={this.props.value}
-          onChange={this.props.onChange}
+          className={styles.editor}
+          value={value}
+          onChange={onChange}
           options={{
             toolbar: {
               buttons: ['bold', 'italic', 'underline', 'anchor']
