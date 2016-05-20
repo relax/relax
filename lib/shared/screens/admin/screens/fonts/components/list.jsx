@@ -2,25 +2,28 @@ import forEach from 'lodash.foreach';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
+import styles from './list.less';
 import Entry from './entry';
+import Manage from './manage';
 
 export default class List extends Component {
   static propTypes = {
     fonts: PropTypes.object.isRequired,
     previewText: PropTypes.string.isRequired,
-    display: PropTypes.oneOf(['grid', 'list']).isRequired
+    display: PropTypes.oneOf(['grid', 'list']).isRequired,
+    fontsActions: PropTypes.object.isRequired
   };
 
   render () {
     const {fonts, previewText, display} = this.props;
-    const list = [];
+    let list = [];
     let result;
 
     if (fonts.fonts) {
       forEach(fonts.fonts, (variants, family) => {
-        variants.map((fvd, ind) => {
+        list = variants.map((fvd) => {
           const key = (family + fvd).replace(/ /g, '_');
-          list.push(
+          return (
             <Entry
               key={key}
               family={family}
@@ -40,13 +43,25 @@ export default class List extends Component {
         </div>
       );
     } else {
-      result = (
-        <div>
-          No fonts yet
-        </div>
-      );
+      result = this.renderNoContent();
     }
 
     return result;
+  }
+
+  renderNoContent () {
+    const {fonts, fontsActions} = this.props;
+
+    return (
+      <div className={styles.noFonts}>
+        <div className={styles.noTitle}>Add new fonts!</div>
+        <div className={styles.noText}>
+          <span>Design and build your creations with amazing fonts from the</span>
+          <br />
+          <span>best providers or even your own.</span>
+        </div>
+        <Manage fonts={fonts} fontsActions={fontsActions} />
+      </div>
+    );
   }
 }
