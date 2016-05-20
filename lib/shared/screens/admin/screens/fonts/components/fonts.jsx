@@ -27,7 +27,7 @@ export default class Fonts extends Component {
   };
 
   render () {
-    const {fonts, previewText, changePreviewText, changeDisplay, display, openManage} = this.props;
+    const {fonts, previewText, changePreviewText, changeDisplay, display, openManage, fontsActions} = this.props;
 
     return (
       <div>
@@ -39,7 +39,12 @@ export default class Fonts extends Component {
           </ContentHeaderActions>
         </ContentHeader>
         <Content>
-          <List fonts={fonts} previewText={previewText} display={display} />
+          <List
+            fonts={fonts}
+            previewText={previewText}
+            display={display}
+            fontsActions={fontsActions}
+          />
         </Content>
         {this.renderManage()}
       </div>
