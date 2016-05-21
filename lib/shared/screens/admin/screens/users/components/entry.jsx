@@ -17,7 +17,8 @@ export default class Entry extends Component {
 
   static propTypes = {
     user: PropTypes.object.isRequired,
-    onDelete: PropTypes.func.isRequired
+    onDelete: PropTypes.func.isRequired,
+    display: PropTypes.string.isRequired
   };
 
   @bind
@@ -27,11 +28,11 @@ export default class Entry extends Component {
   }
 
   render () {
-    const {user} = this.props;
+    const {user, display} = this.props;
     const url = getGravatarImage(user.email, 125);
 
     return (
-      <div className={styles.root}>
+      <div className={cx(styles.root, styles[display])}>
         <div className={styles.user}>
           <img src={url} role='presentation' />
         </div>
