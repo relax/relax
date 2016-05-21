@@ -1,56 +1,6 @@
 @import '~styles/colors.less';
 
 .root {
-  width: 21.25%;
-  margin-right: 5%;
-  display: inline-block;
-  vertical-align: top;
-  margin-bottom: 60px;
-  border: 1px solid transparent;
-  text-align: center;
-}
-
-@media screen and (min-width: 1501px) {
-  .root {
-    width: 16%;
-    &:nth-child(5n+5) {
-      margin-right: 0;
-    }
-  }
-}
-
-@media screen and (max-width: 1500px) and (min-width: 1101px) {
-  .root {
-    &:nth-child(4n+4) {
-      margin-right: 0;
-    }
-  }
-}
-
-@media screen and (max-width: 1100px) and (min-width: 851px) {
-  .root {
-    width: 30%;
-    &:nth-child(3n+3) {
-      margin-right: 0;
-    }
-  }
-}
-
-@media screen and (max-width: 850px) and (min-width: 751px) {
-  .root {
-    width: 45%;
-    margin-right: 10%;
-    &:nth-child(2n+2) {
-      margin-right: 0;
-    }
-  }
-}
-
-@media screen and (max-width: 750px) {
-  .root {
-    width: 100%;
-    margin-right: 0%;
-  }
 }
 
 .user {
@@ -98,9 +48,91 @@
   color: @alert;
 }
 
-.root:hover {
-  border: 1px solid @adminBorders;
+.list {
+  padding: 15px 20px;
+  border-bottom: 1px solid @adminBorders;
+
+  .user {
+    width: 70px;
+    height: 70px;
+    margin-top: 0px;
+
+    :global img {
+      width: 70px;
+    }
+  }
+  .info {
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+  }
   .actions {
     visibility: visible;
+    display: inline-block;
+    vertical-align: top;
+    float: right;
+    border-top: 0;
+    padding: 15px 0;
+  }
+}
+
+.grid {
+  width: 21.25%;
+  margin-right: 5%;
+  display: inline-block;
+  vertical-align: top;
+  margin-bottom: 60px;
+  text-align: center;
+  border: 1px solid transparent;
+
+
+  &:hover {
+    border: 1px solid @adminBorders;
+    .actions {
+      visibility: visible;
+    }
+  }
+
+  @media screen and (min-width: 1501px) {
+    &.root {
+      width: 16%;
+      &:nth-child(5n+5) {
+        margin-right: 0;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1500px) and (min-width: 1101px) {
+    &.root {
+      &:nth-child(4n+4) {
+        margin-right: 0;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1100px) and (min-width: 851px) {
+    &.root {
+      width: 30%;
+      &:nth-child(3n+3) {
+        margin-right: 0;
+      }
+    }
+  }
+
+  @media screen and (max-width: 850px) and (min-width: 751px) {
+    &.root {
+      width: 45%;
+      margin-right: 10%;
+      &:nth-child(2n+2) {
+        margin-right: 0;
+      }
+    }
+  }
+
+  @media screen and (max-width: 750px) {
+    &.root {
+      width: 100%;
+      margin-right: 0%;
+    }
   }
 }
