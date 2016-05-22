@@ -1,0 +1,63 @@
+@import '~styles/colors.less';
+
+.info {
+  text-align: center;
+  position: relative;
+
+  &:before {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: -moz-linear-gradient(top, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.69) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.69) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.69) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  }
+}
+
+.content {
+  position: relative;
+  padding: 70px;
+}
+
+.user {
+  display: inline-block;
+  vertical-align: top;
+  width: 250px;
+  height: 250px;
+  max-width: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.name {
+  font-size: 48px;
+  color: #ffffff;
+  margin-top: 30px;
+  line-height: 65px;
+}
+
+.email {
+  font-size: 26px;
+  color: #ffffff;
+  font-weight: 200;
+  line-height: 65px;
+}
+
+.date {
+  position: absolute;
+  left: 25px; top: 25px;
+  color: @adminBorders;
+  font-size: 15px;
+  font-weight: 200;
+  line-height: 20px;
+}
+
+.remove {
+  position: absolute;
+  right: 25px; top: 25px;
+  color: @adminBorders;
+  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 20px;
+}

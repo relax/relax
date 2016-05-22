@@ -3,6 +3,11 @@
 .root {
 }
 
+.link {
+  display: block;
+  text-decoration: none;
+}
+
 .user {
   width: 125px;
   height: 125px;
@@ -49,8 +54,12 @@
 }
 
 .list {
-  padding: 15px 20px;
+  position: relative;
   border-bottom: 1px solid @adminBorders;
+
+  .link {
+    padding: 15px 20px;
+  }
 
   .user {
     width: 70px;
@@ -70,9 +79,11 @@
     visibility: visible;
     display: inline-block;
     vertical-align: top;
-    float: right;
+    position: absolute;
+    right: 15px;
+    top: 10px;
     border-top: 0;
-    padding: 15px 0;
+    padding: 20px 15px;
   }
 }
 
