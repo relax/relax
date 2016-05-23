@@ -89,7 +89,7 @@
     "winston": "^2.1.0"
   },
   "devDependencies": {
-    "autoprefixer-loader": "^3.1.0",
+    "autoprefixer": "^6.3.6",
     "babel-core": "^6.4.5",
     "babel-eslint": "^6.0.2",
     "babel-loader": "^6.2.2",

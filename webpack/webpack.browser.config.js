@@ -3,6 +3,7 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var config = require('../config');
+var autoprefixer = require('autoprefixer');
 
 var NoErrorsPlugin = webpack.NoErrorsPlugin;
 var optimize = webpack.optimize;
@@ -76,6 +77,9 @@ var webpackConfig = module.exports = {
       }
     ]
   },
+  postcss: function () {
+    return [autoprefixer];
+  },
   devServer: {
     port: config.devPort,
     contentBase: 'http://localhost:' + config.port,
@@ -84,12 +88,12 @@ var webpackConfig = module.exports = {
 };
 
 if (process.env.NODE_ENV === 'production') {
-  webpackConfig.plugins.push(new ExtractTextPlugin('../css/[name].css'));
+  webpackConfig.plugins.push(new ExtractTextPlugin('../css/[name].css', {allChunks: true}));
   webpackConfig.module.loaders.push({
     test: /\.(css|less)$/,
     loader: ExtractTextPlugin.extract(
-      'style-loader',
-      'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!autoprefixer!postcss-loader!less',
+      'style',
+      'css!postcss!less',
       {
         publicPath: '../css/'
       }
@@ -119,7 +123,7 @@ if (process.env.NODE_ENV === 'production') {
     new NoErrorsPlugin()
   );
 
-  webpackConfig.devtool = 'source-map';
+  webpackConfig.devtool = 'cheap-module-source-map';
 } else {
   webpackConfig.module.loaders.push({
     test: /\.(css|less)$/,
