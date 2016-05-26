@@ -1,3 +1,5 @@
+import bind from 'decorators/bind';
+import cx from 'classnames';
 import Animate from 'components/animate';
 import Button from 'components/button';
 import Component from 'components/component';
@@ -11,22 +13,25 @@ export default class ModalNew extends Component {
     submit: PropTypes.func.isRequired,
     loading: PropTypes.bool,
     children: PropTypes.node.isRequired,
-    submitLabel: PropTypes.string
+    submitLabel: PropTypes.string,
+    className: PropTypes.string
   };
 
   static defaultProps = {
     submitLabel: 'Create'
   };
 
+  @bind
   onSubmit (event) {
     event.preventDefault();
     this.props.submit();
   }
 
   render () {
+    const {className} = this.props;
     return (
-      <div className={styles.root}>
-        <form onSubmit={::this.onSubmit}>
+      <div className={cx(styles.root, className)}>
+        <form onSubmit={this.onSubmit}>
           {this.props.children}
           <div className={styles.state}>
             {this.renderLoading()}

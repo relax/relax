@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
@@ -25,6 +26,7 @@ export default class ModalInput extends Component {
     }
   }
 
+  @bind
   onChange (event) {
     this.props.onChange(event.target.value);
   }
@@ -37,7 +39,7 @@ export default class ModalInput extends Component {
         className={cx(styles.input, invalid === true && styles.invalid, invalid === false && styles.valid)}
         value={value}
         placeholder={placeholder}
-        onChange={::this.onChange}
+        onChange={this.onChange}
       />
   );
   }

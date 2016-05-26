@@ -44,16 +44,21 @@ export default class Edit extends Component {
     addPoint: PropTypes.func.isRequired,
     removePoint: PropTypes.func.isRequired,
     showCollection: PropTypes.func.isRequired,
-    showOpacity: PropTypes.func.isRequired
+    showOpacity: PropTypes.func.isRequired,
+    noPicker: PropTypes.bool
   };
 
   componentDidMount () {
-    this.onCloseBind = ::this.onClose;
-    document.body.addEventListener('mousedown', this.onCloseBind, false);
+    if (!this.props.noPicker) {
+      this.onCloseBind = ::this.onClose;
+      document.body.addEventListener('mousedown', this.onCloseBind, false);
+    }
   }
 
   componentWillUnmount () {
-    document.body.removeEventListener('mousedown', this.onCloseBind, false);
+    if (!this.props.noPicker) {
+      document.body.removeEventListener('mousedown', this.onCloseBind, false);
+    }
   }
 
   onClose (event) {
@@ -108,12 +113,13 @@ export default class Edit extends Component {
       nextInputType,
       editingPoint,
       showOpacity,
-      showCollection
+      showCollection,
+      noPicker
     } = this.props;
     const isGradient = (type === 'linear' || type === 'radial');
 
     return (
-      <div className={styles.root} ref='holder'>
+      <div className={cx(styles.root, noPicker && styles.noPicker)} ref='holder'>
         <span className={cx(styles.triangle, this.props.side)} />
         {gradients &&
           <Types
