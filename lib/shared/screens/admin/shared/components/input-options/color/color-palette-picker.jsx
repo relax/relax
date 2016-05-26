@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import Component from 'components/component';
 import Portal from 'components/portal';
@@ -23,6 +24,7 @@ export default class ColorPicker extends Component {
     white: PropTypes.bool
   };
 
+  @bind
   toggleOpen (event) {
     event.preventDefault();
     event.stopPropagation();
@@ -43,7 +45,7 @@ export default class ColorPicker extends Component {
 
     return (
       <div className={cx(white && styles.white, this.props.className)}>
-        <div className={styles.info} onClick={::this.toggleOpen} ref={(ref) => {this.ref = ref;}}>
+        <div className={styles.info} onClick={this.toggleOpen} ref={(ref) => {this.ref = ref;}}>
           <div className={styles.preview}>
             <span className={styles.color} style={colorStyle} />
           </div>

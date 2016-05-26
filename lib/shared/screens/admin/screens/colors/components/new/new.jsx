@@ -19,23 +19,22 @@ export default class NewColor extends Component {
   render () {
     const {label, value, changeColorLabel, changeColorValue, createColor, loading} = this.props;
     return (
-      <ModalNew submit={createColor} loading={loading}>
-        <ModalInput
-          focus
-          value={label}
-          placeholder='Name your color. e.g. Primary'
-          onChange={changeColorLabel}
-        />
-        <div className={styles.value}>
-          <div className={styles.label}>Color value</div>
+      <ModalNew submitLabel='Add' submit={createColor} loading={loading} className={styles.root}>
+        <div className={styles.colorHolder}>
           <ColorPicker
             value={value}
             onChange={changeColorValue}
             white
             showOpacity={false}
             showCollection={false}
+            noPicker
           />
         </div>
+        <ModalInput
+          value={label}
+          placeholder='Give it a name'
+          onChange={changeColorLabel}
+        />
       </ModalNew>
     );
   }

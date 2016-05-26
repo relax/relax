@@ -61,7 +61,7 @@ export default class Colors extends Component {
     if (opened) {
       const {closeNewColor} = this.props;
       return (
-        <Modal small subTitle='New Color' title='Adding new color to palette' onClose={closeNewColor}>
+        <Modal small subTitle='New Color' title='Pick a new color' onClose={closeNewColor}>
           <New onClose={closeNewColor} />
         </Modal>
       );
