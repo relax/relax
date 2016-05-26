@@ -13,13 +13,30 @@ export default class NewColor extends Component {
     changeColorLabel: PropTypes.func.isRequired,
     changeColorValue: PropTypes.func.isRequired,
     createColor: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired
+    updateColorFromState: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
+    editing: PropTypes.bool.isRequired
   };
 
   render () {
-    const {label, value, changeColorLabel, changeColorValue, createColor, loading} = this.props;
+    const {
+      label,
+      value,
+      changeColorLabel,
+      changeColorValue,
+      createColor,
+      updateColorFromState,
+      loading,
+      editing
+    } = this.props;
+
     return (
-      <ModalNew submitLabel='Add' submit={createColor} loading={loading} className={styles.root}>
+      <ModalNew
+        submitLabel={editing ? 'Change' : 'Add'}
+        submit={editing ? updateColorFromState : createColor}
+        loading={loading}
+        className={styles.root}
+      >
         <div className={styles.colorHolder}>
           <ColorPicker
             value={value}

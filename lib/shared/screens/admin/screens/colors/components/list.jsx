@@ -17,6 +17,7 @@ export default class List extends Component {
   static propTypes = {
     colors: PropTypes.array.isRequired,
     search: PropTypes.string,
+    openEditColor: PropTypes.func.isRequired,
     duplicateColor: PropTypes.func.isRequired,
     removeColor: PropTypes.func.isRequired
   };
@@ -31,7 +32,7 @@ export default class List extends Component {
   }
 
   renderEntry (color) {
-    const {search, duplicateColor, removeColor} = this.props;
+    const {search, duplicateColor, removeColor, openEditColor} = this.props;
     let valid = true;
 
     if (search) {
@@ -40,7 +41,13 @@ export default class List extends Component {
 
     if (valid) {
       return (
-        <Entry color={color} key={color._id} duplicateColor={duplicateColor} removeColor={removeColor} />
+        <Entry
+          color={color}
+          key={color._id}
+          duplicateColor={duplicateColor}
+          removeColor={removeColor}
+          onClick={openEditColor}
+        />
       );
     }
   }

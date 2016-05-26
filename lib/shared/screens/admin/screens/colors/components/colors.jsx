@@ -27,8 +27,10 @@ export default class Colors extends Component {
     opened: PropTypes.bool.isRequired,
     openRemoveColor: PropTypes.func.isRequired,
     closeRemoveColor: PropTypes.func.isRequired,
+    openEditColor: PropTypes.func.isRequired,
     removeOpened: PropTypes.bool.isRequired,
-    removeId: PropTypes.string
+    removeId: PropTypes.string,
+    editing: PropTypes.bool.isRequired
   };
 
   render () {
@@ -41,6 +43,8 @@ export default class Colors extends Component {
       } else {
         result = this.renderNoColors();
       }
+    } else {
+      result = <span />;
     }
 
     return result;
@@ -61,7 +65,15 @@ export default class Colors extends Component {
   }
 
   renderContent () {
-    const {colors, search, searchChange, duplicateColor, openRemoveColor, openNewColor} = this.props;
+    const {
+      colors,
+      search,
+      searchChange,
+      duplicateColor,
+      openRemoveColor,
+      openNewColor,
+      openEditColor
+    } = this.props;
 
     return (
       <div>
@@ -77,6 +89,7 @@ export default class Colors extends Component {
             search={search}
             duplicateColor={duplicateColor}
             removeColor={openRemoveColor}
+            openEditColor={openEditColor}
           />
         </Content>
         {this.renderNew()}
@@ -89,10 +102,15 @@ export default class Colors extends Component {
     const {opened} = this.props;
 
     if (opened) {
-      const {closeNewColor} = this.props;
+      const {closeNewColor, editing} = this.props;
       return (
-        <Modal small subTitle='New Color' title='Pick a new color' onClose={closeNewColor}>
-          <New onClose={closeNewColor} />
+        <Modal
+          small
+          subTitle={editing ? 'Edit Color' : 'New Color'}
+          title='Pick a new color'
+          onClose={closeNewColor}
+        >
+          <New editing={editing} onClose={closeNewColor} />
         </Modal>
       );
     }
