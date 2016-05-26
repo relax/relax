@@ -9,6 +9,7 @@ import Modal from 'components/modal';
 import ModalDelete from 'components/modal-delete';
 import React, {PropTypes} from 'react';
 
+import styles from './colors.less';
 import List from './list';
 import New from './new';
 
@@ -31,6 +32,35 @@ export default class Colors extends Component {
   };
 
   render () {
+    const {colors} = this.props;
+    let result;
+
+    if (colors) {
+      if (colors.length) {
+        result = this.renderContent();
+      } else {
+        result = this.renderNoColors();
+      }
+    }
+
+    return result;
+  }
+
+  renderNoColors () {
+    return (
+      <div className={styles.noColors}>
+        <div className={styles.noTitle}>Let's pick your first color!</div>
+        <div className={styles.noText}>
+          <span>You don’t have any colors in your palette yet!</span>
+          <br />
+          <span>Lets change that</span>
+        </div>
+        <New />
+      </div>
+    );
+  }
+
+  renderContent () {
     const {colors, search, searchChange, duplicateColor, openRemoveColor, openNewColor} = this.props;
 
     return (
