@@ -34,7 +34,7 @@ export default class User extends Component {
   }
 
   render () {
-    const {email, name} = this.props.user || {};
+    const {_id, email, name} = this.props.user || {};
     const {opened} = this.state;
     const url = getGravatarImage(email, 50);
 
@@ -58,7 +58,7 @@ export default class User extends Component {
           </div>
         </div>
         <div className={styles.actions}>
-          <Link to='/admin/users' className={styles.action}>
+          <Link to={`/admin/users/${_id}`} className={styles.action} onClick={this.toggleOpened}>
             <i className='nc-icon-mini users_circle-08'></i>
             <span>My Profile</span>
           </Link>
