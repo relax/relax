@@ -2,12 +2,12 @@ import Component from 'components/component';
 import ListHeader from 'components/list-header';
 import ListSearchSort from 'components/list-search-sort';
 import Modal from 'components/modal';
+import New from 'components/new-page';
 import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
 
 import styles from './menu.less';
 import List from './list';
-import New from './new';
 
 const sorts = [
   {
@@ -90,7 +90,7 @@ export default class PagesMenu extends Component {
     if (newOpened) {
       return (
         <Modal small subTitle='New Page' title='What should we call it?' onClose={closeNew}>
-          <New fragments={PagesMenu.fragments} onClose={closeNew} />
+          <New onClose={closeNew} />
         </Modal>
       );
     }
