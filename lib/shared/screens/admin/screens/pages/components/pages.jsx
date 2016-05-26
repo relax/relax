@@ -1,9 +1,8 @@
 import Component from 'components/component';
+import New from 'components/new-page';
 import React, {PropTypes} from 'react';
 
 import styles from './pages.less';
-import Menu from './menu';
-import New from './new';
 
 export default class Pages extends Component {
   static propTypes = {
@@ -43,7 +42,7 @@ export default class Pages extends Component {
           <br />
           <span>Lets change that</span>
         </div>
-        <New fragments={Menu.fragments} />
+        <New />
       </div>
     );
   }
