@@ -8,13 +8,14 @@ import styles from './index.less';
 export default class Content extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    noPadding: PropTypes.bool
+    noPadding: PropTypes.bool,
+    scrollableProps: PropTypes.object
   };
 
   render () {
-    const {noPadding} = this.props;
+    const {noPadding, scrollableProps} = this.props;
     return (
-      <Scrollable className={styles.root}>
+      <Scrollable className={styles.root} {...scrollableProps}>
         <div className={cx(styles.content, noPadding && styles.noPadding)}>
           {this.props.children}
         </div>

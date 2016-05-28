@@ -41,7 +41,8 @@ export default class Media extends Component {
     onRemoveSelected: PropTypes.func.isRequired,
     deleteConfirm: PropTypes.bool.isRequired,
     cancelRemoveSelected: PropTypes.func.isRequired,
-    removeSelected: PropTypes.func.isRequired
+    removeSelected: PropTypes.func.isRequired,
+    loadMore: PropTypes.func.isRequired
   };
 
   render () {
@@ -100,8 +101,14 @@ export default class Media extends Component {
       toggleMediaSelection,
       selected,
       display,
-      changeMediaDisplay
+      changeMediaDisplay,
+      loadMore
     } = this.props;
+    const scrollableProps = {
+      lazyLoad: true,
+      loadMore
+    };
+
     return (
       <Upload clickable={false} infos onFiles={uploadMediaFiles}>
         <ContentHeader>
@@ -115,7 +122,7 @@ export default class Media extends Component {
           <ContentDisplays display={display} onChange={changeMediaDisplay} />
           </ContentHeaderActions>
         </ContentHeader>
-        <Content>
+        <Content scrollableProps={scrollableProps}>
           <List media={media} toggleMediaSelection={toggleMediaSelection} selected={selected} display={display} />
         </Content>
         {this.renderDeleteConfirm()}
