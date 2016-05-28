@@ -79,6 +79,7 @@
     "rimraf": "^2.4.3",
     "semver": "^5.0.3",
     "serialize-javascript": "^1.1.2",
+    "shallowequal": "^0.2.2",
     "sharp": "^0.15.0",
     "slug": "^0.9.1",
     "soundmanager2": "git+https://github.com/relax/SoundManager2.git",
