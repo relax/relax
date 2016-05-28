@@ -25,7 +25,12 @@ export default class PagesList extends Component {
   renderEntry (page, key) {
     const {activePageId, query} = this.props;
     return (
-      <Entry page={page} key={key} active={activePageId === page._id} query={query} />
+      <Entry
+        page={page}
+        key={key}
+        active={activePageId === page._id}
+        query={query}
+      />
     );
   }
 }
