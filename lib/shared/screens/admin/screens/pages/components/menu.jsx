@@ -56,11 +56,12 @@ export default class PagesMenu extends Component {
     sort: PropTypes.string.isRequired,
     order: PropTypes.string.isRequired,
     search: PropTypes.string.isRequired,
-    location: PropTypes.object.isRequired
+    location: PropTypes.object.isRequired,
+    loadMore: PropTypes.func.isRequired
   };
 
   render () {
-    const {pages, onBack, onNew, activePageId, sort, order, location, search} = this.props;
+    const {pages, onBack, onNew, activePageId, sort, order, location, search, loadMore} = this.props;
 
     return (
       <div>
@@ -77,7 +78,7 @@ export default class PagesMenu extends Component {
           order={order}
           location={location}
         />
-        <Scrollable className={styles.list}>
+        <Scrollable className={styles.list} lazyLoad loadMore={loadMore}>
           <List pages={pages} activePageId={activePageId} query={location.query} />
         </Scrollable>
         {this.renderNew()}
