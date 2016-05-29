@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
@@ -20,6 +21,7 @@ export default class ContextMenu extends Component {
     removeElement: PropTypes.func.isRequired
   };
 
+  @bind
   saveSymbol (event) {
     event.preventDefault();
     const {symbolTitle, makeElementSymbol, element} = this.props;
@@ -31,18 +33,21 @@ export default class ContextMenu extends Component {
     }
   }
 
+  @bind
   makeDynamic (event) {
     event.preventDefault();
     const {makeElementDynamic, element} = this.props;
     makeElementDynamic(element.id);
   }
 
+  @bind
   duplicate (event) {
     event.preventDefault();
     const {duplicateElement, element} = this.props;
     duplicateElement(element.id);
   }
 
+  @bind
   remove (event) {
     event.preventDefault();
     const {removeElement, element} = this.props;
@@ -75,7 +80,7 @@ export default class ContextMenu extends Component {
           <i className='nc-icon-mini arrows-1_minimal-left'></i>
           <span>Add to symbol library</span>
         </button>
-        <form className={styles.form} onSubmit={::this.saveSymbol}>
+        <form className={styles.form} onSubmit={this.saveSymbol}>
           <input
             className={styles.input}
             type='text'
@@ -84,7 +89,7 @@ export default class ContextMenu extends Component {
             placeholder='Name Symbol'
             ref='titleInput'
           />
-          <div className={styles.saveButton} onClick={::this.saveSymbol}>Save</div>
+          <div className={styles.saveButton} onClick={this.saveSymbol}>Save</div>
           <input type='submit' hidden />
         </form>
       </div>
@@ -97,9 +102,9 @@ export default class ContextMenu extends Component {
       <div className={styles.opened} onMouseLeave={close}>
         <div className={styles.label}>{element.label || element.tag}</div>
         <div className={styles.action} onClick={openAddingSymbol}>Add to symbol library</div>
-        <div className={styles.action} onClick={::this.makeDynamic}>Make dynamic</div>
-        <div className={styles.action} onClick={::this.duplicate}>Duplicate</div>
-        <div className={styles.action} onClick={::this.remove}>Remove</div>
+        <div className={styles.action} onClick={this.makeDynamic}>Make dynamic</div>
+        <div className={styles.action} onClick={this.duplicate}>Duplicate</div>
+        <div className={styles.action} onClick={this.remove}>Remove</div>
       </div>
     );
   }

@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
@@ -9,6 +10,7 @@ export default class ContentSearch extends Component {
     onChange: PropTypes.func.isRequired
   };
 
+  @bind
   onChange (event) {
     this.props.onChange(event.target.value);
   }
@@ -23,7 +25,7 @@ export default class ContentSearch extends Component {
           type='text'
           value={value}
           placeholder='Search'
-          onChange={::this.onChange}
+          onChange={this.onChange}
         />
       </label>
     );

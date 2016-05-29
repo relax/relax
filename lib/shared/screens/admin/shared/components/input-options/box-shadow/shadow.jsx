@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import Balloon from 'components/balloon';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
@@ -16,10 +17,12 @@ export default class Shadow extends Component {
     index: PropTypes.number.isRequired
   };
 
+  @bind
   onClick () {
     this.props.selectShadow(this.props.index);
   }
 
+  @bind
   onRemove (event) {
     event.preventDefault();
     event.stopPropagation();
@@ -32,7 +35,7 @@ export default class Shadow extends Component {
 
     return (
       <div className={styles.root}>
-        <div className={styles.content} onClick={::this.onClick} ref={(ref) => {
+        <div className={styles.content} onClick={this.onClick} ref={(ref) => {
           this.ref = ref;
           !this.state.ready && this.setState({ready: true});
         }}
@@ -40,7 +43,7 @@ export default class Shadow extends Component {
           <div>
             {`${shadow.type}, ${colorLabel}, ${shadow.x} ${shadow.y}, ${shadow.blur}, ${shadow.spread}`}
           </div>
-          <div className={styles.removeButton} onClick={::this.onRemove}>
+          <div className={styles.removeButton} onClick={this.onRemove}>
             <i className='nc-icon-mini ui-1_trash-simple'></i>
           </div>
         </div>
