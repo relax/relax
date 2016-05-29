@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import Component from 'components/component';
 import Input from 'components/input-options/input';
 import React, {PropTypes} from 'react';
@@ -18,6 +19,7 @@ export default class ColorsCollection extends Component {
     addColor: PropTypes.func.isRequired
   };
 
+  @bind
   onSubmit (event) {
     event.preventDefault();
     this.props.addColor();
@@ -53,7 +55,7 @@ export default class ColorsCollection extends Component {
   renderAdding () {
     if (this.props.addingColor) {
       return (
-        <form className={styles.adding} onSubmit={::this.onSubmit}>
+        <form className={styles.adding} onSubmit={this.onSubmit}>
           <Input
             className={styles.input}
             placeholder='Color name'
@@ -62,7 +64,7 @@ export default class ColorsCollection extends Component {
             onChange={this.props.changeAddingColor}
             focused
           />
-          <div className={styles.saveButton} onClick={::this.onSubmit}>Save</div>
+          <div className={styles.saveButton} onClick={this.onSubmit}>Save</div>
         </form>
       );
     }

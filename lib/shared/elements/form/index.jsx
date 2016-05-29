@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import forEach from 'lodash.foreach';
 import request from 'superagent';
 import warning from 'warning';
@@ -66,6 +67,7 @@ export default class Form extends Component {
     //   });
   }
 
+  @bind
   onSubmit (event) {
     event.preventDefault();
     const formElement = findDOMNode(this);
@@ -86,7 +88,7 @@ export default class Form extends Component {
 
   render () {
     return (
-      <form onSubmit={::this.onSubmit}>
+      <form onSubmit={this.onSubmit}>
         <Element {...this.props.relax} htmlTag='div' settings={settings}>
           {this.props.children}
         </Element>

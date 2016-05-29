@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import Editor from 'components/medium-editor';
 import React, {PropTypes} from 'react';
@@ -49,6 +50,7 @@ export default class TextBox extends Component {
     return result;
   }
 
+  @bind
   onChange (value) {
     const {relax} = this.props;
     relax.dispatch(changeElementContent(relax.element.id, value));
@@ -92,7 +94,7 @@ export default class TextBox extends Component {
         <Editor
           tag='div'
           className={className}
-          onChange={::this.onChange}
+          onChange={this.onChange}
           value={html}
           options={{
             toolbar: {

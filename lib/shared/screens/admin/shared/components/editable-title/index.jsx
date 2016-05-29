@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
@@ -38,6 +39,7 @@ export default class EditableTitle extends Component {
     }
   }
 
+  @bind
   onClick () {
     this.setState({
       editing: true,
@@ -45,12 +47,14 @@ export default class EditableTitle extends Component {
     });
   }
 
+  @bind
   onChange (event) {
     this.setState({
       editValue: event.target.value
     });
   }
 
+  @bind
   cancel (event) {
     event.preventDefault();
     this.setState({
@@ -59,6 +63,7 @@ export default class EditableTitle extends Component {
     });
   }
 
+  @bind
   onSubmit (event) {
     event.preventDefault();
     this.props
@@ -86,24 +91,24 @@ export default class EditableTitle extends Component {
 
     if (!editing) {
       result = (
-        <button className={styles.editButton} onClick={::this.onClick}>
+        <button className={styles.editButton} onClick={this.onClick}>
           <div className={styles.title}>{value}</div>
           <i className='nc-icon-outline ui-1_edit-74'></i>
         </button>
       );
     } else {
       result = (
-        <form onSubmit={::this.onSubmit}>
+        <form onSubmit={this.onSubmit}>
           <input
             value={this.state.editValue}
-            onChange={::this.onChange}
+            onChange={this.onChange}
             type='text'
             placeholder={value}
             className={cx(styles.title, styles.input)}
             ref='input'
           />
           <button className={cx(styles.formButton, styles.confirmButton)}>Ok</button>
-          <button className={cx(styles.formButton, styles.cancelButton)} onClick={::this.cancel}>Cancel</button>
+          <button className={cx(styles.formButton, styles.cancelButton)} onClick={this.cancel}>Cancel</button>
         </form>
       );
     }

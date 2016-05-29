@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
@@ -13,6 +14,7 @@ export default class AddBallon extends Component {
     onClick: PropTypes.func.isRequired
   };
 
+  @bind
   onClick () {
     const {onClick, position} = this.props;
     onClick(position, findDOMNode(this.refs.marker));
@@ -28,7 +30,7 @@ export default class AddBallon extends Component {
           !vertical && this.state.closeToMargin && styles.inverted,
           active && styles.active
         )}
-        onClick={::this.onClick}
+        onClick={this.onClick}
       >
         <span className={styles.marker} ref='marker'>
           <span className={styles.triangle}></span>

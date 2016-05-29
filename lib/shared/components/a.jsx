@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import qs from 'query-string';
 import Component from 'components/component';
 import React from 'react';
@@ -11,6 +12,7 @@ export default class A extends Component {
     afterClick: React.PropTypes.func
   };
 
+  @bind
   onClick (event) {
     if (this.props.onClick) {
       this.props.onClick(event);
@@ -33,7 +35,7 @@ export default class A extends Component {
     }
 
     return (
-      <Link to={url} query={query} {...tagProps} onClick={::this.onClick}>
+      <Link to={url} query={query} {...tagProps} onClick={this.onClick}>
         {this.props.children}
       </Link>
     );

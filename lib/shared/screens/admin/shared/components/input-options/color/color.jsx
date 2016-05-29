@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import Component from 'components/component';
 import Portal from 'components/portal';
 import Stick from 'components/stick';
@@ -28,10 +29,12 @@ export default class Color extends Component {
     };
   }
 
+  @bind
   onClick () {
     this.props.selectColor(this.props.color._id);
   }
 
+  @bind
   onMouseEnter () {
     this.setState({
       overed: true,
@@ -39,6 +42,7 @@ export default class Color extends Component {
     });
   }
 
+  @bind
   onMouseLeave () {
     this.setState({
       overed: false
@@ -54,9 +58,9 @@ export default class Color extends Component {
       <div
         className={styles.color}
         style={style}
-        onClick={::this.onClick}
-        onMouseEnter={::this.onMouseEnter}
-        onMouseLeave={::this.onMouseLeave}
+        onClick={this.onClick}
+        onMouseEnter={this.onMouseEnter}
+        onMouseLeave={this.onMouseLeave}
       >
         {this.renderInfo()}
       </div>
