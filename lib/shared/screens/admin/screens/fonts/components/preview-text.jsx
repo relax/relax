@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
@@ -9,6 +10,7 @@ export default class PreviewText extends Component {
     onChange: PropTypes.func.isRequired
   };
 
+  @bind
   onChange (event) {
     this.props.onChange(event.target.value);
   }
@@ -16,7 +18,7 @@ export default class PreviewText extends Component {
   render () {
     const {value} = this.props;
     return (
-      <input className={styles.root} value={value} onChange={::this.onChange} placeholder='Preview Text' />
+      <input className={styles.root} value={value} onChange={this.onChange} placeholder='Preview Text' />
     );
   }
 }

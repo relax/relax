@@ -1,9 +1,10 @@
-import cx from 'classnames';
 import Component from 'components/component';
-import ModalInput from 'components/modal-input';
 import React, {PropTypes} from 'react';
 
 import styles from './manage.less';
+import CustomFonts from './custom';
+import Provider from './provider';
+import TabButton from './tab-button';
 
 export default class Manage extends Component {
   static propTypes = {
@@ -14,10 +15,6 @@ export default class Manage extends Component {
     fontsActions: PropTypes.object.isRequired,
     closeManage: PropTypes.func.isRequired
   };
-
-  changeTab (tab) {
-    this.props.changeTab(tab);
-  }
 
   render () {
     const {tabs, closeManage} = this.props;
@@ -36,40 +33,30 @@ export default class Manage extends Component {
   }
 
   renderTabButton (tabButton, index) {
-    const {tab} = this.props;
+    const {tab, changeTab} = this.props;
     return (
-      <button
-        className={cx(styles.tab, tab === index && styles.active)}
-        onClick={this.changeTab.bind(this, index)}
+      <TabButton
+        id={index}
+        title={tabButton.title}
+        onClick={changeTab}
+        active={tab === index}
         key={index}
-      >
-        {tabButton.title}
-      </button>
+      />
     );
   }
 
   renderContent () {
-    const {tab, tabs, fonts, fontsActions} = this.props;
+    const {tab, tabs} = this.props;
     const currentTab = tabs[tab];
     let result;
 
     if (currentTab.lib !== 'custom') {
-      const lib = currentTab.lib;
-      const input = fonts.input[lib];
-
       result = (
-        <div className={styles.inputArea}>
-          <ModalInput
-            invalid={!input.valid && input.input}
-            value={input.input}
-            onChange={fontsActions.changeFontInputAndUpdate.bind(this, tab)}
-            placeholder={currentTab.placeholder}
-          />
-        </div>
+        <Provider lib={currentTab.lib} placeholder={currentTab.placeholder} />
       );
     } else {
       result = (
-        <div>custom</div>
+        <CustomFonts />
       );
     }
 
