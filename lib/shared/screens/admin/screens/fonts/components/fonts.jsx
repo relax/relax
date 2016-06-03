@@ -7,6 +7,7 @@ import ContentNew from 'components/content-new';
 import Modal from 'components/modal';
 import React, {PropTypes} from 'react';
 
+import styles from './fonts.less';
 import List from './list';
 import Manage from './manage';
 import PreviewText from './preview-text';
@@ -19,16 +20,27 @@ export default class Fonts extends Component {
     previewText: PropTypes.string.isRequired,
     changePreviewText: PropTypes.string.isRequired,
     changeDisplay: PropTypes.func.isRequired,
-    display: PropTypes.string.isRequired,
+    display: PropTypes.oneOf(['list', 'grid']).isRequired,
     manage: PropTypes.bool.isRequired,
     openManage: PropTypes.func.isRequired,
-    closeManage: PropTypes.func.isRequired,
-    fontsActions: PropTypes.object.isRequired
+    closeManage: PropTypes.func.isRequired
   };
 
   render () {
-    const {fonts, previewText, changePreviewText, changeDisplay, display, openManage, fontsActions} = this.props;
+    const {fonts} = this.props;
+    let result;
 
+    if (fonts && Object.keys(fonts).length > 0) {
+      result = this.renderHasContent();
+    } else {
+      result = this.renderNoContent();
+    }
+
+    return result;
+  }
+
+  renderHasContent () {
+    const {fonts, previewText, display, changePreviewText, changeDisplay, openManage} = this.props;
     return (
       <div>
         <ContentHeader>
@@ -43,7 +55,6 @@ export default class Fonts extends Component {
             fonts={fonts}
             previewText={previewText}
             display={display}
-            fontsActions={fontsActions}
           />
         </Content>
         {this.renderManage()}
@@ -51,13 +62,29 @@ export default class Fonts extends Component {
     );
   }
 
+  renderNoContent () {
+    return (
+      <Content noOffset>
+        <div className={styles.noFonts}>
+          <div className={styles.noTitle}>Add new fonts!</div>
+          <div className={styles.noText}>
+            <span>Design and build your creations with amazing fonts from the</span>
+            <br />
+            <span>best providers or even your own.</span>
+          </div>
+          <Manage />
+        </div>
+      </Content>
+    );
+  }
+
   renderManage () {
-    const {manage, closeManage, fonts, fontsActions} = this.props;
+    const {manage, closeManage} = this.props;
 
     if (manage) {
       return (
         <Modal onClose={closeManage} subTitle='Manage fonts' title='Where should we fetch them from?'>
-          <Manage fonts={fonts} fontsActions={fontsActions} closeManage={closeManage} />
+          <Manage />
         </Modal>
       );
     }

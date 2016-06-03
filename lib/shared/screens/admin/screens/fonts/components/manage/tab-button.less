@@ -1,0 +1,32 @@
+@import '~styles/colors.less';
+
+.tab {
+  position: relative;
+  font-size: 16px;
+  line-height: 39px;
+  color: @adminText;
+  margin-bottom: 15px;
+  display: inline-block;
+  margin-right: 55px;
+  font-weight: 600;
+
+  &:hover, &.active {
+    color: @primary;
+  }
+
+  &.active {
+    &:after {
+    content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 0;
+      border-bottom: 1px solid @primary;
+    }
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}

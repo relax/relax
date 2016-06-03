@@ -1,5 +1,6 @@
 import bind from 'decorators/bind';
 import cx from 'classnames';
+import Animate from 'components/animate';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
@@ -33,14 +34,37 @@ export default class ModalInput extends Component {
 
   render () {
     const {placeholder, value, invalid, type} = this.props;
+    const validable = typeof invalid !== 'undefined' && value;
     return (
-      <input
-        type={type}
-        className={cx(styles.input, invalid === true && styles.invalid, invalid === false && styles.valid)}
-        value={value}
-        placeholder={placeholder}
-        onChange={this.onChange}
-      />
-  );
+      <label className={cx(
+          styles.holder,
+          validable && invalid && styles.invalid
+        )}
+      >
+        <input
+          type={type}
+          className={styles.input}
+          value={value}
+          placeholder={placeholder}
+          onChange={this.onChange}
+        />
+        {validable && this.renderState()}
+      </label>
+    );
+  }
+
+  renderState () {
+    const {invalid} = this.props;
+    return (
+      <Animate key={invalid ? 'invalid' : 'valid'}>
+        <i className={cx(
+            styles.icon,
+            invalid && styles.invalidIco,
+            'nc-icon-mini',
+            invalid ? 'ui-1_simple-remove' : 'ui-1_check'
+          )}
+        />
+      </Animate>
+    );
   }
 }
