@@ -28,7 +28,7 @@ export default class FontPicker extends Component {
     if (key === 'family') {
       // check if current fvd exists
       const family = value;
-      const fvds = this.props.fonts.fonts[family];
+      const fvds = this.props.fonts[family];
 
       if (fvds.indexOf(newValue.fvd) === -1) {
         newValue.fvd = fvds[0];
@@ -57,8 +57,8 @@ export default class FontPicker extends Component {
     const fvds = [];
     const value = this.props.value;
 
-    if (this.props.fonts && typeof this.props.fonts.fonts === 'object') {
-      forEach(this.props.fonts.fonts, (fvdsArray, family) => {
+    if (this.props.fonts) {
+      forEach(this.props.fonts, (fvdsArray, family) => {
         families.push({
           label: family,
           value: family
