@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import Component from 'components/component';
 import Input from 'components/modal-input';
@@ -13,6 +14,12 @@ export default class SchemaName extends Component {
     changeSchemaTitle: PropTypes.func.isRequired
   };
 
+  @bind
+  onSubmit (event) {
+    event.preventDefault();
+    this.props.schemaStepForward();
+  }
+
   render () {
     const {schema, schemaStepBack, schemaStepForward, changeSchemaTitle} = this.props;
     return (
@@ -20,7 +27,7 @@ export default class SchemaName extends Component {
         <div>
           {this.renderSchemaType(schema.type)}
         </div>
-        <div className={styles.holder}>
+        <form className={styles.holder} onSubmit={this.onSubmit}>
           <div className={styles.header}>Let's give it a name!</div>
           <Input
             value={schema.title}
@@ -29,14 +36,14 @@ export default class SchemaName extends Component {
             placeholder='Content type name'
           />
           <div className={styles.buttons}>
-            <button className={styles.button} onClick={schemaStepBack}>
+            <div className={styles.button} onClick={schemaStepBack}>
               Back
-            </button>
-            <button className={cx(styles.button, styles.primary)} onClick={schemaStepForward}>
+            </div>
+            <div className={cx(styles.button, styles.primary)} onClick={schemaStepForward}>
               Next
-            </button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     );
   }
