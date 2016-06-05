@@ -28,43 +28,12 @@
 .thumbnail {
   display: inline-block;
   vertical-align: top;
-  width: 46px;
-  height: 46px;
-  position: relative;
-}
-
-.blurred {
-  display: inline-block;
-  vertical-align: top;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  overflow: hidden;
-
-  :global img {
-    width: 46px;
-    -webkit-filter: blur(6px);
-    -moz-filter: blur(6px);
-    -o-filter: blur(6px);
-    -ms-filter: blur(6px);
-    filter: blur(6px);
-  }
-}
-
-.image {
-  display: inline-block;
-  vertical-align: top;
   width: 40px;
   height: 40px;
   border-radius: 50%;
   overflow: hidden;
-  position: absolute;
-  top: 3px;
-  left: 3px;
-
-  :global img {
-    width: 40px;
-  }
+  position: relative;
+  top: 2px;
 }
 
 .info {

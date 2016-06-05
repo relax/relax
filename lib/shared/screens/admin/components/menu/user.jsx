@@ -36,18 +36,13 @@ export default class User extends Component {
   render () {
     const {_id, email, name} = this.props.user || {};
     const {opened} = this.state;
-    const url = getGravatarImage(email, 50);
+    const url = getGravatarImage(email, 40);
 
     return (
       <div className={cx(styles.root, opened && styles.opened)}>
         <div className={styles.head} onClick={this.toggleOpened}>
           <div className={styles.thumbnail}>
-            <div className={styles.blurred}>
-              <img src={url} role='presentation' />
-            </div>
-            <div className={styles.image}>
-              <img src={url} role='presentation' />
-            </div>
+            <img src={url} role='presentation' />
           </div>
           <div className={styles.info}>
             <div className={styles.name}>{name}</div>
