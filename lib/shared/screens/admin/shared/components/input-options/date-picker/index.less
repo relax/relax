@@ -1,0 +1,36 @@
+@import '~styles/colors.less';
+
+.root {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.input {
+  border: 0;
+  outline: 0;
+  font-size: 10px;
+  line-height: 38px;
+  width: 90px;
+  background-color: transparent;
+  color: @chromeTextColor;
+  border: 1px solid @chromeBordersColor;
+  background-color: #2c2f34;
+  border-radius: 3px;
+  text-align: center;
+
+  &:focus {
+    border-color: @primary;
+  }
+}
+
+.white {
+  .input {
+    border-color: @adminInputBorders;
+    background-color: transparent;
+    color: @adminText;
+
+    &:focus {
+      border-color: @primary;
+    }
+  }
+}
