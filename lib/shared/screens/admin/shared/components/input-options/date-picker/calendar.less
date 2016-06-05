@@ -1,0 +1,77 @@
+@import '~styles/colors.less';
+
+.root {
+  width: 200px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  padding: 15px;
+
+  &:before {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 5px 8px 5px;
+    border-color: transparent transparent #ffffff transparent;
+  }
+}
+
+.month {
+  position: relative;
+  margin-bottom: 5px;
+
+  :global {
+    i, span {
+      line-height: 25px;
+      text-align: center;
+    }
+    span {
+      display: block;
+      padding: 0 25px;
+      color: @chromeTextSubColor;
+      font-size: 13px;
+    }
+    i {
+      position: absolute;
+      top: 0;
+      cursor: pointer;
+      display: inline-block;
+      vertical-align: top;
+      font-size: 14px;
+      width: 20px;
+      color: @chromeBordersColor;
+
+      &:hover {
+        color: @primary;
+      }
+
+      &:last-child {
+        right: 0;
+      }
+    }
+  }
+}
+
+.table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.header {
+  font-size: 12px;
+  line-height: 30px;
+  text-align: center;
+  color: @chromeBordersColor;
+}
+
+.row {
+  text-align: center;
+  color: @chromeTextSubColor;
+  font-size: 12px;
+  line-height: 20px;
+}
