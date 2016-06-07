@@ -53,12 +53,15 @@ export default class Draggable extends Component {
 
     startDragging(draggingData, this.props.dragInfo);
     this.props.onStartDrag && this.props.onStartDrag();
+
+    return false;
   }
 
   onMouseDown (event) {
     if (event.button === LEFT_BUTTON) {
       const draggable = !this.props.disabled;
       event.stopPropagation();
+      event.preventDefault();
 
       if (draggable) {
         document.addEventListener('mouseup', this.onMouseUpListener);
