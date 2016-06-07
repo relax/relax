@@ -39,7 +39,7 @@ export default class Scrollable extends Component {
   @bind
   onScroll (event) {
     const {loadMoreTrigger, loadMore} = this.props;
-    const {clientHeight, scrollTop, scrollHeight} = event.srcElement;
+    const {clientHeight, scrollTop, scrollHeight} = event.target || event.srcElement;
 
     const toScroll = scrollHeight - clientHeight;
     const needsToLoadMore = (toScroll - scrollTop) < loadMoreTrigger;
