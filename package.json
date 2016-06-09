@@ -14,7 +14,8 @@
     "dev": "parallelshell \"npm run webpackServer\" \"npm run watchServer\"",
     "watchServer": "nodemon -e js,jsx,json -w app.js -w lib -i lib/client -x \"webpack --config ./webpack/webpack.node.config.js && npm run startDev\"",
     "webpackServer": "webpack-dev-server --config ./webpack/webpack.browser.config.js --inline --hot --quiet --display-error-details",
-    "lint": "eslint lib/** --quiet"
+    "lint": "eslint lib/** --quiet",
+    "test": "cross-env NODE_ENV=test mocha-webpack --colors --webpack-config ./webpack/webpack.test.config \"lib/**/__tests__/*.js\""
   },
   "dependencies": {
     "babel-polyfill": "^6.3.14",
@@ -106,11 +107,14 @@
     "eslint-config-airbnb": "^7.0.0",
     "eslint-plugin-jsx-a11y": "^0.6.2",
     "eslint-plugin-react": "^4.2.2",
+    "expect": "^1.20.1",
     "extract-text-webpack-plugin": "^0.9.1",
     "file-loader": "^0.8.4",
     "json-loader": "^0.5.3",
     "less": "^2.6.0",
     "less-loader": "^2.2.2",
+    "mocha": "^2.5.3",
+    "mocha-webpack": "^0.3.1",
     "nodemon": "^1.8.1",
     "parallelshell": "^2.0.0",
     "postcss-loader": "^0.9.1",
@@ -123,7 +127,8 @@
     "url-loader": "^0.5.6",
     "webpack": "^1.12.6",
     "webpack-dev-server": "^1.12.1",
-    "webpack-hot-middleware": "^2.5.0"
+    "webpack-hot-middleware": "^2.5.0",
+    "webpack-node-externals": "^1.2.0"
   },
   "apps": [
     {
