@@ -79,7 +79,7 @@ export default class Image extends Component {
       imageStyle.maxWidth = this.props.width;
       style.textAlign = this.props.horizontal;
     } else {
-      imageStyle.minWidth = '100%';
+      imageStyle.maxWidth = '100%';
     }
 
     return (
