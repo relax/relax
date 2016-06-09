@@ -3,3 +3,4 @@ lib/
 uploads/
 build/
 package.json.tmp
+.tmp
