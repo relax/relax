@@ -17,7 +17,7 @@ export default class Counter extends Component {
   };
 
   static defaultProps = {
-    date: Date.now(),
+    date: new Date(),
     format: 'LL',
     customFormat: 'MMMM Do YYYY, h:mm:ss a'
   };
@@ -37,7 +37,7 @@ export default class Counter extends Component {
     };
 
     const format = this.props.format;
-    const date = moment(parseInt(this.props.date, 10));
+    const date = moment(this.props.date);
 
     let dateStr = '';
     if (format === 'fromNow') {
