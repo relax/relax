@@ -1,32 +1,28 @@
 /* eslint-disable */
 var webpack = require('webpack');
 var path = require('path');
-var fs = require('fs');
-
-var nodeModules = {};
-fs.readdirSync('node_modules')
-  .filter(function (x) {
-    return ['.bin'].indexOf(x) === -1;
-  })
-  .forEach(function (mod) {
-    nodeModules[mod] = 'commonjs ' + mod;
-  });
+var nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   entry: './app.js',
   output: {
-    path: path.join(__dirname, '..', 'build'),
+    path: path.join(__dirname, '..', '..', 'build'),
     filename: 'app.js'
   },
   resolve: {
     modulesDirectories: ['shared', 'node_modules'],
     extensions: ['', '.js', '.jsx', '.json']
   },
-  externals: nodeModules,
+  externals: [nodeExternals()],
   plugins: [
     new webpack.BannerPlugin('require("source-map-support").install();', {
       raw: true,
       entryOnly: false
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('development')
+      }
     })
   ],
   target: 'node',
@@ -49,21 +45,14 @@ module.exports = {
         query: {
           cacheDirectory: true,
           presets: ['react', 'es2015', 'stage-0'],
-          plugins: ['transform-decorators-legacy'],
-          env: {
-            development: {
-              plugins: [
-                ['react-transform', {
-                  transforms: [
-                    {
-                      transform: 'react-transform-catch-errors',
-                      imports: ['react', 'redbox-react']
-                    }
-                  ]
-                }]
-              ]
-            }
-          }
+          plugins: ['transform-decorators-legacy', ['react-transform', {
+            transforms: [
+              {
+                transform: 'react-transform-catch-errors',
+                imports: ['react', 'redbox-react']
+              }
+            ]
+          }]]
         }
       },
       {
