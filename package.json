@@ -8,14 +8,14 @@
     "url": "https://github.com/relax/relax.git"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.browser.config.js && cross-env NODE_ENV=production webpack --config ./webpack/webpack.node.config.js",
+    "build": "cross-env NODE_ENV=production webpack --config ./webpack/prod/webpack.config.js",
     "start": "cross-env NODE_ENV=production node build/app",
-    "startDev": "node build/app",
+    "startDev": "cross-env NODE_ENV=development node build/app",
     "dev": "parallelshell \"npm run webpackServer\" \"npm run watchServer\"",
-    "watchServer": "nodemon -e js,jsx,json -w app.js -w lib -i lib/client -x \"webpack --config ./webpack/webpack.node.config.js && npm run startDev\"",
-    "webpackServer": "webpack-dev-server --config ./webpack/webpack.browser.config.js --inline --hot --quiet --display-error-details",
+    "watchServer": "nodemon -e js,jsx,json -w app.js -w lib -i lib/client -x \"webpack --config ./webpack/dev/webpack.node.config.js && npm run startDev\"",
+    "webpackServer": "webpack-dev-server --config ./webpack/dev/webpack.browser.config.js --inline --hot --quiet --display-error-details",
     "lint": "eslint lib/** --quiet",
-    "test": "cross-env NODE_ENV=test mocha-webpack --colors --webpack-config ./webpack/webpack.test.config \"lib/**/__tests__/*.js\""
+    "test": "cross-env NODE_ENV=test mocha-webpack --colors --webpack-config ./webpack/test/webpack.config \"lib/**/__tests__/*.js\""
   },
   "dependencies": {
     "babel-polyfill": "^6.3.14",
@@ -74,7 +74,7 @@
     "redux-logger": "^2.0.4",
     "redux-router": "1.0.0-beta5",
     "redux-thunk": "^1.0.0",
-    "relate-js": "^0.5.4",
+    "relate-js": "^0.6.1",
     "relax-fragments": "0.1.1",
     "relax-jss": "0.2.0",
     "rimraf": "^2.4.3",
@@ -97,6 +97,8 @@
     "babel-loader": "^6.2.2",
     "babel-plugin-react-transform": "^2.0.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-react-constant-elements": "^6.9.1",
+    "babel-plugin-transform-react-inline-elements": "^6.8.0",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
@@ -108,7 +110,7 @@
     "eslint-plugin-jsx-a11y": "^0.6.2",
     "eslint-plugin-react": "^4.2.2",
     "expect": "^1.20.1",
-    "extract-text-webpack-plugin": "^0.9.1",
+    "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.4",
     "json-loader": "^0.5.3",
     "less": "^2.6.0",

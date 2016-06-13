@@ -1,10 +1,10 @@
 import 'styles/normalize.less';
 import 'styles/nucleo/index.less';
 
-import React, {PropTypes} from 'react';
 import Component from 'components/component';
+import React, {PropTypes} from 'react';
 
-import styles from './index.css';
+import styles from './index.less';
 import Logo from './components/logo';
 
 export default class Auth extends Component {
