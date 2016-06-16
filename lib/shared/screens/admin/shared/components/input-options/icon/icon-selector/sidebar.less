@@ -17,3 +17,49 @@
 .families {
   padding: 20px 0;
 }
+
+.done {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 10px;
+  border-top: 1px solid @chromeBordersColor;
+  height: 52px;
+}
+
+.selected {
+  position: absolute;
+  bottom: 52px; left: 0; right: 0;
+  height: 70px;
+  border-top: 1px solid @chromeBordersColor;
+  padding: 10px 15px;
+}
+
+.iconPart, .infoPart {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.iconPart {
+  width: 60px;
+  text-align: center;
+  margin-right: 5px;
+
+  :global i {
+    font-size: 30px;
+    color: @chromeTextColor;
+    line-height: 50px;
+  }
+}
+
+.currentLabel {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: @chromeTextSubColor;
+  margin-bottom: 3px;
+  margin-top: 3px;
+}
+
+.info {
+  font-size: 10px;
+  color: @chromeTextColor;
+}
