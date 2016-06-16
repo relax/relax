@@ -1,0 +1,38 @@
+@import '~styles/colors.less';
+
+.root {
+  display: inline-block;
+  vertical-align: top;
+  width: 120px;
+  height: 110px;
+  cursor: pointer;
+  text-align: center;
+  padding-top: 19px;
+  border: 1px solid transparent;
+
+  :global i {
+    color: @chromeBackgroundColor;
+    font-size: 38px;
+    width: 48px;
+    height: 48px;
+  }
+
+  &:hover {
+    border-color: @adminBorders;
+  }
+  &.selected {
+    border-color: @primary;
+  }
+}
+
+.label {
+  display: inline-block;
+  color: @chromeTextSubColor;
+  font-size: 11px;
+  margin-top: 5px;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 90px;
+}
