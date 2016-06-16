@@ -1,0 +1,35 @@
+@import '~styles/colors.less';
+
+.sidebar {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 280px;
+  background-color: @chromeBackgroundColor;
+}
+
+.wrapper {
+  position: absolute;
+  top: 0; left: 280px; bottom: 0; right: 0;
+}
+
+.scroll {
+  position: absolute;
+  top: 60px; left: 0px; bottom: 0; right: 0;
+}
+
+.topBar {
+  padding: 15px 20px;
+  height: 61px;
+  border-bottom: 1px solid @adminBorders;
+}
+
+.link {
+  float: right;
+  font-size: 12px;
+  color: @adminTextHighlight;
+  line-height: 30px;
+
+  &:hover {
+    color: @primary;
+  }
+}
