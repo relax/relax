@@ -28,21 +28,22 @@ export default class Icon extends Component {
   static style = style;
 
   render () {
-    const classMap = this.props.styleClassMap || {};
+    const {relax, styleClassMap, align, icon} = this.props;
+    const classMap = styleClassMap || {};
     const props = {
       htmlTag: 'div',
-      ...this.props.relax,
+      ...relax,
       settings,
       style: {
-        textAlign: this.props.align
+        textAlign: align
       }
     };
 
     return (
       <Element {...props}>
         <div className={cx(classes.holder, classMap.holder)}>
-          <i className={cx(this.props.icon && this.props.icon.className, classMap.icon)}>
-            {this.props.icon && this.props.icon.content}
+          <i className={cx(icon && icon.className, classMap.icon)}>
+            {icon && icon.content}
           </i>
         </div>
       </Element>

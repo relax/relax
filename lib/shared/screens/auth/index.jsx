@@ -1,5 +1,5 @@
+import 'styles/icons/nucleo/index.less';
 import 'styles/normalize.less';
-import 'styles/nucleo/index.less';
 
 import Component from 'components/component';
 import React, {PropTypes} from 'react';

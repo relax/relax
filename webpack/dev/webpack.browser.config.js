@@ -65,16 +65,12 @@ var webpackConfig = module.exports = {
         loader: 'json'
       },
       {
-        test: /\.(png|jpg|jpeg|gif)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'url'
-      },
-      {
-        test: /\.(woff|woff2|ttf|eot|svg)$/,
-        loader: 'file-loader?name=fonts/[name].[ext]'
-      },
-      {
         test: /\.(css|less)$/,
-        loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!less'
+        loader: 'style!css-loader?modules&importLoaders=2&localIdentName=[name]__[local]___[hash:base64:5]!less'
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|woff|woff2|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url'
       }
     ]
   },
