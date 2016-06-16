@@ -1,0 +1,28 @@
+@import '~styles/colors.less';
+
+.root {
+  background-color: @chromeBackgroundDarkerColor;
+  border: 1px solid @chromeBordersColor;
+  text-align: center;
+  width: 100%;
+  max-width: 290px;
+  height: 100px;
+  border-radius: 3px;
+
+  &:hover {
+    border-color: @primary;
+  }
+}
+
+.selected {
+  :global i {
+    font-size: 40px;
+    line-height: 100px;
+    color: @adminText;
+  }
+}
+
+.none {
+  font-size: 12px;
+  color: @adminText;
+}

@@ -1,6 +1,8 @@
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
+import styles from './icon-picker.less';
+
 export default class IconPicker extends Component {
   static propTypes = {
     value: PropTypes.number.isRequired,
@@ -10,25 +12,29 @@ export default class IconPicker extends Component {
   };
 
   render () {
+    const {openSelector} = this.props;
+
     return (
-      <div className='icon-picker' onClick={this.props.openSelector}>
+      <div className={styles.root} onClick={openSelector}>
         {this.renderSelected()}
       </div>
     );
   }
 
   renderSelected () {
+    const {value} = this.props;
+
     let result;
-    if (this.props.value && this.props.value.family) {
+    if (value && value.family) {
       result = (
-        <div className='selected'>
-          <i className={this.props.value.className}>
-            {this.props.value.content}
+        <div className={styles.selected}>
+          <i className={value.className}>
+            {value.content}
           </i>
         </div>
       );
     } else {
-      result = <p>No icon selected</p>;
+      result = <div className={styles.none}>No icon selected</div>;
     }
     return result;
   }
