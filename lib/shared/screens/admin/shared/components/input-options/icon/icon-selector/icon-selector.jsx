@@ -32,7 +32,7 @@ export default class IconSelector extends Component {
   }
 
   renderSidebar () {
-    const {selected, changeSelectedFamily, icons, selectedFamily} = this.props;
+    const {selected, changeSelectedFamily, icons, selectedFamily, onClose} = this.props;
     return (
       <div className={styles.sidebar}>
         <Sidebar
@@ -40,6 +40,7 @@ export default class IconSelector extends Component {
           selected={selected}
           selectedFamily={selectedFamily}
           changeSelectedFamily={changeSelectedFamily}
+          onClose={onClose}
         />
       </div>
     );

@@ -1,3 +1,4 @@
+import Button from 'components/button';
 import Component from 'components/component';
 import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
@@ -8,12 +9,14 @@ import FamilyButton from './family-button';
 export default class Sidebar extends Component {
   static propTypes = {
     icons: PropTypes.array.isRequired,
+    selected: PropTypes.object,
     selectedFamily: PropTypes.number.isRequired,
-    changeSelectedFamily: PropTypes.func.isRequired
+    changeSelectedFamily: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired
   };
 
   render () {
-    const {icons} = this.props;
+    const {icons, onClose} = this.props;
     return (
       <div className={styles.root}>
         <div className={styles.header}>Icons</div>
@@ -22,6 +25,10 @@ export default class Sidebar extends Component {
             {icons.map(this.renderFamily, this)}
           </div>
         </Scrollable>
+        {this.renderCurrent()}
+        <div className={styles.done}>
+          <Button primary full onClick={onClose}>Done</Button>
+        </div>
       </div>
     );
   }
@@ -36,6 +43,29 @@ export default class Sidebar extends Component {
         key={key}
         onClick={changeSelectedFamily}
       />
+    );
+  }
+
+  renderCurrent () {
+    const {selected} = this.props;
+
+    return (
+      <div className={styles.selected}>
+        <div className={styles.iconPart}>
+          <i className={selected && selected.className}>
+            {selected && selected.content}
+          </i>
+        </div>
+        <div className={styles.infoPart}>
+          <div className={styles.currentLabel}>Current selected</div>
+          <div className={styles.info}>
+            {selected && selected.family}
+          </div>
+          <div className={styles.info}>
+            {selected && (selected.content || selected.className)}
+          </div>
+        </div>
+      </div>
     );
   }
 }
