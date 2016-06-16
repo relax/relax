@@ -16,11 +16,12 @@ export default class MediaSelectorSidebar extends Component {
     sort: PropTypes.string.isRequired,
     order: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    allowedType: PropTypes.string.isRequired
+    allowedType: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired
   };
 
   render () {
-    const {selected, changeSort, changeOrder, changeType, sort, order, type, allowedType} = this.props;
+    const {selected, changeSort, changeOrder, changeType, sort, order, type, allowedType, onClose} = this.props;
     return (
       <div>
         <div className={styles.header}>Media Selector</div>
@@ -39,7 +40,7 @@ export default class MediaSelectorSidebar extends Component {
           </div>
         </Scrollable>
         <div className={styles.done}>
-          <Button primary full>Done</Button>
+          <Button primary full onClick={onClose}>Done</Button>
         </div>
       </div>
     );

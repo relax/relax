@@ -47,7 +47,7 @@ export default class MediasSelector extends Component {
   }
 
   renderSidebar () {
-    const {selected, changeSort, changeOrder, changeType, sort, order, type, allowedType} = this.props;
+    const {selected, onClose, changeSort, changeOrder, changeType, sort, order, type, allowedType} = this.props;
     return (
       <div className={styles.sidebar}>
         <Sidebar
@@ -59,6 +59,7 @@ export default class MediasSelector extends Component {
           order={order}
           type={type}
           allowedType={allowedType}
+          onClose={onClose}
         />
       </div>
     );
