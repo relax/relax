@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
@@ -57,13 +58,14 @@ export default class Draggable extends Component {
     return false;
   }
 
+  @bind
   onMouseDown (event) {
     if (event.button === LEFT_BUTTON) {
       const draggable = !this.props.disabled;
       event.stopPropagation();
-      event.preventDefault();
 
       if (draggable) {
+        event.preventDefault();
         document.addEventListener('mouseup', this.onMouseUpListener);
         document.addEventListener('mousemove', this.onMouseMoveListener);
       }
@@ -74,7 +76,7 @@ export default class Draggable extends Component {
     const props = {
       className: cx(this.props.children.props.className, 'draggable'),
       draggable: 'false',
-      onMouseDown: this.onMouseDown.bind(this)
+      onMouseDown: this.onMouseDown
     };
 
     if (this.props.onClick) {
