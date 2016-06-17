@@ -100,7 +100,7 @@ export default class TextBox extends Component {
             toolbar: {
               buttons: ['bold', 'italic', 'underline', 'anchor']
             },
-            placeholder: false,
+            placeholder: 'Double click to edit text',
             imageDragging: false
           }}
         />
