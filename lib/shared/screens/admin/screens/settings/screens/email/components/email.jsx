@@ -1,6 +1,6 @@
 import Component from 'components/component';
+import Content from 'components/content';
 import OptionsList from 'components/options-list';
-import SettingsContent from 'components/settings-content';
 import React, {PropTypes} from 'react';
 
 export default class EmailSettings extends Component {
@@ -12,9 +12,9 @@ export default class EmailSettings extends Component {
     const {options} = this.props;
     return (
       <div>
-        <SettingsContent>
+        <Content noOffset>
           <OptionsList options={options} values={{}} white />
-        </SettingsContent>
+        </Content>
       </div>
     );
   }
