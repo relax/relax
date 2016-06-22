@@ -131,30 +131,5 @@
     "webpack-dev-server": "^1.12.1",
     "webpack-hot-middleware": "^2.5.0",
     "webpack-node-externals": "^1.2.0"
-  },
-  "apps": [
-    {
-      "name": "relax",
-      "script": "index.js",
-      "instances": 1,
-      "exec_mode": "cluster",
-      "error_file": "../shared/logs/stderr.log",
-      "out_file": "../shared/logs/stdout.log",
-      "pid_file": "../shared/pids/pid",
-      "merge_logs": true,
-      "env": {
-        "NODE_ENV": "production"
-      }
-    }
-  ],
-  "deploy": {
-    "test": {
-      "user": "node",
-      "host": "178.62.64.146",
-      "path": "/home/node/apps/relax",
-      "ref": "origin/master",
-      "repo": "https://github.com/relax/relax.git",
-      "post-deploy": ". /home/node/.nvm/nvm.sh && npm install && npm run build && pm2 startOrGracefulReload package.json --env production"
-    }
   }
 }
