@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import forEach from 'lodash.foreach';
 import Animate from 'components/animate';
@@ -70,6 +71,7 @@ export default class ElementsMenu extends Component {
     }
   }
 
+  @bind
   onSearchChange (search) {
     if (search) {
       const {elements, categories} = this.props;
@@ -127,6 +129,7 @@ export default class ElementsMenu extends Component {
     }
   }
 
+  @bind
   toggleCategory (category) {
     const {toggleCategory} = this.props.pageBuilderActions;
     toggleCategory(category);
@@ -183,6 +186,7 @@ export default class ElementsMenu extends Component {
     this.clickedInside = false;
   }
 
+  @bind
   addElement (tag) {
     const {elementsMenuOptions} = this.props;
     this.props.pageBuilderActions.closeElementsMenu();
@@ -192,6 +196,7 @@ export default class ElementsMenu extends Component {
     });
   }
 
+  @bind
   addSymbol (symbolId) {
     const {elementsMenuOptions} = this.props;
     this.props.pageBuilderActions.closeElementsMenu();
@@ -206,6 +211,7 @@ export default class ElementsMenu extends Component {
     });
   }
 
+  @bind
   elementAcceptable (elementTag, element) {
     const {elementsMenuOptions} = this.props;
     let is = true;
@@ -263,20 +269,20 @@ export default class ElementsMenu extends Component {
           suggestions={this.state.suggestions}
           suggestion={this.state.suggestion}
           search={this.state.search}
-          elementAcceptable={::this.elementAcceptable}
-          onSearchChange={::this.onSearchChange}
-          addElement={::this.addElement}
-          addSymbol={::this.addSymbol}
+          elementAcceptable={this.elementAcceptable}
+          onSearchChange={this.onSearchChange}
+          addElement={this.addElement}
+          addSymbol={this.addSymbol}
         />
       );
     } else {
       result = (
         <List
           {...this.props}
-          elementAcceptable={::this.elementAcceptable}
-          addElement={::this.addElement}
-          addSymbol={::this.addSymbol}
-          toggleCategory={::this.toggleCategory}
+          elementAcceptable={this.elementAcceptable}
+          addElement={this.addElement}
+          addSymbol={this.addSymbol}
+          toggleCategory={this.toggleCategory}
         />
       );
     }
