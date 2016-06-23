@@ -1,3 +1,4 @@
+import find from 'lodash.find';
 import forEach from 'lodash.foreach';
 import key from 'keymaster';
 import Component from 'components/component';
@@ -176,16 +177,22 @@ export default class Search extends Component {
     const before = index > 0 && label.slice(0, index);
     const searched = label.slice(index, index + this.props.search.length);
     const after = label.slice(index + this.props.search.length);
+    const onClick = this.addElement.bind(this, label);
 
     this.suggestionsCounter++;
 
     return (
-      <div className={styles.elementEntry} onClick={this.addElement.bind(this, label)} key={label}>
+      <div className={styles.elementEntry} onClick={onClick} key={label}>
         <i className={icon.class}>{icon.content}</i>
         <span>{before}</span>
         <span className={styles.searched}>{searched}</span>
         <span>{after}</span>
-        {this.suggestionsCounter < 10 && <span className={styles.hotkey}>{this.suggestionsCounter === 0 ? 'enter' : ('cmd+' + this.suggestionsCounter)}</span>}
+        {
+          this.suggestionsCounter < 10 &&
+          <span className={styles.hotkey}>
+            {this.suggestionsCounter === 0 ? 'enter' : `cmd+${this.suggestionsCounter}`}
+          </span>
+        }
       </div>
     );
   }
@@ -213,24 +220,33 @@ export default class Search extends Component {
   }
 
   renderSymbol (id) {
-    const symbol = this.props.symbols[id];
-    const label = symbol.title;
+    const symbol = find(this.props.symbols, '_id', id);
 
-    const index = label.toLowerCase().indexOf(this.props.search.toLowerCase());
-    const before = index > 0 && label.slice(0, index);
-    const searched = label.slice(index, index + this.props.search.length);
-    const after = label.slice(index + this.props.search.length);
+    if (symbol) {
+      const label = symbol.title;
 
-    this.suggestionsCounter++;
+      const index = label.toLowerCase().indexOf(this.props.search.toLowerCase());
+      const before = index > 0 && label.slice(0, index);
+      const searched = label.slice(index, index + this.props.search.length);
+      const after = label.slice(index + this.props.search.length);
 
-    return (
-      <div className={styles.elementEntry} onClick={this.addSymbol.bind(this, id)} key={id}>
-        <i className='nc-icon-mini objects_puzzle-10'></i>
-        <span>{before}</span>
-        <span className={styles.searched}>{searched}</span>
-        <span>{after}</span>
-        {this.suggestionsCounter < 10 && <span className={styles.hotkey}>{this.suggestionsCounter === 0 ? 'enter' : ('cmd+' + this.suggestionsCounter)}</span>}
-      </div>
-    );
+      this.suggestionsCounter++;
+      const onClick = this.addSymbol.bind(this, id);
+
+      return (
+        <div className={styles.elementEntry} onClick={onClick} key={id}>
+          <i className='nc-icon-mini objects_puzzle-10'></i>
+          <span>{before}</span>
+          <span className={styles.searched}>{searched}</span>
+          <span>{after}</span>
+          {
+            this.suggestionsCounter < 10 &&
+            <span className={styles.hotkey}>
+              {this.suggestionsCounter === 0 ? 'enter' : `cmd+${this.suggestionsCounter}`}
+            </span>
+          }
+        </div>
+      );
+    }
   }
 }
