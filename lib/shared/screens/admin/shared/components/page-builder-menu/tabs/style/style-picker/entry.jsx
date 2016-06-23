@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import Component from 'components/component';
 import OptionsMenu from 'components/options-menu';
@@ -20,6 +21,7 @@ export default class Entry extends Component {
     };
   }
 
+  @bind
   openOptions (event) {
     event.preventDefault();
     event.stopPropagation();
@@ -28,6 +30,7 @@ export default class Entry extends Component {
     });
   }
 
+  @bind
   onMouseLeave () {
     if (this.state.options) {
       this.setState({
@@ -36,22 +39,25 @@ export default class Entry extends Component {
     }
   }
 
+  @bind
   onClick (event) {
     event.preventDefault();
     this.props.onClick(this.props.entry._id);
   }
 
+  @bind
   duplicate () {
     this.props.duplicateStyle(this.props.entry);
   }
 
+  @bind
   remove () {
     this.props.removeStyle(this.props.entry._id);
   }
 
   render () {
     return (
-      <div className={styles.root} onClick={::this.onClick} onMouseLeave={::this.onMouseLeave}>
+      <div className={styles.root} onClick={this.onClick} onMouseLeave={this.onMouseLeave}>
         <div className={styles.holder}>
           <span className={cx(styles.column, styles.title)}>{this.props.entry.title}</span>
           {this.renderOptionsButton()}
@@ -64,7 +70,7 @@ export default class Entry extends Component {
   renderOptionsButton () {
     if (this.props.entry._id !== 'no_style') {
       return (
-        <span className={cx(styles.column, styles.optionsButton)} onClick={::this.openOptions}>
+        <span className={cx(styles.column, styles.optionsButton)} onClick={this.openOptions}>
           <i className={cx('nc-icon-mini ui-2_menu-dots', styles.icon)}></i>
           {this.renderOptionsMenu()}
         </span>
@@ -77,8 +83,8 @@ export default class Entry extends Component {
       return (
         <OptionsMenu
           options={[
-            {label: 'Duplicate', action: ::this.duplicate, icon: 'nc-icon-mini files_single-copy-04'},
-            {label: 'Remove', action: ::this.remove, icon: 'nc-icon-mini ui-1_trash'}
+            {label: 'Duplicate', action: this.duplicate, icon: 'nc-icon-mini files_single-copy-04'},
+            {label: 'Remove', action: this.remove, icon: 'nc-icon-mini ui-1_trash'}
           ]}
         />
       );
