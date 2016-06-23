@@ -91,7 +91,7 @@ export default class Menu extends Component {
           {...entry}
           active={active === entry.label}
           key={key}
-          onActiveClick={onActiveClick}
+          onActiveClick={entry.name !== 'adminUsers' && onActiveClick}
         />
       );
     }
