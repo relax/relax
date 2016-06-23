@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
@@ -10,14 +11,15 @@ export default class IconPicker extends Component {
     onChange: PropTypes.func.isRequired,
     selector: PropTypes.bool.isRequired,
     openSelector: PropTypes.func.isRequired,
-    closeSelector: PropTypes.func.isRequired
+    closeSelector: PropTypes.func.isRequired,
+    white: PropTypes.bool
   };
 
   render () {
-    const {openSelector} = this.props;
+    const {openSelector, white} = this.props;
 
     return (
-      <div className={styles.root} onClick={openSelector}>
+      <div className={cx(styles.root, white && styles.white)} onClick={openSelector}>
         {this.renderSelected()}
         {this.renderSelector()}
       </div>
