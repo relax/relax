@@ -1,5 +1,13 @@
 compiler:
   - gcc
+sudo: required
+cache: apt
+before_install:
+  - echo "Installing libvips..."
+  - sudo add-apt-repository -y ppa:lovell/precise-backport-vips
+  - sudo apt-get update
+  - sudo apt-get install -y libvips-dev
+  - echo "Completed libvips installation."
 language: node_js
 node_js:
   - "4"
