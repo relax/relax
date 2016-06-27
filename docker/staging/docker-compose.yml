@@ -4,7 +4,7 @@ http:
   - 80:80
   labels:
     io.rancher.scheduler.affinity:host_label: relax=true
-    io.rancher.loadbalancer.target.relax: '8181'
+    io.rancher.loadbalancer.target.relax: '8080'
   links:
   - relax:relax
 relax:
