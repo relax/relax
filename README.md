@@ -88,7 +88,7 @@ To use our latest docker image you just have to have MongoDB running on a
 different container and link it to Relax.
 
 To start MongoDB in the background you can run  `docker run -d --name mongo mongo`.
-Afterwards run `docker run -p 8181:8181 --link mongo -it relax/relax` to start
+Afterwards run `docker run -p 8080:8080 --link mongo -it relax/relax` to start
 Relax on `http://localhost:8181`.
 
 For more information about Docker please check their
