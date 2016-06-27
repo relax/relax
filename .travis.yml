@@ -1,27 +1,15 @@
 sudo: required
-language: node_js
-env:
-  CXX=g++-4.8
-cache: apt
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.8
 services:
   - docker
-node_js:
-  - "4"
+notifications:
+  slack: relaxcms:Fr4KeA1SELAxxfd5H9acm2dX
 before_install:
   - docker build -t relax/relax .
 script:
-  - npm run lint
-  - npm test
+  - docker run relax/relax npm run lint
+  - docker run relax/relax npm test
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     docker push relax/relax;
     fi
-notifications:
-  slack: relaxcms:$SLACK_TOKEN
