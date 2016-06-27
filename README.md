@@ -17,7 +17,8 @@ binding dynamic data to them.
 
 We're currently working on releasing the beta version which should come up early 2016. If you want to collaborate in the meantime or just say anything join us at [Relax Slack](http://slack-relax.herokuapp.com/)
 
-**You can check the demo [here](http://demo.getrelax.io/admin)**
+**You can check the demo (old version) [here](http://demo.getrelax.io/admin)
+and our latest changes (unstable) [here](http://staging.getrelax.io/admin)**.
 
 Demo credentials:
  - user: demo
