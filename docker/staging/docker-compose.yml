@@ -1,0 +1,25 @@
+http:
+  image: rancher/load-balancer-service
+  ports:
+  - 80:80
+  labels:
+    io.rancher.scheduler.affinity:host_label: relax=true
+    io.rancher.loadbalancer.target.relax: '8181'
+  links:
+  - relax:relax
+relax:
+  image: relax/relax
+  environment:
+    relax_demo: 'true'
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.scheduler.affinity:host_label: relax=true
+  links:
+  - mongo:mongo
+mongo:
+  image: mongo
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.scheduler.affinity:host_label: relax=true
+  volumes:
+  - /docker/mongo/data:/data/db
