@@ -2,7 +2,7 @@
  <img src="https://raw.githubusercontent.com/relax/relax/gh-pages/assets/images/logo_small.png" alt="Relax Logo">
 </p>
 ====================================
-[![Slack Status](http://slack-relax.herokuapp.com/badge.svg)](http://slack-relax.herokuapp.com/)
+[![Slack Status](http://slack-relax.herokuapp.com/badge.svg)](http://slack-relax.herokuapp.com/) [![Build Status](https://travis-ci.org/relax/relax.png)](https://travis-ci.org/relax/relax)
 
 **IMPORTANT NOTE:** Relax isn't yet ready for production, stay tuned for releases, beta version will come soon
 
