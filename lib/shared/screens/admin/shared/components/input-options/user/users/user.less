@@ -1,0 +1,50 @@
+@import '~styles/colors.less';
+
+@height: 50px;
+@insideHeight: 28px;
+
+.root {
+  height: @height;
+  padding: 10px;
+  border-bottom: 1px solid @adminBorders;
+  cursor: pointer;
+
+  &:hover {
+    background-color: @primaryBack;
+  }
+}
+
+.pictureImage {
+  width: @insideHeight;
+  height: @insideHeight;
+  display: inline-block;
+  vertical-align: top;
+  float: left;
+  text-align: center;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+}
+
+.info {
+  width: 100%;
+}
+
+.name {
+  font-size: 12px;
+  color: @adminTextHighlight;
+  line-height: 16px;
+}
+
+.username {
+  font-size: 11px;
+  color: @adminText;
+  line-height: 12px;
+}
+
+.root.active {
+  background-color: @primary;
+  .name, .username {
+    color: #ffffff;
+  }
+}
