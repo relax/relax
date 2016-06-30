@@ -1,22 +1,24 @@
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.8
-env:
-  CXX=g++-4.8
 sudo: required
-cache: apt
+services:
+  - docker
+notifications:
+  slack: relaxcms:Fr4KeA1SELAxxfd5H9acm2dX
 before_install:
-  - echo "Installing libvips..."
-  - sudo add-apt-repository -y ppa:lovell/precise-backport-vips
-  - sudo apt-get update
-  - sudo apt-get install -y libvips-dev
-  - echo "Completed libvips installation."
-language: node_js
-node_js:
-  - "4"
+  - curl -L https://releases.rancher.com/compose/v0.8.4/rancher-compose-linux-amd64-v0.8.4.tar.gz > rancher-compose.tar.gz
+  - tar -xvzf rancher-compose.tar.gz
+  - chmod +x rancher-compose-v0.8.4/rancher-compose
+  - sudo mv rancher-compose-v0.8.4/rancher-compose /usr/local/bin
+  - rm -r rancher-compose-v0.8.4
+  - docker build -t relax/relax .
 script:
-  - npm run lint
-  - npm test
+  #- docker run relax/relax npm run lint
+  - docker run relax/relax npm test
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push relax/relax;
+    fi
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    cd docker/staging;
+    rancher-compose --url http://rancher.getrelax.io --access-key $RANCHER_ACCESS_KEY --secret-key $RANCHER_SECRET_KEY -p Relax up -d --confirm-upgrade --pull --force-upgrade relax;
+    fi
