@@ -6,7 +6,9 @@ import React, {PropTypes} from 'react';
 export default class DataSchemaForm extends Component {
   static propTypes = {
     loading: PropTypes.bool,
-    properties: PropTypes.array
+    properties: PropTypes.array,
+    values: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired
   };
 
   render () {
@@ -29,9 +31,14 @@ export default class DataSchemaForm extends Component {
   }
 
   renderForm () {
-    const {properties} = this.props;
+    const {properties, onChange, values} = this.props;
     return (
-      <OptionsList options={properties} values={{}} white />
+      <OptionsList
+        options={properties}
+        values={values}
+        onChange={onChange}
+        white
+      />
     );
   }
 }

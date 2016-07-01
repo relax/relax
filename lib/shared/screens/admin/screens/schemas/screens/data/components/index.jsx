@@ -1,10 +1,13 @@
 import Component from 'components/component';
 import ContentHeader from 'components/content-header';
+import ContentHeaderActions from 'components/content-header-actions';
 import ContentLoading from 'components/content-loading';
+import ContentNew from 'components/content-new';
 import EditableTitle from 'components/editable-title';
 import React, {PropTypes} from 'react';
 import {mergeFragments} from 'relate-js';
 
+import styles from './index.less';
 import List from './list';
 
 export default class DataSchema extends Component {
@@ -46,7 +49,14 @@ export default class DataSchema extends Component {
     return (
       <div>
         <ContentHeader>
-          <EditableTitle value={schema.title} onSubmit={() => {}} />
+          <div className={styles.info}>
+            <EditableTitle value={schema.title} onSubmit />
+          </div>
+          <ContentHeaderActions>
+            <ContentNew url={`/admin/schemas/data/${schema._id}/new`}>
+              Add new entry
+            </ContentNew>
+          </ContentHeaderActions>
         </ContentHeader>
         <List schema={schema} />
       </div>
