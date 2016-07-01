@@ -5,7 +5,7 @@ import {Link} from 'react-router';
 
 import styles from './index.less';
 
-export default class Menu extends Component {
+export default class MenuButton extends Component {
   static propTypes = {
     link: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
@@ -14,7 +14,8 @@ export default class Menu extends Component {
     onActiveClick: PropTypes.func,
     dark: PropTypes.bool,
     children: PropTypes.node,
-    query: PropTypes.object
+    query: PropTypes.object,
+    className: PropTypes.string
   };
 
   static defaultProps = {
@@ -43,10 +44,10 @@ export default class Menu extends Component {
   }
 
   render () {
-    const {link, label, icon, active, dark, query} = this.props;
+    const {link, label, icon, active, dark, query, className} = this.props;
     return (
       <div>
-        <div className={styles.buttonHolder}>
+        <div className={cx(styles.buttonHolder, className)}>
           <Link
             to={link}
             query={query}
