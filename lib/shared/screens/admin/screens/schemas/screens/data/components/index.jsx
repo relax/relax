@@ -1,17 +1,19 @@
 import Component from 'components/component';
-import Content from 'components/content';
 import ContentHeader from 'components/content-header';
 import ContentLoading from 'components/content-loading';
 import EditableTitle from 'components/editable-title';
 import React, {PropTypes} from 'react';
+import {mergeFragments} from 'relate-js';
+
+import List from './list';
 
 export default class DataSchema extends Component {
-  static fragments = {
+  static fragments = mergeFragments({
     schema: {
       _id: 1,
       title: 1
     }
-  };
+  }, {schema: List.fragments.schema});
 
   static propTypes = {
     schema: PropTypes.object,
@@ -46,12 +48,14 @@ export default class DataSchema extends Component {
         <ContentHeader>
           <EditableTitle value={schema.title} onSubmit={() => {}} />
         </ContentHeader>
-        <Content></Content>
+        <List schema={schema} />
       </div>
     );
   }
 
   renderNotFound () {
-    return (<div>Schema not found</div>);
+    return (
+      <div>Schema not found</div>
+    );
   }
 }
