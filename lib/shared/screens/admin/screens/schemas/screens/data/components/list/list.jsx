@@ -1,5 +1,10 @@
+import bind from 'decorators/bind';
+import forEach from 'lodash.foreach';
 import Component from 'components/component';
+import ContentTable from 'components/content-table';
 import React, {PropTypes} from 'react';
+
+import styles from './list.less';
 
 export default class DataSchemaList extends Component {
   static fragments = {
@@ -14,10 +19,29 @@ export default class DataSchemaList extends Component {
   };
 
   render () {
+    const {schema} = this.props;
+    const labels = [];
+    const props = [];
+
+    forEach(schema.properties, (property) => {
+      labels.push(property.title);
+      props.push(property.id);
+    });
+
     return (
-      <div>
-        List
+      <div className={styles.root}>
+        <ContentTable
+          columns={labels}
+          columnsProps={props}
+          data={[]}
+          renderCell={this.renderCell}
+        />
       </div>
     );
+  }
+
+  @bind
+  renderCell ({item, columnProps}) {
+    return item[columnProps];
   }
 }
