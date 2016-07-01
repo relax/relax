@@ -2,14 +2,41 @@
 
 .root {
   cursor: pointer;
+  position: relative;
+  line-height: 24px;
+
+  :global span {
+    position: relative;
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+  }
+
+  &:hover {
+    &:before {
+      background-color: @primaryBack;
+    }
+  }
 }
 
 .active1 {
-  background-color: fade(@primary, 70%);
   color: #ffffff;
+  &:before {
+    background-color: fade(@primary, 70%);
+  }
 }
 
 .active2 {
-  background-color: @primary;
   color: #ffffff;
+  &:before {
+    background-color: @primary;
+  }
 }
