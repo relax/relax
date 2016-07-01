@@ -11,15 +11,20 @@ export default class DataSchemaList extends Component {
     schema: {
       _id: 1,
       properties: 1
+    },
+    schemaList: {
+      _id: 1,
+      properties: 1
     }
   };
 
   static propTypes = {
-    schema: PropTypes.object.isRequired
+    schema: PropTypes.object.isRequired,
+    schemaList: PropTypes.array
   };
 
   render () {
-    const {schema} = this.props;
+    const {schema, schemaList} = this.props;
     const labels = [];
     const props = [];
 
@@ -33,7 +38,7 @@ export default class DataSchemaList extends Component {
         <ContentTable
           columns={labels}
           columnsProps={props}
-          data={[]}
+          data={schemaList || []}
           renderCell={this.renderCell}
         />
       </div>
@@ -42,6 +47,6 @@ export default class DataSchemaList extends Component {
 
   @bind
   renderCell ({item, columnProps}) {
-    return item[columnProps];
+    return item.properties[columnProps];
   }
 }
