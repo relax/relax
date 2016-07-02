@@ -3,6 +3,7 @@ import forEach from 'lodash.foreach';
 import Component from 'components/component';
 import ContentTable from 'components/content-table';
 import Image from 'components/image';
+import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
 
 import styles from './list.less';
@@ -37,14 +38,14 @@ export default class DataSchemaList extends Component {
     });
 
     return (
-      <div className={styles.root}>
+      <Scrollable className={styles.root}>
         <ContentTable
           columns={labels}
           columnsProps={props}
           data={schemaList || []}
           renderCell={this.renderCell}
         />
-      </div>
+      </Scrollable>
     );
   }
 

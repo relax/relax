@@ -16,10 +16,12 @@ export default class Table extends Component {
     const {columns, data} = this.props;
     return (
       <table className={styles.root}>
-        <tbody>
+        <thead>
           <tr className={styles.header}>
             {columns.map(this.renderColumnHeader, this)}
           </tr>
+        </thead>
+        <tbody>
           {data.map(this.renderLine, this)}
         </tbody>
       </table>
