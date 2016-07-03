@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import Component from 'components/component';
 import React from 'react';
 
@@ -21,11 +22,13 @@ export default class Autocomplete extends Component {
     }
   }
 
+  @bind
   onInput () {
     const str = this.refs.editable.innerText;
     this.props.onChange(str);
   }
 
+  @bind
   focus () {
     const el = this.refs.editable;
     el.focus();
@@ -55,16 +58,16 @@ export default class Autocomplete extends Component {
 
     return (
       <div className={styles.autocomplete}>
-        <span onClick={::this.focus}>{before}</span>
+        <span onClick={this.focus}>{before}</span>
         <span
           ref='editable'
           className={styles.editable}
-          onInput={::this.onInput}
+          onInput={this.onInput}
           contentEditable
         >
           {this.props.value}
         </span>
-        <span onClick={::this.focus}>{after}</span>
+        <span onClick={this.focus}>{after}</span>
       </div>
     );
   }

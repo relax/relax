@@ -1,0 +1,84 @@
+@import '~styles/colors.less';
+
+@height: 50px;
+@insideHeight: 28px;
+
+.current {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+
+  width: 100%;
+  max-width: 380px;
+  height: @height;
+  padding: 10px;
+  border-radius: 3px;
+
+  border: 1px solid @chromeBordersColor;
+  background-color: @chromeBackgroundDarkerColor;
+}
+
+i.dropIcon {
+  color: @chromeTextColor;
+  text-align: center;
+  display: inline-block;
+  float: right;
+  width: @insideHeight;
+  height: @insideHeight;
+  line-height: @insideHeight;
+  font-size: 11px;
+}
+
+.picture {
+  width: @insideHeight;
+  height: @insideHeight;
+  display: inline-block;
+  vertical-align: top;
+  float: left;
+  text-align: center;
+  margin-right: 10px;
+
+  :global i {
+    line-height: @insideHeight;
+    color: @chromeTextColor;
+  }
+}
+
+.pictureImage {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.info {
+  color: @chromeTextColor;
+  font-size: 11px;
+  line-height: @insideHeight;
+  width: 100%;
+}
+
+.name {
+  color: @chromeTextColor;
+}
+
+.white {
+  .current {
+    border-color: @adminInputBorders;
+    background-color: transparent;
+  }
+  .picture {
+    :global i {
+      color: @adminText;
+    }
+  }
+  .info {
+    color: @adminText;
+  }
+  .name {
+    color: @adminText;
+  }
+  i.dropIcon {
+    color: @adminText;
+  }
+}

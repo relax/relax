@@ -1,7 +1,7 @@
 import bind from 'decorators/bind';
 import moment from 'moment';
+import Balloon from 'components/balloon';
 import Component from 'components/component';
-import Portal from 'components/portal';
 import Stick from 'components/stick';
 import React, {PropTypes} from 'react';
 
@@ -85,20 +85,23 @@ export default class Calendar extends Component {
     const {currentDate} = this.state;
 
     return (
-      <Portal>
-        <Stick element={element} verticalPosition='bottom' onClose={onClose}>
-          <div className={styles.root}>
-            <div className={styles.month}>
-              <i className='nc-icon-mini arrows-1_small-triangle-left' onClick={this.previous} />
-              <span>
-                {currentDate.format('MMM YYYY')}
-              </span>
-              <i className='nc-icon-mini arrows-1_small-triangle-right' onClick={this.next} />
-            </div>
-            {this.renderDays()}
+      <Balloon
+        element={element}
+        stickOptions={{verticalPosition: 'bottom', horizontalPosition: 'center', horizontalOffset: 0, onClose}}
+        unpadded
+        small
+      >
+        <div className={styles.root}>
+          <div className={styles.month}>
+            <i className='nc-icon-mini arrows-1_small-triangle-left' onClick={this.previous} />
+            <span>
+              {currentDate.format('MMM YYYY')}
+            </span>
+            <i className='nc-icon-mini arrows-1_small-triangle-right' onClick={this.next} />
           </div>
-        </Stick>
-      </Portal>
+          {this.renderDays()}
+        </div>
+      </Balloon>
     );
   }
 

@@ -2,7 +2,7 @@
  <img src="https://raw.githubusercontent.com/relax/relax/gh-pages/assets/images/logo_small.png" alt="Relax Logo">
 </p>
 ====================================
-[![Slack Status](http://slack-relax.herokuapp.com/badge.svg)](http://slack-relax.herokuapp.com/)
+[![Slack Status](http://slack-relax.herokuapp.com/badge.svg)](http://slack-relax.herokuapp.com/) [![Build Status](https://travis-ci.org/relax/relax.png)](https://travis-ci.org/relax/relax)
 
 **IMPORTANT NOTE:** Relax isn't yet ready for production, stay tuned for releases, beta version will come soon
 
@@ -17,7 +17,8 @@ binding dynamic data to them.
 
 We're currently working on releasing the beta version which should come up early 2016. If you want to collaborate in the meantime or just say anything join us at [Relax Slack](http://slack-relax.herokuapp.com/)
 
-**You can check the demo [here](http://demo.getrelax.io/admin)**
+**You can check the demo (old version) [here](http://demo.getrelax.io/admin)
+and our latest changes (unstable) [here](http://staging.getrelax.io/admin)**.
 
 Demo credentials:
  - user: demo
@@ -87,8 +88,8 @@ To build your assets ready to go for production run `npm run build` and `npm sta
 To use our latest docker image you just have to have MongoDB running on a
 different container and link it to Relax.
 
-To start MongoDB in the backgroung you can run  `docker run -d --name mongo mongo`.
-Afterwards run `docker run -p 8181:8181 --link mongo -it relax/relax` to start
+To start MongoDB in the background you can run  `docker run -d --name mongo mongo`.
+Afterwards run `docker run -p 8080:8080 --link mongo -it relax/relax` to start
 Relax on `http://localhost:8181`.
 
 For more information about Docker please check their

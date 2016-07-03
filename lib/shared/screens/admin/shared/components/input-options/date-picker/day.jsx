@@ -24,7 +24,7 @@ export default class DatePicker extends Component {
 
     return (
       <td className={cx(styles.root, active && styles[`active${active}`])} onClick={this.onClick}>
-        {day}
+        <span>{day}</span>
       </td>
     );
   }
