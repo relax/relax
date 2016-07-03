@@ -1,0 +1,63 @@
+@import '~styles/colors.less';
+
+@height: 30px;
+
+.back {
+  display: inline-block;
+  height: @height;
+
+  font-size: 14px;
+  color: @adminText;
+  padding-right: 35px;
+
+  :global {
+    i, span {
+      display: inline-block;
+      vertical-align: top;
+      line-height: @height;
+    }
+    i {
+      width: @height;
+      text-align: center;
+      font-size: 22px;
+      color: @primarySub;
+    }
+    span {
+      font-weight: 600;
+    }
+  }
+
+  &:hover {
+    :global {
+      i, span {
+        color: @primarySub;
+      }
+    }
+  }
+}
+
+.state {
+  margin-top: 20px;
+}
+
+.success {
+  color: @success;
+  font-size: 16px;
+  line-height: 20px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.successLabel {
+  font-size: 11px;
+  margin-left: 10px;
+}
+
+.savingLabel {
+  display: inline-block;
+  vertical-align: top;
+  color: @adminText;
+  line-height: 20px;
+  font-size: 11px;
+  margin-left: 10px;
+}

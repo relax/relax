@@ -22,7 +22,8 @@ export default class Menu extends Component {
     menuData: PropTypes.array.isRequired,
     schemas: PropTypes.array.isRequired,
     onActiveClick: PropTypes.func.isRequired,
-    children: PropTypes.node
+    children: PropTypes.node,
+    user: PropTypes.object
   };
 
   static defaultProps = {
@@ -82,7 +83,7 @@ export default class Menu extends Component {
   renderEntry (entry, key) {
     let result;
     if (entry === 'sep') {
-      result = <div className={styles.sepperator} />;
+      result = <div className={styles.sepperator} key={key} />;
     } else {
       const {active, onActiveClick} = this.props;
       result = (
@@ -90,7 +91,7 @@ export default class Menu extends Component {
           {...entry}
           active={active === entry.label}
           key={key}
-          onActiveClick={onActiveClick}
+          onActiveClick={entry.name !== 'adminUsers' && onActiveClick}
         />
       );
     }

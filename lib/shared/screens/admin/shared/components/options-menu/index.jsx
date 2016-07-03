@@ -1,6 +1,8 @@
 import Component from 'components/component';
 import React from 'react';
 
+import styles from './index.less';
+
 export default class OptionsMenu extends Component {
   static propTypes = {
     options: React.PropTypes.array.isRequired,
@@ -9,7 +11,7 @@ export default class OptionsMenu extends Component {
 
   render () {
     return (
-      <div className='options-menu' style={this.props.style}>
+      <div className={styles.root} style={this.props.style}>
         {this.props.options.map(this.renderOption, this)}
       </div>
     );
@@ -17,7 +19,7 @@ export default class OptionsMenu extends Component {
 
   renderOption (option, key) {
     return (
-      <button onClick={option.action || 'return false;'} key={key}>
+      <button className={styles.button} onClick={option.action || 'return false;'} key={key}>
         {option.icon && <i className={option.icon}></i>}
         {option.label}
       </button>

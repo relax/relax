@@ -1,17 +1,22 @@
 import Component from 'components/component';
-import Content from 'components/content';
 import ContentHeader from 'components/content-header';
+import ContentHeaderActions from 'components/content-header-actions';
 import ContentLoading from 'components/content-loading';
+import ContentNew from 'components/content-new';
 import EditableTitle from 'components/editable-title';
 import React, {PropTypes} from 'react';
+import {mergeFragments} from 'relate-js';
+
+import styles from './index.less';
+import List from './list';
 
 export default class DataSchema extends Component {
-  static fragments = {
+  static fragments = mergeFragments({
     schema: {
       _id: 1,
       title: 1
     }
-  };
+  }, {schema: List.fragments.schema});
 
   static propTypes = {
     schema: PropTypes.object,
@@ -44,14 +49,23 @@ export default class DataSchema extends Component {
     return (
       <div>
         <ContentHeader>
-          <EditableTitle value={schema.title} onSubmit={() => {}} />
+          <div className={styles.info}>
+            <EditableTitle value={schema.title} onSubmit />
+          </div>
+          <ContentHeaderActions>
+            <ContentNew url={`/admin/schemas/data/${schema._id}/new`}>
+              Add new entry
+            </ContentNew>
+          </ContentHeaderActions>
         </ContentHeader>
-        <Content></Content>
+        <List schema={schema} />
       </div>
     );
   }
 
   renderNotFound () {
-    return (<div>Schema not found</div>);
+    return (
+      <div>Schema not found</div>
+    );
   }
 }

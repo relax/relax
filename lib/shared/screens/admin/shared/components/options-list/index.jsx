@@ -1,11 +1,10 @@
-import cx from 'classnames';
-import merge from 'lodash.merge';
 import warning from 'warning';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {TypesOptionsMap, TypesOptionsDefaultProps} from 'helpers/input-options-map';
 
 import styles from './index.less';
+import Option from './option';
 
 export default class OptionsList extends Component {
   static propTypes = {
@@ -45,85 +44,79 @@ export default class OptionsList extends Component {
     );
   }
 
-  renderOption (option, index) {
+  renderColumns (option, key) {
+    return (
+      <div className={styles.columns} key={key}>
+        {option.options.map(this.renderColumn, this)}
+      </div>
+    );
+  }
+
+  renderUnlocks (option, value, extraProps) {
     let result;
 
-    if (option.type === 'Columns') {
-      result = (
-        <div className={styles.columns} key={index}>
-          {option.options.map(this.renderColumn, this)}
-        </div>
-      );
-    } else if (TypesOptionsMap[option.type]) {
-      const Option = TypesOptionsMap[option.type];
-      const value = this.props.values[option.id];
-      const extraProps = merge({}, TypesOptionsDefaultProps[option.type] || {});
-      merge(extraProps, option.props || {});
-
-      let unlockedContent = null;
-      if (option.unlocks && value !== '') {
-        if (option.type === 'Optional') {
-          if (value && option.unlocks.length > 1) {
-            unlockedContent = this.renderOptions(option.unlocks);
-          } else if (value && option.unlocks.length === 1) {
-            unlockedContent = (
-              <div>{this.renderOptions(option.unlocks)}</div>
-            );
-          }
-          extraProps.label = option.label;
-        } else if (option.type === 'Section') {
-          if (value) {
-            unlockedContent = <div className={styles.section}>{this.renderOptions(option.unlocks)}</div>;
-          }
-          extraProps.label = option.label;
-        } else if (option.unlocks.constructor === Array) {
-          unlockedContent = this.renderOptions(option.unlocks);
-        } else if (option.unlocks[value]) {
-          unlockedContent = this.renderOptions(option.unlocks[value]);
-        }
-      }
-
-      const onChange = this.onChange.bind(this, option.id);
-      if (option.type === 'Section') {
+    if (option.type === 'Optional') {
+      if (value && option.unlocks.length > 1) {
+        result = this.renderOptions(option.unlocks);
+      } else if (value && option.unlocks.length === 1) {
         result = (
-          <div key={option.id}>
-            <Option
-              onChange={onChange}
-              value={value}
-              {...extraProps}
-              OptionsList={OptionsList}
-            />
-            {unlockedContent}
-          </div>
+          <div>{this.renderOptions(option.unlocks)}</div>
         );
-      } else {
+      }
+      extraProps.label = option.label;
+    } else if (option.type === 'Section') {
+      if (value) {
         result = (
-          <div className={cx(styles.option, this.props.tight && styles.tight)} key={option.id}>
-            {this.renderLabel(option.type !== 'Optional' && option.label)}
-            <Option
-              white={this.props.white}
-              onChange={onChange}
-              value={value}
-              {...extraProps}
-              OptionsList={OptionsList}
-              {...this.props.passToOptions}
-            />
-            {unlockedContent}
+          <div className={styles.section}>
+            {this.renderOptions(option.unlocks)}
           </div>
         );
       }
-    } else {
-      warning(false, 'Element option type not valid');
+      extraProps.label = option.label;
+    } else if (option.unlocks.constructor === Array) {
+      result = this.renderOptions(option.unlocks);
+    } else if (option.unlocks[value]) {
+      result = this.renderOptions(option.unlocks[value]);
     }
+
     return result;
   }
 
-  renderLabel (label) {
-    if (label) {
-      const {white} = this.props;
-      return (
-        <div className={cx(styles.label, white && styles.white)}>{label}</div>
+  renderOption (option, index) {
+    const OptionComponent = TypesOptionsMap[option.type];
+    let result;
+
+    if (option.type === 'Columns') {
+      result = this.renderColumns(option, index);
+    } else if (OptionComponent) {
+      const {values, onChange, tight, passToOptions, white} = this.props;
+      const value = values[option.id];
+      const extraProps = Object.assign({}, TypesOptionsDefaultProps[option.type], option.props);
+      const unlockedContent = option.unlocks && value !== '' && this.renderUnlocks(option, value, extraProps);
+
+      result = (
+        <Option
+          OptionComponent={OptionComponent}
+          value={value}
+          onChange={onChange}
+          extraProps={extraProps}
+          id={option.id}
+          label={option.label || option.title}
+          type={option.type}
+          unlocks={option.unlocks}
+          tight={tight}
+          OptionsList={OptionsList}
+          passToOptions={passToOptions}
+          white={white}
+          key={option.id || index}
+        >
+          {unlockedContent}
+        </Option>
       );
+    } else {
+      warning(false, `Option type ${option.type} is not valid!`);
     }
+
+    return result;
   }
 }
