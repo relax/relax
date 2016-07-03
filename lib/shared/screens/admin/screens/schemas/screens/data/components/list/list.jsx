@@ -1,5 +1,6 @@
 import bind from 'decorators/bind';
 import forEach from 'lodash.foreach';
+import typesPresentation from 'components/types-presentation';
 import Component from 'components/component';
 import ContentTable from 'components/content-table';
 import Image from 'components/image';
@@ -51,20 +52,32 @@ export default class DataSchemaList extends Component {
 
   @bind
   renderCell ({item, columnProps}) {
+    const type = this.types[columnProps];
+    let result;
+
+    if (typesPresentation[type]) {
+      const Tag = typesPresentation[type];
+      result = (
+        <Tag value={item.properties[columnProps]} />
+      );
+    } else {
+      result = item.properties[columnProps];
+    }
+
+    return result;
+
     switch (this.types[columnProps]) {
-      case 'Image':
+      case 'Icon':
         return (
-          <Image
-            id={item.properties[columnProps]}
-            width={80}
-            height={80}
-          />
+          <div></div>
         );
-      case 'Boolean':
-        return item.properties[columnProps] ? 'true' : 'false';
-      case 'Html':
+      case 'Color':
         return (
-          <div dangerouslySetInnerHTML={{__html: item.properties[columnProps]}} />
+          <div></div>
+        );
+      case 'User':
+        return (
+          <div></div>
         );
       default:
         return item.properties[columnProps];
