@@ -1,6 +1,7 @@
 import bind from 'decorators/bind';
 import getElementProps from 'helpers/get-element-props';
 import optionsStyles from 'components/options-list/index.less';
+import Button from 'components/button';
 import Component from 'components/component';
 import Input from 'components/input-options/input';
 import OptionsList from 'components/options-list';
@@ -17,7 +18,8 @@ export default class EditProps extends Component {
     display: PropTypes.string.isRequired,
     selectedElement: PropTypes.object,
     selectedId: PropTypes.string,
-    elements: PropTypes.object.isRequired
+    elements: PropTypes.object.isRequired,
+    type: PropTypes.string
   };
 
   @bind
@@ -39,6 +41,13 @@ export default class EditProps extends Component {
     const {selectedId, pageBuilderActions} = this.props;
     const {changeElementProperty} = pageBuilderActions;
     changeElementProperty(selectedId, key, value);
+  }
+
+  @bind
+  setContentElement () {
+    const {selectedId, pageBuilderActions} = this.props;
+    const {setContentElement} = pageBuilderActions;
+    setContentElement(selectedId);
   }
 
   render () {
@@ -77,11 +86,37 @@ export default class EditProps extends Component {
             />
           </div>
         </div>
+        {this.renderTemplateOptions()}
         <Position {...this.props} />
         {this.renderOptions(ElementClass)}
         <Animation {...this.props} />
       </div>
     );
+  }
+
+  renderTemplateOptions () {
+    const {type, elements, selectedElement} = this.props;
+
+    if (type === 'template') {
+      const ElementClass = elements[selectedElement.tag];
+
+      if (ElementClass.settings.drop) {
+        return (
+          <div className={optionsStyles.option}>
+            <div className={optionsStyles.label}>Template content area</div>
+            <Button
+              full
+              grey
+              big
+              onClick={this.setContentElement}
+            >
+              <i className='nc-icon-outline design_app' />
+              <span>Make Content Area</span>
+            </Button>
+          </div>
+        );
+      }
+    }
   }
 
   renderOptions (ElementClass) {
