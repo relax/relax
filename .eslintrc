@@ -5,30 +5,30 @@
     "object-curly-spacing": [2, "never"],
     "space-before-function-paren": [2, "always"],
     "comma-dangle": [2, "never"],
-    'max-len': [1, 115, 2, {
-      'ignoreUrls': true,
-      'ignoreComments': false
+    "max-len": [1, 115, 2, {
+      "ignoreUrls": true,
+      "ignoreComments": false
     }],
-    "no-unused-expressions": [2, { allowShortCircuit: true }],
+    "no-unused-expressions": [2, { "allowShortCircuit": true }],
     "no-use-before-define": [2, { "functions": false, "classes": true }],
     "no-param-reassign": [2, {"props": false}],
-    'react/prefer-stateless-function': 0,
+    "react/prefer-stateless-function": 0,
     "consistent-return": 0,
-    new-cap: [2, {"capIsNewExceptions": ["ObjectId"]}],
+    "new-cap": [2, {"capIsNewExceptions": ["ObjectId"]}],
     "jsx-quotes": 0,
-    'react/jsx-no-bind': [2, {
-      'ignoreRefs': true,
-      'allowArrowFunctions': false,
-      'allowBind': false,
+    "react/jsx-no-bind": [2, {
+      "ignoreRefs": true,
+      "allowArrowFunctions": false,
+      "allowBind": false
     }],
     "react/sort-comp": [2, {         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/sort-comp.md
       "order": [
-        'lifecycle',
-        'everything-else',
-        'renderstuff'
+        "lifecycle",
+        "everything-else",
+        "renderstuff"
       ],
       "groups": {
-        lifecycle: [
+        "lifecycle": [
           "displayName",
           "fragments",
           "panelSettings",
@@ -55,7 +55,7 @@
           "componentDidUpdate",
           "componentWillUnmount"
         ],
-        renderstuff: [
+        "renderstuff": [
           "render",
           "/^render.+$/"
         ]
