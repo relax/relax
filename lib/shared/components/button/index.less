@@ -11,6 +11,18 @@
   border-radius: 3px;
   outline: 0;
   border: 0;
+
+  :global {
+    i, span {
+      display: inline-block;
+      vertical-align: top;
+    }
+    i {
+      font-size: 15px;
+      line-height: 15px;
+      margin-right: 7px;
+    }
+  }
 }
 
 .full {
@@ -63,4 +75,9 @@
   &:hover {
     background-color: transparent;
   }
+}
+
+.grey {
+  border: 1px solid fade(#ffffff, 20%);
+  background-color: fade(#ffffff, 5%);
 }
