@@ -1,0 +1,36 @@
+@import '~styles/colors.less';
+
+.root {
+  position: relative;
+  background-color: fade(@alert, 70%);
+  height: 200px;
+  text-align: center;
+  max-height: 100%;
+
+  font-size: 12px;
+  color: #ffffff;
+  line-height: 30px;
+  padding-left: 12px;
+
+  :global i {
+    font-size: 25px;
+    line-height: 30px;
+    color: #ffffff;
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+
+.center {
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.label {
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 10px;
+}

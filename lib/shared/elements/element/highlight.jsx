@@ -11,7 +11,7 @@ export default class Highlight extends Component {
     selected: PropTypes.bool.isRequired,
     element: PropTypes.object.isRequired,
     settings: PropTypes.object.isRequired,
-    dom: PropTypes.node.isRequired
+    dom: PropTypes.any.isRequired
   };
 
   componentDidMount () {
