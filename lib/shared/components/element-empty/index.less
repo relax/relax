@@ -1,0 +1,28 @@
+.root {
+  position: relative;
+  background-color: #efefef;
+  height: 200px;
+  text-align: center;
+  max-height: 100%;
+
+  font-size: 12px;
+  color: #666;
+  line-height: 20px;
+  padding-left: 10px;
+
+  :global i {
+    font-size: 25px;
+    color: #333333;
+    top: 50%;
+    position: relative;
+    transform: translateY(-50%);
+  }
+}
+
+.center {
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

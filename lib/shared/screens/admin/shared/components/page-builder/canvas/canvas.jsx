@@ -142,12 +142,10 @@ export default class Canvas extends Component {
     if ((!element.hide || !element.hide[display]) && element.display !== false) {
       const FactoredElement = element.tag === 'Symbol' ? Symbol : elements[element.tag];
       const selected = selectedId === element.id;
-      let children = element.children && this.renderChildren(element.children, options);
-
-      if (element.tag === 'Symbol') {
-        const symbol = this.props.symbols[element.props.symbolId];
-        children = symbol && symbol.data && this.renderElement({customData: symbol.data}, 'base', 0);
-      }
+      let children =
+        element.tag !== 'Symbol' &&
+        element.children &&
+        this.renderChildren(element.children, options);
 
       return (
         <FactoredElement
@@ -155,7 +153,7 @@ export default class Canvas extends Component {
           styleClassMap={styleClassMap || {}}
           key={elementId}
           relax={{
-            editing,
+            editing: typeof options.editing !== 'undefined' ? options.editing : editing,
             display,
             selected,
             element,

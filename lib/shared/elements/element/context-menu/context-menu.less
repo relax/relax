@@ -18,6 +18,11 @@
   cursor: pointer;
   pointer-events: all;
   background-color: transparent;
+
+  &.symbol {
+    color: @symbolColor;
+    border-color: @symbolColor;
+  }
 }
 
 .opened {
@@ -38,7 +43,15 @@
   -moz-box-shadow: 0px 5px 9px 0px rgba(0,0,0,0.17);
   box-shadow: 0px 5px 9px 0px rgba(0,0,0,0.17);
   text-align: center;
+
+  &.symbol {
+    border-color: @symbolColor;
+    .label {
+      color: @symbolColor;
+    }
+  }
 }
+
 
 .label {
   font-size: 10px;

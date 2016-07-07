@@ -24,14 +24,14 @@ export default class Element extends Component {
     htmlTag: PropTypes.string.isRequired,
     className: PropTypes.string,
     style: PropTypes.object,
-    animation: PropTypes.bool.isRequired,
+    animation: PropTypes.bool,
     animated: PropTypes.bool.isRequired,
     animatedEditing: PropTypes.bool.isRequired,
     children: PropTypes.node,
     dragging: PropTypes.bool.isRequired,
     overElement: PropTypes.func.isRequired,
     outElement: PropTypes.func.isRequired,
-    onEnterScreen: PropTypes.func.isRequired,
+    onEnterScreen: PropTypes.func,
     startAnimation: PropTypes.func.isRequired,
     resetAnimation: PropTypes.func.isRequired
   };

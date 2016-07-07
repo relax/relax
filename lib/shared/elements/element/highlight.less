@@ -30,22 +30,22 @@
 }
 
 .symbol {
-  border-color: #ff9f00;
-  background-color: fade(#ff9f00, 10%);
+  border-color: @symbolColor;
+  background-color: fade(@symbolColor, 10%);
 
-  .element-identifier {
-    background-color: #ff9f00;
+  .identifier {
+    background-color: @symbolColor;
   }
 
   &.selected {
-    border-color: #ff9f00;
+    border-color: @symbolColor;
 
     &:before {
-      border: 2px solid fade(#ff9f00, 10%);
+      border: 2px solid fade(@symbolColor, 10%);
     }
 
     .identifier {
-      background-color: #ff9f00;
+      background-color: @symbolColor;
     }
   }
 }

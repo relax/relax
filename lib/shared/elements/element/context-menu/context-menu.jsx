@@ -1,4 +1,5 @@
 import bind from 'decorators/bind';
+import cx from 'classnames';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
@@ -54,6 +55,11 @@ export default class ContextMenu extends Component {
     removeElement(element.id);
   }
 
+  isSymbol () {
+    const {element} = this.props;
+    return element.tag === 'Symbol';
+  }
+
   render () {
     const {opened} = this.props;
     return opened ? this.renderOpened() : this.renderClosed();
@@ -66,7 +72,10 @@ export default class ContextMenu extends Component {
 
   renderClosed () {
     return (
-      <button className={styles.closed} onClick={this.props.open}>
+      <button
+        className={cx(styles.closed, this.isSymbol() && styles.symbol)}
+        onClick={this.props.open}
+      >
         <i className='nc-icon-mini ui-2_menu-dots'></i>
       </button>
     );
@@ -98,11 +107,12 @@ export default class ContextMenu extends Component {
 
   renderActions () {
     const {close, element, openAddingSymbol} = this.props;
+    const isSymbol = this.isSymbol();
     return (
-      <div className={styles.opened} onMouseLeave={close}>
+      <div className={cx(styles.opened, isSymbol && styles.symbol)} onMouseLeave={close}>
         <div className={styles.label}>{element.label || element.tag}</div>
-        <div className={styles.action} onClick={openAddingSymbol}>Add to symbol library</div>
-        <div className={styles.action} onClick={this.makeDynamic}>Make dynamic</div>
+        {!isSymbol && <div className={styles.action} onClick={openAddingSymbol}>Add to symbol library</div>}
+        {!isSymbol && <div className={styles.action} onClick={this.makeDynamic}>Make dynamic</div>}
         <div className={styles.action} onClick={this.duplicate}>Duplicate</div>
         <div className={styles.action} onClick={this.remove}>Remove</div>
       </div>
