@@ -1,4 +1,4 @@
-import cx from 'classnames';
+import bind from 'decorators/bind';
 import getElementProps from 'helpers/get-element-props';
 import optionsStyles from 'components/options-list/index.less';
 import Component from 'components/component';
@@ -8,6 +8,7 @@ import React, {PropTypes} from 'react';
 
 import styles from './props.less';
 import Animation from './animation';
+import DisplayButton from './display-button';
 import Position from './position';
 
 export default class EditProps extends Component {
@@ -19,14 +20,22 @@ export default class EditProps extends Component {
     elements: PropTypes.object.isRequired
   };
 
-  displayToggleElement (id, display) {
+  @bind
+  displayToggleElement (display) {
+    const {selectedElement} = this.props;
     const {toggleElementVisibleOn} = this.props.pageBuilderActions;
-    toggleElementVisibleOn(id, display);
+    toggleElementVisibleOn(selectedElement.id, display);
+  }
+
+  @bind
+  changeElementLabel (value) {
+    const {selectedElement} = this.props;
+    const {changeElementLabel} = this.props.pageBuilderActions;
+    changeElementLabel(selectedElement.id, value);
   }
 
   render () {
     const {selectedElement, elements} = this.props;
-    const {changeElementLabel} = this.props.pageBuilderActions;
     const ElementClass = elements[selectedElement.tag];
 
     return (
@@ -35,39 +44,30 @@ export default class EditProps extends Component {
           <div className={optionsStyles.label}>Label</div>
           <Input
             value={selectedElement.label || selectedElement.tag}
-            onChange={changeElementLabel.bind(this, selectedElement.id)}
+            onChange={this.changeElementLabel}
           />
         </div>
         <div className={optionsStyles.option}>
           <div className={optionsStyles.label}>Visible on</div>
           <div>
-            <button
-              className={cx(
-                styles.displayButton,
-                selectedElement.hide && selectedElement.hide.desktop && styles.selected
-              )}
-              onClick={this.displayToggleElement.bind(this, selectedElement.id, 'desktop')}
-            >
-              <i className='nc-icon-mini tech_desktop-screen'></i>
-            </button>
-            <button
-              className={cx(
-                styles.displayButton,
-                selectedElement.hide && selectedElement.hide.tablet && styles.selected
-              )}
-              onClick={this.displayToggleElement.bind(this, selectedElement.id, 'tablet')}
-            >
-              <i className='nc-icon-mini tech_tablet-button'></i>
-            </button>
-            <button
-              className={cx(
-                styles.displayButton,
-                selectedElement.hide && selectedElement.hide.mobile && styles.selected
-              )}
-              onClick={this.displayToggleElement.bind(this, selectedElement.id, 'mobile')}
-            >
-              <i className='nc-icon-mini tech_mobile-button'></i>
-            </button>
+            <DisplayButton
+              active={selectedElement.hide && selectedElement.hide.desktop}
+              onClick={this.displayToggleElement}
+              icon='nc-icon-mini tech_desktop-screen'
+              display='desktop'
+            />
+            <DisplayButton
+              active={selectedElement.hide && selectedElement.hide.tablet}
+              onClick={this.displayToggleElement}
+              icon='nc-icon-mini tech_tablet-button'
+              display='tablet'
+            />
+            <DisplayButton
+              active={selectedElement.hide && selectedElement.hide.mobile}
+              onClick={this.displayToggleElement}
+              icon='nc-icon-mini tech_mobile-button'
+              display='mobile'
+            />
           </div>
         </div>
         <Position {...this.props} />
