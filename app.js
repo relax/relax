@@ -11,14 +11,16 @@ import migrate from './lib/server/migrate';
 if (!config.db) {
   throw new Error('Configuration to MongoDB required');
 }
+mongoose.Promise = global.Promise; // Use native promises
 mongoose.connect(config.db.uri, config.db);
+
 
 // Run migrations
 migrate()
   .then(() => {
     // Start server
-    var server = app.listen(config.port, () => {
-      var port = server.address().port;
+    const server = app.listen(config.port, () => {
+      const port = server.address().port;
       logger.debug('Listening at port', port);
     });
   })
