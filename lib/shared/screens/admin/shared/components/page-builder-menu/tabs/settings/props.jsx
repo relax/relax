@@ -1,6 +1,7 @@
 import bind from 'decorators/bind';
 import getElementProps from 'helpers/get-element-props';
 import optionsStyles from 'components/options-list/index.less';
+import Animate from 'components/animate';
 import Button from 'components/button';
 import Component from 'components/component';
 import Input from 'components/input-options/input';
@@ -19,7 +20,8 @@ export default class EditProps extends Component {
     selectedElement: PropTypes.object,
     selectedId: PropTypes.string,
     elements: PropTypes.object.isRequired,
-    type: PropTypes.string
+    type: PropTypes.string,
+    contentElementId: PropTypes.string
   };
 
   @bind
@@ -95,15 +97,25 @@ export default class EditProps extends Component {
   }
 
   renderTemplateOptions () {
-    const {type, elements, selectedElement} = this.props;
+    const {type, elements, selectedElement, contentElementId, selectedId} = this.props;
 
     if (type === 'template') {
       const ElementClass = elements[selectedElement.tag];
 
       if (ElementClass.settings.drop) {
-        return (
-          <div className={optionsStyles.option}>
-            <div className={optionsStyles.label}>Template content area</div>
+        let result;
+
+        if (contentElementId === selectedId) {
+          result = (
+            <Animate>
+              <div className={styles.contentArea}>
+                <i className='nc-icon-outline design_app' />
+                <span>Content area element</span>
+              </div>
+            </Animate>
+          );
+        } else {
+          result = (
             <Button
               full
               grey
@@ -113,6 +125,13 @@ export default class EditProps extends Component {
               <i className='nc-icon-outline design_app' />
               <span>Make Content Area</span>
             </Button>
+          );
+        }
+
+        return (
+          <div className={optionsStyles.option}>
+            <div className={optionsStyles.label}>Template content area</div>
+            {result}
           </div>
         );
       }
