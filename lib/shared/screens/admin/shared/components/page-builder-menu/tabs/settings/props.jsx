@@ -34,6 +34,13 @@ export default class EditProps extends Component {
     changeElementLabel(selectedElement.id, value);
   }
 
+  @bind
+  changeElementProperty (key, value) {
+    const {selectedId, pageBuilderActions} = this.props;
+    const {changeElementProperty} = pageBuilderActions;
+    changeElementProperty(selectedId, key, value);
+  }
+
   render () {
     const {selectedElement, elements} = this.props;
     const ElementClass = elements[selectedElement.tag];
@@ -78,8 +85,7 @@ export default class EditProps extends Component {
   }
 
   renderOptions (ElementClass) {
-    const {changeElementProperty} = this.props.pageBuilderActions;
-    const {selectedId, selectedElement, display} = this.props;
+    const {selectedElement, display} = this.props;
 
     if (ElementClass.propsSchema) {
       const values = Object.assign({}, ElementClass.defaultProps, getElementProps(selectedElement, display));
@@ -87,7 +93,7 @@ export default class EditProps extends Component {
         <OptionsList
           options={ElementClass.propsSchema}
           values={values}
-          onChange={changeElementProperty.bind(this, selectedId)}
+          onChange={this.changeElementProperty}
         />
       );
     }
