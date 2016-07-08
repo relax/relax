@@ -15,11 +15,12 @@ export default class TemplatesPicker extends Component {
     templates: PropTypes.array,
     loading: PropTypes.bool,
     onSearchChange: PropTypes.func.isRequired,
-    search: PropTypes.string
+    search: PropTypes.string,
+    loadMore: PropTypes.func.isRequired
   };
 
   render () {
-    const {templates, onSearchChange, search} = this.props;
+    const {templates, onSearchChange, search, loadMore} = this.props;
 
     return (
       <div>
@@ -28,7 +29,11 @@ export default class TemplatesPicker extends Component {
           onChange={onSearchChange}
           placeholder='Search for templates title'
         />
-        <Scrollable className={styles.scrollable}>
+        <Scrollable
+          className={styles.scrollable}
+          lazyLoad
+          loadMore={loadMore}
+        >
           {templates && templates.map(this.renderEntry, this)}
         </Scrollable>
       </div>
