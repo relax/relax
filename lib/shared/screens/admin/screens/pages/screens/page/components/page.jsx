@@ -22,6 +22,7 @@ export default class Page extends Component {
     loading: PropTypes.bool.isRequired,
     togglePageInfo: PropTypes.func.isRequired,
     togglePageRevisions: PropTypes.func.isRequired,
+    togglePageTemplates: PropTypes.func.isRequired,
     pageId: PropTypes.string.isRequired,
     sidebar: PropTypes.string
   };
@@ -40,7 +41,8 @@ export default class Page extends Component {
       sidebar,
       location,
       togglePageRevisions,
-      togglePageInfo
+      togglePageInfo,
+      togglePageTemplates
     } = this.props;
 
     return (
@@ -55,6 +57,7 @@ export default class Page extends Component {
         location={location}
         toggleRevisions={togglePageRevisions}
         toggleInfo={togglePageInfo}
+        toggleTemplates={togglePageTemplates}
         Info={Info}
         Revisions={Revisions}
         type='page'
