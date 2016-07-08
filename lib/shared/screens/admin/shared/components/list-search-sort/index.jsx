@@ -31,6 +31,7 @@ export default class ListSearchSort extends Component {
     };
   }
 
+  @bind
   toggleSorts () {
     this.setState({
       opened: !this.state.opened
@@ -90,7 +91,7 @@ export default class ListSearchSort extends Component {
             onChange={this.updateSearch}
           />
         </label>
-        <div className={styles.sort} onClick={::this.toggleSorts} ref='sort'>
+        <div className={styles.sort} onClick={this.toggleSorts} ref='sort'>
           <span>{selected && selected.label}</span>
           <i className='nc-icon-mini arrows-1_minimal-down'></i>
         </div>
@@ -105,7 +106,7 @@ export default class ListSearchSort extends Component {
       return (
         <Balloon
           element={this.refs.sort}
-          stickOptions={{horizontalPosition: 'center', onClose: ::this.toggleSorts}}
+          stickOptions={{horizontalPosition: 'center', onClose: this.toggleSorts}}
           white
           small
           unpadded
@@ -129,7 +130,7 @@ export default class ListSearchSort extends Component {
         query={query}
         className={cx(styles.sortOption, active && styles.active)}
         key={key}
-        onClick={::this.toggleSorts}
+        onClick={this.toggleSorts}
       >
         {sort.label}
       </Link>

@@ -13,6 +13,7 @@ import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
 import styles from './index.less';
+import Templates from './templates';
 
 export default class ContentPageBuilder extends Component {
   static propTypes = {
@@ -26,6 +27,7 @@ export default class ContentPageBuilder extends Component {
     location: PropTypes.object.isRequired,
     toggleRevisions: PropTypes.func.isRequired,
     toggleInfo: PropTypes.func.isRequired,
+    toggleTemplates: PropTypes.func.isRequired,
     Info: PropTypes.object,
     Revisions: PropTypes.object,
     type: PropTypes.string.isRequired
@@ -114,6 +116,7 @@ export default class ContentPageBuilder extends Component {
           {slug && <EditableTitle sub value={slug} onSubmit={updateSlug} />}
         </div>
         <ContentHeaderActions>
+          {this.renderTemplatePicker()}
           <button
             className={cx(styles.actionButton, sidebar === 'revisions' && styles.active)}
             onClick={toggleRevisions}
@@ -129,6 +132,21 @@ export default class ContentPageBuilder extends Component {
         </ContentHeaderActions>
       </ContentHeader>
     );
+  }
+
+  renderTemplatePicker () {
+    const {toggleTemplates, sidebar} = this.props;
+
+    if (toggleTemplates) {
+      const opened = sidebar === 'templates';
+      return (
+        <div className={styles.templatePicker} onClick={toggleTemplates}>
+          <div className={styles.tpLabel}>Template:</div>
+          <div className={styles.tpValue}>main</div>
+          <i className={cx('nc-icon-mini', opened ? 'arrows-1_minimal-up' : 'arrows-1_minimal-down')} />
+        </div>
+      );
+    }
   }
 
   renderSidebar () {
@@ -152,6 +170,10 @@ export default class ContentPageBuilder extends Component {
     } else if (sidebar === 'revisions' && Revisions) {
       result = (
         <Revisions />
+      );
+    } else if (sidebar === 'templates') {
+      result = (
+        <Templates />
       );
     }
 

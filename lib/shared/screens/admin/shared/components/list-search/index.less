@@ -1,0 +1,55 @@
+@import '~styles/colors.less';
+
+.searchLabel {
+  display: block;
+  width: 100%;
+  background-color: #F7F7F7;
+  height: 40px;
+  border-bottom: 1px solid @adminBorders;
+  padding: 0 10px;
+  position: relative;
+
+  :global i {
+    font-size: 16px;
+    color: @adminTextSub;
+    display: inline-block;
+    vertical-align: top;
+    line-height: 39px;
+    position: absolute;
+    top: 0;
+    left: 10px;
+  }
+}
+
+.search {
+  border: 0;
+  outline: 0;
+  color: @adminTextHighlight;
+  font-size: 12px;
+  font-weight: 300;
+  display: block;
+  background-color: transparent;
+  line-height: 40px;
+  padding: 0px 7px;
+  padding-left: 24px;
+  width: 100%;
+
+  &::-webkit-input-placeholder {
+    color: #b4b4b4;
+  }
+  &:-moz-placeholder {
+    color: #b4b4b4;
+  }
+  &::-moz-placeholder {
+    color: #b4b4b4;
+  }
+  &:-ms-input-placeholder {
+    color: #b4b4b4;
+  }
+  &::-ms-input-placeholder {
+    color: #b4b4b4;
+  }
+  &:placeholder-shown {
+    color: #b4b4b4;
+  }
+}
