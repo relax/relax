@@ -11,7 +11,8 @@ export default class TemplatesEntry extends Component {
     template: {
       _id: 1,
       title: 1,
-      date: 1
+      date: 1,
+      hasContent: 1
     }
   };
 
@@ -28,6 +29,7 @@ export default class TemplatesEntry extends Component {
 
     return (
       <Link to={editLink} query={query} className={cx(styles.root, active && styles.active)}>
+        <div className={cx(styles.status, template.hasContent && styles.hasContent)} />
         <div className={styles.info}>
           <div className={styles.title}>{template.title}</div>
           <div className={styles.date}>{date}</div>
