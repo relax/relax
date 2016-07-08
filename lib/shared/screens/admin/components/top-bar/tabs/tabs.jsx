@@ -34,16 +34,18 @@ export default class Tabs extends Component {
   }
 
   renderTab (tab, key) {
-    const {removeTab, pathname} = this.props;
-    return (
-      <Tab
-        tab={tab}
-        tabsCount={this.props.tabs.length}
-        removeTab={removeTab}
-        pathname={pathname}
-        key={key}
-      />
-    );
+    if (tab.item && tab.item._id) {
+      const {removeTab, pathname} = this.props;
+      return (
+        <Tab
+          tab={tab}
+          tabsCount={this.props.tabs.length}
+          removeTab={removeTab}
+          pathname={pathname}
+          key={key}
+        />
+      );
+    }
   }
 
   renderNew () {
