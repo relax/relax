@@ -33,7 +33,8 @@ export default class Element extends Component {
     outElement: PropTypes.func.isRequired,
     onEnterScreen: PropTypes.func,
     startAnimation: PropTypes.func.isRequired,
-    resetAnimation: PropTypes.func.isRequired
+    resetAnimation: PropTypes.func.isRequired,
+    contentElementId: PropTypes.string
   };
 
   static defaultProps = {
@@ -268,13 +269,14 @@ export default class Element extends Component {
   }
 
   renderHighlight () {
-    const {editing, selected, overed, dragging, element, settings} = this.props;
+    const {editing, selected, overed, dragging, element, settings, contentElementId} = this.props;
     if (editing && (selected || overed) && !dragging && this.ref) {
       return (
         <Highlight
           element={element}
           settings={settings}
           selected={selected}
+          contentElementId={contentElementId}
           dom={this.ref}
         />
       );

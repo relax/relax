@@ -19,7 +19,8 @@ export default class ContextMenu extends Component {
     makeElementSymbol: PropTypes.func.isRequired,
     makeElementDynamic: PropTypes.func.isRequired,
     duplicateElement: PropTypes.func.isRequired,
-    removeElement: PropTypes.func.isRequired
+    removeElement: PropTypes.func.isRequired,
+    isContentArea: PropTypes.bool
   };
 
   @bind
@@ -71,9 +72,15 @@ export default class ContextMenu extends Component {
   }
 
   renderClosed () {
+    const {isContentArea} = this.props;
+
     return (
       <button
-        className={cx(styles.closed, this.isSymbol() && styles.symbol)}
+        className={cx(
+          styles.closed,
+          this.isSymbol() && styles.symbol,
+          isContentArea && styles.contentArea
+        )}
         onClick={this.props.open}
       >
         <i className='nc-icon-mini ui-2_menu-dots'></i>
@@ -106,13 +113,28 @@ export default class ContextMenu extends Component {
   }
 
   renderActions () {
-    const {close, element, openAddingSymbol} = this.props;
+    const {close, element, openAddingSymbol, isContentArea} = this.props;
     const isSymbol = this.isSymbol();
     return (
-      <div className={cx(styles.opened, isSymbol && styles.symbol)} onMouseLeave={close}>
+      <div
+        className={cx(
+          styles.opened,
+          isSymbol && styles.symbol,
+          isContentArea && styles.contentArea
+        )}
+        onMouseLeave={close}
+      >
         <div className={styles.label}>{element.label || element.tag}</div>
-        {!isSymbol && <div className={styles.action} onClick={openAddingSymbol}>Add to symbol library</div>}
-        {!isSymbol && <div className={styles.action} onClick={this.makeDynamic}>Make dynamic</div>}
+        {
+          !isSymbol &&
+          !isContentArea &&
+          <div className={styles.action} onClick={openAddingSymbol}>Add to symbol library</div>
+        }
+        {
+          !isSymbol &&
+          !isContentArea &&
+          <div className={styles.action} onClick={this.makeDynamic}>Make dynamic</div>
+        }
         <div className={styles.action} onClick={this.duplicate}>Duplicate</div>
         <div className={styles.action} onClick={this.remove}>Remove</div>
       </div>

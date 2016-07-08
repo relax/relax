@@ -29,27 +29,6 @@
   }
 }
 
-.symbol {
-  border-color: @symbolColor;
-  background-color: fade(@symbolColor, 10%);
-
-  .identifier {
-    background-color: @symbolColor;
-  }
-
-  &.selected {
-    border-color: @symbolColor;
-
-    &:before {
-      border: 2px solid fade(@symbolColor, 10%);
-    }
-
-    .identifier {
-      background-color: @symbolColor;
-    }
-  }
-}
-
 .identifier {
   display: inline-block;
   position: absolute;
@@ -86,4 +65,46 @@
   top: 0px;
   left: 0px;
   border-radius: 0px 0px 1px 0;
+}
+
+.symbol {
+  border-color: @symbolColor;
+  background-color: fade(@symbolColor, 10%);
+
+  .identifier {
+    background-color: @symbolColor;
+  }
+
+  &.selected {
+    border-color: @symbolColor;
+
+    &:before {
+      border: 2px solid fade(@symbolColor, 10%);
+    }
+
+    .identifier {
+      background-color: @symbolColor;
+    }
+  }
+}
+
+.contentArea {
+  border-color: @contentArea;
+  background-color: fade(@contentArea, 10%);
+
+  .identifier {
+    background-color: @contentArea;
+  }
+
+  &.selected {
+    border-color: @contentArea;
+
+    &:before {
+      border: 2px solid fade(@contentArea, 10%);
+    }
+
+    .identifier {
+      background-color: @contentArea;
+    }
+  }
 }
