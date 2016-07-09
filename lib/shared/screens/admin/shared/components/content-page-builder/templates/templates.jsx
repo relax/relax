@@ -1,3 +1,5 @@
+import bind from 'decorators/bind';
+import cx from 'classnames';
 import Component from 'components/component';
 import ListSearch from 'components/list-search';
 import Scrollable from 'components/scrollable';
@@ -21,8 +23,14 @@ export default class TemplatesPicker extends Component {
     onChange: PropTypes.func.isRequired
   };
 
+  @bind
+  onDelete () {
+    const {onChange} = this.props;
+    onChange(null);
+  }
+
   render () {
-    const {templates, onSearchChange, search, loadMore} = this.props;
+    const {templates, onSearchChange, search, loadMore, value} = this.props;
 
     return (
       <div>
@@ -32,12 +40,13 @@ export default class TemplatesPicker extends Component {
           placeholder='Search for templates title'
         />
         <Scrollable
-          className={styles.scrollable}
+          className={cx(styles.scrollable, value && styles.withValue)}
           lazyLoad
           loadMore={loadMore}
         >
           {templates && templates.map(this.renderEntry, this)}
         </Scrollable>
+        {this.renderUnselect()}
       </div>
     );
   }
@@ -53,5 +62,18 @@ export default class TemplatesPicker extends Component {
         key={template._id}
       />
     );
+  }
+
+  renderUnselect () {
+    const {value} = this.props;
+    if (value) {
+      return (
+        <div className={styles.bottom}>
+          <button className={styles.actionButton} onClick={this.onDelete}>
+            Unselect template
+          </button>
+        </div>
+      );
+    }
   }
 }
