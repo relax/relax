@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import moment from 'moment';
 import Component from 'components/component';
@@ -17,15 +18,27 @@ export default class TemplatesEntry extends Component {
 
   static propTypes = {
     template: PropTypes.object.isRequired,
-    active: PropTypes.bool.isRequired
+    active: PropTypes.bool.isRequired,
+    onClick: PropTypes.func.isRequired
   };
+
+  @bind
+  onClick () {
+    const {onClick, template} = this.props;
+    if (template.hasContent) {
+      onClick(template._id);
+    }
+  }
 
   render () {
     const {template, active} = this.props;
     const date = moment(template.date).fromNow();
 
     return (
-      <div className={cx(styles.root, active && styles.active, !template.hasContent && styles.disabled)}>
+      <div
+        className={cx(styles.root, active && styles.active, !template.hasContent && styles.disabled)}
+        onClick={this.onClick}
+      >
         <div className={cx(styles.status, template.hasContent && styles.hasContent)} />
         <div className={styles.info}>
           <div className={styles.title}>{template.title}</div>
