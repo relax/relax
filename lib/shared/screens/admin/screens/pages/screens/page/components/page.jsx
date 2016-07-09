@@ -11,10 +11,7 @@ export default class Page extends Component {
       _id: 1,
       title: 1,
       slug: 1,
-      template: {
-        _id: 1,
-        title: 1
-      }
+      template: ContentPageBuilder.fragments.template
     }
   };
 
