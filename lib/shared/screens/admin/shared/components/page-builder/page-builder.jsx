@@ -2,6 +2,7 @@ import cx from 'classnames';
 import key from 'keymaster';
 import stylesheet from 'helpers/stylesheet';
 import Component from 'components/component';
+import ContentLoading from 'components/content-loading';
 import Dragger from 'components/dnd/dragger';
 import Portal from 'components/portal';
 import React, {PropTypes} from 'react';
@@ -15,7 +16,9 @@ export default class PageBuilder extends Component {
   static propTypes = {
     dragging: PropTypes.bool.isRequired,
     elementsMenuOpened: PropTypes.bool.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired
+    pageBuilderActions: PropTypes.object.isRequired,
+    templateData: PropTypes.object,
+    loading: PropTypes.bool.isRequired
   };
 
   componentDidMount () {
@@ -31,13 +34,33 @@ export default class PageBuilder extends Component {
   }
 
   render () {
+    const {loading} = this.props;
+    let result;
+
+    if (loading) {
+      result = this.renderLoading();
+    } else {
+      result = this.renderContent();
+    }
+
+    return result;
+  }
+
+  renderContent () {
+    const {templateData} = this.props;
     return (
       <div className={cx(styles.root)}>
         <Jss stylesheet={stylesheet} />
-        <Canvas />
+        <Canvas templateData={templateData} />
         {this.renderElementsMenu()}
         {this.renderDragger()}
       </div>
+    );
+  }
+
+  renderLoading () {
+    return (
+      <ContentLoading />
     );
   }
 

@@ -16,12 +16,19 @@ import styles from './index.less';
 import Templates from './templates';
 
 export default class ContentPageBuilder extends Component {
+  static fragments = {
+    template: {
+      _id: 1,
+      title: 1,
+      data: 1
+    }
+  };
+
   static propTypes = {
     itemId: PropTypes.string,
     loading: PropTypes.bool,
     title: PropTypes.string,
     slug: PropTypes.string,
-    templateId: PropTypes.string,
     updateTitle: PropTypes.func.isRequired,
     updateSlug: PropTypes.func.isRequired,
     updateTemplate: PropTypes.func.isRequired,
@@ -88,14 +95,17 @@ export default class ContentPageBuilder extends Component {
   }
 
   renderContent () {
-    const {location, type} = this.props;
+    const {location, type, template} = this.props;
 
     return (
       <Animate transition='fadeIn'>
         <div className={cx(this.state.build && styles.build)}>
           {this.renderHeader()}
           <div className={styles.content} ref='content'>
-            <PageBuilder type={type} />
+            <PageBuilder
+              type={type}
+              templateData={template && template.data}
+            />
             <A href={location.pathname} query={{build: 1}} className={styles.cover} ref='cover'>
               <div className={styles.coverContent}>
                 <i className='nc-icon-outline design_design'></i>

@@ -20,6 +20,7 @@ export default class Canvas extends Component {
     symbols: PropTypes.object.isRequired,
     dragging: PropTypes.bool.isRequired,
     pageData: PropTypes.object.isRequired,
+    templateData: PropTypes.object,
     elements: PropTypes.object.isRequired,
     selectedId: PropTypes.string,
     editing: PropTypes.bool.isRequired
@@ -55,7 +56,7 @@ export default class Canvas extends Component {
   }
 
   render () {
-    const {pageData, display} = this.props;
+    const {display, templateData} = this.props;
     const dropInfo = {
       id: 'body',
       type: 'body'
@@ -65,9 +66,7 @@ export default class Canvas extends Component {
       maxWidth: displays[display]
     };
 
-    // Process schema links if any
-    const elementsLinks = {};
-    const elements = pageData && pageData.body && this.renderChildren(pageData.body.children, {elementsLinks});
+    const content = templateData ? this.renderTemplate() : this.renderContent();
 
     return (
       <div className={classes.canvas} ref='canvas'>
@@ -80,12 +79,34 @@ export default class Canvas extends Component {
             accepts='Section'
             minHeight='100%'
           >
-            {elements}
+            {content}
           </Droppable>
         </div>
         {this.renderStyles()}
       </div>
     );
+  }
+
+  renderTemplate () {
+    const {templateData} = this.props;
+    const content = this.renderContent();
+
+    return templateData.body && this.renderChildren(templateData.body.children, {
+      customData: templateData,
+      editing: false,
+      injectChildren: {
+        id: templateData.content,
+        content
+      }
+    });
+  }
+
+  renderContent () {
+    const {pageData} = this.props;
+    const elementsLinks = {};
+    return pageData && pageData.body && this.renderChildren(pageData.body.children, {
+      elementsLinks
+    });
   }
 
   renderPlaceholder () {
@@ -142,10 +163,16 @@ export default class Canvas extends Component {
     if ((!element.hide || !element.hide[display]) && element.display !== false) {
       const FactoredElement = element.tag === 'Symbol' ? Symbol : elements[element.tag];
       const selected = selectedId === element.id;
-      let children =
-        element.tag !== 'Symbol' &&
-        element.children &&
-        this.renderChildren(element.children, options);
+      let children;
+
+      if (element.tag !== 'Symbol') {
+        if (options.injectChildren && options.injectChildren.id === element.id) {
+          console.log('HERE');
+          children = options.injectChildren.content;
+        } else if (element.children) {
+          children = this.renderChildren(element.children, options);
+        }
+      }
 
       return (
         <FactoredElement
