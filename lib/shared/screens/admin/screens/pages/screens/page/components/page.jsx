@@ -10,7 +10,11 @@ export default class Page extends Component {
     page: {
       _id: 1,
       title: 1,
-      slug: 1
+      slug: 1,
+      template: {
+        _id: 1,
+        title: 1
+      }
     }
   };
 
@@ -19,6 +23,7 @@ export default class Page extends Component {
     location: PropTypes.object.isRequired,
     updateTitle: PropTypes.func.isRequired,
     updateSlug: PropTypes.func.isRequired,
+    updateTemplate: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
     togglePageInfo: PropTypes.func.isRequired,
     togglePageRevisions: PropTypes.func.isRequired,
@@ -38,6 +43,7 @@ export default class Page extends Component {
       pageId,
       updateTitle,
       updateSlug,
+      updateTemplate,
       sidebar,
       location,
       togglePageRevisions,
@@ -51,8 +57,10 @@ export default class Page extends Component {
         loading={loading}
         title={page && page.title}
         slug={page && page.slug}
+        template={page && page.template}
         updateTitle={updateTitle}
         updateSlug={updateSlug}
+        updateTemplate={updateTemplate}
         sidebar={sidebar}
         location={location}
         toggleRevisions={togglePageRevisions}

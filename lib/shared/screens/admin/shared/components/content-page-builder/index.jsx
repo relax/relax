@@ -21,8 +21,10 @@ export default class ContentPageBuilder extends Component {
     loading: PropTypes.bool,
     title: PropTypes.string,
     slug: PropTypes.string,
+    templateId: PropTypes.string,
     updateTitle: PropTypes.func.isRequired,
     updateSlug: PropTypes.func.isRequired,
+    updateTemplate: PropTypes.func.isRequired,
     sidebar: PropTypes.string,
     location: PropTypes.object.isRequired,
     toggleRevisions: PropTypes.func.isRequired,
@@ -30,7 +32,8 @@ export default class ContentPageBuilder extends Component {
     toggleTemplates: PropTypes.func.isRequired,
     Info: PropTypes.object,
     Revisions: PropTypes.object,
-    type: PropTypes.string.isRequired
+    type: PropTypes.string.isRequired,
+    template: PropTypes.object
   };
 
   getInitState () {
@@ -135,14 +138,17 @@ export default class ContentPageBuilder extends Component {
   }
 
   renderTemplatePicker () {
-    const {toggleTemplates, sidebar} = this.props;
+    const {toggleTemplates, sidebar, template} = this.props;
 
     if (toggleTemplates) {
       const opened = sidebar === 'templates';
+      const title = template && template.title || 'None selected';
       return (
         <div className={styles.templatePicker} onClick={toggleTemplates}>
           <div className={styles.tpLabel}>Template:</div>
-          <div className={styles.tpValue}>main</div>
+          <div className={cx(styles.tpValue, !template && styles.none)}>
+            {title}
+          </div>
           <i className={cx('nc-icon-mini', opened ? 'arrows-1_minimal-up' : 'arrows-1_minimal-down')} />
         </div>
       );
@@ -172,8 +178,12 @@ export default class ContentPageBuilder extends Component {
         <Revisions />
       );
     } else if (sidebar === 'templates') {
+      const {template, updateTemplate} = this.props;
       result = (
-        <Templates />
+        <Templates
+          value={template && template._id}
+          onChange={updateTemplate}
+        />
       );
     }
 
