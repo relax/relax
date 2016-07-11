@@ -54,6 +54,7 @@ export default class Scrollable extends Component {
       <div className={cx(this.props.className || styles.root, styles.scrollbar)}>
         <GeminiScrollbar
           autoshow={this.props.autoshow}
+          forceGemini
           ref='gemini'
         >
           {this.props.children}
