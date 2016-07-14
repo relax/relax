@@ -19,13 +19,13 @@ export default class Canvas extends Component {
     pageBuilderActions: PropTypes.object.isRequired,
     display: PropTypes.string.isRequired,
     styles: PropTypes.array.isRequired,
-    symbols: PropTypes.object.isRequired,
     dragging: PropTypes.bool.isRequired,
     pageData: PropTypes.object.isRequired,
     templateData: PropTypes.object,
     elements: PropTypes.object.isRequired,
     selectedId: PropTypes.string,
-    editing: PropTypes.bool.isRequired
+    editing: PropTypes.bool.isRequired,
+    editingSymbol: PropTypes.bool.isRequired
   };
 
   static contextTypes = {
@@ -101,10 +101,11 @@ export default class Canvas extends Component {
   }
 
   renderContent () {
-    const {pageData} = this.props;
+    const {pageData, editingSymbol} = this.props;
     const elementsLinks = {};
     return pageData && pageData.body && this.renderChildren(pageData.body.children, {
-      elementsLinks
+      elementsLinks,
+      disableSelection: editingSymbol
     });
   }
 
@@ -180,6 +181,7 @@ export default class Canvas extends Component {
           key={elementId}
           relax={{
             editing: typeof options.editing !== 'undefined' ? options.editing : editing,
+            disableSelection: options.disableSelection,
             display,
             selected,
             element,

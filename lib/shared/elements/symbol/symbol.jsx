@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import ElementEmpty from 'components/element-empty';
 import ElementLoading from 'components/element-loading';
 import ElementNotFound from 'components/element-not-found';
@@ -20,15 +21,32 @@ export default class DynamicListContainer extends Component {
     symbol: PropTypes.object,
     symbolId: PropTypes.string,
     loading: PropTypes.bool.isRequired,
-    relax: PropTypes.object.isRequired
+    relax: PropTypes.object.isRequired,
+    editSymbol: PropTypes.func.isRequired,
+    editing: PropTypes.bool,
+    editData: PropTypes.object
   };
 
+  @bind
+  onEdit () {
+    const {relax, symbolId, symbol, editSymbol} = this.props;
+
+    if (symbolId && symbol && symbol.data) {
+      editSymbol(relax.element.id, symbol.data);
+    }
+  }
+
   render () {
+    const {relax} = this.props;
     const props = {
       htmlTag: 'div',
-      ...this.props.relax,
+      ...relax,
       settings
     };
+
+    if (relax.editing) {
+      props.onDoubleClick = this.onEdit;
+    }
 
     return (
       <Element {...props}>
@@ -67,11 +85,22 @@ export default class DynamicListContainer extends Component {
   }
 
   renderSymbol () {
-    const {symbol, relax} = this.props;
-    return relax.renderElement({
-      customData: symbol.data,
-      editing: false
+    const {symbol, relax, editing, editData} = this.props;
+    const content = relax.renderElement({
+      customData: editData || symbol.data,
+      editing
     }, 'base', 0);
+    let result;
+
+    if (relax.editing && !editing) {
+      result = (
+        <div onDoubleClick={this.onEdit}>{content}</div>
+      );
+    } else {
+      result = content;
+    }
+
+    return result;
   }
 
   renderNotFound () {
