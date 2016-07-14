@@ -15,7 +15,7 @@ export default class ElementComponent extends Component {
     const editing = relax.editing;
     let result;
 
-    if (editing) {
+    if (editing && !relax.disableSelection) {
       const droppableProps = Object.assign({
         dropInfo: {
           id: relax.element.id
