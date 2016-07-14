@@ -8,6 +8,7 @@ import Droppable from 'components/dnd/droppable';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
+import styles from './element.less';
 import Empty from './empty';
 import Highlight from './highlight';
 
@@ -34,7 +35,8 @@ export default class Element extends Component {
     onEnterScreen: PropTypes.func,
     startAnimation: PropTypes.func.isRequired,
     resetAnimation: PropTypes.func.isRequired,
-    contentElementId: PropTypes.string
+    contentElementId: PropTypes.string,
+    focused: PropTypes.bool
   };
 
   static defaultProps = {
@@ -68,6 +70,7 @@ export default class Element extends Component {
     }
   }
 
+  @bind
   animate () {
     const dom = findDOMNode(this);
     const {animation, startAnimation} = this.props;
@@ -81,7 +84,7 @@ export default class Element extends Component {
   animationInit () {
     const animation = this.props.animation;
     if (animation) {
-      this.animationTimeout = setTimeout(::this.animate, animation.delay);
+      this.animationTimeout = setTimeout(this.animate, animation.delay);
     }
   }
 
@@ -107,6 +110,7 @@ export default class Element extends Component {
     }
   }
 
+  @bind
   onElementClick (event) {
     const {selectElement, element} = this.props;
     event.stopPropagation();
@@ -154,6 +158,7 @@ export default class Element extends Component {
     }
   }
 
+  @bind
   onMouseOver (event) {
     const {dragging, overed, selected, overElement, element} = this.props;
     if (!dragging) {
@@ -165,13 +170,15 @@ export default class Element extends Component {
     }
   }
 
+  @bind
   onMouseOut () {
     const {dragging, overed} = this.props;
     if (!dragging && overed) {
-      this.outTimeout = setTimeout(::this.selectOut, 50);
+      this.outTimeout = setTimeout(this.selectOut, 50);
     }
   }
 
+  @bind
   selectOut () {
     const {outElement, element} = this.props;
     outElement(element.id);
@@ -189,7 +196,7 @@ export default class Element extends Component {
           parentId: element.parent,
           positionInParent
         },
-        onClick: ::this.onElementClick,
+        onClick: this.onElementClick,
         type: element.tag,
         disabled: (selected && settings.drag.dragSelected === false)
       }, settings.drag);
@@ -220,8 +227,8 @@ export default class Element extends Component {
     };
 
     if (editing) {
-      tagProps.onMouseOver = ::this.onMouseOver;
-      tagProps.onMouseOut = ::this.onMouseOut;
+      tagProps.onMouseOver = this.onMouseOver;
+      tagProps.onMouseOut = this.onMouseOut;
       tagProps.ref = (ref) => {this.ref = ref;};
       tagProps.id = element.id;
     }
@@ -235,7 +242,7 @@ export default class Element extends Component {
   }
 
   renderContent () {
-    const {editing, settings, element} = this.props;
+    const {editing, settings, element, focused} = this.props;
     let result;
 
     if (editing && settings.drop && !settings.drop.customDropArea) {
@@ -255,6 +262,12 @@ export default class Element extends Component {
       );
     } else {
       result = this.props.children;
+    }
+
+    if (editing && focused) {
+      result = (
+        <div className={styles.focused}>{result}</div>
+      );
     }
 
     return result;
