@@ -3,12 +3,14 @@ import ElementEmpty from 'components/element-empty';
 import ElementLoading from 'components/element-loading';
 import ElementNotFound from 'components/element-not-found';
 import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 
 import settings from './settings';
 import Component from '../component';
+import Editing from './editing';
 import Element from '../element';
 
-export default class DynamicListContainer extends Component {
+export default class Symbol extends Component {
   static fragments = {
     symbol: {
       _id: 1,
@@ -49,8 +51,9 @@ export default class DynamicListContainer extends Component {
     }
 
     return (
-      <Element {...props}>
+      <Element {...props} ref={(ref) => {this.ref = findDOMNode(ref);}}>
         {this.renderContent()}
+        {this.renderEditing()}
       </Element>
     );
   }
@@ -107,5 +110,17 @@ export default class DynamicListContainer extends Component {
     return (
       <ElementNotFound>Symbol not found</ElementNotFound>
     );
+  }
+
+  renderEditing () {
+    const {editing, relax} = this.props;
+    if (editing && this.ref) {
+      return (
+        <Editing
+          element={this.ref}
+          elementId={relax.element.id}
+        />
+      );
+    }
   }
 }

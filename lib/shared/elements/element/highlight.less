@@ -86,6 +86,9 @@
       background-color: @symbolColor;
     }
   }
+  &.focused {
+    background-color: transparent;
+  }
 }
 
 .contentArea {
@@ -98,6 +101,7 @@
 
   &.selected {
     border-color: @contentArea;
+    background-color: transparent;
 
     &:before {
       border: 2px solid fade(@contentArea, 10%);
