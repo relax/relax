@@ -1,5 +1,7 @@
 import cx from 'classnames';
+import Animate from 'components/animate';
 import Component from 'components/component';
+import Spinner from 'components/spinner';
 import React, {PropTypes} from 'react';
 
 import styles from './editing.less';
@@ -26,25 +28,32 @@ export default class EditingSymbol extends Component {
 
     if (loading) {
       result = (
-        <div>Loading</div>
+        <Animate key='saving'>
+          <div>
+            <Spinner />
+            <span className={styles.loading}>Saving symbol</span>
+          </div>
+        </Animate>
       );
     } else {
       const {onCancel, onSave} = this.props;
       result = (
-        <div>
-          <button
-            className={styles.button}
-            onClick={onCancel}
-          >
-            Cancel
-          </button>
-          <button
-            className={cx(styles.button, styles.save)}
-            onClick={onSave}
-          >
-            Save changes
-          </button>
-        </div>
+        <Animate key='content'>
+          <div>
+            <button
+              className={styles.button}
+              onClick={onCancel}
+            >
+              Cancel
+            </button>
+            <button
+              className={cx(styles.button, styles.save)}
+              onClick={onSave}
+            >
+              Save changes
+            </button>
+          </div>
+        </Animate>
       );
     }
 

@@ -113,12 +113,13 @@ export default class Symbol extends Component {
   }
 
   renderEditing () {
-    const {editing, relax} = this.props;
+    const {editing, relax, symbolId} = this.props;
     if (editing && this.ref) {
       return (
         <Editing
           element={this.ref}
           elementId={relax.element.id}
+          symbolId={symbolId}
         />
       );
     }
