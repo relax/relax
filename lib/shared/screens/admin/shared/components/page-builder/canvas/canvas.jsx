@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import displays from 'helpers/displays';
 import forEach from 'lodash.foreach';
 import getElementProps from 'helpers/get-element-props';
@@ -5,6 +6,7 @@ import stylesManager from 'helpers/styles-manager';
 import utils from 'helpers/utils';
 import Component from 'components/component';
 import Droppable from 'components/dnd/droppable';
+import Scrollable from 'components/scrollable';
 import Symbol from 'elements/symbol';
 import React, {PropTypes} from 'react';
 import {Component as Jss} from 'relax-jss';
@@ -47,10 +49,7 @@ export default class Canvas extends Component {
     };
   }
 
-  componentDidMount () {
-    this.refs.canvas.addEventListener('scroll', this.onScroll.bind(this));
-  }
-
+  @bind
   onScroll () {
     window.dispatchEvent(new Event('scroll'));
   }
@@ -69,12 +68,12 @@ export default class Canvas extends Component {
     const content = templateData ? this.renderTemplate() : this.renderContent();
 
     return (
-      <div className={classes.canvas} ref='canvas'>
+      <Scrollable className={classes.canvas} onScroll={this.onScroll}>
         <div className={classes.content} style={bodyStyle} ref='body'>
           <Droppable
             type='body'
             placeholder
-            placeholderRender={::this.renderPlaceholder}
+            placeholderRender={this.renderPlaceholder}
             dropInfo={dropInfo}
             accepts='Section'
             minHeight='100%'
@@ -83,7 +82,7 @@ export default class Canvas extends Component {
           </Droppable>
         </div>
         {this.renderStyles()}
-      </div>
+      </Scrollable>
     );
   }
 
@@ -109,6 +108,7 @@ export default class Canvas extends Component {
     });
   }
 
+  @bind
   renderPlaceholder () {
     const {pageBuilderActions} = this.props;
     return (
@@ -167,7 +167,6 @@ export default class Canvas extends Component {
 
       if (element.tag !== 'Symbol') {
         if (options.injectChildren && options.injectChildren.id === element.id) {
-          console.log('HERE');
           children = options.injectChildren.content;
         } else if (element.children) {
           children = this.renderChildren(element.children, options);

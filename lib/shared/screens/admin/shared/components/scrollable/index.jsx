@@ -13,7 +13,8 @@ export default class Scrollable extends Component {
     className: PropTypes.string,
     lazyLoad: PropTypes.bool,
     loadMore: PropTypes.func,
-    loadMoreTrigger: PropTypes.number
+    loadMoreTrigger: PropTypes.number,
+    onScroll: PropTypes.func
   };
 
   static defaultProps = {
@@ -23,16 +24,22 @@ export default class Scrollable extends Component {
   };
 
   componentDidMount () {
-    const {lazyLoad} = this.props;
+    const {lazyLoad, onScroll} = this.props;
     if (lazyLoad) {
       this.refs.gemini.refs['scroll-view'].addEventListener('scroll', this.onScroll);
+    }
+    if (onScroll) {
+      this.refs.gemini.refs['scroll-view'].addEventListener('scroll', onScroll);
     }
   }
 
   componentWillUnmount () {
-    const {lazyLoad} = this.props;
+    const {lazyLoad, onScroll} = this.props;
     if (lazyLoad && this.refs.gemini.refs['scroll-view']) {
       this.refs.gemini.refs['scroll-view'].removeEventListener('scroll', this.onScroll);
+    }
+    if (onScroll && this.refs.gemini.refs['scroll-view']) {
+      this.refs.gemini.refs['scroll-view'].removeEventListener('scroll', onScroll);
     }
   }
 
