@@ -6,13 +6,18 @@
   border-top: 0;
   padding: 7px 20px;
   border-radius: 2px;
+  text-align: center;
+  width: 200px;
 }
 
 .button {
+  display: inline-block;
+  vertical-align: top;
   margin-left: 20px;
   color: #ffffff;
   font-size: 12px;
   text-transform: uppercase;
+  line-height: 20px;
 
   &:first-child {
     margin-left: 0;
@@ -21,4 +26,13 @@
 
 .save {
   color: @symbolColor;
+}
+
+.loading {
+  color: #ffffff;
+  font-size: 12px;
+  line-height: 20px;
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 10px;
 }
