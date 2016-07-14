@@ -36,7 +36,8 @@ export default class Element extends Component {
     startAnimation: PropTypes.func.isRequired,
     resetAnimation: PropTypes.func.isRequired,
     contentElementId: PropTypes.string,
-    focused: PropTypes.bool
+    focused: PropTypes.bool,
+    disableSelection: PropTypes.bool
   };
 
   static defaultProps = {
@@ -185,7 +186,7 @@ export default class Element extends Component {
   }
 
   render () {
-    const {editing, settings, element, positionInParent, selected} = this.props;
+    const {editing, settings, element, positionInParent, selected, disableSelection} = this.props;
     let result;
 
     if (editing && settings.drag) {
@@ -198,7 +199,7 @@ export default class Element extends Component {
         },
         onClick: this.onElementClick,
         type: element.tag,
-        disabled: (selected && settings.drag.dragSelected === false)
+        disabled: disableSelection || (selected && settings.drag.dragSelected === false)
       }, settings.drag);
 
       result = (
@@ -215,7 +216,7 @@ export default class Element extends Component {
 
   renderTag () {
     const HtmlTag = this.props.htmlTag;
-    const {style, className, editing, element} = this.props;
+    const {style, className, editing, element, disableSelection} = this.props;
 
     const calcStyle = Object.assign({}, style);
     this.processAnimationStyle(calcStyle);
@@ -226,10 +227,14 @@ export default class Element extends Component {
       className
     };
 
-    if (editing) {
+    if (editing && !disableSelection) {
       tagProps.onMouseOver = this.onMouseOver;
       tagProps.onMouseOut = this.onMouseOut;
-      tagProps.ref = (ref) => {this.ref = ref;};
+    }
+    if (editing) {
+      tagProps.ref = (ref) => {
+        this.ref = ref;
+      };
       tagProps.id = element.id;
     }
 
@@ -242,10 +247,10 @@ export default class Element extends Component {
   }
 
   renderContent () {
-    const {editing, settings, element, focused} = this.props;
+    const {editing, settings, element, focused, disableSelection} = this.props;
     let result;
 
-    if (editing && settings.drop && !settings.drop.customDropArea) {
+    if (editing && !disableSelection && settings.drop && !settings.drop.customDropArea) {
       const droppableProps = Object.assign({
         dropInfo: {
           id: element.id
@@ -282,13 +287,14 @@ export default class Element extends Component {
   }
 
   renderHighlight () {
-    const {editing, selected, overed, dragging, element, settings, contentElementId} = this.props;
-    if (editing && (selected || overed) && !dragging && this.ref) {
+    const {editing, selected, overed, dragging, element, settings, contentElementId, focused} = this.props;
+    if (editing && (focused || selected || overed) && !dragging && this.ref) {
       return (
         <Highlight
           element={element}
           settings={settings}
           selected={selected}
+          focused={focused}
           contentElementId={contentElementId}
           dom={this.ref}
         />
