@@ -1,14 +1,26 @@
+import cx from 'classnames';
 import Animate from 'components/animate';
 import Component from 'components/component';
-import React from 'react';
 import Spinner from 'components/spinner';
+import React, {PropTypes} from 'react';
 
 import styles from './index.less';
 
 export default class ContentLoading extends Component {
+  static propTypes = {
+    above: PropTypes.bool,
+    excludeHeader: PropTypes.bool
+  };
+
   render () {
+    const {above, excludeHeader} = this.props;
     return (
-      <div className={styles.root}>
+      <div className={cx(
+          styles.root,
+          above && styles.above,
+          excludeHeader && styles.excludeHeader
+        )}
+      >
         <div className={styles.center}>
           <Animate>
             <Spinner />
