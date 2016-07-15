@@ -3,6 +3,7 @@ import Content from 'components/content';
 import ContentDisplays from 'components/content-displays';
 import ContentHeader from 'components/content-header';
 import ContentHeaderActions from 'components/content-header-actions';
+import ContentLoading from 'components/content-loading';
 import ContentNew from 'components/content-new';
 import Modal from 'components/modal';
 import React, {PropTypes} from 'react';
@@ -23,20 +24,29 @@ export default class Fonts extends Component {
     display: PropTypes.oneOf(['list', 'grid']).isRequired,
     manage: PropTypes.bool.isRequired,
     openManage: PropTypes.func.isRequired,
-    closeManage: PropTypes.func.isRequired
+    closeManage: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired
   };
 
   render () {
-    const {fonts} = this.props;
+    const {fonts, loading} = this.props;
     let result;
 
     if (fonts && Object.keys(fonts).length > 0) {
       result = this.renderHasContent();
+    } else if (loading) {
+      result = this.renderLoading();
     } else {
       result = this.renderNoContent();
     }
 
     return result;
+  }
+
+  renderLoading () {
+    return (
+      <ContentLoading />
+    );
   }
 
   renderHasContent () {
