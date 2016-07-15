@@ -37,8 +37,8 @@ export default class ContentPageBuilder extends Component {
     toggleRevisions: PropTypes.func.isRequired,
     toggleInfo: PropTypes.func.isRequired,
     toggleTemplates: PropTypes.func.isRequired,
-    Info: PropTypes.object,
-    Revisions: PropTypes.object,
+    Info: PropTypes.func,
+    Revisions: PropTypes.func,
     type: PropTypes.string.isRequired,
     template: PropTypes.object
   };

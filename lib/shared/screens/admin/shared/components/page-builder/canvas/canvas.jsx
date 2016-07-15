@@ -1,15 +1,15 @@
 import bind from 'decorators/bind';
+import debounce from 'decorators/debounce';
 import displays from 'helpers/displays';
-import forEach from 'lodash.foreach';
 import getElementProps from 'helpers/get-element-props';
 import stylesManager from 'helpers/styles-manager';
 import utils from 'helpers/utils';
 import Component from 'components/component';
 import Droppable from 'components/dnd/droppable';
 import Scrollable from 'components/scrollable';
+import Styles from 'components/styles';
 import Symbol from 'elements/symbol';
 import React, {PropTypes} from 'react';
-import {Component as Jss} from 'relax-jss';
 
 import classes from './canvas.less';
 import Empty from './empty';
@@ -25,7 +25,8 @@ export default class Canvas extends Component {
     elements: PropTypes.object.isRequired,
     selectedId: PropTypes.string,
     editing: PropTypes.bool.isRequired,
-    editingSymbol: PropTypes.bool.isRequired
+    editingSymbol: PropTypes.bool.isRequired,
+    updateStylesMap: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -35,12 +36,6 @@ export default class Canvas extends Component {
   static childContextTypes = {
     dropHighlight: PropTypes.string.isRequired
   };
-
-  getInitState () {
-    this.renderElementBind = ::this.renderElement;
-    this.renderChildrenBind = ::this.renderChildren;
-    return {};
-  }
 
   getChildContext () {
     const {dragging} = this.props;
@@ -52,6 +47,11 @@ export default class Canvas extends Component {
   @bind
   onScroll () {
     window.dispatchEvent(new Event('scroll'));
+  }
+
+  @debounce(10)
+  updateStylesMap () {
+    this.props.updateStylesMap(stylesManager.stylesMap);
   }
 
   render () {
@@ -66,6 +66,7 @@ export default class Canvas extends Component {
     };
 
     const content = templateData ? this.renderTemplate() : this.renderContent();
+    this.updateStylesMap();
 
     return (
       <Scrollable className={classes.canvas} onScroll={this.onScroll}>
@@ -81,7 +82,7 @@ export default class Canvas extends Component {
             {content}
           </Droppable>
         </div>
-        {this.renderStyles()}
+        <Styles />
       </Scrollable>
     );
   }
@@ -117,23 +118,29 @@ export default class Canvas extends Component {
     );
   }
 
-  renderStyles () {
-    const styleTags = [];
-    forEach(stylesManager.stylesMap, (styleMap, key) => {
-      styleTags.push(
-        <Jss stylesheet={styleMap.stylesheet} key={key} />
-      );
-    });
-    return styleTags;
-  }
-
   renderChildren (children, options) {
     let result;
+
     if (children instanceof Array) {
       result = children.map(this.renderElement.bind(this, options));
     } else {
       result = children;
     }
+
+    return result;
+  }
+
+  @bind
+  renderChildrenSub (...params) {
+    const result = this.renderChildrenSub(...params);
+    this.updateStylesMap();
+    return result;
+  }
+
+  @bind
+  renderElementSub (...params) {
+    const result = this.renderElement(...params);
+    this.updateStylesMap();
     return result;
   }
 
@@ -186,8 +193,8 @@ export default class Canvas extends Component {
             selected,
             element,
             positionInParent,
-            renderElement: this.renderElementBind,
-            renderChildren: this.renderChildrenBind,
+            renderElement: this.renderElementSub,
+            renderChildren: this.renderChildrenSub,
             insideSymbol: options.customData && true,
             dispatch: this.context.store.dispatch
           }}
