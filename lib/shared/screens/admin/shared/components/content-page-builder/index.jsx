@@ -68,12 +68,12 @@ export default class ContentPageBuilder extends Component {
         easing: 'easeOutExpo'
       };
       if (currentBuild) {
-        velocity(this.refs.content, {top: '0px'}, config);
-        // velocity(findDOMNode(this.refs.header), {translateY: '-70px'}, config);
+        velocity.hook(this.refs.content, 'translateY', '70px');
+        velocity(this.refs.content, {translateY: '0px'}, config);
         velocity(findDOMNode(this.refs.cover), {opacity: 0}, Object.assign({}, config, {display: 'none'}));
       } else {
-        velocity(this.refs.content, {top: '70px'}, config);
-        // velocity(findDOMNode(this.refs.header), {translateY: '0px'}, config);
+        velocity.hook(this.refs.content, 'translateY', '0px');
+        velocity(this.refs.content, {translateY: '70px'}, config);
         velocity(findDOMNode(this.refs.cover), {opacity: 1}, Object.assign({}, config, {display: 'block'}));
       }
     }

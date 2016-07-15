@@ -131,30 +131,30 @@ export default class Element extends Component {
 
     if (editing) {
       if (style.position === 'fixed') {
-        if (style.top !== 'auto') {
-          if (utils.isPercentage(style.top)) {
-            const value = (1 - parseInt(style.top, 10) / 100) * 45;
-            style.top = `calc(${style.top} + ${value}px)`;
-          } else {
-            style.top = `calc(${style.top} + 45px)`;
-          }
-        }
-        if (style.bottom !== 'auto' && utils.isPercentage(style.bottom)) {
-          const value = parseInt(style.bottom, 10) / 100 * 45;
-          style.bottom = `calc(${style.bottom} - ${value}px)`;
-        }
-        if (style.right !== 'auto') {
-          if (utils.isPercentage(style.right)) {
-            const value = (1 - parseInt(style.right, 10) / 100) * 280;
-            style.right = `calc(${style.right} + ${value}px)`;
-          } else {
-            style.right = `calc(${style.right} + 280px)`;
-          }
-        }
-        if (style.left !== 'auto' && utils.isPercentage(style.left)) {
-          const value = parseInt(style.left, 10) / 100 * 280;
-          style.left = `calc(${style.left} - ${value}px)`;
-        }
+        // if (style.top !== 'auto') {
+        //   if (utils.isPercentage(style.top)) {
+        //     const value = (1 - parseInt(style.top, 10) / 100) * 45;
+        //     style.top = `calc(${style.top} + ${value}px)`;
+        //   } else {
+        //     style.top = `calc(${style.top} + 45px)`;
+        //   }
+        // }
+        // if (style.bottom !== 'auto' && utils.isPercentage(style.bottom)) {
+        //   const value = parseInt(style.bottom, 10) / 100 * 45;
+        //   style.bottom = `calc(${style.bottom} - ${value}px)`;
+        // }
+        // if (style.right !== 'auto') {
+        //   if (utils.isPercentage(style.right)) {
+        //     const value = (1 - parseInt(style.right, 10) / 100) * 280;
+        //     style.right = `calc(${style.right} + ${value}px)`;
+        //   } else {
+        //     style.right = `calc(${style.right} + 280px)`;
+        //   }
+        // }
+        // if (style.left !== 'auto' && utils.isPercentage(style.left)) {
+        //   const value = parseInt(style.left, 10) / 100 * 280;
+        //   style.left = `calc(${style.left} - ${value}px)`;
+        // }
       }
     }
   }
