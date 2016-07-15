@@ -16,7 +16,7 @@ export default class List extends Component {
     let list = [];
 
     forEach(fonts, (variants, family) => {
-      list = variants.map((fvd) => {
+      list = list.concat(variants.map((fvd) => {
         const key = (family + fvd).replace(/ /g, '_');
         return (
           <Entry
@@ -27,7 +27,7 @@ export default class List extends Component {
             display={display}
           />
         );
-      }, this);
+      }, this));
     });
 
     return (
