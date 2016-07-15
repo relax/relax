@@ -68,8 +68,17 @@ export default class Fonts extends Component {
           />
         </Content>
         {this.renderManage()}
+        {this.renderLoadingContent()}
       </div>
     );
+  }
+
+  renderLoadingContent () {
+    if (this.props.loading) {
+      return (
+        <ContentLoading above excludeHeader />
+      );
+    }
   }
 
   renderNoContent () {
