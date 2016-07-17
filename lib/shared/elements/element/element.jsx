@@ -1,6 +1,5 @@
 import bind from 'decorators/bind';
 import getElementPosition from 'helpers/get-element-position';
-import utils from 'helpers/utils';
 import velocity from 'velocity-animate';
 import Component from 'components/component';
 import Draggable from 'components/dnd/draggable';
