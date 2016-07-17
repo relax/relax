@@ -132,7 +132,7 @@ export default class Canvas extends Component {
 
   @bind
   renderChildrenSub (...params) {
-    const result = this.renderChildrenSub(...params);
+    const result = this.renderChildren(...params);
     this.updateStylesMap();
     return result;
   }
