@@ -4,6 +4,7 @@ import React, {PropTypes} from 'react';
 
 import styles from './menu.less';
 import Breadcrumbs from './breadcrumbs';
+import LinkingData from './linking-data';
 import Tabs from './tabs';
 
 export default class PageBuilderMenu extends Component {
@@ -46,7 +47,7 @@ export default class PageBuilderMenu extends Component {
     let result;
 
     if (linkingData) {
-      result = <div>Missing</div>;
+      result = <LinkingData />;
     } else if (linkingFormData) {
       result = <div>Missing</div>;
     } else {
