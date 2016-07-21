@@ -12,7 +12,9 @@ export default class Linking extends Component {
 
   render () {
     return (
-      <div></div>
+      <div>
+        linking
+      </div>
     );
   }
 }

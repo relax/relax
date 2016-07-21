@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
@@ -12,13 +13,20 @@ export default class LinkingDataListEntry extends Component {
   };
 
   static propTypes = {
-    schema: PropTypes.object.isRequired
+    schema: PropTypes.object.isRequired,
+    changeSchema: PropTypes.func.isRequired
   };
+
+  @bind
+  onClick () {
+    const {changeSchema, schema} = this.props;
+    changeSchema(schema._id);
+  }
 
   render () {
     const {schema} = this.props;
     return (
-      <div className={styles.root}>
+      <div className={styles.root} onClick={this.onClick}>
         {schema.title}
       </div>
     );
