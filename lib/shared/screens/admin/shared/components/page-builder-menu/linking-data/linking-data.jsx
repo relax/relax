@@ -13,7 +13,13 @@ import List from './list';
 export default class LinkingData extends Component {
   static fragments = mergeFragments(
     List.fragments,
-    Linking.fragments
+    Linking.fragments,
+    {
+      schema: {
+        _id: 1,
+        title: 1
+      }
+    }
   );
 
   static propTypes = {
@@ -21,7 +27,8 @@ export default class LinkingData extends Component {
     schemas: PropTypes.array,
     schema: PropTypes.object,
     toggleSection: PropTypes.func.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired
+    pageBuilderActions: PropTypes.object.isRequired,
+    changeSchema: PropTypes.func.isRequired
   };
 
   render () {
@@ -76,7 +83,7 @@ export default class LinkingData extends Component {
   }
 
   renderList () {
-    const {schemas} = this.props;
+    const {schemas, changeSchema} = this.props;
 
     return (
       <Animate
@@ -86,19 +93,21 @@ export default class LinkingData extends Component {
       >
         <List
           schemas={schemas || []}
+          changeSchema={changeSchema}
         />
       </Animate>
     );
   }
 
   renderLinking () {
+    const {schema} = this.props;
     return (
       <Animate
         transition='slideDownIn'
         duration={300}
         key='edit'
       >
-        <Linking />
+        <Linking schema={schema} />
       </Animate>
     );
   }

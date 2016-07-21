@@ -9,7 +9,8 @@ export default class LinkingDataList extends Component {
   };
 
   static propTypes = {
-    schemas: PropTypes.array.isRequired
+    schemas: PropTypes.array.isRequired,
+    changeSchema: PropTypes.func.isRequired
   };
 
   render () {
@@ -23,9 +24,12 @@ export default class LinkingDataList extends Component {
   }
 
   renderSchema (schema) {
+    const {changeSchema} = this.props;
+
     return (
       <Entry
         schema={schema}
+        changeSchema={changeSchema}
         key={schema._id}
       />
     );
