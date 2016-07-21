@@ -29,7 +29,8 @@ export default class LinkingData extends Component {
     toggleSection: PropTypes.func.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
     changeSchema: PropTypes.func.isRequired,
-    elementSchemaLinks: PropTypes.object.isRequired
+    elementSchemaLinks: PropTypes.object.isRequired,
+    linkingDataElementId: PropTypes.string.isRequired
   };
 
   render () {
@@ -101,7 +102,12 @@ export default class LinkingData extends Component {
   }
 
   renderLinking () {
-    const {schema, elementSchemaLinks, pageBuilderActions} = this.props;
+    const {
+      schema,
+      elementSchemaLinks,
+      pageBuilderActions,
+      linkingDataElementId
+    } = this.props;
 
     return (
       <Animate
@@ -113,6 +119,7 @@ export default class LinkingData extends Component {
           schema={schema}
           elementSchemaLinks={elementSchemaLinks}
           pageBuilderActions={pageBuilderActions}
+          linkingDataElementId={linkingDataElementId}
         />
       </Animate>
     );
