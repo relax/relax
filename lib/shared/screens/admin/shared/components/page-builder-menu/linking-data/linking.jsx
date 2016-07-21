@@ -15,7 +15,8 @@ export default class Linking extends Component {
   static propTypes = {
     schema: PropTypes.object,
     elementSchemaLinks: PropTypes.object.isRequired,
-    pageBuilderActions: PropTypes.object
+    pageBuilderActions: PropTypes.object,
+    linkingDataElementId: PropTypes.string.isRequired
   };
 
   render () {
@@ -35,7 +36,8 @@ export default class Linking extends Component {
   renderProperty (prefix, property) {
     const {
       elementSchemaLinks,
-      pageBuilderActions
+      pageBuilderActions,
+      linkingDataElementId
     } = this.props;
 
     return (
@@ -45,6 +47,7 @@ export default class Linking extends Component {
         prefix={prefix}
         links={elementSchemaLinks[prefix + property.id] || []}
         pageBuilderActions={pageBuilderActions}
+        linkingDataElementId={linkingDataElementId}
       />
     );
   }

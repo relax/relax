@@ -12,7 +12,8 @@ export default class LinkingDataProperty extends Component {
     property: PropTypes.object.isRequired,
     links: PropTypes.array.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
-    prefix: PropTypes.string.isRequired
+    prefix: PropTypes.string.isRequired,
+    linkingDataElementId: PropTypes.string.isRequired
   };
 
   getInitState () {
@@ -40,6 +41,14 @@ export default class LinkingDataProperty extends Component {
 
   @bind
   onMouseUp () {
+    const {pageBuilderActions, prefix, property, linkingDataElementId} = this.props;
+
+    pageBuilderActions.elementAddSchemaLink({
+      elementId: linkingDataElementId,
+      property,
+      prefix
+    });
+
     this.setState({
       linking: false
     });
@@ -82,7 +91,7 @@ export default class LinkingDataProperty extends Component {
   }
 
   renderLink (link, key) {
-    const {prefix, property, pageBuilderActions} = this.props;
+    const {prefix, property, pageBuilderActions, linkingDataElementId} = this.props;
     return (
       <PropertyLink
         key={link.id}
@@ -91,6 +100,7 @@ export default class LinkingDataProperty extends Component {
         link={link}
         property={property}
         pageBuilderActions={pageBuilderActions}
+        linkingDataElementId={linkingDataElementId}
       />
     );
   }
