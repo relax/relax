@@ -43,18 +43,23 @@ export default class PropertyLink extends Component {
 
   @bind
   onActionChange (value) {
-    // const {pageBuilder, pageBuilderActions, property, linkIndex, prefix} = this.props;
-    // const {linkingDataElementId} = pageBuilder;
-    // const {elementChangeSchemaLinkAction} = pageBuilderActions;
-    // elementChangeSchemaLinkAction(linkingDataElementId, prefix + property.id, this.props.linkIndex, value);
+    const {pageBuilderActions, linkingDataElementId, prefix, property, linkIndex} = this.props;
+    pageBuilderActions.elementChangeSchemaLinkAction(
+      linkingDataElementId,
+      prefix + property.id,
+      linkIndex,
+      value
+    );
   }
 
   @bind
   onRemove () {
-    // const {pageBuilder, pageBuilderActions, property, linkIndex, prefix} = this.props;
-    // const {linkingDataElementId} = pageBuilder;
-    // const {elementRemoveSchemaLink} = pageBuilderActions;
-    // elementRemoveSchemaLink(linkingDataElementId, prefix + property.id, this.props.linkIndex);
+    const {pageBuilderActions, linkingDataElementId, prefix, property, linkIndex} = this.props;
+    pageBuilderActions.elementRemoveSchemaLink(
+      linkingDataElementId,
+      prefix + property.id,
+      linkIndex
+    );
   }
 
   @bind
