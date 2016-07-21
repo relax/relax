@@ -15,7 +15,8 @@ export default class Button extends Component {
     full: PropTypes.bool,
     big: PropTypes.bool,
     noBackground: PropTypes.bool,
-    grey: PropTypes.bool
+    grey: PropTypes.bool,
+    small: PropTypes.bool
   };
 
   static defaultProps = {
