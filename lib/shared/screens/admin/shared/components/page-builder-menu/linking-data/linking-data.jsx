@@ -28,7 +28,8 @@ export default class LinkingData extends Component {
     schema: PropTypes.object,
     toggleSection: PropTypes.func.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
-    changeSchema: PropTypes.func.isRequired
+    changeSchema: PropTypes.func.isRequired,
+    elementSchemaLinks: PropTypes.object.isRequired
   };
 
   render () {
@@ -100,14 +101,19 @@ export default class LinkingData extends Component {
   }
 
   renderLinking () {
-    const {schema} = this.props;
+    const {schema, elementSchemaLinks, pageBuilderActions} = this.props;
+
     return (
       <Animate
         transition='slideDownIn'
         duration={300}
         key='edit'
       >
-        <Linking schema={schema} />
+        <Linking
+          schema={schema}
+          elementSchemaLinks={elementSchemaLinks}
+          pageBuilderActions={pageBuilderActions}
+        />
       </Animate>
     );
   }
