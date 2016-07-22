@@ -112,7 +112,9 @@ export default class ContentPageBuilder extends Component {
                 <div>Click to Build</div>
               </div>
             </A>
-            {this.renderSidebar()}
+            <div className={styles.contentPage}>
+              {this.renderSidebar()}
+            </div>
           </div>
         </div>
       </Animate>
