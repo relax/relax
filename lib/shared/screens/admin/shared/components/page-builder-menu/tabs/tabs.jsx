@@ -18,9 +18,24 @@ export default class Tabs extends Component {
     return (
       <div>
         <div className={styles.tabs}>
-          <TabButton tab='style' active={menuTab === 'style'} onClick={this.props.setMenuTab} />
-          <TabButton tab='settings' active={menuTab === 'settings'} onClick={this.props.setMenuTab} />
-          <TabButton tab='layers' active={menuTab === 'layers'} onClick={this.props.setMenuTab} />
+          <TabButton
+            tab='style'
+            icon='nc-icon-outline design_brush'
+            active={menuTab === 'style'}
+            onClick={this.props.setMenuTab}
+          />
+          <TabButton
+            tab='settings'
+            icon='nc-icon-outline ui-2_settings-90'
+            active={menuTab === 'settings'}
+            onClick={this.props.setMenuTab}
+          />
+          <TabButton
+            tab='layers'
+            icon='nc-icon-outline ui-2_menu-bold'
+            active={menuTab === 'layers'}
+            onClick={this.props.setMenuTab}
+          />
         </div>
         <div className={styles.content}>
           {this.renderContent()}
