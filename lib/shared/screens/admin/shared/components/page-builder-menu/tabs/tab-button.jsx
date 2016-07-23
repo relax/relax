@@ -11,7 +11,8 @@ export default class TabButton extends Component {
     tab: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
     active: PropTypes.bool.isRequired,
-    icon: PropTypes.string.isRequired
+    icon: PropTypes.string.isRequired,
+    dataLinkable: PropTypes.bool.isRequired
   };
 
   @bind
@@ -21,10 +22,17 @@ export default class TabButton extends Component {
   }
 
   render () {
-    const {active, icon, tab} = this.props;
+    const {active, icon, tab, dataLinkable} = this.props;
 
     return (
-      <Tooltip label={tab.toUpperCase()} className={cx(styles.root, active && styles.selected)}>
+      <Tooltip
+        label={tab.toUpperCase()}
+        className={cx(
+          styles.root,
+          active && styles.selected,
+          dataLinkable && styles.dataLinkable
+        )}
+      >
         <button className={styles.button} onClick={this.onClick}>
           <i className={icon} />
         </button>
