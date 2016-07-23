@@ -1,8 +1,6 @@
 import bind from 'decorators/bind';
 import getElementProps from 'helpers/get-element-props';
 import optionsStyles from 'components/options-list/index.less';
-import Animate from 'components/animate';
-import Button from 'components/button';
 import Component from 'components/component';
 import Input from 'components/input-options/input';
 import OptionsList from 'components/options-list';
@@ -88,54 +86,11 @@ export default class EditProps extends Component {
             />
           </div>
         </div>
-        {this.renderTemplateOptions()}
         <Position {...this.props} />
         {this.renderOptions(ElementClass)}
         <Animation {...this.props} />
       </div>
     );
-  }
-
-  renderTemplateOptions () {
-    const {type, elements, selectedElement, contentElementId, selectedId} = this.props;
-
-    if (type === 'template') {
-      const ElementClass = elements[selectedElement.tag];
-
-      if (ElementClass.settings.drop) {
-        let result;
-
-        if (contentElementId === selectedId) {
-          result = (
-            <Animate>
-              <div className={styles.contentArea}>
-                <i className='nc-icon-outline design_app' />
-                <span>Content area element</span>
-              </div>
-            </Animate>
-          );
-        } else {
-          result = (
-            <Button
-              full
-              grey
-              big
-              onClick={this.setContentElement}
-            >
-              <i className='nc-icon-outline design_app' />
-              <span>Make Content Area</span>
-            </Button>
-          );
-        }
-
-        return (
-          <div className={optionsStyles.option}>
-            <div className={optionsStyles.label}>Template content area</div>
-            {result}
-          </div>
-        );
-      }
-    }
   }
 
   renderOptions (ElementClass) {
