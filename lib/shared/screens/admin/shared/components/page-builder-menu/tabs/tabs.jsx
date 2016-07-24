@@ -3,6 +3,7 @@ import React, {PropTypes} from 'react';
 
 import styles from './tabs.less';
 import Layers from './layers';
+import Link from './link';
 import Settings from './settings';
 import Style from './style';
 import TabButton from './tab-button';
@@ -76,6 +77,8 @@ export default class Tabs extends Component {
       result = <Settings />;
     } else if (menuTab === 'layers') {
       result = <Layers />;
+    } else if (menuTab === 'link') {
+      result = <Link />;
     }
 
     return result;
