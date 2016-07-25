@@ -2,6 +2,8 @@ import cx from 'classnames';
 import Component from 'components/component';
 import ContentHeader from 'components/content-header';
 import ContentHeaderActions from 'components/content-header-actions';
+import ContentLoading from 'components/content-loading';
+import ContentNotFound from 'components/content-not-found';
 import EditableTitle from 'components/editable-title';
 import ModalDelete from 'components/modal-delete';
 import React, {PropTypes} from 'react';
@@ -27,10 +29,38 @@ export default class Menu extends Component {
     confirmDelete: PropTypes.func.isRequired,
     updateTitle: PropTypes.func.isRequired,
     saveMenu: PropTypes.func.isRequired,
-    state: PropTypes.string
+    state: PropTypes.string,
+    loading: PropTypes.bool.isRequired
   };
 
   render () {
+    const {loading, menu} = this.props;
+    let result;
+
+    if (loading) {
+      result = this.renderLoading();
+    } else if (!menu) {
+      result = this.renderNotFound();
+    } else {
+      result = this.renderContent();
+    }
+
+    return result;
+  }
+
+  renderLoading () {
+    return (
+      <ContentLoading />
+    );
+  }
+
+  renderNotFound () {
+    return (
+      <ContentNotFound name='menu' />
+    );
+  }
+
+  renderContent () {
     const {menu, onDelete, updateTitle} = this.props;
 
     return (
