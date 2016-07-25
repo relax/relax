@@ -1,4 +1,5 @@
 import Component from 'components/component';
+import ContentEmpty from 'components/content-empty';
 import New from 'components/new-page';
 import React, {PropTypes} from 'react';
 
@@ -26,10 +27,7 @@ export default class Pages extends Component {
 
   renderEmpty () {
     return (
-      <div className={styles.empty}>
-        <i className='nc-icon-outline media-1_touch'></i>
-        <div className={styles.emptyText}>Relax, select a page first!</div>
-      </div>
+      <ContentEmpty name='page' />
     );
   }
 
