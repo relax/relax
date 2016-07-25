@@ -1,4 +1,5 @@
 import Component from 'components/component';
+import ContentEmpty from 'components/content-empty';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';
@@ -26,10 +27,7 @@ export default class Templates extends Component {
 
   renderEmpty () {
     return (
-      <div className={styles.empty}>
-        <i className='nc-icon-outline media-1_touch'></i>
-        <div className={styles.emptyText}>Relax, select a template first!</div>
-      </div>
+      <ContentEmpty name='template' />
     );
   }
 
