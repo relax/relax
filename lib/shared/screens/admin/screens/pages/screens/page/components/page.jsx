@@ -1,4 +1,6 @@
 import Component from 'components/component';
+import ContentLoading from 'components/content-loading';
+import ContentNotFound from 'components/content-not-found';
 import ContentPageBuilder from 'components/content-page-builder';
 import React, {PropTypes} from 'react';
 
@@ -34,6 +36,33 @@ export default class Page extends Component {
   };
 
   render () {
+    const {loading, page} = this.props;
+    let result;
+
+    if (loading) {
+      result = this.renderLoading();
+    } else if (!page) {
+      result = this.renderNotFound();
+    } else {
+      result = this.renderContent();
+    }
+
+    return result;
+  }
+
+  renderLoading () {
+    return (
+      <ContentLoading />
+    );
+  }
+
+  renderNotFound () {
+    return (
+      <ContentNotFound name='page' />
+    );
+  }
+
+  renderContent () {
     const {
       loading,
       page,
