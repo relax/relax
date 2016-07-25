@@ -1,4 +1,6 @@
 import Component from 'components/component';
+import ContentLoading from 'components/content-loading';
+import ContentNotFound from 'components/content-not-found';
 import ContentPageBuilder from 'components/content-page-builder';
 import React, {PropTypes} from 'react';
 
@@ -29,6 +31,33 @@ export default class Template extends Component {
   };
 
   render () {
+    const {loading, template} = this.props;
+    let result;
+
+    if (loading) {
+      result = this.renderLoading();
+    } else if (!template) {
+      result = this.renderNotFound();
+    } else {
+      result = this.renderContent();
+    }
+
+    return result;
+  }
+
+  renderLoading () {
+    return (
+      <ContentLoading />
+    );
+  }
+
+  renderNotFound () {
+    return (
+      <ContentNotFound name='template' />
+    );
+  }
+
+  renderContent () {
     const {
       loading,
       template,

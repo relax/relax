@@ -5,7 +5,6 @@ import Animate from 'components/animate';
 import Component from 'components/component';
 import ContentHeader from 'components/content-header';
 import ContentHeaderActions from 'components/content-header-actions';
-import ContentLoading from 'components/content-loading';
 import ContentSidebar from 'components/content-sidebar';
 import EditableTitle from 'components/editable-title';
 import PageBuilder from 'components/page-builder';
@@ -80,21 +79,6 @@ export default class ContentPageBuilder extends Component {
   }
 
   render () {
-    const {loading} = this.props;
-    let result;
-
-    if (loading) {
-      result = (
-        <ContentLoading />
-      );
-    } else {
-      result = this.renderContent();
-    }
-
-    return result;
-  }
-
-  renderContent () {
     const {location, type, template} = this.props;
 
     return (
