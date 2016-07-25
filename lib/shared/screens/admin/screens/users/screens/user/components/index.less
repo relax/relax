@@ -2,7 +2,8 @@
 
 .info {
   text-align: center;
-  position: relative;
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
 
   &:before {
     content: '';
@@ -16,8 +17,9 @@
 }
 
 .content {
-  position: relative;
-  padding: 70px;
+  position: absolute;
+  top: 45%; left: 50%; right: 0; bottom: 0;
+  transform: translate(-50%, -50%);
 }
 
 .user {
