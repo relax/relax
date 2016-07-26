@@ -1,11 +1,10 @@
 import Component from 'components/component';
 import ListHeader from 'components/list-header';
 import ListSearchSort from 'components/list-search-sort';
+import ListWrapper from 'components/list-wrapper';
 import Modal from 'components/modal';
-import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
 
-import styles from './menu.less';
 import List from './list';
 import New from './new';
 
@@ -57,11 +56,25 @@ export default class TemplatesMenu extends Component {
     order: PropTypes.string.isRequired,
     search: PropTypes.string.isRequired,
     location: PropTypes.object.isRequired,
-    loadMore: PropTypes.func.isRequired
+    loadMore: PropTypes.func.isRequired,
+    loading: PropTypes.bool,
+    loadingMore: PropTypes.bool
   };
 
   render () {
-    const {templates, onBack, onNew, activeTemplateId, sort, order, location, search, loadMore} = this.props;
+    const {
+      templates,
+      onBack,
+      onNew,
+      activeTemplateId,
+      sort,
+      order,
+      location,
+      search,
+      loadMore,
+      loading,
+      loadingMore
+    } = this.props;
 
     return (
       <div>
@@ -78,9 +91,13 @@ export default class TemplatesMenu extends Component {
           order={order}
           location={location}
         />
-        <Scrollable className={styles.list} lazyLoad loadMore={loadMore}>
+        <ListWrapper
+          loading={loading}
+          loadingMore={loadingMore}
+          loadMore={loadMore}
+        >
           <List templates={templates} activeTemplateId={activeTemplateId} query={location.query} />
-        </Scrollable>
+        </ListWrapper>
         {this.renderNew()}
       </div>
     );
