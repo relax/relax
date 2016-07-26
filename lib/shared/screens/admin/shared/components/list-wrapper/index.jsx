@@ -1,0 +1,57 @@
+import Animate from 'components/animate';
+import Component from 'components/component';
+import Scrollable from 'components/scrollable';
+import Spinner from 'components/spinner';
+import React, {PropTypes} from 'react';
+
+import styles from './index.less';
+
+export default class List extends Component {
+  static propTypes = {
+    loadMore: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
+    loading: PropTypes.bool,
+    loadingMore: PropTypes.bool
+  };
+
+  render () {
+    const {loadMore} = this.props;
+
+    return (
+      <div className={styles.root}>
+        <Scrollable className={styles.scrollArea} lazyLoad loadMore={loadMore}>
+          {this.props.children}
+          {this.renderLoadingMore()}
+        </Scrollable>
+        {this.renderLoading()}
+      </div>
+    );
+  }
+
+  renderLoading () {
+    const {loading, loadingMore} = this.props;
+
+    if (loading && !loadingMore) {
+      return (
+        <Animate transition='fadeIn'>
+          <div className={styles.loading}>
+            <div className={styles.loadingSpinner}>
+              <Spinner />
+            </div>
+          </div>
+        </Animate>
+      );
+    }
+  }
+
+  renderLoadingMore () {
+    const {loadingMore} = this.props;
+    if (loadingMore) {
+      return (
+        <div className={styles.loadingMore} key='loadingMore'>
+          <Spinner small />
+        </div>
+      );
+    }
+  }
+}
