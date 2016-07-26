@@ -4,6 +4,7 @@ import ListSearchSort from 'components/list-search-sort';
 import ListWrapper from 'components/list-wrapper';
 import Modal from 'components/modal';
 import React, {PropTypes} from 'react';
+import {mergeFragments} from 'relate-js';
 
 import List from './list';
 import New from './new';
@@ -42,7 +43,16 @@ const sorts = [
 ];
 
 export default class TemplatesMenu extends Component {
-  static fragments = List.fragments;
+  static fragments = mergeFragments(
+    List.fragments,
+    {
+      templates: {
+        _id: 1,
+        title: 1,
+        updatedDate: 1
+      }
+    }
+  );
 
   static propTypes = {
     children: PropTypes.node,
