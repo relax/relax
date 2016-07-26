@@ -6,6 +6,7 @@ import ContentHeader from 'components/content-header';
 import ContentHeaderActions from 'components/content-header-actions';
 import ContentSearch from 'components/content-search';
 import ModalDelete from 'components/modal-delete';
+import Spinner from 'components/spinner';
 import Upload from 'components/upload';
 import React, {PropTypes} from 'react';
 import {mergeFragments} from 'relate-js';
@@ -42,7 +43,9 @@ export default class Media extends Component {
     deleteConfirm: PropTypes.bool.isRequired,
     cancelRemoveSelected: PropTypes.func.isRequired,
     removeSelected: PropTypes.func.isRequired,
-    loadMore: PropTypes.func.isRequired
+    loadMore: PropTypes.func.isRequired,
+    loading: PropTypes.bool,
+    loadingMore: PropTypes.bool
   };
 
   render () {
@@ -123,11 +126,46 @@ export default class Media extends Component {
           </ContentHeaderActions>
         </ContentHeader>
         <Content scrollableProps={scrollableProps}>
-          <List media={media} toggleMediaSelection={toggleMediaSelection} selected={selected} display={display} />
+          <List
+            media={media}
+            toggleMediaSelection={toggleMediaSelection}
+            selected={selected}
+            display={display}
+          />
+          {this.renderLoadingMore()}
         </Content>
+        {this.renderLoading()}
         {this.renderDeleteConfirm()}
       </Upload>
     );
+  }
+
+  renderLoadingMore () {
+    const {loadingMore} = this.props;
+
+    if (loadingMore) {
+      return (
+        <div className={styles.loadingMore}>
+          <Spinner />
+        </div>
+      );
+    }
+  }
+
+  renderLoading () {
+    const {loading, loadingMore} = this.props;
+
+    if (loading && !loadingMore) {
+      return (
+        <Animate transition='fadeIn'>
+          <div className={styles.loading}>
+            <div className={styles.loadingSpinner}>
+              <Spinner />
+            </div>
+          </div>
+        </Animate>
+      );
+    }
   }
 
   renderSearchOrSelect () {
