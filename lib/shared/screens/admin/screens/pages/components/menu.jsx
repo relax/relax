@@ -5,6 +5,7 @@ import ListWrapper from 'components/list-wrapper';
 import Modal from 'components/modal';
 import New from 'components/new-page';
 import React, {PropTypes} from 'react';
+import {mergeFragments} from 'relate-js';
 
 import List from './list';
 
@@ -42,7 +43,16 @@ const sorts = [
 ];
 
 export default class PagesMenu extends Component {
-  static fragments = List.fragments;
+  static fragments = mergeFragments(
+    List.fragments,
+    {
+      pages: { // for filters
+        _id: 1,
+        title: 1,
+        updatedDate: 1
+      }
+    }
+  );
 
   static propTypes = {
     children: PropTypes.node,
