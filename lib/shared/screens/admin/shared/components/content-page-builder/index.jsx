@@ -190,9 +190,11 @@ export default class ContentPageBuilder extends Component {
         <Revisions />
       );
     } else if (sidebar === 'templates') {
-      const {template, updateTemplate} = this.props;
+      const {template, updateTemplate, type, itemId} = this.props;
       result = (
         <Templates
+          type={type}
+          itemId={itemId}
           value={template && template._id}
           onChange={updateTemplate}
         />
