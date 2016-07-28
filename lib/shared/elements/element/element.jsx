@@ -36,7 +36,8 @@ export default class Element extends Component {
     resetAnimation: PropTypes.func.isRequired,
     contentElementId: PropTypes.string,
     focused: PropTypes.bool,
-    disableSelection: PropTypes.bool
+    disableSelection: PropTypes.bool,
+    context: PropTypes.string
   };
 
   static defaultProps = {
@@ -112,9 +113,9 @@ export default class Element extends Component {
 
   @bind
   onElementClick (event) {
-    const {selectElement, element} = this.props;
+    const {selectElement, element, context} = this.props;
     event.stopPropagation();
-    selectElement(element.id);
+    selectElement(element.id, context);
   }
 
   processAnimationStyle (style) {
@@ -125,47 +126,18 @@ export default class Element extends Component {
   }
 
   processPosition (style) {
-    const {element, display, editing} = this.props;
+    const {element, display} = this.props;
     Object.assign(style, getElementPosition(element, display));
-
-    if (editing) {
-      if (style.position === 'fixed') {
-        // if (style.top !== 'auto') {
-        //   if (utils.isPercentage(style.top)) {
-        //     const value = (1 - parseInt(style.top, 10) / 100) * 45;
-        //     style.top = `calc(${style.top} + ${value}px)`;
-        //   } else {
-        //     style.top = `calc(${style.top} + 45px)`;
-        //   }
-        // }
-        // if (style.bottom !== 'auto' && utils.isPercentage(style.bottom)) {
-        //   const value = parseInt(style.bottom, 10) / 100 * 45;
-        //   style.bottom = `calc(${style.bottom} - ${value}px)`;
-        // }
-        // if (style.right !== 'auto') {
-        //   if (utils.isPercentage(style.right)) {
-        //     const value = (1 - parseInt(style.right, 10) / 100) * 280;
-        //     style.right = `calc(${style.right} + ${value}px)`;
-        //   } else {
-        //     style.right = `calc(${style.right} + 280px)`;
-        //   }
-        // }
-        // if (style.left !== 'auto' && utils.isPercentage(style.left)) {
-        //   const value = parseInt(style.left, 10) / 100 * 280;
-        //   style.left = `calc(${style.left} - ${value}px)`;
-        // }
-      }
-    }
   }
 
   @bind
   onMouseOver (event) {
-    const {dragging, overed, selected, overElement, element} = this.props;
+    const {dragging, overed, selected, overElement, element, context} = this.props;
     if (!dragging) {
       event.stopPropagation();
       clearTimeout(this.outTimeout);
       if (!overed && !selected) {
-        overElement(element.id);
+        overElement(element.id, context);
       }
     }
   }
@@ -180,12 +152,12 @@ export default class Element extends Component {
 
   @bind
   selectOut () {
-    const {outElement, element} = this.props;
-    outElement(element.id);
+    const {outElement, element, context} = this.props;
+    outElement(element.id, context);
   }
 
   render () {
-    const {editing, settings, element, positionInParent, selected, disableSelection} = this.props;
+    const {editing, settings, element, positionInParent, selected, disableSelection, context} = this.props;
     let result;
 
     if (editing && settings.drag) {
@@ -193,6 +165,7 @@ export default class Element extends Component {
         dragInfo: {
           type: 'move',
           id: element.id,
+          context,
           parentId: element.parent,
           positionInParent
         },
@@ -246,13 +219,14 @@ export default class Element extends Component {
   }
 
   renderContent () {
-    const {editing, settings, element, focused, disableSelection} = this.props;
+    const {editing, settings, element, focused, disableSelection, context} = this.props;
     let result;
 
     if (editing && !disableSelection && settings.drop && !settings.drop.customDropArea) {
       const droppableProps = Object.assign({
         dropInfo: {
-          id: element.id
+          id: element.id,
+          context
         },
         type: element.tag,
         placeholder: true,
