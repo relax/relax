@@ -3,6 +3,11 @@ import React, {PropTypes} from 'react';
 
 import Entry from './list-entry';
 
+const page = {
+  _id: 'page',
+  title: 'Page'
+};
+
 export default class LinkingDataList extends Component {
   static fragments = {
     schemas: Entry.fragments.schema
@@ -18,6 +23,7 @@ export default class LinkingDataList extends Component {
 
     return (
       <div>
+        {this.renderSchema(page)}
         {schemas.map(this.renderSchema, this)}
       </div>
     );
