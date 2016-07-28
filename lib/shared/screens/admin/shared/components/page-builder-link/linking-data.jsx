@@ -24,6 +24,7 @@ export default class LinkingData extends Component {
   static propTypes = {
     section: PropTypes.oneOf(['list', 'linking']).isRequired,
     schemas: PropTypes.array,
+    schemaId: PropTypes.string,
     schema: PropTypes.object,
     toggleSection: PropTypes.func.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
@@ -91,7 +92,8 @@ export default class LinkingData extends Component {
       schema,
       links,
       pageBuilderActions,
-      linkingDataElementId
+      linkingDataElementId,
+      schemaId
     } = this.props;
 
     return (
@@ -102,6 +104,7 @@ export default class LinkingData extends Component {
       >
         <Linking
           schema={schema}
+          schemaId={schemaId}
           links={links}
           pageBuilderActions={pageBuilderActions}
           linkingDataElementId={linkingDataElementId}
