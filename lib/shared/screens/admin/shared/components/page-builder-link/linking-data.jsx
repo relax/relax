@@ -28,7 +28,7 @@ export default class LinkingData extends Component {
     toggleSection: PropTypes.func.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
     changeSchema: PropTypes.func.isRequired,
-    link: PropTypes.object.isRequired,
+    links: PropTypes.object.isRequired,
     linkingDataElementId: PropTypes.string.isRequired
   };
 
@@ -89,7 +89,7 @@ export default class LinkingData extends Component {
   renderLinking () {
     const {
       schema,
-      link,
+      links,
       pageBuilderActions,
       linkingDataElementId
     } = this.props;
@@ -102,7 +102,7 @@ export default class LinkingData extends Component {
       >
         <Linking
           schema={schema}
-          link={link}
+          links={links}
           pageBuilderActions={pageBuilderActions}
           linkingDataElementId={linkingDataElementId}
         />
