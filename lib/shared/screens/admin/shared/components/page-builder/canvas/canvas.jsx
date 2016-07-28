@@ -101,7 +101,8 @@ export default class Canvas extends Component {
     if (doc && doc.data && doc.data.body) {
       content = this.renderChildren(doc.data.body.children, {
         links: type !== 'template' && doc.links,
-        disableSelection: editingSymbol
+        disableSelection: editingSymbol,
+        context: 'data'
       });
     }
 
@@ -207,6 +208,7 @@ export default class Canvas extends Component {
           styleClassMap={styleClassMap || defaultStyleClassMap}
           key={elementId}
           relax={{
+            context: options.context,
             editing: typeof options.editing !== 'undefined' ? options.editing : editing,
             disableSelection: options.disableSelection,
             display,
