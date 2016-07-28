@@ -20,7 +20,9 @@ export default class TemplatesPicker extends Component {
     search: PropTypes.string,
     loadMore: PropTypes.func.isRequired,
     value: PropTypes.string,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    type: PropTypes.string,
+    itemId: PropTypes.string
   };
 
   @bind
@@ -52,13 +54,15 @@ export default class TemplatesPicker extends Component {
   }
 
   renderEntry (template) {
-    const {value, onChange} = this.props;
+    const {value, onChange, type, itemId} = this.props;
     const active = template._id === value;
     return (
       <Entry
         template={template}
         onClick={onChange}
         active={active}
+        type={type}
+        itemId={itemId}
         key={template._id}
       />
     );
