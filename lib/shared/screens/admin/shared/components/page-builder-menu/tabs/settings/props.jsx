@@ -16,7 +16,7 @@ export default class EditProps extends Component {
     pageBuilderActions: PropTypes.object.isRequired,
     display: PropTypes.string.isRequired,
     selectedElement: PropTypes.object,
-    selectedId: PropTypes.string,
+    selected: PropTypes.object,
     elements: PropTypes.object.isRequired,
     type: PropTypes.string,
     contentElementId: PropTypes.string
@@ -38,9 +38,9 @@ export default class EditProps extends Component {
 
   @bind
   changeElementProperty (key, value) {
-    const {selectedId, pageBuilderActions} = this.props;
+    const {selected, pageBuilderActions} = this.props;
     const {changeElementProperty} = pageBuilderActions;
-    changeElementProperty(selectedId, key, value);
+    changeElementProperty(selected.id, key, value, selected.context);
   }
 
   render () {
