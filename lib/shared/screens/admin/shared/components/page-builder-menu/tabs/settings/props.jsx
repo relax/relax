@@ -43,13 +43,6 @@ export default class EditProps extends Component {
     changeElementProperty(selectedId, key, value);
   }
 
-  @bind
-  setContentElement () {
-    const {selectedId, pageBuilderActions} = this.props;
-    const {setContentElement} = pageBuilderActions;
-    setContentElement(selectedId);
-  }
-
   render () {
     const {selectedElement, elements} = this.props;
     const ElementClass = elements[selectedElement.tag];
