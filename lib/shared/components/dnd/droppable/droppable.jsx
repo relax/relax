@@ -30,7 +30,7 @@ export default class Droppable extends Component {
     isActive: PropTypes.bool.isRequired,
     orientation: PropTypes.string.isRequired,
     elementsMenuSpot: PropTypes.string,
-    selectedId: PropTypes.string,
+    isSelected: PropTypes.bool,
     openElementsMenu: PropTypes.func.isRequired,
     placeholder: PropTypes.bool,
     hidePlaceholder: PropTypes.bool,
@@ -276,9 +276,9 @@ export default class Droppable extends Component {
   }
 
   renderMark (position) {
-    const {elementsMenuSpot, selectedId, orientation, dropInfo} = this.props;
+    const {elementsMenuSpot, isSelected, orientation} = this.props;
     const vertical = orientation === 'horizontal';
-    const active = elementsMenuSpot === position && selectedId === dropInfo.id;
+    const active = elementsMenuSpot === position && isSelected;
 
     return (
       <AddBallon

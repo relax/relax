@@ -14,7 +14,7 @@ export default class Entry extends Component {
     hasChildren: PropTypes.bool.isRequired,
     dragging: PropTypes.bool.isRequired,
     ElementClass: PropTypes.func.isRequired,
-    selectedId: PropTypes.string,
+    selected: PropTypes.string,
     overedId: PropTypes.string
   };
 

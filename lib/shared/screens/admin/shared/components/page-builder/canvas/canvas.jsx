@@ -2,6 +2,7 @@ import bind from 'decorators/bind';
 import debounce from 'decorators/debounce';
 import displays from 'helpers/displays';
 import getElementProps from 'helpers/get-element-props';
+import isElementSelected from 'helpers/is-element-selected';
 import stylesManager from 'helpers/styles-manager';
 import utils from 'helpers/utils';
 import Component from 'components/component';
@@ -30,7 +31,7 @@ export default class Canvas extends Component {
     doc: PropTypes.object.isRequired,
     template: PropTypes.object,
     elements: PropTypes.object.isRequired,
-    selectedId: PropTypes.string,
+    selected: PropTypes.object,
     editing: PropTypes.bool.isRequired,
     editingSymbol: PropTypes.bool.isRequired,
     updateStylesMap: PropTypes.func.isRequired,
@@ -160,7 +161,7 @@ export default class Canvas extends Component {
       display,    // current display ex: desktop
       editing,    // editing boolean
       elements,   // page builder elements
-      selectedId, // current selected element id
+      selected,   // current selected element ref
       styles      // styles
     } = this.props;
 
@@ -194,7 +195,10 @@ export default class Canvas extends Component {
 
     if ((!element.hide || !element.hide[display]) && element.display !== false) {
       const ElementClass = element.tag === 'Symbol' ? Symbol : elements[element.tag];
-      const selected = selectedId === element.id;
+      const isSelected = isElementSelected(selected, {
+        id: element.id,
+        context: options.context
+      });
 
       // element children calc
       let children;
@@ -212,7 +216,7 @@ export default class Canvas extends Component {
             editing: typeof options.editing !== 'undefined' ? options.editing : editing,
             disableSelection: options.disableSelection,
             display,
-            selected,
+            selected: isSelected,
             element,
             positionInParent,
             renderElement: this.renderElementSub,
