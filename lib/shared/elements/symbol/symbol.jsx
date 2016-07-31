@@ -34,7 +34,7 @@ export default class Symbol extends Component {
     const {relax, symbolId, symbol, editSymbol} = this.props;
 
     if (symbolId && symbol && symbol.data) {
-      editSymbol(relax.element.id, symbol.data);
+      editSymbol(relax.element.id, symbol);
     }
   }
 
