@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import utils from 'helpers/utils';
 import Component from 'components/component';
@@ -41,11 +42,13 @@ export default class Marker extends Component {
     }
   }
 
+  @bind
   onMouseEnter () {
     const {onDroppable} = this.props.dndActions;
     onDroppable(this.props.report, this.props.orientation);
   }
 
+  @bind
   onMouseLeave () {
     const {outDroppable} = this.props.dndActions;
     outDroppable(this.props.report.id);
@@ -56,9 +59,14 @@ export default class Marker extends Component {
 
     return (
       <div
-        className={cx(styles.marker, active && styles.active, styles[orientation], this.state.visible && styles.visible)}
-        onMouseEnter={::this.onMouseEnter}
-        onMouseLeave={::this.onMouseLeave}
+        className={cx(
+          styles.marker,
+          active && styles.active,
+          styles[orientation],
+          this.state.visible && styles.visible
+        )}
+        onMouseEnter={this.onMouseEnter}
+        onMouseLeave={this.onMouseLeave}
       />
     );
   }

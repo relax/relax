@@ -15,8 +15,8 @@ export default class EditProps extends Component {
   static propTypes = {
     pageBuilderActions: PropTypes.object.isRequired,
     display: PropTypes.string.isRequired,
-    selectedElement: PropTypes.object,
     selected: PropTypes.object,
+    selectedElement: PropTypes.object,
     elements: PropTypes.object.isRequired,
     type: PropTypes.string,
     contentElementId: PropTypes.string
@@ -24,16 +24,16 @@ export default class EditProps extends Component {
 
   @bind
   displayToggleElement (display) {
-    const {selectedElement} = this.props;
+    const {selected} = this.props;
     const {toggleElementVisibleOn} = this.props.pageBuilderActions;
-    toggleElementVisibleOn(selectedElement.id, display);
+    toggleElementVisibleOn(selected.id, display, selected.context);
   }
 
   @bind
   changeElementLabel (value) {
-    const {selectedElement} = this.props;
+    const {selected} = this.props;
     const {changeElementLabel} = this.props.pageBuilderActions;
-    changeElementLabel(selectedElement.id, value);
+    changeElementLabel(selected.id, value, selected.context);
   }
 
   @bind
