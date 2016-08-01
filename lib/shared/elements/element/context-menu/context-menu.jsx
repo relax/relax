@@ -20,16 +20,17 @@ export default class ContextMenu extends Component {
     makeElementDynamic: PropTypes.func.isRequired,
     duplicateElement: PropTypes.func.isRequired,
     removeElement: PropTypes.func.isRequired,
-    isContentArea: PropTypes.bool
+    isContentArea: PropTypes.bool,
+    context: PropTypes.string.isRequired
   };
 
   @bind
   saveSymbol (event) {
     event.preventDefault();
-    const {symbolTitle, makeElementSymbol, element} = this.props;
+    const {symbolTitle, makeElementSymbol, element, context} = this.props;
 
     if (this.props.symbolTitle) {
-      makeElementSymbol(element.id, symbolTitle);
+      makeElementSymbol(element.id, symbolTitle, context);
     } else {
       this.refs.titleInput.focus();
     }
@@ -38,22 +39,22 @@ export default class ContextMenu extends Component {
   @bind
   makeDynamic (event) {
     event.preventDefault();
-    const {makeElementDynamic, element} = this.props;
-    makeElementDynamic(element.id);
+    const {makeElementDynamic, element, context} = this.props;
+    makeElementDynamic(element.id, context);
   }
 
   @bind
   duplicate (event) {
     event.preventDefault();
-    const {duplicateElement, element} = this.props;
-    duplicateElement(element.id);
+    const {duplicateElement, element, context} = this.props;
+    duplicateElement(element.id, context);
   }
 
   @bind
   remove (event) {
     event.preventDefault();
-    const {removeElement, element} = this.props;
-    removeElement(element.id);
+    const {removeElement, element, context} = this.props;
+    removeElement(element.id, context);
   }
 
   isSymbol () {

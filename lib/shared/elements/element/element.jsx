@@ -260,7 +260,17 @@ export default class Element extends Component {
   }
 
   renderHighlight () {
-    const {editing, selected, overed, dragging, element, settings, contentElementId, focused} = this.props;
+    const {
+      editing,
+      selected,
+      overed,
+      dragging,
+      element,
+      settings,
+      contentElementId,
+      focused,
+      context
+    } = this.props;
     if (editing && (focused || selected || overed) && !dragging && this.ref) {
       return (
         <Highlight
@@ -269,6 +279,7 @@ export default class Element extends Component {
           selected={selected}
           focused={focused}
           contentElementId={contentElementId}
+          context={context}
           dom={this.ref}
         />
       );
