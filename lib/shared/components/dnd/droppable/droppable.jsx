@@ -180,13 +180,16 @@ export default class Droppable extends Component {
   }
 
   addSpotClick (position, dom) {
-    this.props.openElementsMenu({
-      targetId: this.props.dropInfo.id || 'body',
-      targetType: this.props.type,
+    const {dropInfo, type, accepts, rejects, openElementsMenu} = this.props;
+
+    openElementsMenu({
+      targetId: dropInfo.id || 'body',
+      targetContext: dropInfo.context || 'data',
+      targetType: type,
       targetPosition: position,
       container: dom || this.refs.spot0,
-      accepts: this.props.accepts,
-      rejects: this.props.rejects
+      accepts,
+      rejects
     });
   }
 

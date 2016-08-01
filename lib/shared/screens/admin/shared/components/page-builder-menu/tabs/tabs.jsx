@@ -16,7 +16,7 @@ export default class Tabs extends Component {
   };
 
   render () {
-    const {menuTab, dataLinkable} = this.props;
+    const {menuTab, dataLinkable, setMenuTab} = this.props;
 
     return (
       <div>
@@ -26,21 +26,21 @@ export default class Tabs extends Component {
             icon='nc-icon-outline design_brush'
             active={menuTab === 'style'}
             dataLinkable={dataLinkable}
-            onClick={this.props.setMenuTab}
+            onClick={setMenuTab}
           />
           <TabButton
             tab='settings'
             icon='nc-icon-outline ui-2_settings-90'
             active={menuTab === 'settings'}
             dataLinkable={dataLinkable}
-            onClick={this.props.setMenuTab}
+            onClick={setMenuTab}
           />
           <TabButton
             tab='layers'
             icon='nc-icon-outline ui-2_menu-bold'
             active={menuTab === 'layers'}
             dataLinkable={dataLinkable}
-            onClick={this.props.setMenuTab}
+            onClick={setMenuTab}
           />
           {this.renderLinkTab()}
         </div>
@@ -52,7 +52,7 @@ export default class Tabs extends Component {
   }
 
   renderLinkTab () {
-    const {dataLinkable, menuTab} = this.props;
+    const {dataLinkable, menuTab, setMenuTab} = this.props;
 
     if (dataLinkable) {
       return (
@@ -61,7 +61,7 @@ export default class Tabs extends Component {
           icon='nc-icon-outline ui-2_share-bold'
           active={menuTab === 'link'}
           dataLinkable={dataLinkable}
-          onClick={this.props.setMenuTab}
+          onClick={setMenuTab}
         />
       );
     }
