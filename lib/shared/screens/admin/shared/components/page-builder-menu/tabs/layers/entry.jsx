@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import isElementSelected from 'helpers/is-element-selected';
 import Component from 'components/component';
 import Draggable from 'components/dnd/draggable';
 import OptionsMenu from 'components/options-menu';
@@ -14,8 +15,9 @@ export default class Entry extends Component {
     hasChildren: PropTypes.bool.isRequired,
     dragging: PropTypes.bool.isRequired,
     ElementClass: PropTypes.func.isRequired,
-    selected: PropTypes.string,
-    overedId: PropTypes.string
+    selected: PropTypes.object,
+    overed: PropTypes.object,
+    context: PropTypes.string
   };
 
   getInitState () {
@@ -127,18 +129,18 @@ export default class Entry extends Component {
   }
 
   renderContent () {
-    const {ElementClass, selectedId, overedId, element, hasChildren} = this.props;
+    const {ElementClass, selected, overed, element, context, hasChildren} = this.props;
 
-    const selected = selectedId === element.id;
-    const overed = overedId === element.id;
+    const isSelected = isElementSelected(selected, {id: element.id, context});
+    const isOvered = isElementSelected(overed, {id: element.id, context});
     const subComponent = element.subComponent;
 
     return (
       <div
         className={cx(
           styles.entry,
-          selected && styles.selected,
-          overed && styles.overed,
+          isSelected && styles.selected,
+          isOvered && styles.overed,
           hasChildren && styles.hasChildren,
           subComponent && styles.subComponent
         )}
