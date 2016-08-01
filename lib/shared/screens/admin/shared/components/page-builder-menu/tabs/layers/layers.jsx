@@ -14,8 +14,8 @@ export default class Layers extends Component {
     expanded: PropTypes.object.isRequired,
     userExpanded: PropTypes.object.isRequired,
     dragging: PropTypes.bool.isRequired,
-    selectedId: PropTypes.string,
-    overedId: PropTypes.string
+    selected: PropTypes.object,
+    overed: PropTypes.object
   };
 
   render () {
@@ -70,8 +70,8 @@ export default class Layers extends Component {
       userExpanded,
       dragging,
       pageBuilderActions,
-      selectedId,
-      overedId
+      selected,
+      overed
     } = this.props;
     const element = data[elementId];
     const hasChildren = element.children instanceof Array && element.children.length > 0;
@@ -115,8 +115,8 @@ export default class Layers extends Component {
           hasChildren={hasChildren}
           dragging={dragging}
           ElementClass={ElementClass}
-          selectedId={selectedId}
-          overedId={overedId}
+          selected={selected}
+          overed={overed}
         />
         {underlings}
       </li>
