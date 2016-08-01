@@ -12,7 +12,6 @@ import Component from '../component';
 import Element from '../element';
 
 export default class TextBox extends Component {
-
   static propTypes = {
     usePadding: PropTypes.bool,
     padding: PropTypes.string,
@@ -53,7 +52,7 @@ export default class TextBox extends Component {
   @bind
   onChange (value) {
     const {relax} = this.props;
-    relax.dispatch(changeElementContent(relax.element.id, value));
+    relax.dispatch(changeElementContent(relax.element.id, value, relax.context));
   }
 
   render () {
