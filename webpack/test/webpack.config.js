@@ -32,16 +32,12 @@ var webpackConfig = module.exports = {
         loader: 'json'
       },
       {
-        test: /\.(png|jpg|jpeg|gif)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'url'
+        test: /\.(less|css)$/,
+        loader: 'null-loader'
       },
       {
-        test: /\.(woff|woff2|ttf|eot|svg)$/,
-        loader: 'file-loader?name=fonts/[name].[ext]'
-      },
-      {
-        test: /\.(css|less)$/,
-        loader: 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!less'
+        test: /\.(woff|woff2|ttf|eot|svg|png|jpg|jpeg|gif)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'null-loader'
       }
     ]
   }

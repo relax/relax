@@ -19,7 +19,8 @@ export default class ContentPageBuilder extends Component {
     template: {
       _id: 1,
       title: 1,
-      data: 1
+      data: 1,
+      links: 1
     }
   };
 
@@ -88,7 +89,7 @@ export default class ContentPageBuilder extends Component {
           <div className={styles.content} ref='content'>
             <PageBuilder
               type={type}
-              templateData={template && template.data}
+              template={template}
             />
             <A href={location.pathname} query={{build: 1}} className={styles.cover} ref='cover'>
               <div className={styles.coverContent}>
@@ -174,9 +175,11 @@ export default class ContentPageBuilder extends Component {
         <Revisions />
       );
     } else if (sidebar === 'templates') {
-      const {template, updateTemplate} = this.props;
+      const {template, updateTemplate, type, itemId} = this.props;
       result = (
         <Templates
+          type={type}
+          itemId={itemId}
           value={template && template._id}
           onChange={updateTemplate}
         />

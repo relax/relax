@@ -188,10 +188,12 @@ export default class ElementsMenu extends Component {
 
   @bind
   addElement (tag) {
-    const {elementsMenuOptions} = this.props;
-    this.props.pageBuilderActions.closeElementsMenu();
-    this.props.pageBuilderActions.addElementAt({tag}, {
+    const {elementsMenuOptions, pageBuilderActions} = this.props;
+
+    pageBuilderActions.closeElementsMenu();
+    pageBuilderActions.addElementAt({tag}, {
       id: elementsMenuOptions.targetId,
+      context: elementsMenuOptions.targetContext,
       position: elementsMenuOptions.targetPosition
     });
   }
@@ -207,7 +209,8 @@ export default class ElementsMenu extends Component {
       }
     }, {
       id: elementsMenuOptions.targetId,
-      position: elementsMenuOptions.targetPosition
+      position: elementsMenuOptions.targetPosition,
+      context: elementsMenuOptions.targetContext
     });
   }
 

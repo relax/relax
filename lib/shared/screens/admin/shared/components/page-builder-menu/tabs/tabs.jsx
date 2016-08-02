@@ -3,6 +3,7 @@ import React, {PropTypes} from 'react';
 
 import styles from './tabs.less';
 import Layers from './layers';
+import Link from './link';
 import Settings from './settings';
 import Style from './style';
 import TabButton from './tab-button';
@@ -10,23 +11,60 @@ import TabButton from './tab-button';
 export default class Tabs extends Component {
   static propTypes = {
     menuTab: PropTypes.string.isRequired,
-    setMenuTab: PropTypes.func.isRequired
+    setMenuTab: PropTypes.func.isRequired,
+    dataLinkable: PropTypes.bool.isRequired
   };
 
   render () {
-    const {menuTab} = this.props;
+    const {menuTab, dataLinkable, setMenuTab} = this.props;
+
     return (
       <div>
         <div className={styles.tabs}>
-          <TabButton tab='style' active={menuTab === 'style'} onClick={this.props.setMenuTab} />
-          <TabButton tab='settings' active={menuTab === 'settings'} onClick={this.props.setMenuTab} />
-          <TabButton tab='layers' active={menuTab === 'layers'} onClick={this.props.setMenuTab} />
+          <TabButton
+            tab='style'
+            icon='nc-icon-outline design_brush'
+            active={menuTab === 'style'}
+            dataLinkable={dataLinkable}
+            onClick={setMenuTab}
+          />
+          <TabButton
+            tab='settings'
+            icon='nc-icon-outline ui-2_settings-90'
+            active={menuTab === 'settings'}
+            dataLinkable={dataLinkable}
+            onClick={setMenuTab}
+          />
+          <TabButton
+            tab='layers'
+            icon='nc-icon-outline ui-2_menu-bold'
+            active={menuTab === 'layers'}
+            dataLinkable={dataLinkable}
+            onClick={setMenuTab}
+          />
+          {this.renderLinkTab()}
         </div>
         <div className={styles.content}>
           {this.renderContent()}
         </div>
       </div>
     );
+  }
+
+  renderLinkTab () {
+    const {dataLinkable, menuTab, setMenuTab} = this.props;
+
+    if (dataLinkable) {
+      return (
+        <TabButton
+          tab='link'
+          icon='nc-icon-outline ui-2_share-bold'
+          active={menuTab === 'link'}
+          dataLinkable={dataLinkable}
+          onClick={setMenuTab}
+        />
+      );
+    }
   }
 
   renderContent () {
@@ -39,6 +77,8 @@ export default class Tabs extends Component {
       result = <Settings />;
     } else if (menuTab === 'layers') {
       result = <Layers />;
+    } else if (menuTab === 'link') {
+      result = <Link />;
     }
 
     return result;

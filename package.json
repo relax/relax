@@ -119,6 +119,7 @@
     "mocha": "^2.5.3",
     "mocha-webpack": "^0.3.1",
     "nodemon": "^1.8.1",
+    "null-loader": "^0.1.1",
     "parallelshell": "^2.0.0",
     "postcss-loader": "^0.9.1",
     "react-transform-catch-errors": "^1.0.2",

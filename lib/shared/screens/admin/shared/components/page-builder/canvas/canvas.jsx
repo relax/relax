@@ -2,6 +2,7 @@ import bind from 'decorators/bind';
 import debounce from 'decorators/debounce';
 import displays from 'helpers/displays';
 import getElementProps from 'helpers/get-element-props';
+import isElementSelected from 'helpers/is-element-selected';
 import stylesManager from 'helpers/styles-manager';
 import utils from 'helpers/utils';
 import Component from 'components/component';
@@ -14,19 +15,27 @@ import React, {PropTypes} from 'react';
 import classes from './canvas.less';
 import Empty from './empty';
 
+const defaultStyleClassMap = {};
+const bodyDropInfo = {
+  id: 'body',
+  type: 'body',
+  context: 'data'
+};
+
 export default class Canvas extends Component {
   static propTypes = {
     pageBuilderActions: PropTypes.object.isRequired,
     display: PropTypes.string.isRequired,
     styles: PropTypes.array.isRequired,
     dragging: PropTypes.bool.isRequired,
-    pageData: PropTypes.object.isRequired,
-    templateData: PropTypes.object,
+    doc: PropTypes.object.isRequired,
+    template: PropTypes.object,
     elements: PropTypes.object.isRequired,
-    selectedId: PropTypes.string,
+    selected: PropTypes.object,
     editing: PropTypes.bool.isRequired,
     editingSymbol: PropTypes.bool.isRequired,
-    updateStylesMap: PropTypes.func.isRequired
+    updateStylesMap: PropTypes.func.isRequired,
+    type: PropTypes.string.isRequired
   };
 
   static contextTypes = {
@@ -55,32 +64,19 @@ export default class Canvas extends Component {
   }
 
   render () {
-    const {display, templateData} = this.props;
-    const dropInfo = {
-      id: 'body',
-      type: 'body'
-    };
+    const {display, template} = this.props;
     const bodyStyle = {
       margin: '0 auto',
       maxWidth: displays[display]
     };
 
-    const content = templateData ? this.renderTemplate() : this.renderContent();
+    const content = template ? this.renderTemplate() : this.renderContent();
     this.updateStylesMap();
 
     return (
       <Scrollable className={classes.canvas} onScroll={this.onScroll}>
         <div className={classes.content} style={bodyStyle} ref='body'>
-          <Droppable
-            type='body'
-            placeholder
-            placeholderRender={this.renderPlaceholder}
-            dropInfo={dropInfo}
-            accepts='Section'
-            minHeight='100%'
-          >
-            {content}
-          </Droppable>
+          {content}
         </div>
         <Styles />
       </Scrollable>
@@ -88,26 +84,41 @@ export default class Canvas extends Component {
   }
 
   renderTemplate () {
-    const {templateData} = this.props;
-    const content = this.renderContent();
+    const {template, type} = this.props;
 
-    return templateData.body && this.renderChildren(templateData.body.children, {
-      customData: templateData,
-      editing: false,
-      injectChildren: {
-        id: templateData.content,
-        content
-      }
-    });
+    if (template && template.data && template.data.body) {
+      return this.renderChildren(template.data.body.children, {
+        links: template.links && template.links[type],
+        customData: template,
+        editing: false
+      });
+    }
   }
 
   renderContent () {
-    const {pageData, editingSymbol} = this.props;
-    const elementsLinks = {};
-    return pageData && pageData.body && this.renderChildren(pageData.body.children, {
-      elementsLinks,
-      disableSelection: editingSymbol
-    });
+    const {doc, editingSymbol, type} = this.props;
+    let content;
+
+    if (doc && doc.data && doc.data.body) {
+      content = this.renderChildren(doc.data.body.children, {
+        links: type !== 'template' && doc.links,
+        disableSelection: editingSymbol,
+        context: 'data'
+      });
+    }
+
+    return (
+      <Droppable
+        type='body'
+        placeholder
+        placeholderRender={this.renderPlaceholder}
+        dropInfo={bodyDropInfo}
+        accepts='Section'
+        minHeight='100%'
+      >
+        {content}
+      </Droppable>
+    );
   }
 
   @bind
@@ -145,20 +156,34 @@ export default class Canvas extends Component {
   }
 
   renderElement (options, elementId, positionInParent) {
-    const {display, editing, pageData, elements, selectedId, styles} = this.props;
-    let element = options.customData && options.customData[elementId] || pageData[elementId];
+    const {
+      doc,        // current document
+      display,    // current display ex: desktop
+      editing,    // editing boolean
+      elements,   // page builder elements
+      selected,   // current selected element ref
+      styles      // styles
+    } = this.props;
 
+    let element =
+      options.customData && options.customData[elementId] ||  // from custom data in options
+      doc[options.context][elementId];                        // from current draft document with context
+
+    // get element props according to display
     const elementProps = getElementProps(element, display);
 
-    if (options.schemaEntry && options.elementsLinks && options.elementsLinks[element.id]) {
+    // linked data to components
+    const elementLinks = options.links && options.links[element.id];
+    if (elementLinks) {
       element = utils.alterSchemaElementProps(
-        options.elementsLinks[element.id],
+        elementLinks,
         element,
-        options.schemaEntry,
+        doc,
         elementProps
       );
     }
 
+    // get element styles class map
     const styleClassMap = stylesManager.processElement(
       element,
       elementProps,
@@ -169,28 +194,29 @@ export default class Canvas extends Component {
     );
 
     if ((!element.hide || !element.hide[display]) && element.display !== false) {
-      const FactoredElement = element.tag === 'Symbol' ? Symbol : elements[element.tag];
-      const selected = selectedId === element.id;
-      let children;
+      const ElementClass = element.tag === 'Symbol' ? Symbol : elements[element.tag];
+      const isSelected = isElementSelected(selected, {
+        id: element.id,
+        context: options.context
+      });
 
-      if (element.tag !== 'Symbol') {
-        if (options.injectChildren && options.injectChildren.id === element.id) {
-          children = options.injectChildren.content;
-        } else if (element.children) {
-          children = this.renderChildren(element.children, options);
-        }
+      // element children calc
+      let children;
+      if (element.tag !== 'Symbol' && element.children) {
+        children = this.renderChildren(element.children, options);
       }
 
       return (
-        <FactoredElement
+        <ElementClass
           {...elementProps}
-          styleClassMap={styleClassMap || {}}
+          styleClassMap={styleClassMap || defaultStyleClassMap}
           key={elementId}
           relax={{
+            context: options.context,
             editing: typeof options.editing !== 'undefined' ? options.editing : editing,
             disableSelection: options.disableSelection,
             display,
-            selected,
+            selected: isSelected,
             element,
             positionInParent,
             renderElement: this.renderElementSub,
@@ -200,7 +226,7 @@ export default class Canvas extends Component {
           }}
         >
           {children}
-        </FactoredElement>
+        </ElementClass>
       );
     }
   }

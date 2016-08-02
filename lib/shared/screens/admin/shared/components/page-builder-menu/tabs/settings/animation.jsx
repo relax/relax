@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import Button from 'components/button';
 import Component from 'components/component';
 import OptionsList from 'components/options-list';
@@ -6,7 +7,7 @@ import React, {PropTypes} from 'react';
 export default class AnimationTab extends Component {
   static propTypes = {
     pageBuilderActions: PropTypes.object.isRequired,
-    selectedId: PropTypes.string,
+    selected: PropTypes.object,
     selectedElement: PropTypes.object
   };
 
@@ -85,12 +86,14 @@ export default class AnimationTab extends Component {
     }
   ];
 
+  @bind
   onChange (id, value) {
-    const {selectedId} = this.props;
+    const {selected} = this.props;
     const {changeElementAnimation} = this.props.pageBuilderActions;
-    changeElementAnimation(selectedId, id, value);
+    changeElementAnimation(selected.id, id, value, selected.context);
   }
 
+  @bind
   playAnimations (event) {
     event.preventDefault();
     window.dispatchEvent(new Event('animateElements'));
@@ -100,7 +103,7 @@ export default class AnimationTab extends Component {
     return (
       <div>
         {this.renderContent()}
-        <Button onClick={::this.playAnimations} full primary>
+        <Button onClick={this.playAnimations} full primary>
           Play animations
         </Button>
       </div>
@@ -112,7 +115,7 @@ export default class AnimationTab extends Component {
     return (
       <OptionsList
         options={AnimationTab.options}
-        onChange={::this.onChange}
+        onChange={this.onChange}
         values={selectedElement.animation || {}}
       />
     );

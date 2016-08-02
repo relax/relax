@@ -7,7 +7,7 @@ import Props from './props';
 
 export default class SettingsTab extends Component {
   static propTypes = {
-    selectedId: PropTypes.string,
+    selected: PropTypes.object,
     selectedElement: PropTypes.object,
     duplicate: PropTypes.func.isRequired,
     remove: PropTypes.func.isRequired
@@ -25,10 +25,10 @@ export default class SettingsTab extends Component {
   }
 
   renderContent () {
-    const {selectedId} = this.props;
+    const {selected} = this.props;
     let result;
 
-    if (selectedId && selectedId !== 'body') {
+    if (selected && selected.id !== 'body') {
       result = <Props {...this.props} />;
     } else {
       result = this.renderNonSelected();
@@ -47,9 +47,9 @@ export default class SettingsTab extends Component {
   }
 
   renderActionButtons () {
-    const {selectedId, selectedElement, duplicate, remove} = this.props;
+    const {selected, selectedElement, duplicate, remove} = this.props;
 
-    if (selectedId && selectedId !== 'body') {
+    if (selected && selected.id !== 'body') {
       let result;
 
       if (selectedElement.subComponent) {
