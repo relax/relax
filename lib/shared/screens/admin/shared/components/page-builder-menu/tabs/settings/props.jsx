@@ -1,8 +1,6 @@
 import bind from 'decorators/bind';
 import getElementProps from 'helpers/get-element-props';
 import optionsStyles from 'components/options-list/index.less';
-import Animate from 'components/animate';
-import Button from 'components/button';
 import Component from 'components/component';
 import Input from 'components/input-options/input';
 import OptionsList from 'components/options-list';
@@ -17,8 +15,8 @@ export default class EditProps extends Component {
   static propTypes = {
     pageBuilderActions: PropTypes.object.isRequired,
     display: PropTypes.string.isRequired,
+    selected: PropTypes.object,
     selectedElement: PropTypes.object,
-    selectedId: PropTypes.string,
     elements: PropTypes.object.isRequired,
     type: PropTypes.string,
     contentElementId: PropTypes.string
@@ -26,30 +24,23 @@ export default class EditProps extends Component {
 
   @bind
   displayToggleElement (display) {
-    const {selectedElement} = this.props;
+    const {selected} = this.props;
     const {toggleElementVisibleOn} = this.props.pageBuilderActions;
-    toggleElementVisibleOn(selectedElement.id, display);
+    toggleElementVisibleOn(selected.id, display, selected.context);
   }
 
   @bind
   changeElementLabel (value) {
-    const {selectedElement} = this.props;
+    const {selected} = this.props;
     const {changeElementLabel} = this.props.pageBuilderActions;
-    changeElementLabel(selectedElement.id, value);
+    changeElementLabel(selected.id, value, selected.context);
   }
 
   @bind
   changeElementProperty (key, value) {
-    const {selectedId, pageBuilderActions} = this.props;
+    const {selected, pageBuilderActions} = this.props;
     const {changeElementProperty} = pageBuilderActions;
-    changeElementProperty(selectedId, key, value);
-  }
-
-  @bind
-  setContentElement () {
-    const {selectedId, pageBuilderActions} = this.props;
-    const {setContentElement} = pageBuilderActions;
-    setContentElement(selectedId);
+    changeElementProperty(selected.id, key, value, selected.context);
   }
 
   render () {
@@ -88,54 +79,11 @@ export default class EditProps extends Component {
             />
           </div>
         </div>
-        {this.renderTemplateOptions()}
         <Position {...this.props} />
         {this.renderOptions(ElementClass)}
         <Animation {...this.props} />
       </div>
     );
-  }
-
-  renderTemplateOptions () {
-    const {type, elements, selectedElement, contentElementId, selectedId} = this.props;
-
-    if (type === 'template') {
-      const ElementClass = elements[selectedElement.tag];
-
-      if (ElementClass.settings.drop) {
-        let result;
-
-        if (contentElementId === selectedId) {
-          result = (
-            <Animate>
-              <div className={styles.contentArea}>
-                <i className='nc-icon-outline design_app' />
-                <span>Content area element</span>
-              </div>
-            </Animate>
-          );
-        } else {
-          result = (
-            <Button
-              full
-              grey
-              big
-              onClick={this.setContentElement}
-            >
-              <i className='nc-icon-outline design_app' />
-              <span>Make Content Area</span>
-            </Button>
-          );
-        }
-
-        return (
-          <div className={optionsStyles.option}>
-            <div className={optionsStyles.label}>Template content area</div>
-            {result}
-          </div>
-        );
-      }
-    }
   }
 
   renderOptions (ElementClass) {

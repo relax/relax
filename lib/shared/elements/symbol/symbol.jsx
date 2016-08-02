@@ -34,7 +34,7 @@ export default class Symbol extends Component {
     const {relax, symbolId, symbol, editSymbol} = this.props;
 
     if (symbolId && symbol && symbol.data) {
-      editSymbol(relax.element.id, symbol.data);
+      editSymbol(relax.element.id, symbol, relax.context);
     }
   }
 
@@ -88,10 +88,11 @@ export default class Symbol extends Component {
   }
 
   renderSymbol () {
-    const {symbol, relax, editing, editData} = this.props;
+    const {symbol, relax, editing, editData, symbolId} = this.props;
     const content = relax.renderElement({
       customData: editData || symbol.data,
-      editing
+      editing,
+      context: symbolId
     }, 'base', 0);
     let result;
 

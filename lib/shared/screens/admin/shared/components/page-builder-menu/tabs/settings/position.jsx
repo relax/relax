@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import getElementPosition from 'helpers/get-element-position';
 import Component from 'components/component';
 import OptionsList from 'components/options-list';
@@ -57,7 +58,7 @@ export default class PositionSettings extends Component {
   static propTypes = {
     pageBuilderActions: PropTypes.object.isRequired,
     display: PropTypes.string.isRequired,
-    selectedId: PropTypes.string,
+    selected: PropTypes.string,
     selectedElement: PropTypes.object
   };
 
@@ -78,10 +79,11 @@ export default class PositionSettings extends Component {
     }
   ];
 
+  @bind
   onChange (id, value) {
-    const {selectedId} = this.props;
+    const {selected} = this.props;
     const {changeElementPosition} = this.props.pageBuilderActions;
-    changeElementPosition(selectedId, id, value);
+    changeElementPosition(selected.id, id, value, selected.context);
   }
 
   render () {
@@ -90,7 +92,11 @@ export default class PositionSettings extends Component {
       position: 'static'
     };
     return (
-      <OptionsList options={PositionSettings.options} onChange={::this.onChange} values={values} />
+      <OptionsList
+        options={PositionSettings.options}
+        onChange={this.onChange}
+        values={values}
+      />
     );
   }
 }

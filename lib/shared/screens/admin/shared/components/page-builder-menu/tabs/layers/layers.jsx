@@ -9,17 +9,21 @@ import Entry from './entry';
 export default class Layers extends Component {
   static propTypes = {
     pageBuilderActions: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
+    doc: PropTypes.object.isRequired,
     elements: PropTypes.object.isRequired,
     expanded: PropTypes.object.isRequired,
     userExpanded: PropTypes.object.isRequired,
     dragging: PropTypes.bool.isRequired,
-    selectedId: PropTypes.string,
-    overedId: PropTypes.string
+    selected: PropTypes.object,
+    overed: PropTypes.object
   };
 
   render () {
-    const {data, pageBuilderActions} = this.props;
+    const {doc, pageBuilderActions} = this.props;
+
+    // TODO multiple areas
+    const data = doc.data;
+
     return (
       <Scrollable>
         <div className={styles.filterDisplay}>
@@ -65,15 +69,15 @@ export default class Layers extends Component {
   renderListEntry (elementId) {
     const {
       elements,
-      data,
+      doc,
       expanded,
       userExpanded,
       dragging,
       pageBuilderActions,
-      selectedId,
-      overedId
+      selected,
+      overed
     } = this.props;
-    const element = data[elementId];
+    const element = doc.data[elementId];
     const hasChildren = element.children instanceof Array && element.children.length > 0;
     const ElementClass = elements[element.tag];
     const dropInfo = {id: element.id};
@@ -115,8 +119,8 @@ export default class Layers extends Component {
           hasChildren={hasChildren}
           dragging={dragging}
           ElementClass={ElementClass}
-          selectedId={selectedId}
-          overedId={overedId}
+          selected={selected}
+          overed={overed}
         />
         {underlings}
       </li>

@@ -1,0 +1,30 @@
+@import '~styles/colors.less';
+
+.selected {
+  position: relative;
+  padding: 0 18px;
+  border-bottom: 1px solid @chromeBordersColor;
+  cursor: pointer;
+  background-color: @chromeBackgroundActive;
+
+  :global {
+    i, span {
+      font-size: 11px;
+      line-height: 50px;
+      color: @chromeTextColor;
+      text-transform: uppercase;
+    }
+    i {
+      color: @chromeTextSubColor;
+      float: right;
+    }
+  }
+}
+
+.content {
+  position: absolute;
+  top: 51px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}

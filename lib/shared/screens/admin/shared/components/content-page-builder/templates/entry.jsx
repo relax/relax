@@ -12,14 +12,16 @@ export default class TemplatesEntry extends Component {
       _id: 1,
       title: 1,
       date: 1,
-      hasContent: 1
+      links: 1
     }
   };
 
   static propTypes = {
     template: PropTypes.object.isRequired,
     active: PropTypes.bool.isRequired,
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired,
+    type: PropTypes.string,
+    itemId: PropTypes.string
   };
 
   @bind
@@ -31,15 +33,16 @@ export default class TemplatesEntry extends Component {
   }
 
   render () {
-    const {template, active} = this.props;
+    const {template, active, type, itemId} = this.props;
     const date = moment(template.date).fromNow();
+    const isLinked = template.links && (template.links[itemId] || template.links[type]);
 
     return (
       <div
         className={cx(styles.root, active && styles.active, !template.hasContent && styles.disabled)}
         onClick={this.onClick}
       >
-        <div className={cx(styles.status, template.hasContent && styles.hasContent)} />
+        <div className={cx(styles.status, isLinked && styles.hasContent)} />
         <div className={styles.info}>
           <div className={styles.title}>{template.title}</div>
           <div className={styles.date}>{!template.hasContent ? 'No content area defined' : date}</div>

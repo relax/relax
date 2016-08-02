@@ -14,7 +14,8 @@ export default class Highlight extends Component {
     element: PropTypes.object.isRequired,
     settings: PropTypes.object.isRequired,
     dom: PropTypes.any.isRequired,
-    contentElementId: PropTypes.string
+    contentElementId: PropTypes.string,
+    context: PropTypes.string.isRequired
   };
 
   componentDidMount () {
@@ -95,11 +96,12 @@ export default class Highlight extends Component {
   }
 
   renderContext () {
-    const {element, contentElementId} = this.props;
+    const {element, contentElementId, context} = this.props;
     return (
       <ContextMenu
         element={element}
         isContentArea={element.id === contentElementId}
+        context={context}
       />
     );
   }

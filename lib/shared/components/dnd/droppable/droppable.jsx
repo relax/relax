@@ -30,7 +30,7 @@ export default class Droppable extends Component {
     isActive: PropTypes.bool.isRequired,
     orientation: PropTypes.string.isRequired,
     elementsMenuSpot: PropTypes.string,
-    selectedId: PropTypes.string,
+    isSelected: PropTypes.bool,
     openElementsMenu: PropTypes.func.isRequired,
     placeholder: PropTypes.bool,
     hidePlaceholder: PropTypes.bool,
@@ -180,13 +180,16 @@ export default class Droppable extends Component {
   }
 
   addSpotClick (position, dom) {
-    this.props.openElementsMenu({
-      targetId: this.props.dropInfo.id || 'body',
-      targetType: this.props.type,
+    const {dropInfo, type, accepts, rejects, openElementsMenu} = this.props;
+
+    openElementsMenu({
+      targetId: dropInfo.id || 'body',
+      targetContext: dropInfo.context || 'data',
+      targetType: type,
       targetPosition: position,
       container: dom || this.refs.spot0,
-      accepts: this.props.accepts,
-      rejects: this.props.rejects
+      accepts,
+      rejects
     });
   }
 
@@ -276,9 +279,9 @@ export default class Droppable extends Component {
   }
 
   renderMark (position) {
-    const {elementsMenuSpot, selectedId, orientation, dropInfo} = this.props;
+    const {elementsMenuSpot, isSelected, orientation} = this.props;
     const vertical = orientation === 'horizontal';
-    const active = elementsMenuSpot === position && selectedId === dropInfo.id;
+    const active = elementsMenuSpot === position && isSelected;
 
     return (
       <AddBallon
