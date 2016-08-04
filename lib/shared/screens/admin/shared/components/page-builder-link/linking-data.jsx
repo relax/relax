@@ -26,11 +26,14 @@ export default class LinkingData extends Component {
     schemas: PropTypes.array,
     schemaId: PropTypes.string,
     schema: PropTypes.object,
-    toggleSection: PropTypes.func.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired,
-    changeSchema: PropTypes.func.isRequired,
     links: PropTypes.object.isRequired,
-    linkingDataElementId: PropTypes.string.isRequired
+    toggleSection: PropTypes.func.isRequired,
+    changeSchema: PropTypes.func.isRequired,
+    addSchemaLink: PropTypes.func.isRequired,
+    changeLinkAction: PropTypes.func.isRequired,
+    removeLink: PropTypes.func.isRequired,
+    overLink: PropTypes.func.isRequired,
+    outLink: PropTypes.func.isRequired
   };
 
   render () {
@@ -54,11 +57,19 @@ export default class LinkingData extends Component {
   }
 
   renderSelected () {
-    const {schema, section, toggleSection} = this.props;
+    const {schema, schemaId, section, toggleSection} = this.props;
+    let label;
+
+    if (schemaId === 'page') {
+      label = 'Page';
+    } else {
+      label = schema && schema.title || 'None selected';
+    }
+
     return (
       <div className={styles.selected} onClick={toggleSection}>
         <span>
-          {schema && schema.title || 'None selected'}
+          {label}
         </span>
         <i
           className={cx(
@@ -91,9 +102,12 @@ export default class LinkingData extends Component {
     const {
       schema,
       links,
-      pageBuilderActions,
-      linkingDataElementId,
-      schemaId
+      schemaId,
+      addSchemaLink,
+      changeLinkAction,
+      removeLink,
+      overLink,
+      outLink
     } = this.props;
 
     return (
@@ -106,8 +120,11 @@ export default class LinkingData extends Component {
           schema={schema}
           schemaId={schemaId}
           links={links}
-          pageBuilderActions={pageBuilderActions}
-          linkingDataElementId={linkingDataElementId}
+          addSchemaLink={addSchemaLink}
+          changeLinkAction={changeLinkAction}
+          removeLink={removeLink}
+          overLink={overLink}
+          outLink={outLink}
         />
       </Animate>
     );
