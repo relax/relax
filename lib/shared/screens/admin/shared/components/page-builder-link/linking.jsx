@@ -1,4 +1,4 @@
-import schemaStaticProperties from 'helpers/schema-static-properties';
+import schemaStaticProperties from 'statics/schema-static-properties';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
