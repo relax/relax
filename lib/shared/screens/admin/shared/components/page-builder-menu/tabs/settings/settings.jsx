@@ -4,6 +4,7 @@ import React, {PropTypes} from 'react';
 
 import styles from './settings.less';
 import Props from './props';
+import TabEmpty from '../tab-empty';
 
 export default class SettingsTab extends Component {
   static propTypes = {
@@ -14,22 +15,11 @@ export default class SettingsTab extends Component {
   };
 
   render () {
-    return (
-      <div>
-        {this.renderActionButtons()}
-        <Scrollable autoshow className={styles.content}>
-          {this.renderContent()}
-        </Scrollable>
-      </div>
-    );
-  }
-
-  renderContent () {
     const {selected} = this.props;
     let result;
 
     if (selected && selected.id !== 'body') {
-      result = <Props {...this.props} />;
+      result = this.renderContent();
     } else {
       result = this.renderNonSelected();
     }
@@ -37,12 +27,20 @@ export default class SettingsTab extends Component {
     return result;
   }
 
+  renderContent () {
+    return (
+      <div>
+        {this.renderActionButtons()}
+        <Scrollable autoshow className={styles.content}>
+          <Props {...this.props} />
+        </Scrollable>
+      </div>
+    );
+  }
+
   renderNonSelected () {
     return (
-      <div className={styles.info}>
-        <i className='nc-icon-outline media-1_touch'></i>
-        <div className={styles.label}>Relax, you have to select an element first!</div>
-      </div>
+      <TabEmpty />
     );
   }
 
