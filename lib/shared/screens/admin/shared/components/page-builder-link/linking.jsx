@@ -18,8 +18,12 @@ export default class Linking extends Component {
     schema: PropTypes.object,
     schemaId: PropTypes.string,
     links: PropTypes.object.isRequired,
-    pageBuilderActions: PropTypes.object,
-    linkingDataElementId: PropTypes.string.isRequired
+    addSchemaLink: PropTypes.func.isRequired,
+    changeLinkAction: PropTypes.func.isRequired,
+    removeLink: PropTypes.func.isRequired,
+    overLink: PropTypes.func.isRequired,
+    outLink: PropTypes.func.isRequired,
+    context: PropTypes.string.isRequired
   };
 
   render () {
@@ -58,8 +62,12 @@ export default class Linking extends Component {
   renderProperty (prefix, property) {
     const {
       links,
-      pageBuilderActions,
-      linkingDataElementId
+      addSchemaLink,
+      changeLinkAction,
+      removeLink,
+      overLink,
+      outLink,
+      context
     } = this.props;
 
     return (
@@ -68,8 +76,12 @@ export default class Linking extends Component {
         property={property}
         prefix={prefix}
         links={links && links[prefix + property.id] || []}
-        pageBuilderActions={pageBuilderActions}
-        linkingDataElementId={linkingDataElementId}
+        addSchemaLink={addSchemaLink}
+        changeLinkAction={changeLinkAction}
+        removeLink={removeLink}
+        overLink={overLink}
+        outLink={outLink}
+        context={context}
       />
     );
   }

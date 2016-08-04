@@ -33,7 +33,8 @@ export default class LinkingData extends Component {
     changeLinkAction: PropTypes.func.isRequired,
     removeLink: PropTypes.func.isRequired,
     overLink: PropTypes.func.isRequired,
-    outLink: PropTypes.func.isRequired
+    outLink: PropTypes.func.isRequired,
+    context: PropTypes.string.isRequired
   };
 
   render () {
@@ -107,7 +108,8 @@ export default class LinkingData extends Component {
       changeLinkAction,
       removeLink,
       overLink,
-      outLink
+      outLink,
+      context
     } = this.props;
 
     return (
@@ -125,6 +127,7 @@ export default class LinkingData extends Component {
           removeLink={removeLink}
           overLink={overLink}
           outLink={outLink}
+          context={context}
         />
       </Animate>
     );

@@ -11,9 +11,13 @@ export default class LinkingDataProperty extends Component {
   static propTypes = {
     property: PropTypes.object.isRequired,
     links: PropTypes.array.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired,
     prefix: PropTypes.string.isRequired,
-    linkingDataElementId: PropTypes.string.isRequired
+    addSchemaLink: PropTypes.func.isRequired,
+    changeLinkAction: PropTypes.func.isRequired,
+    removeLink: PropTypes.func.isRequired,
+    overLink: PropTypes.func.isRequired,
+    outLink: PropTypes.func.isRequired,
+    context: PropTypes.string.isRequired
   };
 
   getInitState () {
@@ -41,10 +45,9 @@ export default class LinkingDataProperty extends Component {
 
   @bind
   onMouseUp () {
-    const {pageBuilderActions, prefix, property, linkingDataElementId} = this.props;
+    const {addSchemaLink, prefix, property} = this.props;
 
-    pageBuilderActions.elementAddSchemaLink({
-      elementId: linkingDataElementId,
+    addSchemaLink({
       property,
       prefix
     });
@@ -91,22 +94,35 @@ export default class LinkingDataProperty extends Component {
   }
 
   renderLink (link, key) {
-    const {prefix, property, pageBuilderActions, linkingDataElementId} = this.props;
+    const {
+      prefix,
+      property,
+      changeLinkAction,
+      removeLink,
+      overLink,
+      outLink,
+      context
+    } = this.props;
+
     return (
       <PropertyLink
-        key={link.id}
+        key={key}
         prefix={prefix}
         linkIndex={key}
         link={link}
         property={property}
-        pageBuilderActions={pageBuilderActions}
-        linkingDataElementId={linkingDataElementId}
+        changeLinkAction={changeLinkAction}
+        removeLink={removeLink}
+        overLink={overLink}
+        outLink={outLink}
+        context={context}
       />
     );
   }
 
   renderLinking () {
     const {linking} = this.state;
+
     if (linking) {
       return (
         <LinkLine
