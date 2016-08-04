@@ -1,6 +1,6 @@
 import bind from 'decorators/bind';
 import debounce from 'decorators/debounce';
-import displays from 'helpers/displays';
+import displays from 'statics/displays';
 import getElementProps from 'helpers/get-element-props';
 import isElementSelected from 'helpers/is-element-selected';
 import stylesManager from 'helpers/styles-manager';
