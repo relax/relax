@@ -1,4 +1,5 @@
 import bind from 'decorators/bind';
+import getElement from 'helpers/get-element';
 import getSchemaLinkActions from 'helpers/schema-link-actions';
 import Combobox from 'components/input-options/combobox';
 import Component from 'components/component';
@@ -9,8 +10,11 @@ import styles from './property-link.less';
 
 @connect(
   (state, props) => ({
-    linkingDataElement: state.pageBuilder.data[props.linkingDataElementId],
-    linkedElement: state.pageBuilder.data[props.link.elementId]
+    linkedElement: getElement({
+      state: state.pageBuilder,
+      id: props.link.elementId,
+      context: props.context
+    })
   })
 )
 export default class PropertyLink extends Component {
@@ -19,10 +23,12 @@ export default class PropertyLink extends Component {
     linkIndex: PropTypes.number.isRequired,
     link: PropTypes.object.isRequired,
     property: PropTypes.object.isRequired,
-    pageBuilderActions: PropTypes.object.isRequired,
-    linkingDataElement: PropTypes.object.isRequired,
+    context: PropTypes.string.isRequired,
     linkedElement: PropTypes.object.isRequired,
-    linkingDataElementId: PropTypes.string.isRequired
+    changeLinkAction: PropTypes.func.isRequired,
+    removeLink: PropTypes.func.isRequired,
+    overLink: PropTypes.func.isRequired,
+    outLink: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -43,35 +49,33 @@ export default class PropertyLink extends Component {
 
   @bind
   onActionChange (value) {
-    const {pageBuilderActions, linkingDataElementId, prefix, property, linkIndex} = this.props;
-    pageBuilderActions.elementChangeSchemaLinkAction(
-      linkingDataElementId,
-      prefix + property.id,
-      linkIndex,
+    const {changeLinkAction, prefix, property, linkIndex} = this.props;
+    changeLinkAction({
+      propertyId: prefix + property.id,
+      index: linkIndex,
       value
-    );
+    });
   }
 
   @bind
   onRemove () {
-    const {pageBuilderActions, linkingDataElementId, prefix, property, linkIndex} = this.props;
-    pageBuilderActions.elementRemoveSchemaLink(
-      linkingDataElementId,
-      prefix + property.id,
-      linkIndex
-    );
+    const {removeLink, prefix, property, linkIndex} = this.props;
+    removeLink({
+      propertyId: prefix + property.id,
+      index: linkIndex
+    });
   }
 
   @bind
   onMouseOver () {
-    const {pageBuilderActions, link} = this.props;
-    pageBuilderActions.overElement(link.elementId);
+    const {overLink, link} = this.props;
+    overLink(link);
   }
 
   @bind
   onMouseOut () {
-    const {pageBuilderActions, link} = this.props;
-    pageBuilderActions.outElement(link.elementId);
+    const {outLink, link} = this.props;
+    outLink(link);
   }
 
   render () {
