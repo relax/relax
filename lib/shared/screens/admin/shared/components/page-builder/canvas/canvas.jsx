@@ -3,8 +3,8 @@ import debounce from 'decorators/debounce';
 import displays from 'statics/displays';
 import getElementProps from 'helpers/get-element-props';
 import isElementSelected from 'helpers/is-element-selected';
+import setElementLinks from 'helpers/set-element-links';
 import stylesManager from 'helpers/styles-manager';
-import utils from 'helpers/utils';
 import Component from 'components/component';
 import Droppable from 'components/dnd/droppable';
 import Scrollable from 'components/scrollable';
@@ -89,7 +89,7 @@ export default class Canvas extends Component {
     if (template && template.data && template.data.body) {
       return this.renderChildren(template.data.body.children, {
         links: template.links && template.links[type],
-        customData: template,
+        customData: template.data,
         editing: false
       });
     }
@@ -129,6 +129,7 @@ export default class Canvas extends Component {
     );
   }
 
+  @bind
   renderChildren (children, options) {
     let result;
 
@@ -165,22 +166,40 @@ export default class Canvas extends Component {
       styles      // styles
     } = this.props;
 
+    console.log(options.context);
+    console.log(options.customData || doc[options.context]);
     let element =
       options.customData && options.customData[elementId] ||  // from custom data in options
       doc[options.context][elementId];                        // from current draft document with context
 
+    // variables
+    let context = options.context;
+    let editingElement = typeof options.editing !== 'undefined' ? options.editing : editing;
+    let elementDisplay = true;
+    let children;
+
     // get element props according to display
-    const elementProps = getElementProps(element, display);
+    let elementProps = getElementProps(element, display);
 
     // linked data to components
     const elementLinks = options.links && options.links[element.id];
     if (elementLinks) {
-      element = utils.alterSchemaElementProps(
-        elementLinks,
+      const result = setElementLinks({
         element,
-        doc,
-        elementProps
-      );
+        elementLinks,
+        elementProps,
+        values: doc,
+        renderChildren: this.renderChildren
+      });
+
+      // set from results
+      element = result.element;
+      elementProps = result.elementProps;
+      elementDisplay = result.display;
+      context = result.context || context;
+      children = result.children;
+
+      editingElement = true; // is it?
     }
 
     // get element styles class map
@@ -193,7 +212,7 @@ export default class Canvas extends Component {
       display
     );
 
-    if ((!element.hide || !element.hide[display]) && element.display !== false) {
+    if ((!element.hide || !element.hide[display]) && elementDisplay) {
       const ElementClass = element.tag === 'Symbol' ? Symbol : elements[element.tag];
       const isSelected = isElementSelected(selected, {
         id: element.id,
@@ -201,8 +220,7 @@ export default class Canvas extends Component {
       });
 
       // element children calc
-      let children;
-      if (element.tag !== 'Symbol' && element.children) {
+      if (!children && element.tag !== 'Symbol' && element.children) {
         children = this.renderChildren(element.children, options);
       }
 
@@ -212,8 +230,8 @@ export default class Canvas extends Component {
           styleClassMap={styleClassMap || defaultStyleClassMap}
           key={elementId}
           relax={{
-            context: options.context,
-            editing: typeof options.editing !== 'undefined' ? options.editing : editing,
+            context,
+            editing: editingElement,
             disableSelection: options.disableSelection,
             display,
             selected: isSelected,
