@@ -20,8 +20,8 @@ export default class ContextMenu extends Component {
     makeElementDynamic: PropTypes.func.isRequired,
     duplicateElement: PropTypes.func.isRequired,
     removeElement: PropTypes.func.isRequired,
-    isContentArea: PropTypes.bool,
-    context: PropTypes.string.isRequired
+    context: PropTypes.string.isRequired,
+    linkingDataMode: PropTypes.bool
   };
 
   @bind
@@ -73,14 +73,14 @@ export default class ContextMenu extends Component {
   }
 
   renderClosed () {
-    const {isContentArea} = this.props;
+    const {linkingDataMode} = this.props;
 
     return (
       <button
         className={cx(
           styles.closed,
           this.isSymbol() && styles.symbol,
-          isContentArea && styles.contentArea
+          linkingDataMode && styles.linking
         )}
         onClick={this.props.open}
       >
@@ -114,26 +114,24 @@ export default class ContextMenu extends Component {
   }
 
   renderActions () {
-    const {close, element, openAddingSymbol, isContentArea} = this.props;
+    const {close, element, openAddingSymbol, linkingDataMode} = this.props;
     const isSymbol = this.isSymbol();
     return (
       <div
         className={cx(
           styles.opened,
           isSymbol && styles.symbol,
-          isContentArea && styles.contentArea
+          linkingDataMode && styles.linking
         )}
         onMouseLeave={close}
       >
         <div className={styles.label}>{element.label || element.tag}</div>
         {
           !isSymbol &&
-          !isContentArea &&
           <div className={styles.action} onClick={openAddingSymbol}>Add to symbol library</div>
         }
         {
           !isSymbol &&
-          !isContentArea &&
           <div className={styles.action} onClick={this.makeDynamic}>Make dynamic</div>
         }
         <div className={styles.action} onClick={this.duplicate}>Duplicate</div>

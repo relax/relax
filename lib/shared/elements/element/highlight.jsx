@@ -14,8 +14,8 @@ export default class Highlight extends Component {
     element: PropTypes.object.isRequired,
     settings: PropTypes.object.isRequired,
     dom: PropTypes.any.isRequired,
-    contentElementId: PropTypes.string,
-    context: PropTypes.string.isRequired
+    context: PropTypes.string.isRequired,
+    linkingDataMode: PropTypes.bool
   };
 
   componentDidMount () {
@@ -60,7 +60,7 @@ export default class Highlight extends Component {
   }
 
   render () {
-    const {selected, element, contentElementId, focused} = this.props;
+    const {selected, element, linkingDataMode, focused} = this.props;
     const style = this.getPosition();
     return (
       <Portal>
@@ -71,7 +71,7 @@ export default class Highlight extends Component {
             focused && styles.focused,
             style.top < 60 && styles.inside,
             element.tag === 'Symbol' && styles.symbol,
-            element.id === contentElementId && styles.contentArea
+            linkingDataMode && styles.linking
           )}
           style={style}
         >
@@ -96,12 +96,12 @@ export default class Highlight extends Component {
   }
 
   renderContext () {
-    const {element, contentElementId, context} = this.props;
+    const {element, context, linkingDataMode} = this.props;
     return (
       <ContextMenu
         element={element}
-        isContentArea={element.id === contentElementId}
         context={context}
+        linkingDataMode={linkingDataMode}
       />
     );
   }
