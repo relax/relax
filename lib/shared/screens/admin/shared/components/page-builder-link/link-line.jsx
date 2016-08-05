@@ -16,7 +16,7 @@ export default class LinkLine extends Component {
 
   static defaultProps = {
     destination: 'cursor',
-    lineColor: '#12a5ff'
+    lineColor: '#D64BFF'
   };
 
   getInitState () {

@@ -91,24 +91,24 @@
   }
 }
 
-.contentArea {
-  border-color: @contentArea;
-  background-color: fade(@contentArea, 10%);
+.linking {
+  border-color: @linkColor;
+  background-color: fade(@linkColor, 10%);
 
   .identifier {
-    background-color: @contentArea;
+    background-color: @linkColor;
   }
 
   &.selected {
-    border-color: @contentArea;
+    border-color: @linkColor;
     background-color: transparent;
 
     &:before {
-      border: 2px solid fade(@contentArea, 10%);
+      border: 2px solid fade(@linkColor, 10%);
     }
 
     .identifier {
-      background-color: @contentArea;
+      background-color: @linkColor;
     }
   }
 }

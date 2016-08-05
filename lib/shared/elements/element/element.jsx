@@ -37,6 +37,7 @@ export default class Element extends Component {
     contentElementId: PropTypes.string,
     focused: PropTypes.bool,
     disableSelection: PropTypes.bool,
+    linkingDataMode: PropTypes.bool,
     context: PropTypes.string
   };
 
@@ -269,7 +270,8 @@ export default class Element extends Component {
       settings,
       contentElementId,
       focused,
-      context
+      context,
+      linkingDataMode
     } = this.props;
     if (editing && (focused || selected || overed) && !dragging && this.ref) {
       return (
@@ -280,6 +282,7 @@ export default class Element extends Component {
           focused={focused}
           contentElementId={contentElementId}
           context={context}
+          linkingDataMode={linkingDataMode}
           dom={this.ref}
         />
       );
