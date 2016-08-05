@@ -193,7 +193,7 @@ export default class Canvas extends Component {
       // set from results
       element = result.element;
       elementProps = result.elementProps;
-      elementDisplay = result.display;
+      elementDisplay = result.display !== false;
       context = result.context || context;
       children = result.children;
 
