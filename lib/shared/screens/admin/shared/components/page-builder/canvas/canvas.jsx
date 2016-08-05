@@ -186,7 +186,7 @@ export default class Canvas extends Component {
         element,
         elementLinks,
         elementProps,
-        values: doc,
+        values: options.entry || doc,
         renderChildren: this.renderChildren
       });
 

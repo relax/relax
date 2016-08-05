@@ -45,7 +45,9 @@ var webpackConfig = module.exports = {
         query: {
           cacheDirectory: true,
           presets: ['react', 'es2015', 'stage-0'],
-          plugins: ['transform-decorators-legacy',   ['react-transform', {
+          plugins: [
+            'transform-decorators-legacy',
+            ['react-transform', {
               transforms: [
                 {
                   transform: 'react-transform-hmr',
