@@ -20,7 +20,6 @@ import styles from './property-link.less';
 export default class PropertyLink extends Component {
   static propTypes = {
     prefix: PropTypes.string.isRequired,
-    linkIndex: PropTypes.number.isRequired,
     link: PropTypes.object.isRequired,
     property: PropTypes.object.isRequired,
     context: PropTypes.string.isRequired,
@@ -49,20 +48,20 @@ export default class PropertyLink extends Component {
 
   @bind
   onActionChange (value) {
-    const {changeLinkAction, link, linkIndex} = this.props;
+    const {changeLinkAction, link} = this.props;
     changeLinkAction({
       linkElementId: link.elementId,
-      index: linkIndex,
+      index: link.index,
       value
     });
   }
 
   @bind
   onRemove () {
-    const {removeLink, link, linkIndex} = this.props;
+    const {removeLink, link} = this.props;
     removeLink({
       linkElementId: link.elementId,
-      index: linkIndex
+      index: link.index
     });
   }
 

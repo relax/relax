@@ -108,7 +108,6 @@ export default class LinkingDataProperty extends Component {
       <PropertyLink
         key={key}
         prefix={prefix}
-        linkIndex={key}
         link={link}
         property={property}
         changeLinkAction={changeLinkAction}
