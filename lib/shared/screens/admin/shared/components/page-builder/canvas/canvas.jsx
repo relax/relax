@@ -166,8 +166,6 @@ export default class Canvas extends Component {
       styles      // styles
     } = this.props;
 
-    console.log(options.context);
-    console.log(options.customData || doc[options.context]);
     let element =
       options.customData && options.customData[elementId] ||  // from custom data in options
       doc[options.context][elementId];                        // from current draft document with context
