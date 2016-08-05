@@ -16,14 +16,8 @@ export default class DynamicList extends Component {
     verticalGutter: PropTypes.string,
     horizontalGutter: PropTypes.string,
     elementsLinks: PropTypes.object,
-    linkingData: PropTypes.bool,
-    linkingDataElementId: PropTypes.string
+    isLinkingData: PropTypes.bool
   };
-
-  isLinkingData () {
-    const {relax, linkingData, linkingDataElementId} = this.props;
-    return linkingData && linkingDataElementId === relax.element.id;
-  }
 
   render () {
     return (
@@ -70,12 +64,12 @@ export default class DynamicList extends Component {
   }
 
   renderRow (items, isLast, key) {
-    const {verticalGutter} = this.props;
+    const {verticalGutter, isLinkingData} = this.props;
 
     return (
       <Row
         isLast={isLast}
-        isLinkingData={this.isLinkingData()}
+        isLinkingData={isLinkingData}
         verticalGutter={verticalGutter}
         key={key}
       >
@@ -85,7 +79,7 @@ export default class DynamicList extends Component {
   }
 
   renderItem (key, isFirst, isLast, dummy = false) {
-    const {children, entries, relax, elementsLinks, columns, horizontalGutter} = this.props;
+    const {children, entries, relax, elementsLinks, columns, horizontalGutter, isLinkingData} = this.props;
 
     return (
       <Entry
@@ -94,13 +88,14 @@ export default class DynamicList extends Component {
         isLast={isLast}
         dummy={dummy}
         columns={columns}
-        isLinkingData={this.isLinkingData()}
+        isLinkingData={isLinkingData}
         editing={relax.editing}
         horizontalGutter={horizontalGutter}
         element={relax.element}
         elementsLinks={elementsLinks}
         schemaEntry={entries[key]}
         renderChildren={relax.renderChildren}
+        context={relax.context}
       >
         {children}
       </Entry>
