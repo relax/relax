@@ -17,7 +17,7 @@ export default class PageBuilder extends Component {
     dragging: PropTypes.bool.isRequired,
     elementsMenuOpened: PropTypes.bool.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
-    templateData: PropTypes.object,
+    template: PropTypes.object,
     loading: PropTypes.bool.isRequired
   };
 
@@ -47,11 +47,14 @@ export default class PageBuilder extends Component {
   }
 
   renderContent () {
-    const {templateData} = this.props;
+    const {template, type} = this.props;
     return (
       <div className={cx(styles.root)}>
         <Jss stylesheet={stylesheet} />
-        <Canvas templateData={templateData} />
+        <Canvas
+          template={template}
+          type={type}
+        />
         {this.renderElementsMenu()}
         {this.renderDragger()}
       </div>

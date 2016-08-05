@@ -24,28 +24,33 @@ export default class TemplatesEntry extends Component {
     itemId: PropTypes.string
   };
 
+  isLinked () {
+    const {itemId, type, template} = this.props;
+    return template.links && (template.links[itemId] || template.links[type]);
+  }
+
   @bind
   onClick () {
     const {onClick, template} = this.props;
-    if (template.hasContent) {
+    if (this.isLinked()) {
       onClick(template._id);
     }
   }
 
   render () {
-    const {template, active, type, itemId} = this.props;
+    const {template, active} = this.props;
     const date = moment(template.date).fromNow();
-    const isLinked = template.links && (template.links[itemId] || template.links[type]);
+    const isLinked = this.isLinked();
 
     return (
       <div
-        className={cx(styles.root, active && styles.active, !template.hasContent && styles.disabled)}
+        className={cx(styles.root, active && styles.active, !isLinked && styles.disabled)}
         onClick={this.onClick}
       >
-        <div className={cx(styles.status, isLinked && styles.hasContent)} />
+        <div className={cx(styles.status, isLinked && styles.isLinked)} />
         <div className={styles.info}>
           <div className={styles.title}>{template.title}</div>
-          <div className={styles.date}>{!template.hasContent ? 'No content area defined' : date}</div>
+          <div className={styles.date}>{!isLinked ? 'No linked data' : date}</div>
         </div>
       </div>
     );
