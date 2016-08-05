@@ -33,7 +33,7 @@ export default class PropertyLink extends Component {
 
   static contextTypes = {
     store: PropTypes.object.isRequired
-  }
+  };
 
   getInitState () {
     const {store} = this.context;
@@ -49,9 +49,9 @@ export default class PropertyLink extends Component {
 
   @bind
   onActionChange (value) {
-    const {changeLinkAction, prefix, property, linkIndex} = this.props;
+    const {changeLinkAction, link, linkIndex} = this.props;
     changeLinkAction({
-      propertyId: prefix + property.id,
+      linkElementId: link.elementId,
       index: linkIndex,
       value
     });
@@ -59,9 +59,9 @@ export default class PropertyLink extends Component {
 
   @bind
   onRemove () {
-    const {removeLink, prefix, property, linkIndex} = this.props;
+    const {removeLink, link, linkIndex} = this.props;
     removeLink({
-      propertyId: prefix + property.id,
+      linkElementId: link.elementId,
       index: linkIndex
     });
   }
