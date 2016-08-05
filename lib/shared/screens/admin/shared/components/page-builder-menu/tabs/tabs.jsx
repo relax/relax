@@ -42,29 +42,19 @@ export default class Tabs extends Component {
             dataLinkable={dataLinkable}
             onClick={setMenuTab}
           />
-          {this.renderLinkTab()}
+          <TabButton
+            tab='link'
+            icon='nc-icon-outline ui-2_share-bold'
+            active={menuTab === 'link'}
+            dataLinkable={dataLinkable}
+            onClick={setMenuTab}
+          />
         </div>
         <div className={styles.content}>
           {this.renderContent()}
         </div>
       </div>
     );
-  }
-
-  renderLinkTab () {
-    const {dataLinkable, menuTab, setMenuTab} = this.props;
-
-    if (dataLinkable) {
-      return (
-        <TabButton
-          tab='link'
-          icon='nc-icon-outline ui-2_share-bold'
-          active={menuTab === 'link'}
-          dataLinkable={dataLinkable}
-          onClick={setMenuTab}
-        />
-      );
-    }
   }
 
   renderContent () {

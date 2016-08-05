@@ -30,7 +30,8 @@ export default class TabButton extends Component {
         className={cx(
           styles.root,
           active && styles.selected,
-          dataLinkable && styles.dataLinkable
+          dataLinkable && styles.dataLinkable,
+          styles[tab]
         )}
       >
         <button className={styles.button} onClick={this.onClick}>

@@ -9,6 +9,8 @@
   text-transform: uppercase;
   border-right: 1px solid @chromeBordersColor;
 
+  transition: width 0.5s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+
   &:last-child {
     border-right: 0;
   }
@@ -22,8 +24,14 @@
     font-size: 22px;
   }
 
+  &.link {
+    width: 0%;
+    opacity: 0;
+  }
+
   &.dataLinkable {
     width: 25%;
+    opacity: 1;
   }
 }
 
