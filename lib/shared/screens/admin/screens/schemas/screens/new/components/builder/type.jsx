@@ -23,7 +23,7 @@ export default class SchemaType extends Component {
     const {image, title, subTitle} = this.props;
     return (
       <button className={styles.option} onClick={this.onClick}>
-        <img className={styles.icon} src={image} width='64' />
+        <img className={styles.icon} src={image} width='64' role='presentation' />
         <div className={styles.title}>{title}</div>
         <div className={styles.subTitle}>{subTitle}</div>
       </button>

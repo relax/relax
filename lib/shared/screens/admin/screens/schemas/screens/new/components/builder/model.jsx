@@ -1,10 +1,10 @@
-import bind from 'decorators/bind';
 import cx from 'classnames';
 import Component from 'components/component';
 import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
 
 import styles from './model.less';
+import Progress from './progress';
 import Properties from './properties';
 
 export default class SchemaModel extends Component {
@@ -12,23 +12,18 @@ export default class SchemaModel extends Component {
     schema: PropTypes.object.isRequired,
     schemaStepBack: PropTypes.func.isRequired,
     schemaStepForward: PropTypes.func.isRequired,
-    addSchema: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired
   };
 
-  @bind
-  onDone () {
-    const {schema, addSchema} = this.props;
-    addSchema(schema);
-  }
-
   render () {
-    const {schema, schemaStepBack} = this.props;
+    const {schema, schemaStepBack, schemaStepForward, onSubmit} = this.props;
+    const {type} = schema;
+    const isSingle = type === 'single';
+
     return (
       <Scrollable>
         <div className={styles.root}>
-          <div>
-            {this.renderSchemaType(schema.type)}
-          </div>
+          <Progress schema={schema} title />
           <div className={styles.header}>...and now create the content model.</div>
           <div className={styles.subHeader}>{`What properties will ${schema.title} single contain?`}</div>
           <Properties />
@@ -36,33 +31,15 @@ export default class SchemaModel extends Component {
             <button className={styles.button} onClick={schemaStepBack}>
               Back
             </button>
-            <button className={cx(styles.button, styles.primary)} onClick={this.onDone}>
-              Done
+            <button
+              className={cx(styles.button, styles.primary)}
+              onClick={isSingle ? schemaStepForward : onSubmit}
+            >
+              {isSingle ? 'Next' : 'Create Schema'}
             </button>
           </div>
         </div>
       </Scrollable>
     );
-  }
-
-  renderSchemaType (type) {
-    const {schema} = this.props;
-    let result;
-    if (type === 'single') {
-      result = (
-        <div className={styles.option}>
-          <i className={'nc-icon-outline design_webpage'} />
-          <div className={styles.title}>{schema.title}</div>
-        </div>
-      );
-    } else if (type === 'data') {
-      result = (
-        <div className={styles.option}>
-          <i className={'nc-icon-outline files_single-copy-04'} />
-          <div className={styles.title}>{schema.title}</div>
-        </div>
-      );
-    }
-    return result;
   }
 }
