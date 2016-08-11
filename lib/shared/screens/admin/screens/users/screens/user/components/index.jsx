@@ -4,6 +4,10 @@ import moment from 'moment';
 import ColorThief from 'color-thief';
 import Component from 'components/component';
 import EditableTitle from 'components/editable-title';
+import Modal from 'components/modal';
+import ModalDelete from 'components/modal-delete';
+import ModalNew from 'components/modal-new';
+import OptionsList from 'components/options-list';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';
@@ -21,9 +25,19 @@ export default class User extends Component {
 
   static propTypes = {
     user: PropTypes.object,
+    removeConfirm: PropTypes.bool.isRequired,
+    removing: PropTypes.bool,
+    changingPassword: PropTypes.bool,
+    toggleRemove: PropTypes.func.isRequired,
+    togglePassword: PropTypes.func.isRequired,
     updateUserName: PropTypes.func.isRequired,
     updateUserUsername: PropTypes.func.isRequired,
-    updateUserEmail: PropTypes.func.isRequired
+    updateUserEmail: PropTypes.func.isRequired,
+    removeUser: PropTypes.func.isRequired,
+    password: PropTypes.string,
+    passwordConfirm: PropTypes.string,
+    changePasswordValue: PropTypes.func.isRequired,
+    updateUserPassword: PropTypes.func.isRequired
   };
 
   getInitState () {
@@ -61,7 +75,14 @@ export default class User extends Component {
   }
 
   renderContent () {
-    const {user, updateUserName, updateUserUsername, updateUserEmail} = this.props;
+    const {
+      user,
+      toggleRemove,
+      togglePassword,
+      updateUserName,
+      updateUserUsername,
+      updateUserEmail
+    } = this.props;
     const {color} = this.state;
     const url = getGravatarImage(user.email, 250);
     const date = moment(user.date).format('MMM YYYY');
@@ -96,9 +117,82 @@ export default class User extends Component {
             />
           </div>
           <div className={styles.date}>{`Member since: ${date}`}</div>
-          <button className={styles.remove}>Remove User</button>
+          <div className={styles.actions}>
+            <button
+              className={styles.actionButton}
+              onClick={togglePassword}
+            >
+              Change Password
+            </button>
+            <button
+              className={styles.actionButton}
+              onClick={toggleRemove}
+            >
+              Remove User
+            </button>
+          </div>
         </div>
+        {this.renderRemoving()}
+        {this.renderChangingPassword()}
       </div>
     );
+  }
+
+  renderRemoving () {
+    const {removeConfirm, removing, toggleRemove, removeUser} = this.props;
+
+    if (removeConfirm) {
+      return (
+        <ModalDelete
+          cancel={toggleRemove}
+          submit={removeUser}
+          loading={removing}
+        />
+      );
+    }
+  }
+
+  renderChangingPassword () {
+    const {changingPassword} = this.props;
+
+    if (changingPassword) {
+      const {
+        password,
+        passwordConfirm,
+        changePasswordValue,
+        togglePassword,
+        updateUserPassword
+      } = this.props;
+
+      return (
+        <Modal title='Changing user password' small onClose={togglePassword}>
+          <ModalNew submitLabel='submit' submit={updateUserPassword}>
+            <OptionsList
+              white
+              options={[
+                {
+                  type: 'String',
+                  label: 'Password',
+                  id: 'password',
+                  props: {
+                    password: true
+                  }
+                },
+                {
+                  type: 'String',
+                  label: 'Confirm Password',
+                  id: 'passwordConfirm',
+                  props: {
+                    password: true
+                  }
+                }
+              ]}
+              values={{password, passwordConfirm}}
+              onChange={changePasswordValue}
+            />
+          </ModalNew>
+        </Modal>
+      );
+    }
   }
 }
