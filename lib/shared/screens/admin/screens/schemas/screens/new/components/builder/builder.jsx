@@ -3,12 +3,14 @@ import React, {PropTypes} from 'react';
 
 import Model from './model';
 import Name from './name';
+import Template from './template';
 import Types from './types';
 
 const steps = [
   Types,
   Name,
-  Model
+  Model,
+  Template
 ];
 
 export default class SchemaBuilder extends Component {

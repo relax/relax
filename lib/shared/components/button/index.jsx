@@ -15,15 +15,18 @@ export default class Button extends Component {
     full: PropTypes.bool,
     big: PropTypes.bool,
     noBackground: PropTypes.bool,
+    bordered: PropTypes.bool,
     grey: PropTypes.bool,
-    small: PropTypes.bool
+    small: PropTypes.bool,
+    thin: PropTypes.bool
   };
 
   static defaultProps = {
     primary: true,
     full: false,
     big: false,
-    noBackground: false
+    noBackground: false,
+    bordered: false
   };
 
   render () {
