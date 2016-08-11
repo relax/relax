@@ -2,6 +2,7 @@
 
 .root {
   display: inline-block;
+  height: 26px;
 }
 
 .title {
@@ -37,7 +38,7 @@
     white-space: nowrap;
     overflow: hidden;
     top: 50%;
-    transform: translateY(-40%);
+    transform: translateY(-50%);
   }
 
   &:hover :global i {
@@ -59,7 +60,7 @@
   overflow: hidden;
   top: 50%;
   position: relative;
-  transform: translateY(-40%);
+  transform: translateY(-50%);
 }
 
 .confirmButton {
@@ -91,10 +92,13 @@
 }
 
 .sub {
-  .title {
+  .root {
+    height: 25px;
+  }
+
+  .titleStyle {
     font-size: 12px;
     line-height: 25px;
-    height: 25px;
     color: @adminText;
   }
   .editButton {
