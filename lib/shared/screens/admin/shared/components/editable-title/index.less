@@ -1,41 +1,48 @@
 @import '~styles/colors.less';
 
+.root {
+  display: inline-block;
+}
+
 .title {
   display: inline-block;
   vertical-align: top;
+  border: 0;
+  outline: 0;
+}
 
+.titleStyle {
   font-weight: 300;
   font-size: 18px;
   line-height: 26px;
-  height: 26px;
   color: @adminTextHighlight;
 }
 
 .editButton {
+  position: relative;
+
   :global i {
+    position: absolute;
+    left: 100%;
+    top: 0;
+
     color: @adminText;
     font-size: 16px;
     line-height: 26px;
-    margin-left: 10px;
+    height: 26px;
+    margin-left: 20px;
     opacity: 0;
     transition: all 0.1s ease-out;
+
+    white-space: nowrap;
+    overflow: hidden;
+    top: 50%;
+    transform: translateY(-40%);
   }
 
   &:hover :global i {
     opacity: 1;
   }
-}
-
-.input {
-  display: inline-block;
-  vertical-align: top;
-  border: 0;
-  outline: 0;
-  padding: 0;
-  width: 350px;
-  height: 26px;
-  margin: 0;
-  margin-right: 10px;
 }
 
 .formButton {
@@ -48,10 +55,16 @@
   margin-left: 10px;
   line-height: 26px;
   height: 26px;
+  white-space: nowrap;
+  overflow: hidden;
+  top: 50%;
+  position: relative;
+  transform: translateY(-40%);
 }
 
 .confirmButton {
   color: @primary;
+  margin-left: 25px;
 }
 
 .cancelButton {

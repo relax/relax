@@ -3,6 +3,7 @@ import getGravatarImage from 'helpers/get-gravatar-image';
 import moment from 'moment';
 import ColorThief from 'color-thief';
 import Component from 'components/component';
+import EditableTitle from 'components/editable-title';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';
@@ -19,7 +20,10 @@ export default class User extends Component {
   };
 
   static propTypes = {
-    user: PropTypes.object
+    user: PropTypes.object,
+    updateUserName: PropTypes.func.isRequired,
+    updateUserUsername: PropTypes.func.isRequired,
+    updateUserEmail: PropTypes.func.isRequired
   };
 
   getInitState () {
@@ -57,7 +61,7 @@ export default class User extends Component {
   }
 
   renderContent () {
-    const {user} = this.props;
+    const {user, updateUserName, updateUserUsername, updateUserEmail} = this.props;
     const {color} = this.state;
     const url = getGravatarImage(user.email, 250);
     const date = moment(user.date).format('MMM YYYY');
@@ -72,8 +76,24 @@ export default class User extends Component {
             <div className={styles.user}>
               <img src={url} role='presentation' onLoad={this.imageLoaded} crossOrigin='Anonymous' ref='image' />
             </div>
-            <div className={styles.name}>{user.name}</div>
-            <div className={styles.email}>{user.email}</div>
+            <EditableTitle
+              value={user.name}
+              className={styles.name}
+              textClassName={styles.nameText}
+              onSubmit={updateUserName}
+            />
+            <EditableTitle
+              value={user.username}
+              className={styles.sub}
+              textClassName={styles.subText}
+              onSubmit={updateUserUsername}
+            />
+            <EditableTitle
+              value={user.email}
+              className={styles.sub}
+              textClassName={styles.subText}
+              onSubmit={updateUserEmail}
+            />
           </div>
           <div className={styles.date}>{`Member since: ${date}`}</div>
           <button className={styles.remove}>Remove User</button>

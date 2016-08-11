@@ -10,7 +10,9 @@ export default class EditableTitle extends Component {
     value: PropTypes.string.isRequired,
     sub: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
-    big: PropTypes.bool
+    big: PropTypes.bool,
+    className: PropTypes.string,
+    textClassName: PropTypes.string
   };
 
   getInitState () {
@@ -48,9 +50,9 @@ export default class EditableTitle extends Component {
   }
 
   @bind
-  onChange (event) {
+  onChange () {
     this.setState({
-      editValue: event.target.value
+      editValue: this.refs.input.innerText
     });
   }
 
@@ -75,6 +77,13 @@ export default class EditableTitle extends Component {
       });
   }
 
+  @bind
+  keyPress (event) {
+    if (event.charCode === 13) {
+      this.onSubmit(event);
+    }
+  }
+
   render () {
     const {sub, big} = this.props;
     return (
@@ -86,25 +95,31 @@ export default class EditableTitle extends Component {
 
   renderContent () {
     const {editing} = this.state;
-    const {value} = this.props;
+    const {value, className, textClassName} = this.props;
     let result;
 
     if (!editing) {
       result = (
-        <button className={styles.editButton} onClick={this.onClick}>
-          <div className={styles.title}>{value}</div>
-          <i className='nc-icon-outline ui-1_edit-74'></i>
+        <button
+          className={cx(styles.root, styles.editButton, className)}
+          onClick={this.onClick}
+        >
+          <div className={cx(styles.title, textClassName || styles.titleStyle)}>{value}</div>
+          <i className='nc-icon-outline ui-1_edit-74' />
         </button>
       );
     } else {
       result = (
-        <form onSubmit={this.onSubmit}>
-          <input
-            value={this.state.editValue}
-            onChange={this.onChange}
-            type='text'
-            placeholder={value}
-            className={cx(styles.title, styles.input)}
+        <form
+          onSubmit={this.onSubmit}
+          className={cx(styles.root, className)}
+        >
+          <div
+            onInput={this.onChange}
+            className={cx(styles.title, textClassName || styles.titleStyle)}
+            contentEditable
+            dangerouslySetInnerHTML={{__html: this.state.editValue}}
+            onKeyPress={this.keyPress}
             ref='input'
           />
           <button className={cx(styles.formButton, styles.confirmButton)}>Ok</button>
