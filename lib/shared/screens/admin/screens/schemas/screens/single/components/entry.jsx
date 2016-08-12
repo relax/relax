@@ -18,14 +18,15 @@ export default class SchemaEntry extends Component {
 
   static propTypes = {
     schemaEntry: PropTypes.object.isRequired,
+    schemaId: PropTypes.string.isRequired,
     active: PropTypes.bool.isRequired,
     query: PropTypes.object.isRequired
   };
 
   render () {
-    const {schemaEntry, active, query} = this.props;
+    const {schemaId, schemaEntry, active, query} = this.props;
     const date = moment(schemaEntry.date).fromNow();
-    const editLink = '/admin/schemas/entry/' + schemaEntry._id; // TODO fix
+    const editLink = `/admin/schemas/single/${schemaId}/${schemaEntry._id}`;
 
     return (
       <Link to={editLink} query={query} className={cx(styles.root, active && styles.active)}>

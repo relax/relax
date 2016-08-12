@@ -8,6 +8,26 @@ import styles from './index.less';
 import Item from './item';
 
 export default class PageInfo extends Component {
+  static fragments = {
+    item: {
+      _id: 1,
+      title: 1,
+      state: 1,
+      date: 1,
+      updatedDate: 1,
+      createdBy: {
+        _id: 1,
+        email: 1,
+        name: 1
+      },
+      updatedBy: {
+        _id: 1,
+        email: 1,
+        name: 1
+      }
+    }
+  };
+
   static propTypes = {
     item: PropTypes.object,
     removeConfirm: PropTypes.bool.isRequired,

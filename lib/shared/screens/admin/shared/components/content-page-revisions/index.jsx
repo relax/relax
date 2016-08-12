@@ -7,7 +7,16 @@ import Revision from './revision';
 
 export default class Revisions extends Component {
   static fragments = {
-    revisions: Revision.fragments.revision
+    revisions: Revision.fragments.revision,
+    current: {
+      _id: 1,
+      updatedDate: 1,
+      updatedBy: {
+        _id: 1,
+        name: 1,
+        email: 1
+      }
+    }
   };
 
   static propTypes = {

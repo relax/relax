@@ -11,7 +11,8 @@ export default class SchemaEntriesList extends Component {
   static propTypes = {
     schemaList: PropTypes.array.isRequired,
     activeSchemaEntryId: PropTypes.string,
-    query: PropTypes.object.isRequired
+    query: PropTypes.object.isRequired,
+    schemaId: PropTypes.string.isRequired
   };
 
   render () {
@@ -23,12 +24,13 @@ export default class SchemaEntriesList extends Component {
   }
 
   renderEntry (schemaEntry, key) {
-    const {activeSchemaEntryId, query} = this.props;
+    const {activeSchemaEntryId, query, schemaId} = this.props;
     return (
       <Entry
         schemaEntry={schemaEntry}
         key={key}
         active={activeSchemaEntryId === schemaEntry._id}
+        schemaId={schemaId}
         query={query}
       />
     );
