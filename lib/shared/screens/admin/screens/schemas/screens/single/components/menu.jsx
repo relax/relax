@@ -1,12 +1,11 @@
 import Component from 'components/component';
 import ListHeader from 'components/list-header';
 import ListSearchSort from 'components/list-search-sort';
+import ListWrapper from 'components/list-wrapper';
 import Modal from 'components/modal';
-import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
 import {mergeFragments} from 'relate-js';
 
-import styles from './menu.less';
 import List from './list';
 import New from './new';
 
@@ -47,6 +46,11 @@ export default class SchemaMenu extends Component {
   static fragments = mergeFragments(
     List.fragments,
     {
+      schemaList: { // for filters
+        _id: 1,
+        title: 1,
+        updatedDate: 1
+      },
       schema: {
         _id: 1,
         title: 1
@@ -66,7 +70,10 @@ export default class SchemaMenu extends Component {
     order: PropTypes.string.isRequired,
     search: PropTypes.string.isRequired,
     location: PropTypes.object.isRequired,
-    schemaId: PropTypes.string.isRequired
+    schemaId: PropTypes.string.isRequired,
+    loading: PropTypes.bool.isRequired,
+    loadingMore: PropTypes.bool.isRequired,
+    loadMore: PropTypes.func.isRequired
   };
 
   render () {
@@ -80,7 +87,10 @@ export default class SchemaMenu extends Component {
       order,
       location,
       search,
-      schemaId
+      schemaId,
+      loading,
+      loadingMore,
+      loadMore
     } = this.props;
 
     return (
@@ -98,14 +108,18 @@ export default class SchemaMenu extends Component {
           order={order}
           location={location}
         />
-        <Scrollable className={styles.list}>
+        <ListWrapper
+          loading={loading}
+          loadingMore={loadingMore}
+          loadMore={loadMore}
+        >
           <List
             schemaList={schemaList}
             activeSchemaEntryId={activeSchemaEntryId}
             query={location.query}
             schemaId={schemaId}
           />
-        </Scrollable>
+        </ListWrapper>
         {this.renderNew()}
       </div>
     );
