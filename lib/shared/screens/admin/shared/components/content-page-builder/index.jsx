@@ -80,7 +80,7 @@ export default class ContentPageBuilder extends Component {
   }
 
   render () {
-    const {location, type, template} = this.props;
+    const {location, type, template, itemId} = this.props;
 
     return (
       <Animate transition='fadeIn'>
@@ -88,6 +88,7 @@ export default class ContentPageBuilder extends Component {
           {this.renderHeader()}
           <div className={styles.content} ref='content'>
             <PageBuilder
+              itemId={itemId}
               type={type}
               template={template}
             />
