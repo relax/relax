@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import A from 'components/a';
 import Animate from 'components/animate';
@@ -9,8 +10,10 @@ export default class Entry extends Component {
   static propTypes = {
     entry: PropTypes.object.isRequired,
     subitem: PropTypes.bool.isRequired,
+    editing: PropTypes.bool,
     styleClassMap: PropTypes.object,
-    classes: PropTypes.object
+    classes: PropTypes.object,
+    children: PropTypes.node
   };
 
   getInitState () {
@@ -23,6 +26,7 @@ export default class Entry extends Component {
     clearTimeout(this.closeTimeout);
   }
 
+  @bind
   onMouseOver () {
     clearTimeout(this.closeTimeout);
     this.setState({
@@ -30,10 +34,12 @@ export default class Entry extends Component {
     });
   }
 
+  @bind
   onMouseOut () {
-    this.closeTimeout = setTimeout(::this.close, 400);
+    this.closeTimeout = setTimeout(this.close, 400);
   }
 
+  @bind
   close () {
     this.setState({
       opened: false
@@ -41,27 +47,26 @@ export default class Entry extends Component {
   }
 
   render () {
-    let label;
-    let href;
+    const {entry, subitem, classes, styleClassMap} = this.props;
+    const label = entry.label;
+    let href = entry.url;
 
-    if (this.props.entry.type === 'page') {
-      label = this.props.entry.page && this.props.entry.page.title;
-      href = `/${this.props.entry.page && this.props.entry.page.slug}`;
-    } else if (this.props.entry.type === 'link') {
-      label = this.props.entry.link.label;
-      href = this.props.entry.link.url;
+    if (entry.type === 'page') {
+      href = `/${entry.page && entry.page.slug}`;
+    } else if (entry.type === 'link') {
+      href = entry.link.url;
     }
 
     const className = cx(
-      !this.props.subitem ? this.props.classes.menuItem : this.props.classes.submenuItem,
-      !this.props.subitem ? this.props.styleClassMap.entry : this.props.styleClassMap.submenuEntry
+      !subitem ? classes.menuItem : classes.submenuItem,
+      !subitem ? styleClassMap.entry : styleClassMap.submenuEntry
     );
 
     return (
       <li
         className={className}
-        onMouseEnter={::this.onMouseOver}
-        onMouseLeave={::this.onMouseOut}
+        onMouseEnter={this.onMouseOver}
+        onMouseLeave={this.onMouseOut}
       >
         {this.renderEntryLink(href, label)}
         {this.renderEntryChildren()}
@@ -70,43 +75,33 @@ export default class Entry extends Component {
   }
 
   renderEntryChildren () {
+    const {subitem, children} = this.props;
+    const {opened} = this.state;
+
     // This menu only supports 2 levels
-    if (!this.props.subitem &&
-        this.props.entry.children &&
-        this.props.entry.children.length > 0 &&
-        this.state.opened) {
+    if (!subitem && children && opened) {
+      const {classes, styleClassMap} = this.props;
+
       return (
         <Animate transition='fadeIn'>
-          <ul className={cx(this.props.classes.submenu, this.props.styleClassMap.submenu)}>
-            {this.props.entry.children.map(this.renderEntry, this)}
+          <ul className={cx(classes.submenu, styleClassMap.submenu)}>
+            {children}
           </ul>
         </Animate>
       );
     }
   }
 
-  renderEntry (entry) {
-    return (
-      <Entry
-        entry={entry}
-        subitem
-        styleClassMap={this.props.styleClassMap}
-        classes={this.props.classes}
-        key={entry.id}
-        pageBuilder={this.props.pageBuilder}
-      />
-    );
-  }
-
   renderEntryLink (href, label) {
+    const {subitem, classes, styleClassMap, editing} = this.props;
     let result;
 
     const linkClasses = cx(
-      !this.props.subitem ? this.props.classes.button : this.props.classes.submenuButton,
-      !this.props.subitem ? this.props.styleClassMap.button : this.props.styleClassMap.submenuButton
+      !subitem ? classes.button : classes.submenuButton,
+      !subitem ? styleClassMap.button : styleClassMap.submenuButton
     );
 
-    if (this.props.pageBuilder && this.props.pageBuilder.editing) {
+    if (editing) {
       result = (
         <a className={linkClasses}>
           {label}

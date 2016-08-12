@@ -7,7 +7,7 @@ import Entry from './entry';
 
 export default class Menu extends Component {
   static propTypes = {
-    menu: PropTypes.object,
+    menuData: PropTypes.object,
     styleClassMap: PropTypes.object,
     editing: PropTypes.bool.isRequired
   };
@@ -17,12 +17,17 @@ export default class Menu extends Component {
     editing: false
   };
 
+  init () {
+    this.renderEntryRoot = this.renderEntry.bind(this, false);
+    this.renderEntrySub = this.renderEntry.bind(this, true);
+  }
+
   render () {
-    const {menu, editing} = this.props;
+    const {menuData, editing} = this.props;
     let result = null;
 
-    if (menu && menu.data) {
-      result = this.renderMenu(menu.data);
+    if (menuData) {
+      result = this.renderMenu();
     } else if (editing) {
       result = this.renderEmpty();
     }
@@ -30,28 +35,40 @@ export default class Menu extends Component {
     return result;
   }
 
-  renderMenu (data) {
-    const {styleClassMap} = this.props;
+  renderMenu () {
+    const {menuData, styleClassMap} = this.props;
 
     return (
       <ul className={cx(classes.menu, styleClassMap.menu)}>
-        {/* data.map(this.renderEntry, this) */}
+        {
+          menuData.root &&
+          menuData.root.children &&
+          menuData.root.children.map(this.renderEntryRoot)
+        }
       </ul>
     );
   }
 
-  renderEntry (entry) {
-    const {styleClassMap, editing} = this.props;
+  renderEntry (sub, entryId) {
+    const {menuData, styleClassMap, editing} = this.props;
+    const entry = menuData[entryId];
+    let children;
+
+    if (entry.children) {
+      children = entry.children.map(this.renderEntrySub);
+    }
 
     return (
       <Entry
         entry={entry}
-        subitem={false}
+        subitem={sub}
         styleClassMap={styleClassMap}
         classes={classes}
         editing={editing}
         key={entry.id}
-      />
+      >
+        {children}
+      </Entry>
     );
   }
 
