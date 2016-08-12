@@ -49,11 +49,9 @@ export default class Tab extends Component {
       case 'template':
         to = `/admin/templates/${item._id}`;
         break;
-      case 'schema':
-        to = `/admin/schemas/${item._id}`;
-        break;
       default:
-        to = '#';
+        to = `/admin/schemas/single/${tab.type}/${item._id}`;
+        break;
     }
 
     return to;
