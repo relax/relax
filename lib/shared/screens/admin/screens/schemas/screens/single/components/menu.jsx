@@ -65,11 +65,23 @@ export default class SchemaMenu extends Component {
     sort: PropTypes.string.isRequired,
     order: PropTypes.string.isRequired,
     search: PropTypes.string.isRequired,
-    location: PropTypes.object.isRequired
+    location: PropTypes.object.isRequired,
+    schemaId: PropTypes.string.isRequired
   };
 
   render () {
-    const {schemaList, schema, onBack, onNew, activeSchemaEntryId, sort, order, location, search} = this.props;
+    const {
+      schemaList,
+      schema,
+      onBack,
+      onNew,
+      activeSchemaEntryId,
+      sort,
+      order,
+      location,
+      search,
+      schemaId
+    } = this.props;
 
     return (
       <div>
@@ -91,6 +103,7 @@ export default class SchemaMenu extends Component {
             schemaList={schemaList}
             activeSchemaEntryId={activeSchemaEntryId}
             query={location.query}
+            schemaId={schemaId}
           />
         </Scrollable>
         {this.renderNew()}

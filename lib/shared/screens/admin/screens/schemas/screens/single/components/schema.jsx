@@ -1,4 +1,5 @@
 import Component from 'components/component';
+import ContentEmpty from 'components/content-empty';
 import React, {PropTypes} from 'react';
 
 import styles from './schema.less';
@@ -27,10 +28,7 @@ export default class Schema extends Component {
 
   renderEmpty () {
     return (
-      <div className={styles.empty}>
-        <i className='nc-icon-outline media-1_touch'></i>
-        <div className={styles.emptyText}>Relax, select an entry first!</div>
-      </div>
+      <ContentEmpty name='entry' />
     );
   }
 
