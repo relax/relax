@@ -9,6 +9,10 @@ import Revisions from './revisions';
 
 export default class Page extends Component {
   static fragments = {
+    schema: {
+      _id: 1,
+      template: ContentPageBuilder.fragments.template
+    },
     schemaEntry: {
       _id: 1,
       title: 1,
@@ -18,6 +22,7 @@ export default class Page extends Component {
   };
 
   static propTypes = {
+    schema: PropTypes.object.isRequired,
     schemaEntry: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     updateTitle: PropTypes.func.isRequired,
@@ -66,6 +71,7 @@ export default class Page extends Component {
   renderContent () {
     const {
       loading,
+      schema,
       schemaEntry,
       entryId,
       schemaId,
@@ -79,13 +85,17 @@ export default class Page extends Component {
       toggleTemplates
     } = this.props;
 
+    const template =
+      schemaEntry && schemaEntry.template ||
+      schema && schema.template;
+
     return (
       <ContentPageBuilder
         itemId={entryId}
         loading={loading}
         title={schemaEntry && schemaEntry.title}
         slug={schemaEntry && schemaEntry.slug}
-        template={schemaEntry && schemaEntry.template}
+        template={template}
         updateTitle={updateTitle}
         updateSlug={updateSlug}
         updateTemplate={updateTemplate}
