@@ -113,7 +113,6 @@ export default class Canvas extends Component {
         placeholder
         placeholderRender={this.renderPlaceholder}
         dropInfo={bodyDropInfo}
-        accepts='Section'
         minHeight='100%'
       >
         {content}
