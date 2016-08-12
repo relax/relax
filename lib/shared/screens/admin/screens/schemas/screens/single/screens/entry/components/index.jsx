@@ -7,7 +7,7 @@ import React, {PropTypes} from 'react';
 import Info from './info';
 import Revisions from './revisions';
 
-export default class Page extends Component {
+export default class SchemaEntry extends Component {
   static fragments = {
     schema: {
       _id: 1,

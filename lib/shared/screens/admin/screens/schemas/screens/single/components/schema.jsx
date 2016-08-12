@@ -8,7 +8,7 @@ import New from './new';
 export default class Schema extends Component {
   static propTypes = {
     children: PropTypes.node,
-    count: PropTypes.number.isRequired,
+    count: PropTypes.number,
     schemaId: PropTypes.string.isRequired
   };
 
