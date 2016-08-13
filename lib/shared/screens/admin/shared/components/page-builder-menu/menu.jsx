@@ -9,8 +9,6 @@ import Tabs from './tabs';
 export default class PageBuilderMenu extends Component {
   static propTypes = {
     editing: PropTypes.bool.isRequired,
-    linkingData: PropTypes.bool.isRequired,
-    linkingFormData: PropTypes.bool.isRequired,
     previewing: PropTypes.bool.isRequired
   };
 

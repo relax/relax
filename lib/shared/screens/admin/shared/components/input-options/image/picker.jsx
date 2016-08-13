@@ -15,7 +15,7 @@ export default class ImagePicker extends Component {
     height: PropTypes.number,
     calcWidth: PropTypes.number,
     onChange: PropTypes.func.isRequired,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     selector: PropTypes.bool.isRequired,
     openSelector: PropTypes.func.isRequired,
     closeSelector: PropTypes.func.isRequired,
