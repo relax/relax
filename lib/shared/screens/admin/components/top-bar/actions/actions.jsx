@@ -34,9 +34,13 @@ export default class Actions extends Component {
   }
 
   renderDisplay () {
-    const {display, changeDisplay} = this.props;
+    const {display, changeDisplay, building} = this.props;
     return (
-      <Displays display={display} onChange={changeDisplay} />
+      <Displays
+        display={display}
+        onChange={changeDisplay}
+        disabled={!building}
+      />
     );
   }
 
@@ -55,7 +59,11 @@ export default class Actions extends Component {
   renderRightMenu () {
     const {toggleEditing, building, save} = this.props;
     return (
-      <RightMenu toggleEditing={toggleEditing} save={save} building={building} />
+      <RightMenu
+        toggleEditing={toggleEditing}
+        save={save}
+        building={building}
+      />
     );
   }
 }

@@ -11,7 +11,7 @@ export default class MenuButton extends Component {
     label: PropTypes.string.isRequired,
     icon: PropTypes.string.isRequired,
     active: PropTypes.bool,
-    onActiveClick: PropTypes.func,
+    onActiveClick: PropTypes.any,
     dark: PropTypes.bool,
     children: PropTypes.node,
     query: PropTypes.object,

@@ -40,6 +40,7 @@ export default class ContentTypes extends Component {
     const {active, onActiveClick} = this.props;
     return (
       <Button
+        key={schema._id}
         link={`/admin/schemas/${schema.type}/${schema._id}`}
         label={schema.title}
         icon={cx(
