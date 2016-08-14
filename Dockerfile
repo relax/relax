@@ -5,7 +5,7 @@ ENV relax_db__uri="mongodb://mongo/relax"
 EXPOSE 8080
 
 ADD . ./
-VOLUME ./uploads
+VOLUME ./public/media
 
 RUN npm i && npm run build
 
