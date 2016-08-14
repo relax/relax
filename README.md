@@ -15,10 +15,9 @@ which aims for a better way of building websites.
 It features a live page builder based on components and a smart and easy way of
 binding dynamic data to them.
 
-We're currently working on releasing the beta version which should come up early 2016. If you want to collaborate in the meantime or just say anything join us at [Relax Slack](http://slack-relax.herokuapp.com/)
+We're currently working on releasing the beta version which should come up in September. If you want to collaborate in the meantime or just say anything join us at [Relax Slack](http://slack-relax.herokuapp.com/)
 
-**You can check the demo (old version) [here](http://demo.getrelax.io/admin)
-and our latest changes (unstable) [here](http://staging.getrelax.io/admin)**.
+**You can check out a demo [here](http://demo.getrelax.io/admin)**.
 
 Demo credentials:
  - user: demo
@@ -26,8 +25,6 @@ Demo credentials:
 
 New design for beta release
 ------------
-
-(taken from using version in master branch, demo is outdated as master isn't yet stable)
 
 ![Pages](https://raw.githubusercontent.com/relax/relax/gh-pages/assets/images/pages.png)
 
@@ -50,8 +47,13 @@ You'll also need [MongoDB](https://www.mongodb.org/).
 
 ### How to Relax
 
-Since we are yet to tag our first release, git clone this repository and run
-`npm install` followed by `npm start`.
+Since we are yet to tag our first release, git clone this repository and run the following commands:
+
+```bash
+npm install
+npm run build
+npm start
+```
 
 By default the application runs at port `8080`. Go ahead and visit
 `http://localhost:8080/admin/init`, here you can setup the first user and you're ready to relax.
