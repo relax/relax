@@ -1,9 +1,9 @@
 import Component from 'components/component';
 import ContentEmpty from 'components/content-empty';
+import New from 'components/new-template';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';
-import New from './new';
 
 export default class Templates extends Component {
   static propTypes = {
