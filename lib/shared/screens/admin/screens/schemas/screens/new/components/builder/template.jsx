@@ -1,6 +1,8 @@
 import cx from 'classnames';
 import Button from 'components/button';
 import Component from 'components/component';
+import Modal from 'components/modal';
+import NewTemplate from 'components/new-template';
 import Titable from 'components/input-options/titable-picker';
 import React, {PropTypes} from 'react';
 
@@ -12,11 +14,19 @@ export default class SchemaTemplatePick extends Component {
     schema: PropTypes.object.isRequired,
     schemaStepBack: PropTypes.func.isRequired,
     changeSchemaTemplate: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    toggleNewTemplate: PropTypes.func.isRequired,
+    newTemplate: PropTypes.bool.isRequired
   };
 
   render () {
-    const {schema, schemaStepBack, onSubmit, changeSchemaTemplate} = this.props;
+    const {
+      schema,
+      schemaStepBack,
+      onSubmit,
+      changeSchemaTemplate,
+      toggleNewTemplate
+    } = this.props;
 
     return (
       <div className={styles.root}>
@@ -35,6 +45,7 @@ export default class SchemaTemplatePick extends Component {
             bordered
             noBackground
             thin
+            onClick={toggleNewTemplate}
           >
             Create New Template
           </Button>
@@ -60,7 +71,28 @@ export default class SchemaTemplatePick extends Component {
             Create Schema
           </button>
         </div>
+        {this.renderNewTemplate()}
       </div>
     );
+  }
+
+  renderNewTemplate () {
+    const {newTemplate, toggleNewTemplate} = this.props;
+
+    if (newTemplate) {
+      return (
+        <Modal
+          small
+          subTitle='New Template'
+          title='What should we call it?'
+          onClose={toggleNewTemplate}
+        >
+          <NewTemplate
+            onClose={toggleNewTemplate}
+            redirect={false}
+          />
+        </Modal>
+      );
+    }
   }
 }

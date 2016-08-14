@@ -3,11 +3,11 @@ import ListHeader from 'components/list-header';
 import ListSearchSort from 'components/list-search-sort';
 import ListWrapper from 'components/list-wrapper';
 import Modal from 'components/modal';
+import New from 'components/new-template';
 import React, {PropTypes} from 'react';
 import {mergeFragments} from 'relate-js';
 
 import List from './list';
-import New from './new';
 
 const sorts = [
   {
