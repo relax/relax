@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import Component from 'components/component';
 import Droppable from 'components/dnd/droppable';
 import React, {PropTypes} from 'react';
@@ -18,11 +19,12 @@ export default class ElementComponent extends Component {
     if (editing && !relax.disableSelection) {
       const droppableProps = Object.assign({
         dropInfo: {
-          id: relax.element.id
+          id: relax.element.id,
+          context: relax.context
         },
         type: relax.element.tag,
         placeholder: true,
-        placeholderRender: ::this.renderPlaceholder
+        placeholderRender: this.renderPlaceholder
       }, this.constructor.settings.drop);
 
       result = (
@@ -37,6 +39,7 @@ export default class ElementComponent extends Component {
     return result;
   }
 
+  @bind
   renderPlaceholder (options) {
     const {relax} = this.props;
     return (
