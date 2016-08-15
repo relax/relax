@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import isElementSelected from 'helpers/is-element-selected';
 import Component from 'components/component';
@@ -11,13 +12,13 @@ export default class Entry extends Component {
   static propTypes = {
     pageBuilderActions: PropTypes.object.isRequired,
     element: PropTypes.object.isRequired,
+    context: PropTypes.string.isRequired,
     isExpanded: PropTypes.bool.isRequired,
     hasChildren: PropTypes.bool.isRequired,
     dragging: PropTypes.bool.isRequired,
     ElementClass: PropTypes.func.isRequired,
     selected: PropTypes.object,
-    overed: PropTypes.object,
-    context: PropTypes.string
+    overed: PropTypes.object
   };
 
   getInitState () {
@@ -27,14 +28,15 @@ export default class Entry extends Component {
   }
 
   onClick () {
-    const {element, pageBuilderActions} = this.props;
-    pageBuilderActions.selectElement(element.id);
+    const {element, context, pageBuilderActions} = this.props;
+    pageBuilderActions.selectElement(element.id, context);
   }
 
   onMouseOver () {
-    const {dragging, pageBuilderActions, element, hasChildren, isExpanded} = this.props;
+    const {dragging, pageBuilderActions, element, context, hasChildren, isExpanded} = this.props;
+
     if (!dragging) {
-      pageBuilderActions.overElement(element.id);
+      pageBuilderActions.overElement(element.id, context);
     } else if (hasChildren && !isExpanded) {
       this.openInterval = setTimeout(pageBuilderActions.toggleExpandElement.bind(this, element.id), 500);
     }
@@ -42,6 +44,7 @@ export default class Entry extends Component {
 
   onMouseOut () {
     const {dragging, pageBuilderActions, element} = this.props;
+
     if (!dragging) {
       pageBuilderActions.outElement(element.id);
 
@@ -55,6 +58,7 @@ export default class Entry extends Component {
     }
   }
 
+  @bind
   openOptions (event) {
     event.preventDefault();
     event.stopPropagation();
@@ -63,33 +67,38 @@ export default class Entry extends Component {
     });
   }
 
+  @bind
   duplicate (event) {
     event.preventDefault();
-    const {pageBuilderActions, element} = this.props;
-    pageBuilderActions.duplicateElement(element.id);
+    const {pageBuilderActions, element, context} = this.props;
+    pageBuilderActions.duplicateElement(element.id, context);
     this.setState({
       options: false
     });
   }
 
+  @bind
   remove (event) {
     event.preventDefault();
-    const {pageBuilderActions, element} = this.props;
-    pageBuilderActions.removeElement(element.id);
+    const {pageBuilderActions, element, context} = this.props;
+
+    pageBuilderActions.removeElement(element.id, context);
     this.setState({
       options: false
     });
   }
 
+  @bind
   toggleExpand (event) {
     event.preventDefault();
     event.stopPropagation();
-    const {pageBuilderActions, element} = this.props;
-    pageBuilderActions.toggleExpandElement(element.id);
+    const {pageBuilderActions, element, context} = this.props;
+
+    pageBuilderActions.toggleExpandElement(element.id, context);
   }
 
   render () {
-    const {ElementClass, element} = this.props;
+    const {ElementClass, element, context} = this.props;
     let result;
 
     if (element.subComponent) {
@@ -101,7 +110,8 @@ export default class Entry extends Component {
     } else {
       const dragInfo = {
         type: 'move',
-        id: element.id
+        id: element.id,
+        context
       };
 
       result = (
@@ -120,8 +130,8 @@ export default class Entry extends Component {
       return (
         <OptionsMenu
           options={[
-            {label: 'Duplicate', action: ::this.duplicate, icon: 'nc-icon-mini files_single-copy-04'},
-            {label: 'Remove', action: ::this.remove, icon: 'nc-icon-mini ui-1_trash'}
+            {label: 'Duplicate', action: this.duplicate, icon: 'nc-icon-mini files_single-copy-04'},
+            {label: 'Remove', action: this.remove, icon: 'nc-icon-mini ui-1_trash'}
           ]}
         />
       );
@@ -164,7 +174,7 @@ export default class Entry extends Component {
       return (
         <span
           className={cx(styles.part, styles.caret, !isExpanded && styles.collapsed)}
-          onClick={::this.toggleExpand}
+          onClick={this.toggleExpand}
         >
           <i className='nc-icon-mini arrows-1_small-triangle-down'></i>
         </span>
@@ -175,7 +185,7 @@ export default class Entry extends Component {
   renderOptions () {
     if (!this.props.element.subComponent) {
       return (
-        <div className={cx(styles.part, styles.options)} onClick={::this.openOptions}>
+        <div className={cx(styles.part, styles.options)} onClick={this.openOptions}>
           <i className='nc-icon-mini ui-2_menu-dots'></i>
           {this.renderOptionsMenu()}
         </div>

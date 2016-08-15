@@ -8,68 +8,92 @@ import Entry from './entry';
 
 export default class Layers extends Component {
   static propTypes = {
-    pageBuilderActions: PropTypes.object.isRequired,
-    doc: PropTypes.object.isRequired,
-    elements: PropTypes.object.isRequired,
-    expanded: PropTypes.object.isRequired,
-    userExpanded: PropTypes.object.isRequired,
-    dragging: PropTypes.bool.isRequired,
+    doc: PropTypes.object,
+    template: PropTypes.object,
     selected: PropTypes.object,
-    overed: PropTypes.object
+    selectedElement: PropTypes.object,
+    elements: PropTypes.object,
+    expanded: PropTypes.object,
+    userExpanded: PropTypes.object,
+    overed: PropTypes.object,
+    dragging: PropTypes.bool,
+    pageBuilderActions: PropTypes.object.isRequired
   };
 
   render () {
-    const {doc, pageBuilderActions} = this.props;
-
-    // TODO multiple areas
-    const data = doc.data;
+    const {pageBuilderActions} = this.props;
 
     return (
       <Scrollable>
         <div className={styles.filterDisplay}>
-          <button className={styles.trigger} onClick={pageBuilderActions.expandAll}>Expand all</button>
-          <button className={styles.trigger} onClick={pageBuilderActions.collapseAll}>Collapse all</button>
+          <button
+            className={styles.trigger}
+            onClick={pageBuilderActions.expandAll}
+          >
+            Expand all
+          </button>
+          <button
+            className={styles.trigger}
+            onClick={pageBuilderActions.collapseAll}
+          >
+            Collapse all
+          </button>
         </div>
         <div className={styles.structureList}>
-          {
-            data.body &&
-            data.body.children &&
-            this.renderList(
-              data.body.children,
-              {type: 'body', id: 'body'},
-              {accepts: 'Section'},
-              {tag: 'body'}
-            )
-          }
+          {this.renderContent()}
         </div>
       </Scrollable>
     );
   }
 
-  renderList (children, dropInfo, dropSettings, parent, droppable = true) {
+  renderContent () {
+    const {template, doc} = this.props;
+
+    const data = template ? template.data : doc.data;
+
+    return data.body && data.body.children && this.renderList(
+      data.body.children,
+      {
+        dropInfo: {id: 'body', context: 'data'},
+        dropSettings: {},
+        droppable: !template,
+        data,
+        context: template ? template._id : 'data'
+      }
+    );
+  }
+
+  renderList (children, options) {
     let result;
-    if (!droppable) {
+
+    if (!options.droppable) {
       result = (
         <ul className={styles.list}>
-          {children.map(this.renderListEntry, this)}
+          {children.map(this.renderListEntry.bind(this, options))}
         </ul>
       );
     } else {
       result = (
         <ul className={styles.list}>
-          <Droppable showMarks={false} type={parent.type} dropInfo={dropInfo} {...dropSettings} hitSpace={12}>
-            {children.map(this.renderListEntry, this)}
+          <Droppable
+            showMarks={false}
+            type={parent.type}
+            dropInfo={options.dropInfo}
+            {...options.dropSettings}
+            hitSpace={12}
+          >
+            {children.map(this.renderListEntry.bind(this, options))}
           </Droppable>
         </ul>
       );
     }
+
     return result;
   }
 
-  renderListEntry (elementId) {
+  renderListEntry (options, elementId) {
     const {
       elements,
-      doc,
       expanded,
       userExpanded,
       dragging,
@@ -77,15 +101,24 @@ export default class Layers extends Component {
       selected,
       overed
     } = this.props;
-    const element = doc.data[elementId];
+    const {data, context} = options;
+
+    const element = data[elementId];
     const hasChildren = element.children instanceof Array && element.children.length > 0;
     const ElementClass = elements[element.tag];
-    const dropInfo = {id: element.id};
+
+    const dropInfo = {
+      id: element.id,
+      context
+    };
     let dropSettings = ElementClass.settings.drop;
-    const isExpanded = hasChildren && (expanded[elementId] || userExpanded[elementId]) && true;
+
+    const wasExpanded = expanded[context] && expanded[context][elementId];
+    const wasUserExpanded = userExpanded[context] && userExpanded[context][elementId];
+    const isExpanded = !!(hasChildren && (wasExpanded || wasUserExpanded));
 
     if (dropSettings !== false) {
-      dropSettings = Object.assign({}, ElementClass.settings.drop, {
+      dropSettings = Object.assign({}, dropSettings, {
         orientation: 'vertical',
         customDropArea: false,
         selectionChildren: false
@@ -95,7 +128,13 @@ export default class Layers extends Component {
     let underlings;
 
     if (isExpanded) {
-      underlings = this.renderList(element.children, dropInfo, dropSettings, element, dropSettings);
+      underlings = this.renderList(
+        element.children,
+        Object.assign({}, options, {
+          dropInfo,
+          dropSettings
+        })
+      );
     } else if (dragging && !hasChildren && dropSettings !== false) {
       underlings = (
         <ul className={styles.list}>
@@ -115,6 +154,7 @@ export default class Layers extends Component {
         <Entry
           pageBuilderActions={pageBuilderActions}
           element={element}
+          context={context}
           isExpanded={isExpanded}
           hasChildren={hasChildren}
           dragging={dragging}

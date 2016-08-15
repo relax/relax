@@ -6,7 +6,7 @@ import styles from './index.less';
 
 export default class ContentSidebar extends Component {
   static propTypes = {
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     opened: PropTypes.bool.isRequired
   };
 
