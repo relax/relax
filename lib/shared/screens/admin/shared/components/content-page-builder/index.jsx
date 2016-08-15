@@ -46,7 +46,7 @@ export default class ContentPageBuilder extends Component {
   getInitState () {
     const {location} = this.props;
     return {
-      build: location.query.build && true
+      build: !!location.query.build
     };
   }
 
@@ -57,7 +57,7 @@ export default class ContentPageBuilder extends Component {
 
     if (this.props.itemId !== nextProps.itemId) {
       this.setState({
-        build: currentBuild && true
+        build: !!currentBuild
       });
     }
 
@@ -156,6 +156,7 @@ export default class ContentPageBuilder extends Component {
   renderSidebar () {
     const {sidebar} = this.props;
     const opened = sidebar !== null && !this.props.location.query.build;
+
     return (
       <ContentSidebar opened={opened}>
         {this.renderSidebarContent()}
