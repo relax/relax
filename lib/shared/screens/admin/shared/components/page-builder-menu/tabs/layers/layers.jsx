@@ -17,6 +17,7 @@ export default class Layers extends Component {
     userExpanded: PropTypes.object,
     overed: PropTypes.object,
     dragging: PropTypes.bool,
+    type: PropTypes.string,
     pageBuilderActions: PropTypes.object.isRequired
   };
 
@@ -47,7 +48,7 @@ export default class Layers extends Component {
   }
 
   renderContent () {
-    const {template, doc} = this.props;
+    const {template, doc, type} = this.props;
 
     const data = template ? template.data : doc.data;
 
@@ -58,7 +59,8 @@ export default class Layers extends Component {
         dropSettings: {},
         droppable: !template,
         data,
-        context: template ? template._id : 'data'
+        context: template ? template._id : 'data',
+        links: template && template.links && template.links[type]
       }
     );
   }
@@ -101,7 +103,7 @@ export default class Layers extends Component {
       selected,
       overed
     } = this.props;
-    const {data, context} = options;
+    const {data, context, links} = options;
 
     const element = data[elementId];
     const hasChildren = element.children instanceof Array && element.children.length > 0;
@@ -116,6 +118,7 @@ export default class Layers extends Component {
     const wasExpanded = expanded[context] && expanded[context][elementId];
     const wasUserExpanded = userExpanded[context] && userExpanded[context][elementId];
     const isExpanded = !!(hasChildren && (wasExpanded || wasUserExpanded));
+    const hasLinks = !!(links && links[element.id]);
 
     if (dropSettings !== false) {
       dropSettings = Object.assign({}, dropSettings, {
@@ -161,6 +164,7 @@ export default class Layers extends Component {
           ElementClass={ElementClass}
           selected={selected}
           overed={overed}
+          hasLinks={hasLinks}
         />
         {underlings}
       </li>

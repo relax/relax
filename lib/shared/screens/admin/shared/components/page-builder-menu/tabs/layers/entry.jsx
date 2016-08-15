@@ -18,7 +18,8 @@ export default class Entry extends Component {
     dragging: PropTypes.bool.isRequired,
     ElementClass: PropTypes.func.isRequired,
     selected: PropTypes.object,
-    overed: PropTypes.object
+    overed: PropTypes.object,
+    hasLinks: PropTypes.bool.isRequired
   };
 
   getInitState () {
@@ -27,11 +28,13 @@ export default class Entry extends Component {
     };
   }
 
+  @bind
   onClick () {
     const {element, context, pageBuilderActions} = this.props;
     pageBuilderActions.selectElement(element.id, context);
   }
 
+  @bind
   onMouseOver () {
     const {dragging, pageBuilderActions, element, context, hasChildren, isExpanded} = this.props;
 
@@ -42,6 +45,7 @@ export default class Entry extends Component {
     }
   }
 
+  @bind
   onMouseOut () {
     const {dragging, pageBuilderActions, element} = this.props;
 
@@ -139,7 +143,7 @@ export default class Entry extends Component {
   }
 
   renderContent () {
-    const {ElementClass, selected, overed, element, context, hasChildren} = this.props;
+    const {ElementClass, selected, overed, element, context, hasChildren, hasLinks} = this.props;
 
     const isSelected = isElementSelected(selected, {id: element.id, context});
     const isOvered = isElementSelected(overed, {id: element.id, context});
@@ -152,11 +156,12 @@ export default class Entry extends Component {
           isSelected && styles.selected,
           isOvered && styles.overed,
           hasChildren && styles.hasChildren,
-          subComponent && styles.subComponent
+          subComponent && styles.subComponent,
+          hasLinks && styles.linked
         )}
-        onClick={::this.onClick}
-        onMouseEnter={::this.onMouseOver}
-        onMouseLeave={::this.onMouseOut}
+        onClick={this.onClick}
+        onMouseEnter={this.onMouseOver}
+        onMouseLeave={this.onMouseOut}
       >
         {this.renderCaret()}
         <div className={cx(styles.part, styles.info)}>

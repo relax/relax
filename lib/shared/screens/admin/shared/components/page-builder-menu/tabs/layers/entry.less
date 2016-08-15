@@ -110,3 +110,15 @@
     line-height: @height;
   }
 }
+
+.linked {
+  color: @linkColor;
+
+  .info {
+    :global {
+      i, span {
+        color: @linkColor;
+      }
+    }
+  }
+}
