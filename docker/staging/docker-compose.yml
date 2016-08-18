@@ -16,6 +16,8 @@ relax:
     io.rancher.scheduler.affinity:host_label: relax=true
   links:
   - mongo:mongo
+  volumes:
+    - /docker/relax/media:/app/public/media
 mongo:
   image: mongo
   labels:
