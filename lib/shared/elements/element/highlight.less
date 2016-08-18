@@ -6,27 +6,9 @@
   top: 0; left: 0; right: 0; bottom: 0;
   pointer-events: none;
   border: @borderSize solid @primary;
-  background-color: fade(@primary, 10%);
   border-radius: 1px;
   z-index: 1;
   color: #ffffff;
-}
-
-.selected {
-  border: 1px solid @primary;
-  background-color: transparent;
-
-  &:before {
-    content: '';
-    display: inline-block;
-    position: absolute;
-    top: 0px; right: 0px; bottom: 0px; left: 0px;
-    border: 2px solid fade(@primary, 10%);
-  }
-
-  .identifier {
-    background-color: @primary;
-  }
 }
 
 .identifier {
@@ -67,6 +49,28 @@
   border-radius: 0px 0px 1px 0;
 }
 
+.overed {
+  border-color: @primary;
+  background-color: fade(@primary, 10%);
+}
+
+.selected {
+  border: 1px solid @primary;
+  background-color: transparent;
+
+  &:before {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 0px; right: 0px; bottom: 0px; left: 0px;
+    border: 2px solid fade(@primary, 10%);
+  }
+
+  .identifier {
+    background-color: @primary;
+  }
+}
+
 .symbol {
   border-color: @symbolColor;
   background-color: fade(@symbolColor, 10%);
@@ -94,6 +98,27 @@
 .linking {
   border-color: @linkColor;
   background-color: fade(@linkColor, 10%);
+
+  .identifier {
+    background-color: @linkColor;
+  }
+
+  &.selected {
+    border-color: @linkColor;
+    background-color: transparent;
+
+    &:before {
+      border: 2px solid fade(@linkColor, 10%);
+    }
+
+    .identifier {
+      background-color: @linkColor;
+    }
+  }
+}
+
+.linked {
+  border-color: @linkColor;
 
   .identifier {
     background-color: @linkColor;

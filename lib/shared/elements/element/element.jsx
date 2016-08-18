@@ -38,7 +38,9 @@ export default class Element extends Component {
     focused: PropTypes.bool,
     disableSelection: PropTypes.bool,
     linkingDataMode: PropTypes.bool,
-    context: PropTypes.string
+    context: PropTypes.string,
+    isHighlightable: PropTypes.bool,
+    elementLinks: PropTypes.array
   };
 
   static defaultProps = {
@@ -189,7 +191,7 @@ export default class Element extends Component {
 
   renderTag () {
     const HtmlTag = this.props.htmlTag;
-    const {style, className, editing, element, disableSelection} = this.props;
+    const {style, className, editing, isHighlightable, element, disableSelection} = this.props;
 
     const calcStyle = Object.assign({}, style);
     this.processAnimationStyle(calcStyle);
@@ -204,9 +206,11 @@ export default class Element extends Component {
       tagProps.onMouseOver = this.onMouseOver;
       tagProps.onMouseOut = this.onMouseOut;
     }
-    if (editing) {
+    if (isHighlightable) {
       tagProps.ref = (ref) => {
-        this.ref = ref;
+        !this.state.ref && this.setState({
+          ref
+        });
       };
       tagProps.id = element.id;
     }
@@ -262,28 +266,31 @@ export default class Element extends Component {
 
   renderHighlight () {
     const {
-      editing,
-      selected,
       overed,
-      dragging,
+      selected,
       element,
       settings,
       contentElementId,
       focused,
       context,
-      linkingDataMode
+      linkingDataMode,
+      elementLinks,
+      isHighlightable
     } = this.props;
-    if (editing && (focused || selected || overed) && !dragging && this.ref) {
+
+    if (isHighlightable && this.state.ref) {
       return (
         <Highlight
           element={element}
           settings={settings}
+          overed={overed}
           selected={selected}
           focused={focused}
+          elementLinks={elementLinks}
           contentElementId={contentElementId}
           context={context}
           linkingDataMode={linkingDataMode}
-          dom={this.ref}
+          dom={this.state.ref}
         />
       );
     }
