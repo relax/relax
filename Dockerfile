@@ -4,8 +4,10 @@ MAINTAINER José Magalhães <magalhas@gmail.com>
 ENV relax_db__uri="mongodb://mongo/relax"
 EXPOSE 8080
 
+WORKDIR /app
+
 ADD . ./
-VOLUME ./public/media
+VOLUME /app/public/media
 
 RUN npm i && npm run build
 
