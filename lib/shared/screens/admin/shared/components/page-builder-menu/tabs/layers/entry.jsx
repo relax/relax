@@ -150,6 +150,13 @@ export default class Entry extends Component {
     const isOvered = isElementSelected(overed, {id: element.id, context});
     const subComponent = element.subComponent;
 
+    const events = {};
+    if (editable) {
+      events.onClick = this.onClick;
+      events.onMouseEnter = this.onMouseOver;
+      events.onMouseLeave = this.onMouseOut;
+    }
+
     return (
       <div
         className={cx(
@@ -161,9 +168,7 @@ export default class Entry extends Component {
           hasLinks && styles.linked,
           !editable && styles.disabled
         )}
-        onClick={this.onClick}
-        onMouseEnter={this.onMouseOver}
-        onMouseLeave={this.onMouseOut}
+        {...events}
       >
         {this.renderCaret()}
         <div className={cx(styles.part, styles.info)}>
