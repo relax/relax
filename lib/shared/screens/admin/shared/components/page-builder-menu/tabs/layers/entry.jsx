@@ -19,7 +19,8 @@ export default class Entry extends Component {
     ElementClass: PropTypes.func.isRequired,
     selected: PropTypes.object,
     overed: PropTypes.object,
-    hasLinks: PropTypes.bool.isRequired
+    hasLinks: PropTypes.bool.isRequired,
+    editable: PropTypes.bool.isRequired
   };
 
   getInitState () {
@@ -130,7 +131,7 @@ export default class Entry extends Component {
   }
 
   renderOptionsMenu () {
-    if (this.state.options) {
+    if (this.props.editable && this.state.options) {
       return (
         <OptionsMenu
           options={[
@@ -143,7 +144,7 @@ export default class Entry extends Component {
   }
 
   renderContent () {
-    const {ElementClass, selected, overed, element, context, hasChildren, hasLinks} = this.props;
+    const {ElementClass, selected, overed, element, context, hasChildren, hasLinks, editable} = this.props;
 
     const isSelected = isElementSelected(selected, {id: element.id, context});
     const isOvered = isElementSelected(overed, {id: element.id, context});
@@ -157,7 +158,8 @@ export default class Entry extends Component {
           isOvered && styles.overed,
           hasChildren && styles.hasChildren,
           subComponent && styles.subComponent,
-          hasLinks && styles.linked
+          hasLinks && styles.linked,
+          !editable && styles.disabled
         )}
         onClick={this.onClick}
         onMouseEnter={this.onMouseOver}
@@ -188,7 +190,7 @@ export default class Entry extends Component {
   }
 
   renderOptions () {
-    if (!this.props.element.subComponent) {
+    if (this.props.editable && !this.props.element.subComponent) {
       return (
         <div className={cx(styles.part, styles.options)} onClick={this.openOptions}>
           <i className='nc-icon-mini ui-2_menu-dots'></i>
