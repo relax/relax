@@ -103,10 +103,10 @@ export default class Entry extends Component {
   }
 
   render () {
-    const {ElementClass, element, context} = this.props;
+    const {ElementClass, element, context, editable} = this.props;
     let result;
 
-    if (element.subComponent) {
+    if (element.subComponent || !editable) {
       result = (
         <div>
           {this.renderContent()}
