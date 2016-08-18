@@ -9,13 +9,15 @@ import ContextMenu from './context-menu';
 
 export default class Highlight extends Component {
   static propTypes = {
+    overed: PropTypes.bool.isRequired,
     selected: PropTypes.bool.isRequired,
     focused: PropTypes.bool.isRequired,
     element: PropTypes.object.isRequired,
     settings: PropTypes.object.isRequired,
     dom: PropTypes.any.isRequired,
     context: PropTypes.string.isRequired,
-    linkingDataMode: PropTypes.bool
+    linkingDataMode: PropTypes.bool,
+    elementLinks: PropTypes.array
   };
 
   componentDidMount () {
@@ -60,18 +62,21 @@ export default class Highlight extends Component {
   }
 
   render () {
-    const {selected, element, linkingDataMode, focused} = this.props;
+    const {selected, overed, element, linkingDataMode, focused, elementLinks} = this.props;
     const style = this.getPosition();
+
     return (
       <Portal>
         <div
           className={cx(
             styles.root,
-            selected && styles.selected,
-            focused && styles.focused,
             style.top < 60 && styles.inside,
-            element.tag === 'Symbol' && styles.symbol,
-            linkingDataMode && styles.linking
+            overed && styles.overed,                              // element is overed
+            selected && styles.selected,                          // element is selected
+            focused && styles.focused,                            // element is focused
+            element.tag === 'Symbol' && styles.symbol,            // element is symbol
+            linkingDataMode && styles.linking,                    // element is in linking data mode
+            elementLinks && elementLinks.length && styles.linked  // element is linked to some property
           )}
           style={style}
         >
@@ -83,9 +88,9 @@ export default class Highlight extends Component {
   }
 
   renderIdentifier () {
-    const {focused, settings, element} = this.props;
+    const {overed, selected, focused, settings, element} = this.props;
 
-    if (!focused) {
+    if ((overed || selected) && !focused) {
       return (
         <div className={styles.identifier}>
           <i className={settings.icon.class}>{settings.icon.content}</i>
