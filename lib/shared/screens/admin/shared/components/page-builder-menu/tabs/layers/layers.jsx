@@ -1,3 +1,4 @@
+import setElementLinks from 'helpers/set-element-links';
 import Component from 'components/component';
 import Droppable from 'components/dnd/droppable';
 import Scrollable from 'components/scrollable';
@@ -101,9 +102,11 @@ export default class Layers extends Component {
       dragging,
       pageBuilderActions,
       selected,
-      overed
+      overed,
+      doc
     } = this.props;
-    const {data, context, links} = options;
+    const {data, links} = options;
+    let context = options.context;
 
     const element = data[elementId];
     const hasChildren = element.children instanceof Array && element.children.length > 0;
@@ -118,7 +121,33 @@ export default class Layers extends Component {
     const wasExpanded = expanded[context] && expanded[context][elementId];
     const wasUserExpanded = userExpanded[context] && userExpanded[context][elementId];
     const isExpanded = !!(hasChildren && (wasExpanded || wasUserExpanded));
-    const hasLinks = !!(links && links[element.id]);
+
+    const elementLinks = links && links[element.id];
+    const hasLinks = !!(elementLinks);
+
+    let children;
+    if (elementLinks) {
+      const result = setElementLinks({
+        element,
+        elementLinks,
+        elementProps: Object.assign({}, element.props),
+        values: doc
+      });
+
+      // set from results
+      context = result.context || context;
+      children = result.children;
+
+      if (children) {
+        dropInfo.context = context;
+        children = this.renderList(children, Object.assign({}, options, {
+          dropInfo,
+          dropSettings,
+          context,
+          data: doc.data
+        }));
+      }
+    }
 
     if (dropSettings !== false) {
       dropSettings = Object.assign({}, dropSettings, {
@@ -128,28 +157,28 @@ export default class Layers extends Component {
       });
     }
 
-    let underlings;
-
-    if (isExpanded) {
-      underlings = this.renderList(
-        element.children,
-        Object.assign({}, options, {
-          dropInfo,
-          dropSettings
-        })
-      );
-    } else if (dragging && !hasChildren && dropSettings !== false) {
-      underlings = (
-        <ul className={styles.list}>
-          <Droppable
-            type={element.tag}
-            dropInfo={dropInfo}
-            showMarks={false}
-            {...dropSettings}
-            minHeight={7}
-          />
-        </ul>
-      );
+    if (!children) {
+      if (isExpanded) {
+        children = this.renderList(
+          element.children,
+          Object.assign({}, options, {
+            dropInfo,
+            dropSettings
+          })
+        );
+      } else if (dragging && !hasChildren && dropSettings !== false) {
+        children = (
+          <ul className={styles.list}>
+            <Droppable
+              type={element.tag}
+              dropInfo={dropInfo}
+              showMarks={false}
+              {...dropSettings}
+              minHeight={7}
+            />
+          </ul>
+        );
+      }
     }
 
     return (
@@ -166,7 +195,7 @@ export default class Layers extends Component {
           overed={overed}
           hasLinks={hasLinks}
         />
-        {underlings}
+        {children}
       </li>
     );
   }

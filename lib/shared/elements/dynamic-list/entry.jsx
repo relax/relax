@@ -17,7 +17,7 @@ export default class DynamicListEntry extends Component {
     isLast: PropTypes.bool,
     editing: PropTypes.bool,
     horizontalGutter: PropTypes.string,
-    element: PropTypes.func,
+    element: PropTypes.object,
     elementsLinks: PropTypes.object,
     schemaEntry: PropTypes.object,
     renderChildren: PropTypes.func.isRequired,
@@ -93,11 +93,14 @@ export default class DynamicListEntry extends Component {
   }
 
   renderContent () {
-    const {elementsLinks, schemaEntry, element, children, renderChildren, context} = this.props;
-    return children && renderChildren(element.children, {
+    const {elementsLinks, schemaEntry, element, children, renderChildren, context, editing} = this.props;
+
+    return children && renderChildren({
+      children: element.children,
       links: elementsLinks,
       entry: schemaEntry,
-      context
+      context,
+      editable: editing
     });
   }
 

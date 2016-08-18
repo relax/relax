@@ -8,7 +8,7 @@ import Row from './row';
 
 export default class DynamicList extends Component {
   static propTypes = {
-    children: PropTypes.children,
+    children: PropTypes.any,
     relax: PropTypes.object.isRequired,
     entries: PropTypes.array.isRequired,
     limit: PropTypes.number,
@@ -89,8 +89,8 @@ export default class DynamicList extends Component {
         dummy={dummy}
         columns={columns}
         isLinkingData={isLinkingData}
-        editing={relax.editing}
         horizontalGutter={horizontalGutter}
+        editing={relax.editing}
         element={relax.element}
         elementsLinks={elementsLinks}
         schemaEntry={entries[key]}

@@ -89,11 +89,17 @@ export default class Symbol extends Component {
 
   renderSymbol () {
     const {symbol, relax, editing, editData, symbolId} = this.props;
-    const content = relax.renderElement({
-      customData: editData || symbol.data,
-      editing,
-      context: symbolId
-    }, 'base', 0);
+    // const content = relax.renderElement({
+    //   customData: editData || symbol.data,
+    //   editing,
+    //   context: symbolId
+    // }, 'base', 0);
+    const content = relax.renderChildren({
+      children: ['base'],
+      data: editData || symbol.data,
+      context: symbolId,
+      editable: editing
+    });
     let result;
 
     if (relax.editing && !editing) {
