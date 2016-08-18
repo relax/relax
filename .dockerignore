@@ -2,3 +2,4 @@ build/
 docker/
 node_modules/
 uploads/
+public/media/*
