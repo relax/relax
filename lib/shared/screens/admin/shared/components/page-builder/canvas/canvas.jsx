@@ -1,6 +1,7 @@
 import bind from 'decorators/bind';
 import debounce from 'decorators/debounce';
 import displays from 'statics/displays';
+import isElementSelected from 'helpers/is-element-selected';
 import stylesManager from 'helpers/styles-manager';
 import traverseChildren from 'helpers/traverser/children';
 import traverser from 'helpers/traverser';
@@ -137,7 +138,7 @@ export default class Canvas extends Component {
 
   @bind
   renderElement (elementInfo, children) {
-    const {styles, elements, display} = this.props;
+    const {styles, elements, display, selected} = this.props;
     const {
       ElementClass,
       displayElement,
@@ -191,7 +192,12 @@ export default class Canvas extends Component {
             element,
             positionInParent,
             elementLinks,
-            renderChildren: this.renderChildren
+            renderChildren: this.renderChildren,
+            display,
+            selected: selected && isElementSelected(selected, {
+              id: elementId,
+              context
+            })
           }}
         >
           {resultChildren}
