@@ -6,6 +6,7 @@ notifications:
 before_install:
   - curl -L https://releases.rancher.com/compose/v0.8.4/rancher-compose-linux-amd64-v0.8.4.tar.gz > rancher-compose.tar.gz
   - tar -xvzf rancher-compose.tar.gz
+  - rm rancher-compose.tar.gz
   - chmod +x rancher-compose-v0.8.4/rancher-compose
   - sudo mv rancher-compose-v0.8.4/rancher-compose /usr/local/bin
   - rm -r rancher-compose-v0.8.4
