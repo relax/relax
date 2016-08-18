@@ -24,6 +24,10 @@ export default class TextBox extends Component {
     relax: PropTypes.object.isRequired
   };
 
+  static contextTypes = {
+    store: PropTypes.object.isREquired
+  };
+
   static defaultProps = {
     padding: '0px',
     textAlign: 'left',
@@ -51,8 +55,9 @@ export default class TextBox extends Component {
 
   @bind
   onChange (value) {
+    const {store} = this.context;
     const {relax} = this.props;
-    relax.dispatch(changeElementContent(relax.element.id, value, relax.context));
+    store.dispatch(changeElementContent(relax.element.id, value, relax.context));
   }
 
   render () {
