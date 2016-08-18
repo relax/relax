@@ -3,5 +3,6 @@ docker/
 lib/
 uploads/
 build/
+public/media/*
 package.json.tmp
 .tmp
