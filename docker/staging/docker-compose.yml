@@ -5,8 +5,6 @@ relax:
   labels:
     io.rancher.container.pull_image: always
     io.rancher.scheduler.affinity:host_label: relax=true
-  ports:
-    - 8080:8080
   links:
     - mongo:mongo
   volumes:
