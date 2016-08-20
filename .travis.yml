@@ -6,7 +6,7 @@ notifications:
 before_install:
   - curl -L https://releases.rancher.com/compose/v0.8.4/rancher-compose-linux-amd64-v0.8.4.tar.gz > rancher-compose.tar.gz
   - tar -xvzf rancher-compose.tar.gz
-  - rm rancher-compose.tar.gz
+  - rm *.gz
   - chmod +x rancher-compose-v0.8.4/rancher-compose
   - sudo mv rancher-compose-v0.8.4/rancher-compose /usr/local/bin
   - rm -r rancher-compose-v0.8.4
@@ -22,4 +22,5 @@ after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     cd docker/staging;
     rancher-compose --url http://rancher.getrelax.io --access-key $RANCHER_ACCESS_KEY --secret-key $RANCHER_SECRET_KEY -p Relax up -d --confirm-upgrade --pull --force-upgrade relax;
+    rancher-compose --url http://rancher.getrelax.io --access-key $RANCHER_ACCESS_KEY --secret-key $RANCHER_SECRET_KEY -p RelaxPrivate up -d --confirm-upgrade --pull --force-upgrade relax;
     fi
