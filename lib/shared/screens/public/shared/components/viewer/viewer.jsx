@@ -5,7 +5,6 @@ import stylesManager from 'helpers/styles-manager';
 import traverseChildren from 'helpers/traverser/children';
 import traverser from 'helpers/traverser';
 import Component from 'components/component';
-import Styles from 'components/styles';
 import React, {PropTypes} from 'react';
 
 const defaultStyleClassMap = {};
@@ -45,7 +44,6 @@ export default class Viewer extends Component {
     return (
       <div>
         {result}
-        <Styles />
       </div>
     );
   }
