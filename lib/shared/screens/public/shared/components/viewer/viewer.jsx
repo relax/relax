@@ -1,5 +1,4 @@
 import bind from 'decorators/bind';
-import debounce from 'decorators/debounce';
 import elements from 'elements';
 import stylesManager from 'helpers/styles-manager';
 import traverseChildren from 'helpers/traverser/children';
@@ -17,11 +16,6 @@ export default class Viewer extends Component {
     updateStylesMap: PropTypes.func.isRequired
   };
 
-  @debounce(10)
-  updateStylesMap () {
-    this.props.updateStylesMap(stylesManager.stylesMap);
-  }
-
   render () {
     const {doc, template, type} = this.props;
     let result;
@@ -35,8 +29,6 @@ export default class Viewer extends Component {
         editing: false,
         type
       }, this.renderElement);
-
-      this.updateStylesMap();
     } else {
       result = 'Loading';
     }
