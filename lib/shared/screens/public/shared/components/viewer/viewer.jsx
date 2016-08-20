@@ -98,7 +98,8 @@ export default class Viewer extends Component {
       ElementClass,
       styles,
       elements,
-      display
+      display,
+      true
     );
 
     if (displayElement) {
