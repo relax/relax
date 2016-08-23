@@ -40,6 +40,7 @@ export default class Element extends Component {
     linkingDataMode: PropTypes.bool,
     context: PropTypes.string,
     isHighlightable: PropTypes.bool,
+    hasAnimation: PropTypes.bool,
     elementLinks: PropTypes.array
   };
 
@@ -49,25 +50,34 @@ export default class Element extends Component {
   };
 
   componentDidMount () {
-    const {editing, animation, onEnterScreen} = this.props;
+    const {editing, hasAnimation, onEnterScreen} = this.props;
 
-    if ((!editing && animation) || onEnterScreen) {
-      this.onScrollBind = ::this.onScroll;
-      window.addEventListener('scroll', this.onScrollBind);
+    // Animation
+    if (hasAnimation || onEnterScreen) {
+      window.addEventListener('scroll', this.onScroll);
       this.onScroll();
     }
     if (editing) {
-      this.animationEditingBind = ::this.animationEditing;
-      window.addEventListener('animateElements', this.animationEditingBind);
+      window.addEventListener('animateElements', this.animationInitForce);
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const {editing, hasAnimation, element} = this.props;
+
+    if (editing && hasAnimation && element.animation !== nextProps.element.animation) {
+      this.animationInitForce();
     }
   }
 
   componentWillUnmount () {
-    if (this.onScrollBind) {
-      window.removeEventListener('scroll', this.onScrollBind);
+    const {editing} = this.props;
+
+    if (this.onScroll) {
+      window.removeEventListener('scroll', this.onScroll);
     }
-    if (this.animationEditingBind) {
-      window.removeEventListener('animateElements', this.animationEditingBind);
+    if (editing) {
+      window.removeEventListener('animateElements', this.animationInitForce);
     }
     if (this.animationTimeout) {
       clearTimeout(this.animationTimeout);
@@ -76,41 +86,57 @@ export default class Element extends Component {
 
   @bind
   animate () {
-    const dom = findDOMNode(this);
-    const {animation, startAnimation} = this.props;
-    startAnimation();
-    velocity(dom, animation.effect, {
-      duration: animation.duration,
-      display: null
-    });
+    const {element, hasAnimation} = this.props;
+
+    if (hasAnimation && !this.animating && !this.animated) {
+      const dom = findDOMNode(this);
+      this.animating = true;
+
+      velocity.hook(dom, 'opacity', 0);
+      velocity(dom, element.animation.effect, {
+        duration: parseInt(element.animation.duration, 10),
+        display: null,
+        complete: () => {
+          this.animating = false;
+          this.animated = true;
+        }
+      });
+    }
   }
 
+  @bind
   animationInit () {
-    const animation = this.props.animation;
-    if (animation) {
-      this.animationTimeout = setTimeout(this.animate, animation.delay);
+    const {hasAnimation, element} = this.props;
+
+    if (hasAnimation && !this.animating) {
+      this.animationTimeout = setTimeout(
+        this.animate,
+        parseInt(element.animation.delay, 10)
+      );
     }
   }
 
-  animationEditing () {
-    if (this.props.animation) {
-      this.props.resetAnimation();
-      this.animationInit();
-    }
+  @bind
+  animationInitForce () {
+    this.animating = false;
+    this.animated = false;
+    this.animationInit();
   }
 
+  @bind
   onScroll () {
+    const {onEnterScreen} = this.props;
     const dom = findDOMNode(this);
     const rect = dom.getBoundingClientRect();
 
     if ((rect.top <= 0 && rect.bottom >= 0) || (rect.top > 0 && rect.top < window.outerHeight)) {
-      if (this.state.animation) {
-        this.animationInit();
+      this.animationInit();
+
+      if (onEnterScreen) {
+        onEnterScreen();
       }
-      if (this.props.onEnterScreen) {
-        this.props.onEnterScreen();
-      }
-      window.removeEventListener('scroll', this.onScrollBind);
+
+      window.removeEventListener('scroll', this.onScroll);
     }
   }
 
@@ -118,12 +144,14 @@ export default class Element extends Component {
   onElementClick (event) {
     const {selectElement, element, context} = this.props;
     event.stopPropagation();
+
     selectElement(element.id, context);
   }
 
   processAnimationStyle (style) {
-    const {editing, animation, animated, animatedEditing} = this.props;
-    if ((editing && animatedEditing) || (!editing && animation && !animated)) {
+    const {hasAnimation} = this.props;
+
+    if (hasAnimation && !this.animated && !this.animating) {
       style.opacity = 0;
     }
   }
