@@ -18,14 +18,14 @@ export default class PageBuilder extends Component {
     elementsMenuOpened: PropTypes.bool.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
     template: PropTypes.object,
-    loading: PropTypes.bool.isRequired
+    loading: PropTypes.bool.isRequired,
+    type: PropTypes.string.isRequired
   };
 
   componentDidMount () {
     const {undoAction, redoAction} = this.props.pageBuilderActions;
     key('⌘+z, ctrl+z', undoAction);
     key('⌘+y, ctrl+y', redoAction);
-    // key('delete', );
   }
 
   componentWillUnmount () {
@@ -48,6 +48,7 @@ export default class PageBuilder extends Component {
 
   renderContent () {
     const {template, type} = this.props;
+
     return (
       <div className={cx(styles.root)}>
         <Jss stylesheet={stylesheet} />
