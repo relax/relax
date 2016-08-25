@@ -23,9 +23,11 @@ export default class PageBuilder extends Component {
   };
 
   componentDidMount () {
-    const {undoAction, redoAction} = this.props.pageBuilderActions;
+    const {undoAction, redoAction, removeSelectedElement} = this.props.pageBuilderActions;
+
     key('⌘+z, ctrl+z', undoAction);
     key('⌘+y, ctrl+y', redoAction);
+    key('backspace, del, delete', removeSelectedElement);
   }
 
   componentWillUnmount () {
