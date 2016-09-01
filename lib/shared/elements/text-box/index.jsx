@@ -100,13 +100,6 @@ export default class TextBox extends Component {
           className={className}
           onChange={this.onChange}
           value={html}
-          options={{
-            toolbar: {
-              buttons: ['bold', 'italic', 'underline', 'anchor']
-            },
-            placeholder: 'Double click to edit text',
-            imageDragging: false
-          }}
         />
       );
     } else {

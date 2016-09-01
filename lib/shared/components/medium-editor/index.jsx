@@ -1,17 +1,18 @@
 import './index.less';
 
+import bind from 'decorators/bind';
 import Component from 'components/component';
 import MediumEditor from 'medium-editor';
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
 export default class MediumEditorElement extends Component {
   static propTypes = {
-    tag: React.PropTypes.string,
-    className: React.PropTypes.string,
-    value: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    options: React.PropTypes.obj
+    tag: PropTypes.string,
+    className: PropTypes.string,
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    options: PropTypes.object
   };
 
   static defaultProps = {
@@ -26,8 +27,16 @@ export default class MediumEditorElement extends Component {
   }
 
   componentDidMount () {
-    this.medium = new MediumEditor(findDOMNode(this), this.props.options);
-    this.medium.subscribe('editableInput', this.onChange.bind(this));
+    const {options} = this.props;
+
+    this.medium = new MediumEditor(findDOMNode(this), Object.assign({
+      toolbar: {
+        buttons: ['bold', 'italic', 'underline', 'anchor']
+      },
+      placeholder: 'Double click to edit text',
+      imageDragging: false
+    }, options));
+    this.medium.subscribe('editableInput', this.onChange);
   }
 
   componentWillReceiveProps (nextProps) {
@@ -43,6 +52,7 @@ export default class MediumEditorElement extends Component {
     this.medium.destroy();
   }
 
+  @bind
   onChange () {
     const value = findDOMNode(this).innerHTML;
     this.currentValue = value;
