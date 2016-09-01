@@ -209,10 +209,11 @@ export default class LinearGradient extends Component {
   }
 
   renderContent () {
+    const {value, colors} = this.props;
     const gradStyle = {};
-    applyBackground(gradStyle, this.props.value, this.props.colors);
+    applyBackground(gradStyle, value, colors);
 
-    const angle = this.props.value.angle;
+    const angle = value.angle;
     const pointA = this.getRectPoint(angle, 158);
     const pointB = {
       x: -pointA.x,
@@ -225,7 +226,7 @@ export default class LinearGradient extends Component {
     pointB.x = pointB.x + 158;
     pointB.y = 158 - pointB.y;
 
-    const orderedPoints = sortBy(this.props.value.points, 'perc');
+    const orderedPoints = sortBy(value.points, 'perc');
     const firstPointPosition = utils.getPointInLineByPerc(
       pointB,
       pointA,
@@ -251,7 +252,7 @@ export default class LinearGradient extends Component {
             onClick={::this.onLineClick}
           />
         </svg>
-        {this.props.value.points.map(this.renderPoint.bind(this, pointA, pointB))}
+        {value.points.map(this.renderPoint.bind(this, pointA, pointB))}
         {this.renderAngle()}
       </div>
     );
@@ -271,7 +272,7 @@ export default class LinearGradient extends Component {
     return (
       <div
         key={index}
-        className={cx(style.point, selected && style.selected)}
+        className={cx(styles.point, selected && styles.selected)}
         style={style}
         onClick={onClick}
         onMouseDown={onMouseDown}
