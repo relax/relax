@@ -50,7 +50,8 @@ export default class Columns extends Component {
     let result;
 
     const dropInfo = {
-      id: relax.element.id
+      id: relax.element.id,
+      context: relax.context
     };
 
     if (numChildren > 0) {
