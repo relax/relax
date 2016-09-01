@@ -7,13 +7,14 @@ import styles from './entry.less';
 export default class Breadcrumbs extends Component {
   static propTypes = {
     entry: PropTypes.object.isRequired,
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired,
+    context: PropTypes.string
   };
 
   @bind
   onClick () {
-    const {onClick, entry} = this.props;
-    onClick(entry.id);
+    const {onClick, entry, context} = this.props;
+    onClick(entry.id, context);
   }
 
   render () {
