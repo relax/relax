@@ -25,7 +25,7 @@ export default class TextBox extends Component {
   };
 
   static contextTypes = {
-    store: PropTypes.object.isREquired
+    store: PropTypes.object.isRequired
   };
 
   static defaultProps = {
