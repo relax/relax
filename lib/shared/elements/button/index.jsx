@@ -11,13 +11,16 @@ import Component from '../component';
 import Element from '../element';
 
 export default class Button extends Component {
-
   static propTypes = {
     layout: PropTypes.string.isRequired,
     arrange: PropTypes.string.isRequired,
     styleClassMap: PropTypes.object,
     children: PropTypes.node,
     relax: PropTypes.object.isRequired
+  };
+
+  static contextTypes = {
+    store: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -44,7 +47,8 @@ export default class Button extends Component {
       // Check if layout changed
       if (nextProps.layout !== this.props.layout) {
         // 'text', 'icontext', 'texticon', 'icon'
-        const newChildren = [];
+        let newChildren = [];
+        const newElements = {};
 
         let textChild = false;
         let iconChild = false;
@@ -81,22 +85,26 @@ export default class Button extends Component {
         }
 
         if (iconChild && textChild) {
+          newChildren = [0, 1];
           if (nextProps.layout === 'icon' || nextProps.layout === 'icontext') {
-            newChildren.push(iconChild);
+            newElements[0] = iconChild;
             if (nextProps.layout === 'icontext') {
-              newChildren.push(textChild);
+              newElements[1] = textChild;
             }
           } else if (nextProps.layout === 'text' || nextProps.layout === 'texticon') {
-            newChildren.push(textChild);
+            newElements[0] = textChild;
             if (nextProps.layout === 'texticon') {
-              newChildren.push(iconChild);
+              newElements[1] = iconChild;
             }
           }
         } else {
-          newChildren.push(iconChild || textChild);
+          newChildren = [0];
+          newElements[0] = (iconChild || textChild);
         }
 
-        relax.dispatch(changeElementChildren(relax.element.id, newChildren));
+        this.context.store.dispatch(
+          changeElementChildren(relax.element.id, newChildren, newElements, relax.context)
+        );
       }
     }
   }
