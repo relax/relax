@@ -10,7 +10,8 @@ export default class Breadcrumbs extends Component {
     selectElement: PropTypes.func.isRequired,
     selectedPath: PropTypes.array.isRequired,
     selectedElement: PropTypes.object,
-    className: PropTypes.string
+    className: PropTypes.string,
+    context: PropTypes.string
   };
 
   render () {
@@ -29,9 +30,14 @@ export default class Breadcrumbs extends Component {
   }
 
   renderEntry (entry) {
-    const {selectElement} = this.props;
+    const {selectElement, context} = this.props;
     return (
-      <Entry key={entry.id} entry={entry} onClick={selectElement} />
+      <Entry
+        key={entry.id}
+        entry={entry}
+        onClick={selectElement}
+        context={context}
+      />
     );
   }
 }
