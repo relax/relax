@@ -1,0 +1,207 @@
+@import '~styles/colors.less';
+
+@size: 16px;
+@space: 3px;
+
+.root {
+  position: absolute;
+  display: inline-block;
+}
+
+.value {
+  font-size: 11px;
+  cursor: pointer;
+  text-decoration: underline;
+  color: @chromeTextColor;
+  position: absolute;
+  line-height: 14px;
+  height: 14px;
+}
+
+.dragger {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background-color: #848689;
+
+  font-size: 9px;
+  text-transform: uppercase;
+  color: @chromeBordersColor;
+  text-align: left;
+  line-height: @size;
+  padding-left: 2px;
+
+  &:before {
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
+  &:after {
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
+}
+
+.top {
+  left: 0;
+  right: 0;
+  top: 0;
+  height: @size;
+
+  .value {
+    top: -5px;
+    left: 50%;
+    transform: translate(-50%, -100%);
+  }
+
+  .dragger {
+    left: @size + @space;
+    right: @size + @space;
+    cursor: ns-resize;
+  }
+  .dragger:before {
+    top: 0;
+    left: -@size;
+    border-width: @size 0px 0px @size;
+    border-color: #848689 transparent transparent transparent;
+  }
+  .dragger:after {
+    top: 0;
+    right: -@size;
+    border-width: @size @size 0 0;
+    border-color: #848689 transparent transparent transparent;
+  }
+}
+
+.right {
+  top: 0;
+  bottom: 0;
+  right: 0px;
+  width: @size;
+
+  .value {
+    right: -9px;
+    top: 50%;
+    transform: translate(100%, -50%);
+  }
+
+  .dragger {
+    top: @size + @space;
+    bottom: @size + @space;
+    cursor: ew-resize;
+  }
+  .dragger:before {
+    right: 0;
+    top: -@size;
+    border-width: @size @size 0px 0;
+    border-color: transparent #848689 transparent transparent;
+  }
+  .dragger:after {
+    right: 0;
+    bottom: -@size;
+    border-width: 0px @size @size 0;
+    border-color: transparent #848689 transparent transparent;
+  }
+}
+
+.bottom {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: @size;
+
+  .value {
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%, 100%);
+  }
+
+  .dragger {
+    left: @size + @space;
+    right: @size + @space;
+    cursor: ns-resize;
+  }
+
+  .dragger:before {
+    bottom: 0;
+    left: -@size;
+    border-width: 0 0px @size @size;
+    border-color: transparent transparent #848689 transparent;
+  }
+  .dragger:after {
+    bottom: 0;
+    right: -@size;
+    border-width: 0 @size @size 0;
+    border-color: transparent transparent #848689 transparent;
+  }
+}
+
+.left {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: @size;
+
+  .value {
+    left: -9px;
+    top: 50%;
+    transform: translate(-100%, -50%);
+  }
+
+  .dragger {
+    top: @size + @space;
+    bottom: @size + @space;
+    cursor: ew-resize;
+  }
+  .dragger:before {
+    top: -@size;
+    left: 0;
+    border-width: @size 0 0px @size;
+    border-color: transparent transparent transparent #848689;
+  }
+  .dragger:after {
+    bottom: -@size;
+    left: 0;
+    border-width: 0px 0 @size @size;
+    border-color: transparent transparent transparent #848689;
+  }
+}
+
+.inside {
+  &.top .value {
+    top: @size + 5px;
+    transform: translate(-50%, 0%);
+  }
+  &.right .value {
+    right: @size + 9px;
+    transform: translate(0%, -50%);
+  }
+  &.bottom .value {
+    bottom: @size + 5px;
+    transform: translate(-50%, 0%);
+  }
+  &.left .value {
+    left: @size + 9px;
+    transform: translate(0%, -50%);
+  }
+}
+
+.balloon {
+  width: 170px !important;
+}
+
+.input {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.auto {
+  font-size: 12px !important;
+  text-transform: none;
+  margin: 6px;
+  float: right;
+}
