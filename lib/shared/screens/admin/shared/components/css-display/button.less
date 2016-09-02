@@ -1,0 +1,32 @@
+@import '~styles/colors.less';
+
+.root {
+  display: inline-block;
+  vertical-align: top;
+  width: 33.33%;
+  background-color: @chromeBackgroundDarkerColor;
+  border: 1px solid @chromeBordersColor;
+  text-align: center;
+  cursor: pointer;
+
+  :global i {
+    font-size: 20px;
+    color: @chromeTextColor;
+    line-height: 36px;
+  }
+
+  &:first-child {
+    border-right: 0;
+  }
+  &:last-child {
+    border-left: 0;
+  }
+}
+
+.active {
+  background-color: @primary;
+
+  :global i {
+    color: #ffffff;
+  }
+}
