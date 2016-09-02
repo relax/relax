@@ -1,5 +1,5 @@
 import bind from 'decorators/bind';
-import getElementPosition from 'helpers/get-element-position';
+import getElementCss from 'helpers/get-element-css';
 import velocity from 'velocity-animate';
 import Component from 'components/component';
 import Draggable from 'components/dnd/draggable';
@@ -156,9 +156,9 @@ export default class Element extends Component {
     }
   }
 
-  processPosition (style) {
+  processCss (style) {
     const {element, display} = this.props;
-    Object.assign(style, getElementPosition(element, display));
+    Object.assign(style, getElementCss(element, display));
   }
 
   @bind
@@ -223,7 +223,7 @@ export default class Element extends Component {
 
     const calcStyle = Object.assign({}, style);
     this.processAnimationStyle(calcStyle);
-    this.processPosition(calcStyle);
+    this.processCss(calcStyle);
 
     const tagProps = {
       style: calcStyle,
