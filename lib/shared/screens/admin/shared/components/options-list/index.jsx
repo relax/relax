@@ -1,7 +1,7 @@
 import warning from 'warning';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
-import {TypesOptionsMap, TypesOptionsDefaultProps} from 'helpers/input-options-map';
+import TypesOptionsMap, {TypesOptionsDefaultProps} from 'components/input-options';
 
 import styles from './index.less';
 import Option from './option';
