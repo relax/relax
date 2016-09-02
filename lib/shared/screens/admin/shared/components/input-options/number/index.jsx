@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
@@ -9,8 +10,8 @@ export default class NumberInput extends Component {
     value: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
     allowed: PropTypes.array,
-    min: PropTypes.number,
-    max: PropTypes.number,
+    min: PropTypes.any,
+    max: PropTypes.any,
     inactive: PropTypes.bool,
     className: PropTypes.string,
     arrows: PropTypes.bool,
@@ -78,6 +79,7 @@ export default class NumberInput extends Component {
     return result;
   }
 
+  @bind
   onInput (event) {
     const string = event.target.value.replace(',', '.').toLowerCase();
 
@@ -93,6 +95,7 @@ export default class NumberInput extends Component {
     });
   }
 
+  @bind
   up (event) {
     event.preventDefault();
     if (this.props.value === 'auto') {
@@ -103,6 +106,7 @@ export default class NumberInput extends Component {
     }
   }
 
+  @bind
   down (event) {
     event.preventDefault();
     if (this.props.value === 'auto') {
@@ -113,6 +117,7 @@ export default class NumberInput extends Component {
     }
   }
 
+  @bind
   onFocus () {
     this.setState({
       focused: true,
@@ -121,6 +126,7 @@ export default class NumberInput extends Component {
     });
   }
 
+  @bind
   onBlur () {
     this.setState({
       focused: false,
@@ -146,10 +152,10 @@ export default class NumberInput extends Component {
           className={styles.input}
           type='text'
           value={focused ? this.state.value : value}
-          onChange={::this.onInput}
+          onChange={this.onInput}
           ref='input'
-          onBlur={::this.onBlur}
-          onFocus={::this.onFocus}
+          onBlur={this.onBlur}
+          onFocus={this.onFocus}
         />
         {this.renderArrows()}
       </div>
@@ -161,10 +167,10 @@ export default class NumberInput extends Component {
     if (arrows) {
       return (
         <div className={styles.arrows}>
-          <button className={styles.arrow} onClick={::this.up}>
+          <button className={styles.arrow} onClick={this.up}>
             <i className='nc-icon-mini arrows-1_minimal-up'></i>
           </button>
-          <button className={styles.arrow} onClick={::this.down}>
+          <button className={styles.arrow} onClick={this.down}>
             <i className='nc-icon-mini arrows-1_minimal-down'></i>
           </button>
         </div>

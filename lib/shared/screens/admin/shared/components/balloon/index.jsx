@@ -13,11 +13,12 @@ export default class Balloon extends Component {
     stickOptions: PropTypes.object,
     white: PropTypes.bool,
     small: PropTypes.bool,
-    unpadded: PropTypes.bool
+    unpadded: PropTypes.bool,
+    className: PropTypes.string
   };
 
   render () {
-    const {stickOptions, white, small, unpadded} = this.props;
+    const {stickOptions, white, small, unpadded, className} = this.props;
     const stickProps = Object.assign({
       verticalPosition: 'bottom',
       horizontalPosition: 'left',
@@ -32,7 +33,8 @@ export default class Balloon extends Component {
             styles.balloon,
             white && styles.white,
             small && styles.small,
-            unpadded && styles.unpadded
+            unpadded && styles.unpadded,
+            className
           )}
           >
             <span className={styles.triangle} />
