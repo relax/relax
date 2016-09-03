@@ -1,6 +1,7 @@
 import './index.less';
 
 import bind from 'decorators/bind';
+import key from 'keymaster';
 import Component from 'components/component';
 import MediumEditor from 'medium-editor';
 import React, {PropTypes} from 'react';
@@ -53,6 +54,18 @@ export default class MediumEditorElement extends Component {
   }
 
   @bind
+  onFocus () {
+    console.log('focus');
+    key.setScope('mediumEditor');
+  }
+
+  @bind
+  onBlur () {
+    console.log('unfocus');
+    key.setScope('pageBuilder');
+  }
+
+  @bind
   onChange () {
     const value = findDOMNode(this).innerHTML;
     this.currentValue = value;
@@ -65,6 +78,8 @@ export default class MediumEditorElement extends Component {
         className={this.props.className}
         contentEditable
         dangerouslySetInnerHTML={{__html: this.state.value}}
+        onFocus={this.onFocus}
+        onBlur={this.onBlur}
       />
     );
   }
