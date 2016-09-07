@@ -10,7 +10,6 @@ export default class Entry extends Component {
   static propTypes = {
     entry: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
-    styleOptions: PropTypes.object.isRequired,
     removeStyle: PropTypes.func.isRequired,
     duplicateStyle: PropTypes.func.isRequired
   };
@@ -41,37 +40,46 @@ export default class Entry extends Component {
 
   @bind
   onClick (event) {
+    const {onClick, entry} = this.props;
+
     event.preventDefault();
-    this.props.onClick(this.props.entry._id);
+    onClick(entry._id);
   }
 
   @bind
   duplicate () {
-    this.props.duplicateStyle(this.props.entry);
+    const {duplicateStyle, entry} = this.props;
+    duplicateStyle(entry);
   }
 
   @bind
   remove () {
-    this.props.removeStyle(this.props.entry._id);
+    const {removeStyle, entry} = this.props;
+    removeStyle(entry._id);
   }
 
   render () {
     return (
-      <div className={styles.root} onClick={this.onClick} onMouseLeave={this.onMouseLeave}>
+      <div
+        className={styles.root}
+        onClick={this.onClick}
+        onMouseLeave={this.onMouseLeave}
+      >
         <div className={styles.holder}>
           <span className={cx(styles.column, styles.title)}>{this.props.entry.title}</span>
           {this.renderOptionsButton()}
-          {this.renderInfo()}
         </div>
       </div>
     );
   }
 
   renderOptionsButton () {
-    if (this.props.entry._id !== 'no_style') {
+    const {entry} = this.props;
+
+    if (entry._id !== 'no_style') {
       return (
         <span className={cx(styles.column, styles.optionsButton)} onClick={this.openOptions}>
-          <i className={cx('nc-icon-mini ui-2_menu-dots', styles.icon)}></i>
+          <i className={cx('nc-icon-mini ui-2_menu-dots', styles.icon)} />
           {this.renderOptionsMenu()}
         </span>
       );
@@ -87,17 +95,6 @@ export default class Entry extends Component {
             {label: 'Remove', action: this.remove, icon: 'nc-icon-mini ui-1_trash'}
           ]}
         />
-      );
-    }
-  }
-
-  renderInfo () {
-    const {styleOptions, entry} = this.props;
-    if (styleOptions.getIdentifierLabel && entry._id !== 'no_style') {
-      return (
-        <span className={cx(styles.column, styles.info)}>
-          {styleOptions.getIdentifierLabel(Object.assign({}, styleOptions.defaults, entry.options))}
-        </span>
       );
     }
   }

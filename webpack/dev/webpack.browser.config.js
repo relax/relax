@@ -25,6 +25,7 @@ var webpackConfig = module.exports = {
     extensions: ['', '.js', '.jsx', '.json']
   },
   plugins: [
+    new webpack.NoErrorsPlugin(),
     new optimize.OccurenceOrderPlugin(),
     new optimize.CommonsChunkPlugin('common.js', ['admin', 'auth', 'public']),
     new CopyWebpackPlugin([
