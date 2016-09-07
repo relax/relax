@@ -1,4 +1,4 @@
-var rc = require('rc')
+var rc = require('rc');
 
 module.exports = rc('relax', {
   port: process.env.PORT || 8080,
@@ -6,4 +6,4 @@ module.exports = rc('relax', {
   db: {
     uri: 'mongodb://localhost/relax'
   }
-})
+});
