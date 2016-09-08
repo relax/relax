@@ -94,15 +94,13 @@ export default class Viewer extends Component {
       elementLinks
     } = elementInfo;
 
-    const styleClassMap = stylesManager.processElement(
+    const styleClassMap = stylesManager.processElement({
       element,
-      props,
-      ElementClass,
-      styles,
       elements,
+      styles,
       display,
-      true
-    );
+      single: true
+    });
 
     if (displayElement) {
       return (

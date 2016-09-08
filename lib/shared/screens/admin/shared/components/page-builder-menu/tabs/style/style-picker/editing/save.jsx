@@ -43,7 +43,8 @@ export default class StylePickerSave extends Component {
   }
 
   render () {
-    const {editingTitle, title, selectedStyle} = this.state;
+    const {editingTitle, title} = this.state;
+    const {selectedStyle} = this.props;
     let result;
 
     if (selectedStyle) {
@@ -72,7 +73,7 @@ export default class StylePickerSave extends Component {
                 onChange={this.changeTitle}
                 focused
               />
-            <div className={styles.submitButton} onClick={this.onSubmit}>
+              <div className={styles.submitButton} onClick={this.onSubmit}>
                 <i className='nc-icon-outline arrows-1_tail-right'></i>
               </div>
               <input type='submit' hidden />
