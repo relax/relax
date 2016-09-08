@@ -9,7 +9,8 @@ export default class StylePickerList extends Component {
   static propTypes = {
     styles: PropTypes.array.isRequired,
     changeStyle: PropTypes.func.isRequired,
-    removeStyle: PropTypes.func.isRequired
+    removeStyle: PropTypes.func.isRequired,
+    currentId: PropTypes.string
   };
 
   render () {
@@ -27,14 +28,17 @@ export default class StylePickerList extends Component {
   }
 
   renderEntry (entry) {
-    const {changeStyle, removeStyle} = this.props;
-    return (
-      <Entry
-        entry={entry}
-        onClick={changeStyle}
-        removeStyle={removeStyle}
-        key={entry._id}
-      />
-    );
+    const {changeStyle, removeStyle, currentId} = this.props;
+
+    if (entry._id !== currentId) {
+      return (
+        <Entry
+          entry={entry}
+          onClick={changeStyle}
+          removeStyle={removeStyle}
+          key={entry._id}
+        />
+      );
+    }
   }
 }
