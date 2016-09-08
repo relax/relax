@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import Animate from 'components/animate';
 import Component from 'components/component';
 import OptionsList from 'components/options-list';
@@ -26,11 +27,11 @@ export default class StylePickerEditing extends Component {
   }
 
   renderOptions () {
-    const {values, options, onChange} = this.props;
+    const {values, options, onChange, hasChanges} = this.props;
 
     return (
       <div>
-        <Scrollable>
+        <Scrollable className={cx(hasChanges && styles.withSave)}>
           <Animate transition='slideUpIn' duration={300}>
             <div className={styles.content}>
               <OptionsList

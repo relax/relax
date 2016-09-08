@@ -49,54 +49,52 @@ export default class StylePickerSave extends Component {
 
     if (selectedStyle) {
       result = (
-        <div className={styles.saveStyle}>
-          <Button
-            primary
-            full
-            big
-            onClick={this.onSubmit}
-            className={styles.saveButton}
-          >
-            {`Update ${selectedStyle.title}`}
-          </Button>
-        </div>
+        <Button
+          primary
+          full
+          big
+          onClick={this.onSubmit}
+          className={styles.saveButton}
+        >
+          {`Update ${selectedStyle.title}`}
+        </Button>
       );
     } else if (editingTitle) {
       result = (
-        <div className={styles.saveStyle}>
-          <Animate transition='slideRightIn' duration={300}>
-            <form onSubmit={this.onSubmit}>
-              <Input
-                className={styles.input}
-                placeholder='Style title'
-                value={title}
-                onChange={this.changeTitle}
-                focused
-              />
-              <div className={styles.submitButton} onClick={this.onSubmit}>
-                <i className='nc-icon-outline arrows-1_tail-right'></i>
-              </div>
-              <input type='submit' hidden />
-            </form>
-          </Animate>
-        </div>
+        <Animate transition='slideRightIn' duration={300}>
+          <form onSubmit={this.onSubmit}>
+            <Input
+              className={styles.input}
+              placeholder='Style title'
+              value={title}
+              onChange={this.changeTitle}
+              focused
+            />
+            <div className={styles.submitButton} onClick={this.onSubmit}>
+              <i className='nc-icon-outline arrows-1_tail-right'></i>
+            </div>
+            <input type='submit' hidden />
+          </form>
+        </Animate>
       );
     } else {
       result = (
-        <div className={styles.saveStyle}>
-          <Button
-            primary
-            full
-            big
-            onClick={this.toggleEditingTitle}
-            className={styles.saveButton}
-          >
-            Create new style
-          </Button>
-        </div>
+        <Button
+          primary
+          full
+          big
+          onClick={this.toggleEditingTitle}
+          className={styles.saveButton}
+        >
+          Create new style
+        </Button>
       );
     }
 
-    return result;
+    return (
+      <div className={styles.saveStyle}>
+        {result}
+      </div>
+    );
   }
 }
