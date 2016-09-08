@@ -1,6 +1,7 @@
 @import '~styles/colors.less';
 
 .option {
+  position: relative;
   margin-bottom: 30px;
 
   &.tight {
@@ -11,6 +12,18 @@
 .option>.group {
   margin-top: 20px;
   padding-left: 10px;
+}
+
+.sideOverrides {
+  display: inline-block;
+  vertical-align: top;
+  padding: 8px 0;
+}
+
+.maxSize {
+  display: inline-block;
+  vertical-align: top;
+  max-width: 90%;
 }
 
 .label {

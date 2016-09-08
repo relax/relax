@@ -50,6 +50,7 @@
     "lodash.merge": "^3.3.2",
     "lodash.omit": "^3.1.0",
     "lodash.sortby": "^3.1.5",
+    "lodash.union": "https://registry.npmjs.org/lodash.union/-/lodash.union-4.6.0.tgz",
     "medium-editor": "git+https://github.com/relax/medium-editor.git",
     "mkdirp": "^0.5.1",
     "moment": "^2.10.6",

@@ -13,7 +13,9 @@ export default class OptionsList extends Component {
     onChange: PropTypes.func.isRequired,
     passToOptions: PropTypes.object,
     white: PropTypes.bool,
-    tight: PropTypes.bool
+    tight: PropTypes.bool,
+    elementOverrides: PropTypes.array,
+    displayOverrides: PropTypes.array
   };
 
   static defaultProps = {
@@ -89,10 +91,20 @@ export default class OptionsList extends Component {
     if (option.type === 'Columns') {
       result = this.renderColumns(option, index);
     } else if (OptionComponent) {
-      const {values, onChange, tight, passToOptions, white} = this.props;
+      const {values, onChange, tight, passToOptions, white, elementOverrides, displayOverrides} = this.props;
       const value = values[option.id];
       const extraProps = Object.assign({}, TypesOptionsDefaultProps[option.type], option.props);
       const unlockedContent = option.unlocks && value !== '' && this.renderUnlocks(option, value, extraProps);
+
+      let elementOverride = false;
+      let displayOverride = false;
+
+      if (elementOverrides) {
+        elementOverride = elementOverrides.indexOf(option.id) !== -1;
+      }
+      if (displayOverrides) {
+        displayOverride = displayOverrides.indexOf(option.id) !== -1;
+      }
 
       result = (
         <Option
@@ -107,6 +119,8 @@ export default class OptionsList extends Component {
           tight={tight}
           OptionsList={OptionsList}
           passToOptions={passToOptions}
+          elementOverride={elementOverride}
+          displayOverride={displayOverride}
           white={white}
           key={option.id || index}
         >
