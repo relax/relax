@@ -14,12 +14,23 @@ export default class StylePickerList extends Component {
   };
 
   render () {
-    const {styles} = this.props;
+    const {styles, changeStyle, currentId} = this.props;
 
     return (
       <Scrollable>
         <Animate transition='slideUpIn' duration={300}>
           <div>
+            {
+              currentId &&
+              <Entry
+                entry={{
+                  _id: undefined,
+                  title: 'No style'
+                }}
+                onClick={changeStyle}
+                key={'no_style'}
+              />
+            }
             {styles.map(this.renderEntry, this)}
           </div>
         </Animate>
