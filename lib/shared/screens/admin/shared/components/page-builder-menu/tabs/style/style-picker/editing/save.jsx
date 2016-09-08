@@ -10,7 +10,8 @@ import styles from './save.less';
 export default class StylePickerSave extends Component {
   static propTypes = {
     selectedStyle: PropTypes.object,
-    onSubmit: PropTypes.func.isRequired
+    onSave: PropTypes.func.isRequired,
+    onUpdate: PropTypes.func.isRequired
   };
 
   getInitState () {
@@ -35,11 +36,19 @@ export default class StylePickerSave extends Component {
   }
 
   @bind
-  onSubmit (event) {
-    const {onSubmit} = this.props;
+  onSave (event) {
+    const {onSave} = this.props;
 
     event.preventDefault();
-    onSubmit(this.state.title);
+    onSave(this.state.title);
+  }
+
+  @bind
+  onUpdate (event) {
+    const {onUpdate} = this.props;
+
+    event.preventDefault();
+    onUpdate();
   }
 
   render () {
@@ -47,22 +56,10 @@ export default class StylePickerSave extends Component {
     const {selectedStyle} = this.props;
     let result;
 
-    if (selectedStyle) {
-      result = (
-        <Button
-          primary
-          full
-          big
-          onClick={this.onSubmit}
-          className={styles.saveButton}
-        >
-          {`Update ${selectedStyle.title}`}
-        </Button>
-      );
-    } else if (editingTitle) {
+    if (editingTitle) {
       result = (
         <Animate transition='slideRightIn' duration={300}>
-          <form onSubmit={this.onSubmit}>
+          <form onSubmit={this.onSave}>
             <Input
               className={styles.input}
               placeholder='Style title'
@@ -70,7 +67,7 @@ export default class StylePickerSave extends Component {
               onChange={this.changeTitle}
               focused
             />
-            <div className={styles.submitButton} onClick={this.onSubmit}>
+            <div className={styles.submitButton} onClick={this.onSave}>
               <i className='nc-icon-outline arrows-1_tail-right'></i>
             </div>
             <input type='submit' hidden />
@@ -79,15 +76,29 @@ export default class StylePickerSave extends Component {
       );
     } else {
       result = (
-        <Button
-          primary
-          full
-          big
-          onClick={this.toggleEditingTitle}
-          className={styles.saveButton}
-        >
-          Create new style
-        </Button>
+        <div>
+          {
+            selectedStyle &&
+            <Button
+              primary
+              big
+              onClick={this.onUpdate}
+              className={styles.saveButton}
+            >
+              {`Update ${selectedStyle.title}`}
+            </Button>
+          }
+          <Button
+            primary
+            full={!selectedStyle}
+            noBackground={!!selectedStyle}
+            big
+            onClick={this.toggleEditingTitle}
+            className={styles.saveButton}
+          >
+            Create new
+          </Button>
+        </div>
       );
     }
 

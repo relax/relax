@@ -15,7 +15,8 @@ export default class StylePickerEditing extends Component {
     onChange: PropTypes.func.isRequired,
     hasChanges: PropTypes.bool.isRequired,
     selectedStyle: PropTypes.object,
-    onSave: PropTypes.func.isRequired
+    onSave: PropTypes.func.isRequired,
+    onUpdate: PropTypes.func.isRequired
   };
 
   render () {
@@ -48,13 +49,14 @@ export default class StylePickerEditing extends Component {
   }
 
   renderSave () {
-    const {hasChanges, selectedStyle, onSave} = this.props;
+    const {hasChanges, selectedStyle, onSave, onUpdate} = this.props;
 
     if (hasChanges) {
       return (
         <Save
           selectedStyle={selectedStyle}
-          onSubmit={onSave}
+          onSave={onSave}
+          onUpdate={onUpdate}
         />
       );
     }
