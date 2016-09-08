@@ -133,6 +133,7 @@ export default class Option extends Component {
         <Overrides
           elementOverride={elementOverride}
           displayOverride={displayOverride}
+          onChange={this.onChange}
         />
       );
     }
