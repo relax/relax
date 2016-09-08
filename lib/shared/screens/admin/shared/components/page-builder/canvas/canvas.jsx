@@ -152,14 +152,12 @@ export default class Canvas extends Component {
       builderLink
     } = elementInfo;
 
-    const styleClassMap = stylesManager.processElement(
+    const styleClassMap = stylesManager.processElement({
       element,
-      props,
-      ElementClass,
-      styles,
       elements,
+      styles,
       display
-    );
+    });
 
     if (displayElement) {
       let resultChildren = children;
