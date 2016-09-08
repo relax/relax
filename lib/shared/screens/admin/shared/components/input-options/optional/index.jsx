@@ -42,6 +42,7 @@ export default class Optional extends Component {
         <Overrides
           elementOverride={elementOverride}
           displayOverride={displayOverride}
+          onChange={this.onChange}
         />
       );
     }

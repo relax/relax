@@ -3,8 +3,15 @@
 .root {
   display: inline-block;
   vertical-align: top;
+}
+
+.toggle {
   padding: 2.5px 10px;
   cursor: pointer;
+}
+
+.content {
+  text-align: center;
 }
 
 .display, .element {
@@ -14,6 +21,12 @@
   height: 11px;
   border-radius: 50%;
   border: 2px solid @chromeBackgroundColor;
+}
+
+.noBorder {
+  position: relative;
+  border: 0;
+  top: 2.5px;
 }
 
 .display {
@@ -27,4 +40,18 @@
 .elementDisplay {
   position: relative;
   left: -4px;
+}
+
+.label {
+  font-size: 11px;
+  color: @adminText;
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 5px;
+  line-height: 16px;
+}
+
+.button {
+  font-size: 11px !important;
+  margin-top: 10px;
 }
