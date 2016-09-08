@@ -12,6 +12,8 @@ export default class StylePickerEditing extends Component {
   static propTypes = {
     values: PropTypes.object.isRequired,
     options: PropTypes.object.isRequired,
+    elementOverrides: PropTypes.array,
+    displayOverrides: PropTypes.array,
     onChange: PropTypes.func.isRequired,
     hasChanges: PropTypes.bool.isRequired,
     selectedStyle: PropTypes.object,
@@ -28,7 +30,7 @@ export default class StylePickerEditing extends Component {
   }
 
   renderOptions () {
-    const {values, options, onChange, hasChanges} = this.props;
+    const {values, options, onChange, hasChanges, elementOverrides, displayOverrides} = this.props;
 
     return (
       <div>
@@ -39,6 +41,8 @@ export default class StylePickerEditing extends Component {
                 options={options}
                 values={values}
                 onChange={onChange}
+                elementOverrides={elementOverrides}
+                displayOverrides={displayOverrides}
               />
             </div>
           </Animate>

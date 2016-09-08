@@ -85,7 +85,7 @@ export default class StylePickerSave extends Component {
               onClick={this.onUpdate}
               className={styles.saveButton}
             >
-              {`Update ${selectedStyle.title}`}
+              Update style
             </Button>
           }
           <Button

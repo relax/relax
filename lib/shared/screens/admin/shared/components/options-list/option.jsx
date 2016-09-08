@@ -1,6 +1,7 @@
 import bind from 'decorators/bind';
 import cx from 'classnames';
 import Component from 'components/component';
+import Overrides from 'components/override-status';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';
@@ -19,7 +20,9 @@ export default class Option extends Component {
     children: PropTypes.node,
     tight: PropTypes.bool,
     white: PropTypes.bool,
-    passToOptions: PropTypes.object
+    passToOptions: PropTypes.object,
+    elementOverride: PropTypes.bool,
+    displayOverride: PropTypes.bool
   };
 
   @bind
@@ -59,31 +62,54 @@ export default class Option extends Component {
 
   renderOption () {
     const {
-      OptionComponent,
       type,
       tight,
       label,
-      children,
-      passToOptions,
-      extraProps,
-      OptionsList,
-      value,
-      white
+      children
     } = this.props;
 
     return (
       <div className={cx(styles.option, tight && styles.tight)}>
         {this.renderLabel(type !== 'Optional' && label)}
-        <OptionComponent
-          white={white}
-          onChange={this.onChange}
-          value={value}
-          OptionsList={OptionsList}
-          {...extraProps}
-          {...passToOptions}
-        />
+        <div>
+          <div className={cx(!label && styles.maxSize)}>
+            {this.renderOptionComp()}
+          </div>
+          {
+            !label &&
+            <div className={styles.sideOverrides}>
+              {this.renderOverrides()}
+            </div>
+          }
+        </div>
         {children}
       </div>
+    );
+  }
+
+  renderOptionComp () {
+    const {
+      OptionComponent,
+      passToOptions,
+      extraProps,
+      OptionsList,
+      value,
+      white,
+      elementOverride,
+      displayOverride
+    } = this.props;
+
+    return (
+      <OptionComponent
+        white={white}
+        onChange={this.onChange}
+        value={value}
+        OptionsList={OptionsList}
+        elementOverride={elementOverride}
+        displayOverride={displayOverride}
+        {...extraProps}
+        {...passToOptions}
+      />
     );
   }
 
@@ -92,8 +118,22 @@ export default class Option extends Component {
       const {white} = this.props;
       return (
         <div className={cx(styles.label, white && styles.white)}>
-          {label}
+          <span>{label}</span>
+          {this.renderOverrides()}
         </div>
+      );
+    }
+  }
+
+  renderOverrides () {
+    const {elementOverride, displayOverride} = this.props;
+
+    if (elementOverride || displayOverride) {
+      return (
+        <Overrides
+          elementOverride={elementOverride}
+          displayOverride={displayOverride}
+        />
       );
     }
   }
