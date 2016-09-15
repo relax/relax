@@ -1,7 +1,7 @@
 import utils from 'helpers/utils';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
-import {hexIsValid} from 'helpers/colors';
+import {hexIsValid} from 'helpers/styles/colors';
 
 import styles from './inputs.less';
 import Input from './input';

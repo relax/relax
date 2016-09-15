@@ -4,7 +4,7 @@ import Component from 'components/component';
 import Portal from 'components/portal';
 import Stick from 'components/stick';
 import React, {PropTypes} from 'react';
-import {applyBackground} from 'helpers/colors';
+import {applyBackground} from 'helpers/styles/colors';
 
 import styles from './color-palette-picker.less';
 import Edit from './edit';

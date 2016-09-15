@@ -4,7 +4,7 @@ import sortBy from 'lodash.sortby';
 import utils from 'helpers/utils';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
-import {applyBackground, getColorString} from 'helpers/colors';
+import {applyBackground, getColorString} from 'helpers/styles/colors';
 
 import styles from './radial-gradient.less';
 

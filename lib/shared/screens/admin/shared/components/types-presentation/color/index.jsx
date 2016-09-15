@@ -1,6 +1,6 @@
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
-import {getColorString} from 'helpers/colors';
+import {getColorString} from 'helpers/styles/colors';
 
 export default class ColorPresentation extends Component {
   static propTypes = {

@@ -2,7 +2,7 @@ import bind from 'decorators/bind';
 import Balloon from 'components/balloon';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
-import {getColor} from 'helpers/colors';
+import {getColor} from 'helpers/styles/colors';
 
 import styles from './shadow.less';
 import Edit from './edit';
