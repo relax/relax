@@ -33,7 +33,7 @@ export default class Counter extends Component {
       ...this.props.relax,
       htmlTag: 'div',
       settings,
-      className: cx(classMap.text)
+      className: cx(classMap.holder, classMap.text)
     };
 
     const format = this.props.format;
