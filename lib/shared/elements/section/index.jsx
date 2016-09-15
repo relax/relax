@@ -38,9 +38,6 @@ export default class Section extends Component {
     const props = {
       ...this.props.relax,
       htmlTag: 'div',
-      style: {
-        position: 'relative'
-      },
       className: cx(classMap && classMap.section),
       settings
     };
