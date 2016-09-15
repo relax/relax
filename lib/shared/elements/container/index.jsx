@@ -23,9 +23,6 @@ export default class Container extends Component {
     const props = {
       ...this.props.relax,
       htmlTag: 'div',
-      style: {
-        position: 'relative'
-      },
       className: classMap.container,
       settings
     };
