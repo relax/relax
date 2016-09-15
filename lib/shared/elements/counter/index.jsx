@@ -48,7 +48,7 @@ export default class Counter extends Component {
       htmlTag: 'div',
       settings,
       onEnterScreen: this.onEnterScreen.bind(this),
-      className: cx(classMap.text)
+      className: cx(classMap.holder, classMap.text)
     };
 
     return (
