@@ -137,6 +137,14 @@ export default class Canvas extends Component {
   }
 
   @bind
+  renderChildChildren (options) {
+    const result = this.renderChildren(options);
+    this.updateStylesMap();
+
+    return result;
+  }
+
+  @bind
   renderElement (elementInfo, children) {
     const {styles, elements, display, selected} = this.props;
     const {
@@ -190,7 +198,7 @@ export default class Canvas extends Component {
             element,
             positionInParent,
             elementLinks,
-            renderChildren: this.renderChildren,
+            renderChildren: this.renderChildChildren,
             display,
             selected: selected && isElementSelected(selected, {
               id: elementId,
