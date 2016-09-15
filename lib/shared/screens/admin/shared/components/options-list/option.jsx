@@ -65,18 +65,22 @@ export default class Option extends Component {
       type,
       tight,
       label,
-      children
+      children,
+      elementOverride,
+      displayOverride
     } = this.props;
+
+    const overridable = elementOverride || displayOverride;
 
     return (
       <div className={cx(styles.option, tight && styles.tight)}>
         {this.renderLabel(type !== 'Optional' && label)}
         <div>
-          <div className={cx(!label && styles.maxSize)}>
+          <div className={cx(!label && overridable && styles.maxSize)}>
             {this.renderOptionComp()}
           </div>
           {
-            !label &&
+            !label && overridable &&
             <div className={styles.sideOverrides}>
               {this.renderOverrides()}
             </div>
