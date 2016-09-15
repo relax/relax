@@ -12,7 +12,6 @@ export default class Counter extends Component {
     icon: PropTypes.string.isRequired,
     style: PropTypes.any.isRequired,
     styleClassMap: PropTypes.object,
-    align: PropTypes.string.isRequired,
     begin: PropTypes.number.isRequired,
     end: PropTypes.number.isRequired,
     duration: PropTypes.number.isRequired,
@@ -22,8 +21,7 @@ export default class Counter extends Component {
   static defaultProps = {
     begin: 0,
     end: 100,
-    duration: 2000,
-    align: 'center'
+    duration: 2000
   };
 
   static propsSchema = propsSchema;
@@ -50,10 +48,7 @@ export default class Counter extends Component {
       htmlTag: 'div',
       settings,
       onEnterScreen: this.onEnterScreen.bind(this),
-      className: cx(classMap.text),
-      style: {
-        textAlign: this.props.align
-      }
+      className: cx(classMap.text)
     };
 
     return (
