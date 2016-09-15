@@ -3,7 +3,7 @@ import elementStyles from 'styles/element.less';
 import MediaImage from 'components/image';
 import Utils from 'helpers/utils';
 import React, {PropTypes} from 'react';
-import {getColorString} from 'helpers/colors';
+import {getColorString} from 'helpers/styles/colors';
 import {findDOMNode} from 'react-dom';
 
 import classes from './classes';
