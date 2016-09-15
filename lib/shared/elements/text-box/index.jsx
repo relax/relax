@@ -62,6 +62,7 @@ export default class TextBox extends Component {
 
   render () {
     const {relax} = this.props;
+    const classMap = this.props.styleClassMap;
 
     return (
       <Element
@@ -69,6 +70,7 @@ export default class TextBox extends Component {
         htmlTag='div'
         settings={settings}
         style={this.getStyle()}
+        className={classMap.holder}
       >
         {this.renderContent()}
       </Element>
