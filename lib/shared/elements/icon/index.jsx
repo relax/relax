@@ -11,7 +11,6 @@ import Element from '../element';
 export default class Icon extends Component {
   static propTypes = {
     icon: PropTypes.object.isRequired,
-    align: PropTypes.string.isRequired,
     styleClassMap: PropTypes.object,
     relax: PropTypes.object.isRequired
   };
@@ -20,23 +19,20 @@ export default class Icon extends Component {
     icon: {
       family: 'fontawesome',
       className: 'fa fa-beer'
-    },
-    align: 'center'
+    }
   };
   static propsSchema = propsSchema;
   static settings = settings;
   static style = style;
 
   render () {
-    const {relax, styleClassMap, align, icon} = this.props;
+    const {relax, styleClassMap, icon} = this.props;
     const classMap = styleClassMap || {};
     const props = {
       htmlTag: 'div',
       ...relax,
       settings,
-      style: {
-        textAlign: align
-      }
+      className: classMap.root
     };
 
     return (
