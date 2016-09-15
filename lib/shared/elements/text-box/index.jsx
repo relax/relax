@@ -13,14 +13,8 @@ import Element from '../element';
 
 export default class TextBox extends Component {
   static propTypes = {
-    usePadding: PropTypes.bool,
-    padding: PropTypes.string,
-    useAlign: PropTypes.bool,
-    textAlign: PropTypes.string,
     children: PropTypes.node,
     styleClassMap: PropTypes.object,
-    useTrim: PropTypes.bool,
-    maxWidth: PropTypes.number,
     relax: PropTypes.object.isRequired
   };
 
@@ -28,30 +22,11 @@ export default class TextBox extends Component {
     store: PropTypes.object.isRequired
   };
 
-  static defaultProps = {
-    padding: '0px',
-    textAlign: 'left',
-    maxWidth: 200
-  };
-
   static defaultChildren = 'Click to edit text';
 
   static propsSchema = propsSchema;
   static settings = settings;
   static style = style;
-
-  getStyle () {
-    const result = {};
-
-    if (this.props.usePadding) {
-      result.padding = this.props.padding;
-    }
-    if (this.props.useAlign) {
-      result.textAlign = this.props.textAlign;
-    }
-
-    return result;
-  }
 
   @bind
   onChange (value) {
@@ -69,7 +44,6 @@ export default class TextBox extends Component {
         {...relax}
         htmlTag='div'
         settings={settings}
-        style={this.getStyle()}
         className={classMap.holder}
       >
         {this.renderContent()}
@@ -81,7 +55,6 @@ export default class TextBox extends Component {
     let result;
     const classMap = this.props.styleClassMap;
     const {editing, selected} = this.props.relax;
-    const styles = {};
     const className = cx(classes.text, classMap.text);
 
     let html = '';
@@ -89,10 +62,6 @@ export default class TextBox extends Component {
       html = 'Double click to edit text';
     } else {
       html = this.props.children;
-    }
-
-    if (this.props.useTrim) {
-      styles.maxWidth = this.props.maxWidth;
     }
 
     if (editing && selected) {
@@ -107,12 +76,12 @@ export default class TextBox extends Component {
     } else {
       result = (
         <div
-          className={cx(className, this.props.useTrim && classes.trim, editing && classes.cursor)}
-          style={styles}
+          className={cx(className, editing && classes.cursor)}
           dangerouslySetInnerHTML={{__html: html}}
         />
       );
     }
+
     return result;
   }
 }
