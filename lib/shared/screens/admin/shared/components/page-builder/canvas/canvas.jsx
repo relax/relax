@@ -1,5 +1,4 @@
 import bind from 'decorators/bind';
-import debounce from 'decorators/debounce';
 import displays from 'statics/displays';
 import isElementSelected from 'helpers/is-element-selected';
 import stylesManager from 'helpers/styles-manager';
@@ -57,7 +56,6 @@ export default class Canvas extends Component {
     window.dispatchEvent(new Event('scroll'));
   }
 
-  @debounce(10)
   updateStylesMap () {
     this.props.updateStylesMap(stylesManager.stylesMap);
   }
