@@ -16,7 +16,8 @@ export default class NumberInput extends Component {
     className: PropTypes.string,
     arrows: PropTypes.bool,
     white: PropTypes.bool,
-    small: PropTypes.bool
+    small: PropTypes.bool,
+    focused: PropTypes.bool
   };
 
   static defaultProps = {
@@ -31,6 +32,12 @@ export default class NumberInput extends Component {
     return {
       focused: false
     };
+  }
+
+  componentDidMount () {
+    if (this.props.focused) {
+      this.refs.input.focus();
+    }
   }
 
   limitValue (value) {

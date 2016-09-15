@@ -170,6 +170,7 @@ export default class DistancePicker extends Component {
             min={false}
             white
             small
+            focused
           />
           <Button
             small
