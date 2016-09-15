@@ -38,18 +38,10 @@ export default class EditProps extends Component {
     changeElementProperty(selected.id, key, value, selected.context);
   }
 
-  @bind
-  changeElementCssProp (key, value) {
-    const {selected, pageBuilderActions} = this.props;
-    const {changeElementCssProp} = pageBuilderActions;
-    changeElementCssProp(selected.id, key, value, selected.context);
-  }
-
   render () {
     return (
       <div className={styles.root}>
         {this.renderLabelOption()}
-        {this.renderCssProps()}
         {this.renderOptions()}
         <Animation {...this.props} />
       </div>
@@ -66,28 +58,6 @@ export default class EditProps extends Component {
           value={selectedElement.label || selectedElement.tag}
           onChange={this.changeElementLabel}
         />
-      </div>
-    );
-  }
-
-  renderCssProps () {
-    const {selectedElement, display} = this.props;
-    const values = Object.assign({}, getElementCss(selectedElement, display));
-
-    return (
-      <div>
-        <div className={optionsStyles.option}>
-          <div className={optionsStyles.label}>Display</div>
-          <CssDisplay values={values} onChange={this.changeElementCssProp} />
-        </div>
-        <div className={optionsStyles.option}>
-          <div className={optionsStyles.label}>Position</div>
-          <CssPosition values={values} onChange={this.changeElementCssProp} />
-        </div>
-        <div className={optionsStyles.option}>
-          <div className={optionsStyles.label}>Padding and margin</div>
-          <CssPadMarg values={values} onChange={this.changeElementCssProp} />
-        </div>
       </div>
     );
   }
