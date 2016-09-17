@@ -1,0 +1,81 @@
+@import '~styles/colors.less';
+
+.selected {
+  position: relative;
+  padding: 0 18px;
+  border-bottom: 1px solid @chromeBordersColor;
+  cursor: pointer;
+  height: 65px;
+
+  :global {
+    i {
+      display: inline-block;
+    }
+  }
+
+  &:hover {
+    background-color: @chromeBackgroundActive;
+
+    .editButton {
+      visibility: visible;
+    }
+  }
+}
+
+.title {
+  line-height: 20px;
+  margin: 22.5px 0;
+  display: inline-block;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: @chromeTextColor;
+  border: 0;
+  outline: 0;
+}
+
+.input {
+  background: transparent;
+  border-bottom: 1px solid @chromeBordersColor;
+
+  &:focus {
+    border-color: @primary;
+  }
+}
+
+.arrow {
+  font-size: 14px;
+  position: absolute;
+  right: 12px;
+  line-height: 65px;
+  color: @chromeTextSubColor;
+}
+
+.editButton {
+  font-size: 12px;
+  line-height: 14px;
+  color: @chromeTextColor;
+  margin-left: 10px;
+  visibility: hidden;
+
+  &:hover {
+    color: @primary;
+  }
+}
+
+.formButton {
+  display: inline-block;
+  vertical-align: top;
+  float: right;
+  line-height: 20px;
+  margin: 22.5px 0;
+  font-size: 19px;
+  margin-left: 10px;
+}
+
+.confirmButton {
+  color: @success;
+}
+
+.cancelButton {
+  color: @chromeTextSubColor;
+}

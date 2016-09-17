@@ -1,35 +1,5 @@
 @import '~styles/colors.less';
 
-.selected {
-  position: relative;
-  padding: 0 18px;
-  border-bottom: 1px solid @chromeBordersColor;
-  cursor: pointer;
-
-  :global {
-    span, i {
-      display: inline-block;
-    }
-    span {
-      font-size: 11px;
-      text-transform: uppercase;
-      line-height: 65px;
-      color: @chromeTextColor;
-    }
-    i {
-      font-size: 14px;
-      position: absolute;
-      right: 12px;
-      line-height: 65px;
-      color: @chromeTextSubColor;
-    }
-  }
-
-  &:hover {
-    background-color: @chromeBackgroundActive;
-  }
-}
-
 .content {
   position: absolute;
   left: 0;

@@ -44,7 +44,7 @@
     "lodash.debounce": "^3.1.1",
     "lodash.filter": "^3.1.1",
     "lodash.find": "^3.2.1",
-    "lodash.findindex": "^4.2.0",
+    "lodash.findindex": "https://registry.npmjs.org/lodash.findindex/-/lodash.findindex-4.6.0.tgz",
     "lodash.foreach": "^3.0.3",
     "lodash.intersection": "^4.2.0",
     "lodash.merge": "^3.3.2",
