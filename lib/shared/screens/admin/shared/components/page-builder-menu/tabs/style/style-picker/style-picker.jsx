@@ -34,7 +34,7 @@ export default class StylePicker extends Component {
   }
 
   renderContent () {
-    const {editing, selectedStyle} = this.props;
+    const {editing, selectedStyle, toggleEditing} = this.props;
     let result;
 
     if (editing) {
@@ -43,7 +43,7 @@ export default class StylePicker extends Component {
       );
     } else {
       result = (
-        <List selectedStyle={selectedStyle} />
+        <List selectedStyle={selectedStyle} onChange={toggleEditing} />
       );
     }
 
