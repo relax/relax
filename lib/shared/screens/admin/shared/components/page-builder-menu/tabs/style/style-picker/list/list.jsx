@@ -11,6 +11,7 @@ export default class StylePickerList extends Component {
     styles: PropTypes.array.isRequired,
     changeStyle: PropTypes.func.isRequired,
     removeStyle: PropTypes.func.isRequired,
+    duplicateStyle: PropTypes.func.isRequired,
     currentId: PropTypes.string
   };
 
@@ -57,7 +58,7 @@ export default class StylePickerList extends Component {
   }
 
   renderEntry (entry) {
-    const {changeStyle, removeStyle, currentId} = this.props;
+    const {changeStyle, removeStyle, duplicateStyle, currentId} = this.props;
 
     if (entry._id !== currentId) {
       return (
@@ -65,6 +66,7 @@ export default class StylePickerList extends Component {
           entry={entry}
           onClick={changeStyle}
           removeStyle={removeStyle}
+          duplicateStyle={duplicateStyle}
           key={entry._id}
         />
       );
