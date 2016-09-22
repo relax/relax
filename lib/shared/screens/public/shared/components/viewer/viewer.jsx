@@ -5,7 +5,9 @@ import stylesManager from 'helpers/styles-manager';
 import traverseChildren from 'helpers/traverser/children';
 import traverser from 'helpers/traverser';
 import Component from 'components/component';
+import get from 'lodash.get';
 import React, {PropTypes} from 'react';
+import Portal from 'components/portal';
 
 const defaultStyleClassMap = {};
 export default class Viewer extends Component {
@@ -94,7 +96,7 @@ export default class Viewer extends Component {
       elementLinks
     } = elementInfo;
 
-    const styleClassMap = stylesManager.processElement({
+    const styleMap = stylesManager.processElement({
       element,
       elements,
       styles,
@@ -103,10 +105,13 @@ export default class Viewer extends Component {
     });
 
     if (displayElement) {
-      return (
+      const isFixed = get(styleMap, 'resultValues.position.position', 'static') === 'fixed';
+      let result;
+
+      const renderedElement = (
         <ElementClass
           key={`${context}-${elementId}`}
-          styleClassMap={styleClassMap || defaultStyleClassMap}
+          styleClassMap={styleMap && styleMap.classMap || defaultStyleClassMap}
           {...props}
           relax={{
             editing: editable,
@@ -121,6 +126,18 @@ export default class Viewer extends Component {
           {children}
         </ElementClass>
       );
+
+      if (isFixed) {
+        result = (
+          <Portal>
+            {renderedElement}
+          </Portal>
+        );
+      } else {
+        result = renderedElement;
+      }
+
+      return result;
     }
   }
 }
