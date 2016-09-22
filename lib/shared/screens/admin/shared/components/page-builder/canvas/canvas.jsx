@@ -9,6 +9,8 @@ import Droppable from 'components/dnd/droppable';
 import Scrollable from 'components/scrollable';
 import Styles from 'components/styles';
 import React, {PropTypes} from 'react';
+import get from 'lodash.get';
+import Portal from 'components/portal';
 
 import classes from './canvas.less';
 import Empty from './empty';
@@ -93,7 +95,7 @@ export default class Canvas extends Component {
 
     return (
       <Scrollable className={classes.canvas} onScroll={this.onScroll}>
-        <div className={classes.content} style={bodyStyle} ref='body'>
+        <div className={classes.content} style={bodyStyle} ref='body' id='pb-canvas'>
           {content}
         </div>
         <Styles />
@@ -158,7 +160,7 @@ export default class Canvas extends Component {
       builderLink
     } = elementInfo;
 
-    const styleClassMap = stylesManager.processElement({
+    const styleMap = stylesManager.processElement({
       element,
       elements,
       styles,
@@ -166,6 +168,8 @@ export default class Canvas extends Component {
     });
 
     if (displayElement) {
+      const isFixed = get(styleMap, 'resultValues.position.position', 'static') === 'fixed';
+      let result;
       let resultChildren = children;
 
       if (builderLink) {
@@ -185,10 +189,10 @@ export default class Canvas extends Component {
         );
       }
 
-      return (
+      const renderedElement = (
         <ElementClass
           key={`${context}-${elementId}`}
-          styleClassMap={styleClassMap || defaultStyleClassMap}
+          styleClassMap={styleMap && styleMap.classMap || defaultStyleClassMap}
           {...props}
           relax={{
             editing: editable,
@@ -207,6 +211,18 @@ export default class Canvas extends Component {
           {resultChildren}
         </ElementClass>
       );
+
+      if (isFixed) {
+        result = (
+          <Portal attachTo='pb-canvas'>
+            {renderedElement}
+          </Portal>
+        );
+      } else {
+        result = renderedElement;
+      }
+
+      return result;
     }
   }
 }
