@@ -103,25 +103,64 @@ export default class NumberInput extends Component {
   }
 
   @bind
-  up (event) {
-    event.preventDefault();
-    if (this.props.value === 'auto') {
-      this.props.onChange(this.limitValue(1) + this.props.allowed[0]);
-    } else {
-      const unitValue = this.getUnitAndValue(this.props.value);
-      this.props.onChange(this.limitValue(unitValue.value + 1) + unitValue.unit);
+  onKeyDown (event) {
+    if (event.keyCode === 38) {
+      // up arrow
+      this.updateStateValue(this.up(event, event.shiftKey ? 10 : 1));
+    } else if (event.keyCode === 40) {
+      // down arrow
+      this.updateStateValue(this.down(event, event.shiftKey ? 10 : 1));
     }
   }
 
   @bind
-  down (event) {
+  up (event, inc) {
+    let result;
     event.preventDefault();
+
     if (this.props.value === 'auto') {
-      this.props.onChange(this.limitValue(-1) + this.props.allowed[0]);
+      result = this.limitValue(inc) + this.props.allowed[0];
     } else {
       const unitValue = this.getUnitAndValue(this.props.value);
-      this.props.onChange(this.limitValue(unitValue.value - 1) + unitValue.unit);
+      result = this.limitValue(unitValue.value + inc) + unitValue.unit;
     }
+
+    this.props.onChange(result);
+
+    return result;
+  }
+
+  @bind
+  down (event, inc) {
+    let result;
+    event.preventDefault();
+
+    if (this.props.value === 'auto') {
+      result = this.limitValue(-inc) + this.props.allowed[0];
+    } else {
+      const unitValue = this.getUnitAndValue(this.props.value);
+      result = this.limitValue(unitValue.value - inc) + unitValue.unit;
+    }
+
+    this.props.onChange(result);
+
+    return result;
+  }
+
+  @bind
+  arrowUp (event) {
+    this.up(event, 1);
+  }
+
+  @bind
+  arrowDown (event) {
+    this.down(event, 1);
+  }
+
+  updateStateValue (value) {
+    this.setState({
+      value
+    });
   }
 
   @bind
@@ -163,6 +202,7 @@ export default class NumberInput extends Component {
           ref='input'
           onBlur={this.onBlur}
           onFocus={this.onFocus}
+          onKeyDown={this.onKeyDown}
         />
         {this.renderArrows()}
       </div>
@@ -174,10 +214,10 @@ export default class NumberInput extends Component {
     if (arrows) {
       return (
         <div className={styles.arrows}>
-          <button className={styles.arrow} onClick={this.up}>
+          <button className={styles.arrow} onClick={this.arrowUp}>
             <i className='nc-icon-mini arrows-1_minimal-up'></i>
           </button>
-          <button className={styles.arrow} onClick={this.down}>
+          <button className={styles.arrow} onClick={this.arrowDown}>
             <i className='nc-icon-mini arrows-1_minimal-down'></i>
           </button>
         </div>
