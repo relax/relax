@@ -1,8 +1,9 @@
-import clone from 'lodash.clone';
 import forEach from 'lodash.foreach';
 import Component from 'components/component';
 import Utils from 'helpers/utils';
 import React, {PropTypes} from 'react';
+import defaultFonts from 'statics/default-fonts';
+import defaultFvds from 'statics/default-fvds';
 
 import styles from './font-picker.less';
 import Dropdown from './dropdown';
@@ -21,7 +22,7 @@ export default class FontPicker extends Component {
   }
 
   getChangedValue (key, value) {
-    const newValue = clone(this.props.value || {});
+    const newValue = Object.assign({}, this.props.value);
 
     newValue[key] = value;
 
@@ -30,7 +31,7 @@ export default class FontPicker extends Component {
       const family = value;
       const fvds = this.props.fonts[family];
 
-      if (fvds.indexOf(newValue.fvd) === -1) {
+      if (fvds && fvds.indexOf(newValue.fvd) === -1) {
         newValue.fvd = fvds[0];
       }
     }
@@ -53,12 +54,12 @@ export default class FontPicker extends Component {
   }
 
   renderOptions () {
+    const {value, fonts} = this.props;
     const families = [];
-    const fvds = [];
-    const value = this.props.value;
+    let fvds = [];
 
-    if (this.props.fonts) {
-      forEach(this.props.fonts, (fvdsArray, family) => {
+    if (fonts) {
+      forEach(fonts, (fvdsArray, family) => {
         families.push({
           label: family,
           value: family
@@ -75,6 +76,17 @@ export default class FontPicker extends Component {
       });
     }
 
+    forEach(defaultFonts, (defaultFont) => {
+      families.push({
+        label: defaultFont.label,
+        value: defaultFont.value
+      });
+
+      if (value.family && value.family === defaultFont.value) {
+        fvds = defaultFvds;
+      }
+    });
+
     return (
       <div className={styles.options}>
         <Dropdown
@@ -83,27 +95,30 @@ export default class FontPicker extends Component {
           label={Utils.filterFontFamily(value.family || '')}
           onChange={this.onFamilyChange}
           className={styles.fontsDropdown}
+          family
         />
-      <span className={styles.sep}></span>
+        <span className={styles.sep}></span>
         <Dropdown
           entries={fvds}
           value={value.fvd}
           label={value.fvd}
           onChange={this.onFVDChange}
           className={styles.typeDropdown}
+          fvd
         />
       </div>
     );
   }
 
   renderFont () {
+    const {value} = this.props;
     let result;
 
-    if (typeof this.props.value === 'object' && this.props.value.family && this.props.value.fvd) {
+    if (typeof value === 'object' && value.family && value.fvd) {
       result = (
         <Font
-          family={this.props.value.family}
-          fvd={this.props.value.fvd}
+          family={value.family}
+          fvd={value.fvd}
           text={'Abc'}
         />
       );

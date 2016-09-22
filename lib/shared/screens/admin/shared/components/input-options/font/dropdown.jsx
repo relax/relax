@@ -1,8 +1,10 @@
 import cx from 'classnames';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
-
+import Scrollable from 'components/scrollable';
 import styles from './dropdown.less';
+import bind from 'decorators/bind';
+import utils from 'helpers/utils';
 
 export default class Dropdown extends Component {
   static propTypes = {
@@ -12,7 +14,9 @@ export default class Dropdown extends Component {
     onChange: PropTypes.func.isRequired,
     tempChange: PropTypes.func.isRequired,
     tempRevert: PropTypes.func.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
+    fvd: PropTypes.bool,
+    family: PropTypes.bool
   };
 
   getInitState () {
@@ -26,6 +30,7 @@ export default class Dropdown extends Component {
     this.props.onChange(value);
   }
 
+  @bind
   toggle () {
     this.setState({
       opened: !this.state.opened
@@ -33,14 +38,25 @@ export default class Dropdown extends Component {
   }
 
   render () {
-    const {className, label} = this.props;
+    const {className, label, value, fvd, family} = this.props;
+    const {opened} = this.state;
+    const style = {};
+
+    if (value) {
+      if (fvd) {
+        utils.processFVD(style, value);
+      } else if (family) {
+        style.fontFamily = value;
+      }
+    }
+
     return (
-      <div className={cx(styles.root, className)} onClick={::this.toggle}>
+      <div className={cx(styles.root, opened && styles.opened, className)} onClick={this.toggle}>
         {this.renderCollapsable()}
-        <span className={styles.info}>
+        <span className={styles.info} style={style}>
           {label}
-          <i className='nc-icon-mini arrows-1_small-triangle-down'></i>
         </span>
+        <i className='nc-icon-mini arrows-1_small-triangle-down' />
       </div>
     );
   }
@@ -49,18 +65,32 @@ export default class Dropdown extends Component {
     if (this.state.opened) {
       return (
         <div className={styles.collapsable}>
-          {this.props.entries.map(this.renderEntry, this)}
+          <Scrollable>
+            <div>
+              {this.props.entries.map(this.renderEntry, this)}
+            </div>
+          </Scrollable>
         </div>
       );
     }
   }
 
   renderEntry (entry) {
+    const {fvd, family} = this.props;
     const onClick = this.onEntryClick.bind(this, entry.value);
+    const style = {};
+
+    if (fvd) {
+      utils.processFVD(style, entry.value);
+    } else if (family) {
+      style.fontFamily = entry.value;
+    }
+
     return (
       <button
         className={styles.entry}
         onClick={onClick}
+        style={style}
       >
         {entry.label}
       </button>
