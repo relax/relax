@@ -2,7 +2,7 @@ import bind from 'decorators/bind';
 import Component from 'components/component';
 import DistancePicker from 'components/distance-picker';
 import React, {PropTypes} from 'react';
-
+import NumberInput from 'components/input-options/number';
 import styles from './index.less';
 import PositionButton from './button';
 
@@ -22,6 +22,12 @@ export default class CssPositionOption extends Component {
   onPropChange (key, value) {
     const {onChange} = this.props;
     onChange(key, value);
+  }
+
+  @bind
+  onZIndexChange (value) {
+    const {onChange} = this.props;
+    onChange('zIndex', value);
   }
 
   render () {
@@ -75,17 +81,31 @@ export default class CssPositionOption extends Component {
     if (position === 'relative' ||
         position === 'absolute' ||
         position === 'fixed') {
-      const {top, right, bottom, left} = values;
+      const {top, right, bottom, left, zIndex} = values;
 
       return (
         <div className={styles.options}>
-          <DistancePicker
-            top={top}
-            right={right}
-            bottom={bottom}
-            left={left}
-            onChange={this.onPropChange}
-          />
+          <div className={styles.distanceHolder}>
+            <DistancePicker
+              top={top}
+              right={right}
+              bottom={bottom}
+              left={left}
+              width='70px'
+              height='70px'
+              onChange={this.onPropChange}
+            />
+          </div>
+          <div className={styles.zIndex}>
+            <div className={styles.label}>Z-index</div>
+            <NumberInput
+              value={zIndex || '0'}
+              onChange={this.onZIndexChange}
+              small
+              min={false}
+              className={styles.zIndexOption}
+            />
+          </div>
         </div>
       );
     }
