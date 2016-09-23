@@ -11,7 +11,7 @@
   font-size: 11px;
   line-height: @height;
   padding-right: 25px;
-  margin-top: 1px;
+  margin-top: -1px;
 
   height: @height;
 
@@ -29,8 +29,10 @@
     content: '';
     position: absolute;
     left: 0; right: 0;
-    height: @height;
+    height: @height - 2px;
+    border-top: 1px solid @chromeBordersColor;
     border-bottom: 1px solid @chromeBordersColor;
+    transform: translateY(1px);
   }
 
   &.overed {
