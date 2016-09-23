@@ -23,7 +23,8 @@ export default class Balloon extends Component {
       verticalPosition: 'bottom',
       horizontalPosition: 'left',
       transition: 'slideUpIn',
-      horizontalOffset: -9
+      horizontalOffset: -4,
+      verticalOffset: 4
     }, stickOptions);
 
     return (
@@ -37,7 +38,6 @@ export default class Balloon extends Component {
             className
           )}
           >
-            <span className={styles.triangle} />
             <div>
               {this.props.children}
             </div>
