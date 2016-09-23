@@ -32,7 +32,7 @@ export default class ColorPicker extends Component {
   }
 
   render () {
-    const {colors, value, type, white} = this.props;
+    const {colors, value, type, white, opened} = this.props;
     const colorStyle = {};
     applyBackground(colorStyle, value, colors);
 
@@ -45,7 +45,11 @@ export default class ColorPicker extends Component {
 
     return (
       <div className={cx(white && styles.white, this.props.className)}>
-        <div className={styles.info} onClick={this.toggleOpen} ref={(ref) => {this.ref = ref;}}>
+        <div
+          className={cx(styles.info, opened && styles.opened)}
+          onClick={this.toggleOpen}
+          ref={(ref) => {this.ref = ref;}}
+        >
           <div className={styles.preview}>
             <span className={styles.color} style={colorStyle} />
           </div>
@@ -66,6 +70,7 @@ export default class ColorPicker extends Component {
             horizontalPosition='left'
             transition='slideUpIn'
             horizontalOffset={-9}
+            verticalOffset={5}
           >
             <Edit {...this.props} infoElement={this.ref} />
           </Stick>
