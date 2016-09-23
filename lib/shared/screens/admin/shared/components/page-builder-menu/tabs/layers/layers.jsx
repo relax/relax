@@ -4,10 +4,16 @@ import Component from 'components/component';
 import Droppable from 'components/dnd/droppable';
 import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
+import Empty from './empty';
 
 import styles from './layers.less';
 import Entry from './entry';
 
+const bodyDropInfo = {
+  id: 'body',
+  type: 'body',
+  context: 'data'
+};
 export default class Layers extends Component {
   static propTypes = {
     doc: PropTypes.object,
@@ -54,7 +60,7 @@ export default class Layers extends Component {
   renderContent () {
     const {template, doc, type, elements} = this.props;
 
-    const content = traverser({
+    let content = traverser({
       template,
       doc,
       display: 'desktop',
@@ -62,6 +68,20 @@ export default class Layers extends Component {
       editing: true,
       type
     }, this.renderListEntry);
+
+    if (!template) {
+      content = (
+        <Droppable
+          key='body'
+          type='body'
+          placeholder
+          dropInfo={bodyDropInfo}
+          showMarks={false}
+        >
+          {content}
+        </Droppable>
+      );
+    }
 
     return content;
   }
@@ -126,7 +146,9 @@ export default class Layers extends Component {
             dropInfo={dropInfo}
             showMarks={false}
             {...dropSettings}
-            minHeight={7}
+            minHeight={12}
+            placeholder
+            placeholderRender={this.renderPlaceholder}
           />
         </ul>
       );
@@ -155,6 +177,13 @@ export default class Layers extends Component {
         />
         {childrenContent}
       </li>
+    );
+  }
+
+  @bind
+  renderPlaceholder (options) {
+    return (
+      <Empty {...options} />
     );
   }
 }

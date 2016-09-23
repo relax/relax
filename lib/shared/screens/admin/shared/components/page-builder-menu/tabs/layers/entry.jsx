@@ -42,7 +42,7 @@ export default class Entry extends Component {
     if (!dragging) {
       pageBuilderActions.overElement(element.id, context);
     } else if (hasChildren && !isExpanded) {
-      this.openInterval = setTimeout(pageBuilderActions.toggleExpandElement.bind(this, element.id), 500);
+      this.openInterval = setTimeout(pageBuilderActions.toggleExpandElement.bind(this, element.id, context), 500);
     }
   }
 
