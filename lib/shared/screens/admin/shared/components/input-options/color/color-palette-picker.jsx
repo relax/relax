@@ -69,7 +69,7 @@ export default class ColorPicker extends Component {
             verticalPosition='bottom'
             horizontalPosition='left'
             transition='slideUpIn'
-            horizontalOffset={-9}
+            horizontalOffset={-4}
             verticalOffset={5}
           >
             <Edit {...this.props} infoElement={this.ref} />
