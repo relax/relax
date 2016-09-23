@@ -10,129 +10,67 @@
   max-width: 480px;
   font-size: 10px;
   text-align: left;
-
-  &:hover {
-    .holder {
-      border-color: @primary;
-    }
-  }
+  height: @comboboxHeight;
+  border: solid 1px @chromeBordersColor;
+  background-color: @chromeBackgroundDarkerColor;
+  border-radius: 3px;
 
   &.small {
     max-width: 120px;
   }
+
+  &:hover, &.opened {
+    border-color: @primary;
+  }
 }
 
-.holder {
-  height: @comboboxHeight;
+.selectedText {
   position: relative;
-  border: solid 1px @chromeBordersColor;
-  background-color: @chromeBackgroundDarkerColor;
-  overflow: hidden;
-
-  border-radius: 3px;
-  transition: all 0.3s ease-out;
-
-  .button {
-    color: @chromeTextColor;
-    text-align: center;
-  }
-
-  &.opened {
-    height: auto;
-  }
-}
-
-.header {
-  overflow: hidden;
-
-  .selectedText {
-    position: relative;
-    padding: 0px 12px;
-    line-height: @comboboxHeight;
-    font-size: 10px;
-    display: inline-block;
-    float: left;
-    color: @chromeTextColor;
-  }
-
-  .button {
-    display: inline-block;
-    float: right;
-    width: @comboboxHeight;
-    height: @comboboxHeight;
-
-    :global i {
-      line-height: @comboboxHeight;
-      font-size: 11px;
-    }
-  }
-}
-
-.options {
-  position: relative;
-  left: 0;
-  display: block;
-  max-height: 155px;
-  overflow-y: auto;
-  border-top: solid 1px @chromeBordersColor;
-}
-
-.option {
-  color: @chromeTextColor;
-  padding: 6px 12px;
-  display: block;
+  padding: 0px 12px;
+  line-height: @comboboxHeight;
   font-size: 10px;
-  transition: all 0.2s ease-out;
+  display: inline-block;
+  float: left;
+  color: @chromeTextColor;
+}
 
-  &:hover {
-    background-color: @primary;
-    color: @chromeTextColorHighlight;
+.button {
+  display: inline-block;
+  float: right;
+  width: @comboboxHeight;
+  height: @comboboxHeight;
+  color: @chromeTextColor;
+  text-align: center;
+
+  :global i {
+    line-height: @comboboxHeight;
+    font-size: 11px;
   }
 }
 
 // White areas
 .white {
-  .holder {
-    background-color: transparent;
-    border-color: @adminInputBorders;
+  background-color: transparent;
+  border-color: @adminInputBorders;
+  color: @adminText;
+
+  .selectedText {
     color: @adminText;
   }
 
-  .header {
-    .selectedText {
-      color: @adminText;
-    }
-    .button {
-      color: @adminText;
-      border-color: @adminInputBorders;
-    }
-  }
-
-  .options {
-    border-color: @adminInputBorders;
-  }
-
-  .option {
+  .button {
     color: @adminText;
-
-    &:hover {
-      color: @adminTextHighlight;
-    }
+    border-color: @adminInputBorders;
   }
 
   &:hover {
-    .combobox-holder {
+    .combobox {
       border-color: @primary;
-
-      .button {
-        color: @adminText;
-      }
     }
 
-    .header {
-      .button {
-        background-color: transparent;
-      }
+    .button {
+      color: @adminText;
+      background-color: transparent;
     }
   }
 }
