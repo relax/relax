@@ -58,6 +58,12 @@ export default class Canvas extends Component {
     window.dispatchEvent(new Event('scroll'));
   }
 
+  @bind
+  onCanvasClick () {
+    const {pageBuilderActions} = this.props;
+    pageBuilderActions.selectElement();
+  }
+
   updateStylesMap () {
     this.props.updateStylesMap(stylesManager.stylesMap);
   }
@@ -95,7 +101,7 @@ export default class Canvas extends Component {
 
     return (
       <Scrollable className={classes.canvas} onScroll={this.onScroll}>
-        <div className={classes.content} style={bodyStyle} ref='body' id='pb-canvas'>
+        <div className={classes.content} style={bodyStyle} ref='body' id='pb-canvas' onClick={this.onCanvasClick}>
           {content}
         </div>
         <Styles />
