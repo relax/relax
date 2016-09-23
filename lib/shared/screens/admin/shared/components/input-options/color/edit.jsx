@@ -120,7 +120,6 @@ export default class Edit extends Component {
 
     return (
       <div className={cx(styles.root, noPicker && styles.noPicker)} ref='holder'>
-        <span className={cx(styles.triangle, this.props.side)} />
         {gradients &&
           <Types
             type={type}
