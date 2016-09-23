@@ -3,7 +3,7 @@ import cx from 'classnames';
 import forEach from 'lodash.foreach';
 import Component from 'components/component';
 import React from 'react';
-
+import Options from './options';
 import styles from './index.less';
 
 export default class Combobox extends Component {
@@ -30,12 +30,11 @@ export default class Combobox extends Component {
     });
   }
 
-  optionClicked (value, event) {
-    event.preventDefault();
+  @bind
+  optionClicked (value) {
+    const {onChange} = this.props;
 
-    if (this.props.onChange) {
-      this.props.onChange(value);
-    }
+    onChange && onChange(value);
 
     this.setState({
       opened: false
@@ -44,6 +43,8 @@ export default class Combobox extends Component {
 
   render () {
     const {values, labels, value, className, style, white} = this.props;
+    const {opened} = this.state;
+
     let label = '';
     forEach(values, (valueIt, key) => {
       if (value === valueIt) {
@@ -52,36 +53,40 @@ export default class Combobox extends Component {
     });
 
     return (
-      <div className={cx(styles.combobox, white && styles.white, className)} style={style}>
-        <div className={cx(styles.holder, this.state.opened && styles.opened)}>
-          <div className={styles.header} onClick={this.toggle}>
-            <div className={styles.selectedText}>{label}</div>
-            <div className={styles.button}>
-              <i className={cx(
-                  'nc-icon-mini',
-                  this.state.opened ? 'arrows-1_minimal-up' : 'arrows-1_minimal-down'
-                )}
-              />
-            </div>
-          </div>
-          <div className={styles.options}>
-            {(labels || values).map(this.renderOption, this)}
-          </div>
+      <div
+        className={cx(styles.combobox, white && styles.white, opened && styles.opened, className)}
+        style={style}
+        ref={(ref) => {this.ref = ref;}}
+        onClick={this.toggle}
+      >
+        <div className={styles.selectedText}>{label}</div>
+        <div className={styles.button}>
+          <i
+            className={cx(
+              'nc-icon-mini',
+              opened ? 'arrows-1_minimal-up' : 'arrows-1_minimal-down'
+            )}
+          />
         </div>
+        {this.renderOptions()}
       </div>
     );
   }
 
-  renderOption (option, i) {
-    const onClick = this.optionClicked.bind(this, this.props.values[i]);
-    return (
-      <div
-        key={i}
-        className={styles.option}
-        onClick={onClick}
-      >
-        {option}
-      </div>
-    );
+  renderOptions () {
+    if (this.state.opened) {
+      const {labels, values, white} = this.props;
+
+      return (
+        <Options
+          values={values}
+          labels={labels}
+          white={white}
+          element={this.ref}
+          onClose={this.toggle}
+          onChange={this.optionClicked}
+        />
+      );
+    }
   }
 }

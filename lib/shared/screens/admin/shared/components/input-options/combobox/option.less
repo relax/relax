@@ -1,0 +1,23 @@
+@import '~styles/colors.less';
+
+.root {
+  color: @chromeTextColor;
+  padding: 8px 12px;
+  display: block;
+  font-size: 10px;
+  transition: all 0.2s ease-out;
+  cursor: pointer;
+
+  &:hover {
+    background-color: @primary;
+    color: @chromeTextColorHighlight;
+  }
+}
+
+.white {
+  color: @adminText;
+
+  &:hover {
+    color: @adminTextHighlight;
+  }
+}
