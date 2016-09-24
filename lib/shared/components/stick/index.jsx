@@ -1,9 +1,17 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import Animate from 'components/animate';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';
+
+const positionFallbacks = {
+  cb: ['ct', 'lc', 'rc'], // center bottom
+  ct: ['cb', 'lc', 'rc'], // center top
+  lc: ['rc', 'cb', 'ct'], // left center
+  rc: ['lc', 'cb', 'ct']  // right center
+};
 
 export default class Stick extends Component {
   static propTypes = {
@@ -66,76 +74,127 @@ export default class Stick extends Component {
 
   onScroll () {
     this.updatePosition();
-    this.updateTimeout = setTimeout(::this.updatePosition, 0);
+    this.updateTimeout = setTimeout(this.updatePosition, 0);
   }
 
   onResize () {
     this.updatePosition();
-    this.updateTimeout = setTimeout(::this.updatePosition, 10);
+    this.updateTimeout = setTimeout(this.updatePosition, 10);
   }
 
+  @bind
   updatePosition () {
     this.setState(this.getPosition());
   }
 
-  getPosition () {
-    const position = {
-      left: 0,
-      top: 0,
-      horizontal: this.props.horizontalPosition,
-      vertical: this.props.verticalPosition
-    };
-    const rect = this.props.element.getBoundingClientRect();
-    const thisRect = this.refs.holder.getBoundingClientRect();
-    const windowHeight = window.innerHeight;
-    const windowWidth = window.innerWidth;
+  getPositionIt ({posCode, iniPosCode, relativeRect, targetRect, horizontalOffset, verticalOffset, windowHeight, windowWidth, posFallbacks}) {
+    const hor = posCode[0];
+    const vert = posCode[1];
 
-    switch (this.props.horizontalPosition) {
-      case 'left':
-        position.left = rect.left;
+    let position = {
+      left: 0,
+      top: 0
+    };
+
+    // horizontal position
+    switch (hor) {
+      case 'l':
+        if (vert === 'c') {
+          position.left = relativeRect.left - targetRect.width;
+        } else {
+          position.left = relativeRect.left;
+        }
         break;
-      case 'center':
-        position.left = rect.left + rect.width / 2 - thisRect.width / 2;
+      case 'c':
+        position.left = relativeRect.left + relativeRect.width / 2 - targetRect.width / 2;
         break;
-      case 'right':
-        position.left = rect.left + rect.width - thisRect.width;
+      case 'r':
+        position.left = relativeRect.left + relativeRect.width - targetRect.width;
         break;
       default:
         position.left = 0;
     }
-    position.left += this.props.horizontalOffset;
+    position.left += horizontalOffset;
 
-    switch (this.props.verticalPosition) {
-      case 'top':
-        position.top = rect.top - thisRect.height;
+    // horizontal position
+    switch (vert) {
+      case 't':
+        position.top = relativeRect.top - targetRect.height;
         break;
-      case 'center':
-        position.top = rect.top + rect.height / 2 - thisRect.height / 2;
+      case 'c':
+        position.top = relativeRect.top + relativeRect.height / 2 - targetRect.height / 2;
         break;
-      case 'bottom':
-        position.top = rect.top + rect.height;
+      case 'b':
+        position.top = relativeRect.top + relativeRect.height;
         break;
       default:
         position.top = 0;
     }
-    position.top += this.props.verticalOffset;
+    position.top += verticalOffset;
 
-    // Overflows
-    if (position.top + thisRect.height > windowHeight) {
-      position.top = rect.top - thisRect.height - this.props.verticalOffset;
-      position.vertical = 'top';
-    }
-    if (position.left + thisRect.width > windowWidth) {
-      position.left = rect.left + rect.width - thisRect.width - this.props.horizontalOffset;
-      position.horizontal = 'right';
+    // Offset
+    const overflowsTop = position.top < 0;
+    const overflowsBottom = position.top + targetRect.height > windowHeight;
+    const overflowsLeft = position.left < 0;
+    const overflowsRight = position.left + targetRect.width > windowWidth;
+
+    if (overflowsTop || overflowsBottom || overflowsLeft || overflowsRight) {
+      if (posFallbacks) {
+        position = this.getPositionIt({
+          posCode: posFallbacks.length ? posFallbacks[0] : iniPosCode,
+          iniPosCode,
+          relativeRect,
+          targetRect,
+          horizontalOffset,
+          verticalOffset,
+          windowHeight,
+          windowWidth,
+          posFallbacks: posFallbacks.length ? posFallbacks.slice(1) : null
+        });
+      } else {
+        if (overflowsBottom) {
+          position.top = relativeRect.top - targetRect.height - verticalOffset;
+        }
+        if (overflowsRight) {
+          position.left = relativeRect.left + relativeRect.width - targetRect.width - horizontalOffset;
+        }
+        if (overflowsTop) {
+          position.top = 0;
+        }
+        if (overflowsLeft) {
+          position.left = 0;
+        }
+      }
     }
 
     return position;
   }
 
+  getPosition () {
+    const {element, horizontalPosition, verticalPosition, horizontalOffset, verticalOffset} = this.props;
+    const rect = element.getBoundingClientRect();
+    const thisRect = this.refs.holder.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
+
+    const posCode = horizontalPosition[0] + verticalPosition[0];
+    const posFallbacks = positionFallbacks[posCode];
+
+    return this.getPositionIt({
+      posCode,
+      iniPosCode: posCode,
+      relativeRect: rect,
+      targetRect: thisRect,
+      horizontalOffset,
+      verticalOffset,
+      windowHeight,
+      windowWidth,
+      posFallbacks
+    });
+  }
+
   render () {
     const {transition, className} = this.props;
-    // const {vertical, horizontal} = this.state;
     const style = {
       left: this.state.left,
       top: this.state.top
