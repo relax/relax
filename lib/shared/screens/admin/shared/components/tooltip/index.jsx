@@ -10,7 +10,8 @@ export default class Tooltip extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     label: PropTypes.string.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
+    style: PropTypes.object
   };
 
   getInitState () {
@@ -44,11 +45,12 @@ export default class Tooltip extends Component {
   }
 
   render () {
-    const {className} = this.props;
+    const {className, style} = this.props;
 
     return (
       <div
         className={className || styles.root}
+        style={style}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
         ref='holder'
