@@ -1,0 +1,61 @@
+@import '~styles/colors.less';
+
+.root {
+  background-color: @chromeBackgroundDarkerColor;
+  border: 1px solid @chromeBordersColor;
+
+  text-align: center;
+  cursor: pointer;
+
+  font-size: 10px;
+  text-transform: uppercase;
+  line-height: 34px;
+  color: @chromeTextColor;
+
+  :global i {
+    font-size: 20px;
+    line-height: 34px;
+  }
+
+  &:hover {
+    color: @primary;
+  }
+
+  &.active {
+    color: #ffffff;
+    background-color: @primary;
+  }
+}
+
+.horizontal {
+  display: inline-block;
+  vertical-align: top;
+  border-right-width: 0;
+
+  &:first-child {
+    border-radius: 3px 0 0 3px;
+  }
+  &:last-child {
+    border-radius: 0 3px 3px 0;
+    border-right-width: 1px;
+  }
+}
+
+.vertical {
+  display: block;
+  border-bottom-width: 0;
+
+  &:first-child {
+    border-radius: 3px 3px 0 0;
+  }
+  &:last-child {
+    border-radius: 0 0 3px 3px;
+    border-bottom-width: 1px;
+  }
+}
+
+.white {
+  background-color: transparent;
+  border-color: @adminInputBorders;
+  color: @adminText;
+}
