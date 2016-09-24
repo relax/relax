@@ -1,0 +1,84 @@
+@import '~styles/colors.less';
+
+.image {
+  position: relative;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  height: 38px;
+  border: 1px solid @chromeBordersColor;
+
+  &:hover {
+    border-color: @primary;
+
+    .removeButton {
+      visibility: visible;
+    }
+  }
+}
+
+.preview {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  float: left;
+  width: 36px;
+  height: 36px;
+  border-right: 1px solid @chromeBordersColor;
+  margin-right: 12px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50%;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAChJREFUeNpiPHPmDAMMGBsbw9lMDDgA6RKM%2F%2F%2F%2Fh3POnj1LCzsAAgwAQtYIcFfEyzkAAAAASUVORK5CYII%3D');
+    z-index: -1;
+  }
+}
+
+.info {
+  padding: 12px;
+  font-size: 10px;
+  line-height: 14px;
+  color: @chromeTextColor;
+}
+
+.colorHolder {
+  position: relative;
+
+  &:hover {
+    .removeButton {
+      visibility: visible;
+    }
+  }
+}
+
+.colorPicker {
+  display: block;
+  max-width: none !important;
+  margin-bottom: 8px;
+  background: transparent;
+}
+
+.removeButton {
+  position: absolute;
+  top: 1px; right: 1px;
+
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+  width: 13%;
+  color: @chromeTextSubColor;
+  line-height: 38px;
+  font-size: 11px;
+  cursor: pointer;
+
+  visibility: hidden;
+
+  &:hover {
+    color: #ffffff;
+  }
+}
