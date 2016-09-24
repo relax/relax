@@ -44,9 +44,9 @@ export default class ColorPicker extends Component {
     }
 
     return (
-      <div className={cx(white && styles.white, this.props.className)}>
+      <div className={cx(white && styles.white)}>
         <div
-          className={cx(styles.info, opened && styles.opened)}
+          className={cx(styles.info, opened && styles.opened, this.props.className)}
           onClick={this.toggleOpen}
           ref={(ref) => {this.ref = ref;}}
         >
