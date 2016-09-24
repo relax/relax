@@ -66,7 +66,7 @@ export default class NumberInput extends Component {
         value: 'auto',
         unit: ''
       };
-    } else {
+    } else if (str) {
       let value = str !== '' && parseFloat(str, 10);
       value = (value === false || isNaN(value)) ? this.limitValue(0) : value;
 
@@ -81,6 +81,11 @@ export default class NumberInput extends Component {
         value,
         unit
       };
+    } else {
+      result = {
+        value: 0,
+        unit: defaultUnit
+      };
     }
 
     return result;
@@ -92,7 +97,7 @@ export default class NumberInput extends Component {
 
     if (string === 'auto' && this.props.allowed.indexOf('auto') !== 0) {
       this.props.onChange(string);
-    } else {
+    } else if (string) {
       const unitValue = this.getUnitAndValue(string, this.state.unitValue.unit);
       this.props.onChange(this.limitValue(unitValue.value) + unitValue.unit);
     }
