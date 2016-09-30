@@ -47,7 +47,7 @@ export default class BackgroundInputOption extends Component {
     const {onChange, value = []} = this.props;
     const newValue = value.slice(0);
 
-    newValue.push(layer);
+    newValue.unshift(layer);
     onChange(newValue);
   }
 
@@ -88,9 +88,6 @@ export default class BackgroundInputOption extends Component {
 
     return (
       <div>
-        <div>
-          {value.map(this.renderProperty, this)}
-        </div>
         <div className={styles.addButtons}>
           <div className={styles.addButton} onClick={this.addColorLayer}>
             <i className='nc-icon-mini ui-1_drop' />
@@ -100,6 +97,9 @@ export default class BackgroundInputOption extends Component {
             <i className='nc-icon-mini design_image' />
             <span>Add Image</span>
           </div>
+        </div>
+        <div>
+          {value.map(this.renderProperty, this)}
         </div>
       </div>
     );
