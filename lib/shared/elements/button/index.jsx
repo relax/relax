@@ -1,5 +1,6 @@
 import cx from 'classnames';
 import forEach from 'lodash.foreach';
+import Link from 'components/link';
 import React, {PropTypes} from 'react';
 import {changeElementChildren} from 'actions/page-builder';
 
@@ -16,7 +17,8 @@ export default class Button extends Component {
     arrange: PropTypes.string.isRequired,
     styleClassMap: PropTypes.object,
     children: PropTypes.node,
-    relax: PropTypes.object.isRequired
+    relax: PropTypes.object.isRequired,
+    link: PropTypes.object
   };
 
   static contextTypes = {
@@ -110,36 +112,39 @@ export default class Button extends Component {
   }
 
   render () {
-    const classMap = this.props.styleClassMap || {};
+    const {link, styleClassMap} = this.props;
 
     const props = {
       htmlTag: 'div',
       ...this.props.relax,
       settings,
-      className: cx(classes.holder, classMap.holder)
+      className: cx(classes.holder, styleClassMap.holder)
     };
 
     return (
       <Element {...props}>
-        <div className={cx(classes.button, classMap.button)}>
+        <Link link={link} className={cx(classes.button, styleClassMap.button)}>
           {this.renderChildren()}
-        </div>
+        </Link>
       </Element>
     );
   }
 
   renderChildren () {
+    const {arrange, layout, children} = this.props;
     let result;
-    if (this.props.arrange === 'blocks' || this.props.layout === 'text' || this.props.layout === 'icon') {
-      result = this.props.children;
+
+    if (arrange === 'blocks' || layout === 'text' || layout === 'icon') {
+      result = children;
     } else {
       result = (
         <div className={cx(classes.sided)}>
-          {this.props.children[0]}
-          {this.props.children[1]}
+          {children[0]}
+          {children[1]}
         </div>
       );
     }
+
     return result;
   }
 }
