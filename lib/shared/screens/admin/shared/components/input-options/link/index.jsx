@@ -1,4 +1,5 @@
 import bind from 'decorators/bind';
+import cx from 'classnames';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
@@ -8,15 +9,15 @@ import Type from './type';
 const types = [
   {
     type: 'external',
-    icon: 'nc-icon-mini ui-2_link-72'
+    icon: 'nc-icon-outline ui-2_link-72'
   },
   {
     type: 'internal',
-    icon: 'nc-icon-mini ui-2_webpage'
+    icon: 'nc-icon-outline ui-2_webpage'
   },
   {
     type: 'anchor',
-    icon: 'nc-icon-mini objects_anchor'
+    icon: 'nc-icon-outline objects_anchor'
   }
 ];
 
@@ -74,8 +75,10 @@ export default class LinkInputOption extends Component {
   }
 
   render () {
+    const {white} = this.props;
+
     return (
-      <div>
+      <div className={cx(styles.root, white && styles.white)}>
         <div>
           {types.map(this.renderType, this)}
         </div>
@@ -111,6 +114,7 @@ export default class LinkInputOption extends Component {
           values={value.options || {}}
           onChange={this.onTypeOptionChange}
           white={white}
+          tight
         />
       );
     }
