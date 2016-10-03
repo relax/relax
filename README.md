@@ -9,8 +9,6 @@
 
 **IMPORTANT NOTE:** Relax isn't yet ready for production, stay tuned for releases, beta version will come soon
 
-Support our work and help us make this the best open source CMS, be our [patreon](http://patreon.com/relax)!
-
 Relax is a powerful new generation CMS on top of
 [React](https://facebook.github.io/react/) and [Node.js](https://nodejs.org/en/)
 which aims for a better way of building websites.
