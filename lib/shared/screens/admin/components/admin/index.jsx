@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import forEach from 'lodash.foreach';
-import velocity from 'velocity-animate';
+import velocity from 'relax-velocity-animate';
 import Component from 'components/component';
 import PageBuilderMenu from 'components/page-builder-menu';
 import React, {PropTypes} from 'react';

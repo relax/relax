@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import velocity from 'velocity-animate';
+import velocity from 'relax-velocity-animate';
 import A from 'components/a';
 import Animate from 'components/animate';
 import Component from 'components/component';

@@ -1,4 +1,4 @@
-import velocity from 'velocity-animate';
+import velocity from 'relax-velocity-animate';
 import Component from 'components/component';
 import {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';

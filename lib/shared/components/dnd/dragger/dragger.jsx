@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import velocity from 'velocity-animate';
+import velocity from 'relax-velocity-animate';
 import Component from 'components/component';
 import Portal from 'components/portal';
 import React, {PropTypes} from 'react';
