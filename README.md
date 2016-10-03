@@ -170,6 +170,13 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 <a href="https://opencollective.com/relax/sponsor/28/website" target="_blank"><img src="https://opencollective.com/relax/sponsor/28/avatar.svg"></a>
 <a href="https://opencollective.com/relax/sponsor/29/website" target="_blank"><img src="https://opencollective.com/relax/sponsor/29/avatar.svg"></a>
 
+##### Subscription Sponsors
+
+Thanks to these amazing companies for supporting open source projects including Relax:
+
+<a href="https://www.browserstack.com" target="_blank"><img src="https://cdn.rawgit.com/relax/relax/gh-pages/assets/sponsors/browserstack.svg" width="150" height="70"></a>
+<a href="https://www.sentry.io" target="_blank"><img src="https://a0wx592cvgzripj.global.ssl.fastly.net/_static/b2bfa62523727d5b218fce60a304a45b/getsentry/images/branding/svg/sentry-horizontal-black.svg" width="150" height="70"></a>
+
 License
 -------
 
