@@ -1,6 +1,6 @@
 import bind from 'decorators/bind';
 import getElementCss from 'helpers/get-element-css';
-import velocity from 'velocity-animate';
+import velocity from 'relax-velocity-animate';
 import Component from 'components/component';
 import Draggable from 'components/dnd/draggable';
 import Droppable from 'components/dnd/droppable';

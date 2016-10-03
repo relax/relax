@@ -1,4 +1,4 @@
-import velocity from 'velocity-animate';
+import velocity from 'relax-velocity-animate';
 import Animate from 'components/animate';
 import Component from 'components/component';
 import Scrollable from 'components/scrollable';

@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import velocity from 'velocity-animate';
+import velocity from 'relax-velocity-animate';
 import Button from 'components/menu-button';
 import Component from 'components/component';
 import Scrollable from 'components/scrollable';
