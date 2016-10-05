@@ -6,15 +6,16 @@ export default class LinkElem extends Component {
   static propTypes = {
     link: PropTypes.object,
     children: PropTypes.any,
-    item: PropTypes.object
+    item: PropTypes.object,
+    editing: PropTypes.bool
   };
 
   render () {
-    const {link = {}, item, children, ...props} = this.props;
+    const {link = {}, item, editing, children, ...props} = this.props;
     const options = link.options || {};
     let result;
 
-    switch (link.type) {
+    switch (editing ? '' : link.type) {
       case 'external':
         result = (
           <a href={options.url} {...props}>
