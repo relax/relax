@@ -139,18 +139,18 @@ export default class BorderPicker extends Component {
           {this.renderToggleButton('bottom', !values.equal)}
           {this.renderToggleButton('center', values.equal)}
         </div>
+        <ColorPicker
+          rootClassName={cx(styles.option, styles.colorPicker)}
+          value={value.color}
+          onChange={this.onColorChange}
+          side='right'
+        />
         <NumberInput
           className={styles.option}
           small
           value={value.width}
           onChange={this.onWidhtChange}
           inactive={inactive}
-        />
-        <ColorPicker
-          className={cx(styles.option, styles.colorPicker)}
-          value={value.color}
-          onChange={this.onColorChange}
-          side='right'
         />
         <BorderStyle
           className={styles.borderStyle}
