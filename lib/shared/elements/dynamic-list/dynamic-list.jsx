@@ -46,7 +46,7 @@ export default class DynamicList extends Component {
         let a = 0;
 
         for (; a < columns && i < number; a++) {
-          columnItems.push(this.renderItem(a, a === 0, a === columns - 1));
+          columnItems.push(this.renderItem(i, a === 0, a === columns - 1));
           i++;
         }
 
@@ -96,7 +96,7 @@ export default class DynamicList extends Component {
         editing={relax.editing}
         element={relax.element}
         elementsLinks={elementsLinks}
-        schemaEntry={entries[key]}
+        schemaEntry={!dummy && entries[key]}
         renderChildren={relax.renderChildren}
         context={relax.context}
       >
