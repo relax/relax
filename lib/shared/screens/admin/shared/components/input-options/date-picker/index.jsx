@@ -32,7 +32,7 @@ export default class DatePicker extends Component {
     this.setState({
       focused: true,
       opened: true,
-      input: this.format(this.props.value)
+      input: this.format(this.getValue())
     });
   }
 
@@ -99,15 +99,17 @@ export default class DatePicker extends Component {
           onBlur={this.onBlur}
           onChange={this.onWrite}
         />
-      {this.renderCalendar(value)}
+        {this.renderCalendar(value)}
       </div>
     );
   }
 
   renderCalendar (value) {
     const {opened} = this.state;
+
     if (opened) {
-      const {before, after, onChange} = this.props;
+      const {before, after, onChange, white} = this.props;
+
       return (
         <Calendar
           element={this.refs.holder}
@@ -116,6 +118,7 @@ export default class DatePicker extends Component {
           onChange={onChange}
           before={before}
           after={after}
+          white={white}
         />
       );
     }
