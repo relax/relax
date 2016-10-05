@@ -7,7 +7,7 @@
 [![OpenCollective](https://opencollective.com/relax/sponsors/badge.svg)](#sponsors)
 
 
-**IMPORTANT NOTE:** Relax isn't yet ready for production, stay tuned for releases, beta version will come soon
+**IMPORTANT NOTE:** Relax isn't yet ready for production, stay tuned for releases, beta version will come soon. You can see what we're working on [here](https://github.com/relax/relax/projects/1) and what's missing in the [beta milestone](https://github.com/relax/relax/milestone/1).
 
 **You can check out a demo [here](http://demo.getrelax.io/admin). Credentials:**
 
