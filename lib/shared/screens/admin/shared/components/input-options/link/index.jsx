@@ -9,15 +9,18 @@ import Type from './type';
 const types = [
   {
     type: 'external',
-    icon: 'nc-icon-outline ui-2_link-72'
+    icon: 'nc-icon-outline ui-2_link-72',
+    label: 'External'
   },
   {
     type: 'internal',
-    icon: 'nc-icon-outline ui-2_webpage'
+    icon: 'nc-icon-outline ui-2_webpage',
+    label: 'Page'
   },
   {
     type: 'anchor',
-    icon: 'nc-icon-outline objects_anchor'
+    icon: 'nc-icon-outline objects_anchor',
+    label: 'Anchor'
   }
 ];
 
@@ -29,7 +32,16 @@ const typesOptions = {
       type: 'String'
     }
   ],
-  internal: [],
+  internal: [
+    {
+      label: 'Page',
+      id: 'page',
+      type: 'TitablePicker',
+      props: {
+        type: 'pages'
+      }
+    }
+  ],
   anchor: [
     {
       label: 'Anchor to section',
