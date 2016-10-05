@@ -15,7 +15,8 @@ export default class Calendar extends Component {
     after: PropTypes.instanceOf(Date),
     element: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired,
+    white: PropTypes.bool
   };
 
   getInitState () {
@@ -81,12 +82,13 @@ export default class Calendar extends Component {
   }
 
   render () {
-    const {element, onClose} = this.props;
+    const {element, onClose, white} = this.props;
     const {currentDate} = this.state;
 
     return (
       <Balloon
         element={element}
+        white={white}
         stickOptions={{verticalPosition: 'bottom', horizontalPosition: 'center', horizontalOffset: 0, onClose}}
         unpadded
         small
