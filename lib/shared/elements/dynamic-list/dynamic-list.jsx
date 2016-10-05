@@ -43,14 +43,17 @@ export default class DynamicList extends Component {
     for (let i = 0; i < number; i) {
       if (columns > 1) {
         const columnItems = [];
-        for (let a = 0; a < columns && i < number; a++) {
-          columnItems.push(this.renderItem(i, a === 0, a === columns - 1));
+        let a = 0;
+
+        for (; a < columns && i < number; a++) {
+          columnItems.push(this.renderItem(a, a === 0, a === columns - 1));
           i++;
         }
+
         if (columnItems.length < columns) {
           const missing = columns - columnItems.length;
           for (let c = 0; c < missing; c++) {
-            columnItems.push(this.renderItem(i, false, c === missing - 1, true));
+            columnItems.push(this.renderItem(a + c, false, c === missing - 1, true));
           }
         }
         items.push(this.renderRow(columnItems, i >= number, i));
