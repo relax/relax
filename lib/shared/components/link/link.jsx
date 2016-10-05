@@ -5,11 +5,12 @@ import {Link} from 'react-router';
 export default class LinkElem extends Component {
   static propTypes = {
     link: PropTypes.object,
-    children: PropTypes.any
+    children: PropTypes.any,
+    item: PropTypes.object
   };
 
   render () {
-    const {link = {}, children, ...props} = this.props;
+    const {link = {}, item, children, ...props} = this.props;
     const options = link.options || {};
     let result;
 
@@ -22,11 +23,20 @@ export default class LinkElem extends Component {
         );
         break;
       case 'internal':
-        result = (
-          <Link to={options.url} {...props}>
-            {children}
-          </Link>
-        );
+        if (item && item.slug) {
+          result = (
+            <Link to={`/${item.slug}`} {...props}>
+              {children}
+            </Link>
+          );
+        } else {
+          result = (
+            <a href='#' {...props}>
+              {children}
+            </a>
+          );
+        }
+
         break;
       case 'anchor':
         result = (
