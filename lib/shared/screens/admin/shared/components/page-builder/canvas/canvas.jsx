@@ -1,19 +1,20 @@
 import bind from 'decorators/bind';
 import displays from 'statics/displays';
+import get from 'lodash.get';
 import isElementSelected from 'helpers/is-element-selected';
 import stylesManager from 'helpers/styles-manager';
 import traverseChildren from 'helpers/traverser/children';
 import traverser from 'helpers/traverser';
 import Component from 'components/component';
 import Droppable from 'components/dnd/droppable';
+import Portal from 'components/portal';
 import Scrollable from 'components/scrollable';
 import Styles from 'components/styles';
 import React, {PropTypes} from 'react';
-import get from 'lodash.get';
-import Portal from 'components/portal';
 
 import classes from './canvas.less';
 import Empty from './empty';
+import NoLinks from './no-links';
 
 const defaultStyleClassMap = {};
 const bodyDropInfo = {
@@ -70,6 +71,7 @@ export default class Canvas extends Component {
 
   render () {
     const {display, template, doc, elements, type, editing} = this.props;
+    const templateHasLinks = template && template.links && template.links[type];
     const bodyStyle = {
       margin: '0 auto',
       maxWidth: displays[display]
@@ -104,6 +106,7 @@ export default class Canvas extends Component {
         <div className={classes.content} style={bodyStyle} ref='body' id='pb-canvas' onClick={this.onCanvasClick}>
           {content}
         </div>
+        {template && !templateHasLinks && <NoLinks templateId={template._id} />}
         <Styles />
       </Scrollable>
     );
