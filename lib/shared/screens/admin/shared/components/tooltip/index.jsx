@@ -45,7 +45,7 @@ export default class Tooltip extends Component {
   }
 
   render () {
-    const {className, style} = this.props;
+    const {className, style, children, ...props} = this.props;
 
     return (
       <div
@@ -54,8 +54,9 @@ export default class Tooltip extends Component {
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
         ref='holder'
+        {...props}
       >
-        {this.props.children}
+        {children}
         {this.renderTooltip()}
       </div>
     );
