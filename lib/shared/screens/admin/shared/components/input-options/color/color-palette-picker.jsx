@@ -15,6 +15,7 @@ export default class ColorPicker extends Component {
     onChange: PropTypes.func,
     toggleOpened: PropTypes.func.isRequired,
     className: PropTypes.string,
+    rootClassName: PropTypes.string,
     colr: PropTypes.object.isRequired,
     opacity: PropTypes.number.isRequired,
     colors: PropTypes.array.isRequired,
@@ -44,7 +45,7 @@ export default class ColorPicker extends Component {
     }
 
     return (
-      <div className={cx(white && styles.white)}>
+      <div className={cx(white && styles.white, this.props.rootClassName)}>
         <div
           className={cx(styles.info, opened && styles.opened, this.props.className)}
           onClick={this.toggleOpen}
