@@ -1,11 +1,7 @@
 import bind from 'decorators/bind';
-import getElementCss from 'helpers/get-element-css';
 import getElementProps from 'helpers/get-element-props';
 import optionsStyles from 'components/options-list/index.less';
 import Component from 'components/component';
-import CssDisplay from 'components/css-display';
-import CssPadMarg from 'components/css-pad-marg';
-import CssPosition from 'components/css-position';
 import Input from 'components/input-options/input';
 import OptionsList from 'components/options-list';
 import React, {PropTypes} from 'react';
