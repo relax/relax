@@ -1,3 +1,4 @@
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import Component from 'components/component';
 import ReactDropzone from 'react-dropzone';
@@ -24,18 +25,9 @@ export default class Upload extends Component {
     showInfos: true
   };
 
+  @bind
   onDrop (files) {
     this.props.onFiles(files);
-    // files.forEach((file) => {
-    //   const reader = new FileReader();
-    //   reader.onload = (event) => {
-    //     this.props.onFile({
-    //       file: event.target.result,
-    //       filename: file.name
-    //     }, file);
-    //   };
-    //   reader.readAsDataURL(file);
-    // });
   }
 
   render () {
@@ -46,7 +38,7 @@ export default class Upload extends Component {
         className={cx(className || 'dropzone')}
         activeClassName={cx(activeClassName || styles.active)}
         rejectClassName={cx(rejectClassName || styles.reject)}
-        onDropAccepted={::this.onDrop}
+        onDropAccepted={this.onDrop}
         disableClick={!this.props.clickable}
         accept={this.props.accept}
       >
