@@ -87,7 +87,7 @@ different container and link it to Relax.
 
 To start MongoDB in the background you can run  `docker run -d --name mongo mongo`.
 Afterwards run `docker run -p 8080:8080 --link mongo -it relax/relax` to start
-Relax on `http://localhost:8181`.
+Relax on `http://localhost:8080`.
 
 For more information about Docker please check their
 [documentation](https://docs.docker.com/).
