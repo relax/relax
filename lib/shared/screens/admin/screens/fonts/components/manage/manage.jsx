@@ -1,4 +1,6 @@
+import Animate from 'components/animate';
 import Component from 'components/component';
+import Spinner from 'components/spinner';
 import React, {PropTypes} from 'react';
 
 import styles from './manage.less';
@@ -13,11 +15,12 @@ export default class Manage extends Component {
     changeTab: PropTypes.func.isRequired,
     fonts: PropTypes.object.isRequired,
     fontsActions: PropTypes.object.isRequired,
-    closeManage: PropTypes.func.isRequired
+    closeManage: PropTypes.func.isRequired,
+    saving: PropTypes.bool.isRequired
   };
 
   render () {
-    const {tabs, closeManage} = this.props;
+    const {tabs} = this.props;
 
     return (
       <div className={styles.root}>
@@ -26,10 +29,33 @@ export default class Manage extends Component {
         </div>
         <div className={styles.content}>
           {this.renderContent()}
-          <button className={styles.done} onClick={closeManage}>Done</button>
+          {this.renderState()}
         </div>
       </div>
     );
+  }
+
+  renderState () {
+    const {saving, closeManage} = this.props;
+    let result;
+
+    if (saving) {
+      result = (
+        <Animate key='saving'>
+          <div className={styles.saving}>
+            <Spinner />
+          </div>
+        </Animate>
+      );
+    } else {
+      result = (
+        <Animate key='submit'>
+          <button className={styles.done} onClick={closeManage}>Done</button>
+        </Animate>
+      );
+    }
+
+    return result;
   }
 
   renderTabButton (tabButton, index) {

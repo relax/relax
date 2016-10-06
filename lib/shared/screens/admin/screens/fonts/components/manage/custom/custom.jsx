@@ -11,7 +11,8 @@ export default class CustomFonts extends Component {
     fonts: PropTypes.array.isRequired,
     tempFonts: PropTypes.array.isRequired,
     addCustomFonts: PropTypes.func.isRequired,
-    removeCustomTempFont: PropTypes.func.isRequired
+    removeCustomTempFont: PropTypes.func.isRequired,
+    removeCustomFont: PropTypes.func.isRequired
   };
 
   render () {
@@ -39,10 +40,13 @@ export default class CustomFonts extends Component {
   }
 
   renderFont (font, key) {
+    const {removeCustomFont} = this.props;
+
     return (
       <Font
         name={font.family}
         index={key}
+        onRemove={removeCustomFont}
         key={key}
       />
     );
