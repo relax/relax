@@ -1,0 +1,39 @@
+@import '~styles/colors.less';
+
+.root {
+  height: 40px;
+  border: 1px solid @adminTextSub;
+  text-align: left;
+  padding: 0 10px;
+  border-radius: 3px;
+  margin-bottom: 3px;
+
+  &:hover {
+    .remove {
+      opacity: 1;
+    }
+  }
+
+  &.new {
+    border-color: @success;
+  }
+}
+
+.name {
+  font-size: 16px;
+  color: @adminText;
+  line-height: 40px;
+}
+
+.remove {
+  display: inline-block;
+  vertical-align: top;
+  float: right;
+  font-size: 12px;
+  line-height: 40px;
+  color: @alert;
+  text-transform: uppercase;
+  padding: 0 3px;
+  opacity: 0;
+  cursor: pointer;
+}
