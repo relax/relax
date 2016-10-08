@@ -28,6 +28,12 @@ export default class SettingsMenu extends Component {
             active={pathname === '/admin/settings'}
           />
           <Button
+            link='/admin/settings/google'
+            label='Google API'
+            icon='nc-icon-outline ui-2_cloud-25'
+            active={pathname === '/admin/settings/google'}
+          />
+          <Button
             link='/admin/settings/email'
             label='Email'
             icon='nc-icon-outline ui-1_email-85'
