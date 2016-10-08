@@ -13,6 +13,15 @@
   margin-bottom: 4px;
 }
 
+.editButton {
+  float: right;
+  cursor: pointer;
+
+  &:hover {
+    color: @primary;
+  }
+}
+
 .addButton {
   width: 20px;
   height: 20px;
@@ -64,4 +73,29 @@
   &:hover {
     color: #333333;
   }
+}
+
+.button {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+  line-height: 30px;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 800;
+  text-align: center;
+  cursor: pointer;
+}
+
+.disabled {
+  cursor: default;
+  opacity: 0.2;
+}
+
+.changeButton {
+  color: @adminText;
+}
+
+.deleteButton {
+  color: @alert;
 }

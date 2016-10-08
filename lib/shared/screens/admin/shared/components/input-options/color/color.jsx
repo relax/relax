@@ -1,4 +1,5 @@
 import bind from 'decorators/bind';
+import cx from 'classnames';
 import Component from 'components/component';
 import Portal from 'components/portal';
 import Stick from 'components/stick';
@@ -20,7 +21,8 @@ export default class Color extends Component {
     color: PropTypes.object.isRequired,
     selectColor: PropTypes.func.isRequired,
     addOverlay: PropTypes.func.isRequired,
-    closeOverlay: PropTypes.func.isRequired
+    closeOverlay: PropTypes.func.isRequired,
+    selected: PropTypes.bool
   };
 
   getInitState () {
@@ -62,9 +64,20 @@ export default class Color extends Component {
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
       >
+        {this.renderSelected()}
         {this.renderInfo()}
       </div>
     );
+  }
+
+  renderSelected () {
+    const {selected} = this.props;
+
+    if (selected) {
+      return (
+        <i className={cx(styles.selected, 'nc-icon-mini ui-1_check')} />
+      );
+    }
   }
 
   renderInfo () {

@@ -1,4 +1,5 @@
 import bind from 'decorators/bind';
+import cx from 'classnames';
 import Component from 'components/component';
 import Input from 'components/input-options/input';
 import React, {PropTypes} from 'react';
@@ -16,56 +17,134 @@ export default class ColorsCollection extends Component {
     addingColorName: PropTypes.string.isRequired,
     changeAddingColor: PropTypes.func.isRequired,
     toggleAddingColor: PropTypes.func.isRequired,
-    addColor: PropTypes.func.isRequired
+    addColor: PropTypes.func.isRequired,
+    editing: PropTypes.bool.isRequired,
+    editingSelected: PropTypes.array.isRequired,
+    editingColor: PropTypes.bool.isRequired,
+    editingColorName: PropTypes.string.isRequired,
+    toggleEditing: PropTypes.func.isRequired,
+    toggleEditingSelectedColor: PropTypes.func.isRequired,
+    toggleEditingColor: PropTypes.func.isRequired,
+    changeEditingColorName: PropTypes.func.isRequired,
+    removeSelectedColors: PropTypes.func.isRequired,
+    updateSelectedName: PropTypes.func.isRequired
   };
 
   @bind
   onSubmit (event) {
+    const {addingColor, addColor, updateSelectedName} = this.props;
     event.preventDefault();
-    this.props.addColor();
+
+    if (addingColor) {
+      addColor();
+    } else {
+      updateSelectedName();
+    }
   }
 
   render () {
+    const {colors, editing, toggleEditing} = this.props;
+
     return (
       <div className={styles.root}>
-        <div className={styles.label}>Color Collection</div>
         <div>
-          {this.props.colors.map(this.renderColor, this)}
-          <span className={styles.addButton} key='add' onClick={this.props.toggleAddingColor}>
-            <i className='nc-icon-mini ui-1_simple-add'></i>
-          </span>
+          <div className={cx(styles.label, styles.editButton)} onClick={toggleEditing}>
+            {editing ? 'Done' : 'Edit'}
+          </div>
+          <div className={styles.label}>Color Collection</div>
+        </div>
+        <div>
+          {colors.map(this.renderColor, this)}
+          {this.renderAddNew()}
         </div>
         {this.renderAdding()}
+        {this.renderEditing()}
       </div>
     );
   }
 
+  renderAddNew () {
+    const {editing} = this.props;
+
+    if (!editing) {
+      return (
+        <span className={styles.addButton} key='add' onClick={this.props.toggleAddingColor}>
+          <i className='nc-icon-mini ui-1_simple-add'></i>
+        </span>
+      );
+    }
+  }
+
   renderColor (color) {
+    const {
+      editing,
+      selectColor,
+      toggleEditingSelectedColor,
+      addOverlay,
+      closeOverlay,
+      editingSelected
+    } = this.props;
+
     return (
       <Color
         color={color}
         key={color._id}
-        selectColor={this.props.selectColor}
-        addOverlay={this.props.addOverlay}
-        closeOverlay={this.props.closeOverlay}
+        selectColor={editing ? toggleEditingSelectedColor : selectColor}
+        addOverlay={addOverlay}
+        closeOverlay={closeOverlay}
+        selected={editing && editingSelected.indexOf(color._id) !== -1}
       />
     );
   }
 
   renderAdding () {
-    if (this.props.addingColor) {
+    const {
+      addingColor,
+      addingColorName,
+      changeAddingColor,
+      editingColor,
+      editingColorName,
+      changeEditingColorName
+    } = this.props;
+
+    if (addingColor || editingColor) {
       return (
         <form className={styles.adding} onSubmit={this.onSubmit}>
           <Input
             className={styles.input}
             placeholder='Color name'
             white
-            value={this.props.addingColorName}
-            onChange={this.props.changeAddingColor}
+            value={addingColor ? addingColorName : editingColorName}
+            onChange={addingColor ? changeAddingColor : changeEditingColorName}
             focused
           />
-          <div className={styles.saveButton} onClick={this.onSubmit}>Save</div>
+          <div className={styles.saveButton} onClick={this.onSubmit}>
+            Save
+          </div>
         </form>
+      );
+    }
+  }
+
+  renderEditing () {
+    const {editing, editingColor, editingSelected, toggleEditingColor, removeSelectedColors} = this.props;
+
+    if (editing && !editingColor) {
+      return (
+        <div>
+          <div
+            className={cx(styles.button, styles.changeButton, editingSelected.length !== 1 && styles.disabled)}
+            onClick={toggleEditingColor}
+          >
+            Change Name
+          </div>
+          <div
+            className={cx(styles.button, styles.deleteButton, editingSelected.length === 0 && styles.disabled)}
+            onClick={removeSelectedColors}
+          >
+            Delete
+          </div>
+        </div>
       );
     }
   }
