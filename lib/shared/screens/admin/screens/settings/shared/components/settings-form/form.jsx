@@ -80,7 +80,9 @@ export default class SettingsForm extends Component {
     } else {
       result = (
         <Animate key='button'>
-          <Button primary onClick={onSubmit}>Save Changes</Button>
+          <Button smallFont bordered noBackground onClick={onSubmit}>
+            Save Changes
+          </Button>
         </Animate>
       );
     }
