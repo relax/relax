@@ -211,6 +211,7 @@ export default class Canvas extends Component {
             elementLinks,
             renderChildren: this.renderChildChildren,
             display,
+            styleValues: styleMap && styleMap.resultValues || {},
             selected: selected && isElementSelected(selected, {
               id: elementId,
               context
