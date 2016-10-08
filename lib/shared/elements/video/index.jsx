@@ -5,6 +5,7 @@ import {findDOMNode} from 'react-dom';
 
 import propsSchema from './props-schema';
 import settings from './settings';
+import style from './style';
 import Component from '../component';
 import Element from '../element';
 
@@ -12,18 +13,18 @@ export default class Video extends Component {
   static propTypes = {
     type: PropTypes.string.isRequired,
     videoId: PropTypes.string.isRequired,
-    videoHeight: PropTypes.number.isRequired,
-    relax: PropTypes.object.isRequired
+    relax: PropTypes.object.isRequired,
+    styleClassMap: PropTypes.object
   };
 
   static defaultProps = {
     type: 'youtube',
-    videoId: '',
-    videoHeight: '56%'
+    videoId: ''
   };
 
   static propsSchema = propsSchema;
   static settings = settings;
+  static style = style;
 
   getInitState () {
     this.onResizeBind = ::this.onResize;
@@ -52,18 +53,22 @@ export default class Video extends Component {
   }
 
   render () {
+    const {styleClassMap, relax} = this.props;
+
     return (
-      <Element {...this.props.relax} htmlTag='div' settings={settings}>
+      <Element {...relax} className={styleClassMap.root} htmlTag='div' settings={settings}>
         {this.renderIframe()}
       </Element>
     );
   }
 
   renderIframe () {
-    const {videoId, type, relax, videoHeight} = this.props;
+    const {videoId, type, relax} = this.props;
     let result;
+
     let height = 300;
     if (this.state.width) {
+      const videoHeight = relax.styleValues.videoHeight;
       height = Math.round(this.state.width * (parseInt(videoHeight, 10) / 100));
     }
 
@@ -103,11 +108,8 @@ export default class Video extends Component {
         result = iframe;
       }
     } else if (relax.editing) {
-      const style = {
-        height
-      };
       result = (
-        <div style={style} className={elementStyles.dummy}>
+        <div style={{height}} className={elementStyles.dummy}>
           <i className='nc-icon-outline media-1_video-66'></i>
         </div>
       );
