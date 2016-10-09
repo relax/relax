@@ -22,7 +22,8 @@ export default class Color extends Component {
     selectColor: PropTypes.func.isRequired,
     addOverlay: PropTypes.func.isRequired,
     closeOverlay: PropTypes.func.isRequired,
-    selected: PropTypes.bool
+    selected: PropTypes.bool,
+    disabled: PropTypes.bool
   };
 
   getInitState () {
@@ -52,13 +53,14 @@ export default class Color extends Component {
   }
 
   render () {
+    const {disabled, color} = this.props;
     const style = {
-      backgroundColor: this.props.color.value
+      backgroundColor: color.value
     };
 
     return (
       <div
-        className={styles.color}
+        className={cx(styles.color, disabled && styles.disabled)}
         style={style}
         onClick={this.onClick}
         onMouseEnter={this.onMouseEnter}

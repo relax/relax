@@ -114,7 +114,8 @@ export default class Edit extends Component {
       editingPoint,
       showOpacity,
       showCollection,
-      noPicker
+      noPicker,
+      colorPickerDisabled
     } = this.props;
     const isGradient = (type === 'linear' || type === 'radial');
 
@@ -139,20 +140,22 @@ export default class Edit extends Component {
             removePoint={this.props.removePoint}
           />
         }
-        <ColorPicker colr={colr} hsvChange={hsvChange} />
-        {showOpacity && <Opacity colr={colr} opacity={opacity} opacityChange={opacityChange} />}
-        <Inputs
-          colr={colr}
-          opacity={opacity}
-          inputType={inputType}
-          previousInputType={previousInputType}
-          nextInputType={nextInputType}
-          hsvChange={hsvChange}
-          rgbChange={rgbChange}
-          hexChange={hexChange}
-          opacityChange={opacityChange}
-          showOpacity={showOpacity}
-        />
+        <div className={colorPickerDisabled && styles.disabled}>
+          <ColorPicker colr={colr} hsvChange={hsvChange} />
+          {showOpacity && <Opacity colr={colr} opacity={opacity} opacityChange={opacityChange} />}
+          <Inputs
+            colr={colr}
+            opacity={opacity}
+            inputType={inputType}
+            previousInputType={previousInputType}
+            nextInputType={nextInputType}
+            hsvChange={hsvChange}
+            rgbChange={rgbChange}
+            hexChange={hexChange}
+            opacityChange={opacityChange}
+            showOpacity={showOpacity}
+          />
+        </div>
         {type === 'radial' &&
           <RadialRadius
             radius={this.props.value.radius}

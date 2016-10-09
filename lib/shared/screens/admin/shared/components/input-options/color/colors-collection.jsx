@@ -10,6 +10,7 @@ import Color from './color';
 export default class ColorsCollection extends Component {
   static propTypes = {
     colors: PropTypes.array.isRequired,
+    colr: PropTypes.object,
     selectColor: PropTypes.func.isRequired,
     addOverlay: PropTypes.func.isRequired,
     closeOverlay: PropTypes.func.isRequired,
@@ -20,6 +21,7 @@ export default class ColorsCollection extends Component {
     addColor: PropTypes.func.isRequired,
     editing: PropTypes.bool.isRequired,
     editingSelected: PropTypes.array.isRequired,
+    editingSelectedColor: PropTypes.object,
     editingColor: PropTypes.bool.isRequired,
     editingColorName: PropTypes.string.isRequired,
     toggleEditing: PropTypes.func.isRequired,
@@ -27,7 +29,9 @@ export default class ColorsCollection extends Component {
     toggleEditingColor: PropTypes.func.isRequired,
     changeEditingColorName: PropTypes.func.isRequired,
     removeSelectedColors: PropTypes.func.isRequired,
-    updateSelectedName: PropTypes.func.isRequired
+    updateSelectedName: PropTypes.func.isRequired,
+    cancelSelectedColorEdit: PropTypes.func.isRequired,
+    updateSelectedColorEdit: PropTypes.func.isRequired
   };
 
   @bind
@@ -79,20 +83,31 @@ export default class ColorsCollection extends Component {
     const {
       editing,
       selectColor,
+      colr,
       toggleEditingSelectedColor,
       addOverlay,
       closeOverlay,
-      editingSelected
+      editingSelected,
+      editingSelectedColor
     } = this.props;
+    const selected = editing && editingSelected.indexOf(color._id) !== -1;
+    let resultColor = color;
+
+    if (selected && editingSelectedColor) {
+      resultColor = Object.assign({}, color, {
+        value: colr.toHex()
+      });
+    }
 
     return (
       <Color
-        color={color}
+        color={resultColor}
         key={color._id}
         selectColor={editing ? toggleEditingSelectedColor : selectColor}
         addOverlay={addOverlay}
         closeOverlay={closeOverlay}
-        selected={editing && editingSelected.indexOf(color._id) !== -1}
+        selected={selected}
+        disabled={editing && !selected && editingSelectedColor}
       />
     );
   }
@@ -127,25 +142,51 @@ export default class ColorsCollection extends Component {
   }
 
   renderEditing () {
-    const {editing, editingColor, editingSelected, toggleEditingColor, removeSelectedColors} = this.props;
+    const {
+      editing,
+      editingColor,
+      editingSelected,
+      editingSelectedColor,
+      toggleEditingColor,
+      removeSelectedColors,
+      cancelSelectedColorEdit,
+      updateSelectedColorEdit
+    } = this.props;
 
     if (editing && !editingColor) {
-      return (
-        <div>
-          <div
-            className={cx(styles.button, styles.changeButton, editingSelected.length !== 1 && styles.disabled)}
-            onClick={toggleEditingColor}
-          >
-            Change Name
+      let result;
+
+      if (editingSelectedColor) {
+        result = (
+          <div>
+            <div className={cx(styles.button, styles.changeButton)} onClick={cancelSelectedColorEdit}>
+              Cancel
+            </div>
+            <div className={cx(styles.button, styles.saveButton)} onClick={updateSelectedColorEdit}>
+              Save Changes
+            </div>
           </div>
-          <div
-            className={cx(styles.button, styles.deleteButton, editingSelected.length === 0 && styles.disabled)}
-            onClick={removeSelectedColors}
-          >
-            Delete
+        );
+      } else {
+        result = (
+          <div>
+            <div
+              className={cx(styles.button, styles.changeButton, editingSelected.length !== 1 && styles.disabled)}
+              onClick={toggleEditingColor}
+            >
+              Change Name
+            </div>
+            <div
+              className={cx(styles.button, styles.deleteButton, editingSelected.length === 0 && styles.disabled)}
+              onClick={removeSelectedColors}
+            >
+              Delete
+            </div>
           </div>
-        </div>
-      );
+        );
+      }
+
+      return result;
     }
   }
 }
