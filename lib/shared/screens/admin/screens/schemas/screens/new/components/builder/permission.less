@@ -1,0 +1,61 @@
+@import '~styles/colors.less';
+
+.root {
+  margin-bottom: 20px;
+}
+
+.option {
+  display: table-cell;
+  vertical-align: middle;
+  width: 50%;
+  padding: 15px;
+  text-align: left;
+  cursor: pointer;
+
+  border: 1px solid @adminBordersInputs;
+
+  &:first-child {
+    border-radius: 3px 0 0 3px;
+  }
+  &:last-child {
+    border-radius: 0 3px 3px 0;
+    margin-left: -1px;
+  }
+
+  &:hover {
+    border-color: @adminText;
+  }
+
+  &.active {
+    border-color: @primary;
+
+    .icon {
+      color: @primary;
+    }
+  }
+}
+
+.column {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 0 10px;
+}
+
+.icon {
+  font-size: 24px;
+  color: @adminText;
+}
+
+.title {
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: @adminText;
+  margin-bottom: 3px;
+}
+
+.label {
+  font-size: 12px;
+  color: @adminText;
+  line-height: 14px;
+}
