@@ -177,14 +177,17 @@ export default class Element extends Component {
   onMouseOut () {
     const {dragging, overed} = this.props;
     if (!dragging && overed) {
+      clearTimeout(this.outTimeout);
       this.outTimeout = setTimeout(this.selectOut, 50);
     }
   }
 
   @bind
   selectOut () {
-    const {outElement, element, context} = this.props;
-    outElement(element.id, context);
+    const {outElement, element, context, overed} = this.props;
+    if (overed) {
+      outElement(element.id, context);
+    }
   }
 
   render () {
