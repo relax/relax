@@ -1,11 +1,11 @@
-import bind from 'decorators/bind';
-import cx from 'classnames';
-import Component from 'components/component';
-import Portal from 'components/portal';
 import React, {PropTypes} from 'react';
 
-import styles from './highlight.less';
+import Component from 'components/component';
 import ContextMenu from './context-menu';
+import Portal from 'components/portal';
+import bind from 'decorators/bind';
+import cx from 'classnames';
+import styles from './highlight.less';
 
 export default class Highlight extends Component {
   static propTypes = {
