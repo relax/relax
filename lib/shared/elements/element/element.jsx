@@ -1,15 +1,15 @@
-import bind from 'decorators/bind';
-import getElementCss from 'helpers/get-element-css';
-import velocity from 'relax-velocity-animate';
+import React, {PropTypes} from 'react';
+
 import Component from 'components/component';
 import Draggable from 'components/dnd/draggable';
 import Droppable from 'components/dnd/droppable';
-import React, {PropTypes} from 'react';
-import {findDOMNode} from 'react-dom';
-
-import styles from './element.less';
 import Empty from './empty';
 import Highlight from './highlight';
+import bind from 'decorators/bind';
+import {findDOMNode} from 'react-dom';
+import getElementCss from 'helpers/get-element-css';
+import styles from './element.less';
+import velocity from 'relax-velocity-animate';
 
 export default class Element extends Component {
   static propTypes = {
@@ -234,12 +234,12 @@ export default class Element extends Component {
       tagProps.onMouseOver = this.onMouseOver;
       tagProps.onMouseOut = this.onMouseOut;
     }
-    if (isHighlightable) {
+    if (editing) {
       tagProps.ref = (ref) => {
-        !this.state.ref && this.setState({
-          ref
-        });
+        this.ref = ref;
       };
+    }
+    if (isHighlightable) {
       tagProps.id = element.id;
     }
 
@@ -306,7 +306,7 @@ export default class Element extends Component {
       isHighlightable
     } = this.props;
 
-    if (isHighlightable && this.state.ref) {
+    if (isHighlightable && this.ref) {
       return (
         <Highlight
           element={element}
@@ -318,7 +318,7 @@ export default class Element extends Component {
           contentElementId={contentElementId}
           context={context}
           linkingDataMode={linkingDataMode}
-          dom={this.state.ref}
+          dom={this.ref}
         />
       );
     }
