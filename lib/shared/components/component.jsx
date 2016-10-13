@@ -5,6 +5,7 @@ export default class BaseComponent extends React.Component {
     super(props, context);
     this.state = this.getInitState ? this.getInitState() : {};
     this.init && this.init();
+    this.constructor.displayName = this.constructor.name;
   }
 
   isClient () {
