@@ -38,7 +38,7 @@ export default class Pages extends Component {
         <div className={styles.noText}>
           <span>You don’t have any pages yet!</span>
           <br />
-          <span>Lets change that</span>
+          <span>Let's change that</span>
         </div>
         <New />
       </div>
