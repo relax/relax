@@ -1,8 +1,8 @@
-import bind from 'decorators/bind';
-import Component from 'components/component';
-import Overrides from 'components/override-status';
 import React, {PropTypes} from 'react';
 
+import Component from 'components/component';
+import Overrides from 'components/override-status';
+import bind from 'decorators/bind';
 import styles from './index.less';
 
 export default class Optional extends Component {
@@ -35,14 +35,14 @@ export default class Optional extends Component {
   }
 
   renderOverrides () {
-    const {elementOverride, displayOverride} = this.props;
+    const {elementOverride, displayOverride, onChange} = this.props;
 
     if (elementOverride || displayOverride) {
       return (
         <Overrides
           elementOverride={elementOverride}
           displayOverride={displayOverride}
-          onChange={this.onChange}
+          onChange={onChange}
         />
       );
     }
