@@ -1,14 +1,14 @@
+import React, {PropTypes} from 'react';
+
 import Component from 'components/component';
 import ContentHeader from 'components/content-header';
 import ContentHeaderActions from 'components/content-header-actions';
 import ContentLoading from 'components/content-loading';
 import ContentNew from 'components/content-new';
 import EditableTitle from 'components/editable-title';
-import React, {PropTypes} from 'react';
-import {mergeFragments} from 'relate-js';
-
-import styles from './index.less';
 import List from './list';
+import {mergeFragments} from 'relate-js';
+import styles from './index.less';
 
 export default class DataSchema extends Component {
   static fragments = mergeFragments({
@@ -55,6 +55,9 @@ export default class DataSchema extends Component {
           <ContentHeaderActions>
             <ContentNew url={`/admin/schemas/data/${schema._id}/new`}>
               Add new entry
+            </ContentNew>
+            <ContentNew url={`/admin/schemas/data/${schema._id}/edit`}>
+              Edit Content Type
             </ContentNew>
           </ContentHeaderActions>
         </ContentHeader>
