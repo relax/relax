@@ -1,11 +1,11 @@
-import cx from 'classnames';
-import ReactCounter from 'react-counter';
 import React, {PropTypes} from 'react';
 
-import propsSchema from './props-schema';
-import settings from './settings';
 import Component from '../component';
 import Element from '../element';
+import ReactCounter from 'components/counter';
+import cx from 'classnames';
+import propsSchema from './props-schema';
+import settings from './settings';
 
 export default class Counter extends Component {
   static propTypes = {
