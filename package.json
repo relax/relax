@@ -65,7 +65,6 @@
     "query-string": "^3.0.0",
     "rc": "^1.1.1",
     "react": "^0.14.0",
-    "react-colorpicker": "git+https://github.com/relax/react-colorpicker.git#relay",
     "react-counter": "git+https://github.com/relax/react-counter.git#relay",
     "react-dom": "^0.14.0",
     "react-dropzone": "^3.2.2",
@@ -81,6 +80,7 @@
     "relate-js": "^0.6.12",
     "relax-fragments": "0.1.1",
     "relax-jss": "0.2.0",
+    "relax-velocity-animate": "1.0.0",
     "semver": "^5.0.3",
     "serialize-javascript": "^1.1.2",
     "shallowequal": "^0.2.2",
@@ -89,7 +89,6 @@
     "soundmanager2": "git+https://github.com/relax/SoundManager2.git",
     "superagent": "^1.6.1",
     "touch": "^1.0.0",
-    "relax-velocity-animate": "1.0.0",
     "warning": "^2.1.0",
     "winston": "^2.1.0"
   },
