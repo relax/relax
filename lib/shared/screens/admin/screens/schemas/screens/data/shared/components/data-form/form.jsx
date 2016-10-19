@@ -21,7 +21,8 @@ export default class DataSchemaForm extends Component {
     onChange: PropTypes.func.isRequired,
     saving: PropTypes.bool,
     saved: PropTypes.bool,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    isNew: PropTypes.bool
   };
 
   render () {
@@ -72,7 +73,7 @@ export default class DataSchemaForm extends Component {
   }
 
   renderState () {
-    const {saving, saved, onSubmit} = this.props;
+    const {saving, saved, onSubmit, isNew} = this.props;
     let result;
 
     if (saving) {
@@ -80,7 +81,9 @@ export default class DataSchemaForm extends Component {
         <Animate key='saving'>
           <div>
             <Spinner />
-            <span className={styles.savingLabel}>Creating</span>
+            <span className={styles.savingLabel}>
+              Saving
+            </span>
           </div>
         </Animate>
       );
@@ -89,7 +92,9 @@ export default class DataSchemaForm extends Component {
         <Animate key='saved'>
           <div>
             <i className={cx(styles.success, 'nc-icon-mini ui-1_check')} />
-            <span className={cx(styles.success, styles.successLabel)}>Saved successfuly</span>
+            <span className={cx(styles.success, styles.successLabel)}>
+              Saved successfuly
+            </span>
           </div>
         </Animate>
       );
@@ -97,7 +102,7 @@ export default class DataSchemaForm extends Component {
       result = (
         <Animate key='button'>
           <Button smallFont bordered noBackground onClick={onSubmit}>
-            Create entry
+            {isNew ? 'Create entry' : 'Save changes'}
           </Button>
         </Animate>
       );
