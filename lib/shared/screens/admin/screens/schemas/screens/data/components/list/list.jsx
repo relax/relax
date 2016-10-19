@@ -1,13 +1,12 @@
-import bind from 'decorators/bind';
-import forEach from 'lodash.foreach';
-import typesPresentation from 'components/types-presentation';
-import Component from 'components/component';
-import ContentTable from 'components/content-table';
-import Image from 'components/image';
-import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
 
+import Component from 'components/component';
+import ContentTable from 'components/content-table';
+import Scrollable from 'components/scrollable';
+import bind from 'decorators/bind';
+import forEach from 'lodash.foreach';
 import styles from './list.less';
+import typesPresentation from 'components/types-presentation';
 
 export default class DataSchemaList extends Component {
   static fragments = {
@@ -23,11 +22,12 @@ export default class DataSchemaList extends Component {
 
   static propTypes = {
     schema: PropTypes.object.isRequired,
-    schemaList: PropTypes.array
+    schemaList: PropTypes.array,
+    onEntryClick: PropTypes.func.isRequired
   };
 
   render () {
-    const {schema, schemaList} = this.props;
+    const {schema, schemaList, onEntryClick} = this.props;
     const labels = [];
     const props = [];
     this.types = {};
@@ -45,6 +45,7 @@ export default class DataSchemaList extends Component {
           columnsProps={props}
           data={schemaList || []}
           renderCell={this.renderCell}
+          onRowClick={onEntryClick}
         />
       </Scrollable>
     );
@@ -65,22 +66,5 @@ export default class DataSchemaList extends Component {
     }
 
     return result;
-
-    switch (this.types[columnProps]) {
-      case 'Icon':
-        return (
-          <div></div>
-        );
-      case 'Color':
-        return (
-          <div></div>
-        );
-      case 'User':
-        return (
-          <div></div>
-        );
-      default:
-        return item.properties[columnProps];
-    }
   }
 }

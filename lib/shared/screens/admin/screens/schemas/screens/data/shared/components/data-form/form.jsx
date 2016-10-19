@@ -1,15 +1,15 @@
-import cx from 'classnames';
+import React, {PropTypes} from 'react';
+
 import Animate from 'components/animate';
 import Button from 'components/button';
 import Component from 'components/component';
 import Content from 'components/content';
 import ContentHeader from 'components/content-header';
 import ContentLoading from 'components/content-loading';
+import {Link} from 'react-router';
 import OptionsList from 'components/options-list';
 import Spinner from 'components/spinner';
-import React, {PropTypes} from 'react';
-import {Link} from 'react-router';
-
+import cx from 'classnames';
 import styles from './form.less';
 
 export default class DataSchemaForm extends Component {
@@ -96,7 +96,9 @@ export default class DataSchemaForm extends Component {
     } else {
       result = (
         <Animate key='button'>
-          <Button primary onClick={onSubmit}>Create entry</Button>
+          <Button smallFont bordered noBackground onClick={onSubmit}>
+            Create entry
+          </Button>
         </Animate>
       );
     }

@@ -1,15 +1,16 @@
-import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
-import styles from './index.less';
+import Component from 'components/component';
 import Line from './line';
+import styles from './index.less';
 
 export default class Table extends Component {
   static propTypes = {
     data: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
     columnsProps: PropTypes.array,
-    renderCell: PropTypes.func.isRequired
+    renderCell: PropTypes.func.isRequired,
+    onRowClick: PropTypes.func
   };
 
   render () {
@@ -37,7 +38,8 @@ export default class Table extends Component {
   }
 
   renderLine (item, index) {
-    const {columns, renderCell, columnsProps} = this.props;
+    const {columns, renderCell, columnsProps, onRowClick} = this.props;
+
     return (
       <Line
         key={index}
@@ -45,6 +47,7 @@ export default class Table extends Component {
         renderCell={renderCell}
         columns={columns}
         columnsProps={columnsProps}
+        onClick={onRowClick}
       />
     );
   }
