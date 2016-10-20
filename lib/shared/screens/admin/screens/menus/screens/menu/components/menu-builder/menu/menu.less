@@ -47,3 +47,28 @@
   border: 1px solid @dropSuccess;
   border-radius: 2px;
 }
+
+.removeArea {
+  position: absolute;
+  top: 45%;
+  right: 0;
+
+  display: inline-block;
+  width: 34px;
+  height: 34px;
+  text-align: center;
+}
+
+.removeIcon {
+  color: @alert;
+  font-size: 26px;
+
+  display: inline-block;
+  width: 34px;
+  height: 34px;
+  transition: transform 0.2s ease-out;
+}
+
+.isActive {
+  transform: scale(1.3);
+}

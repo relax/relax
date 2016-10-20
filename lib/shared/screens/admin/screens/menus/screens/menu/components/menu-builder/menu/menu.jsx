@@ -1,13 +1,13 @@
-import bind from 'decorators/bind';
-import cx from 'classnames';
+import React, {PropTypes} from 'react';
+
 import Animate from 'components/animate';
 import Component from 'components/component';
 import Dragger from 'components/dnd/dragger';
 import Droppable from 'components/dnd/droppable';
-import React, {PropTypes} from 'react';
-
-import styles from './menu.less';
 import Entry from '../entry';
+import bind from 'decorators/bind';
+import cx from 'classnames';
+import styles from './menu.less';
 
 export default class Menu extends Component {
   static fragments = {
@@ -27,6 +27,7 @@ export default class Menu extends Component {
   render () {
     const {menuData} = this.props;
     const hasChildren = menuData && menuData.root && menuData.root.children.length > 0;
+
     return (
       <div>
         <Droppable
@@ -44,6 +45,7 @@ export default class Menu extends Component {
           }
         </Droppable>
         {this.renderDragger()}
+        {this.renderTrash()}
       </div>
     );
   }
@@ -113,5 +115,31 @@ export default class Menu extends Component {
         <Dragger shadow={false} onStopDrag={draggedMenuItem} />
       );
     }
+  }
+
+  renderTrash () {
+    const {dragging, draggingId} = this.props;
+
+    if (dragging && draggingId) {
+      return (
+        <Animate>
+          <Droppable
+            placeholder
+            placeholderRender={this.renderTrashPlaceholder}
+            className={styles.removeArea}
+            dropInfo={{
+              id: 'delete'
+            }}
+          />
+        </Animate>
+      );
+    }
+  }
+
+  @bind
+  renderTrashPlaceholder ({isActive}) {
+    return (
+      <i className={cx(styles.removeIcon, isActive && styles.isActive, 'nc-icon-outline ui-1_trash')} />
+    );
   }
 }
