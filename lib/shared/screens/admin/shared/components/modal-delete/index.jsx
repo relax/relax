@@ -1,18 +1,17 @@
+import React, {PropTypes} from 'react';
+
 import Animate from 'components/animate';
 import Button from 'components/button';
 import Component from 'components/component';
-import Spinner from 'components/spinner';
-import React, {PropTypes} from 'react';
-
-import styles from './index.less';
 import Modal from '../modal';
+import Spinner from 'components/spinner';
+import styles from './index.less';
 
 export default class ModalDelete extends Component {
   static propTypes = {
     submit: PropTypes.func.isRequired,
     cancel: PropTypes.func.isRequired,
     loading: PropTypes.bool,
-    children: PropTypes.node.isRequired,
     cancelLabel: PropTypes.string,
     deleteLabel: PropTypes.string,
     title: PropTypes.string,

@@ -1,17 +1,18 @@
-import cx from 'classnames';
+import React, {PropTypes} from 'react';
+
 import Component from 'components/component';
 import ContentHeader from 'components/content-header';
 import ContentHeaderActions from 'components/content-header-actions';
 import ContentLoading from 'components/content-loading';
+import ContentNew from 'components/content-new';
 import ContentNotFound from 'components/content-not-found';
 import EditableTitle from 'components/editable-title';
-import ModalDelete from 'components/modal-delete';
-import React, {PropTypes} from 'react';
-import {mergeFragments} from 'relax-fragments';
-
-import styles from './menu.less';
 import MenuBuilder from './menu-builder';
+import ModalDelete from 'components/modal-delete';
 import State from './state';
+import cx from 'classnames';
+import {mergeFragments} from 'relax-fragments';
+import styles from './menu.less';
 
 export default class Menu extends Component {
   static fragments = mergeFragments({
@@ -71,9 +72,9 @@ export default class Menu extends Component {
           </div>
           <ContentHeaderActions>
             {this.renderState()}
-            <button className={styles.actionButton} onClick={onDelete}>
+            <ContentNew remove onClick={onDelete}>
               Delete Menu
-            </button>
+            </ContentNew>
           </ContentHeaderActions>
         </ContentHeader>
         <div className={styles.content}>
