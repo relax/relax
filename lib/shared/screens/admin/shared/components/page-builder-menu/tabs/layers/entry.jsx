@@ -1,11 +1,11 @@
-import bind from 'decorators/bind';
-import cx from 'classnames';
-import isElementSelected from 'helpers/is-element-selected';
+import React, {PropTypes} from 'react';
+
 import Component from 'components/component';
 import Draggable from 'components/dnd/draggable';
 import OptionsMenu from 'components/options-menu';
-import React, {PropTypes} from 'react';
-
+import bind from 'decorators/bind';
+import cx from 'classnames';
+import isElementSelected from 'helpers/is-element-selected';
 import styles from './entry.less';
 
 export default class Entry extends Component {
@@ -48,10 +48,10 @@ export default class Entry extends Component {
 
   @bind
   onMouseOut () {
-    const {dragging, pageBuilderActions, element} = this.props;
+    const {dragging, pageBuilderActions, element, context} = this.props;
 
     if (!dragging) {
-      pageBuilderActions.outElement(element.id);
+      pageBuilderActions.outElement(element.id, context);
 
       if (this.state.options) {
         this.setState({
