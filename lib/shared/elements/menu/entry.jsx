@@ -1,12 +1,12 @@
-import bind from 'decorators/bind';
-import cx from 'classnames';
+import React, {PropTypes} from 'react';
+
 import A from 'components/a';
 import Animate from 'components/animate';
 import Component from 'components/component';
-import React, {PropTypes} from 'react';
+import bind from 'decorators/bind';
+import cx from 'classnames';
 
 export default class Entry extends Component {
-
   static propTypes = {
     entry: PropTypes.object.isRequired,
     subitem: PropTypes.bool.isRequired,
@@ -53,8 +53,8 @@ export default class Entry extends Component {
 
     if (entry.type === 'page') {
       href = `/${entry.page && entry.page.slug}`;
-    } else if (entry.type === 'link') {
-      href = entry.link.url;
+    } else if (entry.type === 'url') {
+      href = entry.url;
     }
 
     const className = cx(
@@ -93,7 +93,7 @@ export default class Entry extends Component {
   }
 
   renderEntryLink (href, label) {
-    const {subitem, classes, styleClassMap, editing} = this.props;
+    const {entry, subitem, classes, styleClassMap, editing} = this.props;
     let result;
 
     const linkClasses = cx(
@@ -104,6 +104,12 @@ export default class Entry extends Component {
     if (editing) {
       result = (
         <a className={linkClasses}>
+          {label}
+        </a>
+      );
+    } else if (entry.type === 'url') {
+      result = (
+        <a className={linkClasses} href={href}>
           {label}
         </a>
       );
