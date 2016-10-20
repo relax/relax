@@ -1,29 +1,32 @@
-import Component from 'components/component';
 import React, {PropTypes} from 'react';
-import {Link} from 'react-router';
 
+import Component from 'components/component';
+import {Link} from 'react-router';
+import cx from 'classnames';
 import styles from './index.less';
 
 export default class ContentNew extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     onClick: PropTypes.func,
-    url: PropTypes.string
+    url: PropTypes.string,
+    remove: PropTypes.bool
   };
 
   render () {
-    const {children, onClick, url} = this.props;
+    const {children, onClick, url, remove} = this.props;
+    const className = cx(styles.button, remove && styles.remove);
     let result;
 
     if (onClick) {
       result = (
-        <button className={styles.button} onClick={onClick}>
+        <button className={className} onClick={onClick}>
           {children}
         </button>
       );
     } else {
       result = (
-        <Link className={styles.button} to={url}>
+        <Link className={className} to={url}>
           {children}
         </Link>
       );
