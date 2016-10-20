@@ -1,80 +1,88 @@
-import cx from 'classnames';
-import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
+import Button from './button';
+import Component from 'components/component';
+import Element from '../element';
+import Spinner from 'components/spinner';
 import classes from './classes';
-import Entry from './entry';
+import cx from 'classnames';
+import get from 'lodash.get';
+import settings from './settings';
 
-export default class Menu extends Component {
+export default class MenuElement extends Component {
   static propTypes = {
     menuData: PropTypes.object,
-    styleClassMap: PropTypes.object,
-    editing: PropTypes.bool.isRequired
+    relax: PropTypes.object.isRequired,
+    styleClassMap: PropTypes.object.isRequired,
+    editing: PropTypes.bool,
+    loading: PropTypes.bool
   };
-
-  static defaultProps = {
-    styleClassMap: {},
-    editing: false
-  };
-
-  init () {
-    this.renderEntryRoot = this.renderEntry.bind(this, false);
-    this.renderEntrySub = this.renderEntry.bind(this, true);
-  }
 
   render () {
-    const {menuData, editing} = this.props;
-    let result = null;
+    const {relax, loading, menuData} = this.props;
+    let result;
 
-    if (menuData) {
-      result = this.renderMenu();
-    } else if (editing) {
+    if (loading) {
+      result = this.renderLoading();
+    } else if (!menuData) {
       result = this.renderEmpty();
+    } else {
+      result = this.renderMenu();
     }
 
-    return result;
+    return (
+      <Element htmlTag='div' settings={settings} {...relax}>
+        {result}
+      </Element>
+    );
+  }
+
+  renderLoading () {
+    const {editing} = this.props;
+
+    if (editing) {
+      return (
+        <div>
+          <Spinner />
+          <span>Loading menu</span>
+        </div>
+      );
+    }
+  }
+
+  renderEmpty () {
+    const {editing} = this.props;
+
+    if (editing) {
+      return (
+        <div>Choose a menu on the settings tab</div>
+      );
+    }
   }
 
   renderMenu () {
-    const {menuData, styleClassMap} = this.props;
+    const {styleClassMap, menuData} = this.props;
+    const children = get(menuData, 'root.children', []);
 
     return (
       <ul className={cx(classes.menu, styleClassMap.menu)}>
-        {
-          menuData.root &&
-          menuData.root.children &&
-          menuData.root.children.map(this.renderEntryRoot)
-        }
+        {children.map(this.renderButton, this)}
       </ul>
     );
   }
 
-  renderEntry (sub, entryId) {
-    const {menuData, styleClassMap, editing} = this.props;
-    const entry = menuData[entryId];
-    let children;
-
-    if (entry.children) {
-      children = entry.children.map(this.renderEntrySub);
-    }
+  renderButton (id) {
+    const {styleClassMap, menuData, editing} = this.props;
+    const button = menuData[id];
 
     return (
-      <Entry
-        entry={entry}
-        subitem={sub}
+      <Button
         styleClassMap={styleClassMap}
-        classes={classes}
+        button={button}
         editing={editing}
-        key={entry.id}
-      >
-        {children}
-      </Entry>
-    );
-  }
-
-  renderEmpty () {
-    return (
-      <div>Choose a menu on settings</div>
+        menuData={menuData}
+        key={id}
+      />
     );
   }
 }
