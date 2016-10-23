@@ -39,16 +39,16 @@ Relax uses [sharp](https://github.com/lovell/sharp) to resize images.
 If you're using OS X, you'll need to install its libvips dependency via `brew install homebrew/science/vips`.
 Full installation instructions are available [here](http://sharp.dimens.io/en/stable/install/).
 
-You'll also need [MongoDB](https://www.mongodb.org/).
+You'll also need [`yarn`](https://yarnpkg.com) and [MongoDB](https://www.mongodb.org/).
 
 ### How to Relax
 
 Since we are yet to tag our first release, git clone this repository and run the following commands:
 
 ```bash
-npm install
-npm run build
-npm start
+yarn
+yarn build
+yarn start
 ```
 
 By default the application runs at port `8080`. Go ahead and visit
@@ -71,14 +71,14 @@ Contributing
 #### Development
 
 While in development it's convenient to keep your application running while
-watching for changes, for that you can run `npm run dev`.
+watching for changes, for that you can run `yarn dev`.
 
 The application will automatically restart when needed and keep your bundles
 up to date.
 
 #### Production
 
-To build your assets ready to go for production run `npm run build` and `npm start` to start the application.
+To build your assets ready to go for production run `yarn build` and `yarn start` to start the application.
 
 ##### With Docker
 
