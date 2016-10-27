@@ -1,6 +1,6 @@
-import bind from 'decorators/bind';
 import Component from 'components/component';
 import Droppable from 'components/dnd/droppable';
+import bind from 'decorators/bind';
 import React, {PropTypes} from 'react';
 
 import Empty from './element/empty';
@@ -25,7 +25,7 @@ export default class ElementComponent extends Component {
         type: relax.element.tag,
         placeholder: true,
         placeholderRender: this.renderPlaceholder
-      }, this.constructor.settings.drop);
+      }, this.constructor.settings.drop, customProps);
 
       result = (
         <Droppable {...droppableProps}>
