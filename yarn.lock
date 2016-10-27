@@ -2508,6 +2508,10 @@ immutable@^3.7.6:
   version "3.8.1"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.1.tgz#200807f11ab0f72710ea485542de088075f68cd2"
 
+import-sort-style-renke:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/import-sort-style-renke/-/import-sort-style-renke-2.4.0.tgz#405bb9e6a533d5d75cba20f8936521f1f9e67a09"
+
 imurmurhash@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"
