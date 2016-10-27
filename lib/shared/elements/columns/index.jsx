@@ -1,26 +1,18 @@
-import utils from 'helpers/utils';
-import Droppable from 'components/dnd/droppable';
-import React, {PropTypes} from 'react';
+import forEach from 'lodash.foreach';
+import React, {PropTypes, cloneElement} from 'react';
 
+import Component from '../component';
+import Element from '../element';
 import classes from './classes';
 import propsSchema from './props-schema';
 import settings from './settings';
-import Component from '../component';
-import Element from '../element';
+import styleSettings from './style';
 
-export default class Columns extends Component {
+export default class ColumneElement extends Component {
   static propTypes = {
-    spacing: PropTypes.string,
-    spacingRows: PropTypes.string,
-    columnsDisplay: PropTypes.array.isRequired,
-    children: PropTypes.node,
-    relax: PropTypes.object.isRequired
-  };
-
-  static defaultProps = {
-    spacing: '10px',
-    spacingRows: '10px',
-    columnsDisplay: []
+    relax: PropTypes.object.isRequired,
+    styleClassMap: PropTypes.object.isRequired,
+    children: PropTypes.any
   };
 
   static defaultChildren = [
@@ -28,124 +20,187 @@ export default class Columns extends Component {
   ];
   static propsSchema = propsSchema;
   static settings = settings;
+  static style = styleSettings;
+
+  getGrid () {
+    const {children} = this.props;
+    const grid = [];
+
+    // traverse columns and calculate grid
+    forEach(children, (column) => {
+      const {width, widthValue} = column.props.relax.styleValues;
+
+      if (!column.props.relax) {
+        return false;
+      }
+
+      if (width === 'block') {
+        grid.push({
+          type: 'block',
+          item: column
+        });
+      } else {
+        // Add new columns if none exist or last one is block
+        if (grid.length === 0 || grid[grid.length - 1].type === 'block') {
+          grid.push({
+            type: 'columns',
+            autos: 0,
+            fixedSizes: [],
+            widthTypes: [],
+            items: []
+          });
+        }
+
+        // Column
+        const columns = grid[grid.length - 1];
+
+        // add column
+        columns.items.push(column);
+        columns.widthTypes.push(width);
+
+        if (width === 'auto') {
+          columns.autos ++;
+        } else {
+          columns.fixedSizes.push(widthValue);
+        }
+      }
+    });
+
+    return grid;
+  }
 
   render () {
+    const {styleClassMap, relax} = this.props;
+
     return (
-      <Element {...this.props.relax} htmlTag='div' settings={settings}>
-        {this.renderChildren()}
+      <Element
+        {...relax}
+        htmlTag='div'
+        settings={settings}
+        className={styleClassMap.root}
+      >
+        {this.renderGrid()}
       </Element>
     );
   }
 
-  renderChildren () {
-    const {columnsDisplay, relax, spacing} = this.props;
-    const children = [];
-    const numChildren = this.props.children && this.props.children.length || 0;
-    const layout = utils.parseColumnsDisplay(columnsDisplay, numChildren, relax.display !== 'desktop');
-    const editing = relax.editing;
+  renderGrid () {
+    const result = [];
+    const grid = this.getGrid();
 
+    forEach(grid, (row, key) => {
+      const isLast = key === grid.length - 1;
+
+      if (row.type === 'block') {
+        result.push(this.renderBlock(row.item, key, isLast));
+      } else if (row.items.length === 1) {
+        result.push(this.renderBlock(row.items[0], key, isLast));
+      } else {
+        result.push(this.renderColumns(row, key, isLast));
+      }
+    });
+
+    return result;
+  }
+
+  renderBlock (item, key, isLast) {
+    return this.renderRow({
+      type: 'block',
+      children: [cloneElement(item, {type: 'block'})],
+      key,
+      isLast
+    });
+  }
+
+  renderColumns (row, key, isLast) {
+    const {relax} = this.props;
+    let totalWidth;
+
+    // calculate spacings
+    const spacing = relax.styleValues.spacing;
     const spacingNum = parseFloat(spacing, 10);
     const spaceThird = Math.round(spacingNum / 3 * 100) / 100;
     const spaceSides = spaceThird * 2;
+
+    // calculate autos
+    if (row.autos === 0 && row.fixedSizes.length) {
+      totalWidth = 'calc(';
+
+      forEach(row.fixedSizes, (fixedSize, it) => {
+        if (it !== 0) {
+          totalWidth += ' + ';
+        }
+        totalWidth += fixedSize;
+      });
+
+      totalWidth += ')';
+    }
+
+    const columns = row.items.map((column, it) => {
+      let left = 0;
+      let right = 0;
+
+      if (it === 0) {
+        right = spaceSides;
+      } else if (it === row.items.length - 1) {
+        left = spaceSides;
+      } else {
+        left = spaceThird;
+        right = spaceThird;
+      }
+
+      return cloneElement(column, {
+        type: 'column',
+        left,
+        right
+      });
+    });
+
+    return this.renderRow({
+      type: 'columns',
+      children: columns,
+      key,
+      isLast,
+      totalWidth
+    });
+  }
+
+  renderRow ({children, key, type, isLast, totalWidth}) {
+    const {relax} = this.props;
+    let className = type !== 'block' && classes.row;
+    let style = {};
     let result;
 
-    const dropInfo = {
-      id: relax.element.id,
-      context: relax.context
-    };
+    if (!isLast) {
+      style.marginBottom = relax.styleValues.spacingRows;
+    }
 
-    if (numChildren > 0) {
-      for (let i = 0; i < numChildren; i++) {
-        if (layout[i].width === 'block') {
-          children.push(this.renderBlock(
-            this.props.children[i],
-            layout[i],
-            i !== numChildren - 1 ? spacingNum : 0
-          ));
-        } else {
-          const columns = [];
-          for (i; i < numChildren; i++) {
-            if (layout[i].width !== 'block' && !(columns.length > 0 && layout[i].break)) {
-              const isLastColumn = (
-                columns.length !== 0 &&
-                (i === numChildren - 1 || (layout[i + 1].width === 'block' || layout[i + 1].break))
-              );
-              let left;
-              let right;
+    if (totalWidth) {
+      const {horizontal} = relax.styleValues;
 
-              if (columns.length === 0) {
-                left = 0;
-                right = spaceSides;
-              } else if (isLastColumn) {
-                left = spaceSides;
-                right = 0;
-              } else {
-                left = spaceThird;
-                right = spaceThird;
-              }
+      style.position = 'relative';
+      style.left = horizontal;
+      style.transform = `translateX(-${horizontal})`;
+      style.width = totalWidth;
+    }
 
-              columns.push(this.renderColumn(this.props.children[i], layout[i], left, right));
-            } else {
-              i--;
-              break;
-            }
-          }
+    // TODO let blocks to have droppable as well
+    if (relax.editing && !relax.disableSelection && type !== 'block') {
+      const customDrop = {
+        className,
+        style,
+        key
+      };
 
-          if (editing && relax.display === 'desktop') {
-            result = (
-              <Droppable
-                type={relax.element.tag}
-                dropInfo={dropInfo}
-                {...settings.drop}
-                className={classes.row}
-                placeholder
-              >
-                {columns}
-              </Droppable>
-            );
-            break;
-          } else {
-            const style = {};
-
-            if (i < numChildren - 1) {
-              style.paddingBottom = this.props.spacingRows;
-            }
-
-            children.push(
-              <div className={classes.row} key={i} style={style}>
-                {columns}
-              </div>
-            );
-          }
-        }
-      }
-    } else if (editing) {
+      result = this.renderContent(customDrop, children);
+    } else {
       result = (
-        <Droppable
-          type={relax.element.tag}
-          dropInfo={dropInfo}
-          {...settings.drop}
-          className={classes.row}
-          placeholder
-        />
+        <div className={className} style={style} key={key}>
+          {children}
+        </div>
       );
     }
 
-    return result || children;
-  }
-
-  renderColumn (child, layout, left, right) {
-    return React.cloneElement(child, {
-      layout,
-      left,
-      right
-    });
-  }
-
-  renderBlock (child, layout, bottom) {
-    return React.cloneElement(child, {
-      layout,
-      bottom
-    });
+    return result;
   }
 }

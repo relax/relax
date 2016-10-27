@@ -1,10 +1,10 @@
 import React, {PropTypes} from 'react';
 
+import Component from '../component';
+import Element from '../element';
 import propsSchema from './props-schema';
 import settings from './settings';
 import style from './style';
-import Component from '../component';
-import Element from '../element';
 
 export default class Container extends Component {
   static propTypes = {
