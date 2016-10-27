@@ -115,6 +115,7 @@
     "eslint-plugin-react": "^4.2.2",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.4",
+    "import-sort-style-renke": "^2.4.0",
     "json-loader": "^0.5.3",
     "less": "^2.6.0",
     "less-loader": "^2.2.2",
@@ -135,5 +136,11 @@
     "webpack-dev-server": "^1.12.1",
     "webpack-hot-middleware": "^2.5.0",
     "webpack-node-externals": "^1.2.0"
+  },
+  "importSort": {
+    ".js, .jsx, .es6, .es": {
+      "parser": "babylon",
+      "style": "renke"
+    }
   }
 }
