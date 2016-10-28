@@ -2,6 +2,7 @@ import Component from 'components/component';
 import Input from 'components/input-options/input';
 import OptionsList from 'components/options-list';
 import bind from 'decorators/bind';
+import find from 'lodash.find';
 import getElementProps from 'helpers/get-element-props';
 import optionsStyles from 'components/options-list/index.less';
 import React, {PropTypes} from 'react';
@@ -18,7 +19,8 @@ export default class EditProps extends Component {
     elements: PropTypes.object.isRequired,
     type: PropTypes.string,
     contentElementId: PropTypes.string,
-    isTemplate: PropTypes.bool.isRequired
+    isTemplate: PropTypes.bool.isRequired,
+    selectedLinks: PropTypes.array.isRequired
   };
 
   @bind
@@ -33,6 +35,21 @@ export default class EditProps extends Component {
     const {selected, pageBuilderActions} = this.props;
     const {changeElementProperty} = pageBuilderActions;
     changeElementProperty(selected.id, key, value, selected.context);
+  }
+
+  @bind
+  changeDocProperty (key, value) {
+    const {pageBuilderActions, selectedLinks} = this.props;
+    const {changeDocProperty} = pageBuilderActions;
+
+    const link = find(selectedLinks, {action: key});
+    console.log(selectedLinks);
+    console.log(link);
+    console.log(key);
+
+    if (link) {
+      changeDocProperty(link.property, value);
+    }
   }
 
   render () {
@@ -72,7 +89,7 @@ export default class EditProps extends Component {
   }
 
   renderOptions () {
-    const {selectedElement, display, elements} = this.props;
+    const {selectedElement, display, elements, selectedLinks, isTemplate} = this.props;
     const ElementClass = elements[selectedElement.tag];
 
     if (ElementClass.propsSchema) {
@@ -81,7 +98,8 @@ export default class EditProps extends Component {
         <OptionsList
           options={ElementClass.propsSchema}
           values={values}
-          onChange={this.changeElementProperty}
+          onChange={isTemplate ? this.changeDocProperty : this.changeElementProperty}
+          filter={isTemplate && selectedLinks.map((link) => link.action)}
         />
       );
     }

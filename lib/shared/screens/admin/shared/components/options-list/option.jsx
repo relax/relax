@@ -1,7 +1,7 @@
-import bind from 'decorators/bind';
-import cx from 'classnames';
 import Component from 'components/component';
 import Overrides from 'components/override-status';
+import bind from 'decorators/bind';
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';
@@ -22,7 +22,8 @@ export default class Option extends Component {
     white: PropTypes.bool,
     passToOptions: PropTypes.object,
     elementOverride: PropTypes.bool,
-    displayOverride: PropTypes.bool
+    displayOverride: PropTypes.bool,
+    disabled: PropTypes.bool
   };
 
   @bind
@@ -67,16 +68,17 @@ export default class Option extends Component {
       label,
       children,
       elementOverride,
-      displayOverride
+      displayOverride,
+      disabled
     } = this.props;
 
-    const overridable = elementOverride || displayOverride;
+    const overridable = (elementOverride || displayOverride) && !disabled;
 
     return (
       <div className={cx(styles.option, tight && styles.tight)}>
         {this.renderLabel(type !== 'Optional' && label)}
         <div>
-          <div className={cx(!label && overridable && styles.maxSize)}>
+          <div className={cx(!label && overridable && styles.maxSize, disabled && styles.disabled)}>
             {this.renderOptionComp()}
           </div>
           {
@@ -119,11 +121,11 @@ export default class Option extends Component {
 
   renderLabel (label) {
     if (label) {
-      const {white} = this.props;
+      const {white, disabled} = this.props;
       return (
         <div className={cx(styles.label, white && styles.white)}>
           <span>{label}</span>
-          {this.renderOverrides()}
+          {!disabled && this.renderOverrides()}
         </div>
       );
     }

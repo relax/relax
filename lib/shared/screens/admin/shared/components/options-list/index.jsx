@@ -1,10 +1,10 @@
-import warning from 'warning';
 import Component from 'components/component';
+import warning from 'warning';
 import React, {PropTypes} from 'react';
 import TypesOptionsMap, {TypesOptionsDefaultProps} from 'components/input-options';
 
-import styles from './index.less';
 import Option from './option';
+import styles from './index.less';
 
 export default class OptionsList extends Component {
   static propTypes = {
@@ -15,7 +15,8 @@ export default class OptionsList extends Component {
     white: PropTypes.bool,
     tight: PropTypes.bool,
     elementOverrides: PropTypes.array,
-    displayOverrides: PropTypes.array
+    displayOverrides: PropTypes.array,
+    filter: PropTypes.array
   };
 
   static defaultProps = {
@@ -91,10 +92,20 @@ export default class OptionsList extends Component {
     if (option.type === 'Columns') {
       result = this.renderColumns(option, index);
     } else if (OptionComponent) {
-      const {values, onChange, tight, passToOptions, white, elementOverrides, displayOverrides} = this.props;
+      const {
+        values,
+        onChange,
+        tight,
+        passToOptions,
+        white,
+        elementOverrides,
+        displayOverrides,
+        filter
+      } = this.props;
       const value = values[option.id];
       const extraProps = Object.assign({}, TypesOptionsDefaultProps[option.type], option.props);
       const unlockedContent = option.unlocks && value !== '' && this.renderUnlocks(option, value, extraProps);
+      let disabled = false;
 
       let elementOverride = false;
       let displayOverride = false;
@@ -104,6 +115,10 @@ export default class OptionsList extends Component {
       }
       if (displayOverrides) {
         displayOverride = displayOverrides.indexOf(option.id) !== -1;
+      }
+
+      if (filter && filter.length) {
+        disabled = filter.indexOf(option.id) === -1;
       }
 
       result = (
@@ -122,6 +137,7 @@ export default class OptionsList extends Component {
           elementOverride={elementOverride}
           displayOverride={displayOverride}
           white={white}
+          disabled={disabled}
           key={option.id || index}
         >
           {unlockedContent}
