@@ -1,15 +1,15 @@
-import React, {PropTypes} from 'react';
-
 import Component from 'components/component';
 import Draggable from 'components/dnd/draggable';
 import Droppable from 'components/dnd/droppable';
+import bind from 'decorators/bind';
+import getElementCss from 'helpers/get-element-css';
+import velocity from 'relax-velocity-animate';
+import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
+
 import Empty from './empty';
 import Highlight from './highlight';
-import bind from 'decorators/bind';
-import {findDOMNode} from 'react-dom';
-import getElementCss from 'helpers/get-element-css';
 import styles from './element.less';
-import velocity from 'relax-velocity-animate';
 
 export default class Element extends Component {
   static propTypes = {
@@ -239,7 +239,9 @@ export default class Element extends Component {
     }
     if (editing) {
       tagProps.ref = (ref) => {
-        this.ref = ref;
+        !this.state.ref && this.setState({
+          ref
+        });
       };
     }
     if (isHighlightable) {
@@ -309,7 +311,7 @@ export default class Element extends Component {
       isHighlightable
     } = this.props;
 
-    if (isHighlightable && this.ref) {
+    if (isHighlightable && this.state.ref) {
       return (
         <Highlight
           element={element}
@@ -321,7 +323,7 @@ export default class Element extends Component {
           contentElementId={contentElementId}
           context={context}
           linkingDataMode={linkingDataMode}
-          dom={this.ref}
+          dom={this.state.ref}
         />
       );
     }
