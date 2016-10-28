@@ -1,13 +1,13 @@
-import bind from 'decorators/bind';
-import getElementProps from 'helpers/get-element-props';
-import optionsStyles from 'components/options-list/index.less';
 import Component from 'components/component';
 import Input from 'components/input-options/input';
 import OptionsList from 'components/options-list';
+import bind from 'decorators/bind';
+import getElementProps from 'helpers/get-element-props';
+import optionsStyles from 'components/options-list/index.less';
 import React, {PropTypes} from 'react';
 
-import styles from './props.less';
 import Animation from './animation';
+import styles from './props.less';
 
 export default class EditProps extends Component {
   static propTypes = {
@@ -17,7 +17,8 @@ export default class EditProps extends Component {
     selectedElement: PropTypes.object,
     elements: PropTypes.object.isRequired,
     type: PropTypes.string,
-    contentElementId: PropTypes.string
+    contentElementId: PropTypes.string,
+    isTemplate: PropTypes.bool.isRequired
   };
 
   @bind
@@ -39,23 +40,35 @@ export default class EditProps extends Component {
       <div className={styles.root}>
         {this.renderLabelOption()}
         {this.renderOptions()}
-        <Animation {...this.props} />
+        {this.renderAnimation()}
       </div>
     );
   }
 
   renderLabelOption () {
-    const {selectedElement} = this.props;
+    const {selectedElement, isTemplate} = this.props;
 
-    return (
-      <div className={optionsStyles.option}>
-        <div className={optionsStyles.label}>Label</div>
-        <Input
-          value={selectedElement.label || selectedElement.tag}
-          onChange={this.changeElementLabel}
-        />
-      </div>
-    );
+    if (!isTemplate) {
+      return (
+        <div className={optionsStyles.option}>
+          <div className={optionsStyles.label}>Label</div>
+          <Input
+            value={selectedElement.label || selectedElement.tag}
+            onChange={this.changeElementLabel}
+          />
+        </div>
+      );
+    }
+  }
+
+  renderAnimation () {
+    const {isTemplate} = this.props;
+
+    if (!isTemplate) {
+      return (
+        <Animation {...this.props} />
+      );
+    }
   }
 
   renderOptions () {

@@ -2,16 +2,17 @@ import Component from 'components/component';
 import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
 
-import styles from './settings.less';
 import Props from './props';
 import TabEmpty from '../tab-empty';
+import styles from './settings.less';
 
 export default class SettingsTab extends Component {
   static propTypes = {
     selected: PropTypes.object,
     selectedElement: PropTypes.object,
     duplicate: PropTypes.func.isRequired,
-    remove: PropTypes.func.isRequired
+    remove: PropTypes.func.isRequired,
+    isTemplate: PropTypes.bool.isRequired
   };
 
   render () {
@@ -45,14 +46,20 @@ export default class SettingsTab extends Component {
   }
 
   renderActionButtons () {
-    const {selected, selectedElement, duplicate, remove} = this.props;
+    const {selected, selectedElement, duplicate, remove, isTemplate} = this.props;
 
     if (selected && selected.id !== 'body') {
       let result;
 
-      if (selectedElement.subComponent) {
+      if (isTemplate) {
         result = (
-          <div>
+          <div className={styles.template}>
+            This is a template element
+          </div>
+        );
+      } else if (selectedElement.subComponent) {
+        result = (
+          <div className={styles.subElement}>
             This is a sub element
           </div>
         );
