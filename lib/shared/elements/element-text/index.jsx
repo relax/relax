@@ -2,8 +2,9 @@ import Component from 'components/component';
 import Editor from 'components/medium-editor';
 import bind from 'decorators/bind';
 import cx from 'classnames';
+import getByAction from 'helpers/element-links/get-by-action';
 import React, {PropTypes} from 'react';
-import {changeElementContent} from 'actions/page-builder';
+import {changeDocProperty, changeElementContent} from 'actions/page-builder';
 
 import styles from './index.less';
 
@@ -22,7 +23,16 @@ export default class ElementText extends Component {
   onChange (value) {
     const {store} = this.context;
     const {relax} = this.props;
-    store.dispatch(changeElementContent(relax.element.id, value, relax.context));
+
+    if (relax.isTemplate) {
+      const link = getByAction(relax.elementLinks, 'children');
+
+      if (link) {
+        store.dispatch(changeDocProperty(link.property, value));
+      }
+    } else {
+      store.dispatch(changeElementContent(relax.element.id, value, relax.context));
+    }
   }
 
   render () {
