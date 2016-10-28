@@ -26,6 +26,7 @@ export default class Element extends Component {
     style: PropTypes.object,
     animation: PropTypes.bool,
     animated: PropTypes.bool.isRequired,
+    isDraggable: PropTypes.bool.isRequired,
     animatedEditing: PropTypes.bool.isRequired,
     children: PropTypes.node,
     dragging: PropTypes.bool.isRequired,
@@ -191,7 +192,7 @@ export default class Element extends Component {
   }
 
   render () {
-    const {editing, settings, element, positionInParent, selected, disableSelection, context} = this.props;
+    const {editing, isDraggable, settings, element, positionInParent, selected, disableSelection, context} = this.props;
     let result;
 
     if (editing && settings.drag) {
@@ -205,7 +206,7 @@ export default class Element extends Component {
         },
         onClick: this.onElementClick,
         type: element.tag,
-        disabled: disableSelection || (selected && settings.drag.dragSelected === false)
+        disabled: !isDraggable
       }, settings.drag);
 
       result = (
