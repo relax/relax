@@ -1,3 +1,8 @@
+import Component from 'components/component';
+import Droppable from 'components/dnd/droppable';
+import Portal from 'components/portal';
+import Scrollable from 'components/scrollable';
+import Styles from 'components/styles';
 import bind from 'decorators/bind';
 import displays from 'statics/displays';
 import get from 'lodash.get';
@@ -5,16 +10,11 @@ import isElementSelected from 'helpers/is-element-selected';
 import stylesManager from 'helpers/styles-manager';
 import traverseChildren from 'helpers/traverser/children';
 import traverser from 'helpers/traverser';
-import Component from 'components/component';
-import Droppable from 'components/dnd/droppable';
-import Portal from 'components/portal';
-import Scrollable from 'components/scrollable';
-import Styles from 'components/styles';
 import React, {PropTypes} from 'react';
 
-import classes from './canvas.less';
 import Empty from './empty';
 import NoLinks from './no-links';
+import classes from './canvas.less';
 
 const defaultStyleClassMap = {};
 const bodyDropInfo = {
@@ -166,7 +166,8 @@ export default class Canvas extends Component {
       positionInParent,
       editable,
       elementLinks,
-      builderLink
+      builderLink,
+      isTemplate
     } = elementInfo;
 
     const styleMap = stylesManager.processElement({
@@ -209,6 +210,7 @@ export default class Canvas extends Component {
             element,
             positionInParent,
             elementLinks,
+            isTemplate,
             renderChildren: this.renderChildChildren,
             display,
             styleValues: styleMap && styleMap.resultValues || {},
