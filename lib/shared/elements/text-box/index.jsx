@@ -1,15 +1,13 @@
-import bind from 'decorators/bind';
 import cx from 'classnames';
-import Editor from 'components/medium-editor';
 import React, {PropTypes} from 'react';
-import {changeElementContent} from 'actions/page-builder';
 
+import Component from '../component';
+import Element from '../element';
+import ElementText from '../element-text';
 import classes from './classes';
 import propsSchema from './props-schema';
 import settings from './settings';
 import style from './style';
-import Component from '../component';
-import Element from '../element';
 
 export default class TextBox extends Component {
   static propTypes = {
@@ -18,22 +16,11 @@ export default class TextBox extends Component {
     relax: PropTypes.object.isRequired
   };
 
-  static contextTypes = {
-    store: PropTypes.object.isRequired
-  };
-
   static defaultChildren = 'Click to edit text';
 
   static propsSchema = propsSchema;
   static settings = settings;
   static style = style;
-
-  @bind
-  onChange (value) {
-    const {store} = this.context;
-    const {relax} = this.props;
-    store.dispatch(changeElementContent(relax.element.id, value, relax.context));
-  }
 
   render () {
     const {relax} = this.props;
@@ -52,36 +39,22 @@ export default class TextBox extends Component {
   }
 
   renderContent () {
-    let result;
-    const classMap = this.props.styleClassMap;
-    const {editing, selected} = this.props.relax;
-    const className = cx(classes.text, classMap.text);
+    const {styleClassMap, relax, children} = this.props;
+    const {editing, selected} = relax;
 
     let html = '';
-    if ((!this.props.children || this.props.children === '') && editing && !selected) {
+    if (!children && editing && !selected) {
       html = 'Double click to edit text';
     } else {
       html = this.props.children;
     }
 
-    if (editing && selected) {
-      result = (
-        <Editor
-          tag='div'
-          className={className}
-          onChange={this.onChange}
-          value={html}
-        />
-      );
-    } else {
-      result = (
-        <div
-          className={cx(className, editing && classes.cursor)}
-          dangerouslySetInnerHTML={{__html: html}}
-        />
-      );
-    }
-
-    return result;
+    return (
+      <ElementText
+        className={cx(classes.text, styleClassMap.text)}
+        relax={relax}
+        value={html}
+      />
+    );
   }
 }
