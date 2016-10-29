@@ -1,10 +1,10 @@
-import React, {PropTypes} from 'react';
-
 import Component from 'components/component';
-import ContextMenu from './context-menu';
 import Portal from 'components/portal';
 import bind from 'decorators/bind';
 import cx from 'classnames';
+import React, {PropTypes} from 'react';
+
+import ContextMenu from './context-menu';
 import styles from './highlight.less';
 
 export default class Highlight extends Component {
@@ -17,6 +17,7 @@ export default class Highlight extends Component {
     dom: PropTypes.any.isRequired,
     context: PropTypes.string.isRequired,
     linkingDataMode: PropTypes.bool,
+    contextMenu: PropTypes.bool,
     elementLinks: PropTypes.array
   };
 
@@ -62,7 +63,7 @@ export default class Highlight extends Component {
   }
 
   render () {
-    const {selected, overed, element, linkingDataMode, focused, elementLinks} = this.props;
+    const {selected, overed, element, linkingDataMode, focused, elementLinks, contextMenu} = this.props;
     const style = this.getPosition();
 
     return (
@@ -81,7 +82,13 @@ export default class Highlight extends Component {
           style={style}
         >
           {this.renderIdentifier()}
-          {selected && !focused && style.height > 30 && this.renderContext()}
+          {
+            selected &&
+            !focused &&
+            style.height > 30 &&
+            contextMenu &&
+            this.renderContext()
+          }
         </div>
       </Portal>
     );

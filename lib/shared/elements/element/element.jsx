@@ -42,6 +42,7 @@ export default class Element extends Component {
     context: PropTypes.string,
     isHighlightable: PropTypes.bool,
     hasAnimation: PropTypes.bool,
+    isTemplate: PropTypes.bool,
     elementLinks: PropTypes.array
   };
 
@@ -192,7 +193,7 @@ export default class Element extends Component {
   }
 
   render () {
-    const {editing, isDraggable, settings, element, positionInParent, selected, disableSelection, context} = this.props;
+    const {editing, isDraggable, settings, element, positionInParent, context} = this.props;
     let result;
 
     if (editing && settings.drag) {
@@ -309,7 +310,8 @@ export default class Element extends Component {
       context,
       linkingDataMode,
       elementLinks,
-      isHighlightable
+      isHighlightable,
+      isTemplate
     } = this.props;
 
     if (isHighlightable && this.state.ref) {
@@ -324,6 +326,7 @@ export default class Element extends Component {
           contentElementId={contentElementId}
           context={context}
           linkingDataMode={linkingDataMode}
+          contextMenu={!isTemplate}
           dom={this.state.ref}
         />
       );
