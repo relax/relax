@@ -1,5 +1,5 @@
-import bind from 'decorators/bind';
 import Component from 'components/component';
+import bind from 'decorators/bind';
 import React, {PropTypes} from 'react';
 
 import Button from './button';
@@ -8,7 +8,7 @@ export default class ButtonsOptions extends Component {
   static propTypes = {
     values: PropTypes.array.isRequired,
     labels: PropTypes.array.isRequired,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     vertical: PropTypes.bool,
     white: PropTypes.bool,

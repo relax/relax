@@ -1,14 +1,14 @@
+import Component from 'components/component';
 import bind from 'decorators/bind';
 import cloneDeep from 'lodash.clonedeep';
-import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
-import styles from './index.less';
 import Shadow from './shadow';
+import styles from './index.less';
 
 export default class BoxShadow extends Component {
   static propTypes = {
-    value: PropTypes.array.isRequired,
+    value: PropTypes.array,
     onChange: PropTypes.func.isRequired
   };
 

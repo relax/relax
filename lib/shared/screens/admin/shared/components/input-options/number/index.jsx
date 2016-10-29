@@ -1,13 +1,13 @@
+import Component from 'components/component';
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';
 
 export default class NumberInput extends Component {
   static propTypes = {
-    value: PropTypes.number.isRequired,
+    value: PropTypes.number,
     onChange: PropTypes.func.isRequired,
     allowed: PropTypes.array,
     min: PropTypes.any,

@@ -1,13 +1,13 @@
-import cx from 'classnames';
 import Component from 'components/component';
 import NumberInput from 'components/input-options/number';
-import React from 'react';
+import cx from 'classnames';
+import React, {PropTypes} from 'react';
 
 export default class CornersPicker extends Component {
   static propTypes = {
-    value: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    type: React.PropTypes.string.isRequired
+    value: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    type: PropTypes.string.isRequired
   };
 
   getInitState () {
@@ -39,7 +39,7 @@ export default class CornersPicker extends Component {
     return `${values.tl || '0'}px ${values.tr || '0'}px ${values.br || '0'}px ${values.bl || '0'}px`;
   }
 
-  parseValue (value) {
+  parseValue (value = '0px') {
     const values = value.split(' ');
     const result = {
       tl: 0,

@@ -1,15 +1,15 @@
+import Component from 'components/component';
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import Component from 'components/component';
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import styles from './index.less';
 
 export default class Section extends Component {
   static propTypes = {
-    value: React.PropTypes.bool.isRequired,
-    label: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired
+    value: PropTypes.bool,
+    label: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired
   };
 
   @bind
