@@ -8,10 +8,10 @@ import ContentNew from 'components/content-new';
 import Modal from 'components/modal';
 import React, {PropTypes} from 'react';
 
-import styles from './fonts.less';
 import List from './list';
 import Manage from './manage';
 import PreviewText from './preview-text';
+import styles from './fonts.less';
 
 export default class Fonts extends Component {
   static fragments = List.fragments;
@@ -19,7 +19,7 @@ export default class Fonts extends Component {
   static propTypes = {
     fonts: PropTypes.object.isRequired,
     previewText: PropTypes.string.isRequired,
-    changePreviewText: PropTypes.string.isRequired,
+    changePreviewText: PropTypes.func.isRequired,
     changeDisplay: PropTypes.func.isRequired,
     display: PropTypes.oneOf(['list', 'grid']).isRequired,
     manage: PropTypes.bool.isRequired,
