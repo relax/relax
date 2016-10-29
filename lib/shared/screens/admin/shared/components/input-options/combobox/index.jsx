@@ -55,7 +55,12 @@ export default class Combobox extends Component {
 
     return (
       <div
-        className={cx(styles.combobox, white && styles.white, opened && styles.opened, className)}
+        className={cx(
+          styles.combobox,
+          white && styles.white,
+          opened && styles.opened,
+          className
+        )}
         style={style}
         ref={(ref) => {this.ref = ref;}}
         onClick={this.toggle}
@@ -78,11 +83,21 @@ export default class Combobox extends Component {
     if (this.state.opened) {
       const {labels, values, white} = this.props;
 
+      const style = {};
+      let scroll = true;
+      if (values.length <= 5) {
+        const len = values.length || 2;
+        style.height = `${len * 30}px`;
+        scroll = false;
+      }
+
       return (
         <Options
           values={values}
           labels={labels}
           white={white}
+          style={style}
+          scroll={scroll}
           element={this.ref}
           onClose={this.toggle}
           onChange={this.optionClicked}
