@@ -1,5 +1,6 @@
-import cx from 'classnames';
 import Component from 'components/component';
+import bind from 'decorators/bind';
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 
@@ -35,6 +36,7 @@ export default class MenuButton extends Component {
     });
   }
 
+  @bind
   onClick (event) {
     if (this.props.active && this.props.onActiveClick) {
       event.preventDefault();
@@ -52,7 +54,7 @@ export default class MenuButton extends Component {
             to={link}
             query={query}
             className={cx(styles.button, active && styles.active, dark && styles.dark)}
-            onClick={::this.onClick}
+            onClick={this.onClick}
           >
             <i className={icon}></i>
             <span>{label}</span>
