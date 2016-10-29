@@ -1,5 +1,5 @@
-import cx from 'classnames';
 import Component from 'components/component';
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 
@@ -36,7 +36,7 @@ export default class Sorting extends Component {
     });
 
     return (
-      <Link to={location} query={query} className={cx(styles.button, active && styles.active)}>
+      <Link to={location.pathname} query={query} className={cx(styles.button, active && styles.active)}>
         <span>{label}</span>
         {
           active &&

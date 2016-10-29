@@ -11,7 +11,6 @@ import styles from './menu.less';
 export default class MediaMenu extends Component {
   static propTypes = {
     children: PropTypes.node,
-    pages: PropTypes.array.isRequired,
     onBack: PropTypes.func.isRequired,
     uploadMediaFiles: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired
@@ -30,7 +29,8 @@ export default class MediaMenu extends Component {
 
   render () {
     const {onBack, uploadMediaFiles, location} = this.props;
-    const {filter = 'all'} = location.query;
+    const {pathname, query} = location;
+    const {filter = 'all'} = query;
 
     return (
       <div>
@@ -47,47 +47,47 @@ export default class MediaMenu extends Component {
         <Scrollable className={styles.list}>
           <div>
             <Button
-              link={location}
+              link={pathname}
               query={this.getQuery('all')}
               label='All'
               icon='nc-icon-outline files_single-copies'
               active={filter === 'all'}
             />
             <Button
-              link={location}
+              link={pathname}
               query={this.getQuery('image')}
               label='Images'
               icon='nc-icon-outline media-1_image-02'
               active={filter.indexOf('image') !== -1 || filter === 'favicon'}
             >
               <SubButton
-                link={location}
+                link={pathname}
                 query={this.getQuery('image/jpeg')}
                 label='JPEG'
                 active={filter === 'image/jpeg'}
               />
               <SubButton
-                link={location}
+                link={pathname}
                 query={this.getQuery('image/png')}
                 label='PNG'
                 active={filter === 'image/png'}
               />
               <SubButton
-                link={location}
+                link={pathname}
                 query={this.getQuery('favicon')}
                 label='ICO'
                 active={filter === 'favicon'}
               />
             </Button>
             <Button
-              link={location}
+              link={pathname}
               query={this.getQuery('video')}
               label='Video'
               icon='nc-icon-outline media-1_play-69'
               active={filter === 'video'}
             />
             <Button
-              link={location}
+              link={pathname}
               query={this.getQuery('audio')}
               label='Audio'
               icon='nc-icon-outline media-1_volume-98'
