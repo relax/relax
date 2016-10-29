@@ -1,14 +1,14 @@
+import AnimateProps from 'components/animate-props';
+import Component from 'components/component';
 import bind from 'decorators/bind';
 import cx from 'classnames';
 import forEach from 'lodash.foreach';
-import AnimateProps from 'components/animate-props';
-import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
-import styles from './droppable.less';
 import AddBallon from './add-ballon';
 import Marker from './marker';
+import styles from './droppable.less';
 
 export default class Droppable extends Component {
   static propTypes = {
@@ -17,8 +17,8 @@ export default class Droppable extends Component {
     activeDropInfo: PropTypes.any.isRequired,
     activeDragInfo: PropTypes.any.isRequired,
     dropInfo: PropTypes.object.isRequired,
-    minHeight: PropTypes.number.isRequired,
-    minWidth: PropTypes.number.isRequired,
+    minHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    minWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     children: PropTypes.node,
     className: PropTypes.string,
     style: PropTypes.object,
@@ -26,12 +26,12 @@ export default class Droppable extends Component {
     accepts: PropTypes.any,
     rejects: PropTypes.any,
     type: PropTypes.string,
-    showMarks: PropTypes.bool.isRequired,
-    isActive: PropTypes.bool.isRequired,
-    orientation: PropTypes.string.isRequired,
+    showMarks: PropTypes.bool,
+    isActive: PropTypes.bool,
+    orientation: PropTypes.string,
     elementsMenuSpot: PropTypes.string,
     isSelected: PropTypes.bool,
-    openElementsMenu: PropTypes.func.isRequired,
+    openElementsMenu: PropTypes.func,
     placeholder: PropTypes.bool,
     hidePlaceholder: PropTypes.bool,
     Placeholder: PropTypes.object,

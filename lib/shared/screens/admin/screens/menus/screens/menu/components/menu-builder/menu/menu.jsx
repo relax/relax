@@ -1,12 +1,12 @@
-import React, {PropTypes} from 'react';
-
 import Animate from 'components/animate';
 import Component from 'components/component';
 import Dragger from 'components/dnd/dragger';
 import Droppable from 'components/dnd/droppable';
-import Entry from '../entry';
 import bind from 'decorators/bind';
 import cx from 'classnames';
+import React, {PropTypes} from 'react';
+
+import Entry from '../entry';
 import styles from './menu.less';
 
 export default class Menu extends Component {
@@ -19,7 +19,7 @@ export default class Menu extends Component {
 
   static propTypes = {
     dragging: PropTypes.bool.isRequired,
-    draggingId: PropTypes.number,
+    draggingId: PropTypes.string,
     draggedMenuItem: PropTypes.func.isRequired,
     menuData: PropTypes.object.isRequired
   };

@@ -1,6 +1,6 @@
+import Component from 'components/component';
 import cx from 'classnames';
 import forEach from 'lodash.foreach';
-import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';
@@ -8,7 +8,7 @@ import styles from './index.less';
 export default class Button extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    onClick: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
     className: PropTypes.string,
     style: PropTypes.object,
     primary: PropTypes.bool,

@@ -1,6 +1,6 @@
+import Component from 'components/component';
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
@@ -9,7 +9,7 @@ const LEFT_BUTTON = 0;
 export default class Draggable extends Component {
   static propTypes = {
     dndActions: PropTypes.object.isRequired,
-    type: PropTypes.string.isRequired,
+    type: PropTypes.string,
     dragInfo: PropTypes.object.isRequired,
     onStartDrag: PropTypes.func,
     droppableOn: PropTypes.string,
