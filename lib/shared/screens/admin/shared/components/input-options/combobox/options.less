@@ -5,21 +5,23 @@
   left: 0;
   display: block;
   height: 155px;
-  overflow-y: auto;
 
-  border: solid 1px @chromeBordersColor;
+  border: solid 1px @primary;
   background-color: @chromeBackgroundDarkerColor;
-  border-radius: 3px;
+  border-radius: 0 0 3px 3px;
+}
 
-  -webkit-box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.5);
-  -moz-box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.5);
-  box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.5);
+.scroll {
+  overflow-y: auto;
+}
+
+.empty {
+  color: @adminText;
+  font-size: 11px;
+  text-align: center;
+  padding: 20px 10px;
 }
 
 .white {
-  border-color: @adminInputBorders;
   background-color: #ffffff;
-  -webkit-box-shadow: 0px 5px 20px 0px rgba(0,0,0,0.2);
-  -moz-box-shadow: 0px 5px 20px 0px rgba(0,0,0,0.2);
-  box-shadow: 0px 5px 20px 0px rgba(0,0,0,0.2);
 }
