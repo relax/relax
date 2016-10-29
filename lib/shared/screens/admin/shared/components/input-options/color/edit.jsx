@@ -1,9 +1,8 @@
-import cx from 'classnames';
 import Component from 'components/component';
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
-import styles from './edit.less';
 import ColorPicker from './color-picker';
 import ColorsCollection from './colors-collection';
 import GradientPoints from './gradient-points';
@@ -13,6 +12,7 @@ import Opacity from './opacity';
 import RadialGradient from './radial-gradient';
 import RadialRadius from './radial-radius';
 import Types from './types';
+import styles from './edit.less';
 
 export default class Edit extends Component {
   static propTypes = {
@@ -28,7 +28,6 @@ export default class Edit extends Component {
     previousInputType: PropTypes.func.isRequired,
     nextInputType: PropTypes.func.isRequired,
     gradients: PropTypes.bool.isRequired,
-    side: PropTypes.string.isRequired,
     changeToSolid: PropTypes.func.isRequired,
     changeToLinear: PropTypes.func.isRequired,
     changeToRadial: PropTypes.func.isRequired,
@@ -43,9 +42,10 @@ export default class Edit extends Component {
     changeCenter: PropTypes.func.isRequired,
     addPoint: PropTypes.func.isRequired,
     removePoint: PropTypes.func.isRequired,
-    showCollection: PropTypes.func.isRequired,
-    showOpacity: PropTypes.func.isRequired,
-    noPicker: PropTypes.bool
+    showCollection: PropTypes.bool.isRequired,
+    showOpacity: PropTypes.bool.isRequired,
+    noPicker: PropTypes.bool,
+    colorPickerDisabled: PropTypes.bool
   };
 
   componentDidMount () {

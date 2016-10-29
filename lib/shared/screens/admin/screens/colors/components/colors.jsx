@@ -1,4 +1,3 @@
-import find from 'lodash.find';
 import Component from 'components/component';
 import Content from 'components/content';
 import ContentHeader from 'components/content-header';
@@ -7,11 +6,12 @@ import ContentNew from 'components/content-new';
 import ContentSearch from 'components/content-search';
 import Modal from 'components/modal';
 import ModalDelete from 'components/modal-delete';
+import find from 'lodash.find';
 import React, {PropTypes} from 'react';
 
-import styles from './colors.less';
 import List from './list';
 import New from './new';
+import styles from './colors.less';
 
 export default class Colors extends Component {
   static fragments = List.fragments;
@@ -37,14 +37,10 @@ export default class Colors extends Component {
     const {colors} = this.props;
     let result;
 
-    if (colors) {
-      if (colors.length) {
-        result = this.renderContent();
-      } else {
-        result = this.renderNoColors();
-      }
+    if (colors && colors.length) {
+      result = this.renderContent();
     } else {
-      result = <span />;
+      result = this.renderNoColors();
     }
 
     return result;
