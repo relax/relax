@@ -1,11 +1,11 @@
-import React, {PropTypes} from 'react';
-
 import Component from 'components/component';
 import Draggable from 'components/dnd/draggable';
 import OptionsMenu from 'components/options-menu';
 import bind from 'decorators/bind';
 import cx from 'classnames';
 import isElementSelected from 'helpers/is-element-selected';
+import React, {PropTypes} from 'react';
+
 import styles from './entry.less';
 
 export default class Entry extends Component {
@@ -20,7 +20,8 @@ export default class Entry extends Component {
     selected: PropTypes.object,
     overed: PropTypes.object,
     hasLinks: PropTypes.bool.isRequired,
-    editable: PropTypes.bool.isRequired
+    editable: PropTypes.bool.isRequired,
+    isTemplate: PropTypes.bool.isRequired
   };
 
   getInitState () {
@@ -103,10 +104,10 @@ export default class Entry extends Component {
   }
 
   render () {
-    const {ElementClass, element, context, editable} = this.props;
+    const {ElementClass, element, context, editable, isTemplate} = this.props;
     let result;
 
-    if (element.subComponent || !editable) {
+    if (element.subComponent || !editable || isTemplate) {
       result = (
         <div>
           {this.renderContent()}
@@ -195,7 +196,9 @@ export default class Entry extends Component {
   }
 
   renderOptions () {
-    if (this.props.editable && !this.props.element.subComponent) {
+    const {editable, element, isTemplate} = this.props;
+
+    if (editable && !isTemplate && !element.subComponent) {
       return (
         <div className={cx(styles.part, styles.options)} onClick={this.openOptions}>
           <i className='nc-icon-mini ui-2_menu-dots'></i>
