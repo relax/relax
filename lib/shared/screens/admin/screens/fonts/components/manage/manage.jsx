@@ -3,18 +3,16 @@ import Component from 'components/component';
 import Spinner from 'components/spinner';
 import React, {PropTypes} from 'react';
 
-import styles from './manage.less';
 import CustomFonts from './custom';
 import Provider from './provider';
 import TabButton from './tab-button';
+import styles from './manage.less';
 
 export default class Manage extends Component {
   static propTypes = {
     tabs: PropTypes.array.isRequired,
     tab: PropTypes.number.isRequired,
     changeTab: PropTypes.func.isRequired,
-    fonts: PropTypes.object.isRequired,
-    fontsActions: PropTypes.object.isRequired,
     closeManage: PropTypes.func.isRequired,
     saving: PropTypes.bool.isRequired
   };

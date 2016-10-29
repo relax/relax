@@ -1,6 +1,6 @@
+import Component from 'components/component';
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
 import styles from './tab-button.less';
@@ -8,7 +8,7 @@ import styles from './tab-button.less';
 export default class TabButton extends Component {
   static propTypes = {
     onClick: PropTypes.func.isRequired,
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     active: PropTypes.bool
   };
