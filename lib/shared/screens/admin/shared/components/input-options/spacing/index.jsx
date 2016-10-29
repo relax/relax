@@ -1,15 +1,15 @@
-import cx from 'classnames';
 import Component from 'components/component';
 import NumberInput from 'components/input-options/number';
-import React from 'react';
+import cx from 'classnames';
+import React, {PropTypes} from 'react';
 
 import styles from './index.less';
 
 export default class SpacingPicker extends Component {
   static propTypes = {
-    value: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    type: React.PropTypes.string.isRequired
+    value: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    type: PropTypes.string.isRequired
   };
 
   getInitState () {

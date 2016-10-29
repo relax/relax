@@ -1,13 +1,13 @@
-import React, {PropTypes} from 'react';
-
 import Component from 'components/component';
 import Overrides from 'components/override-status';
 import bind from 'decorators/bind';
+import React, {PropTypes} from 'react';
+
 import styles from './index.less';
 
 export default class Optional extends Component {
   static propTypes = {
-    value: PropTypes.bool.isRequired,
+    value: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     label: PropTypes.string.isRequired,
     elementOverride: PropTypes.bool,

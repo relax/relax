@@ -1,13 +1,13 @@
-import cx from 'classnames';
 import Component from 'components/component';
 import Editor from 'components/medium-editor';
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';
 
 export default class HtmlArea extends Component {
   static propTypes = {
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     className: PropTypes.string,
     white: PropTypes.bool

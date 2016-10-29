@@ -1,12 +1,12 @@
-import cx from 'classnames';
 import Component from 'components/component';
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';
 
 export default class ShadowPosition extends Component {
   static propTypes = {
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     onChange: PropTypes.func.isRequired
   };
 

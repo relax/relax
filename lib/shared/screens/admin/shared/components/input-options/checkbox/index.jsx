@@ -1,16 +1,16 @@
+import Component from 'components/component';
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import Component from 'components/component';
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import styles from './index.less';
 
 export default class Checkbox extends Component {
   static propTypes = {
-    value: React.PropTypes.bool.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    disabled: React.PropTypes.bool,
-    white: React.PropTypes.bool
+    value: PropTypes.bool,
+    onChange: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
+    white: PropTypes.bool
   };
 
   @bind

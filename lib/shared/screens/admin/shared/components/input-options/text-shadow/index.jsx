@@ -1,13 +1,13 @@
-import cloneDeep from 'lodash.clonedeep';
 import Component from 'components/component';
+import cloneDeep from 'lodash.clonedeep';
 import React, {PropTypes} from 'react';
 
-import styles from './index.less';
 import Shadow from './shadow';
+import styles from './index.less';
 
 export default class TextShadow extends Component {
   static propTypes = {
-    value: PropTypes.array.isRequired,
+    value: PropTypes.array,
     onChange: PropTypes.func.isRequired
   };
 

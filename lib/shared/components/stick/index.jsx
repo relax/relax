@@ -1,7 +1,7 @@
-import bind from 'decorators/bind';
-import cx from 'classnames';
 import Animate from 'components/animate';
 import Component from 'components/component';
+import bind from 'decorators/bind';
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';
@@ -15,7 +15,7 @@ const positionFallbacks = {
 
 export default class Stick extends Component {
   static propTypes = {
-    element: PropTypes.node.isRequired,
+    element: PropTypes.any.isRequired,
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
     transition: PropTypes.string,

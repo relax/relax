@@ -1,20 +1,21 @@
+import Component from 'components/component';
 import bind from 'decorators/bind';
 import cx from 'classnames';
 import forEach from 'lodash.foreach';
-import Component from 'components/component';
-import React from 'react';
+import React, {PropTypes} from 'react';
+
 import Options from './options';
 import styles from './index.less';
 
 export default class Combobox extends Component {
   static propTypes = {
-    labels: React.PropTypes.array,
-    values: React.PropTypes.array.isRequired,
-    value: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    className: React.PropTypes.string,
-    style: React.PropTypes.object,
-    white: React.PropTypes.bool
+    labels: PropTypes.array,
+    values: PropTypes.array.isRequired,
+    value: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    white: PropTypes.bool
   };
 
   getInitState () {

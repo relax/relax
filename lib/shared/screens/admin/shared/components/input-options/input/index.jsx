@@ -1,15 +1,15 @@
-import bind from 'decorators/bind';
-import cx from 'classnames';
 import Animate from 'components/animate';
 import Component from 'components/component';
 import Spinner from 'components/spinner';
+import bind from 'decorators/bind';
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';
 
 export default class Input extends Component {
   static propTypes = {
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     className: PropTypes.string,
     placeholder: PropTypes.string,

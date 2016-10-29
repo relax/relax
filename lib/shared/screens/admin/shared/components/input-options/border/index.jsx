@@ -1,16 +1,16 @@
-import cx from 'classnames';
 import BorderStyle from 'components/input-options/border-style';
 import ColorPicker from 'components/input-options/color';
 import Component from 'components/component';
 import NumberInput from 'components/input-options/number';
-import React from 'react';
+import cx from 'classnames';
+import React, {PropTypes} from 'react';
 
 import styles from './index.less';
 
 export default class BorderPicker extends Component {
   static propTypes = {
-    value: React.PropTypes.object.isRequired,
-    onChange: React.PropTypes.func.isRequired
+    value: PropTypes.object,
+    onChange: PropTypes.func.isRequired
   };
 
   getInitState () {
