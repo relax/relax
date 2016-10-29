@@ -9,7 +9,7 @@ import styles from './new.less';
 export default class NewColor extends Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.object.isRequired,
     changeColorLabel: PropTypes.func.isRequired,
     changeColorValue: PropTypes.func.isRequired,
     createColor: PropTypes.func.isRequired,
