@@ -129,4 +129,20 @@
       }
     }
   }
+
+  &.selected {
+    color: @chromeTextColorHighlight;
+
+    &:before {
+      background-color: @linkColor;
+    }
+
+    .info {
+      :global {
+        i, span {
+          color: @chromeTextColorHighlight;
+        }
+      }
+    }
+  }
 }
