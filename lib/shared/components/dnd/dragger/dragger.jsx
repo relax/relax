@@ -1,7 +1,7 @@
-import cx from 'classnames';
-import velocity from 'relax-velocity-animate';
 import Component from 'components/component';
 import Portal from 'components/portal';
+import cx from 'classnames';
+import velocity from 'relax-velocity-animate';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
@@ -14,7 +14,7 @@ export default class Dragger extends Component {
     offset: PropTypes.object,
     draggingData: PropTypes.object,
     dragInfo: PropTypes.object,
-    dropInfo: PropTypes.object,
+    dropInfo: PropTypes.any,
     shadow: PropTypes.bool
   };
 
