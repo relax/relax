@@ -1,13 +1,13 @@
-import bind from 'decorators/bind';
-import traverser from 'helpers/traverser';
 import Component from 'components/component';
 import Droppable from 'components/dnd/droppable';
 import Scrollable from 'components/scrollable';
+import bind from 'decorators/bind';
+import traverser from 'helpers/traverser';
 import React, {PropTypes} from 'react';
-import Empty from './empty';
 
-import styles from './layers.less';
+import Empty from './empty';
 import Entry from './entry';
+import styles from './layers.less';
 
 const bodyDropInfo = {
   id: 'body',
@@ -102,7 +102,8 @@ export default class Layers extends Component {
       context,
       element,
       elementLinks,
-      editable
+      editable,
+      isTemplate
     } = elementInfo;
 
     const hasChildren = children && children.constructor === Array && children.length;
@@ -166,6 +167,7 @@ export default class Layers extends Component {
           pageBuilderActions={pageBuilderActions}
           element={element}
           editable={editable}
+          isTemplate={isTemplate}
           context={context}
           isExpanded={isExpanded}
           hasChildren={hasChildren}
