@@ -17,11 +17,12 @@ export default class Options extends Component {
     onClose: PropTypes.func.isRequired,
     white: PropTypes.bool,
     scroll: PropTypes.bool,
-    style: PropTypes.object
+    style: PropTypes.object,
+    zIndex: PropTypes.number
   };
 
   render () {
-    const {element, white, onClose, scroll} = this.props;
+    const {element, white, onClose, scroll, zIndex} = this.props;
 
     const style = Object.assign({
       width: element.getBoundingClientRect().width
@@ -37,6 +38,7 @@ export default class Options extends Component {
           horizontalOffset={0}
           verticalOffset={-1}
           onClose={onClose}
+          zIndex={zIndex}
         >
           <div className={cx(styles.root, white && styles.white, scroll && styles.scroll)} style={style}>
             {this.renderContent()}

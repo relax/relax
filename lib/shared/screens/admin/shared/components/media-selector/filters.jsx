@@ -1,6 +1,6 @@
-import forEach from 'lodash.foreach';
 import Combobox from 'components/input-options/combobox';
 import Component from 'components/component';
+import forEach from 'lodash.foreach';
 import React, {PropTypes} from 'react';
 import {getMimeTypes} from 'helpers/mime-types';
 
@@ -47,6 +47,7 @@ export default class Filters extends Component {
             value={sort}
             className={styles.mediumCombobox}
             onChange={changeSort}
+            zIndex={9999999}
           />
           <Combobox
             labels={['Asc', 'Desc']}
@@ -54,6 +55,7 @@ export default class Filters extends Component {
             value={order}
             className={styles.smallCombobox}
             onChange={changeOrder}
+            zIndex={9999999}
           />
         </div>
         <div className={styles.option}>
@@ -62,6 +64,7 @@ export default class Filters extends Component {
             {...mimeFilterOptions}
             value={type}
             onChange={changeType}
+            zIndex={9999999}
           />
         </div>
       </div>
