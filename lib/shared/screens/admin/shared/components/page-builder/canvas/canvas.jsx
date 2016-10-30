@@ -172,6 +172,7 @@ export default class Canvas extends Component {
 
     const styleMap = stylesManager.processElement({
       element,
+      context,
       elements,
       styles,
       display
