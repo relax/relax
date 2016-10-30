@@ -8,7 +8,7 @@ import styles from './index.less';
 export default class Templates extends Component {
   static propTypes = {
     children: PropTypes.node,
-    count: PropTypes.number.isRequired
+    count: PropTypes.number
   };
 
   render () {
