@@ -1,10 +1,13 @@
-import cx from 'classnames';
 import Component from 'components/component';
-import React, {PropTypes} from 'react';
+import Portal from 'components/portal';
 import Scrollable from 'components/scrollable';
-import styles from './dropdown.less';
+import Stick from 'components/stick';
 import bind from 'decorators/bind';
+import cx from 'classnames';
 import utils from 'helpers/utils';
+import React, {PropTypes} from 'react';
+
+import styles from './dropdown.less';
 
 export default class Dropdown extends Component {
   static propTypes = {
@@ -51,7 +54,13 @@ export default class Dropdown extends Component {
     }
 
     return (
-      <div className={cx(styles.root, opened && styles.opened, className)} onClick={this.toggle}>
+      <div
+        className={cx(styles.root, opened && styles.opened, className)}
+        onClick={this.toggle}
+        ref={(ref) => {
+          this.element = ref;
+        }}
+      >
         {this.renderCollapsable()}
         <span className={styles.info} style={style}>
           {label}
@@ -63,14 +72,43 @@ export default class Dropdown extends Component {
 
   renderCollapsable () {
     if (this.state.opened) {
-      return (
-        <div className={styles.collapsable}>
-          <Scrollable>
-            <div>
-              {this.props.entries.map(this.renderEntry, this)}
-            </div>
-          </Scrollable>
+      const {entries} = this.props;
+      const style = {
+        width: this.element.getBoundingClientRect().width
+      };
+
+      if (entries.length <= 7) {
+        style.height = `${entries.length * 31 + 4}px`;
+      }
+
+      const content = (
+        <div className={styles.collapsableContent}>
+          {entries.map(this.renderEntry, this)}
         </div>
+      );
+
+      return (
+        <Portal>
+          <Stick
+            element={this.element}
+            verticalPosition='bottom'
+            horizontalPosition='left'
+            transition='slideDownIn'
+            horizontalOffset={0}
+            verticalOffset={-1}
+            onClose={this.toggle}
+          >
+            <div className={styles.collapsable} style={style}>
+              {
+                entries.length <= 7 ?
+                content :
+                <Scrollable>
+                  {content}
+                </Scrollable>
+              }
+            </div>
+          </Stick>
+        </Portal>
       );
     }
   }
