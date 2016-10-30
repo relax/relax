@@ -1,7 +1,10 @@
 import Component from 'components/component';
 import NumberInput from 'components/input-options/number';
+import bind from 'decorators/bind';
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
+
+import styles from './index.less';
 
 export default class CornersPicker extends Component {
   static propTypes = {
@@ -23,6 +26,7 @@ export default class CornersPicker extends Component {
     });
   }
 
+  @bind
   onInputChange (value) {
     if (this.state.selected === 'center') {
       this.state.values.tl = value;
@@ -96,21 +100,20 @@ export default class CornersPicker extends Component {
     }
 
     return (
-      <div className={cx('corners-picker', this.props.type)}>
-        <div className='toggles'>
+      <div className={cx(styles.root, this.props.type)}>
+        <div className={styles.toggles}>
           {this.renderToggleButton('tl', !values.equal)}
           {this.renderToggleButton('bl', !values.equal)}
           {this.renderToggleButton('tr', !values.equal)}
           {this.renderToggleButton('br', !values.equal)}
           {this.renderToggleButton('center', values.equal)}
         </div>
-        <div className='inputs'>
+        <div className={styles.inputs}>
           <NumberInput
-            className='micro'
+            small
             value={value}
-            onChange={::this.onInputChange}
+            onChange={this.onInputChange}
             inactive={inactive}
-            label='px'
           />
         </div>
       </div>
@@ -119,9 +122,15 @@ export default class CornersPicker extends Component {
 
   renderToggleButton (pos, active) {
     const onClick = this.changeSelected.bind(this, pos);
+
     return (
       <div
-        className={cx('toggle', pos, this.state.selected === pos && 'selected', active && 'active')}
+        className={cx(
+          styles.toggle,
+          styles[pos],
+          this.state.selected === pos && styles.selected,
+          active && styles.active
+        )}
         onClick={onClick}
       />
     );
