@@ -18,17 +18,17 @@ export default class Container extends Component {
   static style = style;
 
   render () {
-    const classMap = this.props.styleClassMap || {};
+    const {styleClassMap, relax} = this.props;
 
     const props = {
-      ...this.props.relax,
+      ...relax,
       htmlTag: 'div',
-      className: classMap.container,
+      className: styleClassMap.container,
       settings
     };
 
     return (
-      <div className={classMap.holder}>
+      <div className={styleClassMap.holder}>
         <Element {...props}>
           {this.props.children}
         </Element>
