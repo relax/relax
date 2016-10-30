@@ -43,9 +43,6 @@ export default class EditProps extends Component {
     const {changeDocProperty} = pageBuilderActions;
 
     const link = find(selectedLinks, {action: key});
-    console.log(selectedLinks);
-    console.log(link);
-    console.log(key);
 
     if (link) {
       changeDocProperty(link.property, value);

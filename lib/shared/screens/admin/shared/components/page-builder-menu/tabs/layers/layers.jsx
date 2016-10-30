@@ -106,7 +106,7 @@ export default class Layers extends Component {
       isTemplate
     } = elementInfo;
 
-    const hasChildren = children && children.constructor === Array && children.length;
+    const hasChildren = !!(children && children.constructor === Array && children.length);
 
     // check expanded
     const wasExpanded = expanded[context] && expanded[context][elementId];
@@ -175,7 +175,7 @@ export default class Layers extends Component {
           ElementClass={ElementClass}
           selected={selected}
           overed={overed}
-          hasLinks={elementLinks && elementLinks.length}
+          hasLinks={!!(elementLinks && elementLinks.length)}
         />
         {childrenContent}
       </li>

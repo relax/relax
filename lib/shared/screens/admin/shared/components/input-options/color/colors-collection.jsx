@@ -1,19 +1,17 @@
-import bind from 'decorators/bind';
-import cx from 'classnames';
 import Component from 'components/component';
 import Input from 'components/input-options/input';
+import bind from 'decorators/bind';
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
-import styles from './colors-collection.less';
 import Color from './color';
+import styles from './colors-collection.less';
 
 export default class ColorsCollection extends Component {
   static propTypes = {
     colors: PropTypes.array.isRequired,
     colr: PropTypes.object,
     selectColor: PropTypes.func.isRequired,
-    addOverlay: PropTypes.func.isRequired,
-    closeOverlay: PropTypes.func.isRequired,
     addingColor: PropTypes.bool.isRequired,
     addingColorName: PropTypes.string.isRequired,
     changeAddingColor: PropTypes.func.isRequired,
@@ -85,8 +83,6 @@ export default class ColorsCollection extends Component {
       selectColor,
       colr,
       toggleEditingSelectedColor,
-      addOverlay,
-      closeOverlay,
       editingSelected,
       editingSelectedColor
     } = this.props;
@@ -104,8 +100,6 @@ export default class ColorsCollection extends Component {
         color={resultColor}
         key={color._id}
         selectColor={editing ? toggleEditingSelectedColor : selectColor}
-        addOverlay={addOverlay}
-        closeOverlay={closeOverlay}
         selected={selected}
         disabled={editing && !selected && editingSelectedColor}
       />

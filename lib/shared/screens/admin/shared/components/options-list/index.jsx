@@ -16,7 +16,7 @@ export default class OptionsList extends Component {
     tight: PropTypes.bool,
     elementOverrides: PropTypes.array,
     displayOverrides: PropTypes.array,
-    filter: PropTypes.array
+    filter: PropTypes.any
   };
 
   static defaultProps = {

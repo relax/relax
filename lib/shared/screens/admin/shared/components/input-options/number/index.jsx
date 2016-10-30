@@ -7,7 +7,7 @@ import styles from './index.less';
 
 export default class NumberInput extends Component {
   static propTypes = {
-    value: PropTypes.number,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func.isRequired,
     allowed: PropTypes.array,
     min: PropTypes.any,

@@ -5,7 +5,7 @@ export default class Edit extends Component {
   static propTypes = {
     shadow: PropTypes.object.isRequired,
     changeShadow: PropTypes.func.isRequired,
-    OptionsList: PropTypes.object.isRequired
+    OptionsList: PropTypes.any.isRequired
   };
 
   static options = [

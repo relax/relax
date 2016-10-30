@@ -26,7 +26,9 @@ export default class BoxShadow extends Component {
   addNewClick () {
     this.props.onChange([...this.props.value, {
       type: 'outset',
-      color: '#000000',
+      color: {
+        value: '#000000'
+      },
       spread: '2px',
       blur: '2px',
       x: '2px',
@@ -70,7 +72,9 @@ export default class BoxShadow extends Component {
     return (
       <div>
         {this.props.value.map(this.renderEntry, this)}
-        <div className={styles.addButton} onClick={this.addNewClick}>Add new shadow</div>
+        <div className={styles.addButton} onClick={this.addNewClick}>
+          Add new shadow
+        </div>
       </div>
     );
   }
@@ -78,6 +82,7 @@ export default class BoxShadow extends Component {
   renderEntry (shadow, index) {
     return (
       <Shadow
+        key={index}
         index={index}
         editing={this.state.editingShadow === index}
         shadow={shadow}

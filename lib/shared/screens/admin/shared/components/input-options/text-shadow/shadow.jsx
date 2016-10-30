@@ -1,16 +1,16 @@
 import Balloon from 'components/balloon';
 import Component from 'components/component';
+import bind from 'decorators/bind';
 import React, {PropTypes} from 'react';
 import {getColor} from 'helpers/styles/colors';
-import bind from 'decorators/bind';
-import styles from './shadow.less';
+
 import Edit from './edit';
+import styles from './shadow.less';
 
 export default class Shadow extends Component {
   static propTypes = {
     shadow: PropTypes.object.isRequired,
     editing: PropTypes.bool.isRequired,
-    new: PropTypes.bool.isRequired,
     selectShadow: PropTypes.func.isRequired,
     removeShadow: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired
