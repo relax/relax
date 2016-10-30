@@ -1,8 +1,8 @@
-import bind from 'decorators/bind';
-import cx from 'classnames';
 import Component from 'components/component';
 import Portal from 'components/portal';
 import Stick from 'components/stick';
+import bind from 'decorators/bind';
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
@@ -20,8 +20,6 @@ export default class Color extends Component {
   static propTypes = {
     color: PropTypes.object.isRequired,
     selectColor: PropTypes.func.isRequired,
-    addOverlay: PropTypes.func.isRequired,
-    closeOverlay: PropTypes.func.isRequired,
     selected: PropTypes.bool,
     disabled: PropTypes.bool
   };

@@ -1,17 +1,17 @@
-import forEach from 'lodash.foreach';
 import Component from 'components/component';
 import Utils from 'helpers/utils';
-import React, {PropTypes} from 'react';
 import defaultFonts from 'statics/default-fonts';
 import defaultFvds from 'statics/default-fvds';
+import forEach from 'lodash.foreach';
+import React, {PropTypes} from 'react';
 
-import styles from './font-picker.less';
 import Dropdown from './dropdown';
 import Font from './font';
+import styles from './font-picker.less';
 
 export default class FontPicker extends Component {
   static propTypes = {
-    value: PropTypes.string.isRequired,
+    value: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
     fonts: PropTypes.object.isRequired
   };

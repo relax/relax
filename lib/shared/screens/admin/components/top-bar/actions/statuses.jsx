@@ -1,7 +1,7 @@
-import cx from 'classnames';
 import Animate from 'components/animate';
 import Component from 'components/component';
 import Spinner from 'components/spinner';
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
 import styles from './statuses.less';
@@ -10,7 +10,7 @@ export default class Statuses extends Component {
   static propTypes = {
     state: PropTypes.string,
     stateMessage: PropTypes.string,
-    behindVersion: PropTypes.bool.isRequired,
+    behindVersion: PropTypes.bool,
     draftHasChanges: PropTypes.bool.isRequired,
     drop: PropTypes.func.isRequired
   };

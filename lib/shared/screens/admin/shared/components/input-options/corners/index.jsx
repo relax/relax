@@ -9,8 +9,7 @@ import styles from './index.less';
 export default class CornersPicker extends Component {
   static propTypes = {
     value: PropTypes.string,
-    onChange: PropTypes.func.isRequired,
-    type: PropTypes.string.isRequired
+    onChange: PropTypes.func.isRequired
   };
 
   getInitState () {
@@ -100,7 +99,7 @@ export default class CornersPicker extends Component {
     }
 
     return (
-      <div className={cx(styles.root, this.props.type)}>
+      <div className={styles.root}>
         <div className={styles.toggles}>
           {this.renderToggleButton('tl', !values.equal)}
           {this.renderToggleButton('bl', !values.equal)}

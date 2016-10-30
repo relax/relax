@@ -1,4 +1,5 @@
 import Component from 'components/component';
+import bind from 'decorators/bind';
 import cloneDeep from 'lodash.clonedeep';
 import React, {PropTypes} from 'react';
 
@@ -21,9 +22,12 @@ export default class TextShadow extends Component {
     };
   }
 
+  @bind
   addNewClick () {
     this.props.onChange([...this.props.value, {
-      color: '#000000',
+      color: {
+        value: '#000000'
+      },
       blur: '2px',
       x: '2px',
       y: '2px'
@@ -33,6 +37,7 @@ export default class TextShadow extends Component {
     });
   }
 
+  @bind
   changeShadow (key, value) {
     if (this.state.editingShadow !== false) {
       const newValue = cloneDeep(this.props.value);
@@ -41,6 +46,7 @@ export default class TextShadow extends Component {
     }
   }
 
+  @bind
   selectShadow (index) {
     if (this.state.editingShadow === index) {
       this.setState({
@@ -53,6 +59,7 @@ export default class TextShadow extends Component {
     }
   }
 
+  @bind
   removeShadow (index) {
     const newValue = cloneDeep(this.props.value);
     newValue.splice(index, 1);
@@ -63,7 +70,9 @@ export default class TextShadow extends Component {
     return (
       <div>
         {this.props.value.map(this.renderEntry, this)}
-        <div className={styles.addButton} onClick={::this.addNewClick}>Add new shadow</div>
+        <div className={styles.addButton} onClick={this.addNewClick}>
+          Add new shadow
+        </div>
       </div>
     );
   }
@@ -71,12 +80,13 @@ export default class TextShadow extends Component {
   renderEntry (shadow, index) {
     return (
       <Shadow
+        key={index}
         index={index}
         editing={this.state.editingShadow === index}
         shadow={shadow}
-        changeShadow={::this.changeShadow}
-        selectShadow={::this.selectShadow}
-        removeShadow={::this.removeShadow}
+        changeShadow={this.changeShadow}
+        selectShadow={this.selectShadow}
+        removeShadow={this.removeShadow}
         {...this.props}
       />
     );

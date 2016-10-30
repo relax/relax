@@ -11,12 +11,10 @@ import styles from './dropdown.less';
 
 export default class Dropdown extends Component {
   static propTypes = {
-    value: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
+    value: PropTypes.string,
+    label: PropTypes.string,
     entries: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
-    tempChange: PropTypes.func.isRequired,
-    tempRevert: PropTypes.func.isRequired,
     className: PropTypes.string,
     fvd: PropTypes.bool,
     family: PropTypes.bool
@@ -113,7 +111,7 @@ export default class Dropdown extends Component {
     }
   }
 
-  renderEntry (entry) {
+  renderEntry (entry, key) {
     const {fvd, family} = this.props;
     const onClick = this.onEntryClick.bind(this, entry.value);
     const style = {};
@@ -126,6 +124,7 @@ export default class Dropdown extends Component {
 
     return (
       <button
+        key={key}
         className={styles.entry}
         onClick={onClick}
         style={style}

@@ -1,17 +1,17 @@
-import cx from 'classnames';
 import Animate from 'components/animate';
 import Component from 'components/component';
 import OptionsList from 'components/options-list';
 import Scrollable from 'components/scrollable';
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
-import styles from './editing.less';
 import Save from './save';
+import styles from './editing.less';
 
 export default class StylePickerEditing extends Component {
   static propTypes = {
     values: PropTypes.object.isRequired,
-    options: PropTypes.object.isRequired,
+    options: PropTypes.array.isRequired,
     elementOverrides: PropTypes.array,
     displayOverrides: PropTypes.array,
     onChange: PropTypes.func.isRequired,
