@@ -23,7 +23,8 @@ export default class Stick extends Component {
     horizontalPosition: PropTypes.oneOf(['left', 'center', 'right']),
     verticalOffset: PropTypes.number,
     horizontalOffset: PropTypes.number,
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    zIndex: PropTypes.number
   };
 
   static defaultProps = {
@@ -31,7 +32,8 @@ export default class Stick extends Component {
     verticalPosition: 'top',
     horizontalPosition: 'center',
     verticalOffset: 0,
-    horizontalOffset: 0
+    horizontalOffset: 0,
+    zIndex: 9999
   };
 
   getInitState () {
@@ -194,10 +196,11 @@ export default class Stick extends Component {
   }
 
   render () {
-    const {transition, className} = this.props;
+    const {transition, className, zIndex} = this.props;
     const style = {
       left: this.state.left,
-      top: this.state.top
+      top: this.state.top,
+      zIndex
     };
 
     return (

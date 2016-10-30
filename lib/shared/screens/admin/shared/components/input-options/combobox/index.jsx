@@ -15,7 +15,8 @@ export default class Combobox extends Component {
     onChange: PropTypes.func.isRequired,
     className: PropTypes.string,
     style: PropTypes.object,
-    white: PropTypes.bool
+    white: PropTypes.bool,
+    zIndex: PropTypes.number
   };
 
   getInitState () {
@@ -81,7 +82,7 @@ export default class Combobox extends Component {
 
   renderOptions () {
     if (this.state.opened) {
-      const {labels, values, white} = this.props;
+      const {labels, values, white, zIndex} = this.props;
 
       const style = {};
       let scroll = true;
@@ -98,6 +99,7 @@ export default class Combobox extends Component {
           white={white}
           style={style}
           scroll={scroll}
+          zIndex={zIndex}
           element={this.ref}
           onClose={this.toggle}
           onChange={this.optionClicked}
