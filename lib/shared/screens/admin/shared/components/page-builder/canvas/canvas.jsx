@@ -66,7 +66,7 @@ export default class Canvas extends Component {
   }
 
   updateStylesMap () {
-    this.props.updateStylesMap(stylesManager.stylesMap);
+    this.props.updateStylesMap();
   }
 
   render () {

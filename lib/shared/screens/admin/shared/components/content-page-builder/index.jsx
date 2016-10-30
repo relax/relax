@@ -1,5 +1,3 @@
-import cx from 'classnames';
-import velocity from 'relax-velocity-animate';
 import A from 'components/a';
 import Animate from 'components/animate';
 import Component from 'components/component';
@@ -8,11 +6,13 @@ import ContentHeaderActions from 'components/content-header-actions';
 import ContentSidebar from 'components/content-sidebar';
 import EditableTitle from 'components/editable-title';
 import PageBuilder from 'components/page-builder';
+import cx from 'classnames';
+import velocity from 'relax-velocity-animate';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
-import styles from './index.less';
 import Templates from './templates';
+import styles from './index.less';
 
 export default class ContentPageBuilder extends Component {
   static fragments = {
@@ -31,7 +31,7 @@ export default class ContentPageBuilder extends Component {
     slug: PropTypes.string,
     updateTitle: PropTypes.func.isRequired,
     updateSlug: PropTypes.func,
-    updateTemplate: PropTypes.func.isRequired,
+    updateTemplate: PropTypes.func,
     sidebar: PropTypes.string,
     location: PropTypes.object.isRequired,
     toggleRevisions: PropTypes.func.isRequired,
