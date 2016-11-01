@@ -1,16 +1,14 @@
 import bind from 'decorators/bind';
 import forEach from 'lodash.foreach';
-import request from 'superagent';
-import warning from 'warning';
+import set from 'lodash.set';
 import React, {PropTypes} from 'react';
+import {addSchemaEntry} from 'actions/schema-entry';
 import {findDOMNode} from 'react-dom';
 
-import propsSchema from './props-schema';
-import settings from './settings';
 import Component from '../component';
 import Element from '../element';
-
-// import slugify from 'slug';
+import propsSchema from './props-schema';
+import settings from './settings';
 
 export default class Form extends Component {
   static propTypes = {
@@ -18,53 +16,50 @@ export default class Form extends Component {
     schema: PropTypes.string,
     custom: PropTypes.string,
     children: PropTypes.node,
-    relax: PropTypes.object.isRequired
+    relax: PropTypes.object.isRequired,
+    schemaLinks: PropTypes.object
+  };
+
+  static contextTypes = {
+    store: PropTypes.object.isRequired
   };
 
   static propsSchema = propsSchema;
   static settings = settings;
 
-  sendEmail (formData) {
-    request
-      .post('/send-email')
-      .set('Content-Type', 'application/json')
-      .type('json')
-      .send(formData)
-      .end((error, res) => {
-        warning(false, error);
-        warning(false, res);
+  getInitState () {
+    return {
+      state: 'normal'
+    };
+  }
+
+  // sendEmail (formData) {
+  //   request
+  //     .post('/send-email')
+  //     .set('Content-Type', 'application/json')
+  //     .type('json')
+  //     .send(formData)
+  //     .end((error, res) => {
+  //       warning(false, error);
+  //       warning(false, res);
+  //     });
+  // }
+
+  addToSchema (formData) {
+    const schemaId = this.props.relax.element.props.schemaId;
+
+    this.context.store
+      .dispatch(addSchemaEntry(schemaId, null, formData))
+      .then(() => {
+        this.setState({
+          state: 'success'
+        });
+      })
+      .catch(() => {
+        this.setState({
+          state: 'error'
+        });
       });
-  }
-
-  addToSchema () {
-    // arg: formData
-    // let actions = schemaEntriesActionsFactory(this.props.schema);
-    //
-    // // Check required fields
-    // if (formData._title && !formData._slug) {
-    //   formData._slug = slugify(formData._title, {lower: true}).toLowerCase();
-    // }
-    //
-    // actions
-    //   .add(formData)
-    //   .then((result) => {
-    //
-    //   })
-    //   .catch(() => {
-    //
-    //   });
-  }
-
-  sendCustom () {
-    // arg: formData
-    // $
-    //   .post(this.props.custom, formData)
-    //   .done((response) => {
-    //
-    //   })
-    //   .fail((error) => {
-    //
-    //   });
   }
 
   @bind
@@ -73,27 +68,47 @@ export default class Form extends Component {
     const formElement = findDOMNode(this);
     const formData = {};
 
-    forEach(formElement.elements, (element) => {
-      formData[element.name] = element.value;
+    this.setState({
+      state: 'loading'
     });
 
-    if (this.props.action === 'email') {
-      this.sendEmail(formData);
-    } else if (this.props.action === 'schema') {
-      this.addToSchema(formData);
-    } else if (this.props.action === 'custom') {
-      this.sendCustom(formData);
-    }
+    forEach(formElement.elements, (element) => {
+      if (element.name) {
+        const splitted = element.name.split('#');
+        set(formData, splitted, element.value);
+      }
+    });
+
+    this.addToSchema(formData);
   }
 
   render () {
     return (
       <form onSubmit={this.onSubmit}>
         <Element {...this.props.relax} htmlTag='div' settings={settings}>
-          {this.props.children}
+          {this.renderContent()}
         </Element>
         <input type='submit' hidden />
       </form>
     );
+  }
+
+  renderContent () {
+    const {schemaLinks, relax} = this.props;
+    const {state} = this.state;
+
+    return relax.element.children && relax.renderChildren({
+      children: relax.element.children,
+      links: schemaLinks,
+      entry: {
+        state: {
+          loading: state === 'loading',
+          success: state === 'success',
+          error: state === 'error'
+        }
+      },
+      context: relax.context,
+      editable: relax.editing
+    });
   }
 }
