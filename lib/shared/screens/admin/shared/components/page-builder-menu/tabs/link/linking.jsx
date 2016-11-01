@@ -1,9 +1,9 @@
-import schemaStaticProperties from 'statics/schema-static-properties';
 import Component from 'components/component';
+import schemaStaticProperties from 'statics/schema-static-properties';
 import React, {PropTypes} from 'react';
 
-import styles from './linking.less';
 import Property from './property';
+import styles from './linking.less';
 
 export default class Linking extends Component {
   static fragments = {
@@ -23,7 +23,9 @@ export default class Linking extends Component {
     removeLink: PropTypes.func.isRequired,
     overLink: PropTypes.func.isRequired,
     outLink: PropTypes.func.isRequired,
-    context: PropTypes.string.isRequired
+    context: PropTypes.string.isRequired,
+    extraLinks: PropTypes.array.isRequired,
+    goal: PropTypes.string.isRequired
   };
 
   render () {
@@ -31,6 +33,7 @@ export default class Linking extends Component {
       <div className={styles.root}>
         {this.renderSchemaDefaults()}
         {this.renderSchemaProperties()}
+        {this.renderExtralinks()}
       </div>
     );
   }
@@ -59,6 +62,21 @@ export default class Linking extends Component {
     }
   }
 
+  renderExtralinks () {
+    const {extraLinks} = this.props;
+
+    return extraLinks.map(this.renderExtraLink, this);
+  }
+
+  renderExtraLink (extraLink) {
+    return (
+      <div>
+        <div className={styles.label}>{extraLink.label}</div>
+        {extraLink.properties.map(this.renderProperty.bind(this, `${extraLink.id}#`))}
+      </div>
+    );
+  }
+
   renderProperty (prefix, property) {
     const {
       links,
@@ -67,7 +85,8 @@ export default class Linking extends Component {
       removeLink,
       overLink,
       outLink,
-      context
+      context,
+      goal
     } = this.props;
 
     return (
@@ -82,6 +101,7 @@ export default class Linking extends Component {
         overLink={overLink}
         outLink={outLink}
         context={context}
+        goal={goal}
       />
     );
   }

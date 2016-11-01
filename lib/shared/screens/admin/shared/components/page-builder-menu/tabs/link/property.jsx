@@ -1,11 +1,11 @@
+import Component from 'components/component';
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
-import styles from './property.less';
 import LinkLine from './link-line';
 import PropertyLink from './property-link';
+import styles from './property.less';
 
 export default class LinkingDataProperty extends Component {
   static propTypes = {
@@ -17,7 +17,8 @@ export default class LinkingDataProperty extends Component {
     removeLink: PropTypes.func.isRequired,
     overLink: PropTypes.func.isRequired,
     outLink: PropTypes.func.isRequired,
-    context: PropTypes.string.isRequired
+    context: PropTypes.string.isRequired,
+    goal: PropTypes.string.isRequired
   };
 
   getInitState () {
@@ -69,7 +70,7 @@ export default class LinkingDataProperty extends Component {
             ref='anchor'
           />
           <span className={styles.title}>
-            {property.title || property.id}
+            {property.title || property.label || property.id}
           </span>
           <span className={styles.type}>
             {property.type}
@@ -101,7 +102,8 @@ export default class LinkingDataProperty extends Component {
       removeLink,
       overLink,
       outLink,
-      context
+      context,
+      goal
     } = this.props;
 
     return (
@@ -115,6 +117,7 @@ export default class LinkingDataProperty extends Component {
         overLink={overLink}
         outLink={outLink}
         context={context}
+        goal={goal}
       />
     );
   }

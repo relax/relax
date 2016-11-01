@@ -15,15 +15,16 @@ export default class LinkingDataList extends Component {
 
   static propTypes = {
     schemas: PropTypes.array.isRequired,
-    changeSchema: PropTypes.func.isRequired
+    changeSchema: PropTypes.func.isRequired,
+    goal: PropTypes.string.isRequired
   };
 
   render () {
-    const {schemas} = this.props;
+    const {schemas, goal} = this.props;
 
     return (
       <div>
-        {this.renderSchema(page)}
+        {goal === 'read' && this.renderSchema(page)}
         {schemas.map(this.renderSchema, this)}
       </div>
     );

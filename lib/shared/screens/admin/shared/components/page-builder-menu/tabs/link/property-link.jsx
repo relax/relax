@@ -1,8 +1,8 @@
+import Combobox from 'components/input-options/combobox';
+import Component from 'components/component';
 import bind from 'decorators/bind';
 import getElement from 'helpers/get-element';
 import getSchemaLinkActions from 'helpers/schema-link-actions';
-import Combobox from 'components/input-options/combobox';
-import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 
@@ -27,7 +27,8 @@ export default class PropertyLink extends Component {
     changeLinkAction: PropTypes.func.isRequired,
     removeLink: PropTypes.func.isRequired,
     overLink: PropTypes.func.isRequired,
-    outLink: PropTypes.func.isRequired
+    outLink: PropTypes.func.isRequired,
+    goal: PropTypes.string.isRequired
   };
 
   static contextTypes = {
@@ -36,13 +37,14 @@ export default class PropertyLink extends Component {
 
   getInitState () {
     const {store} = this.context;
-    const {property, linkedElement} = this.props;
+    const {property, linkedElement, goal} = this.props;
     const pageBuilder = store.getState().pageBuilder;
 
     return getSchemaLinkActions(
       pageBuilder,
       linkedElement,
-      property
+      property,
+      goal
     );
   }
 
