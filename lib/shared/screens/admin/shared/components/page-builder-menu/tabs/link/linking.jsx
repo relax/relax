@@ -1,4 +1,5 @@
 import Component from 'components/component';
+import schemaSpecialProperties from 'statics/schema-special-properties';
 import schemaStaticProperties from 'statics/schema-static-properties';
 import React, {PropTypes} from 'react';
 
@@ -33,6 +34,7 @@ export default class Linking extends Component {
       <div className={styles.root}>
         {this.renderSchemaDefaults()}
         {this.renderSchemaProperties()}
+        {this.renderSpecials()}
         {this.renderExtralinks()}
       </div>
     );
@@ -57,6 +59,18 @@ export default class Linking extends Component {
       return (
         <div>
           {schema.properties.map(this.renderProperty.bind(this, 'properties#'))}
+        </div>
+      );
+    }
+  }
+
+  renderSpecials () {
+    const {schema, schemaId} = this.props;
+
+    if (schemaId === 'page' || (schema && schema.type === 'single')) {
+      return (
+        <div>
+          {schemaSpecialProperties.map(this.renderProperty.bind(this, ''))}
         </div>
       );
     }
