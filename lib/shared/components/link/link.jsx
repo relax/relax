@@ -46,6 +46,13 @@ export default class LinkElem extends Component {
           </a>
         );
         break;
+      case 'form':
+        result = (
+          <button {...props}>
+            {children}
+          </button>
+        );
+        break;
       default:
         result = (
           <a {...props}>
