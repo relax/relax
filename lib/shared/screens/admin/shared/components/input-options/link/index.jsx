@@ -1,10 +1,10 @@
+import Component from 'components/component';
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
-import styles from './index.less';
 import Type from './type';
+import styles from './index.less';
 
 const types = [
   {
@@ -23,6 +23,12 @@ const types = [
     label: 'Anchor'
   }
 ];
+
+const formSubmitOption = {
+  type: 'form',
+  icon: 'nc-icon-outline ui-1_email-85',
+  label: 'Form Submit'
+};
 
 const typesOptions = {
   external: [
@@ -56,6 +62,7 @@ export default class LinkInputOption extends Component {
     value: PropTypes.object,
     onChange: PropTypes.func.isRequired,
     white: PropTypes.bool,
+    formSubmit: PropTypes.bool,
     OptionsList: PropTypes.func.isRequired
   };
 
@@ -87,28 +94,29 @@ export default class LinkInputOption extends Component {
   }
 
   render () {
-    const {white} = this.props;
+    const {white, formSubmit} = this.props;
 
     return (
       <div className={cx(styles.root, white && styles.white)}>
         <div>
           {types.map(this.renderType, this)}
+          {formSubmit && this.renderType(formSubmitOption, 'form')}
         </div>
-        <div className={styles.options}>
-          {this.renderTypeOptions()}
-        </div>
+        {this.renderTypeOptions()}
       </div>
     );
   }
 
   renderType (type, key) {
-    const {white, value} = this.props;
+    const {white, value, formSubmit} = this.props;
+
     return (
       <Type
         {...type}
         onClick={this.onTypeChange}
         active={value && value.type === type.type}
         white={white}
+        small={!!formSubmit}
         key={key}
       />
     );
@@ -121,13 +129,15 @@ export default class LinkInputOption extends Component {
 
     if (options) {
       return (
-        <OptionsList
-          options={options}
-          values={value.options || {}}
-          onChange={this.onTypeOptionChange}
-          white={white}
-          tight
-        />
+        <div className={styles.options}>
+          <OptionsList
+            options={options}
+            values={value.options || {}}
+            onChange={this.onTypeOptionChange}
+            white={white}
+            tight
+          />
+        </div>
       );
     }
   }
