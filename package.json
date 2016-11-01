@@ -14,7 +14,7 @@
     "dev": "parallelshell \"yarn webpackServer\" \"yarn watchServer\"",
     "watchServer": "nodemon -e js,jsx,json -w app.js -w lib -i lib/client -x \"webpack --config ./webpack/dev/webpack.node.config.js && yarn startDev\"",
     "webpackServer": "webpack-dev-server --config ./webpack/dev/webpack.browser.config.js --inline --hot --quiet --display-error-details",
-    "lint": "eslint lib/** --quiet",
+    "eslint": "eslint lib/**",
     "test": "cross-env NODE_ENV=test mocha-webpack --colors --webpack-config ./webpack/test/webpack.config \"lib/**/__tests__/*.js\""
   },
   "dependencies": {
