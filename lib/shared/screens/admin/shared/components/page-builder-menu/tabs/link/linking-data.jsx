@@ -1,13 +1,13 @@
-import cx from 'classnames';
 import Animate from 'components/animate';
 import Component from 'components/component';
 import Scrollable from 'components/scrollable';
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 import {mergeFragments} from 'relate-js';
 
-import styles from './linking-data.less';
 import Linking from './linking';
 import List from './list';
+import styles from './linking-data.less';
 
 export default class LinkingData extends Component {
   static fragments = mergeFragments(
@@ -34,7 +34,9 @@ export default class LinkingData extends Component {
     removeLink: PropTypes.func.isRequired,
     overLink: PropTypes.func.isRequired,
     outLink: PropTypes.func.isRequired,
-    context: PropTypes.string.isRequired
+    context: PropTypes.string.isRequired,
+    goal: PropTypes.string.isRequired,
+    extraLinks: PropTypes.array.isRequired
   };
 
   render () {
@@ -83,7 +85,7 @@ export default class LinkingData extends Component {
   }
 
   renderList () {
-    const {schemas, changeSchema} = this.props;
+    const {schemas, changeSchema, goal} = this.props;
 
     return (
       <Animate
@@ -94,6 +96,7 @@ export default class LinkingData extends Component {
         <List
           schemas={schemas || []}
           changeSchema={changeSchema}
+          goal={goal}
         />
       </Animate>
     );
@@ -109,7 +112,9 @@ export default class LinkingData extends Component {
       removeLink,
       overLink,
       outLink,
-      context
+      context,
+      extraLinks,
+      goal
     } = this.props;
 
     return (
@@ -128,6 +133,8 @@ export default class LinkingData extends Component {
           overLink={overLink}
           outLink={outLink}
           context={context}
+          extraLinks={extraLinks}
+          goal={goal}
         />
       </Animate>
     );
