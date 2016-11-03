@@ -10,7 +10,8 @@
   vertical-align: top;
   width: 30px;
   height: 30px;
-  margin: 10px 5px;
+  margin: 10px 7px;
+
   :global i {
     font-size: 22px;
     line-height: 30px;
@@ -20,6 +21,46 @@
   &.active {
     :global i {
       color: @primary;
+    }
+  }
+}
+
+.publishButton {
+  width: auto;
+  :global {
+    i, span {
+      display: inline-block;
+      vertical-align: top;
+      color: @primary;
+      line-height: 30px;
+      font-size: 14px;
+    }
+    i {
+      font-size: 22px;
+      margin-right: 7px;
+    }
+    span {
+      text-transform: uppercase;
+    }
+  }
+}
+
+.unpublishButton {
+  width: auto;
+  :global {
+    i, span {
+      display: inline-block;
+      vertical-align: top;
+      color: @draft;
+      line-height: 30px;
+      font-size: 14px;
+    }
+    i {
+      font-size: 22px;
+      margin-right: 7px;
+    }
+    span {
+      text-transform: uppercase;
     }
   }
 }

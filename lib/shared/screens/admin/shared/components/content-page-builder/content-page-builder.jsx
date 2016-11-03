@@ -3,8 +3,11 @@ import Animate from 'components/animate';
 import Component from 'components/component';
 import ContentHeader from 'components/content-header';
 import ContentHeaderActions from 'components/content-header-actions';
+import ContentLoading from 'components/content-loading';
+import ContentNotFound from 'components/content-not-found';
 import ContentSidebar from 'components/content-sidebar';
 import EditableTitle from 'components/editable-title';
+import ModalDelete from 'components/modal-delete';
 import PageBuilder from 'components/page-builder';
 import cx from 'classnames';
 import velocity from 'relax-velocity-animate';
@@ -12,32 +15,27 @@ import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
 import Templates from './templates';
-import styles from './index.less';
+import ToggleButton from './toggle-button';
+import styles from './content-page-builder.less';
 
 export default class ContentPageBuilder extends Component {
-  static fragments = {
-    template: {
-      _id: 1,
-      title: 1,
-      data: 1,
-      links: 1
-    }
-  };
-
   static propTypes = {
     itemId: PropTypes.string,
     loading: PropTypes.bool,
     title: PropTypes.string,
     slug: PropTypes.string,
+    state: PropTypes.string,
     updateTitle: PropTypes.func.isRequired,
     updateSlug: PropTypes.func,
     updateTemplate: PropTypes.func,
     sidebar: PropTypes.string,
     location: PropTypes.object.isRequired,
-    toggleRevisions: PropTypes.func.isRequired,
-    toggleInfo: PropTypes.func.isRequired,
-    toggleTemplates: PropTypes.func,
-    Info: PropTypes.func,
+    removeConfirm: PropTypes.bool,
+    toggleRemoveConfirm: PropTypes.func.isRequired,
+    confirmRemove: PropTypes.func.isRequired,
+    toggleSidebar: PropTypes.func.isRequired,
+    publish: PropTypes.func.isRequired,
+    unpublish: PropTypes.func.isRequired,
     Revisions: PropTypes.func,
     type: PropTypes.string.isRequired,
     template: PropTypes.object
@@ -46,7 +44,8 @@ export default class ContentPageBuilder extends Component {
   getInitState () {
     const {location} = this.props;
     return {
-      build: !!location.query.build
+      build: !!location.query.build,
+      removeConfirm: false
     };
   }
 
@@ -80,6 +79,35 @@ export default class ContentPageBuilder extends Component {
   }
 
   render () {
+    const {loading, title} = this.props;
+    let result;
+
+    if (loading) {
+      result = this.renderLoading();
+    } else if (!title) {
+      result = this.renderNotFound();
+    } else {
+      result = this.renderContent();
+    }
+
+    return result;
+  }
+
+  renderLoading () {
+    return (
+      <ContentLoading />
+    );
+  }
+
+  renderNotFound () {
+    const {type} = this.props;
+
+    return (
+      <ContentNotFound name={type} />
+    );
+  }
+
+  renderContent () {
     const {location, type, template, itemId} = this.props;
 
     return (
@@ -108,7 +136,7 @@ export default class ContentPageBuilder extends Component {
   }
 
   renderHeader () {
-    const {title, slug, updateTitle, updateSlug, sidebar, toggleRevisions, toggleInfo} = this.props;
+    const {title, slug, updateTitle, updateSlug, sidebar, toggleSidebar, toggleRemoveConfirm} = this.props;
 
     return (
       <ContentHeader smallPadding ref='header'>
@@ -118,44 +146,98 @@ export default class ContentPageBuilder extends Component {
         </div>
         <ContentHeaderActions>
           {this.renderTemplatePicker()}
-          <button
-            className={cx(styles.actionButton, sidebar === 'revisions' && styles.active)}
-            onClick={toggleRevisions}
+          {this.renderPublish()}
+          <ToggleButton
+            onClick={toggleSidebar}
+            active={sidebar === 'revisions'}
+            className={styles.actionButton}
+            activeClassName={styles.active}
+            id='revisions'
           >
             <i className='nc-icon-outline ui-2_time'></i>
-          </button>
+          </ToggleButton>
           <button
-            className={cx(styles.actionButton, sidebar === 'info' && styles.active)}
-            onClick={toggleInfo}
+            className={cx(styles.actionButton)}
+            onClick={toggleRemoveConfirm}
           >
-            <i className='nc-icon-outline travel_info'></i>
+            <i className='nc-icon-outline ui-1_trash'></i>
           </button>
+          {this.renderRemoveConfirm()}
         </ContentHeaderActions>
       </ContentHeader>
     );
   }
 
-  renderTemplatePicker () {
-    const {toggleTemplates, sidebar, template} = this.props;
+  renderPublish () {
+    const {state} = this.props;
+    let result;
 
-    if (toggleTemplates) {
+    if (state === 'draft') {
+      const {publish} = this.props;
+
+      return (
+        <button className={cx(styles.actionButton, styles.publishButton)} onClick={publish}>
+          <i className='nc-icon-outline travel_world' />
+          <span>Publish</span>
+        </button>
+      );
+    } else if (state === 'published') {
+      const {unpublish} = this.props;
+
+      return (
+        <button className={cx(styles.actionButton, styles.unpublishButton)} onClick={unpublish}>
+          <i className='nc-icon-outline arrows-1_back-78' />
+          <span>Unpublish</span>
+        </button>
+      );
+    }
+
+    return result;
+  }
+
+  renderTemplatePicker () {
+    const {type, toggleSidebar, sidebar, template} = this.props;
+
+    if (type !== 'template') {
       const opened = sidebar === 'templates';
       const title = template && template.title || 'None selected';
+
       return (
-        <div className={styles.templatePicker} onClick={toggleTemplates}>
+        <ToggleButton
+          onClick={toggleSidebar}
+          active={sidebar === 'templates'}
+          className={styles.templatePicker}
+          id='templates'
+        >
           <div className={styles.tpLabel}>Template:</div>
           <div className={cx(styles.tpValue, !template && styles.none)}>
             {title}
           </div>
           <i className={cx('nc-icon-mini', opened ? 'arrows-1_minimal-up' : 'arrows-1_minimal-down')} />
-        </div>
+        </ToggleButton>
+      );
+    }
+  }
+
+  renderRemoveConfirm () {
+    const {removeConfirm, toggleRemoveConfirm, confirmRemove} = this.props;
+
+    if (removeConfirm) {
+      const {title} = this.props;
+
+      return (
+        <ModalDelete
+          title={`Are you sure you want to remove "${title}"?`}
+          cancel={toggleRemoveConfirm}
+          submit={confirmRemove}
+        />
       );
     }
   }
 
   renderSidebar () {
-    const {sidebar} = this.props;
-    const opened = sidebar !== null && !this.props.location.query.build;
+    const {sidebar, location} = this.props;
+    const opened = sidebar !== null && !location.query.build;
 
     return (
       <ContentSidebar opened={opened}>
@@ -165,14 +247,10 @@ export default class ContentPageBuilder extends Component {
   }
 
   renderSidebarContent () {
-    const {sidebar, Info, Revisions} = this.props;
+    const {sidebar, Revisions} = this.props;
     let result;
 
-    if (sidebar === 'info' && Info) {
-      result = (
-        <Info />
-      );
-    } else if (sidebar === 'revisions' && Revisions) {
+    if (sidebar === 'revisions' && Revisions) {
       result = (
         <Revisions />
       );
