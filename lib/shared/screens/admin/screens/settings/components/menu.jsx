@@ -34,22 +34,10 @@ export default class SettingsMenu extends Component {
             active={pathname === '/admin/settings/google'}
           />
           <Button
-            link='/admin/settings/email'
-            label='Email'
-            icon='nc-icon-outline ui-1_email-85'
-            active={pathname === '/admin/settings/email'}
-          />
-          <Button
             link='/admin/settings/analytics'
             label='Analytics'
             icon='nc-icon-outline ui-1_analytics-88'
             active={pathname === '/admin/settings/analytics'}
-          />
-          <Button
-            link='/admin/settings/data'
-            label='Import/Export'
-            icon='nc-icon-outline arrows-1_bold-direction'
-            active={pathname === '/admin/settings/data'}
           />
         </Scrollable>
       </div>
