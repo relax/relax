@@ -98,7 +98,6 @@ export default class SchemaMenu extends Component {
         <ListHeader
           title={schema.title}
           onBack={onBack}
-          newIcon='nc-icon-outline ui-2_window-add'
           onNew={onNew}
         />
         <ListSearchSort

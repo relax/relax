@@ -81,7 +81,6 @@ export default class Menu extends Component {
         <ListHeader
           title='Menus'
           onBack={onBack}
-          newIcon='nc-icon-outline ui-1_circle-add'
           onNew={onNew}
         />
         <ListSearchSort

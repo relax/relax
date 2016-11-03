@@ -12,6 +12,10 @@ export default class ListHeader extends Component {
     children: PropTypes.node
   };
 
+  static defaultProps = {
+    newIcon: 'nc-icon-outline ui-1_circle-add'
+  };
+
   render () {
     const {onBack, title} = this.props;
 

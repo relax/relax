@@ -91,7 +91,6 @@ export default class PagesMenu extends Component {
         <ListHeader
           title='Pages'
           onBack={onBack}
-          newIcon='nc-icon-outline ui-2_window-add'
           onNew={onNew}
         />
         <ListSearchSort
