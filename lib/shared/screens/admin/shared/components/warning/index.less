@@ -1,0 +1,70 @@
+@import '~styles/colors.less';
+
+.root {
+  border: 1px solid transparent;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+
+.icon {
+  display: table-cell;
+  vertical-align: middle;
+  width: 45px;
+
+  :global i {
+    font-size: 19px;
+    line-height: 40px;
+    width: 45px;
+    text-align: center;
+  }
+}
+
+.message {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 13px;
+  padding: 10px 0;
+  padding-right: 10px;
+}
+
+.info {
+  border-color: @success;
+
+  .icon {
+    :global i {
+      color: @success;
+    }
+  }
+
+  .message {
+    color: @success;
+  }
+}
+
+.warning {
+  border-color: @warning;
+
+  .icon {
+    :global i {
+      color: @warning;
+    }
+  }
+
+  .message {
+    color: @warning;
+  }
+}
+
+.alert {
+  border-color: @alert;
+
+  .icon {
+    :global i {
+      color: @alert;
+    }
+  }
+
+  .message {
+    color: @alert;
+  }
+}
