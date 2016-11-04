@@ -1,11 +1,11 @@
-import cx from 'classnames';
 import Component from 'components/component';
+import Properties from 'components/properties';
 import Scrollable from 'components/scrollable';
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
-import styles from './model.less';
 import Progress from './progress';
-import Properties from './properties';
+import styles from './model.less';
 
 export default class SchemaModel extends Component {
   static propTypes = {
