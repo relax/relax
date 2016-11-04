@@ -1,0 +1,36 @@
+@import '~styles/colors.less';
+
+.headerLabel {
+  display: inline-block;
+  vertical-align: top;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 44px;
+  color: @adminTextHighlight;
+}
+
+.actionButton {
+  display: inline-block;
+  vertical-align: top;
+  width: 30px;
+  height: 30px;
+  margin: 10px 7px;
+
+  :global i {
+    font-size: 22px;
+    line-height: 30px;
+    color: @adminText;
+  }
+
+  &.active {
+    :global i {
+      color: @primary;
+    }
+  }
+}
+
+.form {
+  width: 800px;
+  max-width: 100%;
+  margin: 0 auto;
+}
