@@ -7,8 +7,10 @@ import ContentNotFound from 'components/content-not-found';
 import ModalDelete from 'components/modal-delete';
 import OptionsList from 'components/options-list';
 import Properties from 'components/properties';
+import TemplatePicker from 'components/template';
 import React, {PropTypes} from 'react';
 
+import Save from './save';
 import styles from './index.less';
 
 const options = [
@@ -113,6 +115,8 @@ export default class SchemaEdit extends Component {
               white
             />
             <Properties />
+            {editingSchema.type === 'single' && <TemplatePicker />}
+            <Save schema={schema} editingSchema={editingSchema} />
           </div>
         </Content>
         {this.renderRemoveConfirm()}
