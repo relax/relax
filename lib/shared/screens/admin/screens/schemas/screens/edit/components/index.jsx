@@ -5,10 +5,37 @@ import ContentHeaderActions from 'components/content-header-actions';
 import ContentLoading from 'components/content-loading';
 import ContentNotFound from 'components/content-not-found';
 import ModalDelete from 'components/modal-delete';
+import OptionsList from 'components/options-list';
 import Properties from 'components/properties';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';
+
+const options = [
+  {
+    label: 'Title',
+    id: 'title',
+    type: 'String'
+  },
+  {
+    label: 'Type',
+    id: 'type',
+    type: 'Select',
+    props: {
+      labels: ['With Url', 'Data only'],
+      values: ['single', 'data']
+    },
+    unlocks: {
+      single: [
+        {
+          label: 'Slug',
+          id: 'slug',
+          type: 'String'
+        }
+      ]
+    }
+  }
+];
 
 export default class SchemaEdit extends Component {
   static fragments = {
@@ -27,7 +54,9 @@ export default class SchemaEdit extends Component {
     schema: PropTypes.object,
     removeConfirm: PropTypes.bool,
     toggleRemoveConfirm: PropTypes.func.isRequired,
-    confirmRemove: PropTypes.func.isRequired
+    confirmRemove: PropTypes.func.isRequired,
+    editingSchema: PropTypes.object.isRequired,
+    changeSchemaProperty: PropTypes.func.isRequired
   }
 
   render () {
@@ -58,7 +87,7 @@ export default class SchemaEdit extends Component {
   }
 
   renderContent () {
-    const {schema, toggleRemoveConfirm} = this.props;
+    const {schema, toggleRemoveConfirm, editingSchema, changeSchemaProperty} = this.props;
 
     return (
       <div>
@@ -77,6 +106,12 @@ export default class SchemaEdit extends Component {
         </ContentHeader>
         <Content>
           <div className={styles.form}>
+            <OptionsList
+              options={options}
+              values={editingSchema}
+              onChange={changeSchemaProperty}
+              white
+            />
             <Properties />
           </div>
         </Content>
