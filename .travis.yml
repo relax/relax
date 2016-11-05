@@ -12,7 +12,7 @@ before_install:
   - rm -r rancher-compose-v0.8.4
   - docker build -t relax/relax .
 script:
-  #- docker run relax/relax npm run lint
+  - docker run relax/relax npm run eslint
   - docker run relax/relax npm test
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
