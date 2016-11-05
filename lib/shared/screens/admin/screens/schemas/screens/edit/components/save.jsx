@@ -10,7 +10,8 @@ import styles from './save.less';
 export default class SaveSchema extends Component {
   static propTypes = {
     schema: PropTypes.object.isRequired,
-    editingSchema: PropTypes.object.isRequired
+    editingSchema: PropTypes.object.isRequired,
+    onSave: PropTypes.func.isRequired
   };
 
   getWarnings () {
@@ -120,9 +121,18 @@ export default class SaveSchema extends Component {
   }
 
   renderSubmit () {
+    const {onSave} = this.props;
+
     return (
       <div className={styles.submitHolder}>
-        <Button bordered noBackground>
+        <Button
+          primary
+          big
+          bordered
+          noBackground
+          thin
+          onClick={onSave}
+        >
           Save Changes
         </Button>
       </div>
