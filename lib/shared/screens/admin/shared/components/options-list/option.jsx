@@ -3,6 +3,7 @@ import Overrides from 'components/override-status';
 import bind from 'decorators/bind';
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
+import ReactTooltip from 'react-tooltip';
 
 import styles from './index.less';
 
@@ -66,6 +67,7 @@ export default class Option extends Component {
       type,
       tight,
       label,
+      description,
       children,
       elementOverride,
       displayOverride,
@@ -76,7 +78,7 @@ export default class Option extends Component {
 
     return (
       <div className={cx(styles.option, tight && styles.tight)}>
-        {this.renderLabel(type !== 'Optional' && label)}
+        {this.renderLabel(type !== 'Optional' && label, description)}
         <div>
           <div className={cx(!label && overridable && styles.maxSize, disabled && styles.disabled)}>
             {this.renderOptionComp()}
@@ -119,12 +121,20 @@ export default class Option extends Component {
     );
   }
 
-  renderLabel (label) {
+  renderLabel (label, description) {
     if (label) {
       const {white, disabled} = this.props;
       return (
         <div className={cx(styles.label, white && styles.white)}>
           <span>{label}</span>
+          {description && (
+            <span className={cx(styles.tooltip)}>
+              <span data-tip={description} data-effect="solid" data-multiline="true" data-place="right">
+                <i className="fa fa-info-circle"/>
+              </span>
+              <ReactTooltip />
+            </span>
+          )}
           {!disabled && this.renderOverrides()}
         </div>
       );
