@@ -2,12 +2,16 @@ import Component from 'components/component';
 import bind from 'decorators/bind';
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
+import boolean from 'boolean';
 
 import styles from './index.less';
 
 export default class Checkbox extends Component {
   static propTypes = {
-    value: PropTypes.bool,
+    value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.bool
+    ]),
     onChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
     white: PropTypes.bool
@@ -19,12 +23,14 @@ export default class Checkbox extends Component {
     const {disabled, onChange, value} = this.props;
 
     if (!disabled && onChange) {
-      onChange(!value);
+      onChange(!boolean(value));
     }
   }
 
   render () {
     const {disabled, value, white} = this.props;
+    const checkboxValue = boolean(value);
+
     return (
       <span
         className={cx(
@@ -34,7 +40,7 @@ export default class Checkbox extends Component {
         )}
         onClick={this.toggle}
       >
-        {value && <i className='nc-icon-mini ui-1_check'></i>}
+        {checkboxValue && <i className='nc-icon-mini ui-1_check'></i>}
       </span>
     );
   }
