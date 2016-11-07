@@ -127,16 +127,22 @@ export default class Option extends Component {
       return (
         <div className={cx(styles.label, white && styles.white)}>
           <span>{label}</span>
-          {description && (
-            <span className={cx(styles.tooltip)}>
-              <span data-tip={description} data-effect="solid" data-multiline="true" data-place="right">
-                <i className="fa fa-info-circle"/>
-              </span>
-              <ReactTooltip />
-            </span>
-          )}
+          {this.renderTooltip()}
           {!disabled && this.renderOverrides()}
         </div>
+      );
+    }
+  }
+
+  renderTooltip (description) {
+    if (description) {
+      return (
+        <span className={cx(styles.tooltip)}>
+          <span data-tip={description} data-effect="solid" data-multiline="true" data-place="right">
+            <i className="fa fa-info-circle"/>
+          </span>
+          <ReactTooltip />
+        </span>
       );
     }
   }
