@@ -3,7 +3,7 @@ import Overrides from 'components/override-status';
 import bind from 'decorators/bind';
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
-import ReactTooltip from 'react-tooltip';
+import Tooltip from 'components/tooltip';
 
 import styles from './index.less';
 
@@ -127,7 +127,7 @@ export default class Option extends Component {
       return (
         <div className={cx(styles.label, white && styles.white)}>
           <span>{label}</span>
-          {this.renderTooltip()}
+          {this.renderTooltip(description)}
           {!disabled && this.renderOverrides()}
         </div>
       );
@@ -137,12 +137,12 @@ export default class Option extends Component {
   renderTooltip (description) {
     if (description) {
       return (
-        <span className={cx(styles.tooltip)}>
-          <span data-tip={description} data-effect="solid" data-multiline="true" data-place="right">
-            <i className="fa fa-info-circle"/>
+        <Tooltip label={description} className={cx(styles.tooltip)} horizontalPosition="right" verticalPosition="center">
+          <span >
+            <i className="nc-icon-outline ui-2_alert-circle-i"/>
           </span>
-          <ReactTooltip />
-        </span>
+          {/* <ReactTooltip /> */}
+        </Tooltip>
       );
     }
   }
