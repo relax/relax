@@ -5,6 +5,8 @@ import ListWrapper from 'components/list-wrapper';
 import Modal from 'components/modal';
 import React, {PropTypes} from 'react';
 import {mergeFragments} from 'relate-js';
+import styles from './menu.less';
+import {Link} from 'react-router';
 
 import List from './list';
 import New from './new';
@@ -100,6 +102,9 @@ export default class SchemaMenu extends Component {
           onBack={onBack}
           onNew={onNew}
         />
+        <Link to={`/admin/schemas/single/${schemaId}/edit`} className={styles.editButton}>
+          Edit Schema
+        </Link>
         <ListSearchSort
           search={search}
           sorts={sorts}
@@ -107,18 +112,20 @@ export default class SchemaMenu extends Component {
           order={order}
           location={location}
         />
-        <ListWrapper
-          loading={loading}
-          loadingMore={loadingMore}
-          loadMore={loadMore}
-        >
-          <List
-            schemaList={schemaList}
-            activeSchemaEntryId={activeSchemaEntryId}
-            query={location.query}
-            schemaId={schemaId}
-          />
-        </ListWrapper>
+        <div className={styles.offset}>
+          <ListWrapper
+            loading={loading}
+            loadingMore={loadingMore}
+            loadMore={loadMore}
+          >
+            <List
+              schemaList={schemaList}
+              activeSchemaEntryId={activeSchemaEntryId}
+              query={location.query}
+              schemaId={schemaId}
+            />
+          </ListWrapper>
+        </div>
         {this.renderNew()}
       </div>
     );
