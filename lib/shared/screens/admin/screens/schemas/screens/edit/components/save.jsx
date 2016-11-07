@@ -4,6 +4,8 @@ import Warning from 'components/warning';
 import find from 'lodash.find';
 import forEach from 'lodash.foreach';
 import React, {PropTypes} from 'react';
+import Animate from 'components/animate';
+import Spinner from 'components/spinner';
 
 import styles from './save.less';
 
@@ -11,7 +13,8 @@ export default class SaveSchema extends Component {
   static propTypes = {
     schema: PropTypes.object.isRequired,
     editingSchema: PropTypes.object.isRequired,
-    onSave: PropTypes.func.isRequired
+    onSave: PropTypes.func.isRequired,
+    saving: PropTypes.bool.isRequired
   };
 
   getWarnings () {
@@ -121,20 +124,35 @@ export default class SaveSchema extends Component {
   }
 
   renderSubmit () {
-    const {onSave} = this.props;
+    const {saving, onSave} = this.props;
+    let result;
+
+    if (saving) {
+      result = (
+        <Animate>
+          <Spinner />
+        </Animate>
+      );
+    } else {
+      result = (
+        <Animate>
+          <Button
+            primary
+            big
+            bordered
+            noBackground
+            thin
+            onClick={onSave}
+          >
+            Save Changes
+          </Button>
+        </Animate>
+      );
+    }
 
     return (
       <div className={styles.submitHolder}>
-        <Button
-          primary
-          big
-          bordered
-          noBackground
-          thin
-          onClick={onSave}
-        >
-          Save Changes
-        </Button>
+        {result}
       </div>
     );
   }
