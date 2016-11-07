@@ -3,6 +3,7 @@ import Overrides from 'components/override-status';
 import bind from 'decorators/bind';
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
+import boolean from 'boolean';
 
 import styles from './index.less';
 
@@ -101,15 +102,18 @@ export default class Option extends Component {
       OptionsList,
       value,
       white,
+      type,
       elementOverride,
       displayOverride
     } = this.props;
+
+    const optionValue = (type && type.toLowerCase() === 'boolean')? boolean(value):value;
 
     return (
       <OptionComponent
         white={white}
         onChange={this.onChange}
-        value={value}
+        value={optionValue}
         OptionsList={OptionsList}
         elementOverride={elementOverride}
         displayOverride={displayOverride}
