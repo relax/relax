@@ -3,7 +3,7 @@ import Component from 'components/component';
 import Scrollable from 'components/scrollable';
 import Spinner from 'components/spinner';
 import React, {PropTypes} from 'react';
-
+import cx from 'classnames';
 import styles from './index.less';
 
 export default class List extends Component {
@@ -11,14 +11,15 @@ export default class List extends Component {
     loadMore: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
     loading: PropTypes.bool,
-    loadingMore: PropTypes.bool
+    loadingMore: PropTypes.bool,
+    className: PropTypes.string
   };
 
   render () {
-    const {loadMore} = this.props;
+    const {loadMore, className} = this.props;
 
     return (
-      <div className={styles.root}>
+      <div className={cx(styles.root, className)}>
         <Scrollable className={styles.scrollArea} lazyLoad loadMore={loadMore}>
           {this.props.children}
           {this.renderLoadingMore()}

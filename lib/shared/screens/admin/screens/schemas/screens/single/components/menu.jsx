@@ -112,20 +112,19 @@ export default class SchemaMenu extends Component {
           order={order}
           location={location}
         />
-        <div className={styles.offset}>
-          <ListWrapper
-            loading={loading}
-            loadingMore={loadingMore}
-            loadMore={loadMore}
-          >
-            <List
-              schemaList={schemaList}
-              activeSchemaEntryId={activeSchemaEntryId}
-              query={location.query}
-              schemaId={schemaId}
-            />
-          </ListWrapper>
-        </div>
+        <ListWrapper
+          loading={loading}
+          loadingMore={loadingMore}
+          loadMore={loadMore}
+          className={styles.offset}
+        >
+          <List
+            schemaList={schemaList}
+            activeSchemaEntryId={activeSchemaEntryId}
+            query={location.query}
+            schemaId={schemaId}
+          />
+        </ListWrapper>
         {this.renderNew()}
       </div>
     );
