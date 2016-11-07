@@ -73,7 +73,6 @@
     "react-google-maps": "^4.6.0",
     "react-redux": "^4.4.0",
     "react-router": "^1.0.2",
-    "react-tooltip": "^3.2.1",
     "redux": "^3.3.1",
     "redux-combine-actions": "^0.1.2",
     "redux-logger": "^2.0.4",
