@@ -63,7 +63,8 @@ export default class SchemaEdit extends Component {
     confirmRemove: PropTypes.func.isRequired,
     editingSchema: PropTypes.object.isRequired,
     changeSchemaProperty: PropTypes.func.isRequired,
-    updateSchema: PropTypes.func.isRequired
+    updateSchema: PropTypes.func.isRequired,
+    removing: PropTypes.bool.isRequired
   }
 
   render () {
@@ -133,13 +134,14 @@ export default class SchemaEdit extends Component {
     const {removeConfirm, toggleRemoveConfirm, confirmRemove} = this.props;
 
     if (removeConfirm) {
-      const {schema} = this.props;
+      const {schema, removing} = this.props;
 
       return (
         <ModalDelete
           title={`Are you sure you want to remove "${schema.title}"?`}
           cancel={toggleRemoveConfirm}
           submit={confirmRemove}
+          loading={removing}
         />
       );
     }
