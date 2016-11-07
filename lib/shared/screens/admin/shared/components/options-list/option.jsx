@@ -137,11 +137,10 @@ export default class Option extends Component {
   renderTooltip (description) {
     if (description) {
       return (
-        <Tooltip label={description} className={cx(styles.tooltip)}>
+        <Tooltip label={description} className={cx(styles.tooltip)} maxWidth={250}>
           <span >
             <i className="nc-icon-outline ui-2_alert-circle-i"/>
           </span>
-          {/* <ReactTooltip /> */}
         </Tooltip>
       );
     }

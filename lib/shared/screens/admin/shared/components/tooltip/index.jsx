@@ -11,7 +11,8 @@ export default class Tooltip extends Component {
     children: PropTypes.node.isRequired,
     label: PropTypes.string.isRequired,
     className: PropTypes.string,
-    style: PropTypes.object
+    style: PropTypes.object,
+    maxWidth: PropTypes.number
   };
 
   getInitState () {
@@ -45,7 +46,7 @@ export default class Tooltip extends Component {
   }
 
   render () {
-    const {className, style, children, ...props} = this.props;
+    const {className, style, children, maxWidth, ...props} = this.props;
 
     return (
       <div
@@ -64,7 +65,7 @@ export default class Tooltip extends Component {
 
   renderTooltip () {
     if (this.state.showing) {
-      const {label} = this.props;
+      const {label, maxWidth} = this.props;
 
       return (
         <Portal>
@@ -74,7 +75,7 @@ export default class Tooltip extends Component {
             horizontalPosition='center'
             verticalOffset={5}
           >
-            <div className={styles.tooltip}>
+            <div className={styles.tooltip} style={{maxWidth}}>
               {label}
             </div>
           </Stick>
