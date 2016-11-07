@@ -130,6 +130,7 @@ export default class OptionsList extends Component {
           id={option.id}
           label={option.label || option.title}
           type={option.type}
+          description={option.description}
           unlocks={option.unlocks}
           tight={tight}
           OptionsList={OptionsList}
