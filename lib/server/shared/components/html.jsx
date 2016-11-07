@@ -35,13 +35,13 @@ export default class Html extends React.Component {
     }
   }
 
-  renderTag (tag) {
+  renderTag (tag, key) {
     const tagProps = Object.assign({}, tag.props || {});
     if (tag.content) {
       tagProps.dangerouslySetInnerHTML = {__html: tag.content};
     }
     return (
-      <tag.tag {...tagProps} />
+      <tag.tag key={`${tag.tag}_${key}`} {...tagProps} />
     );
   }
 }
