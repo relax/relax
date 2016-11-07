@@ -64,8 +64,9 @@ export default class SchemaEdit extends Component {
     editingSchema: PropTypes.object.isRequired,
     changeSchemaProperty: PropTypes.func.isRequired,
     updateSchema: PropTypes.func.isRequired,
-    removing: PropTypes.bool.isRequired
-  }
+    removing: PropTypes.bool.isRequired,
+    saving: PropTypes.bool.isRequired
+  };
 
   render () {
     const {schema, loading} = this.props;
@@ -95,7 +96,14 @@ export default class SchemaEdit extends Component {
   }
 
   renderContent () {
-    const {schema, toggleRemoveConfirm, editingSchema, changeSchemaProperty, updateSchema} = this.props;
+    const {
+      schema,
+      toggleRemoveConfirm,
+      editingSchema,
+      changeSchemaProperty,
+      updateSchema,
+      saving
+    } = this.props;
 
     return (
       <div>
@@ -122,7 +130,12 @@ export default class SchemaEdit extends Component {
             />
             <Properties />
             {editingSchema.type === 'single' && <TemplatePicker />}
-            <Save schema={schema} editingSchema={editingSchema} onSave={updateSchema} />
+            <Save
+              schema={schema}
+              editingSchema={editingSchema}
+              onSave={updateSchema}
+              saving={saving}
+            />
           </div>
         </Content>
         {this.renderRemoveConfirm()}
