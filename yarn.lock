@@ -1004,6 +1004,10 @@ body-parser@^1.13.3:
     raw-body "~2.1.7"
     type-is "~1.6.13"
 
+boolean:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/boolean/-/boolean-0.1.1.tgz#8b65c9b656160bdb72ea2b3bbd4969918bf7f2d9"
+
 boom@2.x.x:
   version "2.10.1"
   resolved "https://registry.yarnpkg.com/boom/-/boom-2.10.1.tgz#39c8918ceff5799f83f9492a848f625add0c766f"
