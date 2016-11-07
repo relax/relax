@@ -36,8 +36,10 @@ Installation
 ### Dependencies
 
 Relax uses [sharp](https://github.com/lovell/sharp) to resize images.
-If you're using OS X, you'll need to install its libvips dependency via `brew install homebrew/science/vips`.
-Full installation instructions are available [here](http://sharp.dimens.io/en/stable/install/).
+If you're using OS X and have libvips installed globally, e.g. via brew,
+it may cause problems with sharp's compilation. You may need to uninstall
+via `brew remove libvips`. See https://github.com/lovell/sharp/issues/602
+for more information.
 
 You'll also need [`yarn`](https://yarnpkg.com) and [MongoDB](https://www.mongodb.org/).
 
