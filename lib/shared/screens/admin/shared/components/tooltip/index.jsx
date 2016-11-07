@@ -66,6 +66,9 @@ export default class Tooltip extends Component {
   renderTooltip () {
     if (this.state.showing) {
       const {label, maxWidth} = this.props;
+      const tooltipStyle = {
+        maxWidth
+      };
 
       return (
         <Portal>
@@ -75,7 +78,7 @@ export default class Tooltip extends Component {
             horizontalPosition='center'
             verticalOffset={5}
           >
-            <div className={styles.tooltip} style={{maxWidth}}>
+            <div className={styles.tooltip} style={tooltipStyle}>
               {label}
             </div>
           </Stick>
