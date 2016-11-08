@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 
 import Component from 'components/component';
 import Input from 'components/modal-input';
-import Permission from './permission';
+import Permissions from 'components/permissions';
 import Scrollable from 'components/scrollable';
 import bind from 'decorators/bind';
 import cx from 'classnames';
@@ -40,30 +40,11 @@ export default class SchemaName extends Component {
               placeholder='Content type name'
             />
           </form>
-          <div className={styles.permissions}>
-            <Permission
-              value={schema.publicReadable}
-              index='publicReadable'
-              iconNegative='ui-1_eye-ban-20'
-              titleNegative='Non public readable'
-              labelNegative='This means only admins can see this schema entries'
-              iconPositive='ui-1_eye-19'
-              titlePositive='Public readable'
-              labelPositive='This means anyone can see this schema entries'
-              onChange={changeSchemaPermission}
-            />
-            <Permission
-              value={schema.publicWritable}
-              index='publicWritable'
-              iconNegative='ui-1_edit-77'
-              titleNegative='Non public writable'
-              labelNegative='This means only admins can create new entries to this schema'
-              iconPositive='ui-1_edit-76'
-              titlePositive='Public writable'
-              labelPositive='This means anyone can create new entries to this schema'
-              onChange={changeSchemaPermission}
-            />
-          </div>
+          <Permissions
+            readable={schema.publicReadable}
+            writable={schema.publicWritable}
+            onChange={changeSchemaPermission}
+          />
           <div className={styles.buttons}>
             <div className={styles.button} onClick={schemaStepBack}>
               Back
