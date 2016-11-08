@@ -2,7 +2,6 @@ import bind from 'decorators/bind';
 import moment from 'moment';
 import Balloon from 'components/balloon';
 import Component from 'components/component';
-import Stick from 'components/stick';
 import React, {PropTypes} from 'react';
 
 import styles from './calendar.less';
@@ -74,7 +73,8 @@ export default class Calendar extends Component {
         active = 1;
       } else {
         const currentItDate = moment(currentDate).date(day);
-        active = (currentItDate.isBetween(otherDate, selectedDate) || currentItDate.isBetween(selectedDate, otherDate)) ? 1 : 0;
+        active = (currentItDate.isBetween(otherDate, selectedDate) ||
+                  currentItDate.isBetween(selectedDate, otherDate)) ? 1 : 0;
       }
     }
 

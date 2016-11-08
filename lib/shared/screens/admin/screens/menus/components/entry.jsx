@@ -24,7 +24,7 @@ export default class MenuEntry extends Component {
   render () {
     const {menu, active, query} = this.props;
     const date = moment(menu.date).fromNow();
-    const editLink = '/admin/menus/' + menu._id;
+    const editLink = `/admin/menus/${menu._id}`;
 
     return (
       <Link to={editLink} query={query} className={cx(styles.root, active && styles.active)}>

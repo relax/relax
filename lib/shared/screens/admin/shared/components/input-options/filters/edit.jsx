@@ -1,3 +1,6 @@
+/* eslint-disable */
+// TODO FIX component
+
 import cx from 'classnames';
 import find from 'lodash.find';
 import forEach from 'lodash.foreach';

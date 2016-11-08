@@ -24,7 +24,8 @@ export default class Option extends Component {
     passToOptions: PropTypes.object,
     elementOverride: PropTypes.bool,
     displayOverride: PropTypes.bool,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    description: PropTypes.string
   };
 
   @bind
@@ -139,7 +140,7 @@ export default class Option extends Component {
       return (
         <Tooltip label={description} className={cx(styles.tooltip)} maxWidth={250}>
           <span >
-            <i className="nc-icon-outline ui-2_alert-circle-i"/>
+            <i className='nc-icon-outline ui-2_alert-circle-i' />
           </span>
         </Tooltip>
       );

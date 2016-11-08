@@ -2,6 +2,7 @@ import Component from 'components/component';
 import ModalInput from 'components/modal-input';
 import ModalNew from 'components/modal-new';
 import React, {PropTypes} from 'react';
+import bind from 'decorators/bind';
 
 export default class NewUser extends Component {
   static propTypes = {
@@ -14,8 +15,24 @@ export default class NewUser extends Component {
     loading: PropTypes.bool
   };
 
-  changeField (field, value) {
-    this.props.changeField(field, value);
+  @bind
+  changeUsername (value) {
+    this.props.changeField('username', value);
+  }
+
+  @bind
+  changePassword (value) {
+    this.props.changeField('password', value);
+  }
+
+  @bind
+  changeName (value) {
+    this.props.changeField('name', value);
+  }
+
+  @bind
+  changeEmail (value) {
+    this.props.changeField('email', value);
   }
 
   render () {
@@ -26,26 +43,26 @@ export default class NewUser extends Component {
           focus
           value={username}
           placeholder='Username'
-          onChange={this.changeField.bind(this, 'username')}
+          onChange={this.changeUsername}
         />
         <ModalInput
           focus
           value={password}
           type='password'
           placeholder='Password'
-          onChange={this.changeField.bind(this, 'password')}
+          onChange={this.changePassword}
         />
         <ModalInput
           focus
           value={name}
           placeholder='Name'
-          onChange={this.changeField.bind(this, 'name')}
+          onChange={this.changeName}
         />
         <ModalInput
           focus
           value={email}
           placeholder='Email'
-          onChange={this.changeField.bind(this, 'email')}
+          onChange={this.changeEmail}
         />
       </ModalNew>
     );

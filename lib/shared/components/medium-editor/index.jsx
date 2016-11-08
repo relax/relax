@@ -55,13 +55,11 @@ export default class MediumEditorElement extends Component {
 
   @bind
   onFocus () {
-    console.log('focus');
     key.setScope('mediumEditor');
   }
 
   @bind
   onBlur () {
-    console.log('unfocus');
     key.setScope('pageBuilder');
   }
 

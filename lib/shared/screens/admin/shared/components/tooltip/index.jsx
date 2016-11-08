@@ -46,7 +46,7 @@ export default class Tooltip extends Component {
   }
 
   render () {
-    const {className, style, children, maxWidth, ...props} = this.props;
+    const {className, style, children, ...props} = this.props;
 
     return (
       <div
