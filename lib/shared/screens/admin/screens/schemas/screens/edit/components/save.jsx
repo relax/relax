@@ -129,13 +129,13 @@ export default class SaveSchema extends Component {
 
     if (saving) {
       result = (
-        <Animate>
+        <Animate key='saving'>
           <Spinner />
         </Animate>
       );
     } else {
       result = (
-        <Animate>
+        <Animate key='buttons'>
           <Button
             primary
             big
