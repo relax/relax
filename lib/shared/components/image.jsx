@@ -21,7 +21,7 @@ export default class Image extends Component {
     if (id) {
       const url = utils.getBestImageUrl(id, width, height);
       result = (
-        <img src={url} {...htmlProps} />
+        <img src={url} {...htmlProps} role='presentation' />
       );
     }
 

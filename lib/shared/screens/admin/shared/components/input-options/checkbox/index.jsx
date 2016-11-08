@@ -9,8 +9,8 @@ import styles from './index.less';
 export default class Checkbox extends Component {
   static propTypes = {
     value: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.bool
+      PropTypes.string,
+      PropTypes.bool
     ]),
     onChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,

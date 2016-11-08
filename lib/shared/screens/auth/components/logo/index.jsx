@@ -7,7 +7,11 @@ export default class Logo extends Component {
   render () {
     return (
       <div className={styles.logo}>
-        <img src='/images/admin/logo_big.png' width='150' />
+        <img
+          src='/images/admin/logo_big.png'
+          width='150'
+          role='presentation'
+        />
         <div className={styles.version}>beta</div>
       </div>
     );

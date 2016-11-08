@@ -89,7 +89,17 @@ export default class Stick extends Component {
     this.setState(this.getPosition());
   }
 
-  getPositionIt ({posCode, iniPosCode, relativeRect, targetRect, horizontalOffset, verticalOffset, windowHeight, windowWidth, posFallbacks}) {
+  getPositionIt ({
+    posCode,
+    iniPosCode,
+    relativeRect,
+    targetRect,
+    horizontalOffset,
+    verticalOffset,
+    windowHeight,
+    windowWidth,
+    posFallbacks
+  }) {
     const hor = posCode[0];
     const vert = posCode[1];
 

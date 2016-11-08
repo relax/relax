@@ -61,6 +61,7 @@ export default class MediaItemPreview extends Component {
           src={`/${mediaItem.thumbnail}`}
           width={width}
           height={height}
+          role='presentation'
         />
       );
     } else {
@@ -80,7 +81,11 @@ export default class MediaItemPreview extends Component {
   renderFaviconType () {
     const {mediaItem} = this.props;
     return (
-      <img src={`/${mediaItem.url}`} className={styles.limit} />
+      <img
+        src={`/${mediaItem.url}`}
+        className={styles.limit}
+        role='presentation'
+      />
     );
   }
 
