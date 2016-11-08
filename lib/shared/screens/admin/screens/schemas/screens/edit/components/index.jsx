@@ -9,6 +9,7 @@ import OptionsList from 'components/options-list';
 import Properties from 'components/properties';
 import TemplatePicker from 'components/template';
 import React, {PropTypes} from 'react';
+import Permissions from 'components/permissions';
 
 import Save from './save';
 import styles from './index.less';
@@ -64,6 +65,7 @@ export default class SchemaEdit extends Component {
     editingSchema: PropTypes.object.isRequired,
     changeSchemaProperty: PropTypes.func.isRequired,
     updateSchema: PropTypes.func.isRequired,
+    changeSchemaPermission: PropTypes.func.isRequired,
     removing: PropTypes.bool.isRequired,
     saving: PropTypes.bool.isRequired
   };
@@ -101,6 +103,7 @@ export default class SchemaEdit extends Component {
       toggleRemoveConfirm,
       editingSchema,
       changeSchemaProperty,
+      changeSchemaPermission,
       updateSchema,
       saving
     } = this.props;
@@ -129,6 +132,11 @@ export default class SchemaEdit extends Component {
               white
             />
             <Properties />
+            <Permissions
+              readable={editingSchema.publicReadable}
+              writable={editingSchema.publicWritable}
+              onChange={changeSchemaPermission}
+            />
             {editingSchema.type === 'single' && <TemplatePicker />}
             <Save
               schema={schema}
