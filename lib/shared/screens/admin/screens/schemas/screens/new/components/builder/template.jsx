@@ -2,7 +2,8 @@ import Component from 'components/component';
 import TemplatePicker from 'components/template';
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
-
+import Spinner from 'components/spinner';
+import Animate from 'components/animate';
 import Progress from './progress';
 import styles from './template.less';
 
@@ -11,15 +12,12 @@ export default class SchemaTemplatePick extends Component {
     schema: PropTypes.object.isRequired,
     schemaStepBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    newTemplate: PropTypes.bool.isRequired
+    newTemplate: PropTypes.bool.isRequired,
+    saving: PropTypes.bool.isRequired
   };
 
   render () {
-    const {
-      schema,
-      schemaStepBack,
-      onSubmit
-    } = this.props;
+    const {schema} = this.props;
 
     return (
       <div className={styles.root}>
@@ -32,14 +30,40 @@ export default class SchemaTemplatePick extends Component {
           What will <span className={styles.primary}>{schema.title}</span> look like?
         </div>
         <TemplatePicker />
-        <div className={styles.buttons}>
-          <button className={styles.button} onClick={schemaStepBack}>
-            Back
-          </button>
-          <button className={cx(styles.button, styles.primary)} onClick={onSubmit}>
-            Create Schema
-          </button>
-        </div>
+        {this.renderButtons()}
+      </div>
+    );
+  }
+
+  renderButtons () {
+    const {saving} = this.props;
+    let result;
+
+    if (saving) {
+      result = (
+        <Animate key='saving'>
+          <Spinner />
+        </Animate>
+      );
+    } else {
+      const {schemaStepBack, onSubmit} = this.props;
+      result = (
+        <Animate key='buttons'>
+          <div>
+            <button className={styles.button} onClick={schemaStepBack}>
+              Back
+            </button>
+            <button className={cx(styles.button, styles.primary)} onClick={onSubmit}>
+              Create Schema
+            </button>
+          </div>
+        </Animate>
+      );
+    }
+
+    return (
+      <div className={styles.buttons}>
+        {result}
       </div>
     );
   }

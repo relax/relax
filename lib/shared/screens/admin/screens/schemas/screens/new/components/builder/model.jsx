@@ -3,7 +3,8 @@ import Properties from 'components/properties';
 import Scrollable from 'components/scrollable';
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
-
+import Animate from 'components/animate';
+import Spinner from 'components/spinner';
 import Progress from './progress';
 import styles from './model.less';
 
@@ -12,13 +13,12 @@ export default class SchemaModel extends Component {
     schema: PropTypes.object.isRequired,
     schemaStepBack: PropTypes.func.isRequired,
     schemaStepForward: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    saving: PropTypes.bool.isRequired
   };
 
   render () {
-    const {schema, schemaStepBack, schemaStepForward, onSubmit} = this.props;
-    const {type} = schema;
-    const isSingle = type === 'single';
+    const {schema} = this.props;
 
     return (
       <Scrollable>
@@ -27,7 +27,30 @@ export default class SchemaModel extends Component {
           <div className={styles.header}>...and now create the content model.</div>
           <div className={styles.subHeader}>{`What properties will ${schema.title} single contain?`}</div>
           <Properties />
-          <div className={styles.buttons}>
+          {this.renderButtons()}
+        </div>
+      </Scrollable>
+    );
+  }
+
+  renderButtons () {
+    const {saving} = this.props;
+    let result;
+
+    if (saving) {
+      result = (
+        <Animate key='saving'>
+          <Spinner />
+        </Animate>
+      );
+    } else {
+      const {schema, schemaStepBack, schemaStepForward, onSubmit} = this.props;
+      const {type} = schema;
+      const isSingle = type === 'single';
+
+      result = (
+        <Animate key='buttons'>
+          <div>
             <button className={styles.button} onClick={schemaStepBack}>
               Back
             </button>
@@ -38,8 +61,14 @@ export default class SchemaModel extends Component {
               {isSingle ? 'Next' : 'Create Schema'}
             </button>
           </div>
-        </div>
-      </Scrollable>
+        </Animate>
+      );
+    }
+
+    return (
+      <div className={styles.buttons}>
+        {result}
+      </div>
     );
   }
 }
