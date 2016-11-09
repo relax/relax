@@ -120,7 +120,8 @@ export default class Viewer extends Component {
             positionInParent,
             elementLinks,
             renderChildren: this.renderChildren,
-            display
+            display,
+            styleValues: styleMap && styleMap.resultValues || {}
           }}
         >
           {children}
