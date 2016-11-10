@@ -3,6 +3,7 @@ import Component from 'components/component';
 import Portal from 'components/portal';
 import Stick from 'components/stick';
 import React, {PropTypes} from 'react';
+import cx from 'classnames';
 
 import styles from './index.less';
 
@@ -12,7 +13,8 @@ export default class Tooltip extends Component {
     label: PropTypes.string.isRequired,
     className: PropTypes.string,
     style: PropTypes.object,
-    maxWidth: PropTypes.number
+    maxWidth: PropTypes.number,
+    dark: PropTypes.bool
   };
 
   getInitState () {
@@ -65,7 +67,7 @@ export default class Tooltip extends Component {
 
   renderTooltip () {
     if (this.state.showing) {
-      const {label, maxWidth} = this.props;
+      const {label, maxWidth, dark} = this.props;
       const tooltipStyle = {
         maxWidth
       };
@@ -78,7 +80,7 @@ export default class Tooltip extends Component {
             horizontalPosition='center'
             verticalOffset={5}
           >
-            <div className={styles.tooltip} style={tooltipStyle}>
+            <div className={cx(styles.tooltip, dark && styles.dark)} style={tooltipStyle}>
               {label}
             </div>
           </Stick>
