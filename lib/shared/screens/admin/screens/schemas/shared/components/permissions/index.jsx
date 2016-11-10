@@ -15,6 +15,9 @@ export default class Permissions extends Component {
 
     return (
       <div className={styles.root}>
+        <div className={styles.header}>
+          <span>{'Permissions'}</span>
+        </div>
         <Permission
           value={readable}
           index='publicReadable'
