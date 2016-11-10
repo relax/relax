@@ -3,6 +3,7 @@ import moment from 'moment';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
+import Tooltip from 'components/tooltip';
 
 import styles from './entry.less';
 
@@ -28,14 +29,25 @@ export default class SchemaEntry extends Component {
     const date = moment(schemaEntry.date).fromNow();
     const editLink = `/admin/schemas/single/${schemaId}/${schemaEntry._id}`;
 
+    const buildQuery = Object.assign({}, query);
+    buildQuery.form && delete buildQuery.form;
+    const formQuery = Object.assign({}, query, {form: true});
+
     return (
-      <Link to={editLink} query={query} className={cx(styles.root, active && styles.active)}>
-        <div className={cx(styles.status, schemaEntry.state === 'published' && styles.published)}></div>
-        <div className={styles.info}>
-          <div className={styles.title}>{schemaEntry.title}</div>
-          <div className={styles.date}>{date}</div>
-        </div>
-      </Link>
+      <div className={cx(styles.holder, active && styles.holderActive)}>
+        <Link to={editLink} query={buildQuery} className={cx(styles.root, active && styles.active)}>
+          <div className={cx(styles.status, schemaEntry.state === 'published' && styles.published)} />
+          <div className={styles.info}>
+            <div className={styles.title}>{schemaEntry.title}</div>
+            <div className={styles.date}>{date}</div>
+          </div>
+        </Link>
+        <Link to={editLink} query={formQuery} className={styles.formButton}>
+          <Tooltip label='Form View' dark>
+            <i className='nc-icon-outline ui-2_menu-square' />
+          </Tooltip>
+        </Link>
+      </div>
     );
   }
 }
