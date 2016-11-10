@@ -43,7 +43,12 @@
         </nav>
       </div>
       <div class='page-content'>
-        <h1>{{page.title}}</h1>
+        <div class='page-info'>
+          <h1>{{page.title}}</h1>
+          <a href="https://github.com/relax/relax/blob/master/docs/source/{{page.id}}.md">
+            Edit this page
+          </a>
+        </div>
         {{page.content}}
       </div>
     </div>

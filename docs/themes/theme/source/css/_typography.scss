@@ -2,11 +2,11 @@ $highlightColor: #333333;
 $subColor: #444444;
 
 h1 {
-  margin-bottom: 30px;
   line-height: 50px;
   font-size: 34px;
   font-weight: 800;
   color: $primary;
+  margin-bottom: 0;
 }
 
 h2 {
