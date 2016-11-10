@@ -1158,6 +1158,16 @@ hexo-cli@^1.0.2:
     object-assign "^4.1.0"
     tildify "^1.2.0"
 
+hexo-deployer-git:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/hexo-deployer-git/-/hexo-deployer-git-0.2.0.tgz#f0138a58ab35361f4c55906bb37a7a739d512fb0"
+  dependencies:
+    chalk "^1.1.3"
+    hexo-fs "^0.1.5"
+    hexo-util "^0.6.0"
+    moment "^2.13.0"
+    swig "^1.4.2"
+
 hexo-front-matter@^0.2.2:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/hexo-front-matter/-/hexo-front-matter-0.2.3.tgz#c7ca8ef420ea36bd85e8408a2e8c9bf49efa605e"
@@ -1803,7 +1813,7 @@ moment-timezone@^0.5.4:
   dependencies:
     moment ">= 2.6.0"
 
-moment@^2.10.6, "moment@>= 2.6.0":
+moment@^2.10.6, moment@^2.13.0, "moment@>= 2.6.0":
   version "2.16.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.16.0.tgz#f38f2c97c9889b0ee18fc6cc392e1e443ad2da8e"
 
@@ -2699,7 +2709,7 @@ swig-extras@0.0.1:
   dependencies:
     markdown "~0.5.0"
 
-swig@1.4.2:
+swig@^1.4.2, swig@1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/swig/-/swig-1.4.2.tgz#4085ca0453369104b5d483e2841b39b7ae1aaba5"
   dependencies:
