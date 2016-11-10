@@ -1,0 +1,16 @@
+- title: Installation
+  items:
+  - id: prerequisites
+    title: Prerequisites
+  - id: installation
+    title: Installing locally
+  - id: deployment
+    title: Deploying
+- title: Development
+  items:
+  - id: getting-started
+    title: Getting Started
+  - id: structure
+    title: Structure
+  - id: elements
+    title: Page builder elements
