@@ -20,6 +20,7 @@ import styles from './content-page-builder.less';
 
 export default class ContentPageBuilder extends Component {
   static propTypes = {
+    children: PropTypes.any,
     itemId: PropTypes.string,
     loading: PropTypes.bool,
     title: PropTypes.string,
@@ -108,31 +109,51 @@ export default class ContentPageBuilder extends Component {
   }
 
   renderContent () {
-    const {location, type, template, itemId} = this.props;
-
     return (
       <Animate transition='fadeIn'>
         <div className={cx(this.state.build && styles.build)}>
           {this.renderHeader()}
-          <div className={styles.content} ref='content'>
-            <PageBuilder
-              itemId={itemId}
-              type={type}
-              template={template}
-            />
-            <A href={location.pathname} query={{build: 1}} className={styles.cover} ref='cover'>
-              <div className={styles.coverContent}>
-                <i className='nc-icon-outline design_design'></i>
-                <div>Click to Build</div>
-              </div>
-            </A>
-            <div className={styles.contentPage}>
-              {this.renderSidebar()}
-            </div>
-          </div>
+          {this.renderContentArea()}
         </div>
       </Animate>
     );
+  }
+
+  renderContentArea () {
+    const {children} = this.props;
+    let result;
+
+    if (children) {
+      result = (
+        <div className={styles.customContent}>
+          {children}
+          {this.renderSidebar()}
+        </div>
+      );
+    } else {
+      const {location, type, template, itemId} = this.props;
+
+      result = (
+        <div className={styles.content} ref='content'>
+          <PageBuilder
+            itemId={itemId}
+            type={type}
+            template={template}
+          />
+          <A href={location.pathname} query={{build: 1}} className={styles.cover} ref='cover'>
+            <div className={styles.coverContent}>
+              <i className='nc-icon-outline design_design'></i>
+              <div>Click to Build</div>
+            </div>
+          </A>
+          <div className={styles.contentPage}>
+            {this.renderSidebar()}
+          </div>
+        </div>
+      );
+    }
+
+    return result;
   }
 
   renderHeader () {

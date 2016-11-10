@@ -3,13 +3,7 @@ import React, {PropTypes} from 'react';
 import Animate from 'components/animate';
 import Button from 'components/button';
 import Component from 'components/component';
-import Content from 'components/content';
-import ContentHeader from 'components/content-header';
-import ContentHeaderActions from 'components/content-header-actions';
 import ContentLoading from 'components/content-loading';
-import ContentNew from 'components/content-new';
-import {Link} from 'react-router';
-import ModalDelete from 'components/modal-delete';
 import OptionsList from 'components/options-list';
 import Spinner from 'components/spinner';
 import cx from 'classnames';
@@ -52,61 +46,21 @@ export default class DataSchemaForm extends Component {
   }
 
   renderForm () {
-    const {properties, onChange, values, schemaId} = this.props;
+    const {properties, onChange, values} = this.props;
+
     return (
       <div>
-        <ContentHeader>
-          <Link
-            to={`/admin/schemas/data/${schemaId}`}
-            className={styles.back}
-          >
-            <i className='nc-icon-outline arrows-1_small-triangle-left' />
-            <span>Back to list</span>
-          </Link>
-          {this.renderActions()}
-        </ContentHeader>
-        <Content>
-          <OptionsList
-            options={properties}
-            values={values}
-            onChange={onChange}
-            white
-          />
-          <div className={styles.state}>
-            {this.renderState()}
-          </div>
-        </Content>
+        <OptionsList
+          options={properties}
+          values={values}
+          onChange={onChange}
+          white
+        />
+        <div className={styles.state}>
+          {this.renderState()}
+        </div>
       </div>
     );
-  }
-
-  renderActions () {
-    const {isNew, toggleRemoveConfirm} = this.props;
-
-    if (!isNew) {
-      return (
-        <ContentHeaderActions>
-          <ContentNew remove onClick={toggleRemoveConfirm}>
-            Remove entry
-          </ContentNew>
-          {this.renderRemoveConfirm()}
-        </ContentHeaderActions>
-      );
-    }
-  }
-
-  renderRemoveConfirm () {
-    const {removeConfirm, removeEntry, toggleRemoveConfirm, removing} = this.props;
-
-    if (removeConfirm) {
-      return (
-        <ModalDelete
-          submit={removeEntry}
-          cancel={toggleRemoveConfirm}
-          loading={removing}
-        />
-      );
-    }
   }
 
   renderState () {
