@@ -1,5 +1,9 @@
 @import '~styles/colors.less';
 
+.holder {
+  position: relative;
+}
+
 .root {
   height: 70px;
   border-bottom: 1px solid @adminBorders;
@@ -44,6 +48,34 @@
   font-size: 12px;
   color: @adminText;
   font-weight: 300;
+}
+
+.formButton {
+  position: absolute;
+  right: 20px; top: 20px;
+  opacity: 0;
+
+  :global i {
+    font-size: 22px;
+    line-height: 30px;
+    color: @adminText;
+  }
+
+  &:hover :global i {
+    color: @primary;
+  }
+
+  .holder:hover & {
+    opacity: 1;
+  }
+
+  .holderActive & {
+    opacity: 1;
+    
+    :global i {
+      color: #ffffff;
+    }
+  }
 }
 
 .active {
