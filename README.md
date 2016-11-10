@@ -1,5 +1,5 @@
 <p align="center">
- <img src="https://raw.githubusercontent.com/relax/relax/gh-pages/assets/images/logo_small.png" alt="Relax Logo">
+ <img src="http://relax.github.io/relax/images/logo_small.png" alt="Relax Logo">
 </p>
 ====================================
 [![Slack Status](http://slack-relax.herokuapp.com/badge.svg)](http://slack-relax.herokuapp.com/) [![Build Status](https://travis-ci.org/relax/relax.png)](https://travis-ci.org/relax/relax)
@@ -172,7 +172,7 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 Thanks to these amazing companies for supporting open source projects including Relax:
 
 <a href="https://www.browserstack.com" target="_blank"><img src="https://cdn.rawgit.com/relax/relax/gh-pages/assets/sponsors/browserstack.svg" width="150" height="70"></a>
-<a href="https://www.sentry.io" target="_blank"><img src="https://a0wx592cvgzripj.global.ssl.fastly.net/_static/43ce22f082676096c41a1608205aae70/getsentry/images/branding/svg/sentry-horizontal-black.svg" width="150" height="70"></a>
+<a href="https://www.sentry.io" target="_blank"><img src="https://a0wx592cvgzripj.global.ssl.fastly.net/_static/17a0b80a350f1c9da2119097b7bbb3fc/getsentry/images/branding/svg/sentry-horizontal-black.svg" width="150" height="70"></a>
 
 License
 -------
