@@ -25,4 +25,12 @@
     border-width: 0 5px 7px 5px;
     border-color: transparent transparent @primary transparent;
   }
+
+  &.dark {
+    background-color: @chromeBackgroundColor;
+
+    &:before {
+      border-color: transparent transparent @chromeBackgroundColor transparent;
+    }
+  }
 }
