@@ -1,0 +1,21 @@
+// Colors
+$bordersColor: #efefef;
+$primary: #f7621c;
+
+// Sizes
+$menuHeight: 60px;
+
+@import './_menu';
+@import './_content';
+@import './_typography';
+@import './_code';
+
+body {
+  font-family: 'Open Sans';
+}
+
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}

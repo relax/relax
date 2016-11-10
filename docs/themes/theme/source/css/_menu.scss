@@ -1,0 +1,36 @@
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $menuHeight;
+  background-color: $primary;
+}
+
+.logo {
+  display: inline-block;
+  vertical-align: top;
+  padding: 3px 0;
+}
+
+.links-nav {
+  padding: 0px 25px;
+  float: right;
+
+  a {
+    display: inline-block;
+    vertical-align: top;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: $menuHeight;
+    text-decoration: none;
+    opacity: 0.7;
+    margin-left: 20px;
+
+    &:hover {
+      color: #ffffff;
+      opacity: 1;
+    }
+  }
+}

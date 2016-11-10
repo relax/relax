@@ -1,0 +1,53 @@
+.page {
+  padding-top: $menuHeight + 30px;
+}
+
+.menu-nav {
+  padding: 20px 10px;
+
+  span {
+    color: #666666;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  a {
+    display: block;
+    color: #777777;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    text-decoration: none;
+    padding: 6px 0;
+
+    &:hover {
+      color: #333333;
+    }
+    &.active {
+      color: $primary;
+    }
+  }
+
+  .nav {
+    .nav {
+      padding-top: 10px;
+      padding-bottom: 20px;
+    }
+  }
+}
+
+.sidebar {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.page-content {
+  display: table-cell;
+  vertical-align: top;
+  padding-left: 60px;
+  padding-bottom: 80px;
+}
+
+img {
+  max-width: 100%;
+}
