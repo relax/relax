@@ -2,20 +2,27 @@ import bind from 'decorators/bind';
 import Component from 'components/component';
 import OptionsList from 'components/options-list';
 import React, {PropTypes} from 'react';
-import {propertyOptions} from 'helpers/data-types';
+import {propertyOptions, typesProps} from 'helpers/data-types';
 
 import styles from './property-options.less';
 
 export default class SchemaPropertyOptions extends Component {
   static propTypes = {
     property: PropTypes.object.isRequired,
-    changePropertySetting: PropTypes.func.isRequired
+    changePropertySetting: PropTypes.func.isRequired,
+    changeSchemaPropertyProp: PropTypes.func.isRequired
   };
 
   @bind
   onChange (id, value) {
     const {changePropertySetting, property} = this.props;
     changePropertySetting(property.id, id, value);
+  }
+
+  @bind
+  onChangeProp (id, value) {
+    const {changeSchemaPropertyProp, property} = this.props;
+    changeSchemaPropertyProp(property.id, id, value);
   }
 
   render () {
@@ -28,9 +35,26 @@ export default class SchemaPropertyOptions extends Component {
           onChange={this.onChange}
           white
         />
+        {this.renderTypeOptions()}
         {this.renderDefault()}
       </div>
     );
+  }
+
+  renderTypeOptions () {
+    const {property} = this.props;
+    const typeOptions = property.type && typesProps[property.type];
+
+    if (typeOptions && typeOptions.options) {
+      return (
+        <OptionsList
+          options={typeOptions.options}
+          values={Object.assign({}, typeOptions.defaults, property.props)}
+          onChange={this.onChangeProp}
+          white
+        />
+      );
+    }
   }
 
   renderDefault () {
