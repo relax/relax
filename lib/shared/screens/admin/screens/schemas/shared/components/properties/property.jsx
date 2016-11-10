@@ -12,6 +12,7 @@ export default class SchemaProperty extends Component {
     opened: PropTypes.bool.isRequired,
     toggleProperty: PropTypes.func.isRequired,
     changePropertySetting: PropTypes.func.isRequired,
+    changeSchemaPropertyProp: PropTypes.func.isRequired,
     removeProperty: PropTypes.func.isRequired
   };
 
@@ -79,12 +80,15 @@ export default class SchemaProperty extends Component {
 
   renderOpened () {
     const {opened, property} = this.props;
+
     if (opened && !property.locked) {
-      const {changePropertySetting} = this.props;
+      const {changePropertySetting, changeSchemaPropertyProp} = this.props;
+
       return (
         <PropertyOptions
           property={property}
           changePropertySetting={changePropertySetting}
+          changeSchemaPropertyProp={changeSchemaPropertyProp}
         />
       );
     }
