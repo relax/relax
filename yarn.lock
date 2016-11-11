@@ -4523,23 +4523,24 @@ regjsparser@^0.1.4:
   dependencies:
     jsesc "~0.5.0"
 
-relate-js:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/relate-js/-/relate-js-0.7.0.tgz#e4ced4aad8fbd7a5f03fb596cd2d10604411a916"
+relate-js@0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/relate-js/-/relate-js-0.7.2.tgz#2bfe26dbdf303abedc63ea9db7021008b7edaee0"
   dependencies:
     hoist-non-react-statics "^1.1.0"
     invariant "^2.2.0"
     lodash "^4.16.6"
     q "^1.4.1"
-    relax-fragments "^0.1.3"
+    relax-fragments "^0.1.4"
     superagent "^1.7.2"
     warning "^2.1.0"
 
-relax-fragments@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/relax-fragments/-/relax-fragments-0.1.3.tgz#6cb57617b31ec251b9225d61c6272e670fc4646f"
+relax-fragments@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/relax-fragments/-/relax-fragments-0.1.4.tgz#db78f120c2403cb551574f64cb0c6ce3ead19566"
   dependencies:
-    lodash "^4.16.6"
+    lodash.foreach "^3.0.3"
+    lodash.merge "^3.3.2"
 
 relax-fragments@0.1.1:
   version "0.1.1"
