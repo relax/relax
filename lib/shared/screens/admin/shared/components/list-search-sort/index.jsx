@@ -1,7 +1,7 @@
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import debounce from 'lodash.debounce';
-import find from 'lodash.find';
+import debounce from 'lodash/debounce';
+import find from 'lodash/find';
 import Balloon from 'components/balloon';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';

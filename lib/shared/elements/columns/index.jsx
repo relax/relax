@@ -1,5 +1,5 @@
 import Component from 'components/component';
-import forEach from 'lodash.foreach';
+import forEach from 'lodash/forEach';
 import React, {PropTypes, cloneElement} from 'react';
 
 import classes from './classes';

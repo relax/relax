@@ -5,7 +5,7 @@ import stylesManager from 'helpers/styles-manager';
 import traverseChildren from 'helpers/traverser/children';
 import traverser from 'helpers/traverser';
 import Component from 'components/component';
-import get from 'lodash.get';
+import get from 'lodash/get';
 import React, {PropTypes} from 'react';
 import Portal from 'components/portal';
 

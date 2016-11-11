@@ -6,7 +6,7 @@ import ContentNew from 'components/content-new';
 import ContentSearch from 'components/content-search';
 import Modal from 'components/modal';
 import ModalDelete from 'components/modal-delete';
-import find from 'lodash.find';
+import find from 'lodash/find';
 import React, {PropTypes} from 'react';
 
 import List from './list';

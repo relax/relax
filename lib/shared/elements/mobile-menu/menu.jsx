@@ -2,7 +2,7 @@ import Component from 'components/component';
 import Portal from 'components/portal';
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import get from 'lodash.get';
+import get from 'lodash/get';
 import React, {PropTypes} from 'react';
 
 import Button from './button';

@@ -1,6 +1,6 @@
 import cx from 'classnames';
-import forEach from 'lodash.foreach';
-import sortBy from 'lodash.sortby';
+import forEach from 'lodash/forEach';
+import sortBy from 'lodash/sortBy';
 import utils from 'helpers/utils';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';

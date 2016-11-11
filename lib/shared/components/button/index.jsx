@@ -1,6 +1,6 @@
 import Component from 'components/component';
 import cx from 'classnames';
-import forEach from 'lodash.foreach';
+import forEach from 'lodash/forEach';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';

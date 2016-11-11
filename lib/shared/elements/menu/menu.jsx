@@ -1,7 +1,7 @@
 import Component from 'components/component';
 import Spinner from 'components/spinner';
 import cx from 'classnames';
-import get from 'lodash.get';
+import get from 'lodash/get';
 import React, {PropTypes} from 'react';
 
 import Button from './button';

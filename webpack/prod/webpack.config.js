@@ -4,6 +4,7 @@ var nodeExternals = require('webpack-node-externals');
 var autoprefixer = require('autoprefixer');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 var path = require('path');
 
 var commonResolve = {
@@ -22,7 +23,8 @@ var commonLoaders = [
       plugins: [
         'transform-decorators-legacy',
         'transform-react-constant-elements',
-        'transform-react-inline-elements'
+        'transform-react-inline-elements',
+        'lodash'
       ]
     }
   },
@@ -55,6 +57,7 @@ module.exports = [
     },
     resolve: commonResolve,
     plugins: [
+      new LodashModuleReplacementPlugin,
       new webpack.NoErrorsPlugin(),
       new webpack.DefinePlugin({
         'process.env': {

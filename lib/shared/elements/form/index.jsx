@@ -1,7 +1,7 @@
 import Component from 'components/component';
 import bind from 'decorators/bind';
-import forEach from 'lodash.foreach';
-import set from 'lodash.set';
+import forEach from 'lodash/forEach';
+import set from 'lodash/set';
 import React, {PropTypes} from 'react';
 import {addSchemaEntry} from 'actions/schema-entry';
 import {findDOMNode} from 'react-dom';

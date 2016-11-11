@@ -1,4 +1,4 @@
-import find from 'lodash.find';
+import find from 'lodash/find';
 import getFilterDefaultOptions from 'helpers/schema-filter-default-options';
 import Balloon from 'components/balloon';
 import Component from 'components/component';

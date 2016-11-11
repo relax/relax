@@ -1,6 +1,6 @@
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import forEach from 'lodash.foreach';
+import forEach from 'lodash/forEach';
 import Animate from 'components/animate';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';

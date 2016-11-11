@@ -1,5 +1,5 @@
-import find from 'lodash.find';
-import forEach from 'lodash.foreach';
+import find from 'lodash/find';
+import forEach from 'lodash/forEach';
 import key from 'keymaster';
 import Component from 'components/component';
 import Scrollable from 'components/scrollable';

@@ -1,6 +1,6 @@
 import Component from 'components/component';
 import bind from 'decorators/bind';
-import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import React, {PropTypes} from 'react';
 
 import Shadow from './shadow';
