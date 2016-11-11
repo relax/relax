@@ -1,3 +1,4 @@
+import Component from 'components/component';
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
@@ -5,13 +6,15 @@ import classes from './classes';
 import propsSchema from './props-schema';
 import settings from './settings';
 import style from './style';
-import Component from '../component';
-import Element from '../element';
 
 export default class LineDivider extends Component {
   static propTypes = {
     styleClassMap: PropTypes.object,
     relax: PropTypes.object.isRequired
+  };
+
+  static contextTypes = {
+    Element: PropTypes.func.isRequired
   };
 
   static propsSchema = propsSchema;
@@ -20,6 +23,7 @@ export default class LineDivider extends Component {
 
   render () {
     const {styleClassMap, relax} = this.props;
+    const {Element} = this.context;
 
     return (
       <Element

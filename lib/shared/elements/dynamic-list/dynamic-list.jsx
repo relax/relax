@@ -1,10 +1,9 @@
+import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
-import settings from './settings';
-import Component from '../component';
-import Element from '../element';
 import Entry from './entry';
 import Row from './row';
+import settings from './settings';
 
 export default class DynamicList extends Component {
   static propTypes = {
@@ -19,7 +18,13 @@ export default class DynamicList extends Component {
     isLinkingData: PropTypes.bool
   };
 
+  static contextTypes = {
+    Element: PropTypes.func.isRequired
+  };
+
   render () {
+    const {Element} = this.context;
+
     return (
       <Element
         htmlTag={'div'}
@@ -93,6 +98,7 @@ export default class DynamicList extends Component {
         columns={columns}
         isLinkingData={isLinkingData}
         horizontalGutter={horizontalGutter}
+        relax={relax}
         editing={relax.editing}
         element={relax.element}
         elementsLinks={elementsLinks}

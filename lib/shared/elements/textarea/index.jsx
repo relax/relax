@@ -1,11 +1,10 @@
+import Component from 'components/component';
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
 import classes from './classes';
 import propsSchema from './props-schema';
 import settings from './settings';
-import Component from '../component';
-import Element from '../element';
 
 export default class Textarea extends Component {
   static propTypes = {
@@ -14,6 +13,10 @@ export default class Textarea extends Component {
     rows: PropTypes.number,
     styleClassMap: PropTypes.object,
     relax: PropTypes.object.isRequired
+  };
+
+  static contextTypes = {
+    Element: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -26,6 +29,7 @@ export default class Textarea extends Component {
 
   render () {
     const {styleClassMap, relax, name, placeholder, rows} = this.props;
+    const {Element} = this.context;
 
     return (
       <Element

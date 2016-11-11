@@ -1,6 +1,7 @@
+import Component from 'components/component';
+import Link from 'components/link';
 import cx from 'classnames';
 import forEach from 'lodash.foreach';
-import Link from 'components/link';
 import React, {PropTypes} from 'react';
 import {changeElementChildren} from 'actions/page-builder';
 
@@ -8,8 +9,6 @@ import classes from './classes';
 import propsSchema from './props-schema';
 import settings from './settings';
 import style from './style';
-import Component from '../component';
-import Element from '../element';
 
 export default class Button extends Component {
   static propTypes = {
@@ -22,7 +21,8 @@ export default class Button extends Component {
   };
 
   static contextTypes = {
-    store: PropTypes.object.isRequired
+    store: PropTypes.object.isRequired,
+    Element: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -112,6 +112,7 @@ export default class Button extends Component {
   }
 
   render () {
+    const {Element} = this.context;
     const {link, styleClassMap} = this.props;
 
     const props = {

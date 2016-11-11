@@ -1,3 +1,4 @@
+import Component from 'components/component';
 import bind from 'decorators/bind';
 import forEach from 'lodash.foreach';
 import set from 'lodash.set';
@@ -5,8 +6,6 @@ import React, {PropTypes} from 'react';
 import {addSchemaEntry} from 'actions/schema-entry';
 import {findDOMNode} from 'react-dom';
 
-import Component from '../component';
-import Element from '../element';
 import propsSchema from './props-schema';
 import settings from './settings';
 
@@ -21,7 +20,8 @@ export default class Form extends Component {
   };
 
   static contextTypes = {
-    store: PropTypes.object.isRequired
+    store: PropTypes.object.isRequired,
+    Element: PropTypes.func.isRequired
   };
 
   static propsSchema = propsSchema;
@@ -83,6 +83,8 @@ export default class Form extends Component {
   }
 
   render () {
+    const {Element} = this.context;
+
     return (
       <form onSubmit={this.onSubmit}>
         <Element {...this.props.relax} htmlTag='div' settings={settings}>

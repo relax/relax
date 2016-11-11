@@ -1,12 +1,9 @@
-import bind from 'decorators/bind';
-import cx from 'classnames';
 import Component from 'components/component';
-import Droppable from 'components/dnd/droppable';
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
 import settings from './settings';
 import styles from './entry.less';
-import Empty from '../element/empty';
 
 export default class DynamicListEntry extends Component {
   static propTypes = {
@@ -22,7 +19,12 @@ export default class DynamicListEntry extends Component {
     schemaEntry: PropTypes.object,
     renderChildren: PropTypes.func.isRequired,
     context: PropTypes.string.isRequired,
+    relax: PropTypes.object.isRequired,
     children: PropTypes.node
+  };
+
+  static contextTypes = {
+    Element: PropTypes.func.isRequired
   };
 
   getStyle () {
@@ -77,18 +79,20 @@ export default class DynamicListEntry extends Component {
   }
 
   renderEditing () {
-    const {element, context} = this.props;
+    const {relax} = this.props;
+    const {Element} = this.context;
+
     return this.renderWrapper(
-      <Droppable
-        type={element.tag}
-        dropInfo={{id: element.id, context}}
-        {...settings.drop}
-        placeholder
-        placeholderRender={this.renderPlaceholder}
-        style={{position: 'relative'}}
-      >
-        {this.renderContent()}
-      </Droppable>
+      Element.renderContent({
+        relax,
+        customDropProps: {
+          style: {
+            position: 'relative'
+          }
+        },
+        children: this.renderContent(),
+        settings
+      })
     );
   }
 
@@ -102,13 +106,5 @@ export default class DynamicListEntry extends Component {
       context,
       editable: editing
     });
-  }
-
-  @bind
-  renderPlaceholder (options) {
-    const {element} = this.props;
-    return (
-      <Empty {...options} settings={settings} element={element} />
-    );
   }
 }

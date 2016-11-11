@@ -1,17 +1,21 @@
+import Component from 'components/component';
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
 import propsSchema from './props-schema';
 import settings from './settings';
 import style from './style';
-import Component from '../component';
-import Element from '../element';
 
 export default class Section extends Component {
   static propTypes = {
     navigation: PropTypes.string,
     styleClassMap: PropTypes.object,
-    relax: PropTypes.object.isRequired
+    relax: PropTypes.object.isRequired,
+    children: PropTypes.any
+  };
+
+  static contextTypes = {
+    Element: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -24,6 +28,7 @@ export default class Section extends Component {
 
   render () {
     const {styleClassMap, relax, navigation} = this.props;
+    const {Element} = this.context;
 
     const props = {
       ...relax,
@@ -39,7 +44,11 @@ export default class Section extends Component {
     return (
       <Element {...props}>
         <div style={{position: 'relative'}} className={cx(styleClassMap.content)}>
-          {this.renderContent()}
+          {Element.renderContent({
+            relax,
+            children: this.props.children,
+            settings
+          })}
         </div>
       </Element>
     );

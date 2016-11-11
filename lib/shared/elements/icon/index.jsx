@@ -1,3 +1,4 @@
+import Component from 'components/component';
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
@@ -5,14 +6,16 @@ import classes from './classes';
 import propsSchema from './props-schema';
 import settings from './settings';
 import style from './style';
-import Component from '../component';
-import Element from '../element';
 
 export default class Icon extends Component {
   static propTypes = {
     icon: PropTypes.object.isRequired,
     styleClassMap: PropTypes.object,
     relax: PropTypes.object.isRequired
+  };
+
+  static contextTypes = {
+    Element: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -27,6 +30,7 @@ export default class Icon extends Component {
 
   render () {
     const {relax, styleClassMap, icon} = this.props;
+    const {Element} = this.context;
     const classMap = styleClassMap || {};
     const props = {
       htmlTag: 'div',

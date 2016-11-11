@@ -1,12 +1,11 @@
+import Component from 'components/component';
+import Spinner from 'components/spinner';
+import cx from 'classnames';
+import get from 'lodash.get';
 import React, {PropTypes} from 'react';
 
 import Button from './button';
-import Component from 'components/component';
-import Element from '../element';
-import Spinner from 'components/spinner';
 import classes from './classes';
-import cx from 'classnames';
-import get from 'lodash.get';
 import settings from './settings';
 
 export default class MenuElement extends Component {
@@ -18,8 +17,13 @@ export default class MenuElement extends Component {
     loading: PropTypes.bool
   };
 
+  static contextTypes = {
+    Element: PropTypes.func.isRequired
+  };
+
   render () {
     const {relax, loading, menuData} = this.props;
+    const {Element} = this.context;
     let result;
 
     if (loading) {

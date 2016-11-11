@@ -1,13 +1,12 @@
+import Component from 'components/component';
+import Portal from 'components/portal';
+import bind from 'decorators/bind';
+import cx from 'classnames';
+import get from 'lodash.get';
 import React, {PropTypes} from 'react';
 
 import Button from './button';
-import Component from 'components/component';
-import Element from '../element';
-import Portal from 'components/portal';
-import bind from 'decorators/bind';
 import classes from './classes';
-import cx from 'classnames';
-import get from 'lodash.get';
 import settings from './settings';
 
 export default class MobileMenuElement extends Component {
@@ -17,6 +16,10 @@ export default class MobileMenuElement extends Component {
     styleClassMap: PropTypes.object.isRequired,
     editing: PropTypes.bool,
     loading: PropTypes.bool
+  };
+
+  static contextTypes = {
+    Element: PropTypes.func.isRequired
   };
 
   getInitState () {
@@ -34,6 +37,7 @@ export default class MobileMenuElement extends Component {
 
   render () {
     const {relax, styleClassMap} = this.props;
+    const {Element} = this.context;
     const icon = relax.styleValues.icon;
 
     return (

@@ -1,8 +1,7 @@
+import Component from 'components/component';
 import css from 'helpers/styles/css';
 import React, {PropTypes} from 'react';
 
-import Component from '../component';
-import Element from '../element';
 import propsSchema from './props-schema';
 import settings from './settings';
 import style from './style';
@@ -13,7 +12,12 @@ export default class Column extends Component {
     styleClassMap: PropTypes.object.isRequired,
     type: PropTypes.string,
     left: PropTypes.number,
-    right: PropTypes.number
+    right: PropTypes.number,
+    children: PropTypes.any
+  };
+
+  static contextTypes = {
+    Element: PropTypes.func.isRequired
   };
 
   static propsSchema = propsSchema;
@@ -40,6 +44,7 @@ export default class Column extends Component {
 
   render () {
     const {styleClassMap, relax} = this.props;
+    const {Element} = this.context;
     const styles = this.getStyles();
 
     return (
@@ -50,7 +55,7 @@ export default class Column extends Component {
           className={styleClassMap.content}
           settings={settings}
         >
-          {this.renderContent()}
+          {this.props.children}
         </Element>
       </div>
     );

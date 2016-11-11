@@ -1,11 +1,10 @@
+import Component from 'components/component';
 import cx from 'classnames';
 import moment from 'moment';
 import React, {PropTypes} from 'react';
 
 import propsSchema from './props-schema';
 import settings from './settings';
-import Component from '../component';
-import Element from '../element';
 
 export default class Counter extends Component {
   static propTypes = {
@@ -14,6 +13,10 @@ export default class Counter extends Component {
     format: PropTypes.string.isRequired,
     customFormat: PropTypes.string,
     relax: PropTypes.object.isRequired
+  };
+
+  static contextTypes = {
+    Element: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -28,6 +31,7 @@ export default class Counter extends Component {
 
   render () {
     const classMap = this.props.styleClassMap || {};
+    const {Element} = this.context;
 
     const props = {
       ...this.props.relax,

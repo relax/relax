@@ -1,9 +1,7 @@
+import Component from 'components/component';
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
-import Component from '../component';
-import Element from '../element';
-import ElementText from '../element-text';
 import classes from './classes';
 import propsSchema from './props-schema';
 import settings from './settings';
@@ -16,6 +14,11 @@ export default class TextBox extends Component {
     relax: PropTypes.object.isRequired
   };
 
+  static contextTypes = {
+    Element: PropTypes.func.isRequired,
+    ElementText: PropTypes.func.isRequired
+  };
+
   static defaultChildren = 'Click to edit text';
 
   static propsSchema = propsSchema;
@@ -24,6 +27,7 @@ export default class TextBox extends Component {
 
   render () {
     const {relax} = this.props;
+    const {Element} = this.context;
     const classMap = this.props.styleClassMap;
 
     return (
@@ -41,6 +45,7 @@ export default class TextBox extends Component {
   renderContent () {
     const {styleClassMap, relax, children} = this.props;
     const {editing, selected} = relax;
+    const {ElementText} = this.context;
 
     let html = '';
     if (!children && editing && !selected) {
