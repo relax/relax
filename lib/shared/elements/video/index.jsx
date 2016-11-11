@@ -1,13 +1,12 @@
-import elementStyles from 'styles/element.less';
+import Component from 'components/component';
 import Utils from 'helpers/utils';
+import elementStyles from 'styles/element.less';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
 import propsSchema from './props-schema';
 import settings from './settings';
 import style from './style';
-import Component from '../component';
-import Element from '../element';
 
 export default class Video extends Component {
   static propTypes = {
@@ -15,6 +14,10 @@ export default class Video extends Component {
     videoId: PropTypes.string.isRequired,
     relax: PropTypes.object.isRequired,
     styleClassMap: PropTypes.object
+  };
+
+  static contextTypes = {
+    Element: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -54,6 +57,7 @@ export default class Video extends Component {
 
   render () {
     const {styleClassMap, relax} = this.props;
+    const {Element} = this.context;
 
     return (
       <Element {...relax} className={styleClassMap.root} htmlTag='div' settings={settings}>

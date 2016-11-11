@@ -1,12 +1,11 @@
-import utils from 'helpers/utils';
+import Component from 'components/component';
 import ElementCovered from 'components/element-covered';
 import ElementNotFound from 'components/element-not-found';
+import utils from 'helpers/utils';
 import React, {PropTypes} from 'react';
 import {GoogleMap, GoogleMapLoader, Marker} from 'react-google-maps';
 
 import settings from './settings';
-import Component from '../component';
-import Element from '../element';
 
 export default class GoogleMapElement extends Component {
   static propTypes = {
@@ -23,6 +22,10 @@ export default class GoogleMapElement extends Component {
     googleAPI: PropTypes.string,
     loading: PropTypes.bool,
     styleClassMap: PropTypes.object.isRequired
+  };
+
+  static contextTypes = {
+    Element: PropTypes.func.isRequired
   };
 
   getInitState () {
@@ -94,6 +97,7 @@ export default class GoogleMapElement extends Component {
 
   render () {
     const {relax, styleClassMap} = this.props;
+    const {Element} = this.context;
 
     return (
       <Element

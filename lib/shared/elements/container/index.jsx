@@ -1,7 +1,6 @@
+import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
-import Component from '../component';
-import Element from '../element';
 import propsSchema from './props-schema';
 import settings from './settings';
 import style from './style';
@@ -13,12 +12,17 @@ export default class Container extends Component {
     relax: PropTypes.object.isRequired
   };
 
+  static contextTypes = {
+    Element: PropTypes.func.isRequired
+  };
+
   static propsSchema = propsSchema;
   static settings = settings;
   static style = style;
 
   render () {
     const {styleClassMap, relax} = this.props;
+    const {Element} = this.context;
 
     const props = {
       ...relax,

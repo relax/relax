@@ -1,9 +1,8 @@
-import React, {PropTypes} from 'react';
-
-import Component from '../component';
-import Element from '../element';
+import Component from 'components/component';
 import ReactCounter from 'components/counter';
 import cx from 'classnames';
+import React, {PropTypes} from 'react';
+
 import propsSchema from './props-schema';
 import settings from './settings';
 
@@ -16,6 +15,10 @@ export default class Counter extends Component {
     end: PropTypes.number.isRequired,
     duration: PropTypes.number.isRequired,
     relax: PropTypes.object.isRequired
+  };
+
+  static contextTypes = {
+    Element: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -42,6 +45,7 @@ export default class Counter extends Component {
 
   render () {
     const classMap = this.props.styleClassMap || {};
+    const {Element} = this.context;
 
     const props = {
       ...this.props.relax,

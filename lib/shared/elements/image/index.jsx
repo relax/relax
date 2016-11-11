@@ -1,6 +1,7 @@
+import Component from 'components/component';
+import MediaImage from 'components/image';
 import cx from 'classnames';
 import elementStyles from 'styles/element.less';
-import MediaImage from 'components/image';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
@@ -8,8 +9,6 @@ import classes from './classes';
 import propsSchema from './props-schema';
 import settings from './settings';
 import style from './style';
-import Component from '../component';
-import Element from '../element';
 
 export default class Image extends Component {
   static propTypes = {
@@ -18,6 +17,10 @@ export default class Image extends Component {
     children: PropTypes.string,
     styleClassMap: PropTypes.object,
     relax: PropTypes.object.isRequired
+  };
+
+  static contextTypes = {
+    Element: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -46,6 +49,7 @@ export default class Image extends Component {
 
   render () {
     const {styleClassMap, useOver, relax} = this.props;
+    const {Element} = this.context;
 
     return (
       <Element

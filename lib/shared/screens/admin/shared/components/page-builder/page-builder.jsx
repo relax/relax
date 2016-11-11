@@ -1,16 +1,18 @@
-import cx from 'classnames';
-import key from 'keymaster';
-import stylesheet from 'helpers/stylesheet';
 import Component from 'components/component';
 import ContentLoading from 'components/content-loading';
 import Dragger from 'components/dnd/dragger';
 import Portal from 'components/portal';
+import cx from 'classnames';
+import key from 'keymaster';
+import stylesheet from 'helpers/stylesheet';
 import React, {PropTypes} from 'react';
 import {Component as Jss} from 'relax-jss';
 
-import styles from './page-builder.less';
 import Canvas from './canvas';
+import Element from './element';
+import ElementText from './element-text';
 import ElementsMenu from './elements-menu';
+import styles from './page-builder.less';
 
 export default class PageBuilder extends Component {
   static propTypes = {
@@ -21,6 +23,21 @@ export default class PageBuilder extends Component {
     loading: PropTypes.bool.isRequired,
     type: PropTypes.string.isRequired
   };
+
+  static childContextTypes = {
+    dropHighlight: PropTypes.string.isRequired,
+    Element: PropTypes.func.isRequired,
+    ElementText: PropTypes.func.isRequired
+  };
+
+  getChildContext () {
+    const {dragging} = this.props;
+    return {
+      dropHighlight: dragging ? 'vertical' : 'none',
+      Element,
+      ElementText
+    };
+  }
 
   componentDidMount () {
     const {undoAction, redoAction, removeSelectedElement} = this.props.pageBuilderActions;

@@ -1,14 +1,13 @@
-import bind from 'decorators/bind';
+import Component from 'components/component';
 import ElementEmpty from 'components/element-empty';
 import ElementLoading from 'components/element-loading';
 import ElementNotFound from 'components/element-not-found';
+import bind from 'decorators/bind';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
-import settings from './settings';
-import Component from '../component';
 import Editing from './editing';
-import Element from '../element';
+import settings from './settings';
 
 export default class Symbol extends Component {
   static fragments = {
@@ -29,6 +28,10 @@ export default class Symbol extends Component {
     editData: PropTypes.object
   };
 
+  static contextTypes = {
+    Element: PropTypes.func.isRequired
+  };
+
   @bind
   onEdit () {
     const {relax, symbolId, symbol, editSymbol} = this.props;
@@ -40,6 +43,7 @@ export default class Symbol extends Component {
 
   render () {
     const {relax} = this.props;
+    const {Element} = this.context;
     const props = {
       htmlTag: 'div',
       ...relax,

@@ -1,8 +1,7 @@
+import Component from 'components/component';
 import forEach from 'lodash.foreach';
 import React, {PropTypes, cloneElement} from 'react';
 
-import Component from '../component';
-import Element from '../element';
 import classes from './classes';
 import propsSchema from './props-schema';
 import settings from './settings';
@@ -13,6 +12,10 @@ export default class ColumneElement extends Component {
     relax: PropTypes.object.isRequired,
     styleClassMap: PropTypes.object.isRequired,
     children: PropTypes.any
+  };
+
+  static contextTypes = {
+    Element: PropTypes.func.isRequired
   };
 
   static defaultChildren = [
@@ -71,6 +74,7 @@ export default class ColumneElement extends Component {
 
   render () {
     const {styleClassMap, relax} = this.props;
+    const {Element} = this.context;
 
     return (
       <Element
@@ -186,13 +190,19 @@ export default class ColumneElement extends Component {
 
     // TODO let blocks to have droppable as well
     if (relax.editing && !relax.disableSelection && type !== 'block') {
-      const customDrop = {
+      const {Element} = this.context;
+      const customDropProps = {
         className,
         style,
         key
       };
 
-      result = this.renderContent(customDrop, children);
+      result = Element.renderContent({
+        relax,
+        customDropProps,
+        children,
+        settings
+      });
     } else {
       result = (
         <div className={className} style={style} key={key}>
