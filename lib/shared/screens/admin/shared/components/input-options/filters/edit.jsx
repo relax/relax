@@ -2,8 +2,8 @@
 // TODO FIX component
 
 import cx from 'classnames';
-import find from 'lodash.find';
-import forEach from 'lodash.foreach';
+import find from 'lodash/find';
+import forEach from 'lodash/forEach';
 import getFilterDefaultOptions from 'helpers/schema-filter-default-options';
 import Combobox from 'components/input-options/combobox';
 import Component from 'components/component';

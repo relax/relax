@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import forEach from 'lodash.foreach';
+import forEach from 'lodash/forEach';
 import velocity from 'relax-velocity-animate';
 import Component from 'components/component';
 import PageBuilderMenu from 'components/page-builder-menu';

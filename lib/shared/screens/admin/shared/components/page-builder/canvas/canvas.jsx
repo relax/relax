@@ -5,7 +5,7 @@ import Scrollable from 'components/scrollable';
 import Styles from 'components/styles';
 import bind from 'decorators/bind';
 import displays from 'statics/displays';
-import get from 'lodash.get';
+import get from 'lodash/get';
 import isElementSelected from 'helpers/is-element-selected';
 import stylesManager from 'helpers/styles-manager';
 import traverseChildren from 'helpers/traverser/children';

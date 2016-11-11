@@ -1,4 +1,4 @@
-import forEach from 'lodash.foreach';
+import forEach from 'lodash/forEach';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 

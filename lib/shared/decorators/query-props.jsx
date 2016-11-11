@@ -1,4 +1,4 @@
-import forEach from 'lodash.foreach';
+import forEach from 'lodash/forEach';
 import hoistStatics from 'hoist-non-react-statics';
 import qs from 'query-string';
 import Component from 'components/component';

@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import forEach from 'lodash.foreach';
+import forEach from 'lodash/forEach';
 import Component from 'components/component';
 import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';

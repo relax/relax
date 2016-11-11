@@ -2,7 +2,7 @@ import Component from 'components/component';
 import Utils from 'helpers/utils';
 import defaultFonts from 'statics/default-fonts';
 import defaultFvds from 'statics/default-fvds';
-import forEach from 'lodash.foreach';
+import forEach from 'lodash/forEach';
 import React, {PropTypes} from 'react';
 
 import Dropdown from './dropdown';

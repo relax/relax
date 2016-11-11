@@ -4,7 +4,7 @@ import Component from 'components/component';
 import ContentTable from 'components/content-table';
 import Scrollable from 'components/scrollable';
 import bind from 'decorators/bind';
-import forEach from 'lodash.foreach';
+import forEach from 'lodash/forEach';
 import styles from './list.less';
 import typesPresentation from 'components/types-presentation';
 

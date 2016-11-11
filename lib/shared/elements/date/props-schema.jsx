@@ -1,4 +1,4 @@
-import forEach from 'lodash.foreach';
+import forEach from 'lodash/forEach';
 import moment from 'moment';
 
 const momentDate = moment();

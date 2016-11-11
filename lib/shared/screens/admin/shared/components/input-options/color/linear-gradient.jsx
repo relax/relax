@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import sortBy from 'lodash.sortby';
+import sortBy from 'lodash/sortBy';
 import utils from 'helpers/utils';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
