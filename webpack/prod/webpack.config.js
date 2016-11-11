@@ -68,6 +68,11 @@ module.exports = [
       ]),
       new webpack.optimize.UglifyJsPlugin({
         mangle: true,
+        minimize: true,
+        sourceMap: false,
+        output: {
+          comments: false
+        },
         compress: {
           sequences: true,
           dead_code: true,
@@ -87,7 +92,7 @@ module.exports = [
       loaders: commonLoaders.concat(
         {
           test: /\.less$/,
-          loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!less', {
+          loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[hash:base64:5]!postcss!less', {
             publicPath: '../css/'
           })
         },
@@ -137,7 +142,7 @@ module.exports = [
       loaders: commonLoaders.concat(
         {
           test: /\.less$/,
-          loader: ExtractTextPlugin.extract('css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!less')
+          loader: ExtractTextPlugin.extract('css?modules&importLoaders=1&localIdentName=[hash:base64:5]!postcss!less')
         },
         {
           test: /\.css$/,
