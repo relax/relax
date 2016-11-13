@@ -8,5 +8,16 @@ module.exports = rc('relax', {
   },
   session: {
     secret: process.env.RELAX_SESSION_SECRET || 'Is very secret'
+  },
+  logger: {
+    transports: {
+      Console: {
+        level: 'debug',
+        handleExceptions: true,
+        json: false,
+        colorize: true
+      }
+    },
+    exitOnError: false
   }
 });
