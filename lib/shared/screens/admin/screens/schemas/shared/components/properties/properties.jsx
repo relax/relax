@@ -24,7 +24,7 @@ export default class SchemaProperties extends Component {
         {type === 'single' && singleFixedProperties.map(this.renderProperty, this)}
         {properties.map(this.renderProperty, this)}
         <button className={styles.addNew} onClick={addProperty}>
-          Add new property
+          <i className="nc-icon-outline ui-1_circle-add"></i> Add new property
         </button>
       </div>
     );
