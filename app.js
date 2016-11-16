@@ -6,7 +6,7 @@ import app from './lib/server';
 import config from './config';
 import logger from './lib/server/logger';
 import migrate from './lib/server/migrate';
-import {padStart} from 'lodash';
+import padStart from 'lodash/padStart';
 
 const outline = padStart('', 20, '-');
 logger.debug(`\n${outline}\nRelax Status\n${outline}`);
