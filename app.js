@@ -24,7 +24,6 @@ mongoose.connect(config.db.uri, config.db, (err) => {
   }
 });
 
-
 // Run migrations
 migrate()
   .then(() => {
