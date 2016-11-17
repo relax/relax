@@ -39,8 +39,6 @@ export default class Viewer extends Component {
       }, this.renderElement);
 
       this.updateStylesMap();
-    } else {
-      result = 'Loading';
     }
 
     return (
