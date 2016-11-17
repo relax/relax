@@ -35,7 +35,14 @@ export default class A extends Component {
     }
 
     return (
-      <Link to={url} query={query} {...tagProps} onClick={this.onClick}>
+      <Link
+        to={{
+          pathname: url,
+          query
+        }}
+        {...tagProps}
+        onClick={this.onClick}
+      >
         {this.props.children}
       </Link>
     );

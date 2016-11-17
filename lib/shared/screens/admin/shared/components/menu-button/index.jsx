@@ -51,8 +51,10 @@ export default class MenuButton extends Component {
       <div>
         <div className={cx(styles.buttonHolder, className)}>
           <Link
-            to={link}
-            query={query}
+            to={{
+              pathname: link,
+              query
+            }}
             className={cx(styles.button, active && styles.active, dark && styles.dark)}
             onClick={this.onClick}
           >

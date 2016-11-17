@@ -69,7 +69,11 @@ export default class Tab extends Component {
     };
 
     return (
-      <Link to={to} query={{build: 1}} className={cx(styles.tab, active && styles.active)} style={style}>
+      <Link
+        to={{pathname: to, query: {build: 1}}}
+        className={cx(styles.tab, active && styles.active)}
+        style={style}
+      >
         <span>{item.title}</span>
         <span className={styles.close} onClick={this.onCloseTab}>
           <i className='nc-icon-mini ui-1_simple-remove'></i>

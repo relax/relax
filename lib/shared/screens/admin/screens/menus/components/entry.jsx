@@ -27,7 +27,7 @@ export default class MenuEntry extends Component {
     const editLink = `/admin/menus/${menu._id}`;
 
     return (
-      <Link to={editLink} query={query} className={cx(styles.root, active && styles.active)}>
+      <Link to={{pathname: editLink, query}} className={cx(styles.root, active && styles.active)}>
         <div className={styles.title}>{menu.title}</div>
         <div className={styles.date}>{date}</div>
       </Link>

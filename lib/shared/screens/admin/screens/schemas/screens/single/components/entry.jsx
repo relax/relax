@@ -35,14 +35,14 @@ export default class SchemaEntry extends Component {
 
     return (
       <div className={cx(styles.holder, active && styles.holderActive)}>
-        <Link to={editLink} query={buildQuery} className={cx(styles.root, active && styles.active)}>
+        <Link to={{pathname: editLink, query: buildQuery}} className={cx(styles.root, active && styles.active)}>
           <div className={cx(styles.status, schemaEntry.state === 'published' && styles.published)} />
           <div className={styles.info}>
             <div className={styles.title}>{schemaEntry.title}</div>
             <div className={styles.date}>{date}</div>
           </div>
         </Link>
-        <Link to={editLink} query={formQuery} className={styles.formButton}>
+        <Link to={{pathname: editLink, query: formQuery}} className={styles.formButton}>
           <Tooltip label='Form View' dark>
             <i className='nc-icon-outline ui-2_menu-square' />
           </Tooltip>

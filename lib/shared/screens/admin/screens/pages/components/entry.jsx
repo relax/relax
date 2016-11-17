@@ -28,7 +28,7 @@ export default class PagesEntry extends Component {
     const editLink = `/admin/pages/${page._id}`;
 
     return (
-      <Link to={editLink} query={query} className={cx(styles.root, active && styles.active)}>
+      <Link to={{pathname: editLink, query}} className={cx(styles.root, active && styles.active)}>
         <div className={cx(styles.status, page.state === 'published' && styles.published)}></div>
         <div className={styles.info}>
           <div className={styles.title}>{page.title}</div>

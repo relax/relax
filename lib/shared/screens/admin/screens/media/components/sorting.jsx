@@ -36,7 +36,13 @@ export default class Sorting extends Component {
     });
 
     return (
-      <Link to={location.pathname} query={query} className={cx(styles.button, active && styles.active)}>
+      <Link
+        to={{
+          pathname: location.pathname,
+          query
+        }}
+        className={cx(styles.button, active && styles.active)}
+      >
         <span>{label}</span>
         {
           active &&

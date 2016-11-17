@@ -126,8 +126,10 @@ export default class ListSearchSort extends Component {
     });
     return (
       <Link
-        to={location.pathname}
-        query={query}
+        to={{
+          pathname: location.pathname,
+          query
+        }}
         className={cx(styles.sortOption, active && styles.active)}
         key={key}
         onClick={this.toggleSorts}
