@@ -1,4 +1,5 @@
 @import '~styles/colors.less';
+@import '~styles/sizes.less';
 
 @height: 30px;
 
@@ -37,7 +38,14 @@
 }
 
 .state {
-  margin-top: 20px;
+  position: fixed;
+  bottom: 0;
+  left: @menuWidth;
+  right: 0;
+  height: 80px;
+  padding: 23px;
+  background-color: #ffffff;
+  border-top: 1px solid @adminBorders;
 }
 
 .success {

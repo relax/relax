@@ -1,12 +1,10 @@
-import React, {PropTypes} from 'react';
-
-import Animate from 'components/animate';
 import Button from 'components/button';
 import Component from 'components/component';
 import ContentLoading from 'components/content-loading';
 import OptionsList from 'components/options-list';
-import Spinner from 'components/spinner';
-import cx from 'classnames';
+import Statuses from 'components/statuses';
+import React, {PropTypes} from 'react';
+
 import styles from './form.less';
 
 export default class DataSchemaForm extends Component {
@@ -23,7 +21,11 @@ export default class DataSchemaForm extends Component {
     removeEntry: PropTypes.func.isRequired,
     removeConfirm: PropTypes.bool,
     isNew: PropTypes.bool,
-    removing: PropTypes.bool
+    removing: PropTypes.bool,
+    draftHasChanges: PropTypes.bool,
+    state: PropTypes.string,
+    stateMessage: PropTypes.string,
+    onDrop: PropTypes.func.isRequired
   };
 
   render () {
@@ -56,49 +58,39 @@ export default class DataSchemaForm extends Component {
           onChange={onChange}
           white
         />
-        <div className={styles.state}>
-          {this.renderState()}
-        </div>
+        {this.renderState()}
       </div>
     );
   }
 
   renderState () {
-    const {saving, saved, onSubmit, isNew} = this.props;
-    let result;
+    const {
+      saving,
+      onSubmit,
+      isNew,
+      draftHasChanges,
+      state,
+      stateMessage,
+      onDrop
+    } = this.props;
 
-    if (saving) {
-      result = (
-        <Animate key='saving'>
-          <div>
-            <Spinner />
-            <span className={styles.savingLabel}>
-              Saving
-            </span>
-          </div>
-        </Animate>
-      );
-    } else if (saved) {
-      result = (
-        <Animate key='saved'>
-          <div>
-            <i className={cx(styles.success, 'nc-icon-mini ui-1_check')} />
-            <span className={cx(styles.success, styles.successLabel)}>
-              Saved successfuly
-            </span>
-          </div>
-        </Animate>
-      );
-    } else {
-      result = (
-        <Animate key='button'>
-          <Button smallFont bordered noBackground onClick={onSubmit}>
-            {isNew ? 'Create entry' : 'Save changes'}
-          </Button>
-        </Animate>
-      );
-    }
-
-    return result;
+    return (
+      <div className={styles.state}>
+        <Button smallFont bordered noBackground disabled={saving} onClick={onSubmit}>
+          {isNew ? 'Create entry' : 'Save changes'}
+        </Button>
+        {
+          !isNew &&
+          <Statuses
+            draftHasChanges={draftHasChanges}
+            state={state}
+            stateMessage={stateMessage}
+            drop={onDrop}
+            white
+            big
+          />
+        }
+      </div>
+    );
   }
 }

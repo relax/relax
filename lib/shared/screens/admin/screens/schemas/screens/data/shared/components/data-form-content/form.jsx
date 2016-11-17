@@ -1,19 +1,18 @@
-import React, {PropTypes} from 'react';
-
 import Component from 'components/component';
 import Content from 'components/content';
 import ContentHeader from 'components/content-header';
 import ContentHeaderActions from 'components/content-header-actions';
 import ContentNew from 'components/content-new';
-import {Link} from 'react-router';
-import ModalDelete from 'components/modal-delete';
-import styles from './form.less';
 import DataForm from 'components/data-form';
+import ModalDelete from 'components/modal-delete';
+import React, {PropTypes} from 'react';
+import {Link} from 'react-router';
+
+import styles from './form.less';
 
 export default class DataSchemaForm extends Component {
   static propTypes = {
     schemaId: PropTypes.string.isRequired,
-    schemaEntry: PropTypes.object,
     toggleRemoveConfirm: PropTypes.func.isRequired,
     removeEntry: PropTypes.func.isRequired,
     removeConfirm: PropTypes.bool,
@@ -22,7 +21,7 @@ export default class DataSchemaForm extends Component {
   };
 
   render () {
-    const {schemaEntry, isNew, schemaId} = this.props;
+    const {isNew, schemaId} = this.props;
 
     return (
       <div>
@@ -37,7 +36,7 @@ export default class DataSchemaForm extends Component {
           {this.renderActions()}
         </ContentHeader>
         <Content>
-          <DataForm schemaEntry={schemaEntry} isNew={isNew} />
+          <DataForm isNew={isNew} />
         </Content>
       </div>
     );
