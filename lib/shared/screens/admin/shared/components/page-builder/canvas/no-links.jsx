@@ -17,7 +17,13 @@ export default class NoLinks extends Component {
         <div className={styles.content}>
           <div className={styles.title}>Hold your horses!</div>
           <div className={styles.text}>Template you're using has no links for this content type yet!</div>
-          <Link to={`/admin/templates/${templateId}`} query={{build: 1}} className={styles.link}>
+          <Link
+            to={{
+              pathname: `/admin/templates/${templateId}`,
+              query: {build: 1}
+            }}
+            className={styles.link}
+          >
             <i className='nc-icon-outline ui-2_share-bold' />
             <span>Go link it</span>
           </Link>

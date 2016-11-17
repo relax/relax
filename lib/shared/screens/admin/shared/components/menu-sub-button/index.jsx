@@ -21,8 +21,10 @@ export default class MenuSubButton extends Component {
     const {link, label, active, query} = this.props;
     return (
       <Link
-        to={link}
-        query={query}
+        to={{
+          pathname: link,
+          query
+        }}
         className={cx(styles.button, active && styles.active)}
       >
         {label}
