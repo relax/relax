@@ -10,6 +10,34 @@
   line-height: @actionsHeight;
 }
 
+.big {
+  height: 31px;
+  line-height: 31px;
+
+  .text {
+    font-size: 12px;
+  }
+
+  .button {
+    font-size: 12px;
+  }
+  .state {
+    :global span {
+      font-size: 12px;
+    }
+  }
+}
+
+.white {
+  .button {
+    color: @adminText;
+
+    &:hover {
+      color: @adminTextHighlight;
+    }
+  }
+}
+
 .text {
   color: @primary;
   font-size: 9px;
