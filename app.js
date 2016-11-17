@@ -19,7 +19,7 @@ mongoose.Promise = global.Promise; // Use native promises
 mongoose.connect(config.db.uri, config.db, (err) => {
   if (err) {
     logger.debug('DB: Not Connected');
-  }else{
+  } else {
     logger.debug('DB: Connected');
   }
 });
