@@ -19,7 +19,8 @@ export default class Button extends Component {
     grey: PropTypes.bool,
     small: PropTypes.bool,
     thin: PropTypes.bool,
-    smallFont: PropTypes.bool
+    smallFont: PropTypes.bool,
+    disabled: PropTypes.bool
   };
 
   static defaultProps = {
@@ -28,7 +29,8 @@ export default class Button extends Component {
     big: false,
     noBackground: false,
     bordered: false,
-    smallFont: false
+    smallFont: false,
+    disabled: false
   };
 
   render () {
