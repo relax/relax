@@ -1,11 +1,11 @@
 import Component from 'components/component';
+import Statuses from 'components/statuses';
 import React, {PropTypes} from 'react';
 
-import styles from './actions.less';
 import Back from './back';
 import Displays from './displays';
 import RightMenu from './right-menu';
-import Statuses from './statuses';
+import styles from './actions.less';
 
 export default class Actions extends Component {
   static propTypes = {

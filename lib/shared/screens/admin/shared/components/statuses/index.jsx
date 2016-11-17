@@ -4,7 +4,7 @@ import Spinner from 'components/spinner';
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
-import styles from './statuses.less';
+import styles from './index.less';
 
 export default class Statuses extends Component {
   static propTypes = {
@@ -12,11 +12,13 @@ export default class Statuses extends Component {
     stateMessage: PropTypes.string,
     behindVersion: PropTypes.bool,
     draftHasChanges: PropTypes.bool.isRequired,
-    drop: PropTypes.func.isRequired
+    drop: PropTypes.func.isRequired,
+    white: PropTypes.bool,
+    big: PropTypes.bool
   };
 
   render () {
-    const {state, behindVersion, draftHasChanges} = this.props;
+    const {state, behindVersion, draftHasChanges, white, big} = this.props;
     let result;
 
     if (state) {
@@ -29,7 +31,11 @@ export default class Statuses extends Component {
       result = this.renderPublished();
     }
 
-    return result;
+    return (
+      <div className={cx(styles.root, white && styles.white, big && styles.big)}>
+        {result}
+      </div>
+    );
   }
 
   renderState () {
@@ -71,7 +77,7 @@ export default class Statuses extends Component {
   renderBehind () {
     return (
       <Animate transition='slideDownIn' key='behind'>
-        <div className={styles.root}>
+        <div>
           <span className={styles.text}>Your draft is behind current revision - </span>
           <button className={styles.button}> Fetch current</button>
         </div>
@@ -83,7 +89,7 @@ export default class Statuses extends Component {
     const {drop} = this.props;
     return (
       <Animate transition='slideDownIn' key='editing'>
-        <div className={styles.root}>
+        <div>
           <span className={styles.text}>Editing your draft - </span>
           <button className={styles.button} onClick={drop}> Drop changes</button>
         </div>
@@ -94,8 +100,8 @@ export default class Statuses extends Component {
   renderPublished () {
     return (
       <Animate transition='slideDownIn' key='published'>
-        <div className={styles.root}>
-          <span className={styles.text}>Seeing published version</span>
+        <div>
+          <span className={styles.text}>Seeing saved version</span>
         </div>
       </Animate>
     );
