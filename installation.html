@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charSet='utf-8' />
-  <title>Relax Documentation - What is Relax</title>
+  <title>Relax Documentation - Installing</title>
   <link rel='icon' type='image/png' href='/relax/images/logo.png' />
   <link href='/relax/css/bootstrap.min.css' rel='stylesheet'>
   <link href='/relax/css/docs.css' rel='stylesheet'>
@@ -46,7 +46,7 @@
               <ul class='nav'>
                 
                   <li>
-                    <a href='/relax/index.html' class='active'>What is Relax</a>
+                    <a href='/relax/index.html'>What is Relax</a>
                   </li>
                 
                   <li>
@@ -61,7 +61,7 @@
               <ul class='nav'>
                 
                   <li>
-                    <a href='/relax/installation.html'>Installing</a>
+                    <a href='/relax/installation.html' class='active'>Installing</a>
                   </li>
                 
                   <li>
@@ -98,14 +98,20 @@
       </div>
       <div class='page-content'>
         <div class='page-info'>
-          <h1>What is Relax</h1>
-          <a href="https://github.com/relax/relax/blob/master/docs/source/index.md">
+          <h1>Installing</h1>
+          <a href="https://github.com/relax/relax/blob/master/docs/source/installation.md">
             Edit this page
           </a>
         </div>
-        <p>Welcome to Relax Documentation! Relax is a visual CMS, in longer terms, a content management system that let’s you manage all your content in a visual way without any need to code. And it is also open source, how awesome is that!</p>
-<p>Our main goal with Relax is simple, to provide everyone a way to create any type of website without having to know how to code. Relax does all the heavy lifting while you sit, relax and make your website. Here’s a sneak peak:</p>
-<p>[Introduction video TODO]</p>
+        <h2 id="Dependencies"><a href="#Dependencies" class="headerlink" title="Dependencies"></a>Dependencies</h2><p>Relax uses <a href="https://github.com/lovell/sharp" target="_blank" rel="external">sharp</a> to resize images. If you’re using OS X and have libvips installed globally, e.g. via brew, it may cause problems with sharp’s compilation. You may need to uninstall via <code>brew remove libvips</code>. See <a href="https://github.com/lovell/sharp/issues/602" target="_blank" rel="external">https://github.com/lovell/sharp/issues/602</a> for more information.</p>
+<p>You’ll also need <a href="https://yarnpkg.com" target="_blank" rel="external"><code>yarn</code></a> and <a href="https://www.mongodb.org/" target="_blank" rel="external">MongoDB</a>.</p>
+<h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><p>Installation is pretty straightforward if you have all the needed dependencies. Start by cloning the Relax repo:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> git@github.com:relax/relax.git</div><div class="line"><span class="built_in">cd</span> relax</div></pre></td></tr></table></figure>
+<p>Then you just need to install the dependencies, build the project and run the application:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">yarn</div><div class="line">yarn build</div><div class="line">yarn start</div></pre></td></tr></table></figure>
+<p>That’s it! After these commands finish Relax will tell you it’s running.</p>
+<h2 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h2><p>To configure the application you can use a <code>.relaxrc</code> file. You can place it next to the application, on any parent folder, in your <code>HOME</code> folder, etc.</p>
+<p>You can find a sample with the default values <a href=".relaxrc.sample">here</a>.</p>
 
       </div>
     </div>

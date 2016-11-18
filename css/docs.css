@@ -3,13 +3,13 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 60px;
-  background-color: #f7621c; }
+  height: 50px;
+  background-color: #42352d; }
 
 .logo {
   display: inline-block;
   vertical-align: top;
-  padding: 3px 0; }
+  padding: 6px 0; }
 
 .links-nav {
   padding: 0px 25px;
@@ -20,7 +20,7 @@
     color: #ffffff;
     font-size: 14px;
     font-weight: 400;
-    line-height: 60px;
+    line-height: 50px;
     text-decoration: none;
     opacity: 0.7;
     margin-left: 20px; }
@@ -29,7 +29,7 @@
       opacity: 1; }
 
 .page {
-  padding-top: 90px; }
+  padding-top: 80px; }
 
 .menu-nav {
   padding: 20px 10px; }
@@ -48,14 +48,15 @@
     .menu-nav a:hover {
       color: #333333; }
     .menu-nav a.active {
-      color: #f7621c; }
+      color: #e66f1a; }
   .menu-nav .nav .nav {
     padding-top: 10px;
     padding-bottom: 20px; }
 
 .sidebar {
   display: table-cell;
-  vertical-align: top; }
+  vertical-align: top;
+  width: 180px; }
 
 .page-content {
   display: table-cell;
@@ -63,15 +64,18 @@
   padding-left: 60px;
   padding-bottom: 80px; }
 
+.page-info {
+  margin-bottom: 30px; }
+
 img {
   max-width: 100%; }
 
 h1 {
-  margin-bottom: 30px;
   line-height: 50px;
   font-size: 34px;
   font-weight: 800;
-  color: #f7621c; }
+  color: #333333;
+  margin-bottom: 0; }
 
 h2 {
   font-size: 25px;
@@ -86,9 +90,43 @@ p, ul li {
   line-height: 23px; }
 
 a {
-  color: #f7621c; }
+  color: #e66f1a;
+  font-weight: 300; }
   a:hover {
-    color: #d84a08; }
+    color: #b95914; }
+
+hr {
+  height: 0.25em;
+  padding: 0;
+  margin: 24px 0;
+  background-color: #e7e7e7;
+  border: 0; }
+
+.page-content > table {
+  width: 100%;
+  border: 1px solid #efefef;
+  margin-bottom: 16px;
+  border-radius: 3px;
+  border-collapse: separate; }
+  .page-content > table td {
+    font-size: 14px;
+    padding: 7px 15px; }
+  .page-content > table th {
+    border-bottom: 1px solid #efefef;
+    padding: 10px 15px; }
+  .page-content > table tr:nth-child(even) {
+    background-color: #fbfbfb; }
+
+blockquote {
+  padding: 0 1em;
+  color: #777;
+  border-left: 0.25em solid #ddd; }
+
+blockquote > :first-child {
+  margin-top: 0; }
+
+blockquote > :last-child {
+  margin-bottom: 0; }
 
 code {
   color: #4D4D4C; }
@@ -214,6 +252,6 @@ body {
   font-family: 'Open Sans'; }
 
 .wrapper {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 20px; }

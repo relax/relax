@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charSet='utf-8' />
+  <title>Relax Documentation - Input Options</title>
+  <link rel='icon' type='image/png' href='/relax/images/logo.png' />
+  <link href='/relax/css/bootstrap.min.css' rel='stylesheet'>
+  <link href='/relax/css/docs.css' rel='stylesheet'>
+  <link href='/relax/css/font-awesome.min.css' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <div class='menu'>
+    <div class='wrapper'>
+      <a href='/' class='logo'>
+        <img src='/relax/images/logo-white.png' />
+      </a>
+      <nav class='links-nav'>
+        
+          <a href='http://slack-relax.herokuapp.com/'>
+            Chat
+          </a>
+        
+          <a href='https://github.com/relax/relax'>
+            Blog
+          </a>
+        
+          <a href='https://twitter.com/relaxjs'>
+            Twitter
+          </a>
+        
+          <a href='https://github.com/relax/relax'>
+            GitHub
+          </a>
+        
+      </nav>
+    </div>
+  </div>
+  <div class='page'>
+    <div class='wrapper'>
+      <div class='sidebar'>
+        <nav class='menu-nav'>
+          
+            <ul class='nav'>
+              <span>Introduction</span>
+              <ul class='nav'>
+                
+                  <li>
+                    <a href='/relax/index.html'>What is Relax</a>
+                  </li>
+                
+                  <li>
+                    <a href='/relax/change-log.html'>Change Log</a>
+                  </li>
+                
+              </ul>
+            </ul>
+          
+            <ul class='nav'>
+              <span>Installation</span>
+              <ul class='nav'>
+                
+                  <li>
+                    <a href='/relax/installation.html'>Installing</a>
+                  </li>
+                
+                  <li>
+                    <a href='/relax/docker.html'>Docker</a>
+                  </li>
+                
+              </ul>
+            </ul>
+          
+            <ul class='nav'>
+              <span>Development</span>
+              <ul class='nav'>
+                
+                  <li>
+                    <a href='/relax/getting-started.html'>Getting Started</a>
+                  </li>
+                
+                  <li>
+                    <a href='/relax/structure.html'>Structure</a>
+                  </li>
+                
+                  <li>
+                    <a href='/relax/input-options.html' class='active'>Input Options</a>
+                  </li>
+                
+                  <li>
+                    <a href='/relax/elements.html'>Page Builder Elements</a>
+                  </li>
+                
+              </ul>
+            </ul>
+          
+        </nav>
+      </div>
+      <div class='page-content'>
+        <div class='page-info'>
+          <h1>Input Options</h1>
+          <a href="https://github.com/relax/relax/blob/master/docs/source/input-options.md">
+            Edit this page
+          </a>
+        </div>
+        <p>When creating an element you’re given the ability to create an options list in some places, these options follow a set of rules and are then rendered into actual ui which handle user input. An option is made with the following structure:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">label</span>: <span class="string">'Label'</span></div><div class="line">  type: <span class="string">'OPTION_TYPE'</span>,</div><div class="line">  <span class="attr">id</span>: <span class="string">'OPTION_ID'</span>,</div><div class="line">  <span class="attr">props</span>: &#123;...optional&#125;,</div><div class="line">  <span class="attr">unlocks</span>: ...optional</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Explaining each one with more detail:</p>
+<ul>
+<li><strong>label</strong> (String optional) - the option label, can be anything you want.</li>
+<li><strong>type</strong> (String required) - the option type, you have a list of valid option types which we’ll list next.</li>
+<li><strong>id</strong> (String required) - the option id, this is used to save the option and for you to access it.</li>
+<li><strong>props</strong> (Object optional) - some option types allow some extra props to define some of its aspects.</li>
+<li><strong>unlocks</strong> (Object||Array optional) - some option types allow you to define further options which are unlocked when the option is of a certain value.</li>
+</ul>
+<h2 id="Available-Option-Types"><a href="#Available-Option-Types" class="headerlink" title="Available Option Types"></a>Available Option Types</h2><p>As said above you have a strict list of option types and some accept extra props, so here’s a detailed list of every option type you can use:</p>
+<table>
+<thead>
+<tr>
+<th>Option type</th>
+<th>Description</th>
+<th>Native Output       </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Background</td>
+<td>Background layers</td>
+<td>Object       </td>
+</tr>
+<tr>
+<td>Border</td>
+<td>Border picker</td>
+<td>Object       </td>
+</tr>
+<tr>
+<td>LineStyle</td>
+<td>Border or line style</td>
+<td>String</td>
+</tr>
+<tr>
+<td>BoxShadow</td>
+<td>Box shadow layers picker</td>
+<td>Array       </td>
+</tr>
+<tr>
+<td>Buttons</td>
+<td>Set of options (represented with buttons)</td>
+<td>String</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td>Checkbox</td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td>Color</td>
+<td>Color input</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>Select</td>
+<td>Combobox</td>
+<td>String</td>
+</tr>
+<tr>
+<td>Corners</td>
+<td>Round corners</td>
+<td>String</td>
+</tr>
+<tr>
+<td>Custom</td>
+<td>Free css options</td>
+<td>Array</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>Date picker</td>
+<td>Date</td>
+</tr>
+<tr>
+<td>Display</td>
+<td>Visible or non visible option</td>
+<td>String</td>
+</tr>
+<tr>
+<td>Font</td>
+<td>Font picker</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>Icon</td>
+<td>Icon picker</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>Image</td>
+<td>Image picker</td>
+<td>String</td>
+</tr>
+<tr>
+<td>String</td>
+<td>Text Input</td>
+<td>String</td>
+</tr>
+<tr>
+<td>Link</td>
+<td>Link builder</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>Margin</td>
+<td>Margin picker</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>MarginPadding</td>
+<td>Margin and padding picker</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>Number</td>
+<td>Number input</td>
+<td>String</td>
+</tr>
+<tr>
+<td>Optional</td>
+<td>Optional checkbox</td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td>Padding</td>
+<td>Padding picker</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>Percentage</td>
+<td>Percentage number input</td>
+<td>String</td>
+</tr>
+<tr>
+<td>Pixels</td>
+<td>Pixel number input</td>
+<td>String</td>
+</tr>
+<tr>
+<td>Position</td>
+<td>Position picker</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>Html</td>
+<td>Rich text editor</td>
+<td>String</td>
+</tr>
+<tr>
+<td>Section</td>
+<td>Section options</td>
+<td>none</td>
+</tr>
+<tr>
+<td>ShadowPosition</td>
+<td>Shadow position options</td>
+<td>String</td>
+</tr>
+<tr>
+<td>SpacingPicker</td>
+<td>Distances picker</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>TextShadow</td>
+<td>Text shadow layers picker</td>
+<td>Array</td>
+</tr>
+<tr>
+<td>TitablePicker</td>
+<td>Entry picker for any DB model with title</td>
+<td>String</td>
+</tr>
+<tr>
+<td>User</td>
+<td>User picker</td>
+<td>String</td>
+</tr>
+</tbody>
+</table>
+
+      </div>
+    </div>
+  </div>
+</body>
+</html>
