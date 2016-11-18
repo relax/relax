@@ -1,6 +1,6 @@
 ---
 layout: default
-id: installation
+id: installation/installation
 title: Installing
 ---
 

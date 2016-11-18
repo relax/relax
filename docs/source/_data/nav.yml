@@ -6,17 +6,15 @@
     title: Change Log
 - title: Installation
   items:
-  - id: installation
+  - id: installation/installation
     title: Installing
-  - id: docker
+  - id: installation/docker
     title: Docker
 - title: Development
   items:
-  - id: getting-started
+  - id: development/getting-started
     title: Getting Started
-  - id: structure
-    title: Structure
-  - id: input-options
+  - id: development/input-options
     title: Input Options
-  - id: elements
+  - id: development/elements
     title: Page Builder Elements
