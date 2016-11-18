@@ -1,11 +1,8 @@
-$highlightColor: #333333;
-$subColor: #444444;
-
 h1 {
   line-height: 50px;
   font-size: 34px;
   font-weight: 800;
-  color: $primary;
+  color: $highlightColor;
   margin-bottom: 0;
 }
 
@@ -25,6 +22,7 @@ p, ul li {
 
 a {
   color: $primary;
+  font-weight: 300;
 
   &:hover {
     color: darken($primary, 10%);
