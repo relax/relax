@@ -1,3 +1,5 @@
+
+
 h1 {
   line-height: 50px;
   font-size: 34px;
@@ -27,4 +29,54 @@ a {
   &:hover {
     color: darken($primary, 10%);
   }
+}
+
+
+// Line
+hr {
+  height: 0.25em;
+  padding: 0;
+  margin: 24px 0;
+  background-color: #e7e7e7;
+  border: 0;
+}
+
+// Tables
+.page-content {
+  > table {
+    width: 100%;
+    border: 1px solid $bordersColor;
+    margin-bottom: 16px;
+    border-radius: 3px;
+    border-collapse: separate;
+
+    td {
+      font-size: 14px;
+      padding: 7px 15px;
+    }
+
+    th {
+      border-bottom: 1px solid $bordersColor;
+      padding: 10px 15px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #fbfbfb;
+    }
+  }
+}
+
+// Blockquotes
+blockquote {
+  padding: 0 1em;
+  color: #777;
+  border-left: 0.25em solid #ddd;
+}
+
+blockquote>:first-child {
+  margin-top: 0;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0;
 }
