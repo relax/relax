@@ -16,5 +16,7 @@
     title: Getting Started
   - id: structure
     title: Structure
+  - id: input-options
+    title: Input Options
   - id: elements
-    title: Page builder elements
+    title: Page Builder Elements
