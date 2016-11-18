@@ -1,0 +1,15 @@
+version: '2'
+services:
+  nginx:
+    build: ./nginx
+    volumes:
+      - public:/public
+  relax:
+    build: ../
+    volumes:
+      - public:/app/public
+  mongo:
+    image: mongo
+
+volumes:
+  public:
