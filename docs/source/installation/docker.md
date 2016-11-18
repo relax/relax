@@ -1,6 +1,6 @@
 ---
 layout: default
-id: docker
+id: installation/docker
 title: Docker
 ---
 

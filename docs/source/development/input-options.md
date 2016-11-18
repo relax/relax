@@ -1,6 +1,6 @@
 ---
 layout: default
-id: input-options
+id: development/input-options
 title: Input Options
 ---
 
