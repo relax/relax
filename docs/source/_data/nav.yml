@@ -1,11 +1,15 @@
+- title: Introduction
+  items:
+  - id: index
+    title: What is Relax
+  - id: change-log
+    title: Change Log
 - title: Installation
   items:
-  - id: prerequisites
-    title: Prerequisites
   - id: installation
-    title: Installing locally
-  - id: deployment
-    title: Deploying
+    title: Installing
+  - id: docker
+    title: Docker
 - title: Development
   items:
   - id: getting-started
