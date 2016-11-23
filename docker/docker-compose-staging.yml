@@ -10,6 +10,7 @@ services:
     environment:
       relax_demo: 'true'
     labels:
+      io.rancher.scheduler.global: 'true'
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label: relax=true
     volumes:
@@ -23,6 +24,7 @@ services:
     links:
       - relax
     labels:
+      io.rancher.scheduler.global: 'true'
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label: relax=true
   mongo:
@@ -30,6 +32,7 @@ services:
       file: ./docker-compose-common.yml
       service: mongo
     labels:
+      io.rancher.scheduler.global: 'true'
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label: relax=true
     volumes:
