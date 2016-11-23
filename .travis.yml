@@ -20,4 +20,4 @@ after_success:
     docker push relax/relax;
     fi
   - cd docker;
-    rancher-compose -f docker-compose-staging.yml --url http://rancher.getrelax.io --access-key $RANCHER_ACCESS_KEY --secret-key $RANCHER_SECRET_KEY -p RelaxPrivate up -d --confirm-upgrade --pull --force-upgrade relax;
+    rancher-compose -f docker-compose-staging.yml --url http://rancher.getrelax.io --access-key $RANCHER_ACCESS_KEY --secret-key $RANCHER_SECRET_KEY -p RelaxPrivate up -d --confirm-upgrade --pull --force-upgrade;
