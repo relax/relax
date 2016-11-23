@@ -19,8 +19,5 @@ after_success:
     docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     docker push relax/relax;
     fi
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    cd docker;
-    rancher-compose -f docker-compose-staging.yml --url http://rancher.getrelax.io --access-key $RANCHER_ACCESS_KEY --secret-key $RANCHER_SECRET_KEY -p Relax up -d --confirm-upgrade --pull --force-upgrade relax;
+  - cd docker;
     rancher-compose -f docker-compose-staging.yml --url http://rancher.getrelax.io --access-key $RANCHER_ACCESS_KEY --secret-key $RANCHER_SECRET_KEY -p RelaxPrivate up -d --confirm-upgrade --pull --force-upgrade relax;
-    fi
