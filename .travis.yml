@@ -11,6 +11,7 @@ before_install:
   - sudo mv rancher-compose-v0.11.0-rc14/rancher-compose /usr/local/bin
   - rm -r rancher-compose-v0.11.0-rc14
   - docker build -t relax/relax .
+  - docker build -t relax/nginx docker/nginx
 script:
   - docker run relax/relax npm run eslint
   - docker run relax/relax npm test
@@ -18,6 +19,7 @@ after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     docker push relax/relax;
+    docker push relax/nginx;
     fi
   - cd docker;
     rancher-compose -f docker-compose-staging.yml --url http://rancher.getrelax.io --access-key $RANCHER_ACCESS_KEY --secret-key $RANCHER_SECRET_KEY -p RelaxPrivate up -d --confirm-upgrade --pull --force-upgrade;
