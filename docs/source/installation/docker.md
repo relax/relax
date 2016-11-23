@@ -21,13 +21,16 @@ Docker Compose
 --------------
 
 Relax ships with a `docker-compose` file ready to start everything needed by
-running a single command.
+running few commands.
+
+You can use this either as a starting point for your own `docker-compose.yml`
+file or just use the one we provide directly.
 
 
 ### Data Volumes
 
-The `docker-compose.yml` comes configured with two external volumes that must be
-defined by the user before we can start the stack, they are `relax-media` and
+Our `docker-compose.yml` comes configured with two external volumes that must be
+defined by the user before we can start the stack, which are `relax-media` and
 `relax-mongo`, they store file uploads and MongoDB data, respectively. To create
 them run:
 
