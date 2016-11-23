@@ -12,6 +12,7 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label: relax=true
     volumes:
+      - relax-public:/app/public
       - /docker/relax/media:/app/public/media
   nginx:
     extends:
