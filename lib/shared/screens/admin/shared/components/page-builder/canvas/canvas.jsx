@@ -61,6 +61,7 @@ export default class Canvas extends Component {
 
   @bind
   onCanvasClick () {
+    // XXX not being used because of fixed positioned elements
     const {pageBuilderActions} = this.props;
     pageBuilderActions.selectElement();
   }
@@ -102,7 +103,7 @@ export default class Canvas extends Component {
 
     return (
       <Scrollable className={classes.canvas} onScroll={this.onScroll}>
-        <div className={classes.content} style={bodyStyle} ref='body' id='pb-canvas' onClick={this.onCanvasClick}>
+        <div className={classes.content} style={bodyStyle} ref='body' id='pb-canvas'>
           {content}
         </div>
         {template && !templateHasLinks && <NoLinks templateId={template._id} />}

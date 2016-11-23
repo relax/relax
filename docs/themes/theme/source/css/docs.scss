@@ -1,9 +1,12 @@
 // Colors
 $bordersColor: #efefef;
-$primary: #f7621c;
+$primary: #e66f1a;
+$menuColor: #42352d;
+$highlightColor: #333333;
+$subColor: #444444;
 
 // Sizes
-$menuHeight: 60px;
+$menuHeight: 50px;
 
 @import './_menu';
 @import './_content';
@@ -15,7 +18,7 @@ body {
 }
 
 .wrapper {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 20px;
 }
