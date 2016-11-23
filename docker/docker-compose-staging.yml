@@ -22,6 +22,9 @@ services:
     image: relax/nginx
     links:
       - relax
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: relax=true
   mongo:
     extends:
       file: ./docker-compose-common.yml
