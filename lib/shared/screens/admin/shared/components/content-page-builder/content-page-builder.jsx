@@ -1,4 +1,4 @@
-import A from 'components/a';
+import {Link} from 'react-router';
 import Animate from 'components/animate';
 import Component from 'components/component';
 import ContentHeader from 'components/content-header';
@@ -140,12 +140,12 @@ export default class ContentPageBuilder extends Component {
             type={type}
             template={template}
           />
-          <A href={location.pathname} query={{build: 1}} className={styles.cover} ref='cover'>
+          <Link to={{pathname: location.pathname, query: {build: 1}}} className={styles.cover} ref='cover'>
             <div className={styles.coverContent}>
               <i className='nc-icon-outline design_design'></i>
               <div>Click to Build</div>
             </div>
-          </A>
+          </Link>
           <div className={styles.contentPage}>
             {this.renderSidebar()}
           </div>
