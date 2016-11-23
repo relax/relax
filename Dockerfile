@@ -1,4 +1,4 @@
-FROM node:5-wheezy
+FROM node:6-wheezy
 MAINTAINER José Magalhães <magalhas@gmail.com>
 
 ENV relax_db__uri="mongodb://mongo/relax"
