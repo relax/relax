@@ -4,6 +4,7 @@ services:
     extends:
       file: ./docker-compose-common.yml
       service: relax
+    image: relax/relax
     links:
       - mongo
     environment:
@@ -18,6 +19,7 @@ services:
     extends:
       file: ./docker-compose-common.yml
       service: nginx
+    image: relax/nginx
     links:
       - relax
   mongo:
