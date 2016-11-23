@@ -20,4 +20,10 @@ services:
       service: mongo
 
 volumes:
-  public:
+  relax-public:
+  relax-media:
+    external:
+      name: relax-media
+  relax-mongo:
+    external:
+      name: relax-mongo

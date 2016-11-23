@@ -3,13 +3,22 @@ services:
   nginx:
     build: ./nginx
     volumes:
-      - public:/public
+      - relax-public:/public
   relax:
     build: ../
     volumes:
-      - public:/app/public
+      - relax-public:/app/public
+      - relax-media:/app/public/media
   mongo:
     image: mongo
+    volumes:
+      - relax-mongo:/data/db
 
 volumes:
-  public:
+  relax-public:
+  relax-media:
+    external:
+      name: relax-media
+  relax-mongo:
+    external:
+      name: relax-mongo

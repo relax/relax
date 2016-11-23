@@ -30,4 +30,10 @@ services:
       - /docker/mongo/data:/data/db
 
 volumes:
-  public:
+  relax-public:
+  relax-media:
+    external:
+      name: relax-media
+  relax-mongo:
+    external:
+      name: relax-mongo
