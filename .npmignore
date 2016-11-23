@@ -1,5 +1,6 @@
 .relaxrc
 docker/
+docs/
 lib/
 uploads/
 build/
