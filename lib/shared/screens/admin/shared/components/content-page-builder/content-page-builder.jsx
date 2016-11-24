@@ -13,6 +13,7 @@ import cx from 'classnames';
 import velocity from 'relax-velocity-animate';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
+import Button from 'components/button';
 
 import Templates from './templates';
 import ToggleButton from './toggle-button';
@@ -146,6 +147,14 @@ export default class ContentPageBuilder extends Component {
               <div>Click to Build</div>
             </div>
           </Link>
+          <Animate transition='slideUpIn'>
+            <div className={styles.push}>
+              <div className={styles.pushText}>
+                There's unpublished changes in your draft
+              </div>
+              <Button primary big noBackground bordered>Push Changes Live</Button>
+            </div>
+          </Animate>
           <div className={styles.contentPage}>
             {this.renderSidebar()}
           </div>

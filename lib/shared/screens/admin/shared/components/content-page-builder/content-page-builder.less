@@ -25,6 +25,22 @@
   }
 }
 
+.push {
+  position: absolute;
+  bottom: 130px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 11;
+  text-align: center;
+}
+
+.pushText {
+  font-size: 14px;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
 .publishButton {
   width: auto;
   :global {
@@ -97,11 +113,12 @@
   display: block;
   position: absolute;
   left: 0; top: 0; right: 0; bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+    background-color: fade(@chromeBackgroundDarkerColor, 90%);
   z-index: 10;
   transition: background-color 0.4s ease-out;
+
   &:hover {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: fade(@chromeBackgroundColor, 88%);
   }
 }
 

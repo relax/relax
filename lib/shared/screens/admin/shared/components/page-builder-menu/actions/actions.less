@@ -1,0 +1,31 @@
+@import '~styles/colors.less';
+@import '~styles/sizes.less';
+
+.root {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: @saveActionsHeight;
+  border-top: 1px solid @chromeBordersColor;
+  padding: 5px 7px;
+}
+
+.table {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.part {
+  display: table-cell;
+  width: 50%;
+}
+
+.none {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: @chromeTextSubColor;
+  text-align: center;
+  line-height: 35px;
+}
