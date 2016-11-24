@@ -1,0 +1,29 @@
+version: '2'
+services:
+  relax:
+    extends:
+      file: ./docker-compose-common.yml
+      service: relax
+    links:
+      - mongo
+  nginx:
+    extends:
+      file: ./docker-compose-common.yml
+      service: nginx
+    ports:
+      - 8080:80
+    links:
+      - relax
+  mongo:
+    extends:
+      file: ./docker-compose-common.yml
+      service: mongo
+
+volumes:
+  relax-public:
+  relax-media:
+    external:
+      name: relax-media
+  relax-mongo:
+    external:
+      name: relax-mongo

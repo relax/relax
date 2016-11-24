@@ -1,14 +1,21 @@
-FROM node:5-wheezy
+FROM node:6-wheezy
 MAINTAINER José Magalhães <magalhas@gmail.com>
 
 ENV relax_db__uri="mongodb://mongo/relax"
 EXPOSE 8080
 
+# Install yarn
+RUN npm i -g yarn
+
 WORKDIR /app
 
+# Copy source
 ADD . ./
+
+# Expose media folder
 VOLUME /app/public/media
 
-RUN npm i && npm run build
+# Build
+RUN yarn && yarn build
 
-CMD npm start
+CMD yarn start
