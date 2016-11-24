@@ -21,5 +21,7 @@ after_success:
     docker push relax/relax;
     docker push relax/nginx;
     fi
-  - cd docker;
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    cd docker;
     rancher-compose -f docker-compose-staging.yml --url http://rancher.getrelax.io --access-key $RANCHER_ACCESS_KEY --secret-key $RANCHER_SECRET_KEY -p relax up -d --confirm-upgrade --pull --force-upgrade;
+    fi
