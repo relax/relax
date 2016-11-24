@@ -1,5 +1,5 @@
-import {Link} from 'react-router';
 import Animate from 'components/animate';
+import Button from 'components/button';
 import Component from 'components/component';
 import ContentHeader from 'components/content-header';
 import ContentHeaderActions from 'components/content-header-actions';
@@ -12,8 +12,8 @@ import PageBuilder from 'components/page-builder';
 import cx from 'classnames';
 import velocity from 'relax-velocity-animate';
 import React, {PropTypes} from 'react';
+import {Link} from 'react-router';
 import {findDOMNode} from 'react-dom';
-import Button from 'components/button';
 
 import Templates from './templates';
 import ToggleButton from './toggle-button';
@@ -40,7 +40,10 @@ export default class ContentPageBuilder extends Component {
     unpublish: PropTypes.func.isRequired,
     Revisions: PropTypes.func,
     type: PropTypes.string.isRequired,
-    template: PropTypes.object
+    template: PropTypes.object,
+    draftHasChanges: PropTypes.bool.isRequired,
+    openDropDraftConfirmation: PropTypes.func.isRequired,
+    openPushChangesConfirmation: PropTypes.func.isRequired
   };
 
   getInitState () {
@@ -147,14 +150,7 @@ export default class ContentPageBuilder extends Component {
               <div>Click to Build</div>
             </div>
           </Link>
-          <Animate transition='slideUpIn'>
-            <div className={styles.push}>
-              <div className={styles.pushText}>
-                There's unpublished changes in your draft
-              </div>
-              <Button primary big noBackground bordered>Push Changes Live</Button>
-            </div>
-          </Animate>
+          {this.renderSaveState()}
           <div className={styles.contentPage}>
             {this.renderSidebar()}
           </div>
@@ -163,6 +159,31 @@ export default class ContentPageBuilder extends Component {
     }
 
     return result;
+  }
+
+  renderSaveState () {
+    const {draftHasChanges, location} = this.props;
+    const isBuild = location.query.build;
+
+    if (draftHasChanges && !isBuild) {
+      const {openPushChangesConfirmation, openDropDraftConfirmation} = this.props;
+
+      return (
+        <Animate transition='fadeIn'>
+          <div className={styles.push}>
+            <div className={styles.pushText}>
+              There's unpublished changes in your draft
+            </div>
+            <Button primary big noBackground bordered onClick={openPushChangesConfirmation}>
+              Push Changes Live
+            </Button>
+            <Button big noBackground grey onClick={openDropDraftConfirmation}>
+              Drop Changes
+            </Button>
+          </div>
+        </Animate>
+      );
+    }
   }
 
   renderHeader () {
