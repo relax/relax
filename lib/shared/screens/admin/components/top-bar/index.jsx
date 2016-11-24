@@ -1,9 +1,9 @@
-import velocity from 'relax-velocity-animate';
 import Component from 'components/component';
+import velocity from 'relax-velocity-animate';
 import React, {PropTypes} from 'react';
 
-import styles from './index.less';
 import Actions from './actions';
+import styles from './index.less';
 
 export default class TopBar extends Component {
   static propTypes = {
@@ -20,7 +20,7 @@ export default class TopBar extends Component {
 
     if (nextProps.previewing !== this.props.previewing) {
       if (nextProps.previewing) {
-        velocity(this.refs.content, {translateY: '-45px'}, config);
+        velocity(this.refs.content, {translateY: '-35px'}, config);
         velocity(this.refs.preview, {translateX: '-110px'}, config);
       } else {
         velocity(this.refs.content, {translateY: '0'}, config);
