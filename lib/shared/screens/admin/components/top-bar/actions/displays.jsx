@@ -1,8 +1,7 @@
-import cx from 'classnames';
 import Component from 'components/component';
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
-import styles from './displays.less';
 import Display from './display';
 
 export default class Displays extends Component {
@@ -32,36 +31,23 @@ export default class Displays extends Component {
   ];
 
   render () {
-    const {display, disabled} = this.props;
-    const positions = {
-      desktop: 0,
-      tablet: -25,
-      mobile: -50
-    };
-    const centerMenuStyle = {
-      left: positions[display]
-    };
-
     return (
-      <div className={cx(styles.root, disabled && styles.disabled)}>
-        <div className={styles.wrapper}>
-          <div className={styles.slider} style={centerMenuStyle}>
-            {Displays.displaysArr.map(this.renderButton, this)}
-          </div>
-        </div>
+      <div>
+        {Displays.displaysArr.map(this.renderButton, this)}
       </div>
     );
   }
 
-  renderButton ({display, icon}) {
-    const {onChange} = this.props;
+  renderButton (button) {
+    const {display, onChange} = this.props;
+
     return (
       <Display
         onChange={onChange}
-        icon={icon}
-        display={display}
-        active={this.props.display === display}
-        key={display}
+        icon={button.icon}
+        display={button.display}
+        active={display === button.display}
+        key={button.display}
       />
     );
   }

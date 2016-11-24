@@ -4,38 +4,40 @@
 @numberDisplays: 3;
 
 .root {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0px;
-  height: @actionsHeight;
-  overflow: hidden;
+  position: fixed;
+  height: @topMenuHeight;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: @chromeBackgroundColor;
+  border-radius: 3px 3px 0 0;
+  border: 1px solid @chromeBordersColor;
 }
 
 .wrapper {
-  position: absolute;
-  left: 50%;
-  width: @actionsHeight;
-  height: @actionsHeight;
-  overflow: hidden;
-  transform: translateX(-(@actionsHeight / 2));
-  transition: all 0.2s ease-out;
-
-  &:hover {
-    width: @actionsHeight * @numberDisplays * 2;
-    @translate: @actionsHeight * @numberDisplays + @actionsHeight / 2;
-    transform: translateX(-@translate);
-    .slider {
-      transform: translateX(@actionsHeight * @numberDisplays);
-    }
-  }
+  // position: absolute;
+  // left: 50%;
+  // width: @topMenuHeight;
+  // height: @topMenuHeight;
+  // overflow: hidden;
+  // transform: translateX(-(@topMenuHeight / 2));
+  // transition: all 0.2s ease-out;
+  //
+  // &:hover {
+  //   width: @topMenuHeight * @numberDisplays * 2;
+  //   @translate: @topMenuHeight * @numberDisplays + @topMenuHeight / 2;
+  //   transform: translateX(-@translate);
+  //   .slider {
+  //     transform: translateX(@topMenuHeight * @numberDisplays);
+  //   }
+  // }
 }
 
 .slider {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: @actionsHeight * @numberDisplays;
-  transition: all 0.2s ease-out;
-  transform: translateX(0);
+  // position: absolute;
+  // top: 0;
+  // left: 0;
+  // width: @topMenuHeight * @numberDisplays;
+  // transition: all 0.2s ease-out;
+  // transform: translateX(0);
 }

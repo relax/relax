@@ -4,7 +4,6 @@ import React, {PropTypes} from 'react';
 
 import styles from './index.less';
 import Actions from './actions';
-import Tabs from './tabs';
 
 export default class TopBar extends Component {
   static propTypes = {
@@ -36,7 +35,6 @@ export default class TopBar extends Component {
       <div>
         <div className={styles.root} ref='content'>
           <Actions />
-          <Tabs />
         </div>
         <div className={styles.closePreview} ref='preview' onClick={toggleEditing}>
           Close preview
