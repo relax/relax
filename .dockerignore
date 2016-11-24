@@ -1,3 +1,4 @@
+.relaxrc
 build/
 docker/
 node_modules/

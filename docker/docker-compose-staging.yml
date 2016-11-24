@@ -1,0 +1,39 @@
+version: '2'
+services:
+  relax:
+    extends:
+      file: ./docker-compose-common.yml
+      service: relax
+    image: relax/relax
+    links:
+      - mongo
+    environment:
+      relax_demo: 'true'
+    labels:
+      io.rancher.scheduler.global: 'true'
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: relax=true
+  nginx:
+    extends:
+      file: ./docker-compose-common.yml
+      service: nginx
+    image: relax/nginx
+    links:
+      - relax
+    labels:
+      io.rancher.scheduler.global: 'true'
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: relax=true
+  mongo:
+    extends:
+      file: ./docker-compose-common.yml
+      service: mongo
+    labels:
+      io.rancher.scheduler.global: 'true'
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: relax=true
+
+volumes:
+  relax-public:
+  relax-media:
+  relax-mongo:
