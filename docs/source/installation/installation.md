@@ -33,4 +33,4 @@ That's it! After these commands finish Relax will tell you it's running.
 
 To configure the application you can use a `.relaxrc` file. You can place it next to the application, on any parent folder, in your `HOME` folder, etc.
 
-You can find a sample with the default values [here](.relaxrc.sample).
+You can find a sample with the default values [here](https://github.com/relax/relax/blob/master/.relaxrc.sample).
