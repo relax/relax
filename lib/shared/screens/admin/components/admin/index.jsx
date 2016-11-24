@@ -1,13 +1,13 @@
+import Component from 'components/component';
+import PageBuilderMenu from 'components/page-builder-menu';
 import cx from 'classnames';
 import forEach from 'lodash/forEach';
 import velocity from 'relax-velocity-animate';
-import Component from 'components/component';
-import PageBuilderMenu from 'components/page-builder-menu';
 import React, {PropTypes} from 'react';
 
-import styles from './index.less';
 import Menu from '../menu';
 import TopBar from '../top-bar';
+import styles from './index.less';
 
 export default class Admin extends Component {
   static propTypes = {
@@ -49,7 +49,7 @@ export default class Admin extends Component {
       if (nextProps.previewing) {
         velocity(this.refs.content, {top: '0px'}, config);
       } else {
-        velocity(this.refs.content, {top: '45px'}, config);
+        velocity(this.refs.content, {top: '35px'}, config);
       }
     }
   }
