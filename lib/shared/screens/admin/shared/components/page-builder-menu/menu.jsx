@@ -1,10 +1,11 @@
-import velocity from 'relax-velocity-animate';
 import Component from 'components/component';
+import velocity from 'relax-velocity-animate';
 import React, {PropTypes} from 'react';
 
-import styles from './menu.less';
+import Actions from './actions';
 import Breadcrumbs from './breadcrumbs';
 import Tabs from './tabs';
+import styles from './menu.less';
 
 export default class PageBuilderMenu extends Component {
   static propTypes = {
@@ -31,10 +32,13 @@ export default class PageBuilderMenu extends Component {
   render () {
     return (
       <div className={styles.root} ref='content'>
-        <div className={styles.content}>
-          <Tabs />
+        <div className={styles.contentWrapper}>
+          <div className={styles.content}>
+            <Tabs />
+          </div>
+          <Breadcrumbs className={styles.breadcrumbs} />
         </div>
-        <Breadcrumbs className={styles.breadcrumbs} />
+        <Actions />
       </div>
     );
   }
