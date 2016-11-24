@@ -1,15 +1,19 @@
 @import '~styles/sizes.less';
+@import '~styles/colors.less';
 
 .root {
   position: relative;
   display: inline-block;
   vertical-align: top;
-  height: @actionsHeight;
+  float: left;
+  height: @topMenuHeight;
+  border-right: 1px solid @chromeBordersColor;
+  padding-right: 10px;
 }
 
 .logo {
   width: 15px;
-  top: 4.5px;
+  top: 9px;
   margin-left: 6px;
   position: relative;
   display: inline-block;
@@ -19,6 +23,6 @@
   position: relative;
   margin-left: 4px;
   display: inline-block;
-  top: 4px;
+  top: 8px;
   height: 13px;
 }

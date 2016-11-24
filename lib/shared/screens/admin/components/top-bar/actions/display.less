@@ -4,9 +4,9 @@
 .button {
   :global {
     i {
-      width: @actionsHeight;
-      font-size: 13px;
-      line-height: @actionsHeight;
+      width: @topMenuHeight;
+      font-size: 14px;
+      line-height: @topMenuHeight;
       color: @chromeTextColor;
     }
   }
@@ -18,6 +18,10 @@
   }
 }
 
-.unfocus {
-
+.active {
+  :global {
+    i {
+      color: @primary;
+    }
+  }
 }

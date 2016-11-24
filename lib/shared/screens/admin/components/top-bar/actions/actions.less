@@ -2,6 +2,41 @@
 @import '~styles/colors.less';
 
 .root {
-  height: @actionsHeight;
+  height: @topMenuHeight;
   border-bottom: 1px solid @chromeBordersColor;
+}
+
+.actions {
+  float: right;
+
+  &.disabled {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+}
+
+.button {
+  display: inline-block;
+  vertical-align: top;
+  line-height: @topMenuHeight;
+  height: @topMenuHeight;
+  width: 35px;
+  text-align: center;
+
+  :global i {
+    font-size: 14px;
+    line-height: @topMenuHeight;
+    color: @chromeTextColor;
+  }
+
+  :hover :global i {
+    color: @chromeTextColorHighlight;
+  }
+}
+
+.section {
+  display: inline-block;
+  vertical-align: top;
+  padding: 0 10px;
+  border-left: 1px solid @chromeBordersColor;
 }

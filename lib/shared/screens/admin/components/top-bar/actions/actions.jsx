@@ -1,10 +1,12 @@
 import Component from 'components/component';
 import Statuses from 'components/statuses';
+import Tooltip from 'components/tooltip';
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
 import Back from './back';
 import Displays from './displays';
-import RightMenu from './right-menu';
+import Tabs from './tabs';
 import styles from './actions.less';
 
 export default class Actions extends Component {
@@ -22,13 +24,13 @@ export default class Actions extends Component {
   };
 
   render () {
-    const {location, building} = this.props;
+    const {location} = this.props;
+
     return (
       <div className={styles.root}>
-        {this.renderDisplay()}
         <Back link={location.pathname} />
-        {building && this.renderStatuses()}
-        {this.renderRightMenu()}
+        {this.renderActions()}
+        <Tabs />
       </div>
     );
   }
@@ -56,14 +58,33 @@ export default class Actions extends Component {
     );
   }
 
-  renderRightMenu () {
-    const {toggleEditing, building, save} = this.props;
+  renderActions () {
+    const {display, changeDisplay, toggleEditing, building} = this.props;
+
     return (
-      <RightMenu
-        toggleEditing={toggleEditing}
-        save={save}
-        building={building}
-      />
+      <div className={cx(styles.actions, !building && styles.disabled)}>
+        <div className={styles.section}>
+          <Displays
+            display={display}
+            onChange={changeDisplay}
+            disabled={!building}
+          />
+        </div>
+        <div className={styles.section}>
+          <Tooltip label='Preview'>
+            <button className={styles.button} onClick={toggleEditing}>
+              <i className='nc-icon-mini ui-1_eye-19' />
+            </button>
+          </Tooltip>
+        </div>
+        <div className={styles.section}>
+          <Tooltip label='Settings'>
+            <button className={styles.button}>
+              <i className='nc-icon-mini ui-1_settings-gear-64' />
+            </button>
+          </Tooltip>
+        </div>
+      </div>
     );
   }
 }
