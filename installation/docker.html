@@ -99,17 +99,30 @@
             Edit this page
           </a>
         </div>
-        <p>Before you start using Relax you must have Docker on your system. Please check<br>their <a href="https://docs.docker.com/" target="_blank" rel="external">documentation</a> if you need more information<br>about it.</p>
-<p>We continuously build our official Docker image into Docker’s registry. To use<br>our latest docker image you just have to have MongoDB running on a different<br>container and link it to Relax.</p>
-<p>To start MongoDB in the background you can run  <code>docker run -d --name mongo mongo</code>.<br>Afterwards run <code>docker run -p 8080:8080 --link mongo -it relax/relax</code> to start<br>Relax on <code>http://localhost:8080</code>.</p>
-<h2 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h2><p>Relax ships with a <code>docker-compose</code> file ready to start everything needed by<br>running few commands.</p>
-<p>You can use this either as a starting point for your own <code>docker-compose.yml</code><br>file or just use the one we provide directly.</p>
-<h3 id="Data-Volumes"><a href="#Data-Volumes" class="headerlink" title="Data Volumes"></a>Data Volumes</h3><p>Our <code>docker-compose.yml</code> comes configured with two external volumes that must be<br>defined by the user before we can start the stack, which are <code>relax-media</code> and<br><code>relax-mongo</code>, they store file uploads and MongoDB data, respectively. To create<br>them run:</p>
+        <p>Before you start using Relax you must have Docker on your system. Please check
+their <a href="https://docs.docker.com/" target="_blank" rel="external">documentation</a> if you need more information
+about it.</p>
+<p>We continuously build our official Docker image into Docker’s registry. To use
+our latest docker image you just have to have MongoDB running on a different
+container and link it to Relax.</p>
+<p>To start MongoDB in the background you can run  <code>docker run -d --name mongo mongo</code>.
+Afterwards run <code>docker run -p 8080:8080 --link mongo -it relax/relax</code> to start
+Relax on <code>http://localhost:8080</code>.</p>
+<h2 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h2><p>Relax ships with a <code>docker-compose</code> file ready to start everything needed by
+running few commands.</p>
+<p>You can use this either as a starting point for your own <code>docker-compose.yml</code>
+file or just use the one we provide directly.</p>
+<h3 id="Data-Volumes"><a href="#Data-Volumes" class="headerlink" title="Data Volumes"></a>Data Volumes</h3><p>Our <code>docker-compose.yml</code> comes configured with two external volumes that must be
+defined by the user before we can start the stack, which are <code>relax-media</code> and
+<code>relax-mongo</code>, they store file uploads and MongoDB data, respectively. To create
+them run:</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker volume create --name relax-media</div><div class="line">docker volume create --name relax-mongo</div></pre></td></tr></table></figure>
-<p>You can check where their located by running <code>docker volume inspect relax-media</code><br>or <code>docker volume inspect relax-mongo</code>.</p>
+<p>You can check where their located by running <code>docker volume inspect relax-media</code>
+or <code>docker volume inspect relax-mongo</code>.</p>
 <h3 id="Start-Relaxing"><a href="#Start-Relaxing" class="headerlink" title="Start Relaxing"></a>Start Relaxing</h3><p>To start relaxing, run the following commands from Relax’s root directory:</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> docker</div><div class="line">docker-compose up <span class="_">-d</span></div></pre></td></tr></table></figure>
-<p>You should be able to access the instance of Relax through<br><code>http://localhost:8080</code>.</p>
+<p>You should be able to access the instance of Relax through
+<code>http://localhost:8080</code>.</p>
 
       </div>
     </div>
