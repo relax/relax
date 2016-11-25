@@ -1,0 +1,38 @@
+@import '~styles/colors.less';
+
+.templatePicker {
+  margin: 10px 15px;
+  cursor: pointer;
+  
+  :global i {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 30px;
+    color: @adminText;
+    font-size: 12px;
+    padding-left: 5px;
+  }
+}
+
+.templatePicker, .tpLabel, .tpValue {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.tpLabel {
+  font-size: 16px;
+  color: @adminTextHighlight;
+  font-weight: 300;
+  line-height: 30px;
+  padding-right: 5px;
+}
+
+.tpValue {
+  font-size: 16px;
+  color: @primary;
+  line-height: 30px;
+
+  &.none {
+    color: @adminText;
+  }
+}

@@ -15,6 +15,7 @@ import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 import {findDOMNode} from 'react-dom';
 
+import TemplatePicker from './template-picker';
 import Templates from './templates';
 import ToggleButton from './toggle-button';
 import styles from './content-page-builder.less';
@@ -27,6 +28,7 @@ export default class ContentPageBuilder extends Component {
     title: PropTypes.string,
     slug: PropTypes.string,
     state: PropTypes.string,
+    notFound: PropTypes.bool,
     updateTitle: PropTypes.func.isRequired,
     updateSlug: PropTypes.func,
     updateTemplate: PropTypes.func,
@@ -40,7 +42,7 @@ export default class ContentPageBuilder extends Component {
     unpublish: PropTypes.func.isRequired,
     Revisions: PropTypes.func,
     type: PropTypes.string.isRequired,
-    template: PropTypes.object,
+    templateId: PropTypes.string,
     draftHasChanges: PropTypes.bool.isRequired,
     openDropDraftConfirmation: PropTypes.func.isRequired,
     openPushChangesConfirmation: PropTypes.func.isRequired
@@ -71,6 +73,7 @@ export default class ContentPageBuilder extends Component {
         display: null,
         easing: 'easeOutExpo'
       };
+
       if (currentBuild) {
         velocity.hook(this.refs.content, 'translateY', '70px');
         velocity(this.refs.content, {translateY: '0px'}, config);
@@ -84,12 +87,12 @@ export default class ContentPageBuilder extends Component {
   }
 
   render () {
-    const {loading, title} = this.props;
+    const {loading, notFound} = this.props;
     let result;
 
     if (loading) {
       result = this.renderLoading();
-    } else if (!title) {
+    } else if (notFound) {
       result = this.renderNotFound();
     } else {
       result = this.renderContent();
@@ -135,15 +138,11 @@ export default class ContentPageBuilder extends Component {
         </div>
       );
     } else {
-      const {location, type, template, itemId} = this.props;
+      const {location, type, itemId} = this.props;
 
       result = (
         <div className={styles.content} ref='content'>
-          <PageBuilder
-            itemId={itemId}
-            type={type}
-            template={template}
-          />
+          <PageBuilder itemId={itemId} type={type} />
           <Link to={{pathname: location.pathname, query: {build: 1}}} className={styles.cover} ref='cover'>
             <div className={styles.coverContent}>
               <i className='nc-icon-outline design_design'></i>
@@ -192,8 +191,8 @@ export default class ContentPageBuilder extends Component {
     return (
       <ContentHeader smallPadding ref='header'>
         <div className={styles.info}>
-          <EditableTitle value={title} onSubmit={updateTitle} big={!slug} />
-          {slug && <EditableTitle sub value={slug} onSubmit={updateSlug} />}
+          <EditableTitle value={title} onSubmit={updateTitle} big={!slug} noProgress />
+          {slug && <EditableTitle sub value={slug} onSubmit={updateSlug} noProgress />}
         </div>
         <ContentHeaderActions>
           {this.renderTemplatePicker()}
@@ -247,25 +246,15 @@ export default class ContentPageBuilder extends Component {
   }
 
   renderTemplatePicker () {
-    const {type, toggleSidebar, sidebar, template} = this.props;
+    const {type, toggleSidebar, sidebar, templateId} = this.props;
 
     if (type !== 'template') {
-      const opened = sidebar === 'templates';
-      const title = template && template.title || 'None selected';
-
       return (
-        <ToggleButton
+        <TemplatePicker
+          templateId={templateId}
           onClick={toggleSidebar}
           active={sidebar === 'templates'}
-          className={styles.templatePicker}
-          id='templates'
-        >
-          <div className={styles.tpLabel}>Template:</div>
-          <div className={cx(styles.tpValue, !template && styles.none)}>
-            {title}
-          </div>
-          <i className={cx('nc-icon-mini', opened ? 'arrows-1_minimal-up' : 'arrows-1_minimal-down')} />
-        </ToggleButton>
+        />
       );
     }
   }
@@ -306,12 +295,12 @@ export default class ContentPageBuilder extends Component {
         <Revisions />
       );
     } else if (sidebar === 'templates') {
-      const {template, updateTemplate, type, itemId} = this.props;
+      const {templateId, updateTemplate, type, itemId} = this.props;
       result = (
         <Templates
           type={type}
           itemId={itemId}
-          value={template && template._id}
+          value={templateId}
           onChange={updateTemplate}
         />
       );
