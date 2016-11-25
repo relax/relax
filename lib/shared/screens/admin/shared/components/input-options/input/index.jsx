@@ -44,7 +44,7 @@ export default class Input extends Component {
       >
         <input
           type={password ? 'password' : 'text'}
-          value={this.props.value}
+          value={this.props.value || ''}
           disabled={this.props.disabled}
           onChange={this.onChange}
           ref='input'
