@@ -2,9 +2,8 @@ import Button from 'components/button';
 import Component from 'components/component';
 import ContentLoading from 'components/content-loading';
 import OptionsList from 'components/options-list';
-import Statuses from 'components/statuses';
 import React, {PropTypes} from 'react';
-
+import Animate from 'components/animate';
 import styles from './form.less';
 
 export default class DataSchemaForm extends Component {
@@ -23,9 +22,7 @@ export default class DataSchemaForm extends Component {
     isNew: PropTypes.bool,
     removing: PropTypes.bool,
     draftHasChanges: PropTypes.bool,
-    state: PropTypes.string,
-    stateMessage: PropTypes.string,
-    onDrop: PropTypes.func.isRequired
+    openDropDraftConfirmation: PropTypes.func.isRequired
   };
 
   render () {
@@ -58,39 +55,51 @@ export default class DataSchemaForm extends Component {
           onChange={onChange}
           white
         />
-        {this.renderState()}
+        <div className={styles.state}>
+          {this.renderState()}
+        </div>
       </div>
     );
   }
 
   renderState () {
     const {
-      saving,
       onSubmit,
       isNew,
       draftHasChanges,
-      state,
-      stateMessage,
-      onDrop
+      openDropDraftConfirmation
     } = this.props;
+    let result;
 
-    return (
-      <div className={styles.state}>
-        <Button smallFont bordered noBackground disabled={saving} onClick={onSubmit}>
-          {isNew ? 'Create entry' : 'Save changes'}
-        </Button>
-        {
-          !isNew &&
-          <Statuses
-            draftHasChanges={draftHasChanges}
-            state={state}
-            stateMessage={stateMessage}
-            drop={onDrop}
-            white
-            big
-          />
-        }
-      </div>
-    );
+    if (isNew) {
+      result = (
+        <Animate key='create'>
+          <Button primary smallFont noBackground bordered onClick={onSubmit}>
+            Push Changes Live
+          </Button>
+        </Animate>
+      );
+    } else if (draftHasChanges) {
+      result = (
+        <Animate key='changes'>
+          <div>
+            <Button smallFont primary noBackground bordered onClick={onSubmit}>
+              Push Changes Live
+            </Button>
+            <Button smallFont noBackground grey onClick={openDropDraftConfirmation}>
+              Drop Changes
+            </Button>
+          </div>
+        </Animate>
+      );
+    } else {
+      result = (
+        <Animate key='none'>
+          <div className={styles.none}>No changes made</div>
+        </Animate>
+      );
+    }
+
+    return result;
   }
 }
