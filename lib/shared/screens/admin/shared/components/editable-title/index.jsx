@@ -1,7 +1,7 @@
+import Component from 'components/component';
 import bind from 'decorators/bind';
 import cx from 'classnames';
 import utils from 'helpers/utils';
-import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';
@@ -13,7 +13,8 @@ export default class EditableTitle extends Component {
     onSubmit: PropTypes.func.isRequired,
     big: PropTypes.bool,
     className: PropTypes.string,
-    textClassName: PropTypes.string
+    textClassName: PropTypes.string,
+    noProgress: PropTypes.bool
   };
 
   getInitState () {
@@ -67,13 +68,22 @@ export default class EditableTitle extends Component {
   @bind
   onSubmit (event) {
     event.preventDefault();
-    this.props
-      .onSubmit(this.state.editValue)
-      .then(() => {
-        this.setState({
-          editing: false
-        });
+    const {noProgress} = this.props;
+
+    if (noProgress) {
+      this.props.onSubmit(this.state.editValue);
+      this.setState({
+        editing: false
       });
+    } else {
+      this.props
+        .onSubmit(this.state.editValue)
+        .then(() => {
+          this.setState({
+            editing: false
+          });
+        });
+    }
   }
 
   @bind
