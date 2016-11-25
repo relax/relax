@@ -20,6 +20,7 @@ export default class PageBuilder extends Component {
     elementsMenuOpened: PropTypes.bool.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
     template: PropTypes.object,
+    templateId: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     type: PropTypes.string.isRequired
   };
@@ -67,13 +68,13 @@ export default class PageBuilder extends Component {
   }
 
   renderContent () {
-    const {template, type} = this.props;
+    const {template, templateId, type} = this.props;
 
     return (
       <div className={cx(styles.root)}>
         <Jss stylesheet={stylesheet} />
         <Canvas
-          template={template}
+          template={templateId && template}
           type={type}
         />
         {this.renderElementsMenu()}
