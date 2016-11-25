@@ -45,7 +45,8 @@ export default class ContentPageBuilder extends Component {
     templateId: PropTypes.string,
     draftHasChanges: PropTypes.bool.isRequired,
     openDropDraftConfirmation: PropTypes.func.isRequired,
-    openPushChangesConfirmation: PropTypes.func.isRequired
+    openPushChangesConfirmation: PropTypes.func.isRequired,
+    defaultTemplateId: PropTypes.string
   };
 
   getInitState () {
@@ -138,11 +139,11 @@ export default class ContentPageBuilder extends Component {
         </div>
       );
     } else {
-      const {location, type, itemId} = this.props;
+      const {location, type, itemId, defaultTemplateId} = this.props;
 
       result = (
         <div className={styles.content} ref='content'>
-          <PageBuilder itemId={itemId} type={type} />
+          <PageBuilder itemId={itemId} type={type} defaultTemplateId={defaultTemplateId} />
           <Link to={{pathname: location.pathname, query: {build: 1}}} className={styles.cover} ref='cover'>
             <div className={styles.coverContent}>
               <i className='nc-icon-outline design_design'></i>
