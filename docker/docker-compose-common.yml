@@ -2,12 +2,9 @@ version: '2'
 services:
   nginx:
     build: ./nginx
-    volumes:
-      - relax-public:/public
   relax:
     build: ../
     volumes:
-      - relax-public:/app/public
       - relax-media:/app/public/media
   mongo:
     image: mongo
@@ -15,7 +12,6 @@ services:
       - relax-mongo:/data/db
 
 volumes:
-  relax-public:
   relax-media:
     external:
       name: relax-media
