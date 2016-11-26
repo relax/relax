@@ -6,7 +6,7 @@ import Balloon from 'components/balloon';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
-import {pushState} from 'redux-router';
+import {push} from 'redux-router';
 
 import styles from './index.less';
 
@@ -43,7 +43,7 @@ export default class ListSearchSort extends Component {
     const query = Object.assign({}, location.query, {
       s: this.state.search
     });
-    this.context.store.dispatch(pushState(null, location.pathname, query));
+    this.context.store.dispatch(push(location.pathname, query));
   }
 
   @bind
