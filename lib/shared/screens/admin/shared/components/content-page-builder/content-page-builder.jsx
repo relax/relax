@@ -46,7 +46,10 @@ export default class ContentPageBuilder extends Component {
     draftHasChanges: PropTypes.bool.isRequired,
     openDropDraftConfirmation: PropTypes.func.isRequired,
     openPushChangesConfirmation: PropTypes.func.isRequired,
-    defaultTemplateId: PropTypes.string
+    openUnpublishConfirmation: PropTypes.func.isRequired,
+    closeUnpublishConfirmation: PropTypes.func.isRequired,
+    defaultTemplateId: PropTypes.string,
+    confirmUnpublish: PropTypes.bool
   };
 
   getInitState () {
@@ -224,26 +227,52 @@ export default class ContentPageBuilder extends Component {
     let result;
 
     if (state === 'draft') {
-      const {publish} = this.props;
+      const {openPushChangesConfirmation} = this.props;
 
       return (
-        <button className={cx(styles.actionButton, styles.publishButton)} onClick={publish}>
+        <button
+          className={cx(styles.actionButton, styles.publishButton)}
+          onClick={openPushChangesConfirmation}
+        >
           <i className='nc-icon-outline travel_world' />
           <span>Publish</span>
         </button>
       );
     } else if (state === 'published') {
-      const {unpublish} = this.props;
+      const {openUnpublishConfirmation} = this.props;
 
       return (
-        <button className={cx(styles.actionButton, styles.unpublishButton)} onClick={unpublish}>
+        <button
+          className={cx(styles.actionButton, styles.unpublishButton)}
+          onClick={openUnpublishConfirmation}
+        >
           <i className='nc-icon-outline arrows-1_back-78' />
           <span>Unpublish</span>
+          {this.renderUnpublishConfirm()}
         </button>
       );
     }
 
     return result;
+  }
+
+  renderUnpublishConfirm () {
+    const {confirmUnpublish} = this.props;
+
+    if (confirmUnpublish) {
+      const {closeUnpublishConfirmation, unpublish} = this.props;
+
+      return (
+        <ModalDelete
+          cancelLabel='Cancel'
+          deleteLabel='Unpublish'
+          title='Are you sure?'
+          subTitle='You are about to unpublish this page. This will make this page non available to the public.'
+          cancel={closeUnpublishConfirmation}
+          submit={unpublish}
+        />
+      );
+    }
   }
 
   renderTemplatePicker () {
