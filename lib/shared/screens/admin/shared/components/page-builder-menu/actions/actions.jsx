@@ -29,8 +29,8 @@ export default class Actions extends Component {
       result = (
         <Animate key='changes'>
           <div className={styles.table}>
-            {this.renderPush()}
             {this.renderDraftState()}
+            {this.renderPush()}
           </div>
         </Animate>
       );

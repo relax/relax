@@ -83,11 +83,11 @@ export default class DataSchemaForm extends Component {
       result = (
         <Animate key='changes'>
           <div>
-            <Button smallFont primary noBackground bordered onClick={onSubmit}>
-              Push Changes Live
-            </Button>
             <Button smallFont noBackground grey onClick={openDropDraftConfirmation}>
               Drop Changes
+            </Button>
+            <Button smallFont primary noBackground bordered onClick={onSubmit}>
+              Push Changes Live
             </Button>
           </div>
         </Animate>

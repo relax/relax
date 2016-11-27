@@ -177,11 +177,11 @@ export default class ContentPageBuilder extends Component {
             <div className={styles.pushText}>
               There's unpublished changes in your draft
             </div>
-            <Button primary big noBackground bordered onClick={openPushChangesConfirmation}>
-              Push Changes Live
-            </Button>
             <Button big noBackground grey onClick={openDropDraftConfirmation}>
               Drop Changes
+            </Button>
+            <Button primary big noBackground bordered onClick={openPushChangesConfirmation}>
+              Push Changes Live
             </Button>
           </div>
         </Animate>
