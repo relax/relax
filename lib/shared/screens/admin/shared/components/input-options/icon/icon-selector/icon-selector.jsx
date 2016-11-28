@@ -52,7 +52,13 @@ export default class IconSelector extends Component {
     return (
       <div className={styles.wrapper}>
         <div className={styles.topBar}>
-          <ContentSearch value={search} onChange={changeSearch} />
+          <ContentSearch
+            value={search}
+            onChange={changeSearch}
+            className={styles.search}
+            inputClassName={styles.searchInput}
+            focused
+          />
           <a className={styles.link} href={icons[selectedFamily].link} target='_blank'>
             {`${icons[selectedFamily].family} site`}
           </a>
