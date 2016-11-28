@@ -21,10 +21,10 @@ export default class Breadcrumbs extends Component {
     const {entry} = this.props;
     return (
       <span className={styles.root}>
+        <span className={styles.sep}>{' < '}</span>
         <button className={styles.button} onClick={this.onClick}>
           {entry.label || entry.tag}
         </button>
-        <span className={styles.sep}> > </span>
       </span>
     );
   }

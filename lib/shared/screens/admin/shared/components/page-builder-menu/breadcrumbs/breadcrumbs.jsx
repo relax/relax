@@ -18,13 +18,13 @@ export default class Breadcrumbs extends Component {
     const {selectedPath, selectedElement, className} = this.props;
     return (
       <div className={cx(styles.root, className)}>
-        {selectedPath && selectedPath.map(this.renderEntry, this)}
         <span
           className={styles.current}
           key='current'
         >
           {(selectedElement && (selectedElement.label || selectedElement.tag)) || 'body'}
         </span>
+        {selectedPath && selectedPath.slice(0).reverse().map(this.renderEntry, this)}
       </div>
     );
   }
