@@ -19,11 +19,11 @@ export default class ElementsMenu extends Component {
   };
 
   static propTypes = {
-    symbols: PropTypes.object.isRequired,
+    symbols: PropTypes.array.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
     elementsMenuOptions: PropTypes.object.isRequired,
     elements: PropTypes.object.isRequired,
-    categories: PropTypes.object.isRequired
+    categories: PropTypes.array.isRequired
   };
 
   getInitState () {
@@ -77,11 +77,11 @@ export default class ElementsMenu extends Component {
       const {elements, categories} = this.props;
       const suggestions = [];
       const searchLowered = search.toLowerCase();
-      let suggestion = false;
+      let suggestion = null;
       let suggestionweight = categories.length + 2;
 
       forEach(elements, (element, name) => {
-        if (this.elementAcceptable(name, element) && name.toLowerCase().indexOf(searchLowered) !== -1) {
+        if (name && this.elementAcceptable(name, element) && name.toLowerCase().indexOf(searchLowered) !== -1) {
           let weight = categories.length;
           forEach(categories, (category, ind) => {
             if (category === (element.settings && element.settings.category)) {
@@ -97,7 +97,7 @@ export default class ElementsMenu extends Component {
       });
 
       forEach(this.props.symbols, (symbol) => {
-        if (symbol.title.toLowerCase().indexOf(searchLowered) !== -1) {
+        if (symbol.title && symbol.title.toLowerCase().indexOf(searchLowered) !== -1) {
           const weight = categories.length + 1;
           if (weight < suggestionweight) {
             suggestion = {
