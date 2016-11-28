@@ -39,35 +39,35 @@ export default class CornersPicker extends Component {
   }
 
   getValuesString (values) {
-    return `${values.tl || '0'}px ${values.tr || '0'}px ${values.br || '0'}px ${values.bl || '0'}px`;
+    return `${values.tl || '0'} ${values.tr || '0'} ${values.br || '0'} ${values.bl || '0'}`;
   }
 
   parseValue (value = '0px') {
     const values = value.split(' ');
     const result = {
-      tl: 0,
-      bl: 0,
-      tr: 0,
-      br: 0,
+      tl: '0px',
+      bl: '0px',
+      tr: '0px',
+      br: '0px',
       equal: false
     };
 
     if (values.length === 1) {
-      const parsedValue = parseInt(values[0], 10);
+      const parsedValue = values[0];
       result.tl = parsedValue;
       result.br = parsedValue;
       result.bl = parsedValue;
       result.tr = parsedValue;
     } else if (values.length === 2) {
-      result.tl = parseInt(values[0], 10);
-      result.tr = parseInt(values[1], 10);
-      result.br = parseInt(values[0], 10);
-      result.bl = parseInt(values[1], 10);
+      result.tl = values[0];
+      result.tr = values[1];
+      result.br = values[0];
+      result.bl = values[1];
     } else if (values.length === 4) {
-      result.tl = parseInt(values[0], 10);
-      result.tr = parseInt(values[1], 10);
-      result.br = parseInt(values[2], 10);
-      result.bl = parseInt(values[3], 10);
+      result.tl = values[0];
+      result.tr = values[1];
+      result.br = values[2];
+      result.bl = values[3];
     }
 
     if (result.tl === result.tr && result.tl === result.br && result.tl === result.bl) {
@@ -113,6 +113,7 @@ export default class CornersPicker extends Component {
             value={value}
             onChange={this.onInputChange}
             inactive={inactive}
+            allowed={['px', '%']}
           />
         </div>
       </div>
