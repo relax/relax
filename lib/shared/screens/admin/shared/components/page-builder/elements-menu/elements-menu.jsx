@@ -5,6 +5,7 @@ import Animate from 'components/animate';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
+import elements from 'elements';
 
 import styles from './elements-menu.less';
 import List from './list';
@@ -22,7 +23,6 @@ export default class ElementsMenu extends Component {
     symbols: PropTypes.array.isRequired,
     pageBuilderActions: PropTypes.object.isRequired,
     elementsMenuOptions: PropTypes.object.isRequired,
-    elements: PropTypes.object.isRequired,
     categories: PropTypes.array.isRequired
   };
 
@@ -74,7 +74,7 @@ export default class ElementsMenu extends Component {
   @bind
   onSearchChange (search) {
     if (search) {
-      const {elements, categories} = this.props;
+      const {categories} = this.props;
       const suggestions = [];
       const searchLowered = search.toLowerCase();
       let suggestion = null;

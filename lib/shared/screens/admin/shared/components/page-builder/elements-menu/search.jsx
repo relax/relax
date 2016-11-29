@@ -4,6 +4,7 @@ import key from 'keymaster';
 import Component from 'components/component';
 import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
+import elements from 'elements';
 
 import styles from './search.less';
 import Autocomplete from './autocomplete';
@@ -18,8 +19,7 @@ export default class Search extends Component {
     suggestion: PropTypes.string.isRequired,
     search: PropTypes.string.isRequired,
     symbols: PropTypes.object.isRequired,
-    categories: PropTypes.object.isRequired,
-    elements: PropTypes.object.isRequired
+    categories: PropTypes.object.isRequired
   };
 
   componentDidMount () {
@@ -42,7 +42,7 @@ export default class Search extends Component {
     event.preventDefault();
     event.stopPropagation();
     const {suggestions} = this.props;
-    const {categories, elements} = this.props;
+    const {categories} = this.props;
 
     let counter = 0;
     let added = false;
@@ -134,7 +134,7 @@ export default class Search extends Component {
   }
 
   renderCategory (category) {
-    const {suggestions, elements} = this.props;
+    const {suggestions} = this.props;
     const categoryElements = [];
 
     forEach(suggestions, (elementName) => {

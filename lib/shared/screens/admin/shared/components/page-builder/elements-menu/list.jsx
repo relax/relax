@@ -3,6 +3,7 @@ import forEach from 'lodash/forEach';
 import Component from 'components/component';
 import Scrollable from 'components/scrollable';
 import React, {PropTypes} from 'react';
+import elements from 'elements';
 
 import styles from './list.less';
 
@@ -14,8 +15,7 @@ export default class List extends Component {
     toggleCategory: PropTypes.func.isRequired,
     symbols: PropTypes.object.isRequired,
     categories: PropTypes.object.isRequired,
-    categoriesCollapsed: PropTypes.object.isRequired,
-    elements: PropTypes.object.isRequired
+    categoriesCollapsed: PropTypes.object.isRequired
   };
 
   toggleCategory (category, event) {
@@ -45,7 +45,7 @@ export default class List extends Component {
   }
 
   renderCategory (category) {
-    const {elements, categoriesCollapsed} = this.props;
+    const {categoriesCollapsed} = this.props;
     const categoryElements = [];
 
     forEach(elements, (element, index) => {
