@@ -1,6 +1,5 @@
 import bind from 'decorators/bind';
 import debounce from 'decorators/debounce';
-import elements from 'elements';
 import stylesManager from 'helpers/styles-manager';
 import traverseChildren from 'helpers/traverser/children';
 import traverser from 'helpers/traverser';
@@ -33,7 +32,6 @@ export default class Viewer extends Component {
         template,
         doc,
         display: 'desktop',
-        elements,
         editing: false,
         type
       }, this.renderElement);
@@ -68,7 +66,6 @@ export default class Viewer extends Component {
     const content = traverseChildren(Object.assign({data}, options), {
       doc,
       display,
-      elements,
       editing: false,
       type
     }, this.renderElement);
@@ -96,7 +93,6 @@ export default class Viewer extends Component {
 
     const styleMap = stylesManager.processElement({
       element,
-      elements,
       styles,
       display,
       single: true

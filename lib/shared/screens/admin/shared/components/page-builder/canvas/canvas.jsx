@@ -31,7 +31,6 @@ export default class Canvas extends Component {
     dragging: PropTypes.bool.isRequired,
     doc: PropTypes.object.isRequired,
     template: PropTypes.object,
-    elements: PropTypes.object.isRequired,
     selected: PropTypes.object,
     editing: PropTypes.bool.isRequired,
     editingSymbol: PropTypes.bool.isRequired,
@@ -71,7 +70,7 @@ export default class Canvas extends Component {
   }
 
   render () {
-    const {display, template, doc, elements, type, editing} = this.props;
+    const {display, template, doc, type, editing} = this.props;
     const templateHasLinks = template && template.links && template.links[type];
     const bodyStyle = {
       maxWidth: displays[display]
@@ -81,7 +80,6 @@ export default class Canvas extends Component {
       template,
       doc,
       display,
-      elements,
       editing,
       type
     }, this.renderElement);
@@ -122,7 +120,7 @@ export default class Canvas extends Component {
 
   @bind
   renderChildren (options) {
-    const {doc, display, elements, type, editing, template} = this.props;
+    const {doc, display, type, editing, template} = this.props;
 
     // calculate data from context
     let data;
@@ -139,7 +137,6 @@ export default class Canvas extends Component {
     return traverseChildren(Object.assign({data}, options), {
       doc,
       display,
-      elements,
       editing,
       type
     }, this.renderElement);
@@ -155,7 +152,7 @@ export default class Canvas extends Component {
 
   @bind
   renderElement (elementInfo, children) {
-    const {styles, elements, display, selected} = this.props;
+    const {styles, display, selected} = this.props;
     const {
       ElementClass,
       displayElement,
@@ -173,7 +170,6 @@ export default class Canvas extends Component {
     const styleMap = stylesManager.processElement({
       element,
       context,
-      elements,
       styles,
       display
     });

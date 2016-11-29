@@ -5,6 +5,7 @@ import bind from 'decorators/bind';
 import find from 'lodash/find';
 import getElementProps from 'helpers/get-element-props';
 import optionsStyles from 'components/options-list/index.less';
+import elements from 'elements';
 import React, {PropTypes} from 'react';
 
 import Animation from './animation';
@@ -16,7 +17,6 @@ export default class EditProps extends Component {
     display: PropTypes.string.isRequired,
     selected: PropTypes.object,
     selectedElement: PropTypes.object,
-    elements: PropTypes.object.isRequired,
     type: PropTypes.string,
     contentElementId: PropTypes.string,
     isTemplate: PropTypes.bool.isRequired,
@@ -86,11 +86,12 @@ export default class EditProps extends Component {
   }
 
   renderOptions () {
-    const {selectedElement, display, elements, selectedLinks, isTemplate} = this.props;
+    const {selectedElement, display, selectedLinks, isTemplate} = this.props;
     const ElementClass = elements[selectedElement.tag];
 
     if (ElementClass.propsSchema) {
       const values = Object.assign({}, ElementClass.defaultProps, getElementProps(selectedElement, display));
+
       return (
         <OptionsList
           options={ElementClass.propsSchema}

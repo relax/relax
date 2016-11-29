@@ -20,7 +20,6 @@ export default class Layers extends Component {
     template: PropTypes.object,
     selected: PropTypes.object,
     selectedElement: PropTypes.object,
-    elements: PropTypes.object,
     expanded: PropTypes.object,
     userExpanded: PropTypes.object,
     overed: PropTypes.object,
@@ -58,13 +57,12 @@ export default class Layers extends Component {
   }
 
   renderContent () {
-    const {template, doc, type, elements} = this.props;
+    const {template, doc, type} = this.props;
 
     let content = traverser({
       template,
       doc,
       display: 'desktop',
-      elements,
       editing: true,
       type
     }, this.renderListEntry);
