@@ -37,6 +37,7 @@ export default class NumberInput extends Component {
   componentDidMount () {
     if (this.props.focused) {
       this.refs.input.focus();
+      this.refs.input.select();
     }
   }
 
