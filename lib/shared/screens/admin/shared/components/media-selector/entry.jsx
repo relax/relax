@@ -19,6 +19,7 @@ export default class MediaEntry extends Component {
 
   static propTypes = {
     onClick: PropTypes.func.isRequired,
+    onDoubleClick: PropTypes.func.isRequired,
     mediaItem: PropTypes.object.isRequired,
     selected: PropTypes.bool.isRequired
   };
@@ -30,11 +31,15 @@ export default class MediaEntry extends Component {
   }
 
   render () {
-    const {mediaItem, selected} = this.props;
+    const {mediaItem, selected, onDoubleClick} = this.props;
     const momentDate = moment(mediaItem.date);
 
     return (
-      <div className={cx(styles.entry, selected && styles.selected)} onClick={this.onClick}>
+      <div
+        className={cx(styles.entry, selected && styles.selected)}
+        onClick={this.onClick}
+        onDoubleClick={onDoubleClick}
+      >
         <div className={styles.preview}>
           <MediaItemPreview mediaItem={mediaItem} width={250} height={125} />
         </div>
