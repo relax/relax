@@ -47,7 +47,7 @@ export default class IconSelector extends Component {
   }
 
   renderContent () {
-    const {icons, selectedFamily, selected, onChange, search, changeSearch} = this.props;
+    const {icons, selectedFamily, selected, onChange, search, changeSearch, onClose} = this.props;
 
     return (
       <div className={styles.wrapper}>
@@ -69,6 +69,7 @@ export default class IconSelector extends Component {
             search={search}
             selected={selected}
             onChange={onChange}
+            onClose={onClose}
           />
         </Scrollable>
       </div>

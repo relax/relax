@@ -11,7 +11,8 @@ export default class Icon extends Component {
     selected: PropTypes.bool,
     icon: PropTypes.string,
     children: PropTypes.node,
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired,
+    onDoubleClick: PropTypes.func.isRequired
   };
 
   @bind
@@ -21,11 +22,13 @@ export default class Icon extends Component {
   }
 
   render () {
-    const {className, children, icon, selected} = this.props;
+    const {className, children, icon, selected, onDoubleClick} = this.props;
+
     return (
       <div
         className={cx(styles.root, selected && styles.selected)}
         onClick={this.onClick}
+        onDoubleClick={onDoubleClick}
       >
         <i className={className}>{children}</i>
         <div className={styles.label}>{icon}</div>
