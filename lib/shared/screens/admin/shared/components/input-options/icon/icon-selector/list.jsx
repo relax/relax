@@ -10,7 +10,8 @@ export default class FontsList extends Component {
     family: PropTypes.object.isRequired,
     search: PropTypes.string,
     selected: PropTypes.object,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired
   };
 
   render () {
@@ -23,7 +24,7 @@ export default class FontsList extends Component {
   }
 
   renderIcon (icon) {
-    const {search, selected, family, onChange} = this.props;
+    const {search, selected, family, onChange, onClose} = this.props;
     const valid = !search || icon.indexOf(search) !== -1;
 
     if (valid) {
@@ -34,12 +35,14 @@ export default class FontsList extends Component {
         selected.family === family.family &&
         className === selected.className &&
         content === selected.content;
+
       return (
         <Icon
           className={className}
           selected={isSelected}
           icon={icon}
           onClick={onChange}
+          onDoubleClick={onClose}
         >
           {family.reference === 'content' && icon}
         </Icon>
