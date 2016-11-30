@@ -39,6 +39,7 @@ export default class MediasSelector extends Component {
               selected={selected}
               onChange={onChange}
               uploads={uploads}
+              onClose={onClose}
             />
           </Scrollable>
         </Upload>

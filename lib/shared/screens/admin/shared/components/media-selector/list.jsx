@@ -14,7 +14,8 @@ export default class MediaSelectorList extends Component {
     media: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
     uploads: PropTypes.array.isRequired,
-    selected: PropTypes.string
+    selected: PropTypes.string,
+    onClose: PropTypes.func.isRequired
   };
 
   render () {
@@ -33,9 +34,16 @@ export default class MediaSelectorList extends Component {
   }
 
   renderItem (mediaItem) {
-    const {onChange, selected} = this.props;
+    const {onChange, selected, onClose} = this.props;
+
     return (
-      <Entry mediaItem={mediaItem} onClick={onChange} selected={selected === mediaItem._id} key={mediaItem._id} />
+      <Entry
+        mediaItem={mediaItem}
+        onClick={onChange}
+        onDoubleClick={onClose}
+        selected={selected === mediaItem._id}
+        key={mediaItem._id}
+      />
     );
   }
 
