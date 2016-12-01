@@ -21,7 +21,8 @@ export default class Entry extends Component {
     overed: PropTypes.object,
     hasLinks: PropTypes.bool.isRequired,
     editable: PropTypes.bool.isRequired,
-    isTemplate: PropTypes.bool.isRequired
+    isTemplate: PropTypes.bool.isRequired,
+    positionInParent: PropTypes.number.isRequired
   };
 
   getInitState () {
@@ -104,7 +105,7 @@ export default class Entry extends Component {
   }
 
   render () {
-    const {ElementClass, element, context, editable, isTemplate} = this.props;
+    const {ElementClass, element, context, editable, isTemplate, positionInParent} = this.props;
     let result;
 
     if (element.subComponent || !editable || isTemplate) {
@@ -117,7 +118,9 @@ export default class Entry extends Component {
       const dragInfo = {
         type: 'move',
         id: element.id,
-        context
+        context,
+        parentId: element.parent,
+        positionInParent
       };
 
       result = (
