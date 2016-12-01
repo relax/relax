@@ -117,6 +117,8 @@ export default class Element extends Component {
   animationInitForce () {
     this.animating = false;
     this.animated = false;
+    this.animationTimeout && clearTimeout(this.animationTimeout);
+    velocity(findDOMNode(this), 'stop');
     this.animationInit();
   }
 
