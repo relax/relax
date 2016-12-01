@@ -101,7 +101,8 @@ export default class Layers extends Component {
       element,
       elementLinks,
       editable,
-      isTemplate
+      isTemplate,
+      positionInParent
     } = elementInfo;
 
     const hasChildren = !!(children && children.constructor === Array && children.length);
@@ -128,7 +129,7 @@ export default class Layers extends Component {
         <ul className={styles.list}>
           <Droppable
             showMarks={false}
-            type={parent.type}
+            type={element.tag}
             dropInfo={dropInfo}
             {...dropSettings}
             hitSpace={12}
@@ -174,6 +175,7 @@ export default class Layers extends Component {
           selected={selected}
           overed={overed}
           hasLinks={!!(elementLinks && elementLinks.length)}
+          positionInParent={positionInParent}
         />
         {childrenContent}
       </li>
