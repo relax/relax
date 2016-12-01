@@ -41,11 +41,19 @@ export default class PageBuilder extends Component {
   }
 
   componentDidMount () {
-    const {undoAction, redoAction, removeSelectedElement} = this.props.pageBuilderActions;
+    const {
+      undoAction,
+      redoAction,
+      removeSelectedElement,
+      copySelectedElement,
+      pasteSelectedElement
+    } = this.props.pageBuilderActions;
 
     key('⌘+z, ctrl+z', 'pageBuilder', undoAction);
-    key('⌘+y, ctrl+y', 'pageBuilder', redoAction);
+    key('⌘+y, ⌘+⇧+z, ctrl+y', 'pageBuilder', redoAction);
     key('backspace, del, delete', 'pageBuilder', removeSelectedElement);
+    key('⌘+c, ctrl+c', 'pageBuilder', copySelectedElement);
+    key('⌘+v, ctrl+v', 'pageBuilder', pasteSelectedElement);
 
     key.setScope('pageBuilder');
   }

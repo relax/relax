@@ -35,7 +35,7 @@ export default class Search extends Component {
     for (let i = 1; i < 10; i++) {
       key.unbind(`⌘+${i}, ctrl+${i}`);
     }
-    key.setScope('all');
+    key.setScope('pageBuilder');
   }
 
   addElementHotkey (num, event) {
@@ -96,14 +96,15 @@ export default class Search extends Component {
   }
 
   render () {
+    const {suggestion, search, onSearchChange} = this.props;
     this.suggestionsCounter = -1;
 
     return (
       <div>
         <Autocomplete
-          value={this.props.search}
-          onChange={this.props.onSearchChange}
-          suggestion={this.props.suggestion.title || this.props.suggestion}
+          value={search}
+          onChange={onSearchChange}
+          suggestion={suggestion && suggestion.title || suggestion}
           focused
         />
       <div className={styles.searchList}>
