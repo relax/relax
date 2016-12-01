@@ -51,6 +51,7 @@ export default class MediumEditorElement extends Component {
 
   componentWillUnmount () {
     this.medium.destroy();
+    key.setScope('pageBuilder');
   }
 
   @bind
