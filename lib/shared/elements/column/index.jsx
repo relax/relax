@@ -35,8 +35,8 @@ export default class Column extends Component {
 
       css(styles.root)
         .setProperty('display', 'table-cell')
-        .setProperty('paddingLeft', left)
-        .setProperty('paddingRight', right);
+        .setProperty('borderLeft', `${left}px solid transparent`)
+        .setProperty('borderRight', `${right}px solid transparent`);
     }
 
     return styles;
