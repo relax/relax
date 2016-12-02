@@ -86,6 +86,7 @@ export default class Highlight extends Component {
             selected &&
             !focused &&
             style.height > 30 &&
+            style.width > 90 &&
             contextMenu &&
             this.renderContext()
           }
