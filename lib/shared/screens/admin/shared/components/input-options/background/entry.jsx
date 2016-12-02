@@ -129,6 +129,7 @@ export default class BackgroundEntry extends Component {
           <EditImage
             value={value}
             onChange={this.onChange}
+            onClose={this.toggleOpened}
           />
         </Balloon>
       );

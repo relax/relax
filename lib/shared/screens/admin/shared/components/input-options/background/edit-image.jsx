@@ -2,7 +2,7 @@ import bind from 'decorators/bind';
 import Component from 'components/component';
 import OptionsList from 'components/options-list';
 import React, {PropTypes} from 'react';
-
+import keymaster from 'keymaster';
 import styles from './edit-image.less';
 
 const options = [
@@ -93,8 +93,17 @@ const customSizeOptions = [
 export default class EditImage extends Component {
   static propTypes = {
     value: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired
   };
+
+  componentDidMount () {
+    keymaster('esc', this.props.onClose);
+  }
+
+  componentWillUnmount () {
+    keymaster.unbind('esc');
+  }
 
   @bind
   onChange (key, val) {

@@ -9,6 +9,7 @@ export default class NumberInput extends Component {
   static propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func.isRequired,
+    onDismiss: PropTypes.func,
     allowed: PropTypes.array,
     min: PropTypes.any,
     max: PropTypes.any,
@@ -110,7 +111,10 @@ export default class NumberInput extends Component {
 
   @bind
   onKeyDown (event) {
-    if (event.keyCode === 38) {
+    if (event.keyCode === 13 || event.keyCode === 27) {
+      const {onDismiss} = this.props;
+      onDismiss && onDismiss();
+    } else if (event.keyCode === 38) {
       // up arrow
       this.updateStateValue(this.up(event, event.shiftKey ? 10 : 1));
     } else if (event.keyCode === 40) {
