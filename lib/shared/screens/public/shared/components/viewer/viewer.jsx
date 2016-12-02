@@ -13,6 +13,8 @@ export default class Viewer extends Component {
     doc: PropTypes.object,
     template: PropTypes.object,
     type: PropTypes.string.isRequired,
+    ready: PropTypes.bool,
+    display: PropTypes.string.isRequired,
     styles: PropTypes.array,
     updateStylesMap: PropTypes.func.isRequired
   };
@@ -22,14 +24,14 @@ export default class Viewer extends Component {
   }
 
   render () {
-    const {doc, template, type} = this.props;
+    const {doc, template, type, display, ready} = this.props;
     let result;
 
     if (doc) {
       result = traverser({
         template,
         doc,
-        display: 'desktop',
+        display,
         editing: false,
         type
       }, this.renderElement);
@@ -37,8 +39,14 @@ export default class Viewer extends Component {
       this.updateStylesMap();
     }
 
+    const style = {};
+
+    if (!ready) {
+      style.display = 'none';
+    }
+
     return (
-      <div>
+      <div style={style}>
         {result}
       </div>
     );
@@ -46,8 +54,7 @@ export default class Viewer extends Component {
 
   @bind
   renderChildren (options) {
-    const {doc, type, template} = this.props;
-    const display = 'desktop';
+    const {doc, type, template, display} = this.props;
 
     // calculate data from context
     let data;
@@ -75,8 +82,7 @@ export default class Viewer extends Component {
 
   @bind
   renderElement (elementInfo, children) {
-    const {styles} = this.props;
-    const display = 'desktop';
+    const {styles, display} = this.props;
     const {
       ElementClass,
       displayElement,
