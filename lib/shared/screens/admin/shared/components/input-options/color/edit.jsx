@@ -13,6 +13,8 @@ import RadialGradient from './radial-gradient';
 import RadialRadius from './radial-radius';
 import Types from './types';
 import styles from './edit.less';
+import key from 'keymaster';
+import bind from 'decorators/bind';
 
 export default class Edit extends Component {
   static propTypes = {
@@ -52,13 +54,21 @@ export default class Edit extends Component {
     if (!this.props.noPicker) {
       this.onCloseBind = ::this.onClose;
       document.body.addEventListener('mousedown', this.onCloseBind, false);
+      key('esc', this.close);
     }
   }
 
   componentWillUnmount () {
     if (!this.props.noPicker) {
       document.body.removeEventListener('mousedown', this.onCloseBind, false);
+      key.unbind('esc');
     }
+  }
+
+  @bind
+  close () {
+    const {toggleOpened} = this.props;
+    toggleOpened && toggleOpened();
   }
 
   onClose (event) {

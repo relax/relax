@@ -165,6 +165,7 @@ export default class DistancePicker extends Component {
           <NumberInput
             value={value}
             onChange={this.onValueChange}
+            onDismiss={this.toggleValue}
             className={styles.input}
             allowed={lengthUnits}
             min={false}
