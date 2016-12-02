@@ -1,6 +1,6 @@
 import Component from 'components/component';
 import Draggable from 'components/dnd/draggable';
-import OptionsMenu from 'components/options-menu';
+import ContextMenu from 'components/element-context-menu';
 import bind from 'decorators/bind';
 import cx from 'classnames';
 import isElementSelected from 'helpers/is-element-selected';
@@ -142,19 +142,6 @@ export default class Entry extends Component {
     return result;
   }
 
-  renderOptionsMenu () {
-    if (this.props.editable && this.state.options) {
-      return (
-        <OptionsMenu
-          options={[
-            {label: 'Duplicate', action: this.duplicate, icon: 'nc-icon-mini files_single-copy-04'},
-            {label: 'Remove', action: this.remove, icon: 'nc-icon-mini ui-1_trash'}
-          ]}
-        />
-      );
-    }
-  }
-
   renderContent () {
     const {ElementClass, selected, overed, element, context, hasChildren, hasLinks, editable} = this.props;
 
@@ -182,12 +169,12 @@ export default class Entry extends Component {
         )}
         {...events}
       >
+        {this.renderOptions()}
         {this.renderCaret()}
         <div className={cx(styles.part, styles.info)}>
           <i className={ElementClass.settings.icon.class}>{ElementClass.settings.icon.content}</i>
           <span>{element.label || element.tag}</span>
         </div>
-        {this.renderOptions()}
       </div>
     );
   }
@@ -207,13 +194,16 @@ export default class Entry extends Component {
   }
 
   renderOptions () {
-    const {editable, element, isTemplate} = this.props;
+    const {editable, element, context, isTemplate} = this.props;
 
     if (editable && !isTemplate && !element.subComponent) {
       return (
-        <div className={cx(styles.part, styles.options)} onClick={this.openOptions}>
-          <i className='nc-icon-mini ui-2_menu-dots'></i>
-          {this.renderOptionsMenu()}
+        <div className={styles.contextHolder}>
+          <ContextMenu
+            element={element}
+            context={context}
+            dark
+          />
         </div>
       );
     }
