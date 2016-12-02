@@ -1,5 +1,4 @@
 import bind from 'decorators/bind';
-import debounce from 'decorators/debounce';
 import stylesManager from 'helpers/styles-manager';
 import traverseChildren from 'helpers/traverser/children';
 import traverser from 'helpers/traverser';
@@ -18,7 +17,6 @@ export default class Viewer extends Component {
     updateStylesMap: PropTypes.func.isRequired
   };
 
-  @debounce(10)
   updateStylesMap () {
     this.props.updateStylesMap(stylesManager.stylesMap);
   }
