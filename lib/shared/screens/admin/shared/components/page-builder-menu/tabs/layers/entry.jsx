@@ -42,6 +42,7 @@ export default class Entry extends Component {
     const {dragging, pageBuilderActions, element, context, hasChildren, isExpanded} = this.props;
 
     if (!dragging) {
+      clearTimeout(this.closeOptionsTimeout);
       pageBuilderActions.overElement(element.id, context);
     } else if (hasChildren && !isExpanded) {
       this.openInterval = setTimeout(pageBuilderActions.toggleExpandElement.bind(this, element.id, context), 500);
@@ -56,9 +57,8 @@ export default class Entry extends Component {
       pageBuilderActions.outElement(element.id, context);
 
       if (this.state.options) {
-        this.setState({
-          options: false
-        });
+        clearTimeout(this.closeOptionsTimeout);
+        this.closeOptionsTimeout = setTimeout(this.closeOptions, 300);
       }
     } else if (this.openInterval) {
       clearTimeout(this.openInterval);
@@ -69,8 +69,16 @@ export default class Entry extends Component {
   openOptions (event) {
     event.preventDefault();
     event.stopPropagation();
+    clearTimeout(this.closeOptionsTimeout);
     this.setState({
       options: true
+    });
+  }
+
+  @bind
+  closeOptions () {
+    this.setState({
+      options: false
     });
   }
 
