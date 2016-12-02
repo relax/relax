@@ -4,7 +4,7 @@ import bind from 'decorators/bind';
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
-import ContextMenu from './context-menu';
+import ContextMenu from 'components/element-context-menu';
 import styles from './highlight.less';
 
 export default class Highlight extends Component {

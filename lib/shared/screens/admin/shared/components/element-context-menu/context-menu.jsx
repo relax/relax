@@ -21,7 +21,8 @@ export default class ContextMenu extends Component {
     duplicateElement: PropTypes.func.isRequired,
     removeElement: PropTypes.func.isRequired,
     context: PropTypes.string.isRequired,
-    linkingDataMode: PropTypes.bool
+    linkingDataMode: PropTypes.bool,
+    dark: PropTypes.bool
   };
 
   @bind
@@ -73,14 +74,15 @@ export default class ContextMenu extends Component {
   }
 
   renderClosed () {
-    const {linkingDataMode} = this.props;
+    const {linkingDataMode, dark} = this.props;
 
     return (
       <button
         className={cx(
           styles.closed,
           this.isSymbol() && styles.symbol,
-          linkingDataMode && styles.linking
+          linkingDataMode && styles.linking,
+          dark && styles.dark
         )}
         onClick={this.props.open}
       >

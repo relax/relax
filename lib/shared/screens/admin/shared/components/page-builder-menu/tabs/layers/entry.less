@@ -14,6 +14,7 @@
   margin-top: -1px;
 
   height: @height;
+  z-index: 1;
 
   &.subComponent {
     opacity: 0.6;
@@ -106,17 +107,11 @@
   }
 }
 
-.options {
+.contextHolder {
   position: absolute;
   right: 0;
   height: @height;
   width: @height;
-  text-align: center;
-  cursor: pointer;
-
-  :global i {
-    line-height: @height;
-  }
 }
 
 .linked {
