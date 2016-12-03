@@ -13,7 +13,7 @@
   <div class='menu'>
     <div class='wrapper'>
       <a href='/' class='logo'>
-        <img src='{{ url_for("images/logo-white.png") }}' />
+        <img src='{{ url_for("images/Menu Logo.png") }}' width="104" />
       </a>
       <nav class='links-nav'>
         {% for link in site.data.links %}
