@@ -14,6 +14,8 @@
   items:
   - id: development/getting-started
     title: Getting Started
+  - id: development/contributing
+    title: Contributing
   - id: development/input-options
     title: Input Options
   - id: development/elements
