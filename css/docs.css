@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   height: 50px;
-  background-color: #42352d; }
+  background-color: #333333; }
 
 .logo {
   display: inline-block;
@@ -80,6 +80,13 @@ h1 {
 h2 {
   font-size: 25px;
   font-weight: 600;
+  color: #333333;
+  margin-bottom: 20px;
+  margin-top: 30px; }
+
+h3 {
+  font-size: 21px;
+  font-weight: 400;
   color: #333333;
   margin-bottom: 20px;
   margin-top: 30px; }

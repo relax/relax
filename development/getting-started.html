@@ -13,7 +13,7 @@
   <div class='menu'>
     <div class='wrapper'>
       <a href='/' class='logo'>
-        <img src='/relax/images/logo-white.png' />
+        <img src='/relax/images/Menu Logo.png' width="104" />
       </a>
       <nav class='links-nav'>
         
@@ -80,6 +80,10 @@
                   </li>
                 
                   <li>
+                    <a href='/relax/development/contributing.html'>Contributing</a>
+                  </li>
+                
+                  <li>
                     <a href='/relax/development/input-options.html'>Input Options</a>
                   </li>
                 
@@ -99,7 +103,20 @@
             Edit this page
           </a>
         </div>
-        <p>[In progress]</p>
+        <p>To contribute or make your own custom page builder elements you’ll need to run
+Relax in development mode. First start by cloning Relax’s repo if you haven’t
+already:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> git@github.com:relax/relax.git</div><div class="line"><span class="built_in">cd</span> relax</div></pre></td></tr></table></figure>
+<p>After this you just have to install the dependencies using Yarn:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yarn</div></pre></td></tr></table></figure>
+<p>And then you can run Relax in dev mode:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yarn dev</div></pre></td></tr></table></figure>
+<p>First build might take up to a minute or two but don’t worry it has a fast hot
+reloading build after. You know it’s ready when you see the message
+<code>debug: URL: http://localhost:8080</code>.</p>
+<p>This means you can now open Relax at <a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a>.
+You might be redirected to the init route if you still don’t have any users, if
+this is the case create an user and login.</p>
 
       </div>
     </div>
