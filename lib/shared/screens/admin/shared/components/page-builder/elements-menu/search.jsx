@@ -221,7 +221,7 @@ export default class Search extends Component {
   }
 
   renderSymbol (id) {
-    const symbol = find(this.props.symbols, '_id', id);
+    const symbol = find(this.props.symbols, ['_id', id]);
 
     if (symbol) {
       const label = symbol.title;

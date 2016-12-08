@@ -44,7 +44,7 @@ export default class Edit extends Component {
     let result;
 
     const {sort, schemaProperties} = this.props;
-    const property = find(schemaProperties, 'id', sort.prop);
+    const property = find(schemaProperties, ['id', sort.prop]);
 
     if (property) {
       let labels = [];
