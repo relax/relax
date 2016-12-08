@@ -55,7 +55,7 @@ export default class Edit extends Component {
     let result;
 
     const {filter, schemaProperties} = this.props;
-    const property = find(schemaProperties, 'id', filter.prop);
+    const property = find(schemaProperties, ['id', filter.prop]);
 
     if (property) {
       const options = Object.assign({}, getFilterDefaultOptions(property.type), filter.options);
