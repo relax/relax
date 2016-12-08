@@ -31,14 +31,14 @@ export default class TextBox extends Component {
   static style = style;
 
   render () {
-    const {relax, tag} = this.props;
+    const {relax} = this.props;
     const {Element} = this.context;
     const classMap = this.props.styleClassMap;
 
     return (
       <Element
         {...relax}
-        htmlTag={tag}
+        htmlTag='div'
         settings={settings}
         className={classMap.holder}
       >
@@ -48,7 +48,7 @@ export default class TextBox extends Component {
   }
 
   renderContent () {
-    const {styleClassMap, relax, children} = this.props;
+    const {styleClassMap, relax, children, tag} = this.props;
     const {editing, selected} = relax;
     const {ElementText} = this.context;
 
@@ -64,6 +64,7 @@ export default class TextBox extends Component {
         className={cx(classes.text, styleClassMap.text)}
         relax={relax}
         value={html}
+        tag={tag}
       />
     );
   }
