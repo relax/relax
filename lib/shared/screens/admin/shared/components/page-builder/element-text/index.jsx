@@ -12,11 +12,16 @@ export default class ElementText extends Component {
   static propTypes = {
     relax: PropTypes.object.isRequired,
     value: PropTypes.string,
-    className: PropTypes.string
+    className: PropTypes.string,
+    tag: PropTypes.string
   };
 
   static contextTypes = {
     store: PropTypes.object.isRequired
+  };
+
+  static defaultProps = {
+    tag: 'div'
   };
 
   @bind
@@ -36,14 +41,14 @@ export default class ElementText extends Component {
   }
 
   render () {
-    const {relax, className, value} = this.props;
+    const {relax, className, value, tag} = this.props;
     const {editing, selected} = relax;
     let result;
 
     if (editing && selected) {
       result = (
         <Editor
-          tag='div'
+          tag={tag}
           className={className}
           onChange={this.onChange}
           value={value}
@@ -51,7 +56,7 @@ export default class ElementText extends Component {
       );
     } else {
       result = (
-        <div
+        <this.props.tag
           className={cx(className, editing && styles.cursor)}
           dangerouslySetInnerHTML={{__html: value}}
         />
