@@ -43,7 +43,10 @@ export default class ListSearchSort extends Component {
     const query = Object.assign({}, location.query, {
       s: this.state.search
     });
-    this.context.store.dispatch(push(location.pathname, query));
+    this.context.store.dispatch(push({
+      pathname: location.pathname,
+      query
+    }));
   }
 
   @bind
