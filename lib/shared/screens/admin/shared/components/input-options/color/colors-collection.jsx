@@ -1,5 +1,6 @@
 import Component from 'components/component';
 import Input from 'components/input-options/input';
+import ModalDelete from 'components/modal-delete';
 import bind from 'decorators/bind';
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
@@ -16,6 +17,7 @@ export default class ColorsCollection extends Component {
     addingColorName: PropTypes.string.isRequired,
     changeAddingColor: PropTypes.func.isRequired,
     toggleAddingColor: PropTypes.func.isRequired,
+    removeConfirm: PropTypes.bool,
     addColor: PropTypes.func.isRequired,
     editing: PropTypes.bool.isRequired,
     editingSelected: PropTypes.array.isRequired,
@@ -29,7 +31,8 @@ export default class ColorsCollection extends Component {
     removeSelectedColors: PropTypes.func.isRequired,
     updateSelectedName: PropTypes.func.isRequired,
     cancelSelectedColorEdit: PropTypes.func.isRequired,
-    updateSelectedColorEdit: PropTypes.func.isRequired
+    updateSelectedColorEdit: PropTypes.func.isRequired,
+    toggleRemoveConfirm: PropTypes.func.isRequired
   };
 
   @bind
@@ -142,9 +145,9 @@ export default class ColorsCollection extends Component {
       editingSelected,
       editingSelectedColor,
       toggleEditingColor,
-      removeSelectedColors,
       cancelSelectedColorEdit,
-      updateSelectedColorEdit
+      updateSelectedColorEdit,
+      toggleRemoveConfirm
     } = this.props;
 
     if (editing && !editingColor) {
@@ -172,15 +175,33 @@ export default class ColorsCollection extends Component {
             </div>
             <div
               className={cx(styles.button, styles.deleteButton, editingSelected.length === 0 && styles.disabled)}
-              onClick={removeSelectedColors}
+              onClick={toggleRemoveConfirm}
             >
               Delete
             </div>
+            {this.renderRemoveConfirm()}
           </div>
         );
       }
 
       return result;
+    }
+  }
+
+  renderRemoveConfirm () {
+    const {removeConfirm, removeSelectedColors, toggleRemoveConfirm} = this.props;
+
+    if (removeConfirm) {
+      return (
+        <ModalDelete
+          cancelLabel='Cancel'
+          deleteLabel='Delete'
+          title='Are you sure?'
+          subTitle='You are about to delete the selected colors. Removing a color will fallback to #000000 everywhere it is used. Do this with caution and consider changing the name and/or value instead.'
+          cancel={toggleRemoveConfirm}
+          submit={removeSelectedColors}
+        />
+      );
     }
   }
 }

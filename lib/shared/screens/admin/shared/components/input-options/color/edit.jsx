@@ -47,7 +47,8 @@ export default class Edit extends Component {
     showCollection: PropTypes.bool.isRequired,
     showOpacity: PropTypes.bool.isRequired,
     noPicker: PropTypes.bool,
-    colorPickerDisabled: PropTypes.bool
+    colorPickerDisabled: PropTypes.bool,
+    removeConfirm: PropTypes.bool
   };
 
   componentDidMount () {
@@ -72,39 +73,43 @@ export default class Edit extends Component {
   }
 
   onClose (event) {
-    const holderRect = findDOMNode(this.refs.holder).getBoundingClientRect();
-    const outOfHolder =
-      (event.pageX < holderRect.left || event.pageX > holderRect.left + holderRect.width) ||
-      (event.pageY < holderRect.top || event.pageY > holderRect.top + holderRect.height);
+    const {removeConfirm} = this.props;
 
-    let outOfGradient = true;
-    if (this.refs.linearGradient) {
-      const gradientRect = findDOMNode(this.refs.linearGradient).getBoundingClientRect();
-      outOfGradient =
-        (event.pageX < gradientRect.left - 10 || event.pageX > gradientRect.left + gradientRect.width + 10) ||
-        (event.pageY < gradientRect.top - 10 || event.pageY > gradientRect.top + gradientRect.height + 10);
-    }
+    if (!removeConfirm) {
+      const holderRect = findDOMNode(this.refs.holder).getBoundingClientRect();
+      const outOfHolder =
+        (event.pageX < holderRect.left || event.pageX > holderRect.left + holderRect.width) ||
+        (event.pageY < holderRect.top || event.pageY > holderRect.top + holderRect.height);
 
-    let outOfRadial = true;
-    if (this.refs.radialGradient) {
-      const gradientRect = findDOMNode(this.refs.radialGradient).getBoundingClientRect();
-      outOfRadial =
-        (event.pageX < gradientRect.left - 10 || event.pageX > gradientRect.left + gradientRect.width + 10) ||
-        (event.pageY < gradientRect.top - 10 || event.pageY > gradientRect.top + gradientRect.height + 10);
-    }
+      let outOfGradient = true;
+      if (this.refs.linearGradient) {
+        const gradientRect = findDOMNode(this.refs.linearGradient).getBoundingClientRect();
+        outOfGradient =
+          (event.pageX < gradientRect.left - 10 || event.pageX > gradientRect.left + gradientRect.width + 10) ||
+          (event.pageY < gradientRect.top - 10 || event.pageY > gradientRect.top + gradientRect.height + 10);
+      }
 
-    let outOfInfo = true;
-    if (this.props.infoElement) {
-      const infoRect = findDOMNode(this.props.infoElement).getBoundingClientRect();
-      outOfInfo =
-        (event.pageX < infoRect.left || event.pageX > infoRect.left + infoRect.width) ||
-        (event.pageY < infoRect.top || event.pageY > infoRect.top + infoRect.height);
-    }
+      let outOfRadial = true;
+      if (this.refs.radialGradient) {
+        const gradientRect = findDOMNode(this.refs.radialGradient).getBoundingClientRect();
+        outOfRadial =
+          (event.pageX < gradientRect.left - 10 || event.pageX > gradientRect.left + gradientRect.width + 10) ||
+          (event.pageY < gradientRect.top - 10 || event.pageY > gradientRect.top + gradientRect.height + 10);
+      }
 
-    if (outOfHolder && outOfGradient && outOfInfo && outOfRadial) {
-      event.preventDefault();
-      event.stopPropagation();
-      this.props.toggleOpened();
+      let outOfInfo = true;
+      if (this.props.infoElement) {
+        const infoRect = findDOMNode(this.props.infoElement).getBoundingClientRect();
+        outOfInfo =
+          (event.pageX < infoRect.left || event.pageX > infoRect.left + infoRect.width) ||
+          (event.pageY < infoRect.top || event.pageY > infoRect.top + infoRect.height);
+      }
+
+      if (outOfHolder && outOfGradient && outOfInfo && outOfRadial) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.props.toggleOpened();
+      }
     }
   }
 
