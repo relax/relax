@@ -155,6 +155,9 @@ export default class Entry extends Component {
       events.onMouseEnter = this.onMouseOver;
       events.onMouseLeave = this.onMouseOut;
     }
+    if (isSelected) {
+      events.id = 'selected-element'; // for scroll initial position
+    }
 
     return (
       <div

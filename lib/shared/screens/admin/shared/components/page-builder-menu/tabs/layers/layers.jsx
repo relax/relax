@@ -4,6 +4,7 @@ import Scrollable from 'components/scrollable';
 import bind from 'decorators/bind';
 import traverser from 'helpers/traverser';
 import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 
 import Empty from './empty';
 import Entry from './entry';
@@ -28,11 +29,26 @@ export default class Layers extends Component {
     pageBuilderActions: PropTypes.object.isRequired
   };
 
+  componentDidMount () {
+    const elem = document.getElementById('selected-element');
+    const scroll = this.refs.scroll;
+
+    if (elem) {
+      const rect = elem.getBoundingClientRect();
+      const scrollRect = findDOMNode(scroll).getBoundingClientRect();
+      const relativeTop = rect.top - scrollRect.top;
+
+      if (relativeTop > scrollRect.height / 2) {
+        scroll.refs.gemini.refs['scroll-view'].scrollTop = relativeTop - scrollRect.height / 2;
+      }
+    }
+  }
+
   render () {
     const {pageBuilderActions} = this.props;
 
     return (
-      <Scrollable>
+      <Scrollable ref='scroll'>
         <div className={styles.filterDisplay}>
           <button
             className={styles.trigger}
