@@ -20,7 +20,12 @@ var webpackConfig = module.exports = {
       {
         test: /\.(js|jsx)$/,
         loader: 'babel',
-        exclude: /node_modules/,
+        include: [
+          /app.js/,
+          /lib\//,
+          /node_modules\/relax-element-/,
+          /addons\/node_modules\/relax-element-/
+        ],
         query: {
           cacheDirectory: true,
           presets: ['react', 'es2015', 'stage-0'],

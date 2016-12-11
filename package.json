@@ -9,6 +9,8 @@
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config ./webpack/prod/webpack.config.js",
+    "install": "yarn installAddons",
+    "installAddons": "node bin/install-addons",
     "start": "cross-env NODE_ENV=production node build/app",
     "startDev": "cross-env NODE_ENV=development node build/app",
     "dev": "parallelshell \"yarn webpackServer\" \"yarn watchServer\"",
