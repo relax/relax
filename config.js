@@ -19,5 +19,8 @@ module.exports = rc('relax', {
       }
     },
     exitOnError: false
+  },
+  addons: {
+    elements: []
   }
 });
