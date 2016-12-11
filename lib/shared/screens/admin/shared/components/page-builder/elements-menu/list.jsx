@@ -49,7 +49,6 @@ export default class List extends Component {
     const categoryElements = [];
 
     forEach(elements, (element, index) => {
-      console.log(element);
       if (element.settings && element.settings.category) {
         if (element.settings.category === category &&
             this.props.elementAcceptable(index, element) &&
