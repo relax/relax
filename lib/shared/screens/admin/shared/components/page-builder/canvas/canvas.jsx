@@ -71,7 +71,7 @@ export default class Canvas extends Component {
 
   render () {
     const {display, template, doc, type, editing} = this.props;
-    const templateHasLinks = template && template.links && template.links[type];
+    const templateHasLinks = !!(template && template.links && template.links[type]);
     const bodyStyle = {
       maxWidth: displays[display]
     };
