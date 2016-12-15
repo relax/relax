@@ -36,7 +36,7 @@
     "graphql": "^0.4.7",
     "graphql-type-json": "^0.1.2",
     "history": "1.17.0",
-    "hoist-non-react-statics": "^1.0.3",
+    "hoist-non-react-statics": "^1.2.0",
     "invariant": "^2.2.0",
     "js-md5": "^0.3.0",
     "kerberos": "^0.0.21",
