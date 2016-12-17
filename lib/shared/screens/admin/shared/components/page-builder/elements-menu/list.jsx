@@ -1,9 +1,9 @@
-import cx from 'classnames';
-import forEach from 'lodash/forEach';
 import Component from 'components/component';
 import Scrollable from 'components/scrollable';
-import React, {PropTypes} from 'react';
+import cx from 'classnames';
 import elements from 'elements';
+import forEach from 'lodash/forEach';
+import React, {PropTypes} from 'react';
 
 import styles from './list.less';
 
@@ -49,7 +49,13 @@ export default class List extends Component {
     const categoryElements = [];
 
     forEach(elements, (element, index) => {
-      if (element.settings && element.settings.category) {
+      const elementSettings = element.settings;
+
+      if (elementSettings.indexable === false) {
+        return;
+      }
+
+      if (elementSettings && elementSettings.category) {
         if (element.settings.category === category &&
             this.props.elementAcceptable(index, element) &&
             index !== 'Symbol') {
