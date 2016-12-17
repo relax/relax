@@ -1,15 +1,15 @@
-import bind from 'decorators/bind';
-import cx from 'classnames';
-import forEach from 'lodash/forEach';
 import Animate from 'components/animate';
 import Component from 'components/component';
+import bind from 'decorators/bind';
+import cx from 'classnames';
+import elements from 'elements';
+import forEach from 'lodash/forEach';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
-import elements from 'elements';
 
-import styles from './elements-menu.less';
 import List from './list';
 import Search from './search';
+import styles from './elements-menu.less';
 
 export default class ElementsMenu extends Component {
   static fragments = {
@@ -81,6 +81,10 @@ export default class ElementsMenu extends Component {
       let suggestionweight = categories.length + 2;
 
       forEach(elements, (element, name) => {
+        if (element.settings.indexable === false) {
+          return;
+        }
+
         if (name && this.elementAcceptable(name, element) && name.toLowerCase().indexOf(searchLowered) !== -1) {
           let weight = categories.length;
           forEach(categories, (category, ind) => {
