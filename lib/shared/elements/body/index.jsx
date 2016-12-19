@@ -1,13 +1,19 @@
 import Component from 'components/component';
-import React from 'react';
-import relaxElement from 'decorators/relax-element';
+import React, {PropTypes} from 'react';
 
-@relaxElement()
+import settings from './settings';
+
 export default class BodyElement extends Component {
+  static propTypes = {
+    renderChildren: PropTypes.func.isRequired
+  };
+
+  static settings = settings;
+
   render () {
     return (
       <div>
-        BODY
+        {this.props.renderChildren()}
       </div>
     );
   }
