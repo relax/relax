@@ -19,7 +19,7 @@ export default class SettingsTab extends Component {
     const {selected} = this.props;
     let result;
 
-    if (selected && selected.id !== 'body') {
+    if (selected && selected.id !== 'Body') {
       result = this.renderContent();
     } else {
       result = this.renderNonSelected();
@@ -48,7 +48,7 @@ export default class SettingsTab extends Component {
   renderActionButtons () {
     const {selected, selectedElement, duplicate, remove, isTemplate} = this.props;
 
-    if (selected && selected.id !== 'body') {
+    if (selected && selected.id !== 'Body') {
       let result;
 
       if (isTemplate) {

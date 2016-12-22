@@ -22,7 +22,7 @@ export default class Breadcrumbs extends Component {
           className={styles.current}
           key='current'
         >
-          {(selectedElement && (selectedElement.label || selectedElement.tag)) || 'body'}
+          {(selectedElement && (selectedElement.label || selectedElement.tag)) || 'Body'}
         </span>
         {selectedPath && selectedPath.slice(0).reverse().map(this.renderEntry, this)}
       </div>

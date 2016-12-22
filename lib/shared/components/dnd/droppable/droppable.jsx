@@ -183,7 +183,7 @@ export default class Droppable extends Component {
     const {dropInfo, type, accepts, rejects, openElementsMenu} = this.props;
 
     openElementsMenu({
-      targetId: dropInfo.id || 'body',
+      targetId: dropInfo.id || 'Body',
       targetContext: dropInfo.context || 'data',
       targetType: type,
       targetPosition: position,
