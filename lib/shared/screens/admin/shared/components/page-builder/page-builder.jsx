@@ -9,8 +9,6 @@ import React, {PropTypes} from 'react';
 import {Component as Jss} from 'relax-jss';
 
 import Canvas from './canvas';
-import Element from './element';
-import ElementText from './element-text';
 import ElementsMenu from './elements-menu';
 import styles from './page-builder.less';
 
@@ -24,21 +22,6 @@ export default class PageBuilder extends Component {
     loading: PropTypes.bool.isRequired,
     type: PropTypes.string.isRequired
   };
-
-  static childContextTypes = {
-    dropHighlight: PropTypes.string.isRequired,
-    Element: PropTypes.func.isRequired,
-    ElementText: PropTypes.func.isRequired
-  };
-
-  getChildContext () {
-    const {dragging} = this.props;
-    return {
-      dropHighlight: dragging ? 'vertical' : 'none',
-      Element,
-      ElementText
-    };
-  }
 
   componentDidMount () {
     const {
@@ -110,6 +93,7 @@ export default class PageBuilder extends Component {
 
   renderDragger () {
     const {dragging, pageBuilderActions} = this.props;
+
     if (dragging) {
       return (
         <Dragger onStopDrag={pageBuilderActions.draggedComponent} />

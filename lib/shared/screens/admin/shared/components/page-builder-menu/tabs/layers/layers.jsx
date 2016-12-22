@@ -11,8 +11,8 @@ import Entry from './entry';
 import styles from './layers.less';
 
 const bodyDropInfo = {
-  id: 'body',
-  type: 'body',
+  id: 'Body',
+  type: 'Body',
   context: 'data'
 };
 export default class Layers extends Component {
@@ -86,8 +86,8 @@ export default class Layers extends Component {
     if (!template) {
       content = (
         <Droppable
-          key='body'
-          type='body'
+          key='Body'
+          type='Body'
           placeholder
           dropInfo={bodyDropInfo}
           showMarks={false}
