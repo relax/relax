@@ -11,11 +11,8 @@ export default class Section extends Component {
     navigation: PropTypes.string,
     styleClassMap: PropTypes.object,
     relax: PropTypes.object.isRequired,
-    children: PropTypes.any
-  };
-
-  static contextTypes = {
-    Element: PropTypes.func.isRequired
+    Element: PropTypes.func.isRequired,
+    renderChildren: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -27,8 +24,7 @@ export default class Section extends Component {
   static style = style;
 
   render () {
-    const {styleClassMap, relax, navigation} = this.props;
-    const {Element} = this.context;
+    const {Element, styleClassMap, relax, navigation, renderChildren} = this.props;
 
     const props = {
       ...relax,
@@ -44,11 +40,7 @@ export default class Section extends Component {
     return (
       <Element {...props}>
         <div style={{position: 'relative'}} className={cx(styleClassMap.content)}>
-          {Element.renderContent({
-            relax,
-            children: this.props.children,
-            settings
-          })}
+          {renderChildren()}
         </div>
       </Element>
     );

@@ -1,13 +1,11 @@
 import Component from 'components/component';
 import Draggable from 'components/dnd/draggable';
-import Droppable from 'components/dnd/droppable';
 import bind from 'decorators/bind';
 import getElementCss from 'helpers/get-element-css';
 import velocity from 'relax-velocity-animate';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
-import Empty from './empty';
 import Highlight from './highlight';
 import styles from './element.less';
 
@@ -256,44 +254,20 @@ export default class Element extends Component {
   }
 
   renderContent () {
-    const {editing, settings, element, focused, disableSelection, context} = this.props;
+    const {editing, focused} = this.props;
     let result;
 
-    if (editing && !disableSelection && settings.drop && !settings.drop.customDropArea) {
-      const droppableProps = Object.assign({
-        dropInfo: {
-          id: element.id,
-          context
-        },
-        type: element.tag,
-        placeholder: true,
-        placeholderRender: this.renderPlaceholder
-      }, settings.drop);
-
+    if (editing && focused) {
       result = (
-        <Droppable {...droppableProps}>
+        <div className={styles.focused}>
           {this.props.children}
-        </Droppable>
+        </div>
       );
     } else {
       result = this.props.children;
     }
 
-    if (editing && focused) {
-      result = (
-        <div className={styles.focused}>{result}</div>
-      );
-    }
-
     return result;
-  }
-
-  @bind
-  renderPlaceholder (options) {
-    const {settings, element} = this.props;
-    return (
-      <Empty {...options} settings={settings} element={element} />
-    );
   }
 
   renderHighlight () {

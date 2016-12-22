@@ -11,9 +11,11 @@ export default class BodyElement extends Component {
   static settings = settings;
 
   render () {
+    const {renderChildren} = this.props;
+
     return (
       <div>
-        {this.props.renderChildren()}
+        {renderChildren()}
       </div>
     );
   }

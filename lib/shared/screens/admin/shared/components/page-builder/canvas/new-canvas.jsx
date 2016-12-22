@@ -1,11 +1,12 @@
-import Body from 'elements/body';
 import Component from 'components/component';
 import Scrollable from 'components/scrollable';
 import Styles from 'components/styles';
+import bind from 'decorators/bind';
 import displays from 'statics/displays';
 import React, {PropTypes} from 'react';
 
 import NoLinks from './no-links';
+import PageElement from './page-element';
 import classes from './canvas.less';
 
 export default class Canvas extends Component {
@@ -15,6 +16,11 @@ export default class Canvas extends Component {
     template: PropTypes.object
   };
 
+  @bind
+  onScroll () {
+    window.dispatchEvent(new Event('scroll'));
+  }
+
   render () {
     const {display} = this.props;
     const bodyStyle = {
@@ -23,7 +29,7 @@ export default class Canvas extends Component {
 
     return (
       <Scrollable className={classes.canvas} onScroll={this.onScroll}>
-        <div className={classes.content} style={bodyStyle} ref='body' id='pb-canvas'>
+        <div className={classes.content} style={bodyStyle} ref='Body' id='pb-canvas'>
           {this.renderContent()}
         </div>
         {this.renderNoLinks()}
@@ -42,12 +48,15 @@ export default class Canvas extends Component {
   }
 
   renderContent () {
-    const {template} = this.props;
+    const {template, type} = this.props;
 
     return (
-      <Body
-        id='body'
-        context={template ? template._id : 'data'}
+      <PageElement
+        id='Body'
+        contextDoc={template ? 'template' : 'draft'}
+        contextProperty='data'
+        links={template && template.links && template.links[type]}
+        linksData='draft'
       />
     );
   }

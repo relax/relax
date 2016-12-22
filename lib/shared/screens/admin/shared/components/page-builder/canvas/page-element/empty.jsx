@@ -1,6 +1,7 @@
-import cx from 'classnames';
 import Animate from 'components/animate';
 import Component from 'components/component';
+import bind from 'decorators/bind';
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
 import styles from './empty.less';
@@ -13,15 +14,38 @@ export default class Empty extends Component {
     isActive: PropTypes.bool
   };
 
+  @bind
   onClick () {
     this.props.spotClick(0, this.refs.button);
   }
 
   render () {
-    const {isActive} = this.props;
+    const {isActive, element} = this.props;
+    let result;
+
+    if (element.id === 'Body') {
+      result = this.renderBody();
+    } else {
+      result = (
+        <div className={cx(styles.root, isActive && styles.active)}>
+          {isActive ? this.renderActive() : this.renderNormal()}
+        </div>
+      );
+    }
+
+    return result;
+  }
+
+  renderBody () {
     return (
-      <div className={cx(styles.root, isActive && styles.active)}>
-        {isActive ? this.renderActive() : this.renderNormal()}
+      <div className={styles.body}>
+        <div className={styles.wrapper}>
+          <div className={styles.title}>Let's get you started</div>
+          <div className={styles.subTitle}>Click the blue dot below to add your first element</div>
+          <button className={styles.button} onClick={this.onClick} ref='button'>
+            <i className='nc-icon-mini ui-1_simple-add'></i>
+          </button>
+        </div>
       </div>
     );
   }
@@ -37,7 +61,7 @@ export default class Empty extends Component {
           </div>
           <div className={styles.actions}>
             <span>Drop elements here or </span>
-            <button className={styles.addButton} onClick={::this.onClick} ref='button'>click to add</button>
+            <button className={styles.addButton} onClick={this.onClick} ref='button'>click to add</button>
           </div>
         </div>
       </Animate>

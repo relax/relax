@@ -18,8 +18,8 @@ import classes from './canvas.less';
 
 const defaultStyleClassMap = {};
 const bodyDropInfo = {
-  id: 'body',
-  type: 'body',
+  id: 'Body',
+  type: 'Body',
   context: 'data'
 };
 
@@ -88,8 +88,8 @@ export default class Canvas extends Component {
     if (!template) {
       content = (
         <Droppable
-          key='body'
-          type='body'
+          key='Body'
+          type='Body'
           placeholder
           placeholderRender={this.renderPlaceholder}
           dropInfo={bodyDropInfo}
@@ -101,7 +101,7 @@ export default class Canvas extends Component {
 
     return (
       <Scrollable className={classes.canvas} onScroll={this.onScroll}>
-        <div className={classes.content} style={bodyStyle} ref='body' id='pb-canvas'>
+        <div className={classes.content} style={bodyStyle} ref='Body' id='pb-canvas'>
           {content}
         </div>
         {template && !templateHasLinks && <NoLinks templateId={template._id} />}
@@ -183,11 +183,11 @@ export default class Canvas extends Component {
         resultChildren = (
           <Droppable
             key={`${context}-${elementId}-body`}
-            type='body'
+            type='Body'
             placeholder
             placeholderRender={this.renderPlaceholder}
             dropInfo={{
-              id: 'body',
+              id: 'Body',
               context: builderLink.property
             }}
           >

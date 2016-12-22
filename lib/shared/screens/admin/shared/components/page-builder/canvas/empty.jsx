@@ -12,7 +12,7 @@ export default class Empty extends Component {
   @bind
   onClick () {
     const {pageBuilderActions} = this.props;
-    pageBuilderActions.addElementAt({tag: 'Section'}, {id: 'body', position: 0, context: 'data'});
+    pageBuilderActions.addElementAt({tag: 'Section'}, {id: 'Body', position: 0, context: 'data'});
   }
 
   render () {
