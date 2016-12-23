@@ -13,6 +13,7 @@ export default class Element extends Component {
   static propTypes = {
     display: PropTypes.string.isRequired,
     editing: PropTypes.bool.isRequired,
+    selectable: PropTypes.bool.isRequired,
     settings: PropTypes.object.isRequired,
     element: PropTypes.object.isRequired,
     positionInParent: PropTypes.number.isRequired,
@@ -219,7 +220,7 @@ export default class Element extends Component {
 
   renderTag () {
     const HtmlTag = this.props.htmlTag;
-    const {style, className, editing, isHighlightable, element, disableSelection} = this.props;
+    const {style, className, selectable, isHighlightable, element} = this.props;
 
     const calcStyle = Object.assign({}, style);
     this.processAnimationStyle(calcStyle);
@@ -230,11 +231,10 @@ export default class Element extends Component {
       className
     };
 
-    if (editing && !disableSelection) {
+    if (selectable) {
       tagProps.onMouseOver = this.onMouseOver;
       tagProps.onMouseOut = this.onMouseOut;
-    }
-    if (editing) {
+
       tagProps.ref = (ref) => {
         !this.state.ref && this.setState({
           ref
@@ -254,10 +254,10 @@ export default class Element extends Component {
   }
 
   renderContent () {
-    const {editing, focused} = this.props;
+    const {selectable, focused} = this.props;
     let result;
 
-    if (editing && focused) {
+    if (selectable && focused) {
       result = (
         <div className={styles.focused}>
           {this.props.children}
