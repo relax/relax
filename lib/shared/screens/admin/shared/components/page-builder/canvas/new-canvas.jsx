@@ -14,7 +14,9 @@ export default class Canvas extends Component {
     display: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     template: PropTypes.object,
-    updateStylesMap: PropTypes.func.isRequired
+    updateStylesMap: PropTypes.func.isRequired,
+    editing: PropTypes.bool.isRequired,
+    building: PropTypes.bool.isRequired
   };
 
   @bind
@@ -49,7 +51,7 @@ export default class Canvas extends Component {
   }
 
   renderContent () {
-    const {template, type, updateStylesMap} = this.props;
+    const {template, type, updateStylesMap, editing, building} = this.props;
     const hasTemplate = !!template;
 
     const result = (
@@ -59,8 +61,11 @@ export default class Canvas extends Component {
         contextProperty='data'
         links={template && template.links && template.links[type]}
         linksData='draft'
-        disabled={hasTemplate}
         updateStylesMap={updateStylesMap}
+        positionInParent={0}
+        editable={!hasTemplate}
+        editing={editing}
+        building={building}
       />
     );
 
