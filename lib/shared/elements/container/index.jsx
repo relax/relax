@@ -9,11 +9,9 @@ export default class Container extends Component {
   static propTypes = {
     styleClassMap: PropTypes.object,
     children: PropTypes.node,
-    relax: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
-    Element: PropTypes.func.isRequired
+    relax: PropTypes.object.isRequired,
+    Element: PropTypes.func.isRequired,
+    renderChildren: PropTypes.func.isRequired
   };
 
   static propsSchema = propsSchema;
@@ -21,8 +19,7 @@ export default class Container extends Component {
   static style = style;
 
   render () {
-    const {styleClassMap, relax} = this.props;
-    const {Element} = this.context;
+    const {Element, styleClassMap, relax, renderChildren} = this.props;
 
     const props = {
       ...relax,
@@ -34,7 +31,7 @@ export default class Container extends Component {
     return (
       <div className={styleClassMap.holder}>
         <Element {...props}>
-          {this.props.children}
+          {renderChildren()}
         </Element>
       </div>
     );
