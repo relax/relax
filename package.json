@@ -2,25 +2,7 @@
   "private": true,
   "version": "0.0.0",
   "license": "GPL-3.0",
-  "scripts": {
-    "build": "cross-env NODE_ENV=production webpack --config ./webpack/prod/webpack.config.js",
-    "install": "yarn installAddons",
-    "installAddons": "node bin/install-addons",
-    "start": "cross-env NODE_ENV=production node build/app",
-    "startDev": "cross-env NODE_ENV=development node build/app",
-    "dev": "parallelshell \"yarn webpackServer\" \"yarn watchServer\"",
-    "watchServer": "nodemon -e js,jsx,json -w app.js -w lib -i lib/client -x \"webpack --config ./webpack/dev/webpack.node.config.js && yarn startDev\"",
-    "webpackServer": "webpack-dev-server --config ./webpack/dev/webpack.browser.config.js --inline --hot --quiet --display-error-details",
-    "eslint": "eslint ./lib --ext .js --ext .jsx",
-    "test": "cross-env NODE_ENV=test mocha-webpack --colors --webpack-config ./webpack/test/webpack.config \"lib/**/__tests__/*.js\""
-  },
   "devDependencies": {
     "lerna": "2.0.0-beta.31"
-  },
-  "importSort": {
-    ".js, .jsx, .es6, .es": {
-      "parser": "babylon",
-      "style": "renke"
-    }
   }
 }
