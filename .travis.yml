@@ -4,6 +4,7 @@ services:
 notifications:
   slack: relaxcms:Fr4KeA1SELAxxfd5H9acm2dX
 before_install:
+  - cd packages/relax
   - curl -L https://releases.rancher.com/compose/v0.11.0-rc14/rancher-compose-linux-amd64-v0.11.0-rc14.tar.gz > rancher-compose.tar.gz
   - tar -xvzf rancher-compose.tar.gz
   - rm *.gz
@@ -22,6 +23,6 @@ after_success:
     docker push relax/nginx;
     fi
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    cd docker;
+    cd packages/relax/docker;
     rancher-compose -f docker-compose-staging.yml --url http://rancher.getrelax.io --access-key $RANCHER_ACCESS_KEY --secret-key $RANCHER_SECRET_KEY -p relax up -d --confirm-upgrade --pull --force-upgrade;
     fi
