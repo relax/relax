@@ -6,14 +6,27 @@ import React, {PropTypes} from 'react';
 import {removeStyle, saveStyle} from 'actions/styles';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import elements from 'elements';
+import filter from 'lodash/filter';
 
 import List from './list';
 
 @connect(
-  (state) => ({
-    styles: state.styles,
-    selected: state.pageBuilder.selected
-  }),
+  (state) => {
+    const {selectedElement} = state.pageBuilder;
+    const ElementClass = selectedElement && elements[selectedElement.tag];
+    const styleType = typeof ElementClass.style === 'string' ? ElementClass.style : ElementClass.style.type;
+
+    let styles = [];
+    if (state.styles) {
+      styles = filter(state.styles, (style) => (style.type === styleType));
+    }
+
+    return {
+      styles,
+      selected: state.pageBuilder.selected
+    };
+  },
   (dispatch) => bindActionCreators({...pageBuilderActions, removeStyle, saveStyle}, dispatch)
 )
 export default class StylePickerListContainer extends Component {

@@ -11,12 +11,17 @@ export default class TextBox extends Component {
   static propTypes = {
     children: PropTypes.node,
     styleClassMap: PropTypes.object,
-    relax: PropTypes.object.isRequired
+    relax: PropTypes.object.isRequired,
+    tag: PropTypes.string
   };
 
   static contextTypes = {
     Element: PropTypes.func.isRequired,
     ElementText: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    tag: 'p'
   };
 
   static defaultChildren = 'Click to edit text';
@@ -43,7 +48,7 @@ export default class TextBox extends Component {
   }
 
   renderContent () {
-    const {styleClassMap, relax, children} = this.props;
+    const {styleClassMap, relax, children, tag} = this.props;
     const {editing, selected} = relax;
     const {ElementText} = this.context;
 
@@ -59,6 +64,7 @@ export default class TextBox extends Component {
         className={cx(classes.text, styleClassMap.text)}
         relax={relax}
         value={html}
+        tag={tag}
       />
     );
   }

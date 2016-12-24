@@ -53,6 +53,18 @@ export default {
           ]
         }
       ]
+    },
+    {
+      label: 'Custom',
+      type: 'Section',
+      id: 'customSection',
+      unlocks: [
+        {
+          label: 'Custom Properties',
+          type: 'Custom',
+          id: 'custom'
+        }
+      ]
     }
   ],
   defaults: {
@@ -83,7 +95,8 @@ export default {
       .setPosition(props.position)
       .setMarginPadding(props.marginPadding)
       .setProperty('height', props.size)
-      .setProperty('textAlign', props.useMaxWidth && props.align);
+      .setProperty('textAlign', props.useMaxWidth && props.align)
+      .setCustoms(props.custom);
 
     css(rules.line)
       .setProperty('borderBottom', `${props.size} ${props.style} ${getColorString(props.color)}`)

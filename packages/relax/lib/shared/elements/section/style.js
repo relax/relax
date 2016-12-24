@@ -25,24 +25,57 @@ export default {
       unlocks: [
         {
           label: 'Fix Height',
-          type: 'Optional',
+          type: 'Buttons',
           id: 'useFixHeight',
-          unlocks: [
-            {
-              label: 'Percentage from viewport',
-              type: 'Percentage',
-              id: 'heightPerc',
-              props: {
-                min: 0,
-                max: 200
+          props: {
+            labels: ['Auto', 'Viewport %', 'Custom'],
+            values: ['auto', 'viewport', 'custom']
+          },
+          unlocks: {
+            viewport: [
+              {
+                label: 'Percentage from viewport',
+                type: 'Percentage',
+                id: 'heightPerc',
+                props: {
+                  min: 0,
+                  max: 200
+                }
+              },
+              {
+                label: 'Content vertical alignment',
+                type: 'Percentage',
+                id: 'contentVertical'
               }
-            },
-            {
-              label: 'Content vertical alignment',
-              type: 'Percentage',
-              id: 'contentVertical'
-            }
-          ]
+            ],
+            custom: [
+              {
+                label: 'Custom Height',
+                type: 'Number',
+                id: 'height',
+                props: {
+                  allowed: ['%', 'px', 'pt']
+                }
+              },
+              {
+                label: 'Content vertical alignment',
+                type: 'Percentage',
+                id: 'contentVertical'
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      label: 'Custom',
+      type: 'Section',
+      id: 'customSection',
+      unlocks: [
+        {
+          label: 'Custom Properties',
+          type: 'Custom',
+          id: 'custom'
         }
       ]
     }
@@ -58,8 +91,9 @@ export default {
       'padding-left': '20px'
     },
     background: [],
-    useFixHeight: false,
+    useFixHeight: 'auto',
     heightPerc: '100%',
+    height: '300px',
     contentVertical: '50%'
   },
   rules: (props) => {
@@ -71,9 +105,13 @@ export default {
       .setPosition(props.position)
       .setMarginPadding(props.marginPadding)
       .setBackground(props.background)
-      .setProperty('height', props.useFixHeight && `${parseInt(props.heightPerc, 10)}vh`);
+      .setCustoms(props.custom)
+      .when(props.useFixHeight === 'viewport')
+        .setProperty('height', `${parseInt(props.heightPerc, 10)}vh`)
+      .when(props.useFixHeight === 'custom')
+        .setProperty('height', props.height);
 
-    if (props.useFixHeight) {
+    if (props.useFixHeight !== 'auto') {
       css(contentRule)
         .setProperty('position', 'relative')
         .setProperty('top', props.contentVertical)

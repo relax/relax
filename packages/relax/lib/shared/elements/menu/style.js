@@ -392,6 +392,18 @@ export default {
           ]
         }
       ]
+    },
+    {
+      label: 'Custom',
+      type: 'Section',
+      id: 'customSection',
+      unlocks: [
+        {
+          label: 'Custom Properties',
+          type: 'Custom',
+          id: 'custom'
+        }
+      ]
     }
   ],
   defaults: {
@@ -481,6 +493,7 @@ export default {
       .setPosition(props.position)
       .setMarginPadding(props.marginPadding)
       .setProperty('textAlign', props.alignment)
+      .setCustoms(props.custom)
       .rules;
 
     const entryRules = css({})

@@ -108,6 +108,18 @@ export default {
           type: 'Boolean'
         }
       ]
+    },
+    {
+      label: 'Custom',
+      type: 'Section',
+      id: 'customSection',
+      unlocks: [
+        {
+          label: 'Custom Properties',
+          type: 'Custom',
+          id: 'custom'
+        }
+      ]
     }
   ],
   defaults: {
@@ -142,6 +154,7 @@ export default {
       .setDisplay(props.display)
       .setPosition(props.position)
       .setProperty('textAlign', props.textAlign)
+      .setCustoms(props.custom)
       .when(props.useTrim)
         .setProperty('maxWidth', props.maxWidth);
 

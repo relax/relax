@@ -399,6 +399,18 @@ export default {
           ]
         }
       ]
+    },
+    {
+      label: 'Custom',
+      type: 'Section',
+      id: 'customSection',
+      unlocks: [
+        {
+          label: 'Custom Properties',
+          type: 'Custom',
+          id: 'custom'
+        }
+      ]
     }
   ],
   defaults: {
@@ -489,6 +501,7 @@ export default {
       .setPosition(props.position)
       .setMarginPadding(props.marginPadding)
       .setProperty('textAlign', props.iconAlignment)
+      .setCustoms(props.custom)
       .rules;
 
     let bordersValue = 0;

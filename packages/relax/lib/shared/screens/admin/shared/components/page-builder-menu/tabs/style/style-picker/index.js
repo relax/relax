@@ -16,7 +16,7 @@ import StylePicker from './style-picker';
 
     let selectedStyle;
     if (selectedElement.style) {
-      selectedStyle = find(styles, '_id', selectedElement.style);
+      selectedStyle = find(styles, ['_id', selectedElement.style]);
     }
 
     return {

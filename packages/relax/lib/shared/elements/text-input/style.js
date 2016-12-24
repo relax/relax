@@ -228,6 +228,18 @@ export default {
           ]
         }
       ]
+    },
+    {
+      label: 'Custom',
+      type: 'Section',
+      id: 'customSection',
+      unlocks: [
+        {
+          label: 'Custom Properties',
+          type: 'Custom',
+          id: 'custom'
+        }
+      ]
     }
   ],
   defaults: {
@@ -336,7 +348,8 @@ export default {
       .setMargin(props.marginPadding)
       .setDisplay(props.display)
       .setPosition(props.position)
-      .setProperty('textAlign', props.align);
+      .setProperty('textAlign', props.align)
+      .setCustoms(props.custom);
 
     return rules;
   }

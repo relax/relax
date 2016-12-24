@@ -72,7 +72,12 @@ export default class Video extends Component {
 
     let height = 300;
     if (this.state.width) {
-      const videoHeight = relax.styleValues.videoHeight;
+      let videoHeight = relax.styleValues.videoHeight;
+
+      if (videoHeight === 'custom') {
+        videoHeight = relax.styleValues.videoHeightPerc;
+      }
+
       height = Math.round(this.state.width * (parseInt(videoHeight, 10) / 100));
     }
 

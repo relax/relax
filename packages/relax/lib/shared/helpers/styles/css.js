@@ -336,4 +336,21 @@ Css.prototype.setBorder = function setBorder (border) {
   return this;
 };
 
+
+/**
+ * setCustoms - sets custom css properties
+ *
+ * @param  {Object} customs
+ * @return {Css} self
+ */
+Css.prototype.setCustoms = function setCustoms (customs) {
+  if (customs) {
+    forEach(customs, (custom) => {
+      this.setProperty(custom.property, custom.value);
+    });
+  }
+
+  return this;
+};
+
 export default (rules) => new Css(rules);
