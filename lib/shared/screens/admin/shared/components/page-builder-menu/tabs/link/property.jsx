@@ -17,7 +17,7 @@ export default class LinkingDataProperty extends Component {
     removeLink: PropTypes.func.isRequired,
     overLink: PropTypes.func.isRequired,
     outLink: PropTypes.func.isRequired,
-    context: PropTypes.string.isRequired,
+    context: PropTypes.object.isRequired,
     goal: PropTypes.string.isRequired
   };
 

@@ -18,7 +18,7 @@ export default class DynamicListEntry extends Component {
     elementsLinks: PropTypes.object,
     schemaEntry: PropTypes.object,
     renderChildren: PropTypes.func.isRequired,
-    context: PropTypes.string.isRequired,
+    context: PropTypes.object.isRequired,
     relax: PropTypes.object.isRequired,
     children: PropTypes.node
   };
