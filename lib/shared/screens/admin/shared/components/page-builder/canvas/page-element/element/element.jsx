@@ -33,7 +33,7 @@ export default class Element extends Component {
     focused: PropTypes.bool,
     disableSelection: PropTypes.bool,
     linkingDataMode: PropTypes.bool,
-    context: PropTypes.string,
+    context: PropTypes.object,
     isHighlightable: PropTypes.bool,
     hasAnimation: PropTypes.bool,
     isTemplate: PropTypes.bool,

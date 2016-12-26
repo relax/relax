@@ -20,7 +20,7 @@ export default class ContextMenu extends Component {
     makeElementDynamic: PropTypes.func.isRequired,
     duplicateElement: PropTypes.func.isRequired,
     removeElement: PropTypes.func.isRequired,
-    context: PropTypes.string.isRequired,
+    context: PropTypes.object.isRequired,
     linkingDataMode: PropTypes.bool,
     dark: PropTypes.bool
   };

@@ -22,7 +22,7 @@ export default class PropertyLink extends Component {
     prefix: PropTypes.string.isRequired,
     link: PropTypes.object.isRequired,
     property: PropTypes.object.isRequired,
-    context: PropTypes.string.isRequired,
+    context: PropTypes.object.isRequired,
     linkedElement: PropTypes.object.isRequired,
     changeLinkAction: PropTypes.func.isRequired,
     removeLink: PropTypes.func.isRequired,

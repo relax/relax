@@ -8,7 +8,7 @@ export default class Breadcrumbs extends Component {
   static propTypes = {
     entry: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
-    context: PropTypes.string
+    context: PropTypes.object
   };
 
   @bind

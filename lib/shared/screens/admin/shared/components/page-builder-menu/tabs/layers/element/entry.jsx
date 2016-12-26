@@ -11,7 +11,7 @@ export default class Entry extends Component {
   static propTypes = {
     pageBuilderActions: PropTypes.object.isRequired,
     element: PropTypes.object.isRequired,
-    context: PropTypes.string.isRequired,
+    context: PropTypes.object.isRequired,
     isExpanded: PropTypes.bool.isRequired,
     hasChildren: PropTypes.bool.isRequired,
     ElementClass: PropTypes.func.isRequired,

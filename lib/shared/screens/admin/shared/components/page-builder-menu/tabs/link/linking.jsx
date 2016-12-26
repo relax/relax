@@ -24,7 +24,7 @@ export default class Linking extends Component {
     removeLink: PropTypes.func.isRequired,
     overLink: PropTypes.func.isRequired,
     outLink: PropTypes.func.isRequired,
-    context: PropTypes.string.isRequired,
+    context: PropTypes.object.isRequired,
     extraLinks: PropTypes.array.isRequired,
     goal: PropTypes.string.isRequired
   };

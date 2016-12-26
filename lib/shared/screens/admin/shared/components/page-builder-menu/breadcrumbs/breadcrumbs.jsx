@@ -11,7 +11,7 @@ export default class Breadcrumbs extends Component {
     selectedPath: PropTypes.array.isRequired,
     selectedElement: PropTypes.object,
     className: PropTypes.string,
-    context: PropTypes.string
+    context: PropTypes.object
   };
 
   render () {

@@ -15,7 +15,7 @@ export default class Highlight extends Component {
     element: PropTypes.object.isRequired,
     settings: PropTypes.object.isRequired,
     dom: PropTypes.any.isRequired,
-    context: PropTypes.string.isRequired,
+    context: PropTypes.object.isRequired,
     linkingDataMode: PropTypes.bool,
     contextMenu: PropTypes.bool,
     elementLinks: PropTypes.array
