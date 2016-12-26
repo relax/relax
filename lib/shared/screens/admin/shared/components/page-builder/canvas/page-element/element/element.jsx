@@ -37,7 +37,7 @@ export default class Element extends Component {
     isHighlightable: PropTypes.bool,
     hasAnimation: PropTypes.bool,
     isTemplate: PropTypes.bool,
-    elementLinks: PropTypes.array
+    hasLink: PropTypes.bool
   };
 
   static defaultProps = {
@@ -234,14 +234,13 @@ export default class Element extends Component {
     if (selectable) {
       tagProps.onMouseOver = this.onMouseOver;
       tagProps.onMouseOut = this.onMouseOut;
-
+    }
+    if (isHighlightable) {
       tagProps.ref = (ref) => {
         !this.state.ref && this.setState({
           ref
         });
       };
-    }
-    if (isHighlightable) {
       tagProps.id = element.id;
     }
 
@@ -280,7 +279,7 @@ export default class Element extends Component {
       focused,
       context,
       linkingDataMode,
-      elementLinks,
+      hasLink,
       isHighlightable,
       isTemplate
     } = this.props;
@@ -293,7 +292,7 @@ export default class Element extends Component {
           overed={overed}
           selected={selected}
           focused={focused}
-          elementLinks={elementLinks}
+          hasLink={hasLink}
           contentElementId={contentElementId}
           context={context}
           linkingDataMode={linkingDataMode}

@@ -1,10 +1,10 @@
 import Component from 'components/component';
+import ContextMenu from 'components/element-context-menu';
 import Portal from 'components/portal';
 import bind from 'decorators/bind';
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
-import ContextMenu from 'components/element-context-menu';
 import styles from './highlight.less';
 
 export default class Highlight extends Component {
@@ -18,7 +18,7 @@ export default class Highlight extends Component {
     context: PropTypes.object.isRequired,
     linkingDataMode: PropTypes.bool,
     contextMenu: PropTypes.bool,
-    elementLinks: PropTypes.array
+    hasLink: PropTypes.bool
   };
 
   componentDidMount () {
@@ -63,7 +63,7 @@ export default class Highlight extends Component {
   }
 
   render () {
-    const {selected, overed, element, linkingDataMode, focused, elementLinks, contextMenu} = this.props;
+    const {selected, overed, element, linkingDataMode, focused, hasLink, contextMenu} = this.props;
     const style = this.getPosition();
 
     return (
@@ -77,7 +77,7 @@ export default class Highlight extends Component {
             focused && styles.focused,                            // element is focused
             element.tag === 'Symbol' && styles.symbol,            // element is symbol
             linkingDataMode && styles.linking,                    // element is in linking data mode
-            elementLinks && elementLinks.length && styles.linked  // element is linked to some property
+            hasLink && styles.linked                              // element is linked to some property
           )}
           style={style}
         >
