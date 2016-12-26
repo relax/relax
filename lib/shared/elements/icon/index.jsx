@@ -11,10 +11,7 @@ export default class Icon extends Component {
   static propTypes = {
     icon: PropTypes.object.isRequired,
     styleClassMap: PropTypes.object,
-    relax: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
+    relax: PropTypes.object.isRequired,
     Element: PropTypes.func.isRequired
   };
 
@@ -29,20 +26,18 @@ export default class Icon extends Component {
   static style = style;
 
   render () {
-    const {relax, styleClassMap, icon} = this.props;
-    const {Element} = this.context;
-    const classMap = styleClassMap || {};
+    const {Element, relax, styleClassMap, icon} = this.props;
     const props = {
       htmlTag: 'div',
       ...relax,
       settings,
-      className: classMap.root
+      className: styleClassMap.root
     };
 
     return (
       <Element {...props}>
-        <div className={cx(classes.holder, classMap.holder)}>
-          <i className={cx(icon && icon.className, classMap.icon)}>
+        <div className={cx(classes.holder, styleClassMap.holder)}>
+          <i className={cx(icon && icon.className, styleClassMap.icon)}>
             {icon && icon.content}
           </i>
         </div>

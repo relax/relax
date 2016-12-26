@@ -13,11 +13,9 @@ export default class Column extends Component {
     type: PropTypes.string,
     left: PropTypes.number,
     right: PropTypes.number,
-    children: PropTypes.any
-  };
-
-  static contextTypes = {
-    Element: PropTypes.func.isRequired
+    children: PropTypes.any,
+    Element: PropTypes.func.isRequired,
+    renderChildren: PropTypes.func.isRequired
   };
 
   static propsSchema = propsSchema;
@@ -43,8 +41,7 @@ export default class Column extends Component {
   }
 
   render () {
-    const {styleClassMap, relax} = this.props;
-    const {Element} = this.context;
+    const {styleClassMap, relax, Element, renderChildren} = this.props;
     const styles = this.getStyles();
 
     return (
@@ -55,7 +52,7 @@ export default class Column extends Component {
           className={styleClassMap.content}
           settings={settings}
         >
-          {this.props.children}
+          {renderChildren()}
         </Element>
       </div>
     );

@@ -14,14 +14,13 @@ export default class Form extends Component {
     action: PropTypes.string,
     schema: PropTypes.string,
     custom: PropTypes.string,
-    children: PropTypes.node,
     relax: PropTypes.object.isRequired,
-    schemaLinks: PropTypes.object
+    schemaLinks: PropTypes.object,
+    Element: PropTypes.func.isRequired
   };
 
   static contextTypes = {
-    store: PropTypes.object.isRequired,
-    Element: PropTypes.func.isRequired
+    store: PropTypes.object.isRequired
   };
 
   static propsSchema = propsSchema;
@@ -83,11 +82,11 @@ export default class Form extends Component {
   }
 
   render () {
-    const {Element} = this.context;
+    const {Element, relax} = this.props;
 
     return (
       <form onSubmit={this.onSubmit}>
-        <Element {...this.props.relax} htmlTag='div' settings={settings}>
+        <Element {...relax} htmlTag='div' settings={settings}>
           {this.renderContent()}
         </Element>
         <input type='submit' hidden />

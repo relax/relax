@@ -13,10 +13,7 @@ export default class Video extends Component {
     type: PropTypes.string.isRequired,
     videoId: PropTypes.string.isRequired,
     relax: PropTypes.object.isRequired,
-    styleClassMap: PropTypes.object
-  };
-
-  static contextTypes = {
+    styleClassMap: PropTypes.object,
     Element: PropTypes.func.isRequired
   };
 
@@ -56,8 +53,7 @@ export default class Video extends Component {
   }
 
   render () {
-    const {styleClassMap, relax} = this.props;
-    const {Element} = this.context;
+    const {Element, styleClassMap, relax} = this.props;
 
     return (
       <Element {...relax} className={styleClassMap.root} htmlTag='div' settings={settings}>

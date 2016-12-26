@@ -12,10 +12,7 @@ export default class Textarea extends Component {
     placeholder: PropTypes.string,
     rows: PropTypes.number,
     styleClassMap: PropTypes.object,
-    relax: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
+    relax: PropTypes.object.isRequired,
     Element: PropTypes.func.isRequired
   };
 
@@ -28,8 +25,7 @@ export default class Textarea extends Component {
   static style = 'input';
 
   render () {
-    const {styleClassMap, relax, name, placeholder, rows} = this.props;
-    const {Element} = this.context;
+    const {Element, styleClassMap, relax, name, placeholder, rows} = this.props;
 
     return (
       <Element

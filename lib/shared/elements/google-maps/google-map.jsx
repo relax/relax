@@ -21,10 +21,7 @@ export default class GoogleMapElement extends Component {
     relax: PropTypes.object.isRequired,
     googleAPI: PropTypes.string,
     loading: PropTypes.bool,
-    styleClassMap: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
+    styleClassMap: PropTypes.object.isRequired,
     Element: PropTypes.func.isRequired
   };
 
@@ -96,8 +93,7 @@ export default class GoogleMapElement extends Component {
   }
 
   render () {
-    const {relax, styleClassMap} = this.props;
-    const {Element} = this.context;
+    const {relax, styleClassMap, Element} = this.props;
 
     return (
       <Element

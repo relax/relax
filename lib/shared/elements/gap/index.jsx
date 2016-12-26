@@ -7,10 +7,7 @@ import settings from './settings';
 export default class Gap extends Component {
   static propTypes = {
     amount: PropTypes.number.isRequired,
-    relax: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
+    relax: PropTypes.object.isRequired,
     Element: PropTypes.func.isRequired
   };
 
@@ -22,13 +19,18 @@ export default class Gap extends Component {
   static settings = settings;
 
   render () {
-    const {Element} = this.context;
+    const {Element, amount, relax} = this.props;
     const style = {
-      height: this.props.amount
+      height: amount
     };
 
     return (
-      <Element {...this.props.relax} htmlTag='div' style={style} settings={settings} />
+      <Element
+        {...relax}
+        htmlTag='div'
+        style={style}
+        settings={settings}
+      />
     );
   }
 }

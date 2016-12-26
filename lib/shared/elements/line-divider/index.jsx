@@ -10,10 +10,7 @@ import style from './style';
 export default class LineDivider extends Component {
   static propTypes = {
     styleClassMap: PropTypes.object,
-    relax: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
+    relax: PropTypes.object.isRequired,
     Element: PropTypes.func.isRequired
   };
 
@@ -22,8 +19,7 @@ export default class LineDivider extends Component {
   static style = style;
 
   render () {
-    const {styleClassMap, relax} = this.props;
-    const {Element} = this.context;
+    const {styleClassMap, relax, Element} = this.props;
 
     return (
       <Element
