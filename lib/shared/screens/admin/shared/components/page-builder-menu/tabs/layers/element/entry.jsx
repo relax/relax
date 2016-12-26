@@ -1,9 +1,8 @@
 import Component from 'components/component';
-import Draggable from 'components/dnd/draggable';
 import ContextMenu from 'components/element-context-menu';
+import Draggable from 'components/dnd/draggable';
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import isElementSelected from 'helpers/is-element-selected';
 import React, {PropTypes} from 'react';
 
 import styles from './entry.less';
@@ -15,20 +14,27 @@ export default class Entry extends Component {
     context: PropTypes.string.isRequired,
     isExpanded: PropTypes.bool.isRequired,
     hasChildren: PropTypes.bool.isRequired,
-    dragging: PropTypes.bool.isRequired,
     ElementClass: PropTypes.func.isRequired,
-    selected: PropTypes.object,
-    overed: PropTypes.object,
+    isSelected: PropTypes.bool.isRequired,
+    isOvered: PropTypes.bool.isRequired,
     hasLinks: PropTypes.bool.isRequired,
-    editable: PropTypes.bool.isRequired,
-    isTemplate: PropTypes.bool.isRequired,
+    isSelectable: PropTypes.bool.isRequired,
     positionInParent: PropTypes.number.isRequired
+  };
+
+  static contextTypes = {
+    store: PropTypes.object.isRequired
   };
 
   getInitState () {
     return {
       options: false
     };
+  }
+
+  isDragging () {
+    const {store} = this.context;
+    return store.getState().dnd.dragging;
   }
 
   @bind
@@ -39,9 +45,9 @@ export default class Entry extends Component {
 
   @bind
   onMouseOver () {
-    const {dragging, pageBuilderActions, element, context, hasChildren, isExpanded} = this.props;
+    const {pageBuilderActions, element, context, hasChildren, isExpanded} = this.props;
 
-    if (!dragging) {
+    if (!this.isDragging()) {
       clearTimeout(this.closeOptionsTimeout);
       pageBuilderActions.overElement(element.id, context);
     } else if (hasChildren && !isExpanded) {
@@ -51,9 +57,9 @@ export default class Entry extends Component {
 
   @bind
   onMouseOut () {
-    const {dragging, pageBuilderActions, element, context} = this.props;
+    const {pageBuilderActions, element, context} = this.props;
 
-    if (!dragging) {
+    if (!this.isDragging()) {
       pageBuilderActions.outElement(element.id, context);
 
       if (this.state.options) {
@@ -84,8 +90,9 @@ export default class Entry extends Component {
 
   @bind
   duplicate (event) {
-    event.preventDefault();
     const {pageBuilderActions, element, context} = this.props;
+    event.preventDefault();
+
     pageBuilderActions.duplicateElement(element.id, context);
     this.setState({
       options: false
@@ -94,8 +101,8 @@ export default class Entry extends Component {
 
   @bind
   remove (event) {
-    event.preventDefault();
     const {pageBuilderActions, element, context} = this.props;
+    event.preventDefault();
 
     pageBuilderActions.removeElement(element.id, context);
     this.setState({
@@ -113,10 +120,10 @@ export default class Entry extends Component {
   }
 
   render () {
-    const {ElementClass, element, context, editable, isTemplate, positionInParent} = this.props;
+    const {ElementClass, element, context, isSelectable, positionInParent} = this.props;
     let result;
 
-    if (element.subComponent || !editable || isTemplate) {
+    if (element.subComponent || !isSelectable) {
       result = (
         <div>
           {this.renderContent()}
@@ -143,14 +150,12 @@ export default class Entry extends Component {
   }
 
   renderContent () {
-    const {ElementClass, selected, overed, element, context, hasChildren, hasLinks, editable} = this.props;
-
-    const isSelected = isElementSelected(selected, {id: element.id, context});
-    const isOvered = isElementSelected(overed, {id: element.id, context});
+    const {ElementClass, isSelected, isOvered, element, hasChildren, hasLinks, isSelectable} = this.props;
     const subComponent = element.subComponent;
+    const settings = ElementClass.settings;
 
     const events = {};
-    if (editable) {
+    if (isSelectable) {
       events.onClick = this.onClick;
       events.onMouseEnter = this.onMouseOver;
       events.onMouseLeave = this.onMouseOut;
@@ -168,14 +173,16 @@ export default class Entry extends Component {
           hasChildren && styles.hasChildren,
           subComponent && styles.subComponent,
           hasLinks && styles.linked,
-          !editable && styles.disabled
+          !isSelectable && styles.disabled
         )}
         {...events}
       >
         {this.renderOptions()}
         {this.renderCaret()}
         <div className={cx(styles.part, styles.info)}>
-          <i className={ElementClass.settings.icon.class}>{ElementClass.settings.icon.content}</i>
+          <i className={settings.icon && settings.icon.class}>
+            {settings.icon && settings.icon.content}
+          </i>
           <span>{element.label || element.tag}</span>
         </div>
       </div>
@@ -197,9 +204,9 @@ export default class Entry extends Component {
   }
 
   renderOptions () {
-    const {editable, element, context, isTemplate} = this.props;
+    const {isSelectable, element, context} = this.props;
 
-    if (editable && !isTemplate && !element.subComponent) {
+    if (isSelectable && !element.subComponent) {
       return (
         <div className={styles.contextHolder}>
           <ContextMenu
