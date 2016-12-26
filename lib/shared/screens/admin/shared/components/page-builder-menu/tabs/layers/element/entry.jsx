@@ -19,7 +19,8 @@ export default class Entry extends Component {
     isOvered: PropTypes.bool.isRequired,
     hasLinks: PropTypes.bool.isRequired,
     isSelectable: PropTypes.bool.isRequired,
-    positionInParent: PropTypes.number.isRequired
+    positionInParent: PropTypes.number.isRequired,
+    dragging: PropTypes.bool
   };
 
   static contextTypes = {
@@ -32,11 +33,6 @@ export default class Entry extends Component {
     };
   }
 
-  isDragging () {
-    const {store} = this.context;
-    return store.getState().dnd.dragging;
-  }
-
   @bind
   onClick () {
     const {element, context, pageBuilderActions} = this.props;
@@ -45,9 +41,9 @@ export default class Entry extends Component {
 
   @bind
   onMouseOver () {
-    const {pageBuilderActions, element, context, hasChildren, isExpanded} = this.props;
+    const {pageBuilderActions, element, context, hasChildren, isExpanded, dragging} = this.props;
 
-    if (!this.isDragging()) {
+    if (!dragging) {
       clearTimeout(this.closeOptionsTimeout);
       pageBuilderActions.overElement(element.id, context);
     } else if (hasChildren && !isExpanded) {
@@ -57,9 +53,9 @@ export default class Entry extends Component {
 
   @bind
   onMouseOut () {
-    const {pageBuilderActions, element, context} = this.props;
+    const {pageBuilderActions, element, context, dragging} = this.props;
 
-    if (!this.isDragging()) {
+    if (!dragging) {
       pageBuilderActions.outElement(element.id, context);
 
       if (this.state.options) {
