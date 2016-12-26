@@ -11,11 +11,8 @@ export default class LineDivider extends Component {
     styleClassMap: PropTypes.object,
     relax: PropTypes.object.isRequired,
     link: PropTypes.object,
-    children: PropTypes.any
-  };
-
-  static contextTypes = {
-    Element: PropTypes.func.isRequired
+    Element: PropTypes.func.isRequired,
+    renderChildren: PropTypes.func.isRequired
   };
 
   static propsSchema = propsSchema;
@@ -23,8 +20,7 @@ export default class LineDivider extends Component {
   static style = style;
 
   render () {
-    const {styleClassMap, relax, link, children} = this.props;
-    const {Element} = this.context;
+    const {Element, styleClassMap, relax, link, renderChildren} = this.props;
 
     return (
       <Link link={link}>
@@ -34,7 +30,7 @@ export default class LineDivider extends Component {
           className={styleClassMap.root}
           settings={settings}
         >
-          {children}
+          {renderChildren()}
         </Element>
       </Link>
     );

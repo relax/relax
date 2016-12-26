@@ -15,10 +15,7 @@ export default class MobileMenuElement extends Component {
     menuData: PropTypes.object,
     styleClassMap: PropTypes.object.isRequired,
     editing: PropTypes.bool,
-    loading: PropTypes.bool
-  };
-
-  static contextTypes = {
+    loading: PropTypes.bool,
     Element: PropTypes.func.isRequired
   };
 
@@ -36,8 +33,7 @@ export default class MobileMenuElement extends Component {
   }
 
   render () {
-    const {relax, styleClassMap} = this.props;
-    const {Element} = this.context;
+    const {Element, relax, styleClassMap} = this.props;
     const icon = relax.styleValues.icon;
 
     return (

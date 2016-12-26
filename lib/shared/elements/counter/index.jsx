@@ -14,10 +14,7 @@ export default class Counter extends Component {
     begin: PropTypes.number.isRequired,
     end: PropTypes.number.isRequired,
     duration: PropTypes.number.isRequired,
-    relax: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
+    relax: PropTypes.object.isRequired,
     Element: PropTypes.func.isRequired
   };
 
@@ -45,10 +42,10 @@ export default class Counter extends Component {
 
   render () {
     const classMap = this.props.styleClassMap || {};
-    const {Element} = this.context;
+    const {Element, relax} = this.props;
 
     const props = {
-      ...this.props.relax,
+      ...relax,
       htmlTag: 'div',
       settings,
       onEnterScreen: this.onEnterScreen.bind(this),

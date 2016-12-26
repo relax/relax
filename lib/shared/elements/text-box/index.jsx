@@ -12,10 +12,7 @@ export default class TextBox extends Component {
     children: PropTypes.node,
     styleClassMap: PropTypes.object,
     relax: PropTypes.object.isRequired,
-    tag: PropTypes.string
-  };
-
-  static contextTypes = {
+    tag: PropTypes.string,
     Element: PropTypes.func.isRequired,
     ElementText: PropTypes.func.isRequired
   };
@@ -31,16 +28,14 @@ export default class TextBox extends Component {
   static style = style;
 
   render () {
-    const {relax} = this.props;
-    const {Element} = this.context;
-    const classMap = this.props.styleClassMap;
+    const {relax, Element, styleClassMap} = this.props;
 
     return (
       <Element
         {...relax}
         htmlTag='div'
         settings={settings}
-        className={classMap.holder}
+        className={styleClassMap.holder}
       >
         {this.renderContent()}
       </Element>
@@ -48,9 +43,8 @@ export default class TextBox extends Component {
   }
 
   renderContent () {
-    const {styleClassMap, relax, children, tag} = this.props;
+    const {ElementText, styleClassMap, relax, children, tag} = this.props;
     const {editing, selected} = relax;
-    const {ElementText} = this.context;
 
     let html = '';
     if (!children && editing && !selected) {

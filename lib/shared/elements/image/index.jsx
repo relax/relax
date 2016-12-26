@@ -16,10 +16,7 @@ export default class Image extends Component {
     imageOver: PropTypes.string,
     children: PropTypes.string,
     styleClassMap: PropTypes.object,
-    relax: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
+    relax: PropTypes.object.isRequired,
     Element: PropTypes.func.isRequired
   };
 
@@ -48,8 +45,7 @@ export default class Image extends Component {
   }
 
   render () {
-    const {styleClassMap, useOver, relax} = this.props;
-    const {Element} = this.context;
+    const {Element, styleClassMap, useOver, relax} = this.props;
 
     return (
       <Element

@@ -17,12 +17,13 @@ export default class Button extends Component {
     styleClassMap: PropTypes.object,
     children: PropTypes.node,
     relax: PropTypes.object.isRequired,
-    link: PropTypes.object
+    link: PropTypes.object,
+    renderChildren: PropTypes.func.isRequired,
+    Element: PropTypes.func.isRequired
   };
 
   static contextTypes = {
-    store: PropTypes.object.isRequired,
-    Element: PropTypes.func.isRequired
+    store: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -112,8 +113,7 @@ export default class Button extends Component {
   }
 
   render () {
-    const {Element} = this.context;
-    const {link, styleClassMap} = this.props;
+    const {Element, link, styleClassMap} = this.props;
 
     const props = {
       htmlTag: 'div',
@@ -132,16 +132,15 @@ export default class Button extends Component {
   }
 
   renderChildren () {
-    const {arrange, layout, children} = this.props;
+    const {renderChildren, arrange, layout} = this.props;
     let result;
 
     if (arrange === 'blocks' || layout === 'text' || layout === 'icon') {
-      result = children;
+      result = renderChildren();
     } else {
       result = (
         <div className={cx(classes.sided)}>
-          {children[0]}
-          {children[1]}
+          {renderChildren()}
         </div>
       );
     }

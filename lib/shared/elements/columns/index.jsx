@@ -11,11 +11,8 @@ export default class ColumneElement extends Component {
   static propTypes = {
     relax: PropTypes.object.isRequired,
     styleClassMap: PropTypes.object.isRequired,
-    children: PropTypes.any
-  };
-
-  static contextTypes = {
-    Element: PropTypes.func.isRequired
+    Element: PropTypes.func.isRequired,
+    renderChildren: PropTypes.func.isRequired
   };
 
   static defaultChildren = [

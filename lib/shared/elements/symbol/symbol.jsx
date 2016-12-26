@@ -25,10 +25,7 @@ export default class Symbol extends Component {
     relax: PropTypes.object.isRequired,
     editSymbol: PropTypes.func.isRequired,
     editing: PropTypes.bool,
-    editData: PropTypes.object
-  };
-
-  static contextTypes = {
+    editData: PropTypes.object,
     Element: PropTypes.func.isRequired
   };
 
@@ -42,8 +39,7 @@ export default class Symbol extends Component {
   }
 
   render () {
-    const {relax} = this.props;
-    const {Element} = this.context;
+    const {Element, relax} = this.props;
     const props = {
       htmlTag: 'div',
       ...relax,

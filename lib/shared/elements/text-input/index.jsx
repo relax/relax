@@ -12,10 +12,7 @@ export default class TextInput extends Component {
     name: PropTypes.string,
     placeholder: PropTypes.string,
     styleClassMap: PropTypes.object,
-    relax: PropTypes.object.isRequired
-  };
-
-  static contextTypes = {
+    relax: PropTypes.object.isRequired,
     Element: PropTypes.func.isRequired
   };
 
@@ -24,8 +21,7 @@ export default class TextInput extends Component {
   static style = style;
 
   render () {
-    const {styleClassMap, relax, name, placeholder} = this.props;
-    const {Element} = this.context;
+    const {Element, styleClassMap, relax, name, placeholder} = this.props;
 
     return (
       <Element

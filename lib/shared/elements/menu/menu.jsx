@@ -14,16 +14,12 @@ export default class MenuElement extends Component {
     relax: PropTypes.object.isRequired,
     styleClassMap: PropTypes.object.isRequired,
     editing: PropTypes.bool,
-    loading: PropTypes.bool
-  };
-
-  static contextTypes = {
+    loading: PropTypes.bool,
     Element: PropTypes.func.isRequired
   };
 
   render () {
-    const {relax, loading, menuData} = this.props;
-    const {Element} = this.context;
+    const {Element, relax, loading, menuData} = this.props;
     let result;
 
     if (loading) {

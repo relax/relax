@@ -9,11 +9,8 @@ export default class RawElement extends Component {
   static propTypes = {
     styleClassMap: PropTypes.object,
     relax: PropTypes.object.isRequired,
-    children: PropTypes.any
-  };
-
-  static contextTypes = {
-    Element: PropTypes.func.isRequired
+    Element: PropTypes.func.isRequired,
+    renderChildren: PropTypes.func.isRequired
   };
 
   static propsSchema = propsSchema;
@@ -21,8 +18,7 @@ export default class RawElement extends Component {
   static style = style;
 
   render () {
-    const {styleClassMap, relax} = this.props;
-    const {Element} = this.context;
+    const {Element, styleClassMap, relax, renderChildren} = this.props;
 
     return (
       <Element
@@ -31,7 +27,7 @@ export default class RawElement extends Component {
         className={styleClassMap.root}
         settings={settings}
       >
-        {this.props.children}
+        {renderChildren()}
       </Element>
     );
   }
