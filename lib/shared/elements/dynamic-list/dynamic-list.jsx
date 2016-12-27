@@ -7,7 +7,8 @@ import settings from './settings';
 
 export default class DynamicList extends Component {
   static propTypes = {
-    children: PropTypes.any,
+    Element: PropTypes.func.isRequired,
+    renderChildren: PropTypes.func.isRequired,
     relax: PropTypes.object.isRequired,
     entries: PropTypes.array.isRequired,
     limit: PropTypes.number,
@@ -18,17 +19,13 @@ export default class DynamicList extends Component {
     isLinkingData: PropTypes.bool
   };
 
-  static contextTypes = {
-    Element: PropTypes.func.isRequired
-  };
-
   render () {
-    const {Element} = this.context;
+    const {Element, relax} = this.props;
 
     return (
       <Element
+        {...relax}
         htmlTag={'div'}
-        {...this.props.relax}
         settings={settings}
       >
         {this.renderItems()}
@@ -87,7 +84,7 @@ export default class DynamicList extends Component {
   }
 
   renderItem (key, isFirst, isLast, dummy = false) {
-    const {children, entries, relax, elementsLinks, columns, horizontalGutter, isLinkingData} = this.props;
+    const {renderChildren, entries, relax, elementsLinks, columns, horizontalGutter, isLinkingData} = this.props;
 
     return (
       <Entry
@@ -103,11 +100,9 @@ export default class DynamicList extends Component {
         element={relax.element}
         elementsLinks={elementsLinks}
         schemaEntry={!dummy && entries[key]}
-        renderChildren={relax.renderChildren}
         context={relax.context}
-      >
-        {children}
-      </Entry>
+        renderChildren={renderChildren}
+      />
     );
   }
 }

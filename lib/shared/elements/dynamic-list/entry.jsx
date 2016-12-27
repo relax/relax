@@ -2,7 +2,6 @@ import Component from 'components/component';
 import cx from 'classnames';
 import React, {PropTypes} from 'react';
 
-import settings from './settings';
 import styles from './entry.less';
 
 export default class DynamicListEntry extends Component {
@@ -14,17 +13,10 @@ export default class DynamicListEntry extends Component {
     isLast: PropTypes.bool,
     editing: PropTypes.bool,
     horizontalGutter: PropTypes.string,
-    element: PropTypes.object,
     elementsLinks: PropTypes.object,
     schemaEntry: PropTypes.object,
     renderChildren: PropTypes.func.isRequired,
-    context: PropTypes.object.isRequired,
-    relax: PropTypes.object.isRequired,
-    children: PropTypes.node
-  };
-
-  static contextTypes = {
-    Element: PropTypes.func.isRequired
+    relax: PropTypes.object.isRequired
   };
 
   getStyle () {
@@ -55,13 +47,11 @@ export default class DynamicListEntry extends Component {
   }
 
   render () {
-    const {dummy, editing} = this.props;
+    const {dummy} = this.props;
     let result;
 
     if (dummy) {
       result = this.renderWrapper();
-    } else if (editing) {
-      result = this.renderEditing();
     } else {
       result = this.renderWrapper(this.renderContent());
     }
@@ -71,6 +61,7 @@ export default class DynamicListEntry extends Component {
 
   renderWrapper (children) {
     const {columns} = this.props;
+
     return (
       <div className={cx(columns > 1 && styles.column)} style={this.getStyle()}>
         {children}
@@ -78,33 +69,16 @@ export default class DynamicListEntry extends Component {
     );
   }
 
-  renderEditing () {
-    const {relax} = this.props;
-    const {Element} = this.context;
-
-    return this.renderWrapper(
-      Element.renderContent({
-        relax,
-        customDropProps: {
-          style: {
-            position: 'relative'
-          }
-        },
-        children: this.renderContent(),
-        settings
-      })
-    );
-  }
-
   renderContent () {
-    const {elementsLinks, schemaEntry, element, children, renderChildren, context, editing} = this.props;
+    const {
+      elementsLinks,
+      schemaEntry,
+      renderChildren
+    } = this.props;
 
-    return children && renderChildren({
-      children: element.children,
+    return renderChildren({
       links: elementsLinks,
-      entry: schemaEntry,
-      context,
-      editable: editing
+      linksData: schemaEntry
     });
   }
 }
