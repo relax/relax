@@ -23,8 +23,9 @@ export default class ColumneElement extends Component {
   static style = styleSettings;
 
   getGrid () {
-    const {children} = this.props;
+    const {renderChildren} = this.props;
     const grid = [];
+    const children = renderChildren();
 
     // traverse columns and calculate grid
     forEach(children, (column) => {
