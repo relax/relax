@@ -16,7 +16,8 @@ export default class Form extends Component {
     custom: PropTypes.string,
     relax: PropTypes.object.isRequired,
     schemaLinks: PropTypes.object,
-    Element: PropTypes.func.isRequired
+    Element: PropTypes.func.isRequired,
+    renderChildren: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -95,21 +96,18 @@ export default class Form extends Component {
   }
 
   renderContent () {
-    const {schemaLinks, relax} = this.props;
+    const {schemaLinks, renderChildren} = this.props;
     const {state} = this.state;
 
-    return relax.element.children && relax.renderChildren({
-      children: relax.element.children,
+    return renderChildren({
       links: schemaLinks,
-      entry: {
+      linksData: {
         state: {
           loading: state === 'loading',
           success: state === 'success',
           error: state === 'error'
         }
-      },
-      context: relax.context,
-      editable: relax.editing
+      }
     });
   }
 }
