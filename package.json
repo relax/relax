@@ -60,7 +60,7 @@
     "react-dropzone": "^3.2.2",
     "react-gemini-scrollbar": "^2.0.1",
     "react-google-maps": "^4.6.0",
-    "react-redux": "^4.4.0",
+    "react-redux": "^5.0.1",
     "react-router": "2.8.1",
     "redux": "^3.6.0",
     "redux-combine-actions": "^0.1.2",
@@ -142,7 +142,10 @@
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/file-mock.js",
       "\\.(css|less)$": "<rootDir>/__mocks__/style-mock.js"
     },
-    "testPathIgnorePatterns": ["/node_modules/", "/_fixtures"],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/_fixtures"
+    ],
     "collectCoverage": true,
     "coverageReporters": [
       "json",
