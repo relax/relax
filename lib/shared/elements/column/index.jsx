@@ -10,10 +10,8 @@ export default class Column extends Component {
   static propTypes = {
     relax: PropTypes.object.isRequired,
     styleClassMap: PropTypes.object.isRequired,
-    type: PropTypes.string,
-    left: PropTypes.number,
-    right: PropTypes.number,
-    children: PropTypes.any,
+    spacingHor: PropTypes.number,
+    spacingVer: PropTypes.number,
     Element: PropTypes.func.isRequired,
     renderChildren: PropTypes.func.isRequired
   };
@@ -23,19 +21,14 @@ export default class Column extends Component {
   static style = style;
 
   getStyles () {
-    const {type} = this.props;
     const styles = {
       root: {}
     };
 
-    if (type !== 'block') {
-      const {left, right} = this.props;
+    const {spacingHor, spacingVer} = this.props;
 
-      css(styles.root)
-        .setProperty('display', 'table-cell')
-        .setProperty('borderLeft', `${left}px solid transparent`)
-        .setProperty('borderRight', `${right}px solid transparent`);
-    }
+    css(styles.root)
+      .setProperty('margin', `${spacingVer}px ${spacingHor}px`);
 
     return styles;
   }
@@ -45,16 +38,15 @@ export default class Column extends Component {
     const styles = this.getStyles();
 
     return (
-      <div className={styleClassMap.root} style={styles.root}>
-        <Element
-          {...relax}
-          htmlTag='div'
-          className={styleClassMap.content}
-          settings={settings}
-        >
-          {renderChildren()}
-        </Element>
-      </div>
+      <Element
+        {...relax}
+        htmlTag='div'
+        className={styleClassMap.root}
+        style={styles.root}
+        settings={settings}
+      >
+        {renderChildren()}
+      </Element>
     );
   }
 }
