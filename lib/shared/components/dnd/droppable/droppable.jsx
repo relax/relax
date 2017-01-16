@@ -6,7 +6,7 @@ import forEach from 'lodash/forEach';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
-import AddBallon from './add-ballon';
+import AddBalloon from './add-balloon';
 import Marker from './marker';
 import styles from './droppable.less';
 
@@ -284,7 +284,7 @@ export default class Droppable extends Component {
     const active = elementsMenuSpot === position && isSelected;
 
     return (
-      <AddBallon
+      <AddBalloon
         key={`mark${position}`}
         position={position}
         onClick={::this.addSpotClick}

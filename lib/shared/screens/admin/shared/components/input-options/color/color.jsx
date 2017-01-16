@@ -90,7 +90,7 @@ export default class Color extends Component {
             verticalPosition='top'
             horizontalPosition='center'
             verticalOffset={3}
-            className={styles.colorTitleBallon}
+            className={styles.colorTitleBalloon}
           >
             <div className={styles.colorTitle}>
               <span className={styles.triangle} />

@@ -6,7 +6,7 @@ import React, {PropTypes} from 'react';
 import propsSchema from './props-schema';
 import settings from './settings';
 
-export default class Counter extends Component {
+export default class DateElement extends Component {
   static propTypes = {
     styleClassMap: PropTypes.object.isRequired,
     date: PropTypes.number.isRequired,

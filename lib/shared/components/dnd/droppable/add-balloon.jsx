@@ -4,9 +4,9 @@ import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
-import styles from './add-ballon.less';
+import styles from './add-balloon.less';
 
-export default class AddBallon extends Component {
+export default class AddBalloon extends Component {
   static propTypes = {
     vertical: PropTypes.bool,
     active: PropTypes.bool,
