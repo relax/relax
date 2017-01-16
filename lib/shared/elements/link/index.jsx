@@ -6,7 +6,7 @@ import propsSchema from './props-schema';
 import settings from './settings';
 import style from './style';
 
-export default class LineDivider extends Component {
+export default class LinkElement extends Component {
   static propTypes = {
     styleClassMap: PropTypes.object,
     relax: PropTypes.object.isRequired,
