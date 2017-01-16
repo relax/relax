@@ -248,7 +248,7 @@ export default class ElementsMenu extends Component {
       top: this.state.top,
       left: this.state.left
     };
-    const ballonStyle = {
+    const balloonStyle = {
       top: this.state.contentTop
     };
 
@@ -259,7 +259,7 @@ export default class ElementsMenu extends Component {
           style={style}
         >
           <div className={styles.arrowLeft}></div>
-          <div className={styles.ballon} style={ballonStyle}>
+          <div className={styles.balloon} style={balloonStyle}>
             {this.renderContent()}
           </div>
         </div>
