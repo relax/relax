@@ -42,10 +42,10 @@ export default class ElementText extends Component {
 
   render () {
     const {relax, className, value, tag} = this.props;
-    const {editing, selected} = relax;
+    const {editable, selected} = relax;
     let result;
 
-    if (editing && selected) {
+    if (editable && selected) {
       result = (
         <Editor
           tag={tag}
@@ -57,7 +57,7 @@ export default class ElementText extends Component {
     } else {
       result = (
         <this.props.tag
-          className={cx(className, editing && styles.cursor)}
+          className={cx(className, editable && styles.cursor)}
           dangerouslySetInnerHTML={{__html: value}}
         />
       );
