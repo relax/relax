@@ -1,237 +1,76 @@
 import Component from 'components/component';
-import Droppable from 'components/dnd/droppable';
-import Portal from 'components/portal';
 import Scrollable from 'components/scrollable';
 import Styles from 'components/styles';
 import bind from 'decorators/bind';
 import displays from 'statics/displays';
-import get from 'lodash/get';
-import isElementSelected from 'helpers/is-element-selected';
-import stylesManager from 'helpers/styles-manager';
-import traverseChildren from 'helpers/traverser/children';
-import traverser from 'helpers/traverser';
 import React, {PropTypes} from 'react';
 
-import Empty from './empty';
 import NoLinks from './no-links';
+import PageElement from './page-element';
 import classes from './canvas.less';
-
-const defaultStyleClassMap = {};
-const bodyDropInfo = {
-  id: 'Body',
-  type: 'Body',
-  context: 'data'
-};
 
 export default class Canvas extends Component {
   static propTypes = {
-    pageBuilderActions: PropTypes.object.isRequired,
     display: PropTypes.string.isRequired,
-    styles: PropTypes.array.isRequired,
-    dragging: PropTypes.bool.isRequired,
-    doc: PropTypes.object.isRequired,
+    type: PropTypes.string.isRequired,
     template: PropTypes.object,
-    selected: PropTypes.object,
-    editing: PropTypes.bool.isRequired,
-    editingSymbol: PropTypes.bool.isRequired,
     updateStylesMap: PropTypes.func.isRequired,
-    type: PropTypes.string.isRequired
+    editing: PropTypes.bool.isRequired,
+    building: PropTypes.bool.isRequired
   };
-
-  static contextTypes = {
-    store: PropTypes.object.isRequired
-  };
-
-  static childContextTypes = {
-    dropHighlight: PropTypes.string.isRequired
-  };
-
-  getChildContext () {
-    const {dragging} = this.props;
-    return {
-      dropHighlight: dragging ? 'vertical' : 'none'
-    };
-  }
 
   @bind
   onScroll () {
     window.dispatchEvent(new Event('scroll'));
   }
 
-  @bind
-  onCanvasClick () {
-    // XXX not being used because of fixed positioned elements
-    const {pageBuilderActions} = this.props;
-    pageBuilderActions.selectElement();
-  }
-
-  updateStylesMap () {
-    this.props.updateStylesMap();
-  }
-
   render () {
-    const {display, template, doc, type, editing} = this.props;
-    const templateHasLinks = !!(template && template.links && template.links[type]);
+    const {display} = this.props;
     const bodyStyle = {
       maxWidth: displays[display]
     };
 
-    let content = traverser({
-      template,
-      doc,
-      display,
-      editing,
-      type
-    }, this.renderElement);
-    this.updateStylesMap();
-
-    if (!template) {
-      content = (
-        <Droppable
-          key='Body'
-          type='Body'
-          placeholder
-          placeholderRender={this.renderPlaceholder}
-          dropInfo={bodyDropInfo}
-        >
-          {content}
-        </Droppable>
-      );
-    }
-
     return (
       <Scrollable className={classes.canvas} onScroll={this.onScroll}>
         <div className={classes.content} style={bodyStyle} ref='Body' id='pb-canvas'>
-          {content}
+          {this.renderContent()}
         </div>
-        {template && !templateHasLinks && <NoLinks templateId={template._id} />}
+        {this.renderNoLinks()}
         <Styles />
       </Scrollable>
     );
   }
 
-  @bind
-  renderPlaceholder () {
-    const {pageBuilderActions} = this.props;
-    return (
-      <Empty pageBuilderActions={pageBuilderActions} />
-    );
-  }
+  renderNoLinks () {
+    const {template, type} = this.props;
+    const templateHasLinks = !!(template && template.links && template.links[type]);
 
-  @bind
-  renderChildren (options) {
-    const {doc, display, type, editing, template} = this.props;
-
-    // calculate data from context
-    let data;
-    if (!options.data) {
-      if (template && options.context === template._id) {
-        // belongs to template
-        data = template.data;
-      } else {
-        // belongs to page
-        data = doc[options.context];
-      }
+    if (template && !templateHasLinks) {
+      return <NoLinks templateId={template._id} />;
     }
-
-    return traverseChildren(Object.assign({data}, options), {
-      doc,
-      display,
-      editing,
-      type
-    }, this.renderElement);
   }
 
-  @bind
-  renderChildChildren (options) {
-    const result = this.renderChildren(options);
-    this.updateStylesMap();
+  renderContent () {
+    const {template, type, updateStylesMap, editing, building} = this.props;
+    const hasTemplate = !!template;
+
+    const result = (
+      <PageElement
+        id='Body'
+        contextDoc={hasTemplate ? 'template' : 'draft'}
+        contextProperty='data'
+        links={template && template.links && template.links[type]}
+        linksData='draft'
+        updateStylesMap={updateStylesMap}
+        positionInParent={0}
+        editable={!hasTemplate}
+        editing={editing}
+        building={building}
+      />
+    );
+
+    updateStylesMap();
 
     return result;
-  }
-
-  @bind
-  renderElement (elementInfo, children) {
-    const {styles, display, selected} = this.props;
-    const {
-      ElementClass,
-      displayElement,
-      props,
-      elementId,
-      context,
-      element,
-      positionInParent,
-      editable,
-      elementLinks,
-      builderLink,
-      isTemplate
-    } = elementInfo;
-
-    const styleMap = stylesManager.processElement({
-      element,
-      context,
-      styles,
-      display
-    });
-
-    if (displayElement) {
-      const isFixed = get(styleMap, 'resultValues.position.position', 'static') === 'fixed';
-      let result;
-      let resultChildren = children;
-
-      if (builderLink) {
-        resultChildren = (
-          <Droppable
-            key={`${context}-${elementId}-body`}
-            type='Body'
-            placeholder
-            placeholderRender={this.renderPlaceholder}
-            dropInfo={{
-              id: 'Body',
-              context: builderLink.property
-            }}
-          >
-            {children}
-          </Droppable>
-        );
-      }
-
-      const renderedElement = (
-        <ElementClass
-          key={`${context}-${elementId}`}
-          styleClassMap={styleMap && styleMap.classMap || defaultStyleClassMap}
-          {...props}
-          relax={{
-            editing: editable,
-            context,
-            element,
-            positionInParent,
-            elementLinks,
-            isTemplate,
-            renderChildren: this.renderChildChildren,
-            display,
-            styleValues: styleMap && styleMap.resultValues || {},
-            selected: selected && isElementSelected(selected, {
-              id: elementId,
-              context
-            })
-          }}
-        >
-          {resultChildren}
-        </ElementClass>
-      );
-
-      if (isFixed) {
-        result = (
-          <Portal attachTo='pb-canvas'>
-            {renderedElement}
-          </Portal>
-        );
-      } else {
-        result = renderedElement;
-      }
-
-      return result;
-    }
   }
 }
