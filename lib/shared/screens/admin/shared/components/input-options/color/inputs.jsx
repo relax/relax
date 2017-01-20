@@ -1,4 +1,4 @@
-import utils from 'helpers/utils';
+import {limitNumber} from 'helpers/utils';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {hexIsValid} from 'helpers/styles/colors';
@@ -40,7 +40,7 @@ export default class Inputs extends Component {
 
     if (!isNaN(number)) {
       const rgb = this.props.colr.toRgbObject();
-      rgb[prop] = utils.limitNumber(number, 0, 255);
+      rgb[prop] = limitNumber(number, 0, 255);
       this.props.rgbChange(rgb);
     }
   }
@@ -51,9 +51,9 @@ export default class Inputs extends Component {
     if (!isNaN(number)) {
       const hsv = this.props.colr.toHsvObject();
       if (prop === 'h') {
-        hsv[prop] = utils.limitNumber(number, 0, 360);
+        hsv[prop] = limitNumber(number, 0, 360);
       } else {
-        hsv[prop] = utils.limitNumber(number, 0, 100);
+        hsv[prop] = limitNumber(number, 0, 100);
       }
       this.props.hsvChange(hsv);
     }
@@ -63,7 +63,7 @@ export default class Inputs extends Component {
     const opacity = parseInt(value, 10);
 
     if (!isNaN(opacity)) {
-      this.props.opacityChange(utils.limitNumber(opacity, 0, 100));
+      this.props.opacityChange(limitNumber(opacity, 0, 100));
     }
   }
 

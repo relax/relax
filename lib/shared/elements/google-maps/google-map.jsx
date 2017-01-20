@@ -1,7 +1,7 @@
 import Component from 'components/component';
 import ElementCovered from 'components/element-covered';
 import ElementNotFound from 'components/element-not-found';
-import utils from 'helpers/utils';
+import {hasClass, addClass, removeClass} from 'helpers/utils';
 import React, {PropTypes} from 'react';
 import {GoogleMap, GoogleMapLoader, Marker} from 'react-google-maps';
 
@@ -60,13 +60,13 @@ export default class GoogleMapElement extends Component {
     let result = false;
 
     if (typeof document !== 'undefined') {
-      if (!utils.hasClass(document.body, 'googleMapsInitiated') &&
-          !utils.hasClass(document.body, 'googleMapsLoading')) {
-        utils.addClass(document.body, 'googleMapsLoading');
+      if (!hasClass(document.body, 'googleMapsInitiated') &&
+          !hasClass(document.body, 'googleMapsLoading')) {
+        addClass(document.body, 'googleMapsLoading');
 
         window.googleMapsInitiated = () => {
-          utils.removeClass(document.body, 'googleMapsLoading');
-          utils.addClass(document.body, 'googleMapsInitiated');
+          removeClass(document.body, 'googleMapsLoading');
+          addClass(document.body, 'googleMapsInitiated');
           window.dispatchEvent(new Event('googleMapsInitiated'));
         };
 
@@ -76,7 +76,7 @@ export default class GoogleMapElement extends Component {
         document.body.appendChild(script);
 
         window.addEventListener('googleMapsInitiated', ::this.onReady);
-      } else if (!utils.hasClass(document.body, 'googleMapsInitiated')) {
+      } else if (!hasClass(document.body, 'googleMapsInitiated')) {
         window.addEventListener('googleMapsInitiated', ::this.onReady);
       } else {
         result = true;

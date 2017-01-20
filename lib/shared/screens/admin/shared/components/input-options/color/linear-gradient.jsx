@@ -1,9 +1,15 @@
+import Component from 'components/component';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
-import utils from 'helpers/utils';
-import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {applyBackground, getColorString} from 'helpers/styles/colors';
+import {
+  getOffsetRect,
+  getPointInLineByPerc,
+  limitNumber,
+  pointsDistance,
+  roundSnap
+} from 'helpers/utils';
 
 import styles from './linear-gradient.less';
 
@@ -59,10 +65,10 @@ export default class LinearGradient extends Component {
   onMouseMove (event) {
     event.preventDefault();
 
-    const bounds = utils.getOffsetRect(this.refs.holder);
+    const bounds = getOffsetRect(this.refs.holder);
     const point = {
-      x: utils.limitNumber((event.pageX - bounds.left) / bounds.width, 0, 1),
-      y: 1 - utils.limitNumber((event.pageY - bounds.top) / bounds.height, 0, 1)
+      x: limitNumber((event.pageX - bounds.left) / bounds.width, 0, 1),
+      y: 1 - limitNumber((event.pageY - bounds.top) / bounds.height, 0, 1)
     };
 
     if (this.activeFirst || this.activeLast) {
@@ -77,7 +83,7 @@ export default class LinearGradient extends Component {
       if (lineAngle > 359 && lineAngle < 360) {
         newAngle = 0;
       } else {
-        newAngle = utils.roundSnap(lineAngle, [0, 45, 90, 135, 180, 225, 270, 315]);
+        newAngle = roundSnap(lineAngle, [0, 45, 90, 135, 180, 225, 270, 315]);
       }
 
       if (this.activeFirst) {
@@ -122,10 +128,10 @@ export default class LinearGradient extends Component {
         y: Math.round(pointB.y + u * yDelta)
       };
     }
-    const total = utils.pointsDistance(pointA, pointB);
-    const dist = utils.pointsDistance(pointB, closestPoint);
+    const total = pointsDistance(pointA, pointB);
+    const dist = pointsDistance(pointB, closestPoint);
 
-    this.props.pointPercChange(this.activePoint, utils.roundSnap(dist / total * 100, [0, 25, 50, 75, 100]));
+    this.props.pointPercChange(this.activePoint, roundSnap(dist / total * 100, [0, 25, 50, 75, 100]));
   }
 
   onMouseUp (event) {
@@ -141,10 +147,10 @@ export default class LinearGradient extends Component {
   onLineClick (event) {
     event.preventDefault();
 
-    const bounds = utils.getOffsetRect(this.refs.holder);
+    const bounds = getOffsetRect(this.refs.holder);
     const point = {
-      x: utils.limitNumber((event.pageX - bounds.left) / bounds.width, 0, 1),
-      y: 1 - utils.limitNumber((event.pageY - bounds.top) / bounds.height, 0, 1)
+      x: limitNumber((event.pageX - bounds.left) / bounds.width, 0, 1),
+      y: 1 - limitNumber((event.pageY - bounds.top) / bounds.height, 0, 1)
     };
 
     const pointA = this.getRectPoint(this.props.value.angle, 158);
@@ -157,8 +163,8 @@ export default class LinearGradient extends Component {
       y: ((point.y - 0.5) * 2) * 156
     };
 
-    const total = utils.pointsDistance(pointA, pointB);
-    const dist = utils.pointsDistance(pointB, newPoint);
+    const total = pointsDistance(pointA, pointB);
+    const dist = pointsDistance(pointB, newPoint);
 
     this.props.addPoint(Math.round(dist / total * 100));
   }
@@ -227,12 +233,12 @@ export default class LinearGradient extends Component {
     pointB.y = 158 - pointB.y;
 
     const orderedPoints = sortBy(value.points, 'perc');
-    const firstPointPosition = utils.getPointInLineByPerc(
+    const firstPointPosition = getPointInLineByPerc(
       pointB,
       pointA,
       orderedPoints[0].perc
     );
-    const lastPointPosition = utils.getPointInLineByPerc(
+    const lastPointPosition = getPointInLineByPerc(
       pointB,
       pointA,
       orderedPoints[orderedPoints.length - 1].perc
@@ -259,7 +265,7 @@ export default class LinearGradient extends Component {
   }
 
   renderPoint (pointA, pointB, colorObj, index) {
-    const pointPosition = utils.getPointInLineByPerc(pointB, pointA, colorObj.perc);
+    const pointPosition = getPointInLineByPerc(pointB, pointA, colorObj.perc);
     const selected = this.props.editingPoint === index;
     const style = {
       left: pointPosition.x,

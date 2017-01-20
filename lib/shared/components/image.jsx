@@ -1,4 +1,4 @@
-import utils from 'helpers/utils';
+import {getBestImageUrl} from 'helpers/utils';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
@@ -19,7 +19,7 @@ export default class Image extends Component {
     let result = null;
 
     if (id) {
-      const url = utils.getBestImageUrl(id, width, height);
+      const url = getBestImageUrl(id, width, height);
       result = (
         <img src={url} {...htmlProps} role='presentation' />
       );
