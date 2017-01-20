@@ -1,8 +1,8 @@
-import cx from 'classnames';
-import utils from 'helpers/utils';
 import Component from 'components/component';
+import cx from 'classnames';
 import React, {PropTypes} from 'react';
 import {applyBackground, getColorString} from 'helpers/styles/colors';
+import {getOffsetRect, limitNumber, roundSnap} from 'helpers/utils';
 
 import styles from './gradient-points.less';
 
@@ -41,8 +41,8 @@ export default class GradientPoints extends Component {
   onMouseMove (event) {
     event.preventDefault();
 
-    const bounds = utils.getOffsetRect(this.refs.bar);
-    const perc = utils.limitNumber((event.pageX - bounds.left) / bounds.width, 0, 1);
+    const bounds = getOffsetRect(this.refs.bar);
+    const perc = limitNumber((event.pageX - bounds.left) / bounds.width, 0, 1);
 
     if (this.props.value.points.length > 2) {
       const verticalOffset = Math.abs(event.pageY - bounds.top);
@@ -54,7 +54,7 @@ export default class GradientPoints extends Component {
       }
     }
 
-    this.props.pointPercChange(this.activePoint, utils.roundSnap(perc * 100, [0, 25, 50, 75, 100]));
+    this.props.pointPercChange(this.activePoint, roundSnap(perc * 100, [0, 25, 50, 75, 100]));
   }
 
   onMouseUp (event) {
@@ -74,8 +74,8 @@ export default class GradientPoints extends Component {
   }
 
   addPoint (event) {
-    const bounds = utils.getOffsetRect(this.refs.bar);
-    const perc = utils.limitNumber((event.pageX - bounds.left) / bounds.width, 0, 1);
+    const bounds = getOffsetRect(this.refs.bar);
+    const perc = limitNumber((event.pageX - bounds.left) / bounds.width, 0, 1);
 
     this.props.addPoint(Math.round(perc * 100));
   }

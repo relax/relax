@@ -1,5 +1,5 @@
 import Component from 'components/component';
-import Utils from 'helpers/utils';
+import {filterFontFamily} from 'helpers/utils';
 import defaultFonts from 'statics/default-fonts';
 import defaultFvds from 'statics/default-fvds';
 import forEach from 'lodash/forEach';
@@ -92,7 +92,7 @@ export default class FontPicker extends Component {
         <Dropdown
           entries={families}
           value={value.family}
-          label={Utils.filterFontFamily(value.family || '')}
+          label={filterFontFamily(value.family || '')}
           onChange={this.onFamilyChange}
           className={styles.fontsDropdown}
           family

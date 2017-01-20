@@ -4,7 +4,7 @@ import Scrollable from 'components/scrollable';
 import Stick from 'components/stick';
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import utils from 'helpers/utils';
+import {processFVD} from 'helpers/utils';
 import React, {PropTypes} from 'react';
 
 import styles from './dropdown.less';
@@ -45,7 +45,7 @@ export default class Dropdown extends Component {
 
     if (value) {
       if (fvd) {
-        utils.processFVD(style, value);
+        processFVD(style, value);
       } else if (family) {
         style.fontFamily = value;
       }
@@ -117,7 +117,7 @@ export default class Dropdown extends Component {
     const style = {};
 
     if (fvd) {
-      utils.processFVD(style, entry.value);
+      processFVD(style, entry.value);
     } else if (family) {
       style.fontFamily = entry.value;
     }

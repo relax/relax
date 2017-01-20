@@ -1,6 +1,6 @@
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import utils from 'helpers/utils';
+import {getOffsetRect} from 'helpers/utils';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
@@ -31,7 +31,7 @@ export default class Marker extends Component {
   }
 
   onMouseMove (event) {
-    const elementOffset = utils.getOffsetRect(findDOMNode(this));
+    const elementOffset = getOffsetRect(findDOMNode(this));
     const distance = Math.abs(elementOffset.top - event.pageY);
 
     if (distance < 100 && !this.state.visible) {

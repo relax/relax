@@ -1,4 +1,4 @@
-import utils from 'helpers/utils';
+import {getOffsetRect, limitNumber} from 'helpers/utils';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
@@ -35,8 +35,8 @@ export default class Opacity extends Component {
   onMouseMove (event) {
     event.preventDefault();
 
-    const bounds = utils.getOffsetRect(this.refs.bar);
-    const perc = utils.limitNumber((event.pageX - bounds.left) / bounds.width, 0, 1);
+    const bounds = getOffsetRect(this.refs.bar);
+    const perc = limitNumber((event.pageX - bounds.left) / bounds.width, 0, 1);
 
     this.props.opacityChange(Math.round(perc * 100));
   }

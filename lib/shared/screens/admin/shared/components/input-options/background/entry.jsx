@@ -1,6 +1,6 @@
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import utils from 'helpers/utils';
+import {getBestImageUrl} from 'helpers/utils';
 import Balloon from 'components/balloon';
 import ColorPicker from 'components/input-options/color';
 import Component from 'components/component';
@@ -91,7 +91,7 @@ export default class BackgroundEntry extends Component {
     const style = {};
 
     if (value.image) {
-      const url = utils.getBestImageUrl(value.image, 36, 36);
+      const url = getBestImageUrl(value.image, 36, 36);
       style.background = `url(${url})`;
     }
 

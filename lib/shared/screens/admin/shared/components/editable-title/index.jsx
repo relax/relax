@@ -1,7 +1,7 @@
 import Component from 'components/component';
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import utils from 'helpers/utils';
+import {placeCaretAtEnd} from 'helpers/utils';
 import React, {PropTypes} from 'react';
 
 import styles from './index.less';
@@ -36,7 +36,7 @@ export default class EditableTitle extends Component {
       const input = this.refs.input;
 
       if (input) {
-        utils.placeCaretAtEnd(input);
+        placeCaretAtEnd(input);
       }
     }
   }

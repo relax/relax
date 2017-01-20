@@ -1,5 +1,9 @@
 import Component from 'components/component';
-import Utils from 'helpers/utils';
+import {
+  parseVimeoURL,
+  parseYoutubeURL,
+  parseDailymotionURL
+} from 'helpers/utils';
 import elementStyles from 'styles/element.less';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
@@ -80,13 +84,13 @@ export default class Video extends Component {
     if (videoId) {
       let src = '';
       if (type === 'youtube') {
-        const parsedID = Utils.parseYoutubeURL(videoId);
+        const parsedID = parseYoutubeURL(videoId);
         src = `http://www.youtube.com/embed/${parsedID || videoId}`;
       } else if (type === 'vimeo') {
-        const parsedID = Utils.parseVimeoURL(videoId);
+        const parsedID = parseVimeoURL(videoId);
         src = `http://player.vimeo.com/video/${parsedID || videoId}`;
       } else if (type === 'dailymotion') {
-        const parsedID = Utils.parseDailymotionURL(videoId);
+        const parsedID = parseDailymotionURL(videoId);
         src = `http://www.dailymotion.com/embed/video/${parsedID || videoId}`;
       }
 

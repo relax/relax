@@ -1,4 +1,4 @@
-import utils from 'helpers/utils';
+import {getOffsetRect, limitNumber} from 'helpers/utils';
 import Colr from 'colr';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
@@ -37,9 +37,9 @@ export default class SatLight extends Component {
   onMouseMove (event) {
     event.preventDefault();
 
-    const bounds = utils.getOffsetRect(findDOMNode(this));
-    const percY = utils.limitNumber((event.pageY - bounds.top) / bounds.height, 0, 1);
-    const percX = utils.limitNumber((event.pageX - bounds.left) / bounds.width, 0, 1);
+    const bounds = getOffsetRect(findDOMNode(this));
+    const percY = limitNumber((event.pageY - bounds.top) / bounds.height, 0, 1);
+    const percX = limitNumber((event.pageX - bounds.left) / bounds.width, 0, 1);
 
     this.props.hsvChange({
       h: this.props.hsv.h,

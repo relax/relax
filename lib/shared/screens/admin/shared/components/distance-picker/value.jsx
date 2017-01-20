@@ -5,7 +5,7 @@ import Button from 'components/button';
 import Component from 'components/component';
 import NumberInput from 'components/input-options/number';
 import React, {PropTypes} from 'react';
-import {lengthUnits} from 'helpers/units';
+import {lengthUnits} from 'statics/units';
 
 import styles from './value.less';
 

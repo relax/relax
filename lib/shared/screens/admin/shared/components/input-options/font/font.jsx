@@ -1,4 +1,4 @@
-import utils from 'helpers/utils';
+import {processFVD} from 'helpers/utils';
 import Component from 'components/component';
 import React from 'react';
 
@@ -17,7 +17,7 @@ export default class Font extends Component {
   render () {
     const style = Object.assign({}, this.props.style);
     style.fontFamily = this.props.family;
-    utils.processFVD(style, this.props.fvd);
+    processFVD(style, this.props.fvd);
 
     return (
       <div

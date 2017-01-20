@@ -1,5 +1,5 @@
 import bind from 'decorators/bind';
-import utils from 'helpers/utils';
+import {getOffsetRect} from 'helpers/utils';
 import Component from 'components/component';
 import Portal from 'components/portal';
 import React, {PropTypes} from 'react';
@@ -72,7 +72,7 @@ export default class LinkLine extends Component {
       left: 0,
       pointerEvents: 'none'
     };
-    const anchorOffset = utils.getOffsetRect(anchor);
+    const anchorOffset = getOffsetRect(anchor);
     const anchorPosition = {
       top: anchorOffset.top + anchorOffset.height / 2,
       left: anchorOffset.left + anchorOffset.width / 2
@@ -86,7 +86,7 @@ export default class LinkLine extends Component {
       destinationPosition.top = mouseY;
       destinationPosition.left = mouseX;
     } else {
-      const destinationOffset = utils.getOffsetRect(destination);
+      const destinationOffset = getOffsetRect(destination);
       // TODO better link position based on line direction
       destinationPosition.top = destinationOffset.top;
       destinationPosition.left = destinationOffset.left;

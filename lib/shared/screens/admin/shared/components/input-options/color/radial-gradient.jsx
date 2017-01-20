@@ -1,7 +1,13 @@
 import cx from 'classnames';
 import forEach from 'lodash/forEach';
 import sortBy from 'lodash/sortBy';
-import utils from 'helpers/utils';
+import {
+  getOffsetRect,
+  limitNumber,
+  roundSnap,
+  pointsDistance,
+  getPointInLineByPerc
+} from 'helpers/utils';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {applyBackground, getColorString} from 'helpers/styles/colors';
@@ -62,16 +68,16 @@ export default class RadialGradient extends Component {
   onMouseMove (event) {
     event.preventDefault();
 
-    const bounds = utils.getOffsetRect(this.refs.holder);
+    const bounds = getOffsetRect(this.refs.holder);
     const point = {
-      x: utils.limitNumber((event.pageX - bounds.left) / bounds.width, 0, 1),
-      y: utils.limitNumber((event.pageY - bounds.top) / bounds.height, 0, 1)
+      x: limitNumber((event.pageX - bounds.left) / bounds.width, 0, 1),
+      y: limitNumber((event.pageY - bounds.top) / bounds.height, 0, 1)
     };
 
     if (this.activeFirst) {
       this.props.changeCenter({
-        top: utils.roundSnap(point.y * 100, [0, 25, 50, 75, 100]),
-        left: utils.roundSnap(point.x * 100, [0, 25, 50, 75, 100])
+        top: roundSnap(point.y * 100, [0, 25, 50, 75, 100]),
+        left: roundSnap(point.x * 100, [0, 25, 50, 75, 100])
       });
     } else {
       const {pointA, pointB} = this.getRadialLine();
@@ -105,10 +111,10 @@ export default class RadialGradient extends Component {
           y: Math.round(pointB.y + u * yDelta)
         };
       }
-      const total = utils.pointsDistance(pointA, pointB);
-      const dist = utils.pointsDistance(pointB, closestPoint);
+      const total = pointsDistance(pointA, pointB);
+      const dist = pointsDistance(pointB, closestPoint);
 
-      this.props.pointPercChange(this.activePoint, utils.roundSnap(dist / total * 100, [0, 25, 50, 75, 100]));
+      this.props.pointPercChange(this.activePoint, roundSnap(dist / total * 100, [0, 25, 50, 75, 100]));
     }
   }
 
@@ -125,10 +131,10 @@ export default class RadialGradient extends Component {
   onLineClick (event) {
     event.preventDefault();
 
-    const bounds = utils.getOffsetRect(this.refs.holder);
+    const bounds = getOffsetRect(this.refs.holder);
     const point = {
-      x: utils.limitNumber((event.pageX - bounds.left) / bounds.width, 0, 1),
-      y: utils.limitNumber((event.pageY - bounds.top) / bounds.height, 0, 1)
+      x: limitNumber((event.pageX - bounds.left) / bounds.width, 0, 1),
+      y: limitNumber((event.pageY - bounds.top) / bounds.height, 0, 1)
     };
 
     const {pointA, pointB} = this.getRadialLine();
@@ -137,8 +143,8 @@ export default class RadialGradient extends Component {
       y: point.y * size
     };
 
-    const total = utils.pointsDistance(pointA, pointB);
-    const dist = utils.pointsDistance(pointA, newPoint);
+    const total = pointsDistance(pointA, pointB);
+    const dist = pointsDistance(pointA, newPoint);
 
     this.props.addPoint(Math.round(dist / total * 100));
   }
@@ -167,7 +173,7 @@ export default class RadialGradient extends Component {
       ];
 
       forEach(corners, (cornerPoint) => {
-        const distance = utils.pointsDistance(pointA, cornerPoint);
+        const distance = pointsDistance(pointA, cornerPoint);
         if (distance > farthestDistance) {
           farthestDistance = distance;
           farthestPoint = cornerPoint;
@@ -197,7 +203,7 @@ export default class RadialGradient extends Component {
       ];
 
       forEach(sides, (sidePoint) => {
-        const distance = utils.pointsDistance(pointA, sidePoint);
+        const distance = pointsDistance(pointA, sidePoint);
         if (distance > farthestDistance) {
           farthestDistance = distance;
           farthestPoint = sidePoint;
@@ -236,12 +242,12 @@ export default class RadialGradient extends Component {
     const radialLine = this.getRadialLine();
 
     const orderedPoints = sortBy(this.props.value.points, 'perc');
-    const firstPointPosition = utils.getPointInLineByPerc(
+    const firstPointPosition = getPointInLineByPerc(
       radialLine.pointA,
       radialLine.pointB,
       orderedPoints[0].perc
     );
-    const lastPointPosition = utils.getPointInLineByPerc(
+    const lastPointPosition = getPointInLineByPerc(
       radialLine.pointA,
       radialLine.pointB,
       orderedPoints[orderedPoints.length - 1].perc
@@ -267,7 +273,7 @@ export default class RadialGradient extends Component {
   }
 
   renderPoint (pointA, pointB, colorObj, index) {
-    const pointPosition = utils.getPointInLineByPerc(pointA, pointB, colorObj.perc);
+    const pointPosition = getPointInLineByPerc(pointA, pointB, colorObj.perc);
     const selected = this.props.editingPoint === index;
     const style = {
       left: pointPosition.x,

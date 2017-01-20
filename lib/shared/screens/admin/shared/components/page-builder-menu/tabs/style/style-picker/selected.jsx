@@ -1,6 +1,6 @@
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import utils from 'helpers/utils';
+import {placeCaretAtEnd} from 'helpers/utils';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 
@@ -34,7 +34,7 @@ export default class Selected extends Component {
       const input = this.refs.input;
 
       if (input) {
-        utils.placeCaretAtEnd(input);
+        placeCaretAtEnd(input);
       }
     }
   }

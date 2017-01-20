@@ -1,4 +1,4 @@
-import utils from 'helpers/utils';
+import {getOffsetRect, limitNumber} from 'helpers/utils';
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
@@ -36,8 +36,8 @@ export default class Hue extends Component {
   onMouseMove (event) {
     event.preventDefault();
 
-    const bounds = utils.getOffsetRect(findDOMNode(this));
-    const perc = utils.limitNumber((event.pageY - bounds.top) / bounds.height, 0, 1);
+    const bounds = getOffsetRect(findDOMNode(this));
+    const perc = limitNumber((event.pageY - bounds.top) / bounds.height, 0, 1);
 
     this.props.hsvChange({
       h: perc * 360,
