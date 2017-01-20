@@ -1,13 +1,10 @@
+import Component from 'components/component';
 import bind from 'decorators/bind';
 import stylesManager from 'helpers/styles-manager';
-import traverseChildren from 'helpers/traverser/children';
-import traverser from 'helpers/traverser';
-import Component from 'components/component';
-import get from 'lodash/get';
 import React, {PropTypes} from 'react';
-import Portal from 'components/portal';
 
-const defaultStyleClassMap = {};
+import PageElement from './page-element';
+
 export default class Viewer extends Component {
   static propTypes = {
     doc: PropTypes.object,
@@ -19,26 +16,13 @@ export default class Viewer extends Component {
     updateStylesMap: PropTypes.func.isRequired
   };
 
+  @bind
   updateStylesMap () {
     this.props.updateStylesMap(stylesManager.stylesMap);
   }
 
   render () {
-    const {doc, template, type, display, ready} = this.props;
-    let result;
-
-    if (doc) {
-      result = traverser({
-        template,
-        doc,
-        display,
-        editing: false,
-        type
-      }, this.renderElement);
-
-      this.updateStylesMap();
-    }
-
+    const {ready, doc} = this.props;
     const style = {};
 
     if (!ready) {
@@ -47,96 +31,35 @@ export default class Viewer extends Component {
 
     return (
       <div style={style}>
-        {result}
+        {doc && this.renderContent()}
       </div>
     );
   }
 
-  @bind
-  renderChildren (options) {
-    const {doc, type, template, display} = this.props;
+  renderContent () {
+    const {doc, template, type, display} = this.props;
+    const hasTemplate = !!template;
+    const fragments = {
+      draft: doc,
+      template
+    };
 
-    // calculate data from context
-    let data;
-    if (!options.data) {
-      if (template && options.context === template._id) {
-        // belongs to template
-        data = template.data;
-      } else {
-        // belongs to page
-        data = doc[options.context];
-      }
-    }
-
-    const content = traverseChildren(Object.assign({data}, options), {
-      doc,
-      display,
-      editing: false,
-      type
-    }, this.renderElement);
+    const result = (
+      <PageElement
+        id='Body'
+        contextDoc={hasTemplate ? 'template' : 'draft'}
+        contextProperty='data'
+        links={template && template.links && template.links[type]}
+        linksData='draft'
+        updateStylesMap={this.updateStylesMap}
+        positionInParent={0}
+        fragments={fragments}
+        display={display}
+      />
+    );
 
     this.updateStylesMap();
 
-    return content;
-  }
-
-  @bind
-  renderElement (elementInfo, children) {
-    const {styles, display} = this.props;
-    const {
-      ElementClass,
-      displayElement,
-      props,
-      elementId,
-      context,
-      element,
-      positionInParent,
-      editable,
-      elementLinks
-    } = elementInfo;
-
-    const styleMap = stylesManager.processElement({
-      element,
-      styles,
-      display,
-      single: true
-    });
-
-    if (displayElement) {
-      const isFixed = get(styleMap, 'resultValues.position.position', 'static') === 'fixed';
-      let result;
-
-      const renderedElement = (
-        <ElementClass
-          key={`${context}-${elementId}`}
-          styleClassMap={styleMap && styleMap.classMap || defaultStyleClassMap}
-          {...props}
-          relax={{
-            editing: editable,
-            context,
-            element,
-            positionInParent,
-            elementLinks,
-            renderChildren: this.renderChildren,
-            display,
-            styleValues: styleMap && styleMap.resultValues || {}
-          }}
-        >
-          {children}
-        </ElementClass>
-      );
-
-      if (isFixed) {
-        result = (
-          <Portal>
-            {renderedElement}
-          </Portal>
-        );
-      } else {
-        result = renderedElement;
-      }
-
-      return result;
-    }
+    return result;
   }
 }
