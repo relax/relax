@@ -2,7 +2,7 @@ import Combobox from 'components/input-options/combobox';
 import Component from 'components/component';
 import bind from 'decorators/bind';
 import getElement from 'helpers/page-builder/get-element';
-import getSchemaLinkActions from 'helpers/schema-link-actions';
+import getSchemaLinkActions from 'helpers/page-builder/schema-link-actions';
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 
