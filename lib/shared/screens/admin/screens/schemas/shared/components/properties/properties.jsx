@@ -1,6 +1,6 @@
 import Component from 'components/component';
 import React, {PropTypes} from 'react';
-import {singleFixedProperties} from 'helpers/data-types';
+import {singleFixedProperties} from 'statics/data-types';
 
 import styles from './properties.less';
 import Property from './property';
