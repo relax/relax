@@ -1,7 +1,6 @@
 import Component from 'components/component';
 import Draggable from 'components/dnd/draggable';
 import bind from 'decorators/bind';
-import getElementCss from 'helpers/get-element-css';
 import velocity from 'relax-velocity-animate';
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
@@ -154,11 +153,6 @@ export default class Element extends Component {
     }
   }
 
-  processCss (style) {
-    const {element, display} = this.props;
-    Object.assign(style, getElementCss(element, display));
-  }
-
   @bind
   onMouseOver (event) {
     const {dragging, overed, selected, overElement, element, context} = this.props;
@@ -224,7 +218,6 @@ export default class Element extends Component {
 
     const calcStyle = Object.assign({}, style);
     this.processAnimationStyle(calcStyle);
-    this.processCss(calcStyle);
 
     const tagProps = {
       style: calcStyle,
