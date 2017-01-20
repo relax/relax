@@ -2,10 +2,10 @@ import Component from 'components/component';
 import Input from 'components/input-options/input';
 import OptionsList from 'components/options-list';
 import bind from 'decorators/bind';
-import find from 'lodash/find';
-import getElementProps from 'helpers/get-element-props';
-import optionsStyles from 'components/options-list/index.less';
 import elements from 'elements';
+import find from 'lodash/find';
+import getElementProps from 'helpers/element/get-props';
+import optionsStyles from 'components/options-list/index.less';
 import React, {PropTypes} from 'react';
 
 import Animation from './animation';
