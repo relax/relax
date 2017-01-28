@@ -71,6 +71,15 @@ export default class EditableTitle extends Component {
     const {noProgress} = this.props;
 
     if (noProgress) {
+      if (this.state.editValue === '') {
+        this.setState({
+          editing: false,
+          editValue: ''
+        });
+
+        return;
+      }
+
       this.props.onSubmit(this.state.editValue);
       this.setState({
         editing: false
