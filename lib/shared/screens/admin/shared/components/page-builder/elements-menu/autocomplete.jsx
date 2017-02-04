@@ -9,7 +9,7 @@ export default class Autocomplete extends Component {
     autoFocus: React.PropTypes.bool,
     value: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired,
-    suggestion: React.PropTypes.string
+    suggestion: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.bool]).isRequired
   };
 
   static defaultProps = {
@@ -60,6 +60,7 @@ export default class Autocomplete extends Component {
       <div className={styles.autocomplete}>
         <span onClick={this.focus}>{before}</span>
         <span
+          suppressContentEditableWarning
           ref='editable'
           className={styles.editable}
           onInput={this.onInput}

@@ -16,10 +16,14 @@ export default class Search extends Component {
     addSymbol: PropTypes.func.isRequired,
     onSearchChange: PropTypes.func.isRequired,
     suggestions: PropTypes.array.isRequired,
-    suggestion: PropTypes.string.isRequired,
+    suggestion: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
     search: PropTypes.string.isRequired,
-    symbols: PropTypes.object.isRequired,
-    categories: PropTypes.object.isRequired
+    symbols: PropTypes.array.isRequired,
+    categories: PropTypes.array.isRequired
+  };
+
+  static defaultProps = {
+    suggestion: false
   };
 
   componentDidMount () {
