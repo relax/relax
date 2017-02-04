@@ -20,7 +20,7 @@ export default class ElementsMenu extends Component {
   };
 
   static propTypes = {
-    symbols: PropTypes.array.isRequired,
+    symbols: PropTypes.array,
     pageBuilderActions: PropTypes.object.isRequired,
     elementsMenuOptions: PropTypes.object.isRequired,
     categories: PropTypes.array.isRequired
