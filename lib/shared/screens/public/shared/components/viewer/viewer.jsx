@@ -16,6 +16,10 @@ export default class Viewer extends Component {
     updateStylesMap: PropTypes.func.isRequired
   };
 
+  componentDidMount () {
+    this.updateStylesMap();
+  }
+
   @bind
   updateStylesMap () {
     this.props.updateStylesMap(stylesManager.stylesMap);
@@ -57,8 +61,6 @@ export default class Viewer extends Component {
         display={display}
       />
     );
-
-    this.updateStylesMap();
 
     return result;
   }
