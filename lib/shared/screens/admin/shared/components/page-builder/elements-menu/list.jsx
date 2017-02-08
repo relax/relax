@@ -13,9 +13,13 @@ export default class List extends Component {
     addElement: PropTypes.func.isRequired,
     addSymbol: PropTypes.func.isRequired,
     toggleCategory: PropTypes.func.isRequired,
-    symbols: PropTypes.object.isRequired,
-    categories: PropTypes.object.isRequired,
+    symbols: PropTypes.array,
+    categories: PropTypes.array.isRequired,
     categoriesCollapsed: PropTypes.object.isRequired
+  };
+
+  static defaultProps = {
+    symbols: []
   };
 
   toggleCategory (category, event) {
