@@ -171,6 +171,7 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 
 Thanks to these amazing companies for supporting open source projects including Relax:
 
+<a href="https://www.digitalocean.com/" target="_blank"><img src="https://www.digitalocean.com/assets/media/logos-badges/png/DO_Logo_Horizontal_Blue-3db19536.png" height="30"></a>
 <a href="https://www.browserstack.com" target="_blank"><img src="https://cdn.rawgit.com/relax/relax/gh-pages/assets/sponsors/browserstack.svg" width="150" height="70"></a>
 <a href="https://www.sentry.io" target="_blank"><img src="https://a0wx592cvgzripj.global.ssl.fastly.net/_static/17a0b80a350f1c9da2119097b7bbb3fc/getsentry/images/branding/svg/sentry-horizontal-black.svg" width="150" height="70"></a>
 
