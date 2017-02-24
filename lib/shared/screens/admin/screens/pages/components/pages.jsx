@@ -11,6 +11,10 @@ export default class Pages extends Component {
     count: PropTypes.number.isRequired
   };
 
+  static defaultProps = {
+    count: 0
+  };
+
   render () {
     let result;
 

@@ -12,7 +12,7 @@ export default class SchemaTemplatePick extends Component {
     schema: PropTypes.object.isRequired,
     schemaStepBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    newTemplate: PropTypes.bool.isRequired,
+    new: PropTypes.bool.isRequired,
     saving: PropTypes.bool.isRequired
   };
 
