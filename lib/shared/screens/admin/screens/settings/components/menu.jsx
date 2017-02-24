@@ -15,6 +15,8 @@ export default class SettingsMenu extends Component {
   render () {
     const {onBack, pathname} = this.props;
     const seoPath = '/admin/settings/seo';
+    const maintenancePath = '/admin/settings/maintenance';
+
     return (
       <div>
         <ListHeader
@@ -45,6 +47,12 @@ export default class SettingsMenu extends Component {
             label='SEO'
             icon='nc-icon-outline ui-1_zoom-split'
             active={pathname === seoPath}
+          />
+          <Button
+            link={maintenancePath}
+            label='Maintenance'
+            icon='nc-icon-outline ui-1_settings'
+            active={pathname === maintenancePath}
           />
         </Scrollable>
       </div>
