@@ -15,6 +15,7 @@ export default class SettingsMenu extends Component {
   render () {
     const {onBack, pathname} = this.props;
     const seoPath = '/admin/settings/seo';
+    const mailPath = '/admin/settings/mail';
     return (
       <div>
         <ListHeader
@@ -39,6 +40,12 @@ export default class SettingsMenu extends Component {
             label='Analytics'
             icon='nc-icon-outline ui-1_analytics-88'
             active={pathname === '/admin/settings/analytics'}
+          />
+          <Button
+            link={mailPath}
+            label='Mail'
+            icon='nc-icon-outline ui-1_email-85'
+            active={pathname === mailPath}
           />
           <Button
             link={seoPath}

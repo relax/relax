@@ -19,5 +19,13 @@ module.exports = rc('relax', {
       }
     },
     exitOnError: false
+  },
+  mail: {
+    settings: {
+      mailService: process.env.RELAX_MAIL_SERVICE,
+      mailUser: process.env.RELAX_MAIL_USERNAME,
+      mailPass: process.env.RELAX_MAIL_PASSWORD,
+      mailFrom: process.env.RELAX_MAIL_SENDER_EMAIL
+    }
   }
 });
