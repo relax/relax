@@ -1,4 +1,3 @@
-import 'styles/icons/nucleo/index.less';
 import 'styles/normalize.less';
 
 import Component from 'components/component';
