@@ -136,7 +136,6 @@ export default class EditableTitle extends Component {
             onInput={this.onChange}
             className={cx(styles.title, textClassName || styles.titleStyle)}
             contentEditable
-            dangerouslySetInnerHTML={{__html: this.state.editValue}}
             onKeyPress={this.keyPress}
             ref='input'
           />
