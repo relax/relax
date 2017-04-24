@@ -2,7 +2,9 @@
  <img src="http://relax.github.io/relax/images/logo_small.png" alt="Relax Logo">
 </p>
 ====================================
-[![Slack Status](http://slack-relax.herokuapp.com/badge.svg)](http://slack-relax.herokuapp.com/) [![Build Status](https://travis-ci.org/relax/relax.png)](https://travis-ci.org/relax/relax)
+
+[![Slack Status](http://slack-relax.herokuapp.com/badge.svg)](http://slack-relax.herokuapp.com/)
+[![Build Status](https://travis-ci.org/relax/relax.png)](https://travis-ci.org/relax/relax)
 [![OpenCollective](https://opencollective.com/relax/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/relax/sponsors/badge.svg)](#sponsors)
 
