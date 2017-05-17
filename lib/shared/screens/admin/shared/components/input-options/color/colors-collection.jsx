@@ -197,7 +197,9 @@ export default class ColorsCollection extends Component {
           cancelLabel='Cancel'
           deleteLabel='Delete'
           title='Are you sure?'
-          subTitle='You are about to delete the selected colors. Removing a color will fallback to #000000 everywhere it is used. Do this with caution and consider changing the name and/or value instead.'
+          subTitle='You are about to delete the selected colors.
+           Removing a color will fallback to #000000 everywhere it is used.
+           Do this with caution and consider changing the name and/or value instead.'
           cancel={toggleRemoveConfirm}
           submit={removeSelectedColors}
         />
