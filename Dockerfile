@@ -5,7 +5,7 @@ ENV relax_db__uri="mongodb://mongo/relax"
 EXPOSE 8080
 
 # Install yarn
-RUN npm i -g yarn
+#RUN npm i -g yarn
 
 WORKDIR /app
 
