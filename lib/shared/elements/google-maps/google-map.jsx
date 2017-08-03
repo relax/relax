@@ -2,7 +2,8 @@ import Component from 'components/component';
 import ElementCovered from 'components/element-covered';
 import ElementNotFound from 'components/element-not-found';
 import {hasClass, addClass, removeClass} from 'helpers/utils';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {GoogleMap, GoogleMapLoader, Marker} from 'react-google-maps';
 
 import settings from './settings';

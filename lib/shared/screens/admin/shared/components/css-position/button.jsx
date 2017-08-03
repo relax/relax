@@ -2,7 +2,8 @@ import bind from 'decorators/bind';
 import cx from 'classnames';
 import Component from 'components/component';
 import Tooltip from 'components/tooltip';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './button.less';
 

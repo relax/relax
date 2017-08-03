@@ -1,6 +1,7 @@
 import A from 'components/a';
 import Component from 'components/component';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './back.less';
 

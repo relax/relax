@@ -1,6 +1,7 @@
 import Component from 'components/component';
 import ModalInput from 'components/modal-input';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './provider.less';
 

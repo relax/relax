@@ -8,7 +8,8 @@ import ModalDelete from 'components/modal-delete';
 import OptionsList from 'components/options-list';
 import Properties from 'components/properties';
 import TemplatePicker from 'components/template';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Permissions from 'components/permissions';
 
 import Save from './save';

@@ -4,7 +4,8 @@ import Balloon from 'components/balloon';
 import Button from 'components/button';
 import Component from 'components/component';
 import NumberInput from 'components/input-options/number';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {lengthUnits} from 'statics/units';
 
 import styles from './value.less';

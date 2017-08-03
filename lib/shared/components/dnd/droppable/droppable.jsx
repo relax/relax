@@ -3,7 +3,8 @@ import Component from 'components/component';
 import bind from 'decorators/bind';
 import cx from 'classnames';
 import forEach from 'lodash/forEach';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {findDOMNode} from 'react-dom';
 
 import AddBalloon from './add-balloon';

@@ -1,6 +1,7 @@
 import Component from 'components/component';
 import ContentEmpty from 'components/content-empty';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './schema.less';
 import New from './new';

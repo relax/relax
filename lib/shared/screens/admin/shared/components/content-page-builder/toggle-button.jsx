@@ -1,7 +1,8 @@
 import Component from 'components/component';
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class ToggleButton extends Component {
   static propTypes = {

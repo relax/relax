@@ -2,7 +2,8 @@ import Component from 'components/component';
 import MediaImage from 'components/image';
 import cx from 'classnames';
 import elementStyles from 'styles/element.less';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {findDOMNode} from 'react-dom';
 
 import classes from './classes';

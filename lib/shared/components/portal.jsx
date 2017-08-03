@@ -1,5 +1,5 @@
 import Component from 'components/component';
-import {PropTypes} from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
 const renderSubtreeIntoContainer = ReactDOM.unstable_renderSubtreeIntoContainer;

@@ -3,7 +3,8 @@ import getGravatarImage from 'helpers/get-gravatar-image';
 import moment from 'moment';
 import Animate from 'components/animate';
 import Component from 'components/component';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './revision.less';
 

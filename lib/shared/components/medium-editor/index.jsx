@@ -4,7 +4,8 @@ import bind from 'decorators/bind';
 import key from 'keymaster';
 import Component from 'components/component';
 import MediumEditor from 'medium-editor';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {findDOMNode} from 'react-dom';
 
 export default class MediumEditorElement extends Component {

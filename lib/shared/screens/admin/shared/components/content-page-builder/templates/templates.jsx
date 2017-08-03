@@ -3,7 +3,8 @@ import cx from 'classnames';
 import Component from 'components/component';
 import ListSearch from 'components/list-search';
 import Scrollable from 'components/scrollable';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './templates.less';
 import Entry from './entry';

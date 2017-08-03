@@ -1,7 +1,8 @@
 import Component from 'components/component';
 import TemplatePicker from 'components/template';
 import cx from 'classnames';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Spinner from 'components/spinner';
 import Animate from 'components/animate';
 import Progress from './progress';

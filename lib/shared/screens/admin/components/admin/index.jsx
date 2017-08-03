@@ -3,7 +3,8 @@ import PageBuilderMenu from 'components/page-builder-menu';
 import cx from 'classnames';
 import forEach from 'lodash/forEach';
 import velocity from 'relax-velocity-animate';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Menu from '../menu';
 import TopBar from '../top-bar';

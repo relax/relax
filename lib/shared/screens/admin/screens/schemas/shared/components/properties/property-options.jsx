@@ -1,7 +1,8 @@
 import bind from 'decorators/bind';
 import Component from 'components/component';
 import OptionsList from 'components/options-list';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {propertyOptions, typesProps} from 'statics/data-types';
 
 import styles from './property-options.less';

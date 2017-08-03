@@ -1,6 +1,7 @@
 import {getBestImageUrl} from 'helpers/utils';
 import Component from 'components/component';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class Image extends Component {
   static propTypes = {
