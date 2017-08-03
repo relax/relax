@@ -1,7 +1,8 @@
 import Component from 'components/component';
 import NumberInput from 'components/input-options/number';
 import cx from 'classnames';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './index.less';
 

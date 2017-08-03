@@ -1,7 +1,8 @@
 import Component from 'components/component';
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import boolean from 'boolean';
 
 import styles from './index.less';

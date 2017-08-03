@@ -2,7 +2,8 @@ import Animate from 'components/animate';
 import Component from 'components/component';
 import Scrollable from 'components/scrollable';
 import Spinner from 'components/spinner';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import styles from './index.less';
 

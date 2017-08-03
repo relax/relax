@@ -1,6 +1,7 @@
 import Component from 'components/component';
 import cx from 'classnames';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class ElementText extends Component {
   static propTypes = {

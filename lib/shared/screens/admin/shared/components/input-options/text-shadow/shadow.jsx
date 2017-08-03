@@ -1,7 +1,8 @@
 import Balloon from 'components/balloon';
 import Component from 'components/component';
 import bind from 'decorators/bind';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {getColor} from 'helpers/styles/colors';
 
 import Edit from './edit';

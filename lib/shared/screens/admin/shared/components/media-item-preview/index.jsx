@@ -1,6 +1,7 @@
 import Component from 'components/component';
 import Image from 'components/image';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {getMediaType} from 'helpers/mime-types';
 
 import styles from './index.less';

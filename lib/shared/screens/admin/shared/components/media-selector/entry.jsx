@@ -3,7 +3,8 @@ import cx from 'classnames';
 import moment from 'moment';
 import Component from 'components/component';
 import MediaItemPreview from 'components/media-item-preview';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {mergeFragments} from 'relate-js';
 
 import styles from './entry.less';

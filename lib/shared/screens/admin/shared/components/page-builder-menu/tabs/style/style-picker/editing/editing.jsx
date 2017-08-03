@@ -3,7 +3,8 @@ import Component from 'components/component';
 import OptionsList from 'components/options-list';
 import Scrollable from 'components/scrollable';
 import cx from 'classnames';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Save from './save';
 import styles from './editing.less';

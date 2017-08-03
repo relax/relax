@@ -3,7 +3,8 @@ import Component from 'components/component';
 import bind from 'decorators/bind';
 import getElement from 'helpers/page-builder/get-element';
 import getSchemaLinkActions from 'helpers/page-builder/schema-link-actions';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import styles from './property-link.less';

@@ -1,7 +1,8 @@
 import bind from 'decorators/bind';
 import Component from 'components/component';
 import CssPosition from 'components/css-position';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class PositionInputOption extends Component {
   static propTypes = {

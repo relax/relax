@@ -1,6 +1,7 @@
 import velocity from 'relax-velocity-animate';
 import Component from 'components/component';
-import {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {findDOMNode} from 'react-dom';
 
 export default class Animate extends Component {

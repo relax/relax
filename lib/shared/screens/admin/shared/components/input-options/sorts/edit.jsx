@@ -2,7 +2,8 @@ import find from 'lodash/find';
 import forEach from 'lodash/forEach';
 import Combobox from 'components/input-options/combobox';
 import Component from 'components/component';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class Edit extends Component {
   static propTypes = {

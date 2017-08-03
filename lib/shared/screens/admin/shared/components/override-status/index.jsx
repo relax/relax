@@ -3,7 +3,8 @@ import cx from 'classnames';
 import Balloon from 'components/balloon';
 import Button from 'components/button';
 import Component from 'components/component';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './index.less';
 

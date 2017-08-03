@@ -9,7 +9,8 @@ import Combobox from 'components/input-options/combobox';
 import Component from 'components/component';
 import Input from 'components/input-options/input';
 import NumberInput from 'components/input-options/number';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class Edit extends Component {
   static propTypes = {

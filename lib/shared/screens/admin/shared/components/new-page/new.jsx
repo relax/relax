@@ -1,7 +1,8 @@
 import Component from 'components/component';
 import ModalInput from 'components/modal-input';
 import ModalNew from 'components/modal-new';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class NewPage extends Component {
   static propTypes = {

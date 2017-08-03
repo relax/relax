@@ -1,7 +1,8 @@
 import cx from 'classnames';
 import Component from 'components/component';
 import Spinner from 'components/spinner';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import mockStyles from './mock-entry.less';
 import styles from './entry.less';

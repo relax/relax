@@ -1,7 +1,8 @@
 import {getOffsetRect, limitNumber} from 'helpers/utils';
 import Colr from 'colr';
 import Component from 'components/component';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {findDOMNode} from 'react-dom';
 
 import styles from './sat-light.less';

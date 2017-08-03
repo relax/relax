@@ -6,7 +6,8 @@ import elements from 'elements';
 import find from 'lodash/find';
 import getElementProps from 'helpers/element/get-props';
 import optionsStyles from 'components/options-list/index.less';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Animation from './animation';
 import styles from './props.less';

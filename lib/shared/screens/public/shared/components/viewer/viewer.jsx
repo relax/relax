@@ -1,7 +1,8 @@
 import Component from 'components/component';
 import bind from 'decorators/bind';
 import stylesManager from 'helpers/styles-manager';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import PageElement from './page-element';
 

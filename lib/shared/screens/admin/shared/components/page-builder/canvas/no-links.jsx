@@ -1,5 +1,6 @@
 import Component from 'components/component';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 
 import styles from './no-links.less';

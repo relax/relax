@@ -3,7 +3,8 @@ import ContextMenu from 'components/element-context-menu';
 import Portal from 'components/portal';
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './highlight.less';
 

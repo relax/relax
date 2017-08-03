@@ -1,7 +1,8 @@
 import Component from 'components/component';
 import schemaSpecialProperties from 'statics/schema-special-properties';
 import schemaStaticProperties from 'statics/schema-static-properties';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Property from './property';
 import styles from './linking.less';

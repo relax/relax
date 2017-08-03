@@ -1,7 +1,8 @@
 import Button from 'components/button';
 import Component from 'components/component';
 import Scrollable from 'components/scrollable';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './sidebar.less';
 import FamilyButton from './family-button';

@@ -3,7 +3,8 @@ import Input from 'components/input-options/input';
 import ModalDelete from 'components/modal-delete';
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Color from './color';
 import styles from './colors-collection.less';

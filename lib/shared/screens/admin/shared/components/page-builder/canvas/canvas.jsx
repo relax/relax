@@ -3,7 +3,8 @@ import Scrollable from 'components/scrollable';
 import Styles from 'components/styles';
 import bind from 'decorators/bind';
 import displays from 'statics/displays';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import NoLinks from './no-links';
 import PageElement from './page-element';

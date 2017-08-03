@@ -5,7 +5,8 @@ import Portal from 'components/portal';
 import cx from 'classnames';
 import key from 'keymaster';
 import stylesheet from 'helpers/stylesheet';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {Component as Jss} from 'relax-jss';
 
 import Canvas from './canvas';
