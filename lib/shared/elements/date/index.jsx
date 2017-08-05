@@ -1,7 +1,8 @@
 import Component from 'components/component';
 import cx from 'classnames';
 import moment from 'moment';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import propsSchema from './props-schema';
 import settings from './settings';

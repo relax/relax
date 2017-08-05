@@ -4,7 +4,8 @@ import Modal from 'components/modal';
 import NewTemplate from 'components/new-template';
 import Titable from 'components/input-options/titable-picker';
 import cx from 'classnames';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './schema-template-picker.less';
 

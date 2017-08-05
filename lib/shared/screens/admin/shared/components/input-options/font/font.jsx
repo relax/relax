@@ -1,17 +1,18 @@
 import {processFVD} from 'helpers/utils';
 import Component from 'components/component';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './font.less';
 
 export default class Font extends Component {
   static propTypes = {
-    input: React.PropTypes.bool,
-    style: React.PropTypes.object,
-    family: React.PropTypes.string,
-    fvd: React.PropTypes.string,
-    onChange: React.PropTypes.func,
-    text: React.PropTypes.string
+    input: PropTypes.bool,
+    style: PropTypes.object,
+    family: PropTypes.string,
+    fvd: PropTypes.string,
+    onChange: PropTypes.func,
+    text: PropTypes.string
   };
 
   render () {

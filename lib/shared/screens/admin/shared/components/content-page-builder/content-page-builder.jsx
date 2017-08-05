@@ -11,7 +11,8 @@ import ModalDelete from 'components/modal-delete';
 import PageBuilder from 'components/page-builder';
 import cx from 'classnames';
 import velocity from 'relax-velocity-animate';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import {findDOMNode} from 'react-dom';
 

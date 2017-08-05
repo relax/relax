@@ -3,7 +3,8 @@ import Editor from 'components/medium-editor';
 import bind from 'decorators/bind';
 import cx from 'classnames';
 import getByAction from 'helpers/element-links/get-by-action';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {changeDocProperty, changeElementContent} from 'actions/page-builder';
 
 import styles from './index.less';

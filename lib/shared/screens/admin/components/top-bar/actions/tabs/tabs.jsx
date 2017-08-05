@@ -1,7 +1,8 @@
 import Component from 'components/component';
 import Modal from 'components/modal';
 import New from 'components/new-page';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './tabs.less';
 import Tab from './tab';

@@ -4,7 +4,8 @@ import ListSearchSort from 'components/list-search-sort';
 import ListWrapper from 'components/list-wrapper';
 import Modal from 'components/modal';
 import New from 'components/new-template';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {mergeFragments} from 'relate-js';
 
 import List from './list';

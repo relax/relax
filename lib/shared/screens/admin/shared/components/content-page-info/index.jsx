@@ -2,7 +2,8 @@ import getGravatarImage from 'helpers/get-gravatar-image';
 import moment from 'moment';
 import Component from 'components/component';
 import ModalDelete from 'components/modal-delete';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './index.less';
 import Item from './item';

@@ -1,7 +1,8 @@
 import cx from 'classnames';
 import Component from 'components/component';
 import Upload from 'components/upload';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './custom.less';
 import Font from './font';

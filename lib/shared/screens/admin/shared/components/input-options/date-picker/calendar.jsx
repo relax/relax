@@ -2,7 +2,8 @@ import bind from 'decorators/bind';
 import moment from 'moment';
 import Balloon from 'components/balloon';
 import Component from 'components/component';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './calendar.less';
 import Day from './day';

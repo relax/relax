@@ -2,7 +2,8 @@ import Component from 'components/component';
 import ContentSearch from 'components/content-search';
 import Modal from 'components/modal';
 import Scrollable from 'components/scrollable';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './icon-selector.less';
 import List from './list';

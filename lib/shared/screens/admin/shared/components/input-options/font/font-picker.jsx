@@ -3,7 +3,8 @@ import {filterFontFamily} from 'helpers/utils';
 import defaultFonts from 'statics/default-fonts';
 import defaultFvds from 'statics/default-fvds';
 import forEach from 'lodash/forEach';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Dropdown from './dropdown';
 import Font from './font';

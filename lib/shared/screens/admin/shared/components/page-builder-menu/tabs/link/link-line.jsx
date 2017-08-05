@@ -2,7 +2,8 @@ import bind from 'decorators/bind';
 import {getOffsetRect} from 'helpers/utils';
 import Component from 'components/component';
 import Portal from 'components/portal';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class LinkLine extends Component {
   static propTypes = {

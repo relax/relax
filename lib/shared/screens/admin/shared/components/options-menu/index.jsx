@@ -1,12 +1,13 @@
 import Component from 'components/component';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './index.less';
 
 export default class OptionsMenu extends Component {
   static propTypes = {
-    options: React.PropTypes.array.isRequired,
-    style: React.PropTypes.object
+    options: PropTypes.array.isRequired,
+    style: PropTypes.object
   };
 
   render () {

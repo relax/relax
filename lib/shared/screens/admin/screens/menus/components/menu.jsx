@@ -3,7 +3,8 @@ import ListHeader from 'components/list-header';
 import ListSearchSort from 'components/list-search-sort';
 import ListWrapper from 'components/list-wrapper';
 import Modal from 'components/modal';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import List from './list';
 import New from './new';

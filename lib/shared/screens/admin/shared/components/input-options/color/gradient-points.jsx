@@ -1,6 +1,7 @@
 import Component from 'components/component';
 import cx from 'classnames';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {applyBackground, getColorString} from 'helpers/styles/colors';
 import {getOffsetRect, limitNumber, roundSnap} from 'helpers/utils';
 

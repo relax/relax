@@ -4,7 +4,8 @@ import ListHeader from 'components/list-header';
 import Scrollable from 'components/scrollable';
 import SubButton from 'components/menu-sub-button';
 import Upload from 'components/upload';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './menu.less';
 

@@ -7,7 +7,8 @@ import ContentNew from 'components/content-new';
 import ContentSearch from 'components/content-search';
 import Modal from 'components/modal';
 import ModalDelete from 'components/modal-delete';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import List from './list';
 import New from './new';

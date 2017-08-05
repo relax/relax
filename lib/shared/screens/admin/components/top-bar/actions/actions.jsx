@@ -1,7 +1,8 @@
 import Component from 'components/component';
 import Tooltip from 'components/tooltip';
 import cx from 'classnames';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Back from './back';
 import Displays from './displays';

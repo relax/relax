@@ -1,15 +1,16 @@
 import bind from 'decorators/bind';
 import Component from 'components/component';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './autocomplete.less';
 
 export default class Autocomplete extends Component {
   static propTypes = {
-    autoFocus: React.PropTypes.bool,
-    value: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    suggestion: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.bool]).isRequired
+    autoFocus: PropTypes.bool,
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    suggestion: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired
   };
 
   static defaultProps = {

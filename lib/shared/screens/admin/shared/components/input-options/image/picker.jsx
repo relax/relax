@@ -3,7 +3,8 @@ import cx from 'classnames';
 import Component from 'components/component';
 import MediaItem from 'components/media-item-preview';
 import MediaSelector from 'components/media-selector';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './picker.less';
 

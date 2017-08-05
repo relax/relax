@@ -8,7 +8,8 @@ import Modal from 'components/modal';
 import ModalDelete from 'components/modal-delete';
 import ModalNew from 'components/modal-new';
 import OptionsList from 'components/options-list';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './index.less';
 

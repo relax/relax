@@ -3,7 +3,8 @@ import Portal from 'components/portal';
 import Scrollable from 'components/scrollable';
 import Spinner from 'components/spinner';
 import Stick from 'components/stick';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './users.less';
 import User from './user';

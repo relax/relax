@@ -3,7 +3,8 @@ import Scrollable from 'components/scrollable';
 import cx from 'classnames';
 import elements from 'elements';
 import forEach from 'lodash/forEach';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './list.less';
 

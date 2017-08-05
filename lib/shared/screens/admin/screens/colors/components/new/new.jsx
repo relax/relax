@@ -2,7 +2,8 @@ import ColorPicker from 'components/input-options/color';
 import Component from 'components/component';
 import ModalInput from 'components/modal-input';
 import ModalNew from 'components/modal-new';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './new.less';
 

@@ -5,7 +5,8 @@ import ContentHeaderActions from 'components/content-header-actions';
 import ContentNew from 'components/content-new';
 import DataForm from 'components/data-form';
 import ModalDelete from 'components/modal-delete';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 
 import styles from './form.less';

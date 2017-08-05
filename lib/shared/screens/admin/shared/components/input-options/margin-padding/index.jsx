@@ -1,7 +1,8 @@
 import bind from 'decorators/bind';
 import Component from 'components/component';
 import CssPadMarg from 'components/css-pad-marg';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class MarginPaddingInputOption extends Component {
   static propTypes = {

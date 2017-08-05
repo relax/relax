@@ -4,7 +4,8 @@ import debounce from 'lodash/debounce';
 import find from 'lodash/find';
 import Balloon from 'components/balloon';
 import Component from 'components/component';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import {push} from 'redux-router';
 

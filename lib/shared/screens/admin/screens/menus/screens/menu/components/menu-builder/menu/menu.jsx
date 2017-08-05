@@ -4,7 +4,8 @@ import Dragger from 'components/dnd/dragger';
 import Droppable from 'components/dnd/droppable';
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Entry from '../entry';
 import styles from './menu.less';

@@ -3,7 +3,8 @@ import Portal from 'components/portal';
 import Scrollable from 'components/scrollable';
 import Stick from 'components/stick';
 import cx from 'classnames';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Option from './option';
 import styles from './options.less';

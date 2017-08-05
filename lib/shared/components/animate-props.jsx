@@ -1,13 +1,13 @@
 import velocity from 'relax-velocity-animate';
 import Component from 'components/component';
-import React from 'react';
+import PropTypes from 'prop-types';
 import {findDOMNode} from 'react-dom';
 
 export default class AnimateProps extends Component {
   static propTypes = {
-    props: React.PropTypes.object,
-    options: React.PropTypes.object,
-    children: React.PropTypes.node
+    props: PropTypes.object,
+    options: PropTypes.object,
+    children: PropTypes.node
   };
 
   static defaultProps = {

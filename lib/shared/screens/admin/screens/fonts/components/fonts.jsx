@@ -6,7 +6,8 @@ import ContentHeaderActions from 'components/content-header-actions';
 import ContentLoading from 'components/content-loading';
 import ContentNew from 'components/content-new';
 import Modal from 'components/modal';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import List from './list';
 import Manage from './manage';

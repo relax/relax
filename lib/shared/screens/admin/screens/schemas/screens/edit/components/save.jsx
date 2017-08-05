@@ -3,7 +3,8 @@ import Component from 'components/component';
 import Warning from 'components/warning';
 import find from 'lodash/find';
 import forEach from 'lodash/forEach';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Animate from 'components/animate';
 import Spinner from 'components/spinner';
 

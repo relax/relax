@@ -2,7 +2,8 @@ import Button from 'components/button';
 import Component from 'components/component';
 import ContentLoading from 'components/content-loading';
 import OptionsList from 'components/options-list';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Animate from 'components/animate';
 import styles from './form.less';
 

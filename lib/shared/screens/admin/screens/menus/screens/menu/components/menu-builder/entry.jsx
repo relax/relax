@@ -4,7 +4,8 @@ import Animate from 'components/animate';
 import Component from 'components/component';
 import Draggable from 'components/dnd/draggable';
 import Droppable from 'components/dnd/droppable';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './entry.less';
 

@@ -1,7 +1,8 @@
 import cx from 'classnames';
 import moment from 'moment';
 import Component from 'components/component';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import Tooltip from 'components/tooltip';
 

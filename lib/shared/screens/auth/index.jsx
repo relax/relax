@@ -1,7 +1,8 @@
 import 'styles/normalize.less';
 
 import Component from 'components/component';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './index.less';
 import Logo from './components/logo';

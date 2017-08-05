@@ -3,7 +3,8 @@ import Portal from 'components/portal';
 import bind from 'decorators/bind';
 import cx from 'classnames';
 import get from 'lodash/get';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Button from './button';
 import classes from './classes';

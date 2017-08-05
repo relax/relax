@@ -1,6 +1,7 @@
 import Component from 'components/component';
 import velocity from 'relax-velocity-animate';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Actions from './actions';
 import styles from './index.less';

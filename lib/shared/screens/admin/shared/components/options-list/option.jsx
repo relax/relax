@@ -2,7 +2,8 @@ import Component from 'components/component';
 import Overrides from 'components/override-status';
 import bind from 'decorators/bind';
 import cx from 'classnames';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Tooltip from 'components/tooltip';
 
 import styles from './index.less';

@@ -3,7 +3,8 @@ import cx from 'classnames';
 import Component from 'components/component';
 import Portal from 'components/portal';
 import Stick from 'components/stick';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {applyBackground} from 'helpers/styles/colors';
 
 import styles from './color-palette-picker.less';

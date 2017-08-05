@@ -4,7 +4,8 @@ import Animate from 'components/animate';
 import Button from 'components/button';
 import Component from 'components/component';
 import Spinner from 'components/spinner';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './index.less';
 

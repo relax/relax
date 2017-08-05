@@ -5,7 +5,8 @@ import {
   parseDailymotionURL
 } from 'helpers/utils';
 import elementStyles from 'styles/element.less';
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {findDOMNode} from 'react-dom';
 
 import propsSchema from './props-schema';
