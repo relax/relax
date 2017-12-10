@@ -1,7 +1,6 @@
 <p align="center">
  <img src="http://relax.github.io/relax/images/logo_small.png" alt="Relax Logo">
 </p>
-====================================
 
 [![Slack Status](http://slack-relax.herokuapp.com/badge.svg)](http://slack-relax.herokuapp.com/)
 [![Build Status](https://travis-ci.org/relax/relax.png)](https://travis-ci.org/relax/relax)
@@ -10,11 +9,6 @@
 
 
 **IMPORTANT NOTE:** Relax isn't yet ready for production, stay tuned for releases, beta version will come soon. You can see what we're working on [here](https://github.com/relax/relax/projects/1) and what's missing in the [beta milestone](https://github.com/relax/relax/milestone/1).
-
-**You can check out a demo [here](http://demo.getrelax.io/admin). Credentials:**
-
- - __user__: demo
- - __pass__: demo
 
 
 What is Relax
