@@ -1,7 +1,7 @@
 {
   "name": "relax",
   "version": "0.0.0",
-  "description": "New generation CMS on top of React and Node.js",
+  "description": "A fork of Relax: new generation CMS on top of React and Node.js",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",

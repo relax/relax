@@ -1,15 +1,5 @@
-<p align="center">
- <img src="http://relax.github.io/relax/images/logo_small.png" alt="Relax Logo">
-</p>
-
-[![Slack Status](http://slack-relax.herokuapp.com/badge.svg)](http://slack-relax.herokuapp.com/)
-[![Build Status](https://travis-ci.org/relax/relax.png)](https://travis-ci.org/relax/relax)
-[![OpenCollective](https://opencollective.com/relax/backers/badge.svg)](#backers)
-[![OpenCollective](https://opencollective.com/relax/sponsors/badge.svg)](#sponsors)
-
-
-**IMPORTANT NOTE:** Relax isn't yet ready for production, stay tuned for releases, beta version will come soon. You can see what we're working on [here](https://github.com/relax/relax/projects/1) and what's missing in the [beta milestone](https://github.com/relax/relax/milestone/1).
-
+### This is a fork made for personal purposes only. 
+For the current Relax project, please see: https://github.com/relax/relax. This fork is not intended for production use.
 
 What is Relax
 -------
@@ -41,13 +31,51 @@ You'll also need [`yarn`](https://yarnpkg.com) and [MongoDB](https://www.mongodb
 
 ### How to Relax
 
-Since we are yet to tag our first release, git clone this repository and run the following commands:
+`git clone` this repository and run the following commands.
+
+Ensure that you have mongo running and available at the default port, 27017:
+
+```bash
+mongod
+```
+
+In another terminal window, run:
+
+```bash
+mongo
+```
+
+You should see an interactive shell that produces an output like this:
+
+```bash
+MongoDB shell version v3.6.3
+connecting to: mongodb://127.0.0.1:27017
+MongoDB server version: 3.6.3
+Server has startup warnings:
+2018-03-10T14:52:22.220-0800 I CONTROL  [initandlisten]
+2018-03-10T14:52:22.220-0800 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2018-03-10T14:52:22.220-0800 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2018-03-10T14:52:22.220-0800 I CONTROL  [initandlisten]
+2018-03-10T14:52:22.220-0800 I CONTROL  [initandlisten] ** WARNING: This server is bound to localhost.
+2018-03-10T14:52:22.220-0800 I CONTROL  [initandlisten] **          Remote systems will be unable to connect to this server.
+2018-03-10T14:52:22.220-0800 I CONTROL  [initandlisten] **          Start the server with --bind_ip <address> to specify which IP
+2018-03-10T14:52:22.220-0800 I CONTROL  [initandlisten] **          addresses it should serve responses from, or with --bind_ip_all to
+2018-03-10T14:52:22.220-0800 I CONTROL  [initandlisten] **          bind to all interfaces. If this behavior is desired, start the
+2018-03-10T14:52:22.220-0800 I CONTROL  [initandlisten] **          server with --bind_ip 127.0.0.1 to disable this warning.
+2018-03-10T14:52:22.220-0800 I CONTROL  [initandlisten]
+```
+
+You might see startup warnings, but that's OK. As long as you're connected, things should run.
+
+To run the app in production mode, do:
 
 ```bash
 yarn
 yarn build
 yarn start
 ```
+
+If you're developing, you would want to use `yarn dev` instead of `yarn start`.
 
 By default the application runs at port `8080`. Go ahead and visit
 `http://localhost:8080/admin/init`, here you can setup the first user and you're ready to relax.
